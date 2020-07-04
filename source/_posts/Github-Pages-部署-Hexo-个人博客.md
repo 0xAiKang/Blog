@@ -4,7 +4,7 @@ date: 2020-07-04 20:09:09
 tags:
 ---
 ## 前言
-关于个人博客，在很久之前就想自己搭建一套，甚至还为此买了一台服务器，但奈何自己太忙了(tai lan le)，这件事情就一直搁浅了，服务器大部分时间都是空闲状态。
+关于个人博客，在很久之前就想自己搭建一套，甚至还为此买了一台服务器，但奈何自己太忙了(tai lan le) =_=，这件事情就一直搁浅了，服务器大部分时间也都是空闲状态。
 
 这段时间，突然很想把这件事情做好，觉得不能在这么拖下去了，所以便有了这篇文章。
 
@@ -12,11 +12,10 @@ tags:
 
 我是出于以下原因考虑的：
 1. 暂时没有服务器的需要，我只想有一个能写博客的地方。
-2. GitHub Pages 提供 https服务，我不用担心域名备案的问题。
+2. GitHub Pages 可以提供 https服务，我不用担心域名备案的问题。
 3. 免费
 
-总之，如果你想用最简单、最省心的方式，搭建属于自己的博客，那么 Github Page 一定不会让你失望。
-
+总之，如果你想用最简单、最省心的方式，搭建属于自己的博客，那么 Github Pages 一定不会让你失望。
 ## 系统环境
 * Mac OS 10.15.4
 * Node.js 12
@@ -41,13 +40,13 @@ Github Pages分为两类，用户或组织主页、项目主页。
 
 首先需要在你的 DNS 解析里添加一条解析记录，例如我选择添加子域名`blog.aikang.me`，通过 CNAME 的方式指向我刚刚自定义的 GitHub Pages 域名 `0xAiKang.github.io`。
 
-![](https://i.loli.net/2020/07/04/BDX384QPIZqniJU.png)
+![DNS 域名解析](https://i.loli.net/2020/07/04/BDX384QPIZqniJU.png)
 
 添加完成后等待 DNS 解析的生效的同时回到项目的`Setting`界面，将刚才的子域名与 Github Pages 绑定在一起。
 
 保存之后，我们只需要耐心等待 GitHub 生成证书并确认域名的解析是否正常。
 
-![image.png](https://i.loli.net/2020/07/04/OZ2Vu8p9tXgTj7q.png)
+![等待 GitHub 生成证书并确认域名解析正常](https://i.loli.net/2020/07/04/OZ2Vu8p9tXgTj7q.png)
 
 ### 将Hexo 部署到Github Pages
 域名解析成功之后，就可以通过我们刚才绑定的域名进行访问了，但是你会发现，现在只能看到一片空白，这是因为我们的网站还没有任何内容，所以下一步需要做的就是选择一套静态模版系统。
@@ -58,9 +57,11 @@ Github Pages分为两类，用户或组织主页、项目主页。
 * Python 编写的 Pelican
 * 静态博客写作客户端 Gridea
 
-> 为什么要使用Hexo？
+> 为什么要选择Hexo？
 
-当时在选择博客模版系统时，并没有发现 Gridea ，事后发现这个小众的静态博客写作客户端似乎才是我真正想要的。
+最初在选择博客模版系统时，并没有发现 Gridea ，事后发现这个小众的静态博客写作客户端似乎才是我真正想要的。
+
+不过既然选择了Hexo，也是因为它的生态环境很大，可选主题非常多，并且都是开源的。
 
 > 如何将 Hexo 部署到 GitHub Pages？
 
@@ -91,20 +92,21 @@ deploy:
     branch: master
   local-dir: public
 ```
+上面这个配置文件的作用是用来自动构建，编译测试。
 
 将 `.travis.yml` 推送到 repository 中。Travis CI 会自动开始运行，并将生成的文件推送到同一 repository 下的 `gh-pages` 分支下。
 
 #### 修改发布源
-推送完成之后，会发现多了一个 `gh-gages`分支，这个分支就是用于部署站点的分支，但是默认使用`master`分支作为发布源，所以我们需要切换发布源。
+推送完成之后，会发现多了一个 `gh-gages`分支，这个分支就是用于部署站点的分支，但是GitHub Pages 会默认使用`master`分支作为发布源，所以我们需要切换发布源。
 
 在`Setting->Option->GitHub Pages`下，使用 Source（源）下拉菜单选择发布源。
 
-![](https://i.loli.net/2020/07/04/AHldtP2bIhaqr8c.png)
+![修改默认源](https://i.loli.net/2020/07/04/AHldtP2bIhaqr8c.png)
 
 注意：使用用户或组织主页构建的 Github Pages 不能修改发布源，只能使用默认的 `master`分支。
 
 ### 一键部署
-Hexo 提供了快速方便的一键部署功能，让您只需一条命令就能将网站部署到服务器上。
+Hexo 提供了快速方便的一键部署功能，让你只需一条命令就能将网站部署到服务器上。
 
 在正式部署之前，我们需要先修改`_config.yml` 文件，配置参数。
 
@@ -117,6 +119,7 @@ deploy:
 ```
 |参数|描述|默认值|
 |-|-|-|
+|type|deployer||
 |repo|项目地址||
 |branch|分支名称|gh-pages|
 
@@ -135,7 +138,7 @@ npm install hexo-deployer-git --save
 hexo clean && hexo deploy --generate
 ```
 
-至此，就完成了使用Github Pages 部署 Hexo 个人博客。
+至此，就完成了使用Github Pages 部署 Hexo 个人博客的全部过程，总的来说还是很顺利的。
 
 ### 参考链接
 * [Github Pages 搭建教程](https://sspai.com/post/54608)
