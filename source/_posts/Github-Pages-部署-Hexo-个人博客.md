@@ -119,7 +119,6 @@ deploy:
 |-|-|-|
 |repo|项目地址||
 |branch|分支名称|gh-pages|
-|message|自定义提交信息|Site updated: {{ now('YYYY-MM-DD HH:mm:ss') }})|
 
 有以下两点需要注意：
 1.repo 需要选择SSH 协议，HTTPS协议会报错。
