@@ -120,8 +120,8 @@ deploy:
 ```
 |参数|描述|默认值|
 |-|-|-|
-|type|deployer||
-|repo|项目地址||
+|type|deployer|-|
+|repo|项目地址|-|
 |branch|分支名称|gh-pages|
 
 有以下两点需要注意：
