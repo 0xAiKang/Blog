@@ -1,6 +1,12 @@
 ---
-title: about
-date: 2020-07-05 09:16:21
+layout: page
+title: 关于我
+meta:
+  header: []
+  footer: []
+sidebar: []
+valine:
+  placeholder: 有什么想对我说的呢？
 ---
 
 ### 关于此博客
