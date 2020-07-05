@@ -5,10 +5,6 @@
   <!-- SEO相关 -->
   
     
-      
-        <meta name="robots" content="index,follow">
-      
-    
   
   <!-- 渲染优化 -->
   <meta name="renderer" content="webkit">
@@ -20,7 +16,9 @@
 
   <!-- 页面元数据 -->
   
-    <title>Boo</title>
+    <title>Github Pages 部署 Hexo 个人博客 - Boo</title>
+  
+    <meta name="keywords" content="tutorial">
   
   
 
@@ -72,95 +70,7 @@
 
 <body>
   
-  <div class="cover-wrapper">
-    
-      <cover class='cover  half'>
-        <div class='cover-body'>
-  <div class='a'>
-    
-    
-      <p class="title">Boo's Blog</p>
-    
-    
-      <p class="subtitle">Stay foolish, Stay hungry</p>
-    
-  </div>
-  <div class='b'>
-    
-      <div class="m_search">
-        <form name="searchform" class="form u-search-form">
-          <input type="text" class="input u-search-input" placeholder="" />
-          <i class="icon fas fa-search fa-fw"></i>
-        </form>
-      </div>
-    
-    <div class='menu navigation'>
-      <ul class='cover-list-h'>
-        
-          
-            <li>
-              <a class="nav home"
-                href="https://www.aikang.me/"
-                
-                
-                id="https:wwwaikangme">
-                <i class='fas fa-book fa-fw'></i>博客
-              </a>
-            </li>
-          
-            <li>
-              <a class="nav home"
-                href="https://www.aikang.me/categories/"
-                
-                
-                id="https:wwwaikangmecategories">
-                <i class='fas fa-rss fa-fw'></i>分类
-              </a>
-            </li>
-          
-            <li>
-              <a class="nav home"
-                href="https://www.aikang.me/examples/"
-                
-                
-                id="https:wwwaikangmeexamples">
-                <i class='fas fa-play-circle fa-fw'></i>标签
-              </a>
-            </li>
-          
-            <li>
-              <a class="nav home"
-                href="https://www.aikang.me/archives/"
-                
-                  rel="external nofollow noopener noreferrer"
-                
-                
-                  target="_blank"
-                
-                id="https:wwwaikangmearchives">
-                <i class='fas fa-file-code fa-fw'></i>归档
-              </a>
-            </li>
-          
-            <li>
-              <a class="nav home"
-                href="https://www.aikang.me/about/"
-                
-                
-                id="https:wwwaikangmeabout">
-                <i class='fas fa-handshake fa-fw'></i>关于我
-              </a>
-            </li>
-          
-        
-      </ul>
-    </div>
-  </div>
-</div>
-
-      </cover>
-    
-    <div id="loading-bar-wrapper">
+  <div id="loading-bar-wrapper">
   <div id="loading-bar"></div>
 </div>
 <header class="l_header shadow blur">
@@ -349,33 +259,18 @@
 
 <script>setLoadingBarProgress(40);</script>
 
-  </div>
 
 
-  <div class="l_body">
+  <div class="l_body nocover">
     <div class='body-wrapper'>
       
 
 <div class='l_main'>
   
-  <section class="post-list ">
-    
-      
-        
-          
-        
-          
-        
-          
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
+
   
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
 
 
   <section class='meta'>
@@ -385,288 +280,11 @@
       <div class="meta" id="header-meta">
         
           
-  <h2 class="title">
-    <a href="/travis-ci-quick-start/">
-      Travis CI 快速上手
-    </a>
-  </h2>
-
-
-        
-        <div class='new-meta-box'>
-          
-            
-          
-            
-              
-<div class='new-meta-item author'>
-  <a href="https://www.aikang.me" rel="nofollow">
-    <img src="https://i.loli.net/2020/07/04/9yFH4KRMhDnTImo.jpg">
-    <p>Boo</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/tutorial/' rel="nofollow">
-      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>tutorial</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：2020年7月5日</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-
-            
-          
-            
-              
-
-            
-          
-        </div>
-        
-          <hr>
-        
-      </div>
-    
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近使用Github Pages 搭建Hexo 时，用到了一项新技术。hmm…也不能说是新技术吧，只是之前一直有听说，但却没有实际用过。</p>
-<p>它就是持续集成，听上去好像是一个高大上的概念，但通俗一点解释就是：写完代码提交之后，会根据你的要求，自动做编译测试。</p>
-<p>其中最出名大概就是Travis CI了，本文的目的就是快速入门 Travis CI。</p>
-<h2 id="什么是持续集成？"><a href="#什么是持续集成？" class="headerlink" title="什么是持续集成？"></a>什么是持续集成？</h2><p>持续集成(Continuous Integration)是对小周期的的代码进行更改，其目的是通过以较小的增量开发和测试来构建更健康的软件。</p>
-<p>而Travis CI 作为一个持续集成平台，通过自动构建和测试代码，并提供更改成功的即时反馈。</p>
-<h3 id="快速上手"><a href="#快速上手" class="headerlink" title="快速上手"></a>快速上手</h3><p>在正式开始之前，需要提前准备好以下先决条件：</p>
-<ul>
-<li>一个 <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a> 帐户</li>
-<li>托管在 <a href="https://github.com/" target="_blank" rel="noopener">Github</a> 的项目的所有者权限</li>
-</ul>
-<p>需要注意的是：Travis CI不是完全免费的服务，前100个私有构建是免费的，后续就要进行付费，如果你的项目是开源的，或者你是学生，则不受限制。</p>
-<h4 id="在Github-上使用Travis-CI"><a href="#在Github-上使用Travis-CI" class="headerlink" title="在Github 上使用Travis CI"></a>在Github 上使用Travis CI</h4><ol>
-<li>将 <a href="https://github.com/marketplace/travis-ci" target="_blank" rel="noopener">Travis CI</a> 添加到你的 GitHub 账户中。</li>
-<li>前往 GitHub 的 <a href="https://github.com/settings/installations" target="_blank" rel="noopener">Applications settings</a>，配置 Travis CI 权限，使其能够访问你的 repository。</li>
-<li>前往 GitHub 新建 <a href="https://github.com/settings/tokens" target="_blank" rel="noopener">Personal Access Token</a>，只勾选 repo 的权限并生成一个新的 Token。Token 生成后请复制并保存好。</li>
-<li>回到 Travis CI，前往你的 repository 的设置页面，在 Environment Variables 下新建一个环境变量，Name 为 GH_TOKEN，Value 为刚才你在 GitHub 生成的 Token。确保 DISPLAY VALUE IN BUILD LOG 保持 不被勾选 避免你的 Token 泄漏。点击 Add 保存。</li>
-<li>在你的项目中新建一个 <code>.travis.yml</code> 文件。</li>
-<li>提交并推送以触发Travis CI构建。</li>
-</ol>
-<p>其中<code>.travis.yml</code>文件的目的是告诉 Travis CI 应该做些什么。</p>
-<p>以下示例指定了应使用Ruby 2.2和最新版本的JRuby构建的Ruby项目。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">language: ruby</span><br><span class="line">rvm:</span><br><span class="line"> - 2.2</span><br><span class="line"> - jruby</span><br></pre></td></tr></table></figure>
-
-<p>通过访问<a href="https://travis-ci.com/auth" target="_blank" rel="noopener">Travis CI</a> 并选择repository，检查构建状态页面，以根据构建命令的返回状态查看构建是否通过或失败。</p>
-
-      
-    </div>
-    
-      
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
-  
-
-
-  <section class='meta'>
-    
-      
-      
-      <div class="meta" id="header-meta">
-        
-          
-  <h2 class="title">
-    <a href="/hexo-quick-start/">
-      Hexo 快速上手
-    </a>
-  </h2>
-
-
-        
-        <div class='new-meta-box'>
-          
-            
-          
-            
-              
-<div class='new-meta-item author'>
-  <a href="https://www.aikang.me" rel="nofollow">
-    <img src="https://i.loli.net/2020/07/04/9yFH4KRMhDnTImo.jpg">
-    <p>Boo</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/tutorial/' rel="nofollow">
-      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>tutorial</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：2020年7月5日</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-
-            
-          
-            
-              
-
-            
-          
-        </div>
-        
-          <hr>
-        
-      </div>
-    
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近使用Hexo 搭建了一套博客系统，整个过程还算顺利，不过还是遇到了一些问题，整理记录一下。</p>
-<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><h3 id="init"><a href="#init" class="headerlink" title="init"></a>init</h3><p>新建一个网站。如果没有设置 <code>folder</code>，Hexo 默认在目前的文件夹建立网站。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init [folder]</span><br></pre></td></tr></table></figure>
-
-<h3 id="new"><a href="#new" class="headerlink" title="new"></a>new</h3><p>layout 有三种选择：</p>
-<ul>
-<li>post：新建一片文章</li>
-<li>page：新建一个页面</li>
-<li>draft：新建一篇草稿</li>
-</ul>
-<p>如果没有设置 layout 的话，默认使用 _config.yml 中的 default_layout 参数代替。如果标题包含空格的话，请使用引号括起来。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new [layout] &lt;title&gt;</span><br></pre></td></tr></table></figure>
-
-<h3 id="generate"><a href="#generate" class="headerlink" title="generate"></a>generate</h3><p>生成静态文件。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br><span class="line">&#x2F;&#x2F; 等效于 hexo g</span><br></pre></td></tr></table></figure>
-<p>常用参数：<br>|选项|描述|<br>|-|-|<br>|-d, –deploy|文件生成后立即部署网站|<br>|-w, –watch|监视文件变动|<br>|-b, –bail|生成过程中如果发生任何未处理的异常则抛出异常|</p>
-<h3 id="publish"><a href="#publish" class="headerlink" title="publish"></a>publish</h3><p>发表草稿</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo publish [layout] &lt;filename&gt;</span><br></pre></td></tr></table></figure>
-
-<h3 id="server"><a href="#server" class="headerlink" title="server"></a>server</h3><p>启动服务器。默认情况下，访问网址为： <code>http://localhost:4000/</code>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br><span class="line">&#x2F;&#x2F; 等效于 hexo s</span><br></pre></td></tr></table></figure>
-
-<h3 id="deploy"><a href="#deploy" class="headerlink" title="deploy"></a>deploy</h3><p>部署网站。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br><span class="line">&#x2F;&#x2F; 等效于 hexo d</span><br></pre></td></tr></table></figure>
-
-<p><code>-g</code>，<code>--generate</code>：部署之前预先生成静态文件</p>
-<h3 id="clean"><a href="#clean" class="headerlink" title="clean"></a>clean</h3><p>清除缓存文件 (db.json) 和已生成的静态文件 (public)。</p>
-<p>在某些情况（尤其是更换主题后），如果发现对站点的更改无论如何也不生效，那可能需要运行该命令。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo clean</span><br></pre></td></tr></table></figure>
-
-<h3 id="list"><a href="#list" class="headerlink" title="list"></a>list</h3><p>列出网站资料。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo list</span><br></pre></td></tr></table></figure>
-
-<h3 id="version"><a href="#version" class="headerlink" title="version"></a>version</h3><p>显示 Hexo 版本。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo version</span><br></pre></td></tr></table></figure>
-
-<h3 id="其他模式"><a href="#其他模式" class="headerlink" title="其他模式"></a>其他模式</h3><h4 id="安全模式"><a href="#安全模式" class="headerlink" title="安全模式"></a>安全模式</h4><p>在安全模式下，不会载入插件和脚本。当需要安装新插件遭遇问题时，可以尝试以安全模式重新执行。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo --safe</span><br></pre></td></tr></table></figure>
-
-<h4 id="调试模式"><a href="#调试模式" class="headerlink" title="调试模式"></a>调试模式</h4><p>在终端中显示调试信息并记录到 debug.log。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo --debug</span><br></pre></td></tr></table></figure>
-
-<h4 id="显示草稿"><a href="#显示草稿" class="headerlink" title="显示草稿"></a>显示草稿</h4><p>显示 source/_drafts 文件夹中的草稿文章。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo --draft</span><br></pre></td></tr></table></figure>
-
-<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="CNAME-文件被删除"><a href="#CNAME-文件被删除" class="headerlink" title="CNAME 文件被删除"></a>CNAME 文件被删除</h3><p>GitHub Pages 为我们免费提供了<code>&lt;username&gt;.github.io</code>这样的域名作为 GitHub Page，但如果你觉得这个域名太长了，不满意，那么你也可以绑定自己的域名。</p>
-<p>通常绑定完成之后，会在项目目录下面生成一个叫做<code>CNAME</code>的文件，这个文件的作用就是用来记录GitHub Pages 所绑定的域名。</p>
-<p>这个时候就会产生一个问题：</p>
-<blockquote>
-<p>CNAME文件会在每次 hexo deploy 时消失，然后需要重新手动绑定，这样就很繁琐。</p>
-</blockquote>
-<p>有以下几种方式可以解决这个问题：</p>
-<ol>
-<li>每次 <code>hexo d</code> 之后，就去 GitHub 仓库根目录新建 CNAME文件。—— 繁琐</li>
-<li>在 <code>hexo g</code> 之后， <code>hexo d</code> 之前，把CNAME文件复制到 <code>public</code> 目录下面，里面写入你要绑定的域名。—— 繁琐</li>
-<li>将需要上传至 GitHub 的内容放在<code>source</code>文件夹，例如CNAME、favicon.ico、images等，这样在 <code>hexo d</code> 之后就不会被删除了。</li>
-<li>通过安装插件实现永久保留。</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-generator-cname --save</span><br></pre></td></tr></table></figure>
-
-<p>编辑<code>_config.yml</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Plugins:</span><br><span class="line">- hexo-generator-cname</span><br></pre></td></tr></table></figure>
-<p>推荐第三种方式，简单方便。</p>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><a href="https://www.cnblogs.com/chengxs/p/7496265.html" target="_blank" rel="noopener">github+hexo搭建自己的博客网站（七）注意事项</a></li>
-<li><a href="https://hexo.io/zh-cn/docs/commands" target="_blank" rel="noopener">Hexo | 指令</a></li>
-</ul>
-
-      
-    </div>
-    
-      
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
-  
-
-
-  <section class='meta'>
-    
-      
-      
-      <div class="meta" id="header-meta">
-        
-          
-  <h2 class="title">
+  <h1 class="title">
     <a href="/Deploy-Hexo-personal-blog-with-Github-Pages/">
       Github Pages 部署 Hexo 个人博客
     </a>
-  </h2>
+  </h1>
 
 
         
@@ -713,11 +331,6 @@
 
             
           
-            
-              
-
-            
-          
         </div>
         
           <hr>
@@ -727,10 +340,10 @@
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>关于个人博客，在很久之前就想自己搭建一套，甚至还为此买了一台服务器，但奈何自己太忙了(tai lan le) =_=，这件事情就一直搁浅了，服务器大部分时间也都是空闲状态。</p>
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>关于个人博客，在很久之前就想自己搭建一套，甚至还为此买了一台服务器，但奈何自己太忙了(tai lan le) =_=，这件事情就一直搁浅了，服务器大部分时间也都是空闲状态。</p>
 <p>这段时间，突然很想把这件事情做好，觉得不能在这么拖下去了，所以便有了这篇文章。</p>
 <blockquote>
 <p>为什么使用Github Pages？</p>
@@ -839,90 +452,45 @@
 <li><a href="https://juejin.im/post/5acf02086fb9a028b92d8652#heading-15" target="_blank" rel="noopener">Github Pages部署个人博客（Hexo篇）</a></li>
 </ul>
 
-      
-    </div>
-    
-      
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-    
-  </section>
-  
-    
-    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
-    
-    
-
-  
-
-
-</div>
-<aside class='l_side'>
-  
+          
+            <div class='article_footer'>
+              
+                
   
     
     
 
-<section class="widget blogger shadow desktop mobile">
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
   <div class='content'>
     
-      
-        <a class='avatar flat-box' href='/about/'>
-          <img no-lazy src='https://i.loli.net/2020/07/04/9yFH4KRMhDnTImo.jpg'/>
-        </a>
-      
-    
-    
-      <div class='text'>
+      <blockquote>
         
-        
-          <p>Stay foolish, Stay hungry.</p>
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
 
-        
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
-        
-          
-            <a href="/atom.xml"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
           
         
           
-            <a href="mailto:aikangtongxue@gamil.com"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
+            <p>本文永久链接是：<a href=https://www.aikang.me/Deploy-Hexo-personal-blog-with-Github-Pages/>https://www.aikang.me/Deploy-Hexo-personal-blog-with-Github-Pages/</a></p>
           
         
-          
-            <a href="https://github.com/0xAikang"
-              class="social fab fa-github flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-          
-            <a href="https://music.163.com/#/user/home?id=112719323"
-              class="social fas fa-headphones-alt flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-      </div>
+      </blockquote>
     
   </div>
 </section>
@@ -932,53 +500,198 @@
   
     
     
+
+<section class="widget qrcode  desktop mobile">
   
 
-  <section class="widget category shadow desktop">
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-05T12:18:20+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：2020年7月5日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/tutorial/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>tutorial</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.aikang.me/Deploy-Hexo-personal-blog-with-Github-Pages/&title=Github Pages 部署 Hexo 个人博客 - Boo&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.aikang.me/Deploy-Hexo-personal-blog-with-Github-Pages/&title=Github Pages 部署 Hexo 个人博客 - Boo&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.aikang.me/Deploy-Hexo-personal-blog-with-Github-Pages/&title=Github Pages 部署 Hexo 个人博客 - Boo&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADqUlEQVR42u3aQZLiQAwEwPn/p2fvu+GgS5KxYLNvEMbTneZQU+Ln1yqtHwTgwIEDZ4EDtwTup7j+ueFf719dd7mhm+5/9bnqecGBAwcOHDhw4LbBpQdMIS43UgSoPojuecGBAwcOHDhw4LbCpQedBpoKxt39gwMHDhw4cODA/e9wr65Pi8rT+94GDQ4cOHDgwIED96VwXdDTwNwdSIMDBw4cOHDgwH0b3NRG0o2lgTUNtusm+eDAgQMHDhw4cENw6epCPv26fF5w4MCBAwcOHLglcN3VHURXi8+nFjhw4MCBAwcO3Ba47iC5CpsWk2lhedf5wIEDBw4cOHDgtsBVD1w9yCnMXYPq9O+DAwcOHDhw4MBth0sP3C0W0wF3tQidCsrgwIEDBw4cOHDb4bqFYrcwPD5AGLDTz19+Dhw4cODAgQMHbhlcN7BOvV8tOqd+uPgySIMDBw4cOHDgwC2BOz3guwbDxwcoQqcB+HIgDQ4cOHDgwIED9zBcN5im8CnItgE2OHDgwIEDBw7cFrjqQdIC9NWG0vukhWsKG//nAA4cOHDgwIED92a4qeCYBtw06KaB/BQ2DvzgwIEDBw4cOHDL4KqD5jTYVh/QVPFaLUzBgQMHDhw4cOC2wqUD5RSmW4imB75tUA0OHDhw4MCBA7cErgtU3Vi3eEyB0iD8ssgEBw4cOHDgwIF7GK4aINONVg9wWlR2rzv+woADBw4cOHDgwC2BSwNgGoSn3q8WotVADw4cOHDgwIEDtx1uOkh2wdNgnhag7cAPDhw4cODAgQO3DK5aKE5vcCoITw2qwYEDBw4cOHDgtsJVN9wNpHcXpemDPR6cgwMHDhw4cODALYUb+wNhQdguGIvB/Tdc4MCBAwcOHDhw2+DSH+pNgabFYjqArgbi4yITHDhw4MCBAwduCVx14FsNsulAPC1Oq68vrwMHDhw4cODAgfsQuKcG09X73X0ecODAgQMHDhy4LXDdNR1MuwPvapA/3j84cODAgQMHDtwSuLFgGAbYqYLz7kLzZZEJDhw4cODAgQP3MFx3I3cNtrvXdQMwOHDgwIEDBw7cp8ClPwhMi8TxYnFoHUOCAwcOHDhw4MB9GVz3c+1gGgbz8SITHDhw4MCBAwfuQ+FOg2m3UEyL0e4gGxw4cODAgQMH7lPgqoPhNLBW4VPg9Ivwtkk+OHDgwIEDBw7cEFx3gFsNlFPF5NSDe3lecODAgQMHDhy4JXBWWHAiAAcOHDgLHLhn1x8WioCXypX3tgAAAABJRU5ErkJggg==">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/hexo-quick-start/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Hexo 快速上手</p>
+                <p class='content'>前言最近使用Hexo 搭建了一套博客系统，整个过程还算顺利，不过还是遇到了一些问题，整理记录一下。
+常用命令init新建一个网站。如果没有设置 folder，Hexo 默认在目前的文件夹建立网站...</p>
+              </a>
+            
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Github Pages 部署 Hexo 个人博客',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
     
   <header>
     
-      <a href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
   </header>
 
 
     <div class='content'>
-      <ul class="entry navigation">
-        
-          <li><a class="flat-box"
-            title="/categories/tutorial/" href="/categories/tutorial/"
-            id="categoriestutorial"
-            ><div class='name'>tutorial</div><div class='badge'>(3)</div></a></li>
-        
-      </ul>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#系统环境"><span class="toc-text">系统环境</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建Github-Pages"><span class="toc-text">创建Github Pages</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#绑定域名"><span class="toc-text">绑定域名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#将Hexo-部署到Github-Pages"><span class="toc-text">将Hexo 部署到Github Pages</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#修改发布源"><span class="toc-text">修改发布源</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#一键部署"><span class="toc-text">一键部署</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
     </div>
   </section>
 
-
-  
-
-  
-    
-    
-  
-
-  <section class="widget tagcloud shadow desktop mobile">
-    
-  <header>
-    
-      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
-    
-  </header>
-
-
-    <div class='content'>
-      <a href="/tags/CI/" style="font-size: 14px; color: #999">CI</a> <a href="/tags/hexo/" style="font-size: 14px; color: #999">hexo</a> <a href="/tags/tutorial/" style="font-size: 24px; color: #555">tutorial</a>
-    </div>
-  </section>
-
-
-  
 
   
 
@@ -1194,6 +907,60 @@
 
 
 
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "prAyvaUeadxadA2wpcBQqNQn-gzGzoHsz",
+    appKey: "vkyEUTw0BixVjfFpFIzUdhak",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
 
 
 

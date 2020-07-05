@@ -18,7 +18,7 @@
 
   <!-- 页面元数据 -->
   
-    <title>归档：2020/7 - 0xBoo</title>
+    <title>归档：2020/7 - Boo</title>
   
   
 
@@ -363,6 +363,10 @@
         
           
         
+          
+        
+          
+        
       
     
     
@@ -381,7 +385,284 @@
         
           
   <h2 class="title">
-    <a href="/2020/07/04/Github-Pages-%E9%83%A8%E7%BD%B2-Hexo-%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">
+    <a href="/travis-ci-quick-start/">
+      Travis CI 快速上手
+    </a>
+  </h2>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.aikang.me" rel="nofollow">
+    <img src="https://i.loli.net/2020/07/04/9yFH4KRMhDnTImo.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/tutorial/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>tutorial</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2020年7月5日</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近使用Github Pages 搭建Hexo 时，用到了一项新技术。hmm…也不能说是新技术吧，只是之前一直有听说，但却没有实际用过。</p>
+<p>它就是持续集成，听上去好像是一个高大上的概念，但通俗一点解释就是：写完代码提交之后，会根据你的要求，自动做编译测试。</p>
+<p>其中最出名大概就是Travis CI了，本文的目的就是快速入门 Travis CI。</p>
+<h2 id="什么是持续集成？"><a href="#什么是持续集成？" class="headerlink" title="什么是持续集成？"></a>什么是持续集成？</h2><p>持续集成(Continuous Integration)是对小周期的的代码进行更改，其目的是通过以较小的增量开发和测试来构建更健康的软件。</p>
+<p>而Travis CI 作为一个持续集成平台，通过自动构建和测试代码，并提供更改成功的即时反馈。</p>
+<h3 id="快速上手"><a href="#快速上手" class="headerlink" title="快速上手"></a>快速上手</h3><p>在正式开始之前，需要提前准备好以下先决条件：</p>
+<ul>
+<li>一个 <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a> 帐户</li>
+<li>托管在 <a href="https://github.com/" target="_blank" rel="noopener">Github</a> 的项目的所有者权限</li>
+</ul>
+<p>需要注意的是：Travis CI不是完全免费的服务，前100个私有构建是免费的，后续就要进行付费，如果你的项目是开源的，或者你是学生，则不受限制。</p>
+<h4 id="在Github-上使用Travis-CI"><a href="#在Github-上使用Travis-CI" class="headerlink" title="在Github 上使用Travis CI"></a>在Github 上使用Travis CI</h4><ol>
+<li>将 <a href="https://github.com/marketplace/travis-ci" target="_blank" rel="noopener">Travis CI</a> 添加到你的 GitHub 账户中。</li>
+<li>前往 GitHub 的 <a href="https://github.com/settings/installations" target="_blank" rel="noopener">Applications settings</a>，配置 Travis CI 权限，使其能够访问你的 repository。</li>
+<li>前往 GitHub 新建 <a href="https://github.com/settings/tokens" target="_blank" rel="noopener">Personal Access Token</a>，只勾选 repo 的权限并生成一个新的 Token。Token 生成后请复制并保存好。</li>
+<li>回到 Travis CI，前往你的 repository 的设置页面，在 Environment Variables 下新建一个环境变量，Name 为 GH_TOKEN，Value 为刚才你在 GitHub 生成的 Token。确保 DISPLAY VALUE IN BUILD LOG 保持 不被勾选 避免你的 Token 泄漏。点击 Add 保存。</li>
+<li>在你的项目中新建一个 <code>.travis.yml</code> 文件。</li>
+<li>提交并推送以触发Travis CI构建。</li>
+</ol>
+<p>其中<code>.travis.yml</code>文件的目的是告诉 Travis CI 应该做些什么。</p>
+<p>以下示例指定了应使用Ruby 2.2和最新版本的JRuby构建的Ruby项目。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">language: ruby</span><br><span class="line">rvm:</span><br><span class="line"> - 2.2</span><br><span class="line"> - jruby</span><br></pre></td></tr></table></figure>
+
+<p>通过访问<a href="https://travis-ci.com/auth" target="_blank" rel="noopener">Travis CI</a> 并选择repository，检查构建状态页面，以根据构建命令的返回状态查看构建是否通过或失败。</p>
+
+      
+    </div>
+    
+      
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow reveal ">
+  
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h2 class="title">
+    <a href="/hexo-quick-start/">
+      Hexo 快速上手
+    </a>
+  </h2>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.aikang.me" rel="nofollow">
+    <img src="https://i.loli.net/2020/07/04/9yFH4KRMhDnTImo.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/tutorial/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>tutorial</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2020年7月5日</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近使用Hexo 搭建了一套博客系统，整个过程还算顺利，不过还是遇到了一些问题，整理记录一下。</p>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><h3 id="init"><a href="#init" class="headerlink" title="init"></a>init</h3><p>新建一个网站。如果没有设置 <code>folder</code>，Hexo 默认在目前的文件夹建立网站。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init [folder]</span><br></pre></td></tr></table></figure>
+
+<h3 id="new"><a href="#new" class="headerlink" title="new"></a>new</h3><p>layout 有三种选择：</p>
+<ul>
+<li>post：新建一片文章</li>
+<li>page：新建一个页面</li>
+<li>draft：新建一篇草稿</li>
+</ul>
+<p>如果没有设置 layout 的话，默认使用 _config.yml 中的 default_layout 参数代替。如果标题包含空格的话，请使用引号括起来。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new [layout] &lt;title&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="generate"><a href="#generate" class="headerlink" title="generate"></a>generate</h3><p>生成静态文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br><span class="line">&#x2F;&#x2F; 等效于 hexo g</span><br></pre></td></tr></table></figure>
+<p>常用参数：<br>|选项|描述|<br>|-|-|<br>|-d, –deploy|文件生成后立即部署网站|<br>|-w, –watch|监视文件变动|<br>|-b, –bail|生成过程中如果发生任何未处理的异常则抛出异常|</p>
+<h3 id="publish"><a href="#publish" class="headerlink" title="publish"></a>publish</h3><p>发表草稿</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo publish [layout] &lt;filename&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="server"><a href="#server" class="headerlink" title="server"></a>server</h3><p>启动服务器。默认情况下，访问网址为： <code>http://localhost:4000/</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br><span class="line">&#x2F;&#x2F; 等效于 hexo s</span><br></pre></td></tr></table></figure>
+
+<h3 id="deploy"><a href="#deploy" class="headerlink" title="deploy"></a>deploy</h3><p>部署网站。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br><span class="line">&#x2F;&#x2F; 等效于 hexo d</span><br></pre></td></tr></table></figure>
+
+<p><code>-g</code>，<code>--generate</code>：部署之前预先生成静态文件</p>
+<h3 id="clean"><a href="#clean" class="headerlink" title="clean"></a>clean</h3><p>清除缓存文件 (db.json) 和已生成的静态文件 (public)。</p>
+<p>在某些情况（尤其是更换主题后），如果发现对站点的更改无论如何也不生效，那可能需要运行该命令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo clean</span><br></pre></td></tr></table></figure>
+
+<h3 id="list"><a href="#list" class="headerlink" title="list"></a>list</h3><p>列出网站资料。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo list</span><br></pre></td></tr></table></figure>
+
+<h3 id="version"><a href="#version" class="headerlink" title="version"></a>version</h3><p>显示 Hexo 版本。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo version</span><br></pre></td></tr></table></figure>
+
+<h3 id="其他模式"><a href="#其他模式" class="headerlink" title="其他模式"></a>其他模式</h3><h4 id="安全模式"><a href="#安全模式" class="headerlink" title="安全模式"></a>安全模式</h4><p>在安全模式下，不会载入插件和脚本。当需要安装新插件遭遇问题时，可以尝试以安全模式重新执行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo --safe</span><br></pre></td></tr></table></figure>
+
+<h4 id="调试模式"><a href="#调试模式" class="headerlink" title="调试模式"></a>调试模式</h4><p>在终端中显示调试信息并记录到 debug.log。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo --debug</span><br></pre></td></tr></table></figure>
+
+<h4 id="显示草稿"><a href="#显示草稿" class="headerlink" title="显示草稿"></a>显示草稿</h4><p>显示 source/_drafts 文件夹中的草稿文章。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo --draft</span><br></pre></td></tr></table></figure>
+
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="CNAME-文件被删除"><a href="#CNAME-文件被删除" class="headerlink" title="CNAME 文件被删除"></a>CNAME 文件被删除</h3><p>GitHub Pages 为我们免费提供了<code>&lt;username&gt;.github.io</code>这样的域名作为 GitHub Page，但如果你觉得这个域名太长了，不满意，那么你也可以绑定自己的域名。</p>
+<p>通常绑定完成之后，会在项目目录下面生成一个叫做<code>CNAME</code>的文件，这个文件的作用就是用来记录GitHub Pages 所绑定的域名。</p>
+<p>这个时候就会产生一个问题：</p>
+<blockquote>
+<p>CNAME文件会在每次 hexo deploy 时消失，然后需要重新手动绑定，这样就很繁琐。</p>
+</blockquote>
+<p>有以下几种方式可以解决这个问题：</p>
+<ol>
+<li>每次 <code>hexo d</code> 之后，就去 GitHub 仓库根目录新建 CNAME文件。—— 繁琐</li>
+<li>在 <code>hexo g</code> 之后， <code>hexo d</code> 之前，把CNAME文件复制到 <code>public</code> 目录下面，里面写入你要绑定的域名。—— 繁琐</li>
+<li>将需要上传至 GitHub 的内容放在<code>source</code>文件夹，例如CNAME、favicon.ico、images等，这样在 <code>hexo d</code> 之后就不会被删除了。</li>
+<li>通过安装插件实现永久保留。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-generator-cname --save</span><br></pre></td></tr></table></figure>
+
+<p>编辑<code>_config.yml</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Plugins:</span><br><span class="line">- hexo-generator-cname</span><br></pre></td></tr></table></figure>
+<p>推荐第三种方式，简单方便。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://www.cnblogs.com/chengxs/p/7496265.html" target="_blank" rel="noopener">github+hexo搭建自己的博客网站（七）注意事项</a></li>
+<li><a href="https://hexo.io/zh-cn/docs/commands" target="_blank" rel="noopener">Hexo | 指令</a></li>
+</ul>
+
+      
+    </div>
+    
+      
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow reveal ">
+  
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h2 class="title">
+    <a href="/Deploy-Hexo-personal-blog-with-Github-Pages/">
       Github Pages 部署 Hexo 个人博客
     </a>
   </h2>
@@ -668,7 +949,7 @@
           <li><a class="flat-box"
             title="/categories/tutorial/" href="/categories/tutorial/"
             id="categoriestutorial"
-            ><div class='name'>tutorial</div><div class='badge'>(1)</div></a></li>
+            ><div class='name'>tutorial</div><div class='badge'>(3)</div></a></li>
         
       </ul>
     </div>
@@ -692,7 +973,7 @@
 
 
     <div class='content'>
-      <a href="/tags/tutorial/" style="font-size: 14px; color: #999">tutorial</a>
+      <a href="/tags/CI/" style="font-size: 14px; color: #999">CI</a> <a href="/tags/hexo/" style="font-size: 14px; color: #999">hexo</a> <a href="/tags/tutorial/" style="font-size: 24px; color: #555">tutorial</a>
     </div>
   </section>
 

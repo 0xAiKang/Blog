@@ -5,6 +5,8 @@
   <!-- SEO相关 -->
   
     
+      <meta name="robots" content="noindex,follow">
+    
   
   <!-- 渲染优化 -->
   <meta name="renderer" content="webkit">
@@ -16,7 +18,7 @@
 
   <!-- 页面元数据 -->
   
-    <title>404 Not Found - Boo</title>
+    <title>标签：CI - Boo</title>
   
   
 
@@ -71,13 +73,15 @@
   <div id="loading-bar-wrapper">
   <div id="loading-bar"></div>
 </div>
-<header class="l_header no_sidebar shadow blur">
+<header class="l_header shadow blur">
   <div class='container'>
   <div class='wrapper'>
     <div class='nav-sub'>
       <p class="title"></p>
       <ul class='switcher nav-list-h'>
         <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
         
       </ul>
     </div>
@@ -261,12 +265,25 @@
     <div class='body-wrapper'>
       
 
-<div class='l_main no_sidebar'>
-  
 
+<div class='l_main'>
   
-    <article id="page" class="post white-box reveal shadow article-type-page" itemscope itemprop="blogPost">
+    
       
+  <section class="post-list ">
+    
+      
+        
+          
+        
+      
+    
+    
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow reveal ">
+  
 
 
   <section class='meta'>
@@ -275,78 +292,245 @@
       
       <div class="meta" id="header-meta">
         
+          
+  <h2 class="title">
+    <a href="/travis-ci-quick-start/">
+      Travis CI 快速上手
+    </a>
+  </h2>
+
+
+        
         <div class='new-meta-box'>
           
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.aikang.me" rel="nofollow">
+    <img src="https://i.loli.net/2020/07/04/9yFH4KRMhDnTImo.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/tutorial/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>tutorial</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2020年7月5日</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+
+            
+          
         </div>
+        
+          <hr>
         
       </div>
     
   </section>
 
 
-      <section class="article typo">
-        <div class="article-entry" itemprop="articleBody">
-          
-          <p class='p center huge'>404</p>
-<p class='p center bold'>很抱歉，您访问的页面不存在</p>
-<p class='p center small'>可能是输入地址有误或该地址已被删除</p>
-          
-        </div>
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近使用Github Pages 搭建Hexo 时，用到了一项新技术。hmm…也不能说是新技术吧，只是之前一直有听说，但却没有实际用过。</p>
+<p>它就是持续集成，听上去好像是一个高大上的概念，但通俗一点解释就是：写完代码提交之后，会根据你的要求，自动做编译测试。</p>
+<p>其中最出名大概就是Travis CI了，本文的目的就是快速入门 Travis CI。</p>
+<h2 id="什么是持续集成？"><a href="#什么是持续集成？" class="headerlink" title="什么是持续集成？"></a>什么是持续集成？</h2><p>持续集成(Continuous Integration)是对小周期的的代码进行更改，其目的是通过以较小的增量开发和测试来构建更健康的软件。</p>
+<p>而Travis CI 作为一个持续集成平台，通过自动构建和测试代码，并提供更改成功的即时反馈。</p>
+<h3 id="快速上手"><a href="#快速上手" class="headerlink" title="快速上手"></a>快速上手</h3><p>在正式开始之前，需要提前准备好以下先决条件：</p>
+<ul>
+<li>一个 <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a> 帐户</li>
+<li>托管在 <a href="https://github.com/" target="_blank" rel="noopener">Github</a> 的项目的所有者权限</li>
+</ul>
+<p>需要注意的是：Travis CI不是完全免费的服务，前100个私有构建是免费的，后续就要进行付费，如果你的项目是开源的，或者你是学生，则不受限制。</p>
+<h4 id="在Github-上使用Travis-CI"><a href="#在Github-上使用Travis-CI" class="headerlink" title="在Github 上使用Travis CI"></a>在Github 上使用Travis CI</h4><ol>
+<li>将 <a href="https://github.com/marketplace/travis-ci" target="_blank" rel="noopener">Travis CI</a> 添加到你的 GitHub 账户中。</li>
+<li>前往 GitHub 的 <a href="https://github.com/settings/installations" target="_blank" rel="noopener">Applications settings</a>，配置 Travis CI 权限，使其能够访问你的 repository。</li>
+<li>前往 GitHub 新建 <a href="https://github.com/settings/tokens" target="_blank" rel="noopener">Personal Access Token</a>，只勾选 repo 的权限并生成一个新的 Token。Token 生成后请复制并保存好。</li>
+<li>回到 Travis CI，前往你的 repository 的设置页面，在 Environment Variables 下新建一个环境变量，Name 为 GH_TOKEN，Value 为刚才你在 GitHub 生成的 Token。确保 DISPLAY VALUE IN BUILD LOG 保持 不被勾选 避免你的 Token 泄漏。点击 Add 保存。</li>
+<li>在你的项目中新建一个 <code>.travis.yml</code> 文件。</li>
+<li>提交并推送以触发Travis CI构建。</li>
+</ol>
+<p>其中<code>.travis.yml</code>文件的目的是告诉 Travis CI 应该做些什么。</p>
+<p>以下示例指定了应使用Ruby 2.2和最新版本的JRuby构建的Ruby项目。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">language: ruby</span><br><span class="line">rvm:</span><br><span class="line"> - 2.2</span><br><span class="line"> - jruby</span><br></pre></td></tr></table></figure>
+
+<p>通过访问<a href="https://travis-ci.com/auth" target="_blank" rel="noopener">Travis CI</a> 并选择repository，检查构建状态页面，以根据构建命令的返回状态查看构建是否通过或失败。</p>
+
+      
+    </div>
+    
+      
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+    
+  </section>
+  
+    
+    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
+    
+    
+
+  
+
+
+    
+  
+</div>
+<aside class='l_side'>
+  
+  
+    
+    
+
+<section class="widget blogger shadow desktop mobile">
+  <div class='content'>
+    
+      
+        <a class='avatar flat-box' href='/about/'>
+          <img no-lazy src='https://i.loli.net/2020/07/04/9yFH4KRMhDnTImo.jpg'/>
+        </a>
+      
+    
+    
+      <div class='text'>
+        
+        
+          <p>Stay foolish, Stay hungry.</p>
+
+        
+        
+      </div>
+    
+    
+      <div class="social-wrapper">
         
           
+            <a href="/atom.xml"
+              class="social fas fa-rss flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="mailto:aikangtongxue@gamil.com"
+              class="social fas fa-envelope flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://github.com/0xAikang"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://music.163.com/#/user/home?id=112719323"
+              class="social fas fa-headphones-alt flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+  
+
+  <section class="widget category shadow desktop">
+    
+  <header>
+    
+      <a href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+    
+  </header>
 
 
-  <section class='meta' id="footer-meta">
-    <div class='new-meta-box'>
-      
+    <div class='content'>
+      <ul class="entry navigation">
+        
+          <li><a class="flat-box"
+            title="/categories/tutorial/" href="/categories/tutorial/"
+            id="categoriestutorial"
+            ><div class='name'>tutorial</div><div class='badge'>(3)</div></a></li>
+        
+      </ul>
     </div>
   </section>
 
 
-        
-        
-      </section>
-    </article>
   
 
   
-    <!-- 显示推荐文章和评论 -->
+    
+    
+  
+
+  <section class="widget tagcloud shadow desktop mobile">
+    
+  <header>
+    
+      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
+    
+  </header>
 
 
-
-  <article class="post white-box reveal comments shadow">
-    <section class="article typo">
-      <p ct><i class='fas fa-comments'></i> 评论</p>
-      
-      
-      
-      
-      
-      
-        <section id="comments">
-          <div id="valine_container" class="valine_thread">
-            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
-          </div>
-        </section>
-      
-      
-    </section>
-  </article>
+    <div class='content'>
+      <a href="/tags/CI/" style="font-size: 14px; color: #999">CI</a> <a href="/tags/hexo/" style="font-size: 14px; color: #999">hexo</a> <a href="/tags/tutorial/" style="font-size: 24px; color: #555">tutorial</a>
+    </div>
+  </section>
 
 
   
 
-
-
-
-<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
-
-
-
-
-</div>
-<aside class='l_side'>
   
+
 
 </aside>
 
@@ -559,62 +743,6 @@
 
 
 
-
-  
-    
-<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
-
-  
-  <script>
-  var GUEST_INFO = ['nick','mail','link'];
-  var meta = 'nick,mail,link'.split(',').filter(function(item){
-    return GUEST_INFO.indexOf(item) > -1
-  });
-  var REQUIRED_FIELDS = ['nick','mail','link'];
-  var requiredFields = 'nick,mail'.split(',').filter(function(item){
-    return REQUIRED_FIELDS.indexOf(item) > -1
-  });
-  var valine = new Valine();
-  function emoji(path, idx, ext) {
-      return path + "/" + path + "-" + idx + "." + ext;
-  }
-  var emojiMaps = {};
-  for (var i = 1; i <= 54; i++) {
-    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
-  }
-  for (var i = 1; i <= 101; i++) {
-    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
-  }
-  for (var i = 1; i <= 116; i++) {
-    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
-  }
-  for (var i = 1; i <= 125; i++) {
-    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
-  }
-  for (var i = 1; i <= 4; i++) {
-    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
-  }
-  valine.init({
-    el: '#valine_container',
-    meta: meta,
-    
-      path: "/404.html",
-    
-    appId: "prAyvaUeadxadA2wpcBQqNQn-gzGzoHsz",
-    appKey: "vkyEUTw0BixVjfFpFIzUdhak",
-    placeholder: "请留言告诉我您要访问哪个页面找不到了",
-    pageSize:'10',
-    avatar:'robohash',
-    lang:'zh-cn',
-    visitor: 'true',
-    highlight: 'true',
-    mathJax: 'false',
-    enableQQ: 'true',
-    requiredFields: requiredFields,
-    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
-    emojiMaps: emojiMaps
-  })
-  </script>
 
 
 
