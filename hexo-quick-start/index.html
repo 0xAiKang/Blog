@@ -18,7 +18,7 @@
   
     <title>Hexo 快速上手 - Boo</title>
   
-    <meta name="keywords" content="tutorial,hexo">
+    <meta name="keywords" content="hexo,tutorial">
   
   
 
@@ -406,9 +406,27 @@
 <p>编辑<code>_config.yml</code></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Plugins:</span><br><span class="line">- hexo-generator-cname</span><br></pre></td></tr></table></figure>
 <p>推荐第三种方式，简单方便。</p>
+<h3 id="配置apex-域"><a href="#配置apex-域" class="headerlink" title="配置apex 域"></a>配置apex 域</h3><p>Github Pages 是支持绑定自己的私有域名的，但默认只能绑定 <code>CNAME</code>的私有子域名，那有没有办法主域名呢？</p>
+<p>答案是有的。</p>
+<p>如果绑定主域名，例如 example.com，建议还设置一个 <code>www</code> 子域，GitHub Pages 将自动在域之间创建重定向，当输入<code>example.com</code>时，会重定向到 <code>www.example.com</code>。</p>
+<p>通常我们绑定好私有子域名之后，回生成一个<code>CNAME</code>的文件，里面记录着我们绑定好的私有子域名。</p>
+<p>此时只需要去DNS 做解析，创建一个ALIAS、ANAME 或 A 记录：</p>
+<ul>
+<li>创建ALIAS、ANAME记录：将 apex 域指向站点的默认域。</li>
+<li>创建A 记录：将 apex 域指向 GitHub Pages 的 IP 地址。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; GitHub Pages 的 IP 地址</span><br><span class="line">185.199.108.153</span><br><span class="line">185.199.109.153</span><br><span class="line">185.199.110.153</span><br><span class="line">185.199.111.153</span><br></pre></td></tr></table></figure>
+
+<p>这里我选择的是创建A 记录，所以我的DNS 解析是这样的：</p>
+<p><img src="https://raw.githubusercontent.com/0xAiKang/CDN/master/blog/images/20200706203008.png" alt="DNS解析A记录"></p>
+<p>配置完DNS 解析之后，可以使用<code>dig</code>命令来检验是否解析成功：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ dig example.com +noall +answer</span><br><span class="line"></span><br><span class="line">; &lt;&lt;&gt;&gt; DiG 9.10.6 &lt;&lt;&gt;&gt; aikang.me +noall +answer</span><br><span class="line">;; global options: +cmd</span><br><span class="line">aikang.me.		4502	IN	A	185.199.111.153</span><br><span class="line">aikang.me.		4502	IN	A	185.199.110.153</span><br><span class="line">aikang.me.		4502	IN	A	185.199.108.153</span><br><span class="line">aikang.me.		4502	IN	A	185.199.109.153</span><br></pre></td></tr></table></figure>
+<p>将example.com 替换成你自己的 apex 域，确认结果与上面 GitHub Pages 的 IP 地址相匹配。</p>
+<p>至此，就完成了apex 域的配置了。</p>
 <h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
 <li><a href="https://www.cnblogs.com/chengxs/p/7496265.html" target="_blank" rel="noopener">github+hexo搭建自己的博客网站（七）注意事项</a></li>
 <li><a href="https://hexo.io/zh-cn/docs/commands" target="_blank" rel="noopener">Hexo | 指令</a></li>
+<li><a href="https://docs.github.com/cn/github/working-with-github-pages/managing-a-custom-domain-for-your-github-pages-site#configuring-an-apex-domain" target="_blank" rel="noopener">管理 GitHub Pages 站点的自定义域</a></li>
 </ul>
 
           
@@ -483,10 +501,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-05T14:22:51+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-06T20:34:54+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：2020年7月5日</p>
+    <p>更新于：2020年7月6日</p>
   </a>
 </div>
 
@@ -495,7 +513,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/tutorial/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>tutorial</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/hexo/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>hexo</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/hexo/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>hexo</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/tutorial/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>tutorial</p></a></div>
 
 
         
@@ -653,7 +671,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#常用命令"><span class="toc-text">常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#init"><span class="toc-text">init</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#new"><span class="toc-text">new</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#generate"><span class="toc-text">generate</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#publish"><span class="toc-text">publish</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#server"><span class="toc-text">server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#deploy"><span class="toc-text">deploy</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#clean"><span class="toc-text">clean</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#list"><span class="toc-text">list</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#version"><span class="toc-text">version</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他模式"><span class="toc-text">其他模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#安全模式"><span class="toc-text">安全模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#调试模式"><span class="toc-text">调试模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#显示草稿"><span class="toc-text">显示草稿</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见问题"><span class="toc-text">常见问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CNAME-文件被删除"><span class="toc-text">CNAME 文件被删除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#常用命令"><span class="toc-text">常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#init"><span class="toc-text">init</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#new"><span class="toc-text">new</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#generate"><span class="toc-text">generate</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#publish"><span class="toc-text">publish</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#server"><span class="toc-text">server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#deploy"><span class="toc-text">deploy</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#clean"><span class="toc-text">clean</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#list"><span class="toc-text">list</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#version"><span class="toc-text">version</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他模式"><span class="toc-text">其他模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#安全模式"><span class="toc-text">安全模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#调试模式"><span class="toc-text">调试模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#显示草稿"><span class="toc-text">显示草稿</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见问题"><span class="toc-text">常见问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CNAME-文件被删除"><span class="toc-text">CNAME 文件被删除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置apex-域"><span class="toc-text">配置apex 域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
     </div>
   </section>
 
