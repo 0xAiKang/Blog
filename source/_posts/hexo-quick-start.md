@@ -128,6 +128,48 @@ Plugins:
 ```
 推荐第三种方式，简单方便。
 
+### 配置apex 域
+Github Pages 是支持绑定自己的私有域名的，但默认只能绑定 `CNAME`的私有子域名，那有没有办法主域名呢？
+
+答案是有的。
+
+如果绑定主域名，例如 example.com，建议还设置一个 `www` 子域，GitHub Pages 将自动在域之间创建重定向，当输入`example.com`时，会重定向到 `www.example.com`。
+
+通常我们绑定好私有子域名之后，回生成一个`CNAME`的文件，里面记录着我们绑定好的私有子域名。
+
+此时只需要去DNS 做解析，创建一个ALIAS、ANAME 或 A 记录：
+* 创建ALIAS、ANAME记录：将 apex 域指向站点的默认域。
+* 创建A 记录：将 apex 域指向 GitHub Pages 的 IP 地址。
+
+```
+// GitHub Pages 的 IP 地址
+185.199.108.153
+185.199.109.153
+185.199.110.153
+185.199.111.153
+```
+
+这里我选择的是创建A 记录，所以我的DNS 解析是这样的：
+
+![DNS解析A记录](https://raw.githubusercontent.com/0xAiKang/CDN/master/blog/images/20200706203008.png)
+
+配置完DNS 解析之后，可以使用`dig`命令来检验是否解析成功：
+
+```
+$ dig example.com +noall +answer
+
+; <<>> DiG 9.10.6 <<>> aikang.me +noall +answer
+;; global options: +cmd
+aikang.me.		4502	IN	A	185.199.111.153
+aikang.me.		4502	IN	A	185.199.110.153
+aikang.me.		4502	IN	A	185.199.108.153
+aikang.me.		4502	IN	A	185.199.109.153
+```
+将example.com 替换成你自己的 apex 域，确认结果与上面 GitHub Pages 的 IP 地址相匹配。
+
+至此，就完成了apex 域的配置了。
+
 ### 参考链接
 * [github+hexo搭建自己的博客网站（七）注意事项](https://www.cnblogs.com/chengxs/p/7496265.html)
 * [Hexo | 指令](https://hexo.io/zh-cn/docs/commands)
+* [管理 GitHub Pages 站点的自定义域](https://docs.github.com/cn/github/working-with-github-pages/managing-a-custom-domain-for-your-github-pages-site#configuring-an-apex-domain)
