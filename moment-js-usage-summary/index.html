@@ -16,7 +16,9 @@
 
   <!-- 页面元数据 -->
   
-    <title>404 Not Found - Boo</title>
+    <title>moment.js 用法总结 - Boo</title>
+  
+    <meta name="keywords" content="JavaScript">
   
   
 
@@ -71,13 +73,15 @@
   <div id="loading-bar-wrapper">
   <div id="loading-bar"></div>
 </div>
-<header class="l_header no_sidebar shadow blur">
+<header class="l_header shadow blur">
   <div class='container'>
   <div class='wrapper'>
     <div class='nav-sub'>
       <p class="title"></p>
       <ul class='switcher nav-list-h'>
         <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
         
       </ul>
     </div>
@@ -261,11 +265,11 @@
     <div class='body-wrapper'>
       
 
-<div class='l_main no_sidebar'>
+<div class='l_main'>
   
 
   
-    <article id="page" class="post white-box reveal shadow article-type-page" itemscope itemprop="blogPost">
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
       
 
 
@@ -275,9 +279,61 @@
       
       <div class="meta" id="header-meta">
         
+          
+  <h1 class="title">
+    <a href="/moment-js-usage-summary/">
+      moment.js 用法总结
+    </a>
+  </h1>
+
+
+        
         <div class='new-meta-box'>
           
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.aikang.me" rel="nofollow">
+    <img src="https://i.loli.net/2020/07/05/GsQ2dLqZguO9JB7.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/%E6%8A%80%E6%9C%AF%E6%80%BB%E7%BB%93/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>技术总结</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2020年7月7日</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
         </div>
+        
+          <hr>
         
       </div>
     
@@ -287,9 +343,88 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p class='p center huge'>404</p>
-<p class='p center bold'>很抱歉，您访问的页面不存在</p>
-<p class='p center small'>可能是输入地址有误或该地址已被删除</p>
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近在做的一个前端项目，经常会遇到对时间的处理，因为原生的时间格式处理起来很费劲，所以引入了一个轻量级的日期处理类库。</p>
+<p><a href="http://momentjs.cn/" target="_blank" rel="noopener">momentjs</a> 支持日期格式化、Date、时间戳等相互转换，它使得操作时间变得非常简单。</p>
+<h3 id="快速上手"><a href="#快速上手" class="headerlink" title="快速上手"></a>快速上手</h3><p><code>momentjs</code>支持多个环境，所有的代码都应该在这两种环境中都可以工作。</p>
+<h4 id="Node-js"><a href="#Node-js" class="headerlink" title="Node.js"></a>Node.js</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install moment</span><br><span class="line">var moment &#x3D; require(&#39;moment&#39;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="浏览器"><a href="#浏览器" class="headerlink" title="浏览器"></a>浏览器</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src&#x3D;&quot;https:&#x2F;&#x2F;cdn.bootcss.com&#x2F;moment.js&#x2F;2.9.0&#x2F;moment.js&quot;&gt;&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p>获取当前的日期和时间：</p>
+<h4 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">moment();</span><br></pre></td></tr></table></figure>
+<p>相当于moment(new Date()) 此处会返回一个moment封装的<strong>日期对象</strong>。</p>
+<p><img src="https://raw.githubusercontent.com/0xAiKang/CDN/master/blog/images/20200707190535.png" alt=""></p>
+<h4 id="格式化"><a href="#格式化" class="headerlink" title="格式化"></a>格式化</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">moment().format(&#39;YYYY年MM月DD日 HH:mm:ss&#39;) &#x2F;&#x2F; &quot;2020年07月07日 07:49:38&quot;</span><br><span class="line">moment().format(&#39;YYYY-MM-DD HH:mm:ss&#39;) &#x2F;&#x2F; &quot;2020-07-07 07:50:57&quot;</span><br><span class="line">moment().format(&#39;YYYY&#x2F;MM&#x2F;DD HH:mm:ss&#39;) &#x2F;&#x2F; &quot;2020&#x2F;07&#x2F;07 07:51:17&quot;</span><br><span class="line">moment().format(&#39;hh:m:ss&#39;) &#x2F;&#x2F; &quot;07:51:34&quot;</span><br><span class="line">moment().format(&#39;YYYY&#39;) &#x2F;&#x2F; &quot;2020&quot;</span><br><span class="line">moment().format(&#39;d&#39;) &#x2F;&#x2F; 2，今天是周二</span><br><span class="line">moment().format(&#39;X&#39;) &#x2F;&#x2F; 获取当前时间的Unix时间戳</span><br></pre></td></tr></table></figure>
+
+<h4 id="转换为Date对象"><a href="#转换为Date对象" class="headerlink" title="转换为Date对象"></a>转换为Date对象</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">moment().toDate() &#x2F;&#x2F; Mon Jan 22 2018 18:11:55 GMT+0800 (中国标准时间)</span><br><span class="line">moment(&#39;2018-01-20&#39;).toDate() &#x2F;&#x2F; Tue Jan 20 2015 00:00:00 GMT+0800 (中国标准时间)</span><br><span class="line">moment(&#39;2018-01-22 10:20:15&#39;).toDate() &#x2F;&#x2F; Mon Jan 22 2018 10:20:15 GMT+0800 (中国标准时间)</span><br><span class="line">moment(1448896064621).toDate() &#x2F;&#x2F;毫秒转日期</span><br></pre></td></tr></table></figure>
+
+<h4 id="获取时间信息"><a href="#获取时间信息" class="headerlink" title="获取时间信息"></a>获取时间信息</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">moment().second() &#x2F;&#x2F; 获取当前这一分钟的多少秒</span><br><span class="line">moment().date() &#x2F;&#x2F; 获取天</span><br><span class="line">moment().day()  &#x2F;&#x2F; 获取星期</span><br><span class="line">moment().dayOfYear()  &#x2F;&#x2F; 一年内的多少天</span><br><span class="line">moment().week() &#x2F;&#x2F; 一年里的多少周</span><br><span class="line">moment().month()  &#x2F;&#x2F; 获取当前月份（实际月份-1）</span><br><span class="line">moment().quarter() &#x2F;&#x2F; 一年内的第几个季度</span><br><span class="line">moment().year() &#x2F;&#x2F; 获取年份</span><br><span class="line">moment().daysInMonth() &#x2F;&#x2F; 获取当月天数</span><br></pre></td></tr></table></figure>
+
+<h4 id="显示"><a href="#显示" class="headerlink" title="显示"></a>显示</h4><p>一旦解析和操作完成后，需要某些方式来显示 moment。</p>
+<p>使用<code>format</code>来格式化日期：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">moment().format() &#x2F;&#x2F; &quot;2020-07-07T08:24:35+08:00&quot;</span><br><span class="line">moment.unix(timestamp).format(&#39;YYYY-MM-DD HH:mm:ss&#39;);   &#x2F;&#x2F; 将Unix 时间戳转换为日期格式</span><br><span class="line">moment(timestamp).format(&#39;YYYY-MM-DD HH:mm:ss&#39;);   &#x2F;&#x2F; 将Unix 毫秒时间戳转换为日期格式</span><br><span class="line">moment().unix();        &#x2F;&#x2F; 获取Unix 时间戳</span><br><span class="line">moment().format(&quot;X&quot;);   &#x2F;&#x2F; 获取Unix 时间戳</span><br><span class="line">moment().format(&quot;x&quot;);   &#x2F;&#x2F; 获取Unix 毫秒时间戳</span><br></pre></td></tr></table></figure>
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.aikang.me/moment-js-usage-summary/>https://www.aikang.me/moment-js-usage-summary/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
           
         </div>
         
@@ -299,11 +434,103 @@
   <section class='meta' id="footer-meta">
     <div class='new-meta-box'>
       
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-07T19:06:10+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：2020年7月7日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/JavaScript/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>JavaScript</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.aikang.me/moment-js-usage-summary/&title=moment.js 用法总结 - Boo&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.aikang.me/moment-js-usage-summary/&title=moment.js 用法总结 - Boo&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.aikang.me/moment-js-usage-summary/&title=moment.js 用法总结 - Boo&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAAC80lEQVR42u3aS67sIAwE0N7/pvvNr14LXCZSnBxm/QHCyaRk8/ka/x0fBGDAgAEDBswYmE844o0X8//+vvr8a356HjBgwIABAwbMPJj0YLtwPx+kCVGFX54HDBgwYMCAATMWZhmAwgdf7XPV85TngwEDBgwYMGBeD9MtSFUDJBgwYMCAAQMGTHWh3WDXDWa78GDAgAEDBgyY98KkDa1uEEwvJJ1u0IEBAwYMGDBg5sHEF4Zv+jk+DxgwYMCAAQNmDEx3VBtgpwpc3WD4c18wYMCAAQMGzBiYdmGnGbDSwlYVavt/YMCAAQMGDJgxMNVAVZ3XDXDdYLf7YsCAAQMGDBgwz4GpHvjU92mgrM4HAwYMGDBgwMyH6TawuoDdi0FpgQwMGDBgwIABMx8mbXh1G2K7L6LbECwHSDBgwIABAwbMGJj0gVPAKlwa/NILRGDAgAEDBgyYOTBpYan7YN/DIw2e5UIVGDBgwIABA+a2MO2Fw4ZZWnhKg2S5ggcGDBgwYMCAuS1MCnSq4dWFT18AGDBgwIABA+b5MOUNig2v6gWj8sXm3XXBgAEDBgwYMGNhTgWv3UCWHjy9sBQXqsCAAQMGDBgwt4e5qmCUFsRO77PcFwwYMGDAgAEzBubYgs0CVxzIigFxOQ8MGDBgwIABMxZmd4FqMLz6BXQDKxgwYMCAAQPmOTCnD7K7TgpRDZLlQhUYMGDAgAED5vYwuxt1g9x3c3SDYhkYDBgwYMCAATMOpntB53Rwqwa73bEEBgMGDBgwYMCMgemOtIDUPchVjUAwYMCAAQMGzByYTzhSwOp6K5DywdNCFRgwYMCAAQPmtjDdQNdtdKUFrG4hCwwYMGDAgAHzHJi4URX+v1v4Oh1MwYABAwYMGDDvhakGt1MXf46tCwYMGDBgwIB5LUz3AN2LQWnBCwwYMGDAgAEzH+ZUw+10w6x7MWl7PzBgwIABAwbMOJhuwaga7K4C6O4HBgwYMGDAgJkDY4ABAwYMGDBgho1/1BMfN4qt1QYAAAAASUVORK5CYII=">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
     </div>
   </section>
 
 
         
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/how-to-choose-a-picture-bed-that-suits-you/'>
+                <p class='title'>如何选择一个适合自己的图床<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>前言因为没有把博客部署在服务器上，而是选择GitHub Pages 的方式，所以如果遇到需要插入图片的时候，只能通过图床来存储图片。
+如果不是因为SM.MS 图床在今天突然挂掉了，我可能都不会去...</p>
+              </a>
+            
+          </div>
         
       </section>
     </article>
@@ -343,10 +570,42 @@
 
 
 
+  <script>
+    window.subData = {
+      title: 'moment.js 用法总结',
+      tools: true
+    }
+  </script>
+
 
 </div>
 <aside class='l_side'>
   
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#快速上手"><span class="toc-text">快速上手</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Node-js"><span class="toc-text">Node.js</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#浏览器"><span class="toc-text">浏览器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实例"><span class="toc-text">实例</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#创建"><span class="toc-text">创建</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#格式化"><span class="toc-text">格式化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#转换为Date对象"><span class="toc-text">转换为Date对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#获取时间信息"><span class="toc-text">获取时间信息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#显示"><span class="toc-text">显示</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </section>
+
+
+  
+
 
 </aside>
 
@@ -598,11 +857,9 @@
     el: '#valine_container',
     meta: meta,
     
-      path: "/404.html",
-    
     appId: "prAyvaUeadxadA2wpcBQqNQn-gzGzoHsz",
     appKey: "vkyEUTw0BixVjfFpFIzUdhak",
-    placeholder: "请留言告诉我您要访问哪个页面找不到了",
+    placeholder: "快来评论吧~",
     pageSize:'10',
     avatar:'robohash',
     lang:'zh-cn',
