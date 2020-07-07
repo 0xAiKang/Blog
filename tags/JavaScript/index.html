@@ -18,7 +18,7 @@
 
   <!-- 页面元数据 -->
   
-    <title>标签：JavaScript - Boo</title>
+    <title>Tag: JavaScript - Boo</title>
   
   
 
@@ -92,8 +92,8 @@
           
           
           
+            Boo's Blog
           
-            VOLANTIS <b><sup style='color:#3AA757'></sup></b>
           
         </a>
       
@@ -333,7 +333,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：2020年7月7日</p>
+    <p>发布于：Jul 7, 2020</p>
   </a>
 </div>
 
@@ -341,6 +341,19 @@
           
             
               
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>642 words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>3 min</p>
+    </a>
+  </div>
+
 
             
           
@@ -361,29 +374,17 @@
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近在做的一个前端项目，经常会遇到对时间的处理，因为原生的时间格式处理起来很费劲，所以引入了一个轻量级的日期处理类库。</p>
+        <p>最近在做的一个前端项目，经常会遇到对时间的处理，因为原生的时间格式处理起来很费劲，所以引入了一个轻量级的日期处理类库。</p>
 <p><a href="http://momentjs.cn/" target="_blank" rel="noopener">momentjs</a> 支持日期格式化、Date、时间戳等相互转换，它使得操作时间变得非常简单。</p>
-<h3 id="快速上手"><a href="#快速上手" class="headerlink" title="快速上手"></a>快速上手</h3><p><code>momentjs</code>支持多个环境，所有的代码都应该在这两种环境中都可以工作。</p>
-<h4 id="Node-js"><a href="#Node-js" class="headerlink" title="Node.js"></a>Node.js</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install moment</span><br><span class="line">var moment &#x3D; require(&#39;moment&#39;);</span><br></pre></td></tr></table></figure>
-
-<h4 id="浏览器"><a href="#浏览器" class="headerlink" title="浏览器"></a>浏览器</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src&#x3D;&quot;https:&#x2F;&#x2F;cdn.bootcss.com&#x2F;moment.js&#x2F;2.9.0&#x2F;moment.js&quot;&gt;&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
-
-<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p>获取当前的日期和时间：</p>
-<h4 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">moment();</span><br></pre></td></tr></table></figure>
-<p>相当于moment(new Date()) 此处会返回一个moment封装的<strong>日期对象</strong>。</p>
-<p><img src="https://raw.githubusercontent.com/0xAiKang/CDN/master/blog/images/20200707190535.png" alt=""></p>
-<h4 id="格式化"><a href="#格式化" class="headerlink" title="格式化"></a>格式化</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">moment().format(&#39;YYYY年MM月DD日 HH:mm:ss&#39;) &#x2F;&#x2F; &quot;2020年07月07日 07:49:38&quot;</span><br><span class="line">moment().format(&#39;YYYY-MM-DD HH:mm:ss&#39;) &#x2F;&#x2F; &quot;2020-07-07 07:50:57&quot;</span><br><span class="line">moment().format(&#39;YYYY&#x2F;MM&#x2F;DD HH:mm:ss&#39;) &#x2F;&#x2F; &quot;2020&#x2F;07&#x2F;07 07:51:17&quot;</span><br><span class="line">moment().format(&#39;hh:m:ss&#39;) &#x2F;&#x2F; &quot;07:51:34&quot;</span><br><span class="line">moment().format(&#39;YYYY&#39;) &#x2F;&#x2F; &quot;2020&quot;</span><br><span class="line">moment().format(&#39;d&#39;) &#x2F;&#x2F; 2，今天是周二</span><br><span class="line">moment().format(&#39;X&#39;) &#x2F;&#x2F; 获取当前时间的Unix时间戳</span><br></pre></td></tr></table></figure>
-
-<h4 id="转换为Date对象"><a href="#转换为Date对象" class="headerlink" title="转换为Date对象"></a>转换为Date对象</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">moment().toDate() &#x2F;&#x2F; Mon Jan 22 2018 18:11:55 GMT+0800 (中国标准时间)</span><br><span class="line">moment(&#39;2018-01-20&#39;).toDate() &#x2F;&#x2F; Tue Jan 20 2015 00:00:00 GMT+0800 (中国标准时间)</span><br><span class="line">moment(&#39;2018-01-22 10:20:15&#39;).toDate() &#x2F;&#x2F; Mon Jan 22 2018 10:20:15 GMT+0800 (中国标准时间)</span><br><span class="line">moment(1448896064621).toDate() &#x2F;&#x2F;毫秒转日期</span><br></pre></td></tr></table></figure>
-
-<h4 id="获取时间信息"><a href="#获取时间信息" class="headerlink" title="获取时间信息"></a>获取时间信息</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">moment().second() &#x2F;&#x2F; 获取当前这一分钟的多少秒</span><br><span class="line">moment().date() &#x2F;&#x2F; 获取天</span><br><span class="line">moment().day()  &#x2F;&#x2F; 获取星期</span><br><span class="line">moment().dayOfYear()  &#x2F;&#x2F; 一年内的多少天</span><br><span class="line">moment().week() &#x2F;&#x2F; 一年里的多少周</span><br><span class="line">moment().month()  &#x2F;&#x2F; 获取当前月份（实际月份-1）</span><br><span class="line">moment().quarter() &#x2F;&#x2F; 一年内的第几个季度</span><br><span class="line">moment().year() &#x2F;&#x2F; 获取年份</span><br><span class="line">moment().daysInMonth() &#x2F;&#x2F; 获取当月天数</span><br></pre></td></tr></table></figure>
-
-<h4 id="显示"><a href="#显示" class="headerlink" title="显示"></a>显示</h4><p>一旦解析和操作完成后，需要某些方式来显示 moment。</p>
-<p>使用<code>format</code>来格式化日期：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">moment().format() &#x2F;&#x2F; &quot;2020-07-07T08:24:35+08:00&quot;</span><br><span class="line">moment.unix(timestamp).format(&#39;YYYY-MM-DD HH:mm:ss&#39;);   &#x2F;&#x2F; 将Unix 时间戳转换为日期格式</span><br><span class="line">moment(timestamp).format(&#39;YYYY-MM-DD HH:mm:ss&#39;);   &#x2F;&#x2F; 将Unix 毫秒时间戳转换为日期格式</span><br><span class="line">moment().unix();        &#x2F;&#x2F; 获取Unix 时间戳</span><br><span class="line">moment().format(&quot;X&quot;);   &#x2F;&#x2F; 获取Unix 时间戳</span><br><span class="line">moment().format(&quot;x&quot;);   &#x2F;&#x2F; 获取Unix 毫秒时间戳</span><br></pre></td></tr></table></figure>
       
     </div>
     
+      
+        <div class="button readmore">
+          <a href="/moment-js-usage-summary/">
+            阅读全文 <i class="fas fa-chevron-right"></i>
+          </a>
+        </div>
       
     
   </section>
@@ -608,16 +609,16 @@
       
     
       
-        <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
 </div>
       
     
       
-        本站使用
+        Use
         <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
-        作为主题，总访问量为
+        as theme, total visits
           <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
-          次
+          times
         
       
     
@@ -625,13 +626,29 @@
         <div class='copyright'>
         <p><a href="https://www.aikang.me">Copyright © 2020-2020 Boo</a></p>
 
+        <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
         </div>
       
     
   </footer>
 
 <script>setLoadingBarProgress(80);</script>
-
+<script>
+  var now = new Date(); 
+  function createtime() { 
+      var grt= new Date("07/04/2020 14:12:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+  } 
+setInterval("createtime()",250);
+</script>
 
       <script>setLoadingBarProgress(60);</script>
     </div>

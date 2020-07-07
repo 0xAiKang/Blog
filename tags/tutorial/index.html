@@ -18,7 +18,7 @@
 
   <!-- 页面元数据 -->
   
-    <title>标签：Tutorial - Boo</title>
+    <title>Tag: Tutorial - Boo</title>
   
   
 
@@ -92,8 +92,8 @@
           
           
           
+            Boo's Blog
           
-            VOLANTIS <b><sup style='color:#3AA757'></sup></b>
           
         </a>
       
@@ -339,7 +339,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：2020年7月6日</p>
+    <p>发布于：Jul 6, 2020</p>
   </a>
 </div>
 
@@ -347,6 +347,19 @@
           
             
               
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>851 words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>3 min</p>
+    </a>
+  </div>
+
 
             
           
@@ -367,50 +380,20 @@
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>因为没有把博客部署在服务器上，而是选择GitHub Pages 的方式，所以如果遇到需要插入图片的时候，只能通过图床来存储图片。</p>
+        <p>因为没有把博客部署在服务器上，而是选择GitHub Pages 的方式，所以如果遇到需要插入图片的时候，只能通过图床来存储图片。</p>
 <p>如果不是因为<a href="https://sm.ms/" target="_blank" rel="noopener">SM.MS</a> 图床在今天突然挂掉了，我可能都不会去想是否需要更换图床这个问题。</p>
 <p><img src="https://raw.githubusercontent.com/0xAiKang/CDN/master/blog/images/20200706225801.png" alt=""></p>
 <p>于是我开始寻找一个免费、稳定的图床，最后在众多图床中，最后选择了GitHub 图床。</p>
 <p>使用GitHub 图床，可能唯一的问题是需要自备好科学上网工具，否则图片无法加载。</p>
-<blockquote>
-<p>为什么不选择国内的那些图床服务？</p>
-</blockquote>
-<p>我只是想存一些图片，而国内的大部分图床服务，还需要做域名备案以及绑定各种服务，感觉很繁琐，加上我的域名不是在国内的域名服务商那里买的，索性就没有考虑国内的图床服务。</p>
-<h3 id="图床管理工具"><a href="#图床管理工具" class="headerlink" title="图床管理工具"></a>图床管理工具</h3><p>有了图床，就需要顺手配置一个图床管理工具，这里我选择的是 <a href="https://github.com/Molunerfinn/PicGo" target="_blank" rel="noopener">PicGo</a>，仅目前支持的图床就有：SM.MS图床，微博图床，七牛图床，腾讯云COS，阿里云OSS，Imgur，又拍云，GitHub 图床等。</p>
-<h3 id="创建GitHub-图床"><a href="#创建GitHub-图床" class="headerlink" title="创建GitHub 图床"></a>创建GitHub 图床</h3><p>首先，你得有一个<a href="https://github.com/" target="_blank" rel="noopener">GitHub</a> 账号。</p>
-<h4 id="1-新建一个仓库"><a href="#1-新建一个仓库" class="headerlink" title="1. 新建一个仓库"></a>1. 新建一个仓库</h4><p>这个仓库是用于存储图片，最好是public，因为private的仓库，图片链接会带token，而这个token会存在过期的问题。</p>
-<h4 id="2-获取授权token"><a href="#2-获取授权token" class="headerlink" title="2. 获取授权token"></a>2. 获取授权token</h4><p>通过<code>Settings-&gt;Developer settings-&gt;Personal access tokens</code> <a href="https://github.com/settings/tokens/new" target="_blank" rel="noopener">创建一个新的token</a> 用于PicGo操作你的仓库。</p>
-<p>把repo的勾打上即可，点击Generate token的绿色按钮生成 token。</p>
-<p>创建成功后，会生成一串token，这串token之后不会再显示，所以第一次看到的时候最好保存好。</p>
-<h3 id="配置PicGo"><a href="#配置PicGo" class="headerlink" title="配置PicGo"></a>配置PicGo</h3><p>GitHub 图床的配置还是比较简单的，下面是参数说明。</p>
-<p><img src="https://raw.githubusercontent.com/0xAiKang/CDN/master/blog/images/20200706225324.png" alt=""></p>
-<ul>
-<li>仓库名：你的图床仓库的名称，格式为：<code>username/repository</code></li>
-<li>分支名：一般选择默认分支 <code>master</code></li>
-<li>Token：刚才生成的 Token</li>
-<li>存储路径：指定存放在仓库的哪个目录下</li>
-<li>自定义域名：<code>raw.githubusercontent.com/username/repository/branch</code></li>
-</ul>
-<p>自定义域名最好按照一定的规则去定义：<code>raw.githubusercontent.com</code>+你的github用户名+仓库名称+分支名称</p>
-<blockquote>
-<p><code>raw.githubusercontent.com</code> 是github用来存储用户上传文件的服务地址，是github 的素材服务器 (assets server)。</p>
-</blockquote>
-<p>通常配置完成之后，就可以直接使用了。</p>
-<p>如果你上传失败的情况，可以打开PicGo 的日志看看具体是什么异常</p>
-<p><img src="https://raw.githubusercontent.com/0xAiKang/CDN/master/blog/images/20200706220223.png" alt=""></p>
-<p>如果得到了这样的异常，那么大概率是因为你没有开启全局代理。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[PicGo ERROR] RequestError: Error: connect ECONNREFUSED 13.250.168.23:443&#96;</span><br></pre></td></tr></table></figure>
-<p>因为GitHub 服务器和国内 GFW 的问题会导致有时上传成功，有时上传失败，所以需要自备好科学上网工具。</p>
-<p>如果你还有其他问题，可以查阅 <a href="https://github.com/Molunerfinn/PicGo/blob/dev/FAQ.md" target="_blank" rel="noopener">PicGo FAQ</a>。</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
-<li>如果你和我一样，讨厌域名备案，又希望能有一个免费、稳定的图床，那么一定不要错过GitHub 图床。</li>
-<li>如果你只是需要存储一些不怎么重要的图片，那么可以使用免费不限大小的SM.MS图床。</li>
-<li>如果打算长期稳定使用可以优先选择又拍云或者七牛云。</li>
-</ul>
-
       
     </div>
     
+      
+        <div class="button readmore">
+          <a href="/how-to-choose-a-picture-bed-that-suits-you/">
+            阅读全文 <i class="fas fa-chevron-right"></i>
+          </a>
+        </div>
       
     
   </section>
@@ -472,7 +455,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：2020年7月5日</p>
+    <p>发布于：Jul 5, 2020</p>
   </a>
 </div>
 
@@ -480,6 +463,19 @@
           
             
               
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>564 words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>2 min</p>
+    </a>
+  </div>
+
 
             
           
@@ -500,34 +496,18 @@
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近使用Github Pages 搭建Hexo 时，用到了一项新技术。hmm…也不能说是新技术吧，只是之前一直有听说，但却没有实际用过。</p>
+        <p>最近使用Github Pages 搭建Hexo 时，用到了一项新技术。hmm…也不能说是新技术吧，只是之前一直有听说，但却没有实际用过。</p>
 <p>它就是持续集成，听上去好像是一个高大上的概念，但通俗一点解释就是：写完代码提交之后，会根据你的要求，自动做编译测试。</p>
-<p>其中最出名大概就是Travis CI了，本文的目的就是快速入门 Travis CI。</p>
-<h2 id="什么是持续集成？"><a href="#什么是持续集成？" class="headerlink" title="什么是持续集成？"></a>什么是持续集成？</h2><p>持续集成(Continuous Integration)是对小周期的的代码进行更改，其目的是通过以较小的增量开发和测试来构建更健康的软件。</p>
-<p>而Travis CI 作为一个持续集成平台，通过自动构建和测试代码，并提供更改成功的即时反馈。</p>
-<h3 id="快速上手"><a href="#快速上手" class="headerlink" title="快速上手"></a>快速上手</h3><p>在正式开始之前，需要提前准备好以下先决条件：</p>
-<ul>
-<li>一个 <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a> 帐户</li>
-<li>托管在 <a href="https://github.com/" target="_blank" rel="noopener">Github</a> 的项目的所有者权限</li>
-</ul>
-<p>需要注意的是：Travis CI不是完全免费的服务，前100个私有构建是免费的，后续就要进行付费，如果你的项目是开源的，或者你是学生，则不受限制。</p>
-<h4 id="在Github-上使用Travis-CI"><a href="#在Github-上使用Travis-CI" class="headerlink" title="在Github 上使用Travis CI"></a>在Github 上使用Travis CI</h4><ol>
-<li>将 <a href="https://github.com/marketplace/travis-ci" target="_blank" rel="noopener">Travis CI</a> 添加到你的 GitHub 账户中。</li>
-<li>前往 GitHub 的 <a href="https://github.com/settings/installations" target="_blank" rel="noopener">Applications settings</a>，配置 Travis CI 权限，使其能够访问你的 repository。</li>
-<li>前往 GitHub 新建 <a href="https://github.com/settings/tokens" target="_blank" rel="noopener">Personal Access Token</a>，只勾选 repo 的权限并生成一个新的 Token。Token 生成后请复制并保存好。</li>
-<li>回到 Travis CI，前往你的 repository 的设置页面，在 Environment Variables 下新建一个环境变量，Name 为 GH_TOKEN，Value 为刚才你在 GitHub 生成的 Token。确保 DISPLAY VALUE IN BUILD LOG 保持 不被勾选 避免你的 Token 泄漏。点击 Add 保存。</li>
-<li>在你的项目中新建一个 <code>.travis.yml</code> 文件。</li>
-<li>提交并推送以触发Travis CI构建。</li>
-</ol>
-<p>其中<code>.travis.yml</code>文件的目的是告诉 Travis CI 应该做些什么。</p>
-<p>以下示例指定了应使用Ruby 2.2和最新版本的JRuby构建的Ruby项目。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">language: ruby</span><br><span class="line">rvm:</span><br><span class="line"> - 2.2</span><br><span class="line"> - jruby</span><br></pre></td></tr></table></figure>
-
-<p>通过访问<a href="https://travis-ci.com/auth" target="_blank" rel="noopener">Travis CI</a> 并选择repository，检查构建状态页面，以根据构建命令的返回状态查看构建是否通过或失败。</p>
-
+<p>其中最出名大概就是<a href="https://travis-ci.com/" target="_blank" rel="noopener">Travis CI</a>了，本文的目的就是快速入门 Travis CI。</p>
       
     </div>
     
+      
+        <div class="button readmore">
+          <a href="/travis-ci-quick-start/">
+            阅读全文 <i class="fas fa-chevron-right"></i>
+          </a>
+        </div>
       
     
   </section>
@@ -589,7 +569,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：2020年7月5日</p>
+    <p>发布于：Jul 5, 2020</p>
   </a>
 </div>
 
@@ -597,6 +577,19 @@
           
             
               
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>1.2k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>4 min</p>
+    </a>
+  </div>
+
 
             
           
@@ -617,95 +610,16 @@
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近使用Hexo 搭建了一套博客系统，整个过程还算顺利，不过还是遇到了一些问题，整理记录一下。</p>
-<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><h3 id="init"><a href="#init" class="headerlink" title="init"></a>init</h3><p>新建一个网站。如果没有设置 <code>folder</code>，Hexo 默认在目前的文件夹建立网站。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init [folder]</span><br></pre></td></tr></table></figure>
-
-<h3 id="new"><a href="#new" class="headerlink" title="new"></a>new</h3><p>layout 有三种选择：</p>
-<ul>
-<li>post：新建一片文章</li>
-<li>page：新建一个页面</li>
-<li>draft：新建一篇草稿</li>
-</ul>
-<p>如果没有设置 layout 的话，默认使用 _config.yml 中的 default_layout 参数代替。如果标题包含空格的话，请使用引号括起来。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new [layout] &lt;title&gt;</span><br></pre></td></tr></table></figure>
-
-<h3 id="generate"><a href="#generate" class="headerlink" title="generate"></a>generate</h3><p>生成静态文件。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br><span class="line">&#x2F;&#x2F; 等效于 hexo g</span><br></pre></td></tr></table></figure>
-<p>常用参数：<br>|选项|描述|<br>|-|-|<br>|-d, –deploy|文件生成后立即部署网站|<br>|-w, –watch|监视文件变动|<br>|-b, –bail|生成过程中如果发生任何未处理的异常则抛出异常|</p>
-<h3 id="publish"><a href="#publish" class="headerlink" title="publish"></a>publish</h3><p>发表草稿</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo publish [layout] &lt;filename&gt;</span><br></pre></td></tr></table></figure>
-
-<h3 id="server"><a href="#server" class="headerlink" title="server"></a>server</h3><p>启动服务器。默认情况下，访问网址为： <code>http://localhost:4000/</code>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br><span class="line">&#x2F;&#x2F; 等效于 hexo s</span><br></pre></td></tr></table></figure>
-
-<h3 id="deploy"><a href="#deploy" class="headerlink" title="deploy"></a>deploy</h3><p>部署网站。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br><span class="line">&#x2F;&#x2F; 等效于 hexo d</span><br></pre></td></tr></table></figure>
-
-<p><code>-g</code>，<code>--generate</code>：部署之前预先生成静态文件</p>
-<h3 id="clean"><a href="#clean" class="headerlink" title="clean"></a>clean</h3><p>清除缓存文件 (db.json) 和已生成的静态文件 (public)。</p>
-<p>在某些情况（尤其是更换主题后），如果发现对站点的更改无论如何也不生效，那可能需要运行该命令。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo clean</span><br></pre></td></tr></table></figure>
-
-<h3 id="list"><a href="#list" class="headerlink" title="list"></a>list</h3><p>列出网站资料。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo list</span><br></pre></td></tr></table></figure>
-
-<h3 id="version"><a href="#version" class="headerlink" title="version"></a>version</h3><p>显示 Hexo 版本。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo version</span><br></pre></td></tr></table></figure>
-
-<h3 id="其他模式"><a href="#其他模式" class="headerlink" title="其他模式"></a>其他模式</h3><h4 id="安全模式"><a href="#安全模式" class="headerlink" title="安全模式"></a>安全模式</h4><p>在安全模式下，不会载入插件和脚本。当需要安装新插件遭遇问题时，可以尝试以安全模式重新执行。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo --safe</span><br></pre></td></tr></table></figure>
-
-<h4 id="调试模式"><a href="#调试模式" class="headerlink" title="调试模式"></a>调试模式</h4><p>在终端中显示调试信息并记录到 debug.log。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo --debug</span><br></pre></td></tr></table></figure>
-
-<h4 id="显示草稿"><a href="#显示草稿" class="headerlink" title="显示草稿"></a>显示草稿</h4><p>显示 source/_drafts 文件夹中的草稿文章。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo --draft</span><br></pre></td></tr></table></figure>
-
-<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="CNAME-文件被删除"><a href="#CNAME-文件被删除" class="headerlink" title="CNAME 文件被删除"></a>CNAME 文件被删除</h3><p>GitHub Pages 为我们免费提供了<code>&lt;username&gt;.github.io</code>这样的域名作为 GitHub Page，但如果你觉得这个域名太长了，不满意，那么你也可以绑定自己的域名。</p>
-<p>通常绑定完成之后，会在项目目录下面生成一个叫做<code>CNAME</code>的文件，这个文件的作用就是用来记录GitHub Pages 所绑定的域名。</p>
-<p>这个时候就会产生一个问题：</p>
-<blockquote>
-<p>CNAME文件会在每次 hexo deploy 时消失，然后需要重新手动绑定，这样就很繁琐。</p>
-</blockquote>
-<p>有以下几种方式可以解决这个问题：</p>
-<ol>
-<li>每次 <code>hexo d</code> 之后，就去 GitHub 仓库根目录新建 CNAME文件。—— 繁琐</li>
-<li>在 <code>hexo g</code> 之后， <code>hexo d</code> 之前，把CNAME文件复制到 <code>public</code> 目录下面，里面写入你要绑定的域名。—— 繁琐</li>
-<li>将需要上传至 GitHub 的内容放在<code>source</code>文件夹，例如CNAME、favicon.ico、images等，这样在 <code>hexo d</code> 之后就不会被删除了。</li>
-<li>通过安装插件实现永久保留。</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-generator-cname --save</span><br></pre></td></tr></table></figure>
-
-<p>编辑<code>_config.yml</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Plugins:</span><br><span class="line">- hexo-generator-cname</span><br></pre></td></tr></table></figure>
-<p>推荐第三种方式，简单方便。</p>
-<h3 id="配置apex-域"><a href="#配置apex-域" class="headerlink" title="配置apex 域"></a>配置apex 域</h3><p>Github Pages 是支持绑定自己的私有域名的，但默认只能绑定 <code>CNAME</code>的私有子域名，那有没有办法主域名呢？</p>
-<p>答案是有的。</p>
-<p>如果绑定主域名，例如 example.com，建议还设置一个 <code>www</code> 子域，GitHub Pages 将自动在域之间创建重定向，当输入<code>example.com</code>时，会重定向到 <code>www.example.com</code>。</p>
-<p>通常我们绑定好私有子域名之后，回生成一个<code>CNAME</code>的文件，里面记录着我们绑定好的私有子域名。</p>
-<p>此时只需要去DNS 做解析，创建一个ALIAS、ANAME 或 A 记录：</p>
-<ul>
-<li>创建ALIAS、ANAME记录：将 apex 域指向站点的默认域。</li>
-<li>创建A 记录：将 apex 域指向 GitHub Pages 的 IP 地址。</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; GitHub Pages 的 IP 地址</span><br><span class="line">185.199.108.153</span><br><span class="line">185.199.109.153</span><br><span class="line">185.199.110.153</span><br><span class="line">185.199.111.153</span><br></pre></td></tr></table></figure>
-
-<p>这里我选择的是创建A 记录，所以我的DNS 解析是这样的：</p>
-<p><img src="https://raw.githubusercontent.com/0xAiKang/CDN/master/blog/images/20200706203008.png" alt="DNS解析A记录"></p>
-<p>配置完DNS 解析之后，可以使用<code>dig</code>命令来检验是否解析成功：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ dig example.com +noall +answer</span><br><span class="line"></span><br><span class="line">; &lt;&lt;&gt;&gt; DiG 9.10.6 &lt;&lt;&gt;&gt; aikang.me +noall +answer</span><br><span class="line">;; global options: +cmd</span><br><span class="line">aikang.me.		4502	IN	A	185.199.111.153</span><br><span class="line">aikang.me.		4502	IN	A	185.199.110.153</span><br><span class="line">aikang.me.		4502	IN	A	185.199.108.153</span><br><span class="line">aikang.me.		4502	IN	A	185.199.109.153</span><br></pre></td></tr></table></figure>
-<p>将example.com 替换成你自己的 apex 域，确认结果与上面 GitHub Pages 的 IP 地址相匹配。</p>
-<p>至此，就完成了apex 域的配置了。</p>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><a href="https://www.cnblogs.com/chengxs/p/7496265.html" target="_blank" rel="noopener">github+hexo搭建自己的博客网站（七）注意事项</a></li>
-<li><a href="https://hexo.io/zh-cn/docs/commands" target="_blank" rel="noopener">Hexo | 指令</a></li>
-<li><a href="https://docs.github.com/cn/github/working-with-github-pages/managing-a-custom-domain-for-your-github-pages-site#configuring-an-apex-domain" target="_blank" rel="noopener">管理 GitHub Pages 站点的自定义域</a></li>
-</ul>
-
+        <p>最近使用Hexo 搭建了一套博客系统，整个过程还算顺利，不过还是遇到了一些问题，整理记录一下。</p>
       
     </div>
     
+      
+        <div class="button readmore">
+          <a href="/hexo-quick-start/">
+            阅读全文 <i class="fas fa-chevron-right"></i>
+          </a>
+        </div>
       
     
   </section>
@@ -767,7 +681,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：2020年7月4日</p>
+    <p>发布于：Jul 4, 2020</p>
   </a>
 </div>
 
@@ -775,6 +689,19 @@
           
             
               
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>1.6k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>6 min</p>
+    </a>
+  </div>
+
 
             
           
@@ -795,118 +722,17 @@
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>关于个人博客，在很久之前就想自己搭建一套，甚至还为此买了一台服务器，但奈何自己太忙了(tai lan le) =_=，这件事情就一直搁浅了，服务器大部分时间也都是空闲状态。</p>
+        <p>关于个人博客，在很久之前就想自己搭建一套，甚至还为此买了一台服务器，但奈何自己太忙了(tai lan le) =_=，这件事情就一直搁浅了，服务器大部分时间也都是空闲状态。</p>
 <p>这段时间，突然很想把这件事情做好，觉得不能在这么拖下去了，所以便有了这篇文章。</p>
-<blockquote>
-<p>为什么使用Github Pages？</p>
-</blockquote>
-<p>我是出于以下原因考虑的：</p>
-<ol>
-<li>暂时没有服务器的需要，我只想有一个能写博客的地方。</li>
-<li>GitHub Pages 可以提供 https服务，我不用担心域名备案的问题。</li>
-<li>免费</li>
-</ol>
-<p>总之，如果你想用最简单、最省心的方式，搭建属于自己的博客，那么 Github Pages 一定不会让你失望。</p>
-<h2 id="系统环境"><a href="#系统环境" class="headerlink" title="系统环境"></a>系统环境</h2><ul>
-<li>Mac OS 10.15.4</li>
-<li>Node.js 12</li>
-<li>Hexo-cli: 3.1</li>
-<li>NPM: 6.9</li>
-</ul>
-<h3 id="创建Github-Pages"><a href="#创建Github-Pages" class="headerlink" title="创建Github Pages"></a>创建Github Pages</h3><p>Github Pages分为两类，用户或组织主页、项目主页。</p>
-<ul>
-<li>用户或组织主页：在新建仓库时，仓库名称应该以<code>&lt;yourusername&gt;.github.io</code>的格式去填写。<code>&lt;yourusername&gt;</code>指的是你的Github 的用户名称。</li>
-<li>创建项目主页：在新建仓库时，名称可以任意设置，然后通过<code>Setting-&gt;Options-&gt;Github Pages</code>将 <code>Source</code>选项设置为<code>Master Branch</code>，此时这个项目就变成一个 Github Pages项目了。</li>
-</ul>
-<p>需要注意的是：</p>
-<ol>
-<li>Github Pages 只针对开源的项目是免费的，如果你不想开源，那可能就需要考虑收费的套餐了。</li>
-<li>第一种方式不能更改 Github Pages 部署分支。</li>
-<li>如果你有自己的域名，那么推荐使用方式二创建 Github Pages。如果你没有自己的域名，那也没有关系，可以使用Github Pages 提供的域名访问<code>http://&lt;yourusername&gt;.github.io</code>。</li>
-</ol>
-<h3 id="绑定域名"><a href="#绑定域名" class="headerlink" title="绑定域名"></a>绑定域名</h3><p>如果你是通过方式一，创建的Github Pages，那么可以跳过此部分。</p>
-<p>在 2018 年 5 月 1 日之后，GitHub Pages 已经开始提供免费为自定义域名开启 HTTPS 的功能，并且大大简化了操作的流程，现在用户已经不再需要自己提供证书，只需要将自己的域名使用 CNAME 的方式指向自己的 GitHub Pages 域名即可。</p>
-<p>首先需要在你的 DNS 解析里添加一条解析记录，例如我选择添加子域名<code>blog.aikang.me</code>，通过 CNAME 的方式指向我刚刚自定义的 GitHub Pages 域名 <code>0xAiKang.github.io</code>。</p>
-<p><img src="https://i.loli.net/2020/07/04/BDX384QPIZqniJU.png" alt="DNS 域名解析"></p>
-<p>添加完成后等待 DNS 解析的生效的同时回到项目的<code>Setting</code>界面，将刚才的子域名与 Github Pages 绑定在一起。</p>
-<p>保存之后，我们只需要耐心等待 GitHub 生成证书并确认域名的解析是否正常。</p>
-<p><img src="https://i.loli.net/2020/07/04/OZ2Vu8p9tXgTj7q.png" alt="等待 GitHub 生成证书并确认域名解析正常"></p>
-<h3 id="将Hexo-部署到Github-Pages"><a href="#将Hexo-部署到Github-Pages" class="headerlink" title="将Hexo 部署到Github Pages"></a>将Hexo 部署到Github Pages</h3><p>域名解析成功之后，就可以通过我们刚才绑定的域名进行访问了，但是你会发现，现在只能看到一片空白，这是因为我们的网站还没有任何内容，所以下一步需要做的就是选择一套静态模版系统。</p>
-<p>目前市场上有很多优秀的静态模板系统，比如：</p>
-<ul>
-<li>Node.js 编写的 Hexo</li>
-<li>Go 编写的 Hugo</li>
-<li>Python 编写的 Pelican</li>
-<li>静态博客写作客户端 Gridea</li>
-</ul>
-<blockquote>
-<p>为什么要选择Hexo？</p>
-</blockquote>
-<p>最初在选择博客模版系统时，并没有发现 Gridea ，事后发现这个小众的静态博客写作客户端似乎才是我真正想要的。</p>
-<p>不过既然选择了Hexo，也是因为它的生态环境很大，可选主题非常多，并且都是开源的。</p>
-<blockquote>
-<p>如何将 Hexo 部署到 GitHub Pages？</p>
-</blockquote>
-<ol>
-<li>将 <a href="https://github.com/marketplace/travis-ci" target="_blank" rel="noopener">Travis CI</a> 添加到你的 GitHub 账户中。</li>
-<li>前往 GitHub 的 <a href="https://github.com/settings/installations" target="_blank" rel="noopener">Applications settings</a>，配置 Travis CI 权限，使其能够访问你的 repository。</li>
-<li>正常情况下你会被重定向到 Travis CI 的页面。如果没有，请 <a href="https://travis-ci.com/" target="_blank" rel="noopener">手动前往</a>。</li>
-<li>前往 GitHub 新建 <a href="https://github.com/settings/tokens" target="_blank" rel="noopener">Personal Access Token</a>，只勾选 repo 的权限并生成一个新的 Token。Token 生成后请复制并保存好。</li>
-<li>回到 Travis CI，前往你的 repository 的设置页面，在 Environment Variables 下新建一个环境变量，Name 为 GH_TOKEN，Value 为刚才你在 GitHub 生成的 Token。确保 DISPLAY VALUE IN BUILD LOG 保持 不被勾选 避免你的 Token 泄漏。点击 Add 保存。</li>
-<li>在你的 Hexo 站点文件夹中新建一个 <code>.travis.yml</code> 文件：</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">sudo: false</span><br><span class="line">language: node_js</span><br><span class="line">node_js:</span><br><span class="line">  - 10 # use nodejs v10 LTS</span><br><span class="line">cache: npm</span><br><span class="line">branches:</span><br><span class="line">  only:</span><br><span class="line">    - master # build master branch only</span><br><span class="line">script:</span><br><span class="line">  - hexo generate # generate static files</span><br><span class="line">deploy:</span><br><span class="line">  provider: pages</span><br><span class="line">  skip-cleanup: true</span><br><span class="line">  github-token: $GH_TOKEN</span><br><span class="line">  keep-history: true</span><br><span class="line">  on:</span><br><span class="line">    branch: master</span><br><span class="line">  local-dir: public</span><br></pre></td></tr></table></figure>
-<p>上面这个配置文件的作用是用来自动构建，编译测试。</p>
-<p>将 <code>.travis.yml</code> 推送到 repository 中。Travis CI 会自动开始运行，并将生成的文件推送到同一 repository 下的 <code>gh-pages</code> 分支下。</p>
-<h4 id="修改发布源"><a href="#修改发布源" class="headerlink" title="修改发布源"></a>修改发布源</h4><p>推送完成之后，会发现多了一个 <code>gh-gages</code>分支，这个分支就是用于部署站点的分支，但是GitHub Pages 会默认使用<code>master</code>分支作为发布源，所以我们需要切换发布源。</p>
-<p>在<code>Setting-&gt;Option-&gt;GitHub Pages</code>下，使用 Source（源）下拉菜单选择发布源。</p>
-<p><img src="https://i.loli.net/2020/07/04/AHldtP2bIhaqr8c.png" alt="修改默认源"></p>
-<p>注意：使用用户或组织主页构建的 Github Pages 不能修改发布源，只能使用默认的 <code>master</code>分支。</p>
-<h3 id="一键部署"><a href="#一键部署" class="headerlink" title="一键部署"></a>一键部署</h3><p>Hexo 提供了快速方便的一键部署功能，让你只需一条命令就能将网站部署到服务器上。</p>
-<p>在正式部署之前，我们需要先修改<code>_config.yml</code> 文件，配置参数。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: &lt;repository url&gt; #https:&#x2F;&#x2F;bitbucket.org&#x2F;JohnSmith&#x2F;johnsmith.bitbucket.io</span><br><span class="line">  branch: [branch]</span><br><span class="line">  message: [message]</span><br></pre></td></tr></table></figure>
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th>描述</th>
-<th>默认值</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>type</td>
-<td>deployer</td>
-<td>-</td>
-</tr>
-<tr>
-<td>repo</td>
-<td>项目地址</td>
-<td>-</td>
-</tr>
-<tr>
-<td>branch</td>
-<td>分支名称</td>
-<td>gh-pages</td>
-</tr>
-</tbody></table>
-<p>有以下两点需要注意：<br>1.repo 需要选择SSH 协议，HTTPS协议会报错。<br>2.branch 选择Github Pages中设置的那个分支，而不是拉取这个项目的分支</p>
-<p>我这里使用的是<code>git</code> 作为 deployer，所以需要手动安装一个插件。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
-
-<p>生成站点文件并部署至远程库：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo clean &amp;&amp; hexo deploy --generate</span><br></pre></td></tr></table></figure>
-
-<p>至此，就完成了使用Github Pages 部署 Hexo 个人博客的全部过程，总的来说还是很顺利的。</p>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><a href="https://sspai.com/post/54608" target="_blank" rel="noopener">Github Pages 搭建教程</a></li>
-<li><a href="https://hexo.io/zh-cn/docs/github-pages.html" target="_blank" rel="noopener">将Hexo 部署到 GitHub Pages</a></li>
-<li><a href="https://hexo.io/zh-cn/docs/one-command-deployment.html" target="_blank" rel="noopener">Hexo 一键部署</a></li>
-<li><a href="https://juejin.im/post/5acf02086fb9a028b92d8652#heading-15" target="_blank" rel="noopener">Github Pages部署个人博客（Hexo篇）</a></li>
-</ul>
-
       
     </div>
     
+      
+        <div class="button readmore">
+          <a href="/deploy-hexo-using-github-pages-personal-blog/">
+            阅读全文 <i class="fas fa-chevron-right"></i>
+          </a>
+        </div>
       
     
   </section>
@@ -1131,16 +957,16 @@
       
     
       
-        <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
 </div>
       
     
       
-        本站使用
+        Use
         <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
-        作为主题，总访问量为
+        as theme, total visits
           <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
-          次
+          times
         
       
     
@@ -1148,13 +974,29 @@
         <div class='copyright'>
         <p><a href="https://www.aikang.me">Copyright © 2020-2020 Boo</a></p>
 
+        <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
         </div>
       
     
   </footer>
 
 <script>setLoadingBarProgress(80);</script>
-
+<script>
+  var now = new Date(); 
+  function createtime() { 
+      var grt= new Date("07/04/2020 14:12:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+  } 
+setInterval("createtime()",250);
+</script>
 
       <script>setLoadingBarProgress(60);</script>
     </div>

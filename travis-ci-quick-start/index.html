@@ -18,8 +18,12 @@
   
     <title>Travis CI 快速上手 - Boo</title>
   
-    <meta name="keywords" content="CI,Tutorial">
+    <meta name="keywords" content="Tutorial,CI">
   
+  
+    <meta name="description" content="最近使用Github Pages 搭建Hexo 时，用到了一项新技术。hmm…也不能说是新技术吧，只是之前一直有听说，但却没有实际用过。
+它就是持续集成，听上去好像是一个高大上的概念，但通俗一点解释就是：写完代码提交之后，会根据你的要求，自动做编译测试。
+其中最出名大概就是Travis CI了，本文的目的就是快速...">
   
 
   <!-- feed -->
@@ -92,8 +96,8 @@
           
           
           
+            Boo's Blog
           
-            VOLANTIS <b><sup style='color:#3AA757'></sup></b>
           
         </a>
       
@@ -320,7 +324,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：2020年7月5日</p>
+    <p>发布于：Jul 5, 2020</p>
   </a>
 </div>
 
@@ -328,6 +332,41 @@
           
             
               
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>564 words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>2 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/travis-ci-quick-start/" class="leancloud_visitors" data-flag-title="Travis CI 快速上手">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
 
             
           
@@ -343,9 +382,11 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近使用Github Pages 搭建Hexo 时，用到了一项新技术。hmm…也不能说是新技术吧，只是之前一直有听说，但却没有实际用过。</p>
+          <p>最近使用Github Pages 搭建Hexo 时，用到了一项新技术。hmm…也不能说是新技术吧，只是之前一直有听说，但却没有实际用过。</p>
 <p>它就是持续集成，听上去好像是一个高大上的概念，但通俗一点解释就是：写完代码提交之后，会根据你的要求，自动做编译测试。</p>
-<p>其中最出名大概就是Travis CI了，本文的目的就是快速入门 Travis CI。</p>
+<p>其中最出名大概就是<a href="https://travis-ci.com/" target="_blank" rel="noopener">Travis CI</a>了，本文的目的就是快速入门 Travis CI。</p>
+<a id="more"></a>
+
 <h2 id="什么是持续集成？"><a href="#什么是持续集成？" class="headerlink" title="什么是持续集成？"></a>什么是持续集成？</h2><p>持续集成(Continuous Integration)是对小周期的的代码进行更改，其目的是通过以较小的增量开发和测试来构建更健康的软件。</p>
 <p>而Travis CI 作为一个持续集成平台，通过自动构建和测试代码，并提供更改成功的即时反馈。</p>
 <h3 id="快速上手"><a href="#快速上手" class="headerlink" title="快速上手"></a>快速上手</h3><p>在正式开始之前，需要提前准备好以下先决条件：</p>
@@ -440,10 +481,21 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-07T19:13:39+08:00">
+          
+<div class='new-meta-item author'>
+  <a href="https://www.aikang.me" rel="nofollow">
+    <img src="https://i.loli.net/2020/07/05/GsQ2dLqZguO9JB7.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-07T21:14:48+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：2020年7月7日</p>
+    <p>更新于：Jul 7, 2020</p>
   </a>
 </div>
 
@@ -452,7 +504,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/CI/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>CI</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Tutorial/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Tutorial</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Tutorial/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Tutorial</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/CI/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>CI</p></a></div>
 
 
         
@@ -470,7 +522,9 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.aikang.me/travis-ci-quick-start/&title=Travis CI 快速上手 - Boo&summary="
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.aikang.me/travis-ci-quick-start/&title=Travis CI 快速上手 - Boo&summary=最近使用Github Pages 搭建Hexo 时，用到了一项新技术。hmm…也不能说是新技术吧，只是之前一直有听说，但却没有实际用过。
+它就是持续集成，听上去好像是一个高大上的概念，但通俗一点解释就是：写完代码提交之后，会根据你的要求，自动做编译测试。
+其中最出名大概就是Travis CI了，本文的目的就是快速入门 Travis CI。"
           
           >
           
@@ -482,7 +536,9 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.aikang.me/travis-ci-quick-start/&title=Travis CI 快速上手 - Boo&summary="
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.aikang.me/travis-ci-quick-start/&title=Travis CI 快速上手 - Boo&summary=最近使用Github Pages 搭建Hexo 时，用到了一项新技术。hmm…也不能说是新技术吧，只是之前一直有听说，但却没有实际用过。
+它就是持续集成，听上去好像是一个高大上的概念，但通俗一点解释就是：写完代码提交之后，会根据你的要求，自动做编译测试。
+其中最出名大概就是Travis CI了，本文的目的就是快速入门 Travis CI。"
           
           >
           
@@ -494,7 +550,9 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.aikang.me/travis-ci-quick-start/&title=Travis CI 快速上手 - Boo&summary="
+          href="http://service.weibo.com/share/share.php?url=https://www.aikang.me/travis-ci-quick-start/&title=Travis CI 快速上手 - Boo&summary=最近使用Github Pages 搭建Hexo 时，用到了一项新技术。hmm…也不能说是新技术吧，只是之前一直有听说，但却没有实际用过。
+它就是持续集成，听上去好像是一个高大上的概念，但通俗一点解释就是：写完代码提交之后，会根据你的要求，自动做编译测试。
+其中最出名大概就是Travis CI了，本文的目的就是快速入门 Travis CI。"
           
           >
           
@@ -530,14 +588,16 @@
             
               <a class='prev' href='/how-to-choose-a-picture-bed-that-suits-you/'>
                 <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>如何选择一个适合自己的图床</p>
-                <p class='content'>前言因为没有把博客部署在服务器上，而是选择GitHub Pages 的方式，所以如果遇到需要插入图片的时候，只能通过图床来存储图片。
-如果不是因为SM.MS 图床在今天突然挂掉了，我可能都不会去...</p>
+                <p class='content'>因为没有把博客部署在服务器上，而是选择GitHub Pages 的方式，所以如果遇到需要插入图片的时候，只能通过图床来存储图片。
+如果不是因为SM.MS 图床在今天突然挂掉了，我可能都不会去想是...</p>
               </a>
             
             
               <a class='next' href='/hexo-quick-start/'>
                 <p class='title'>Hexo 快速上手<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>前言最近使用Hexo 搭建了一套博客系统，整个过程还算顺利，不过还是遇到了一些问题，整理记录一下。
+                <p class='content'>最近使用Hexo 搭建了一套博客系统，整个过程还算顺利，不过还是遇到了一些问题，整理记录一下。
+
+
 常用命令init新建一个网站。如果没有设置 folder，Hexo 默认在目前的文件夹建立网站...</p>
               </a>
             
@@ -689,16 +749,16 @@
       
     
       
-        <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
 </div>
       
     
       
-        本站使用
+        Use
         <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
-        作为主题，总访问量为
+        as theme, total visits
           <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
-          次
+          times
         
       
     
@@ -706,13 +766,29 @@
         <div class='copyright'>
         <p><a href="https://www.aikang.me">Copyright © 2020-2020 Boo</a></p>
 
+        <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
         </div>
       
     
   </footer>
 
 <script>setLoadingBarProgress(80);</script>
-
+<script>
+  var now = new Date(); 
+  function createtime() { 
+      var grt= new Date("07/04/2020 14:12:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+  } 
+setInterval("createtime()",250);
+</script>
 
       <script>setLoadingBarProgress(60);</script>
     </div>
