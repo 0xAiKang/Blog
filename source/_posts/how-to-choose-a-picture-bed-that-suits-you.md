@@ -1,8 +1,8 @@
 ---
 title: 如何选择一个适合自己的图床
 date: 2020-07-06 23:06:33
-tags: tutorial
-categories: skill
+tags: Tutorial
+categories: Skill
 ---
 
 ## 前言
@@ -13,6 +13,8 @@ categories: skill
 ![](https://raw.githubusercontent.com/0xAiKang/CDN/master/blog/images/20200706225801.png)
 
 于是我开始寻找一个免费、稳定的图床，最后在众多图床中，最后选择了GitHub 图床。
+
+使用GitHub 图床，可能唯一的问题是需要自备好科学上网工具，否则图片无法加载。
 
 > 为什么不选择国内的那些图床服务？
 
@@ -65,6 +67,6 @@ GitHub 图床的配置还是比较简单的，下面是参数说明。
 如果你还有其他问题，可以查阅 [PicGo FAQ](https://github.com/Molunerfinn/PicGo/blob/dev/FAQ.md)。
 
 ### 总结
-* 如果你和我一样，讨厌域名备案，有希望能有一个免费、稳定的图床，那么一定不要错过GitHub 图床。
+* 如果你和我一样，讨厌域名备案，又希望能有一个免费、稳定的图床，那么一定不要错过GitHub 图床。
 * 如果你只是需要存储一些不怎么重要的图片，那么可以使用免费不限大小的SM.MS图床。
 * 如果打算长期稳定使用可以优先选择又拍云或者七牛云。

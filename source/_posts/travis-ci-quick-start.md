@@ -1,8 +1,8 @@
 ---
 title: Travis CI 快速上手
 date: 2020-07-05 14:25:58
-tags: ["CI", "tutorial"]
-categories: tutorial
+tags: ["CI", "Tutorial"]
+categories: Tutorial
 ---
 
 # 前言
