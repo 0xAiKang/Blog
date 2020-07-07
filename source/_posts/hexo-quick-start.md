@@ -4,8 +4,10 @@ date: 2020-07-05 14:16:31
 tags: ["Hexo", "Tutorial"]
 categories: Tutorial
 ---
-# 前言
+
 最近使用Hexo 搭建了一套博客系统，整个过程还算顺利，不过还是遇到了一些问题，整理记录一下。
+
+<!-- more -->
 
 ## 常用命令
 

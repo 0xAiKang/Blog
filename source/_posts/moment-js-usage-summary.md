@@ -3,12 +3,14 @@ title: moment.js 用法总结
 date: 2020-07-07 18:59:32
 tags: JavaScript
 categories: 技术总结
+icons: [fas fa-fire red, fas fa-star green]
 ---
 
-## 前言
 最近在做的一个前端项目，经常会遇到对时间的处理，因为原生的时间格式处理起来很费劲，所以引入了一个轻量级的日期处理类库。
 
 [momentjs](http://momentjs.cn/) 支持日期格式化、Date、时间戳等相互转换，它使得操作时间变得非常简单。
+
+<!-- more -->
 
 ### 快速上手
 `momentjs`支持多个环境，所有的代码都应该在这两种环境中都可以工作。

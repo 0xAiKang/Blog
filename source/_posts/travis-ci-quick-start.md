@@ -5,12 +5,13 @@ tags: ["CI", "Tutorial"]
 categories: Tutorial
 ---
 
-# 前言
 最近使用Github Pages 搭建Hexo 时，用到了一项新技术。hmm...也不能说是新技术吧，只是之前一直有听说，但却没有实际用过。
 
 它就是持续集成，听上去好像是一个高大上的概念，但通俗一点解释就是：写完代码提交之后，会根据你的要求，自动做编译测试。
 
-其中最出名大概就是Travis CI了，本文的目的就是快速入门 Travis CI。
+其中最出名大概就是[Travis CI](https://travis-ci.com/)了，本文的目的就是快速入门 Travis CI。
+
+<!-- more -->
 
 ## 什么是持续集成？
 持续集成(Continuous Integration)是对小周期的的代码进行更改，其目的是通过以较小的增量开发和测试来构建更健康的软件。
