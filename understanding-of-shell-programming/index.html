@@ -5,8 +5,6 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
-    
   
   <!-- 渲染优化 -->
   <meta name="renderer" content="webkit">
@@ -18,8 +16,17 @@
 
   <!-- 页面元数据 -->
   
-    <title>Tag: JavaScript - Boo</title>
+    <title>对于Shell编程的理解 - Boo</title>
   
+    <meta name="keywords" content="Linux,Shell">
+  
+  
+    <meta name="description" content="在开始聊Shell编程之前，我们先来看看计算机编程语言的都有哪些类型。
+计算机语言可以分为两大类：
+
+低级语言
+高级语言
+">
   
 
   <!-- feed -->
@@ -279,25 +286,12 @@
     <div class='body-wrapper'>
       
 
-
 <div class='l_main'>
   
-    
-      
-  <section class="post-list ">
-    
-      
-        
-          
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
+
   
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
 
 
   <section class='meta'>
@@ -307,11 +301,11 @@
       <div class="meta" id="header-meta">
         
           
-  <h2 class="title">
-    <a href="/moment-js-usage-summary/">
-      moment.js 用法总结
+  <h1 class="title">
+    <a href="/understanding-of-shell-programming/">
+      对于Shell编程的理解
     </a>
-  </h2>
+  </h1>
 
 
         
@@ -334,9 +328,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/%E5%89%8D%E7%AB%AF/' rel="nofollow">
+    <a href='/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>前端</p>
+      <p>Linux/学习笔记</p>
     </a>
   </div>
 
@@ -347,9 +341,14 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jul 7, 2020</p>
+    <p>发布于：Jul 8, 2020</p>
   </a>
 </div>
+
+            
+          
+            
+              
 
             
           
@@ -358,13 +357,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>642 words</p>
+      <p>549 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>3 min</p>
+      <p>1 min</p>
     </a>
   </div>
 
@@ -373,6 +372,18 @@
           
             
               
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/understanding-of-shell-programming/" class="leancloud_visitors" data-flag-title="对于Shell编程的理解">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
 
             
           
@@ -385,103 +396,103 @@
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近在做的一个前端项目，经常会遇到对时间的处理，因为原生的时间格式处理起来很费劲，所以引入了一个轻量级的日期处理类库。</p>
-<p><a href="http://momentjs.cn/" target="_blank" rel="noopener">momentjs</a> 支持日期格式化、Date、时间戳等相互转换，它使得操作时间变得非常简单。</p>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/moment-js-usage-summary/">
-            阅读全文 <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>在开始聊Shell编程之前，我们先来看看计算机编程语言的都有哪些类型。</p>
+<p>计算机语言可以分为两大类：</p>
+<ol>
+<li>低级语言</li>
+<li>高级语言</li>
+</ol>
+<a id="more"></a>
 
-          </div>
-        
-      
-    
-  </section>
+<p>低级语言包括：<strong>机器语言</strong>和<strong>汇编语言</strong>。</p>
+<p>高级语言包括：<strong>静态语言</strong>和<strong>动态语言</strong>。</p>
+<p>这里就不对机器语言和汇编语言做介绍了，今天的主角是高级语言下的动态语言。</p>
+<h3 id="动态语言"><a href="#动态语言" class="headerlink" title="动态语言"></a>动态语言</h3><p><strong>动态语言又叫做脚本语言。</strong></p>
+<p>它和传统的静态语言的区别就在于:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">前者的运行过程为：编写-&gt;解释-&gt;执行</span><br><span class="line">而后者的运行过程为：编写-&gt;编译-&gt;链接-&gt;执行</span><br></pre></td></tr></table></figure>
+<p>脚本语言的优势就在于 只要有一个可以写代码的编辑器和能解释执行的脚本解释器就行了。</p>
+<p>这样一想，也就明白了为什么搭建<code>Python</code>的开发环境远比<code>C#</code>要快，因为它只要安装一个解释器就好了。</p>
+<blockquote>
+<p>动态语言与静态语言存在的争议之一：</p>
+</blockquote>
+<p>在静态语言中，写代码时必须知道每个变量的类型; 而在动态语言中，随便什么时候，你都可以把变量设为任意类型的值。</p>
+<h3 id="Shell编程"><a href="#Shell编程" class="headerlink" title="Shell编程"></a>Shell编程</h3><p>最初在学习<code>Shell</code>脚本时，产生过这样一个问题：<br><strong>为什么还能用<code>PHP</code>写<code>Shell</code>脚本？</strong></p>
+<p>当时就很不理解。这里就反应了两个问题：</p>
+<ol>
+<li>对<code>PHP</code>的理解不深</li>
+<li>对<code>Shell</code>脚本的理解不深</li>
+</ol>
+<p><strong>理论上讲，只要一门语言提供了解释器，这门语言就可以胜任脚本编程。</strong></p>
+<p>所以用 <code>PHP</code> 可以写 <code>Shell</code> 脚本，就没有什么好奇怪的了。<br>你可能会问：这句话里面的 <code>Shell</code>怎么理解？</p>
+<p>还记得吗，<code>Shell</code>的概念是什么？</p>
+<blockquote>
+<p><code>Shell</code> 脚本就是将一堆的 <code>Shell</code> 命令以及指定执行 <code>Shell</code> ，通过放在一个文件中来执行。</p>
+</blockquote>
+<h3 id="脚本语言的分类"><a href="#脚本语言的分类" class="headerlink" title="脚本语言的分类"></a>脚本语言的分类</h3><p>脚本语言又可以分为以下两大类：</p>
+<ol>
+<li><code>Shell</code>脚本</li>
+<li>通用动态语言</li>
+</ol>
+<h5 id="常见的Shell脚本："><a href="#常见的Shell脚本：" class="headerlink" title="常见的Shell脚本："></a>常见的Shell脚本：</h5><ul>
+<li>sh</li>
+<li>bash</li>
+<li>csh</li>
+<li>ksh</li>
+<li>tcsh</li>
+<li>zsh</li>
+<li>AppleScript </li>
+</ul>
+<h5 id="常见的脚本语言"><a href="#常见的脚本语言" class="headerlink" title="常见的脚本语言"></a>常见的脚本语言</h5><ul>
+<li>JavaScript</li>
+<li>Perl</li>
+<li>PHP</li>
+<li>Python</li>
+<li>Ruby</li>
+<li>VBScript</li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
   
     
-    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
     
-    
+
+
 
   
 
-
-    
-  
-</div>
-<aside class='l_side'>
-  
   
     
     
 
-<section class="widget blogger shadow desktop mobile">
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
   <div class='content'>
     
-      
-        <a class='avatar flat-box' href='/about/'>
-          <img no-lazy src='https://i.loli.net/2020/07/05/GsQ2dLqZguO9JB7.jpg'/>
-        </a>
-      
-    
-    
-      <div class='text'>
+      <blockquote>
         
-        
-          <p>Stay foolish, Stay hungry.</p>
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
 
-        
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
-        
-          
-            <a href="/atom.xml"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
           
         
           
-            <a href="mailto:aikangtongxue@gamil.com"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
+            <p>本文永久链接是：<a href=https://www.aikang.me/understanding-of-shell-programming/>https://www.aikang.me/understanding-of-shell-programming/</a></p>
           
         
-          
-            <a href="https://github.com/0xAikang"
-              class="social fab fa-github flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-          
-            <a href="https://music.163.com/#/user/home?id=112719323"
-              class="social fas fa-headphones-alt flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-      </div>
+      </blockquote>
     
   </div>
 </section>
@@ -491,73 +502,237 @@
   
     
     
+
+<section class="widget qrcode  desktop mobile">
   
 
-  <section class="widget category shadow desktop">
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.aikang.me" rel="nofollow">
+    <img src="https://i.loli.net/2020/07/05/GsQ2dLqZguO9JB7.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-08T21:55:36+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Jul 8, 2020</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Linux/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Linux</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Shell/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Shell</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.aikang.me/understanding-of-shell-programming/&title=对于Shell编程的理解 - Boo&summary=在开始聊Shell编程之前，我们先来看看计算机编程语言的都有哪些类型。
+计算机语言可以分为两大类：
+
+低级语言
+高级语言
+"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.aikang.me/understanding-of-shell-programming/&title=对于Shell编程的理解 - Boo&summary=在开始聊Shell编程之前，我们先来看看计算机编程语言的都有哪些类型。
+计算机语言可以分为两大类：
+
+低级语言
+高级语言
+"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.aikang.me/understanding-of-shell-programming/&title=对于Shell编程的理解 - Boo&summary=在开始聊Shell编程之前，我们先来看看计算机编程语言的都有哪些类型。
+计算机语言可以分为两大类：
+
+低级语言
+高级语言
+"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADqElEQVR42u3aQXLjMAwEQP//09n7VqVEzNC7cNK8OZYlopkDCqPXlxWtFwJw4MCBs8CBWwL3CtfT7//+/rvP393n6e9P93t6flwvOHDgwIEDBw7cMrjjBjAs7Om66UGcQp4e3HG94MCBAwcOHDhwS+GmDe3pA08LTyHSBnz8e3DgwIEDBw4cuB8Cd7vxTe/bPgccOHDgwIEDB+63waUDyHcf0PS+4MCBAwcOHDhwnw6XDijbQLttoE/3tybJBwcOHDhw4MCBuwQ3XdPAd9vnuF5w4MCBAwcOHLglcO06bWjbweNTo3x6fV0vOHDgwIEDBw7cErjTB6eDxVOw6eCxDcbTAwAHDhw4cODAgdsKl0Lc2ljaaKfAp3WBAwcOHDhw4MBthZs2vmkhaUFpI339xUVw4MCBAwcOHLgPhbu1obQBTRvxNvgGBw4cOHDgwIHbBpcGyen1LdjrcKWN8+P34MCBAwcOHDhwS+DShvVWoNwGyW2jO278wYEDBw4cOHDglsC1A8bXcN0OmNPnxEE6OHDgwIEDBw7cMrh0YHlrg+lgMW240zrBgQMHDhw4cOC2wN0KmtuNpwF22sjGBw4OHDhw4MCBA7cMrt1YC5MG1ul9038QcODAgQMHDhy4LXDti3vt70/vMy30XQcHDhw4cODAgQO3Be7WQLENktvr22D8uF5w4MCBAwcOHLhlcO9uiNOB5HTgevtgxxNgcODAgQMHDhy4fwT39hfxwoNJg+rpwY0Hp+DAgQMHDhw4cB8Glwa66SB0GjinB/M1XODAgQMHDhw4cFvgbgXKaQObvojYvjgYB+HgwIEDBw4cOHDL4NLC2kFo2vC2A9AYGhw4cODAgQMHbgncuwufgqeBdts4H98XHDhw4MCBAwduKVwb8KYbawtNA+jx38GBAwcOHDhw4JbATQPhacPcNrjtPtrfgQMHDhw4cODAbYW79cA2QE4D8rYxrwNpcODAgQMHDhy4ZXBpMD0FiQeKYQPeNujgwIEDBw4cOHBb4NpAOB1Eti/4tQebNtzgwIEDBw4cOHDb4G43vOn90gHldPAZ1w8OHDhw4MCBA7cUrm1424KmwfOtxvt4sAoOHDhw4MCBA/dD4NoXENOG99a+6kAaHDhw4MCBAwfuh8ClkOmgMm1848EnOHDgwIEDBw7cUrg0QG4b1TaQvgUKDhw4cODAgQP3aXBtcDv9/lZg3Qbd43rBgQMHDhw4cOCWwFmzBQ4cOHDgLHDg/vP6AyA+A+oXp2f8AAAAAElFTkSuQmCC">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/write-the-first-shell-script/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>编写第一个Shell 脚本</p>
+                <p class='content'>这篇笔记用来记录编写 Shell 脚本过程中的一些基础知识。
+
+
+什么是 shell 脚本
+Shell 脚本就是将一堆的 Shell 命令以及指定执行 Shell ，通过放在一个文件中来执行。
+...</p>
+              </a>
+            
+            
+              <a class='next' href='/understanding-of-linux-shell-shell-script-shell-environment/'>
+                <p class='title'>关于Linux的Shell、Shell脚本、Shell环境的理解<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>如标题所示，这片笔记主要目的是加深对Linux的Shell、Shell脚本、Shell环境的理解。
+
+
+什么是Shell？
+在回答这个问题之前，我们先来考虑一个问题：人是如何跟计算机打交道的？或...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: '对于Shell编程的理解',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
     
   <header>
     
-      <a href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
   </header>
 
 
     <div class='content'>
-      <ul class="entry navigation">
-        
-          <li><a class="flat-box"
-            title="/categories/Linux/" href="/categories/Linux/"
-            id="categoriesLinux"
-            ><div class='name'>Linux</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" href="/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
-            id="categoriesLinuxE5ADA6E4B9A0E7AC94E8AEB0"
-            ><div class='name'>学习笔记</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Skill/" href="/categories/Skill/"
-            id="categoriesSkill"
-            ><div class='name'>Skill</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Tutorial/" href="/categories/Tutorial/"
-            id="categoriesTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E5%89%8D%E7%AB%AF/" href="/categories/%E5%89%8D%E7%AB%AF/"
-            id="categoriesE5898DE7ABAF"
-            ><div class='name'>前端</div><div class='badge'>(1)</div></a></li>
-        
-      </ul>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#动态语言"><span class="toc-text">动态语言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Shell编程"><span class="toc-text">Shell编程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#脚本语言的分类"><span class="toc-text">脚本语言的分类</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#常见的Shell脚本："><span class="toc-text">常见的Shell脚本：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#常见的脚本语言"><span class="toc-text">常见的脚本语言</span></a></li></ol></li></ol></li></ol>
     </div>
   </section>
 
-
-  
-
-  
-    
-    
-  
-
-  <section class="widget tagcloud shadow desktop mobile">
-    
-  <header>
-    
-      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
-    
-  </header>
-
-
-    <div class='content'>
-      <a href="/tags/CI/" style="font-size: 14px; color: #999">CI</a> <a href="/tags/Hexo/" style="font-size: 14px; color: #999">Hexo</a> <a href="/tags/JavaScript/" style="font-size: 14px; color: #999">JavaScript</a> <a href="/tags/Linux/" style="font-size: 19px; color: #777">Linux</a> <a href="/tags/Shell/" style="font-size: 19px; color: #777">Shell</a> <a href="/tags/Tutorial/" style="font-size: 24px; color: #555">Tutorial</a>
-    </div>
-  </section>
-
-
-  
 
   
 
@@ -800,6 +975,60 @@ setInterval("createtime()",250);
 
 
 
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "prAyvaUeadxadA2wpcBQqNQn-gzGzoHsz",
+    appKey: "vkyEUTw0BixVjfFpFIzUdhak",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
 
 
 

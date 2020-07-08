@@ -5,8 +5,6 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
-    
   
   <!-- 渲染优化 -->
   <meta name="renderer" content="webkit">
@@ -18,8 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>Tag: JavaScript - Boo</title>
+    <title>编写第一个Shell 脚本 - Boo</title>
   
+    <meta name="keywords" content="Linux,Shell">
+  
+  
+    <meta name="description" content="这篇笔记用来记录编写 Shell 脚本过程中的一些基础知识。">
   
 
   <!-- feed -->
@@ -279,25 +281,12 @@
     <div class='body-wrapper'>
       
 
-
 <div class='l_main'>
   
-    
-      
-  <section class="post-list ">
-    
-      
-        
-          
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
+
   
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
 
 
   <section class='meta'>
@@ -307,11 +296,11 @@
       <div class="meta" id="header-meta">
         
           
-  <h2 class="title">
-    <a href="/moment-js-usage-summary/">
-      moment.js 用法总结
+  <h1 class="title">
+    <a href="/write-the-first-shell-script/">
+      编写第一个Shell 脚本
     </a>
-  </h2>
+  </h1>
 
 
         
@@ -334,9 +323,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/%E5%89%8D%E7%AB%AF/' rel="nofollow">
+    <a href='/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>前端</p>
+      <p>Linux/学习笔记</p>
     </a>
   </div>
 
@@ -347,9 +336,14 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jul 7, 2020</p>
+    <p>发布于：Jul 8, 2020</p>
   </a>
 </div>
+
+            
+          
+            
+              
 
             
           
@@ -358,13 +352,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>642 words</p>
+      <p>406 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>3 min</p>
+      <p>1 min</p>
     </a>
   </div>
 
@@ -373,6 +367,18 @@
           
             
               
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/write-the-first-shell-script/" class="leancloud_visitors" data-flag-title="编写第一个Shell 脚本">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
 
             
           
@@ -385,103 +391,73 @@
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近在做的一个前端项目，经常会遇到对时间的处理，因为原生的时间格式处理起来很费劲，所以引入了一个轻量级的日期处理类库。</p>
-<p><a href="http://momentjs.cn/" target="_blank" rel="noopener">momentjs</a> 支持日期格式化、Date、时间戳等相互转换，它使得操作时间变得非常简单。</p>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/moment-js-usage-summary/">
-            阅读全文 <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>这篇笔记用来记录编写 Shell 脚本过程中的一些基础知识。</p>
+<a id="more"></a>
 
-          </div>
-        
-      
-    
-  </section>
-  
-    
-    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
-    
-    
+<h2 id="什么是-shell-脚本"><a href="#什么是-shell-脚本" class="headerlink" title="什么是 shell 脚本"></a>什么是 shell 脚本</h2><blockquote>
+<p><code>Shell</code> 脚本就是将一堆的 <code>Shell</code> 命令以及指定执行 <code>Shell</code> ，通过放在一个文件中来执行。</p>
+</blockquote>
+<h2 id="创建第一个shell-脚本"><a href="#创建第一个shell-脚本" class="headerlink" title="创建第一个shell 脚本"></a>创建第一个shell 脚本</h2><p>下面我们来创建第一个 shell 脚本：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ vim showdate</span><br><span class="line"></span><br><span class="line">#! &#x2F;bin&#x2F;bash</span><br><span class="line"># this script displays the date and who&#39;s logged on</span><br><span class="line">date</span><br><span class="line">who</span><br></pre></td></tr></table></figure>
+<p>大功告成！这样就完成了一个简单的 shell 脚本的创建，是不是很简单！不过有以下几点需要注意：</p>
+<ol>
+<li>shell 脚本的名称不是一定需要用 .sh 来结尾，只是用 .sh 结尾会让其他人一目了然知道这是一个 shell 脚本文件。</li>
+<li>在创建shell 脚本时，必须在第一行指定要使用的 shell，且格式固定为：<code>#!</code>开头。</li>
+<li>第二行的井号作为注释行。</li>
+</ol>
+<p>运行shell 脚本：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ ls</span><br><span class="line">showdate</span><br><span class="line">$ .&#x2F;showdate</span><br><span class="line">bash: permission denied: .&#x2F;showdate</span><br><span class="line">$ sudo .&#x2F;showdate</span><br><span class="line">sudo: .&#x2F;showdate: command not found</span><br><span class="line">$ chmod u+x showdate</span><br><span class="line">$ .&#x2F;showdate</span><br></pre></td></tr></table></figure>
+<p>创建完 shell 脚本，想要运行，有两种方案：</p>
+<ol>
+<li>将 shell 脚本所处的目录添加到 PATH 环境变量中;</li>
+<li>在提示符中用绝对路径或者是相对路径来引用 shell 脚本文件;</li>
+</ol>
+<p>在上面的例子中，用的是绝对路径的方式来执行shell 脚本，使用单点操作符表示当前目录下的文件。</p>
+<p>需要注意的是，因为文件夹权限的关系，而不能直接用 sudo 命令去执行，因为sudo 命令会检查showdate 并不在sudo 命令列表中。</p>
+<p>所以正解是：修改该文件的文件夹权限。</p>
 
-  
-
-
-    
-  
-</div>
-<aside class='l_side'>
-  
+          
+            <div class='article_footer'>
+              
+                
   
     
     
 
-<section class="widget blogger shadow desktop mobile">
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
   <div class='content'>
     
-      
-        <a class='avatar flat-box' href='/about/'>
-          <img no-lazy src='https://i.loli.net/2020/07/05/GsQ2dLqZguO9JB7.jpg'/>
-        </a>
-      
-    
-    
-      <div class='text'>
+      <blockquote>
         
-        
-          <p>Stay foolish, Stay hungry.</p>
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
 
-        
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
-        
-          
-            <a href="/atom.xml"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
           
         
           
-            <a href="mailto:aikangtongxue@gamil.com"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
+            <p>本文永久链接是：<a href=https://www.aikang.me/write-the-first-shell-script/>https://www.aikang.me/write-the-first-shell-script/</a></p>
           
         
-          
-            <a href="https://github.com/0xAikang"
-              class="social fab fa-github flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-          
-            <a href="https://music.163.com/#/user/home?id=112719323"
-              class="social fas fa-headphones-alt flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-      </div>
+      </blockquote>
     
   </div>
 </section>
@@ -491,73 +467,217 @@
   
     
     
+
+<section class="widget qrcode  desktop mobile">
   
 
-  <section class="widget category shadow desktop">
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.aikang.me" rel="nofollow">
+    <img src="https://i.loli.net/2020/07/05/GsQ2dLqZguO9JB7.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-08T21:59:47+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Jul 8, 2020</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Linux/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Linux</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Shell/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Shell</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.aikang.me/write-the-first-shell-script/&title=编写第一个Shell 脚本 - Boo&summary=这篇笔记用来记录编写 Shell 脚本过程中的一些基础知识。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.aikang.me/write-the-first-shell-script/&title=编写第一个Shell 脚本 - Boo&summary=这篇笔记用来记录编写 Shell 脚本过程中的一些基础知识。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.aikang.me/write-the-first-shell-script/&title=编写第一个Shell 脚本 - Boo&summary=这篇笔记用来记录编写 Shell 脚本过程中的一些基础知识。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAADBUlEQVR42u3aS3LcMAwFwLn/peN9EpeIB2hGsJu7sfUhW5tXAF5/rP+uFwIwYMCAAQNmDcwrXP888Kb7/r7uu99T5wEDBgwYMGDA7IM5DkCHG7o6UPWg3f2dXg8GDBgwYMCA2QtzV9Cagqzup3w/GDBgwIABA+bXwbSD1eH9V9eBAQMGDBgwYMB0A14a9KqNOjBgwIABAwYMmOlgVgVLC16P7USCAQMGDBgwYN4GU13Vhte7f8fnAQMGDBgwYMCsgemuagOsG9yqAa58HjBgwIABAwbMGpg0IKUFrerfqwWu7v7BgAEDBgwYMPthqg216sDOFMBpEBybqAIDBgwYMGDAPB6m2nBLB4XSQlf6/8sPBQYMGDBgwIBZA1MNcmkwjANX8wOVB5/AgAEDBgwYMGtg0kJQtbDUhU6DYvl8YMCAAQMGDJg1MFNAaUEpDWTV/R6fFwwYMGDAgAHzY2C6cFOBrtrIi68DAwYMGDBgwKyBqQao7oBO9yDphzseVAIDBgwYMGDArIGZGgiaLnR1wdIGIBgwYMCAAQNmD0y1EJQeMA2M1YOfXg8GDBgwYMCA+TkwcSAqXn96X7pSIDBgwIABAwbMPphuwaob2NJBn2owPX4vGDBgwIABA2YNzOkLqoWodONpoy5tBLYreGDAgAEDBgyYj8PcXXBKn9sdLCo/FwwYMGDAgAGzDqZbWEobY3c17uIPBQYMGDBgwIBZDzO1oenBpG6wu63hBgYMGDBgwID5OEy3QFQtYJ1+oFPo0w9R7kSCAQMGDBgwYB4HM1Vwmh4gqt5XLYhdNtzAgAEDBgwYMI+H6QalaiFoKihWC2XHhTkwYMCAAQMGzDqYpw38dD9U3PADAwYMGDBgwKyFOW1UdRtt04EtbbiBAQMGDBgwYMBMFaJO35/u4/L5YMCAAQMGDJhfB9MFOm6IDQe62wMeGDBgwIABA+ZtMNWGW3VwKN5wsfAVDzSBAQMGDBgwYNbBTAWn6YCYDgLFBTYwYMCAAQMGzBoYCwwYMGDAgAGzbH0BqvFknZ/jHS4AAAAASUVORK5CYII=">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/understanding-of-shell-programming/'>
+                <p class='title'>对于Shell编程的理解<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>在开始聊Shell编程之前，我们先来看看计算机编程语言的都有哪些类型。
+计算机语言可以分为两大类：
+
+低级语言
+高级语言
+
+
+
+低级语言包括：机器语言和汇编语言。
+高级语言包括：静态语言和动态语...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: '编写第一个Shell 脚本',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
     
   <header>
     
-      <a href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
   </header>
 
 
     <div class='content'>
-      <ul class="entry navigation">
-        
-          <li><a class="flat-box"
-            title="/categories/Linux/" href="/categories/Linux/"
-            id="categoriesLinux"
-            ><div class='name'>Linux</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" href="/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
-            id="categoriesLinuxE5ADA6E4B9A0E7AC94E8AEB0"
-            ><div class='name'>学习笔记</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Skill/" href="/categories/Skill/"
-            id="categoriesSkill"
-            ><div class='name'>Skill</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Tutorial/" href="/categories/Tutorial/"
-            id="categoriesTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E5%89%8D%E7%AB%AF/" href="/categories/%E5%89%8D%E7%AB%AF/"
-            id="categoriesE5898DE7ABAF"
-            ><div class='name'>前端</div><div class='badge'>(1)</div></a></li>
-        
-      </ul>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是-shell-脚本"><span class="toc-text">什么是 shell 脚本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建第一个shell-脚本"><span class="toc-text">创建第一个shell 脚本</span></a></li></ol>
     </div>
   </section>
 
-
-  
-
-  
-    
-    
-  
-
-  <section class="widget tagcloud shadow desktop mobile">
-    
-  <header>
-    
-      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
-    
-  </header>
-
-
-    <div class='content'>
-      <a href="/tags/CI/" style="font-size: 14px; color: #999">CI</a> <a href="/tags/Hexo/" style="font-size: 14px; color: #999">Hexo</a> <a href="/tags/JavaScript/" style="font-size: 14px; color: #999">JavaScript</a> <a href="/tags/Linux/" style="font-size: 19px; color: #777">Linux</a> <a href="/tags/Shell/" style="font-size: 19px; color: #777">Shell</a> <a href="/tags/Tutorial/" style="font-size: 24px; color: #555">Tutorial</a>
-    </div>
-  </section>
-
-
-  
 
   
 
@@ -800,6 +920,60 @@ setInterval("createtime()",250);
 
 
 
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "prAyvaUeadxadA2wpcBQqNQn-gzGzoHsz",
+    appKey: "vkyEUTw0BixVjfFpFIzUdhak",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
 
 
 

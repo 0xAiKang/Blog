@@ -16,13 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>moment.js 用法总结 - Boo</title>
+    <title>关于Linux的Shell、Shell脚本、Shell环境的理解 - Boo</title>
   
-    <meta name="keywords" content="JavaScript">
+    <meta name="keywords" content="Linux,Shell">
   
   
-    <meta name="description" content="最近在做的一个前端项目，经常会遇到对时间的处理，因为原生的时间格式处理起来很费劲，所以引入了一个轻量级的日期处理类库。
-momentjs 支持日期格式化、Date、时间戳等相互转换，它使得操作时间变得非常简单。">
+    <meta name="description" content="如标题所示，这片笔记主要目的是加深对Linux的Shell、Shell脚本、Shell环境的理解。">
   
 
   <!-- feed -->
@@ -298,8 +297,8 @@ momentjs 支持日期格式化、Date、时间戳等相互转换，它使得操�
         
           
   <h1 class="title">
-    <a href="/moment-js-usage-summary/">
-      moment.js 用法总结
+    <a href="/understanding-of-linux-shell-shell-script-shell-environment/">
+      关于Linux的Shell、Shell脚本、Shell环境的理解
     </a>
   </h1>
 
@@ -324,9 +323,9 @@ momentjs 支持日期格式化、Date、时间戳等相互转换，它使得操�
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/%E5%89%8D%E7%AB%AF/' rel="nofollow">
+    <a href='/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>前端</p>
+      <p>Linux/学习笔记</p>
     </a>
   </div>
 
@@ -337,7 +336,7 @@ momentjs 支持日期格式化、Date、时间戳等相互转换，它使得操�
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jul 7, 2020</p>
+    <p>发布于：Jul 8, 2020</p>
   </a>
 </div>
 
@@ -353,7 +352,7 @@ momentjs 支持日期格式化、Date、时间戳等相互转换，它使得操�
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>642 words</p>
+      <p>1k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
@@ -372,7 +371,7 @@ momentjs 支持日期格式化、Date、时间戳等相互转换，它使得操�
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/moment-js-usage-summary/" class="leancloud_visitors" data-flag-title="moment.js 用法总结">
+      <span id="/understanding-of-linux-shell-shell-script-shell-environment/" class="leancloud_visitors" data-flag-title="关于Linux的Shell、Shell脚本、Shell环境的理解">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -395,28 +394,59 @@ momentjs 支持日期格式化、Date、时间戳等相互转换，它使得操�
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>最近在做的一个前端项目，经常会遇到对时间的处理，因为原生的时间格式处理起来很费劲，所以引入了一个轻量级的日期处理类库。</p>
-<p><a href="http://momentjs.cn/" target="_blank" rel="noopener">momentjs</a> 支持日期格式化、Date、时间戳等相互转换，它使得操作时间变得非常简单。</p>
+          <p>如标题所示，这片笔记主要目的是加深对<code>Linux</code>的<code>Shell</code>、<code>Shell脚本</code>、<code>Shell环境</code>的理解。</p>
 <a id="more"></a>
 
-<h3 id="快速上手"><a href="#快速上手" class="headerlink" title="快速上手"></a>快速上手</h3><p><code>momentjs</code>支持多个环境，所有的代码都应该在这两种环境中都可以工作。</p>
-<h4 id="Node-js"><a href="#Node-js" class="headerlink" title="Node.js"></a>Node.js</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install moment</span><br><span class="line">var moment &#x3D; require(&#39;moment&#39;);</span><br></pre></td></tr></table></figure>
-
-<h4 id="浏览器"><a href="#浏览器" class="headerlink" title="浏览器"></a>浏览器</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src&#x3D;&quot;https:&#x2F;&#x2F;cdn.bootcss.com&#x2F;moment.js&#x2F;2.9.0&#x2F;moment.js&quot;&gt;&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
-
-<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p>获取当前的日期和时间：</p>
-<h4 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">moment();</span><br></pre></td></tr></table></figure>
-<p>相当于moment(new Date()) 此处会返回一个moment封装的<strong>日期对象</strong>。</p>
-<p><img src="https://raw.githubusercontent.com/0xAiKang/CDN/master/blog/images/20200707190535.png" alt=""></p>
-<h4 id="格式化"><a href="#格式化" class="headerlink" title="格式化"></a>格式化</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">moment().format(&#39;YYYY年MM月DD日 HH:mm:ss&#39;) &#x2F;&#x2F; &quot;2020年07月07日 07:49:38&quot;</span><br><span class="line">moment().format(&#39;YYYY-MM-DD HH:mm:ss&#39;) &#x2F;&#x2F; &quot;2020-07-07 07:50:57&quot;</span><br><span class="line">moment().format(&#39;YYYY&#x2F;MM&#x2F;DD HH:mm:ss&#39;) &#x2F;&#x2F; &quot;2020&#x2F;07&#x2F;07 07:51:17&quot;</span><br><span class="line">moment().format(&#39;hh:m:ss&#39;) &#x2F;&#x2F; &quot;07:51:34&quot;</span><br><span class="line">moment().format(&#39;YYYY&#39;) &#x2F;&#x2F; &quot;2020&quot;</span><br><span class="line">moment().format(&#39;d&#39;) &#x2F;&#x2F; 2，今天是周二</span><br><span class="line">moment().format(&#39;X&#39;) &#x2F;&#x2F; 获取当前时间的Unix时间戳</span><br></pre></td></tr></table></figure>
-
-<h4 id="转换为Date对象"><a href="#转换为Date对象" class="headerlink" title="转换为Date对象"></a>转换为Date对象</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">moment().toDate() &#x2F;&#x2F; Mon Jan 22 2018 18:11:55 GMT+0800 (中国标准时间)</span><br><span class="line">moment(&#39;2018-01-20&#39;).toDate() &#x2F;&#x2F; Tue Jan 20 2015 00:00:00 GMT+0800 (中国标准时间)</span><br><span class="line">moment(&#39;2018-01-22 10:20:15&#39;).toDate() &#x2F;&#x2F; Mon Jan 22 2018 10:20:15 GMT+0800 (中国标准时间)</span><br><span class="line">moment(1448896064621).toDate() &#x2F;&#x2F;毫秒转日期</span><br></pre></td></tr></table></figure>
-
-<h4 id="获取时间信息"><a href="#获取时间信息" class="headerlink" title="获取时间信息"></a>获取时间信息</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">moment().second() &#x2F;&#x2F; 获取当前这一分钟的多少秒</span><br><span class="line">moment().date() &#x2F;&#x2F; 获取天</span><br><span class="line">moment().day()  &#x2F;&#x2F; 获取星期</span><br><span class="line">moment().dayOfYear()  &#x2F;&#x2F; 一年内的多少天</span><br><span class="line">moment().week() &#x2F;&#x2F; 一年里的多少周</span><br><span class="line">moment().month()  &#x2F;&#x2F; 获取当前月份（实际月份-1）</span><br><span class="line">moment().quarter() &#x2F;&#x2F; 一年内的第几个季度</span><br><span class="line">moment().year() &#x2F;&#x2F; 获取年份</span><br><span class="line">moment().daysInMonth() &#x2F;&#x2F; 获取当月天数</span><br></pre></td></tr></table></figure>
-
-<h4 id="显示"><a href="#显示" class="headerlink" title="显示"></a>显示</h4><p>一旦解析和操作完成后，需要某些方式来显示 moment。</p>
-<p>使用<code>format</code>来格式化日期：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">moment().format() &#x2F;&#x2F; &quot;2020-07-07T08:24:35+08:00&quot;</span><br><span class="line">moment.unix(timestamp).format(&#39;YYYY-MM-DD HH:mm:ss&#39;);   &#x2F;&#x2F; 将Unix 时间戳转换为日期格式</span><br><span class="line">moment(timestamp).format(&#39;YYYY-MM-DD HH:mm:ss&#39;);   &#x2F;&#x2F; 将Unix 毫秒时间戳转换为日期格式</span><br><span class="line">moment().unix();        &#x2F;&#x2F; 获取Unix 时间戳</span><br><span class="line">moment().format(&quot;X&quot;);   &#x2F;&#x2F; 获取Unix 时间戳</span><br><span class="line">moment().format(&quot;x&quot;);   &#x2F;&#x2F; 获取Unix 毫秒时间戳</span><br></pre></td></tr></table></figure>
+<h2 id="什么是Shell？"><a href="#什么是Shell？" class="headerlink" title="什么是Shell？"></a>什么是Shell？</h2><ul>
+<li><p>在回答这个问题之前，我们先来考虑一个问题：人是如何跟计算机打交道的？或者说怎样让计算机按照我们的要求完成某个任务？</p>
+<ul>
+<li>现在和计算机交互的方式很简单，直接用图形界面的工具就好了，想要计算机完成某个任务，通过操作图形界面的工具就能到达目的。</li>
+<li>那么在以前呢？在那个计算机还没有这么先进的时代呢？人们又是如何让计算完成某个任务。通过“命令”的方式告诉计算机我需要你帮你完成这件事。这个“命令”又是怎么告诉计算机的呢？通过一个交互工具。这个工具可以实现与计算机之间的“你问我答，你说我做”的功能。</li>
+</ul>
+</li>
+<li><p><code>Shell</code>就是一种应用程序（注意：我这里用的是一种）。</p>
+</li>
+<li><p>这个应用程序提供了一个界面（方便我们与计算机进行交互），用户通过这个界面访问操作系统内核的服务。</p>
+</li>
+</ul>
+<h2 id="什么是Shell脚本？"><a href="#什么是Shell脚本？" class="headerlink" title="什么是Shell脚本？"></a>什么是Shell脚本？</h2><p><code>Shell</code> 脚本（<code>Shell Script</code>），是一种为 <code>Shell</code> 编写的脚本程序。</p>
+<blockquote>
+<p>Shell 脚本编程有两种方式</p>
+</blockquote>
+<ol>
+<li>交互式（Interactive）：用户每输入一条命令就立即执行。</li>
+<li>批处理（Batch）：由用户事先编写好一个完整的<code>Shell</code>脚本，<code>Shell</code>会一次性执行脚本中诸多的命令。</li>
+</ol>
+<h2 id="什么是Shell环境"><a href="#什么是Shell环境" class="headerlink" title="什么是Shell环境"></a>什么是Shell环境</h2><p><code>Shell</code>编程跟<code>java</code>、<code>php</code>编程一样，只要有一个<strong>能编写代码的文本编辑器</strong>和一个<strong>能解释执行的脚本解释器</strong>就可以了。</p>
+<h3 id="0x01-Linux"><a href="#0x01-Linux" class="headerlink" title="0x01 Linux"></a>0x01 Linux</h3><ul>
+<li><code>Linux</code> 默认安装了 <code>Shell</code> 解释器。</li>
+<li>在<code>Linux</code>中，主流的 <code>Shell</code> 是 <code>Bash</code>。</li>
+</ul>
+<p>在一般情况下，人们并不区分 <code>Bourne Shell</code> 和 <code>Bourne Again Shell</code>，所以，像 <code>#!/bin/sh</code>，它同样也可以改为 <code>#!/bin/bash</code>。</p>
+<h3 id="0x02-Mac-OS"><a href="#0x02-Mac-OS" class="headerlink" title="0x02 Mac OS"></a>0x02 Mac OS</h3><ul>
+<li>Mac OS不仅带了sh、bash这两个最基础的解释器，还内置了ksh、csh、zsh等不常用的解释器。</li>
+</ul>
+<h3 id="0x03-Windows"><a href="#0x03-Windows" class="headerlink" title="0x03 Windows"></a>0x03 Windows</h3><p>Windows 出厂时没有内置 <code>Shell</code> 解释器，通常我们都是安装<code>cygwin</code>或者<code>mingw</code> 模拟器来Linux环境。</p>
+<ul>
+<li><a href="http://www.cygwin.com/" target="_blank" rel="noopener">Cygwin</a></li>
+<li><a href="http://www.mingw.org/" target="_blank" rel="noopener">Mingw</a></li>
+</ul>
+<p>如Git的交互界面就是由<code>Mingw</code>模拟器提供的<code>Bash</code>。</p>
+<h4 id="脚本解释器"><a href="#脚本解释器" class="headerlink" title="脚本解释器"></a>脚本解释器</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">bash &#x3D;&gt; Bourne Again Shell（&#x2F;bin&#x2F;bash）</span><br><span class="line">sh &#x3D;&gt;  Bourne Shell（&#x2F;usr&#x2F;bin&#x2F;sh或&#x2F;bin&#x2F;sh）</span><br><span class="line">csh &#x3D;&gt; C Shell（&#x2F;usr&#x2F;bin&#x2F;csh）</span><br><span class="line">ksh &#x3D;&gt; K Shell（&#x2F;usr&#x2F;bin&#x2F;ksh）</span><br><span class="line">Shell for Root（&#x2F;sbin&#x2F;sh）</span><br></pre></td></tr></table></figure>
+<h4 id="第一个Shell脚本"><a href="#第一个Shell脚本" class="headerlink" title="第一个Shell脚本"></a>第一个Shell脚本</h4><p>打开Bash或者任何一个文本编辑器，新建一个文件 Hello.sh，扩展名为<code>sh</code>(sh代表shell)。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">#第一个Shell脚本</span><br><span class="line">#作用是列出当前目录下的所有文件的详情信息</span><br><span class="line">PWDS&#x3D;echo &#96;pwd&#96;</span><br><span class="line">cd $PWDS</span><br><span class="line">ls -l</span><br></pre></td></tr></table></figure>
+<p>上面这个脚本中，有三种不同的元素：</p>
+<ol>
+<li>第一行的脚本声明（<code>#!</code>）用来告诉系统使用<strong>哪种 Shell 解释器</strong>来执行该脚本；</li>
+<li>第二行的注释信息（<code>#</code>）是对脚本功能和某些命令的介绍信息，使得看到脚本时能快速反应是做什么的。</li>
+<li>剩下没有前缀标识的就是 所要执行的脚本具体命令了。</li>
+</ol>
+<h4 id="运行Shell脚本"><a href="#运行Shell脚本" class="headerlink" title="运行Shell脚本"></a>运行Shell脚本</h4><p>有两种方式：</p>
+<h5 id="1-作为可执行程序"><a href="#1-作为可执行程序" class="headerlink" title="1. 作为可执行程序"></a>1. 作为可执行程序</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ chmod +x example.sh    # 使脚本具有执行权限</span><br><span class="line">$ .&#x2F;example.sh           # 执行脚本</span><br></pre></td></tr></table></figure>
+<h5 id="2-作为解释器参数"><a href="#2-作为解释器参数" class="headerlink" title="2. 作为解释器参数"></a>2. 作为解释器参数</h5><p>这种运行方式是，直接运行解释器，其参数就是shell脚本的文件名:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 执行脚本</span><br><span class="line">$ &#x2F;bin&#x2F;sh example.sh</span><br><span class="line">$ bash example.sh</span><br><span class="line">$ bash example.php</span><br></pre></td></tr></table></figure>
+<p>使用这种方式时，可以不用在脚本第一行声明解释器信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ cat example.php</span><br><span class="line">#这是一个用php写的Shell脚本，有两个作用</span><br><span class="line">#1.确认是否用解释器参数执行shell脚本可以不用写声明</span><br><span class="line">#2.确认如何用php写shell脚本</span><br><span class="line">string&#x3D;&quot;php shell&quot;</span><br><span class="line">echo $string</span><br><span class="line">$ bash example.php</span><br><span class="line">php shell</span><br></pre></td></tr></table></figure>
           
             <div class='article_footer'>
               
@@ -452,7 +482,7 @@ momentjs 支持日期格式化、Date、时间戳等相互转换，它使得操�
           
         
           
-            <p>本文永久链接是：<a href=https://www.aikang.me/moment-js-usage-summary/>https://www.aikang.me/moment-js-usage-summary/</a></p>
+            <p>本文永久链接是：<a href=https://www.aikang.me/understanding-of-linux-shell-shell-script-shell-environment/>https://www.aikang.me/understanding-of-linux-shell-shell-script-shell-environment/</a></p>
           
         
       </blockquote>
@@ -500,7 +530,7 @@ momentjs 支持日期格式化、Date、时间戳等相互转换，它使得操�
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-08T21:53:57+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-08T21:52:22+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：Jul 8, 2020</p>
@@ -512,7 +542,7 @@ momentjs 支持日期格式化、Date、时间戳等相互转换，它使得操�
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/JavaScript/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>JavaScript</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Linux/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Linux</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Shell/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Shell</p></a></div>
 
 
         
@@ -530,8 +560,7 @@ momentjs 支持日期格式化、Date、时间戳等相互转换，它使得操�
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.aikang.me/moment-js-usage-summary/&title=moment.js 用法总结 - Boo&summary=最近在做的一个前端项目，经常会遇到对时间的处理，因为原生的时间格式处理起来很费劲，所以引入了一个轻量级的日期处理类库。
-momentjs 支持日期格式化、Date、时间戳等相互转换，它使得操作时间变得非常简单。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.aikang.me/understanding-of-linux-shell-shell-script-shell-environment/&title=关于Linux的Shell、Shell脚本、Shell环境的理解 - Boo&summary=如标题所示，这片笔记主要目的是加深对Linux的Shell、Shell脚本、Shell环境的理解。"
           
           >
           
@@ -543,8 +572,7 @@ momentjs 支持日期格式化、Date、时间戳等相互转换，它使得操�
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.aikang.me/moment-js-usage-summary/&title=moment.js 用法总结 - Boo&summary=最近在做的一个前端项目，经常会遇到对时间的处理，因为原生的时间格式处理起来很费劲，所以引入了一个轻量级的日期处理类库。
-momentjs 支持日期格式化、Date、时间戳等相互转换，它使得操作时间变得非常简单。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.aikang.me/understanding-of-linux-shell-shell-script-shell-environment/&title=关于Linux的Shell、Shell脚本、Shell环境的理解 - Boo&summary=如标题所示，这片笔记主要目的是加深对Linux的Shell、Shell脚本、Shell环境的理解。"
           
           >
           
@@ -556,8 +584,7 @@ momentjs 支持日期格式化、Date、时间戳等相互转换，它使得操�
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.aikang.me/moment-js-usage-summary/&title=moment.js 用法总结 - Boo&summary=最近在做的一个前端项目，经常会遇到对时间的处理，因为原生的时间格式处理起来很费劲，所以引入了一个轻量级的日期处理类库。
-momentjs 支持日期格式化、Date、时间戳等相互转换，它使得操作时间变得非常简单。"
+          href="http://service.weibo.com/share/share.php?url=https://www.aikang.me/understanding-of-linux-shell-shell-script-shell-environment/&title=关于Linux的Shell、Shell脚本、Shell环境的理解 - Boo&summary=如标题所示，这片笔记主要目的是加深对Linux的Shell、Shell脚本、Shell环境的理解。"
           
           >
           
@@ -571,7 +598,7 @@ momentjs 支持日期格式化、Date、时间戳等相互转换，它使得操�
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAAC80lEQVR42u3aS67sIAwE0N7/pvvNr14LXCZSnBxm/QHCyaRk8/ka/x0fBGDAgAEDBswYmE844o0X8//+vvr8a356HjBgwIABAwbMPJj0YLtwPx+kCVGFX54HDBgwYMCAATMWZhmAwgdf7XPV85TngwEDBgwYMGBeD9MtSFUDJBgwYMCAAQMGTHWh3WDXDWa78GDAgAEDBgyY98KkDa1uEEwvJJ1u0IEBAwYMGDBg5sHEF4Zv+jk+DxgwYMCAAQNmDEx3VBtgpwpc3WD4c18wYMCAAQMGzBiYdmGnGbDSwlYVavt/YMCAAQMGDJgxMNVAVZ3XDXDdYLf7YsCAAQMGDBgwz4GpHvjU92mgrM4HAwYMGDBgwMyH6TawuoDdi0FpgQwMGDBgwIABMx8mbXh1G2K7L6LbECwHSDBgwIABAwbMGJj0gVPAKlwa/NILRGDAgAEDBgyYOTBpYan7YN/DIw2e5UIVGDBgwIABA+a2MO2Fw4ZZWnhKg2S5ggcGDBgwYMCAuS1MCnSq4dWFT18AGDBgwIABA+b5MOUNig2v6gWj8sXm3XXBgAEDBgwYMGNhTgWv3UCWHjy9sBQXqsCAAQMGDBgwt4e5qmCUFsRO77PcFwwYMGDAgAEzBubYgs0CVxzIigFxOQ8MGDBgwIABMxZmd4FqMLz6BXQDKxgwYMCAAQPmOTCnD7K7TgpRDZLlQhUYMGDAgAED5vYwuxt1g9x3c3SDYhkYDBgwYMCAATMOpntB53Rwqwa73bEEBgMGDBgwYMCMgemOtIDUPchVjUAwYMCAAQMGzByYTzhSwOp6K5DywdNCFRgwYMCAAQPmtjDdQNdtdKUFrG4hCwwYMGDAgAHzHJi4URX+v1v4Oh1MwYABAwYMGDDvhakGt1MXf46tCwYMGDBgwIB5LUz3AN2LQWnBCwwYMGDAgAEzH+ZUw+10w6x7MWl7PzBgwIABAwbMOJhuwaga7K4C6O4HBgwYMGDAgJkDY4ABAwYMGDBgho1/1BMfN4qt1QYAAAAASUVORK5CYII=">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVgAAAFYCAAAAAAzB7ucAAAEW0lEQVR42u3aQZLjMAgF0L7/pXsOMJUKH7CUdD3t4sSS/OQFEH5+jUfGDwKwYA2wYMEaYI/A/jTHq/vT6+/mLz/Q8P41D7BgwYIFCxYsWLBHYdOFu5+r17sHW91P9fexB1iwYMGCBQsWLNgrsNONbicC0/XSRGLsARYsWLBgwYIFC/YrYNNC8zTgTxOPLiRYsGDBggULFizYvw2bNmxsfd8tnFevgwULFixYsGDBgv0u2K0H6Ab+3UaRdL/TecGCBQsWLFiwYMF+Bmw60kLxt31ue4AFCxYsWLBgwYI9Ars10sC62tCxlbj8HhpgwYIFCxYsWLBgz8Cmheu0YN1NNLoH0G0o6TYyx/8ggAULFixYsGDBgl2FnQbmXfDug24X5NcSFbBgwYIFCxYsWLBHYKsTVTfeTQC2C9vTF6YLDhYsWLBgwYIFC/YMbLUwPG3Y6MJP91F9EboHU/4HASxYsGDBggULFuyjsLfAuwnLtFA9fU6wYMGCBQsWLFiwnwm71Tix3VBRvW/aqBHvGyxYsGDBggULFuwR2HRD0wJ1F7AK3N3fNKEACxYsWLBgwYIFexa2C5hubFpAfnof6bwv5wELFixYsGDBggV7FXZa0O4G7tX73q27lUjEhXewYMGCBQsWLFiwR2C7BeCnC99bhetuI0b3IMGCBQsWLFiwYMGegZ1CxgF0+EDpfVsHlCZAYMGCBQsWLFiwYO/CTgvRaYNGF2z6fXc9sGDBggULFixYsJ8FO23MSAvg1YSi28CRHvA0cQALFixYsGDBggV7FjadcPrA3cTjqQaMrUQCLFiwYMGCBQsW7F3YrUA8TQimDRSnDhIsWLBgwYIFCxbsZ8B2QdLr7cLxsKCeJhjdgwcLFixYsGDBggV7FjZdKAWZPlC3waL7/fiFAQsWLFiwYMGCBXsEdgqwvrGldbZelLigDxYsWLBgwYIFC/YobBd6q0Gj24CRzjN9zvgfBLBgwYIFCxYsWLBXYLcK31sJRbqf6cHG84IFCxYsWLBgwYI9Aps2bqRg1Q1NC97d+bdfALBgwYIFCxYsWLBnYNMF1gPqYSJSLVynv+seHFiwYMGCBQsWLNg7sN3AeVoIn4JMC9fTAwULFixYsGDBggV7F7YaIE8D9q11twP/9PM48wILFixYsGDBggW7CpsWvrcK51vrbCUwcQIFFixYsGDBggUL9gjsdFQX3EpItgL/6QGCBQsWLFiwYMGCvQs7DYyrG9suPG81iBwrdIMFCxYsWLBgwYJ9BDZNCLbhUtCnYNPC/H/zggULFixYsGDBgr0CmyYEWxvuNkikoFuJ0cvnAAsWLFiwYMGCBftVsNVAvAv3dKKyNj9YsGDBggULFizYr4DdbqxIC9sfl+iABQsWLFiwYMGCvQKbBubpfd2EoLve1jzlAwILFixYsGDBggV7FLZbkO4G4FOgaSLTTQDe7hcsWLBgwYIFCxbsEVhjOTFBABasARYsWAPsk+MfL1fWqySsHPIAAAAASUVORK5CYII=">
           </div>
         </div>
       
@@ -591,20 +618,25 @@ momentjs 支持日期格式化、Date、时间戳等相互转换，它使得操�
         
           <div class="prev-next">
             
-              <a class='prev' href='/understanding-of-linux-shell-shell-script-shell-environment/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>关于Linux的Shell、Shell脚本、Shell环境的理解</p>
-                <p class='content'>如标题所示，这片笔记主要目的是加深对Linux的Shell、Shell脚本、Shell环境的理解。
+              <a class='prev' href='/understanding-of-shell-programming/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>对于Shell编程的理解</p>
+                <p class='content'>在开始聊Shell编程之前，我们先来看看计算机编程语言的都有哪些类型。
+计算机语言可以分为两大类：
+
+低级语言
+高级语言
 
 
-什么是Shell？
-在回答这个问题之前，我们先来考虑一个问题：人是如何跟计算机打交道的？或...</p>
+
+低级语言包括：机器语言和汇编语言。
+高级语言包括：静态语言和动态语...</p>
               </a>
             
             
-              <a class='next' href='/how-to-choose-a-picture-bed-that-suits-you/'>
-                <p class='title'>如何选择一个适合自己的图床<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>因为没有把博客部署在服务器上，而是选择GitHub Pages 的方式，所以如果遇到需要插入图片的时候，只能通过图床来存储图片。
-如果不是因为SM.MS 图床在今天突然挂掉了，我可能都不会去想是...</p>
+              <a class='next' href='/moment-js-usage-summary/'>
+                <p class='title'>moment.js 用法总结<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>最近在做的一个前端项目，经常会遇到对时间的处理，因为原生的时间格式处理起来很费劲，所以引入了一个轻量级的日期处理类库。
+momentjs 支持日期格式化、Date、时间戳等相互转换，它使得操作时...</p>
               </a>
             
           </div>
@@ -649,7 +681,7 @@ momentjs 支持日期格式化、Date、时间戳等相互转换，它使得操�
 
   <script>
     window.subData = {
-      title: 'moment.js 用法总结',
+      title: '关于Linux的Shell、Shell脚本、Shell环境的理解',
       tools: true
     }
   </script>
@@ -676,7 +708,7 @@ momentjs 支持日期格式化、Date、时间戳等相互转换，它使得操�
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#快速上手"><span class="toc-text">快速上手</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Node-js"><span class="toc-text">Node.js</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#浏览器"><span class="toc-text">浏览器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实例"><span class="toc-text">实例</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#创建"><span class="toc-text">创建</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#格式化"><span class="toc-text">格式化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#转换为Date对象"><span class="toc-text">转换为Date对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#获取时间信息"><span class="toc-text">获取时间信息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#显示"><span class="toc-text">显示</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是Shell？"><span class="toc-text">什么是Shell？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是Shell脚本？"><span class="toc-text">什么是Shell脚本？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是Shell环境"><span class="toc-text">什么是Shell环境</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x01-Linux"><span class="toc-text">0x01 Linux</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x02-Mac-OS"><span class="toc-text">0x02 Mac OS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x03-Windows"><span class="toc-text">0x03 Windows</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#脚本解释器"><span class="toc-text">脚本解释器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第一个Shell脚本"><span class="toc-text">第一个Shell脚本</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#运行Shell脚本"><span class="toc-text">运行Shell脚本</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-作为可执行程序"><span class="toc-text">1. 作为可执行程序</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-作为解释器参数"><span class="toc-text">2. 作为解释器参数</span></a></li></ol></li></ol></li></ol></li></ol>
     </div>
   </section>
 
