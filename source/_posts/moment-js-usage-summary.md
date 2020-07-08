@@ -2,7 +2,7 @@
 title: moment.js 用法总结
 date: 2020-07-07 18:59:32
 tags: JavaScript
-categories: 技术总结
+categories: 前端
 icons: [fas fa-fire red, fas fa-star green]
 ---
 
