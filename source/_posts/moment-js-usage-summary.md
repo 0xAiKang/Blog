@@ -3,7 +3,6 @@ title: moment.js 用法总结
 date: 2020-07-07 18:59:32
 tags: JavaScript
 categories: 前端
-icons: [fas fa-fire red, fas fa-star green]
 ---
 
 最近在做的一个前端项目，经常会遇到对时间的处理，因为原生的时间格式处理起来很费劲，所以引入了一个轻量级的日期处理类库。
