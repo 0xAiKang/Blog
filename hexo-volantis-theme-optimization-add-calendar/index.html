@@ -5,8 +5,6 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
-    
   
   <!-- 渲染优化 -->
   <meta name="renderer" content="webkit">
@@ -18,8 +16,13 @@
 
   <!-- 页面元数据 -->
   
-    <title>Tag: Hexo - Boo</title>
+    <title>Hexo Volantis 主题优化 | 添加日历图 - Boo</title>
   
+  
+    <meta name="description" content="一直觉得GitHub 日历图（代码提交统计样式）很好看，偶然发现是可以通过配置将日历模块引入到Hexo 的主题中的。
+默认效果如下：
+
+因为我使用的Hexo 主题是Volantis、而该主题目前并没有集成该控件，所以需要手动配置。">
   
 
   <!-- feed -->
@@ -65,20 +68,6 @@
   </script>
 
   
-  
-    <!-- ba -->
-    <script>
-    var _hmt = _hmt || [];
-    (function() {
-	  setTimeout(function() { 
-        var hm = document.createElement("script");
-        hm.src = "https://hm.baidu.com/hm.js?e27402d777cd041b2671da4853b20fa4";
-		hm.defer=true;
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(hm, s);
-	  }, 5000);
-    })();
-    </script>
   
 </head>
 
@@ -279,25 +268,12 @@
     <div class='body-wrapper'>
       
 
-
 <div class='l_main'>
   
-    
-      
-  <section class="post-list ">
-    
-      
-        
-          
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
+
   
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
 
 
   <section class='meta'>
@@ -307,11 +283,11 @@
       <div class="meta" id="header-meta">
         
           
-  <h2 class="title">
-    <a href="/hexo-quick-start/">
-      Hexo 快速上手
+  <h1 class="title">
+    <a href="/hexo-volantis-theme-optimization-add-calendar/">
+      Hexo Volantis 主题优化 | 添加日历图
     </a>
-  </h2>
+  </h1>
 
 
         
@@ -332,14 +308,6 @@
           
             
               
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/Tutorial/' rel="nofollow">
-      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Tutorial</p>
-    </a>
-  </div>
-
 
             
           
@@ -347,9 +315,14 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jul 5, 2020</p>
+    <p>发布于：Jul 9, 2020</p>
   </a>
 </div>
+
+            
+          
+            
+              
 
             
           
@@ -358,13 +331,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1.2k words</p>
+      <p>422 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>4 min</p>
+      <p>1 min</p>
     </a>
   </div>
 
@@ -373,6 +346,18 @@
           
             
               
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/hexo-volantis-theme-optimization-add-calendar/" class="leancloud_visitors" data-flag-title="Hexo Volantis 主题优化 | 添加日历图">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
 
             
           
@@ -385,102 +370,84 @@
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近使用Hexo 搭建了一套博客系统，整个过程还算顺利，不过还是遇到了一些问题，整理记录一下。</p>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/hexo-quick-start/">
-            阅读全文 <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>一直觉得GitHub 日历图（代码提交统计样式）很好看，偶然发现是可以通过配置将日历模块引入到Hexo 的主题中的。</p>
+<p>默认效果如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200709204832.png" alt=""></p>
+<p>因为我使用的Hexo 主题是<code>Volantis</code>、而该主题目前并没有集成该控件，所以需要手动配置。</p>
+<a id="more"></a>
 
-          </div>
-        
-      
-    
-  </section>
+<h2 id="环境要求"><a href="#环境要求" class="headerlink" title="环境要求"></a>环境要求</h2><ul>
+<li>Hexo：4.2</li>
+<li>Node：12</li>
+<li>Volantis：2.6</li>
+</ul>
+<p>Volantis 低版本可能会不适用于本文介绍的方法，可以参考 <code>YINUXY</code> 的 <a href="https://cloud.tencent.com/developer/article/1597223" target="_blank" rel="noopener">Hexo主题美化 | 给你的博客加上GITHUB日历云和分类</a></p>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><ol>
+<li><p>在主题配置文件 <code>themes\volantis\_config.yml</code> 下添加以下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">postCalendar: true</span><br></pre></td></tr></table></figure>
+<p>用于设置在归档页面中是否显示’文章日历’控件，如果不想显示，设置为 <code>false</code> 即可。</p>
+</li>
+<li><p>在归档页面 <code>themes/volantis/layout/archive.ejs</code> 添加以下代码：</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id&#x3D;&quot;calendar&quot;&gt;</span><br><span class="line">		&lt;% if (theme.postCalendar) &#123; %&gt;</span><br><span class="line">		&lt;%- partial(&#39;_widget&#x2F;post-calendar&#39;) %&gt;</span><br><span class="line">		&lt;% &#125; %&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
+<p>具体添加位置：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200709205348.png" alt="IMAGE"></p>
+<p>这里会根据主题配置文件中的<code>postCalendar</code>的值，来判断是否需要渲染。</p>
+<ol start="3">
+<li>点击下载日历样式文件 <code>post-calendar.ejs</code>，放置于<code>themes/volantis/layout/_widget</code>目录下。</li>
+</ol>
+<p>将其中的第 16 行，替换成以下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type&#x3D;&quot;text&#x2F;javascript&quot; src&#x3D;&quot;https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;gh&#x2F;0xAiKang&#x2F;CDN@1.0&#x2F;blog&#x2F;js&#x2F;echarts.min.js&quot;&gt;&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>至此已经完成了，使用<code>hexo generate &amp;&amp; hexo server</code>查看是否可以正常加载日历图。</p>
+<p>默认的样式是高仿<code>gittee</code>，如果觉得不满意，可以参考<a href="https://echarts.apache.org/zh/option.html#calendar" target="_blank" rel="noopener">官方文档</a>自定义。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://blog.csdn.net/cungudafa/article/details/106420842" target="_blank" rel="noopener">hexo（sakura）仿gitee添加文章贡献度日历图（echarts）</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
   
     
-    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
     
-    
+
+
 
   
 
-
-    
-  
-</div>
-<aside class='l_side'>
-  
   
     
     
 
-<section class="widget blogger shadow desktop mobile">
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
   <div class='content'>
     
-      
-        <a class='avatar flat-box' href='/about/'>
-          <img no-lazy src='https://i.loli.net/2020/07/05/GsQ2dLqZguO9JB7.jpg'/>
-        </a>
-      
-    
-    
-      <div class='text'>
+      <blockquote>
         
-        
-          <p>Stay foolish, Stay hungry.</p>
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
 
-        
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
-        
-          
-            <a href="/atom.xml"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
           
         
           
-            <a href="mailto:aikangtongxue@gamil.com"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
+            <p>本文永久链接是：<a href=https://www.aikang.me/hexo-volantis-theme-optimization-add-calendar/>https://www.aikang.me/hexo-volantis-theme-optimization-add-calendar/</a></p>
           
         
-          
-            <a href="https://github.com/0xAikang"
-              class="social fab fa-github flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-          
-            <a href="https://music.163.com/#/user/home?id=112719323"
-              class="social fas fa-headphones-alt flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-      </div>
+      </blockquote>
     
   </div>
 </section>
@@ -490,73 +457,219 @@
   
     
     
+
+<section class="widget qrcode  desktop mobile">
   
 
-  <section class="widget category shadow desktop">
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.aikang.me" rel="nofollow">
+    <img src="https://i.loli.net/2020/07/05/GsQ2dLqZguO9JB7.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-09T21:09:05+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Jul 9, 2020</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.aikang.me/hexo-volantis-theme-optimization-add-calendar/&title=Hexo Volantis 主题优化 | 添加日历图 - Boo&summary=一直觉得GitHub 日历图（代码提交统计样式）很好看，偶然发现是可以通过配置将日历模块引入到Hexo 的主题中的。
+默认效果如下：
+
+因为我使用的Hexo 主题是Volantis、而该主题目前并没有集成该控件，所以需要手动配置。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.aikang.me/hexo-volantis-theme-optimization-add-calendar/&title=Hexo Volantis 主题优化 | 添加日历图 - Boo&summary=一直觉得GitHub 日历图（代码提交统计样式）很好看，偶然发现是可以通过配置将日历模块引入到Hexo 的主题中的。
+默认效果如下：
+
+因为我使用的Hexo 主题是Volantis、而该主题目前并没有集成该控件，所以需要手动配置。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.aikang.me/hexo-volantis-theme-optimization-add-calendar/&title=Hexo Volantis 主题优化 | 添加日历图 - Boo&summary=一直觉得GitHub 日历图（代码提交统计样式）很好看，偶然发现是可以通过配置将日历模块引入到Hexo 的主题中的。
+默认效果如下：
+
+因为我使用的Hexo 主题是Volantis、而该主题目前并没有集成该控件，所以需要手动配置。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADq0lEQVR42u3aQXIbMQwEQP3/08kDchAwwEqw07xpJS7Jpg8ojF9/jGi8EIADBw6cAQ7cEbhXOP55YfN33fXfrVc++PC84MCBAwcOHDhw1+C6C3e/r67Tnb/1vLofcODAgQMHDhy4q3BvC8Dm5+lB3u1ja//l34MDBw4cOHDgwP0yuOrzbuOzewFbjVRw4MCBAwcOHLj/Ha574C58t8AGBw4cOHDgwIH7rXDtgDb9B73mumnjc7ouOHDgwIEDBw7cdbgtgJ/yOT4vOHDgwIEDBw7cEbjpeKqQTYPrdD/lfYMDBw4cOHDgwB2BSwvE6kG761Qbp9V1qxdRng8OHDhw4MCBA3cErnqwKVS1UH0KNA22wYEDBw4cOHDgrsK9O3j3+RToKfD0IspJPjhw4MCBAwcO3Ifh0mB3vIFmcJxe2HR9cODAgQMHDhy463DdAnLa4OwG4WnA3A2i374HHDhw4MCBAwfuCFx3Ylqodud1G48fC8zBgQMHDhw4cOCOwKUF4rRw7gJXG5bdALpdqIMDBw4cOHDgwB2DawezYfC8Df2pRik4cODAgQMHDtxVuG7BuB1UTwvX6bzyHwg4cODAgQMHDtwRuDTwTQPjVzimgXS1oH+7Ljhw4MCBAwcO3DG4FCqFSxupaeNzq1AHBw4cOHDgwIG7Apc2JKuNvyn82oGHFwYOHDhw4MCBA3cd7ukCdOsCulBrgTo4cODAgQMHDtwRuHcTtwrh6sbT52lw3r44cODAgQMHDhy4Y3DVhdOGYlogTy8yLXzLST44cODAgQMHDtyX4NLC8Sm4KeC0sVkugMGBAwcOHDhw4L4Mt32A6ee0sI0L2i4oOHDgwIEDBw7cMbinINPCeusCtp6DAwcOHDhw4MBdh+sGu+mGqu/rvictjMsXCA4cOHDgwIEDdxQubfilB5rCTy+8fXHgwIEDBw4cOHBH4boB8FONyOr7ty6wfD5w4MCBAwcOHLgjcNMxbXSmgXj3+zQgBwcOHDhw4MCBuwq3VhguF6zpAbcK73IgDQ4cOHDgwIED92W4bsE7nf9UgdoNnLsFNDhw4MCBAwcO3FW4boFaLYjTQHva+JwG2OUkHxw4cODAgQMH7ofDlQvJ6QGG68bnBQcOHDhw4MCB+2Vw6e+mgfJ2o/XjjUxw4MCBAwcOHLgluDTg3W54bgXY3UL67f7AgQMHDhw4cOCOwW0FuNMguntxXahpcA4OHDhw4MCBA3cFzmg2OBGAAwcOnAEO3HfHX7FJgYhfYy1bAAAAAElFTkSuQmCC">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/write-the-first-shell-script/'>
+                <p class='title'>编写第一个Shell 脚本<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>这篇笔记用来记录编写 Shell 脚本过程中的一些基础知识。
+
+
+什么是 shell 脚本
+Shell 脚本就是将一堆的 Shell 命令以及指定执行 Shell ，通过放在一个文件中来执行。
+...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Hexo Volantis 主题优化 | 添加日历图',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
     
   <header>
     
-      <a href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
   </header>
 
 
     <div class='content'>
-      <ul class="entry navigation">
-        
-          <li><a class="flat-box"
-            title="/categories/Linux/" href="/categories/Linux/"
-            id="categoriesLinux"
-            ><div class='name'>Linux</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" href="/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
-            id="categoriesLinuxE5ADA6E4B9A0E7AC94E8AEB0"
-            ><div class='name'>学习笔记</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Skill/" href="/categories/Skill/"
-            id="categoriesSkill"
-            ><div class='name'>Skill</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Tutorial/" href="/categories/Tutorial/"
-            id="categoriesTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E5%89%8D%E7%AB%AF/" href="/categories/%E5%89%8D%E7%AB%AF/"
-            id="categoriesE5898DE7ABAF"
-            ><div class='name'>前端</div><div class='badge'>(1)</div></a></li>
-        
-      </ul>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#环境要求"><span class="toc-text">环境要求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置"><span class="toc-text">配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
     </div>
   </section>
 
-
-  
-
-  
-    
-    
-  
-
-  <section class="widget tagcloud shadow desktop mobile">
-    
-  <header>
-    
-      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
-    
-  </header>
-
-
-    <div class='content'>
-      <a href="/tags/CI/" style="font-size: 14px; color: #999">CI</a> <a href="/tags/Hexo/" style="font-size: 14px; color: #999">Hexo</a> <a href="/tags/JavaScript/" style="font-size: 14px; color: #999">JavaScript</a> <a href="/tags/Linux/" style="font-size: 19px; color: #777">Linux</a> <a href="/tags/Shell/" style="font-size: 19px; color: #777">Shell</a> <a href="/tags/Tutorial/" style="font-size: 24px; color: #555">Tutorial</a>
-    </div>
-  </section>
-
-
-  
 
   
 
@@ -589,45 +702,6 @@
   
 
 
-        </div>
-      
-    
-      
-        <br>
-        <div class="social-wrapper">
-          
-            
-              <a href="/atom.xml"
-                class="social fas fa-rss flat-btn"
-                target="_blank"
-                rel="external nofollow noopener noreferrer">
-              </a>
-            
-          
-            
-              <a href="mailto:aikangtongxue@gamil.com"
-                class="social fas fa-envelope flat-btn"
-                target="_blank"
-                rel="external nofollow noopener noreferrer">
-              </a>
-            
-          
-            
-              <a href="https://github.com/0xAikang"
-                class="social fab fa-github flat-btn"
-                target="_blank"
-                rel="external nofollow noopener noreferrer">
-              </a>
-            
-          
-            
-              <a href="https://music.163.com/#/user/home?id=112719323"
-                class="social fas fa-headphones-alt flat-btn"
-                target="_blank"
-                rel="external nofollow noopener noreferrer">
-              </a>
-            
-          
         </div>
       
     
@@ -799,6 +873,60 @@ setInterval("createtime()",250);
 
 
 
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "prAyvaUeadxadA2wpcBQqNQn-gzGzoHsz",
+    appKey: "vkyEUTw0BixVjfFpFIzUdhak",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
 
 
 
