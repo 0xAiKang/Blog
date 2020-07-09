@@ -1,8 +1,8 @@
 ---
 title: Github Pages 部署 Hexo 个人博客
 date: 2020-07-04 20:09:09
-tags: Tutorials
-categories: Tutorials
+tags: Tutorial
+categories: Tutorial
 ---
 
 关于个人博客，在很久之前就想自己搭建一套，甚至还为此买了一台服务器，但奈何自己太忙了(tai lan le) =_=，这件事情就一直搁浅了，服务器大部分时间也都是空闲状态。

@@ -1,7 +1,8 @@
 ---
 title: Hexo Volantis 主题优化 | 添加日历图
 date: 2020-07-09 21:07:08
-tags:
+tags: ["Hexo", "Tutorial"]
+categories: Tutorial
 ---
 
 一直觉得GitHub 日历图（代码提交统计样式）很好看，偶然发现是可以通过配置将日历模块引入到Hexo 的主题中的。

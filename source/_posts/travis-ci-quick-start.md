@@ -1,8 +1,8 @@
 ---
 title: Travis CI 快速上手
 date: 2020-07-05 14:25:58
-tags: ["CI", "Tutorials"]
-categories: Tutorials
+tags: ["CI", "Tutorial"]
+categories: Tutorial
 ---
 
 最近使用Github Pages 搭建Hexo 时，用到了一项新技术。hmm...也不能说是新技术吧，只是之前一直有听说，但却没有实际用过。

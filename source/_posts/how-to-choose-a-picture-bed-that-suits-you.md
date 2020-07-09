@@ -1,7 +1,7 @@
 ---
 title: 如何选择一个适合自己的图床
 date: 2020-07-06 23:06:33
-tags: Tutorials
+tags: Tutorial
 categories: Skill
 ---
 
