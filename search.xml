@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>Hexo Volantis 主题优化 | 增加分析与统计</title>
+      <link href="/hexo-volantis-theme-optimization-add-analysis-and-statistics/"/>
+      <url>/hexo-volantis-theme-optimization-add-analysis-and-statistics/</url>
+      
+        <content type="html"><![CDATA[<p>Volantis 默认支持 <a href="http://busuanzi.ibruce.info/" target="_blank" rel="noopener">不蒜子</a> 的访问统计，可以自行添加<a href="https://tongji.baidu.com/" target="_blank" rel="noopener">百度统计</a>和 <a href="https://analytics.google.com/" target="_blank" rel="noopener">Google Analytics</a>。</p><a id="more"></a><h2 id="环境要求"><a href="#环境要求" class="headerlink" title="环境要求"></a>环境要求</h2><ul><li>Hexo：4.2</li><li>Node：12</li><li>Volantis：2.6</li></ul><h2 id="分析与统计"><a href="#分析与统计" class="headerlink" title="分析与统计"></a>分析与统计</h2><h3 id="字数和阅读时长"><a href="#字数和阅读时长" class="headerlink" title="字数和阅读时长"></a>字数和阅读时长</h3><ol><li>Volantis 默认没有安装 <code>wordcount</code>插件，所以需要手动安装：</li></ol><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i --save hexo-wordcount</span><br></pre></td></tr></table></figure><ol start="2"><li>修改主题配置文件<code>themes/volantis/_config.yml</code>，将 wordcount 插件打开</li></ol><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">plugins:</span><br><span class="line">  ...</span><br><span class="line">  # 文章字数统计、阅读时长，开启需要安装插件: npm i --save hexo-wordcount</span><br><span class="line">  wordcount: true</span><br></pre></td></tr></table></figure><ol start="3"><li>继续修改主题配置文件<code>themes/volantis/_config.yml</code>，将 <code>wordcount</code> 放在需要显示的 meta 位置：</li></ol><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 布局</span><br><span class="line">layout:</span><br><span class="line">  on_list:</span><br><span class="line">    meta: [..., wordcount, ...]</span><br><span class="line">  on_page:</span><br><span class="line">    meta:</span><br><span class="line">      header: [..., wordcount, ...]</span><br><span class="line">      footer: [..., wordcount, ...]</span><br></pre></td></tr></table></figure><h3 id="百度统计"><a href="#百度统计" class="headerlink" title="百度统计"></a>百度统计</h3><p>百度统计是百度推出的一款免费的专业网站流量分析工具，能够告诉用户访客是如何找到并浏览用户的网站，在网站上做了些什么，非常有趣，接下来我们把百度统计添加到自己博客当中。</p><ol><li>访问<a href="https://tongji.baidu.com/" target="_blank" rel="noopener">百度统计首页</a>，注册一个账号后登陆，添加你的博客网站。</li></ol><p><img src="https://raw.githubusercontent.com/0xAiKang/CDN/master/blog/images/20200709204712.png" alt=""></p><ol start="2"><li><p>点击获取代码，复制该代码。</p></li><li><p>在主题配置文件中，增加以下内容：</p></li></ol><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cnzz: true</span><br></pre></td></tr></table></figure><p>用于设置是否开启百度统计。</p><ol start="4"><li>在<code>themes/volantis/layout/_partial</code>目录下，新建一个<code>cnzz.ejs</code>文件，将刚才复制的内容粘贴进去：</li></ol><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;% if (theme.cnzz)&#123; %&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">    var _hmt &#x3D; _hmt || [];</span><br><span class="line">    (function () &#123;</span><br><span class="line">        var hm &#x3D; document.createElement(&quot;script&quot;);</span><br><span class="line">        hm.src &#x3D; &quot;https:&#x2F;&#x2F;hm.baidu.com&#x2F;hm.js?xxxxxxxxxxxxxxxxxxxxxxx&quot;;</span><br><span class="line">        var s &#x3D; document.getElementsByTagName(&quot;script&quot;)[0];</span><br><span class="line">        s.parentNode.insertBefore(hm, s);</span><br><span class="line">    &#125;)();</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line">&lt;% &#125; %&gt;</span><br></pre></td></tr></table></figure><ol start="5"><li>最后将以下内容放在网站首页的尾部<code>themes/volantis/layout/_partial/footer.ejs</code>中：</li></ol><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;%- partial(&#39;cnzz&#39;) %&gt;</span><br></pre></td></tr></table></figure><p>完成以上所有操作之后，可以在<a href="https://tongji.baidu.com/sc-web/10000236600/home/site/index" target="_blank" rel="noopener">百度统计管理页面</a>检查代码是否安装正确，如果正确安装，通常二十分钟之后就可以看到网站的分析数据了。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Tutorial </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Hexo </tag>
+            
+            <tag> Tutorial </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Hexo Volantis 主题优化 | 添加日历图</title>
       <link href="/hexo-volantis-theme-optimization-add-calendar/"/>
       <url>/hexo-volantis-theme-optimization-add-calendar/</url>
@@ -11,6 +38,20 @@
         <content type="html"><![CDATA[<p>一直觉得GitHub 日历图（代码提交统计样式）很好看，偶然发现是可以通过配置将日历模块引入到Hexo 的主题中的。</p><p>默认效果如下：</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200709204832.png" alt=""></p><p>因为我使用的Hexo 主题是<code>Volantis</code>、而该主题目前并没有集成该控件，所以需要手动配置。</p><a id="more"></a><h2 id="环境要求"><a href="#环境要求" class="headerlink" title="环境要求"></a>环境要求</h2><ul><li>Hexo：4.2</li><li>Node：12</li><li>Volantis：2.6</li></ul><p>Volantis 低版本可能会不适用于本文介绍的方法，可以参考 <code>YINUXY</code> 的 <a href="https://cloud.tencent.com/developer/article/1597223" target="_blank" rel="noopener">Hexo主题美化 | 给你的博客加上GITHUB日历云和分类</a></p><h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><ol><li><p>在主题配置文件 <code>themes\volantis\_config.yml</code> 下添加以下内容：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">postCalendar: true</span><br></pre></td></tr></table></figure><p>用于设置在归档页面中是否显示’文章日历’控件，如果不想显示，设置为 <code>false</code> 即可。</p></li><li><p>在归档页面 <code>themes/volantis/layout/archive.ejs</code> 添加以下代码：</p></li></ol><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id&#x3D;&quot;calendar&quot;&gt;</span><br><span class="line">&lt;% if (theme.postCalendar) &#123; %&gt;</span><br><span class="line">&lt;%- partial(&#39;_widget&#x2F;post-calendar&#39;) %&gt;</span><br><span class="line">&lt;% &#125; %&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure><p>具体添加位置：</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200709205348.png" alt="IMAGE"></p><p>这里会根据主题配置文件中的<code>postCalendar</code>的值，来判断是否需要渲染。</p><ol start="3"><li>点击下载日历样式文件 <code>post-calendar.ejs</code>，放置于<code>themes/volantis/layout/_widget</code>目录下。</li></ol><p>将其中的第 16 行，替换成以下内容：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type&#x3D;&quot;text&#x2F;javascript&quot; src&#x3D;&quot;https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;gh&#x2F;0xAiKang&#x2F;CDN@1.0&#x2F;blog&#x2F;js&#x2F;echarts.min.js&quot;&gt;&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure><p>至此已经完成了，使用<code>hexo generate &amp;&amp; hexo server</code>查看是否可以正常加载日历图。</p><p>默认的样式是高仿<code>gittee</code>，如果觉得不满意，可以参考<a href="https://echarts.apache.org/zh/option.html#calendar" target="_blank" rel="noopener">官方文档</a>自定义。</p><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul><li><a href="https://blog.csdn.net/cungudafa/article/details/106420842" target="_blank" rel="noopener">hexo（sakura）仿gitee添加文章贡献度日历图（echarts）</a></li></ul>]]></content>
       
       
+      <categories>
+          
+          <category> Tutorial </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Hexo </tag>
+            
+            <tag> Tutorial </tag>
+            
+        </tags>
       
     </entry>
     
@@ -145,7 +186,7 @@
       
         <tags>
             
-            <tag> Tutorials </tag>
+            <tag> Tutorial </tag>
             
         </tags>
       
@@ -163,16 +204,16 @@
       
       <categories>
           
-          <category> Tutorials </category>
+          <category> Tutorial </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> CI </tag>
+            <tag> Tutorial </tag>
             
-            <tag> Tutorials </tag>
+            <tag> CI </tag>
             
         </tags>
       
@@ -190,16 +231,16 @@
       
       <categories>
           
-          <category> Tutorials </category>
+          <category> Tutorial </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> Tutorials </tag>
+            <tag> Hexo </tag>
             
-            <tag> hexo2 </tag>
+            <tag> Tutorial </tag>
             
         </tags>
       
@@ -217,14 +258,14 @@
       
       <categories>
           
-          <category> Tutorials </category>
+          <category> Tutorial </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> Tutorials </tag>
+            <tag> Tutorial </tag>
             
         </tags>
       
