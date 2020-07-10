@@ -2,7 +2,7 @@
 title: 如何选择一个适合自己的图床
 date: 2020-07-06 23:06:33
 tags: Tutorial
-categories: Skill
+categories: ["Tutorial", "Skill", "GitHub"]
 ---
 
 因为没有把博客部署在服务器上，而是选择GitHub Pages 的方式，所以如果遇到需要插入图片的时候，只能通过图床来存储图片。
