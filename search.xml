@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>免费 CDN：JsDelivr + Github</title>
+      <link href="/free-cdn-jsdelivr-github/"/>
+      <url>/free-cdn-jsdelivr-github/</url>
+      
+        <content type="html"><![CDATA[<p>不知道大家通常是如何访问图床的，我之前一直使用的方式是：<code>GitHub</code> 图床 + <code>raw.githubusercontent</code>。</p><p>图片相关的资源全部放在<code>GitHub</code>上，然后使用GitHub 提供的素材服务器<code>raw.githubusercontent</code>去访问。但是这种方式存在一个问题，那就是放在 Github 的资源在国内加载速度比较慢，如果网络稍微差一些，资源可能就会加载失败。</p><p>因此需要使用 CDN 来加速来优化资源加载速度。</p><a id="more"></a><h2 id="CDN-是什么"><a href="#CDN-是什么" class="headerlink" title="CDN 是什么"></a>CDN 是什么</h2><blockquote><p>CDN的全称是<code>Content Delivery Network</code>，即内容分发网络。CDN是构建在网络之上的内容分发网络，依靠部署在各地的边缘服务器，通过中心平台的负载均衡、内容分发、调度等功能模块，使用户就近获取所需内容，降低网络拥塞，提高用户访问响应速度和命中率。CDN的关键技术主要有内容存储和分发技术。——百度百科</p></blockquote><p>由于某些原因，很多公用免费的 CDN 资源在中国大陆并不很好用，就算是付费的，也有一定的限制，例如每天的刷新次数有限之类的。<br>幸运的是在中国大陆唯一有 license 的公有 CDN竟然是免费的，它就是——<a href="https://www.jsdelivr.com/" target="_blank" rel="noopener">JsDelivr</a>。</p><h2 id="JsDelivr-是什么"><a href="#JsDelivr-是什么" class="headerlink" title="JsDelivr 是什么"></a>JsDelivr 是什么</h2><blockquote><p>A free CDN for Open Source fast, reliable, and automated. —— JsDelivr 官网</p></blockquote><p>根据官网的介绍我们可以知道它是一个<strong>免费</strong>、<strong>快速</strong>、<strong>可靠</strong>、<strong>自动化</strong> 的CDN。</p><p>那么，这么棒的CDN，到底该如何使用呢？下面会一一介绍。</p><h2 id="快速上手"><a href="#快速上手" class="headerlink" title="快速上手"></a>快速上手</h2><p>JsDelivr 目前有三种用法：</p><ul><li>Npm</li><li>Github</li><li>Wordpress</li></ul><p>因为本文的重点是如何使用 GitHub + JsDelivr，来搭建免费的CDN，所以这里就不对其他两种用法做过多介绍。</p><h3 id="1-新建Github-仓库"><a href="#1-新建Github-仓库" class="headerlink" title="1. 新建Github 仓库"></a>1. 新建Github 仓库</h3><p>这个仓库是用于存储资源文件的，最好是public，因为private的仓库，资源链接会带token验证，而这个token会存在过期的问题。</p><h3 id="2-将本地资源推送至仓库"><a href="#2-将本地资源推送至仓库" class="headerlink" title="2. 将本地资源推送至仓库"></a>2. 将本地资源推送至仓库</h3><p>将资源文件加入本地仓库，然后推送至 CDN 的远程仓库。</p><h3 id="3-发布仓库"><a href="#3-发布仓库" class="headerlink" title="3. 发布仓库"></a>3. 发布仓库</h3><p>如果没有发布就直接使用，可能会导致文件加载异常。</p><p>自定义发布版本号：<br><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200710132805.png" alt=""></p><p>然后点击<code>Publish release</code>。</p><h3 id="4-通过jsDeliver引用资源"><a href="#4-通过jsDeliver引用资源" class="headerlink" title="4. 通过jsDeliver引用资源"></a>4. 通过jsDeliver引用资源</h3><p>只需要通过符合 JSDelivr 规则的 URL 引用，即可直接使用 Github 中的资源。</p><p>规则如下：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;gh&#x2F;username&#x2F;repository@version&#x2F;file</span><br></pre></td></tr></table></figure><p>参数说明：</p><ul><li><code>cdn.jsdelivr.net/gh/</code>：jsDeliver 规定Github 的引用地址</li><li><code>username</code>：你的GitHub 用户名</li><li><code>repository</code>：CDN 仓库</li><li><code>@version</code>：发布的版本号</li><li><code>file</code>：资源文件在仓库中的路径</li></ul><p>版本号不是必需的，是为了区分新旧资源，如果不使用版本号，将会直接引用最新资源，除此之外还可以使用某个范围内的版本，查看所有资源等，具体使用方法如下：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 通过指定版本号引用</span><br><span class="line">https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;gh&#x2F;0xAiKang&#x2F;CDN&#x2F;blog&#x2F;images&#x2F;avatar.jpg</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 使用一个范围内的版本</span><br><span class="line">https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;gh&#x2F;jquery&#x2F;jquery@3.2.1&#x2F;dist&#x2F;jquery.min.js</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 忽略版本号则默认使用最新版</span><br><span class="line">https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;gh&#x2F;jquery&#x2F;jquery&#x2F;dist&#x2F;jquery.min.js</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 在任意JS&#x2F;CSS文件后添加 .min 能得到一个缩小版</span><br><span class="line">&#x2F;&#x2F; 如果它本身不存在，我们将会为你生成</span><br><span class="line">https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;gh&#x2F;jquery&#x2F;jquery@3.2.1&#x2F;src&#x2F;core.min.js</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 在末尾加 &#x2F; 则得到目录列表</span><br><span class="line">https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;gh&#x2F;jquery&#x2F;jquery&#x2F;</span><br></pre></td></tr></table></figure><p>同样的一张图片，可以对比一下<code>jsDeliver</code>和<code>raw.githubusercontent</code> 的访问速度。</p><ul><li><code>jsDeliver</code>：<a href="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg</a></li><li><code>raw.githubusercontent</code>：<a href="https://raw.githubusercontent.com/0xAiKang/CDN/master/blog/images/avatar.jpg" target="_blank" rel="noopener">https://raw.githubusercontent.com/0xAiKang/CDN/master/blog/images/avatar.jpg</a></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> Tutorial </category>
+          
+          <category> GitHub </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Tutorial </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>如何写好Commit log</title>
       <link href="/how-to-write-a-commit-log/"/>
       <url>/how-to-write-a-commit-log/</url>
@@ -206,7 +233,11 @@
       
       <categories>
           
+          <category> Tutorial </category>
+          
           <category> Skill </category>
+          
+          <category> GitHub </category>
           
       </categories>
       
@@ -286,6 +317,8 @@
       <categories>
           
           <category> Tutorial </category>
+          
+          <category> GitHub </category>
           
       </categories>
       

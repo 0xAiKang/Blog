@@ -16,17 +16,13 @@
 
   <!-- 页面元数据 -->
   
-    <title>对于Shell编程的理解 - Boo</title>
+    <title>免费 CDN：JsDelivr + Github - Boo</title>
   
-    <meta name="keywords" content="Linux,Shell">
+    <meta name="keywords" content="Tutorial">
   
   
-    <meta name="description" content="在开始聊Shell编程之前，我们先来看看计算机编程语言的都有哪些类型。
-计算机语言可以分为两大类：
-
-低级语言
-高级语言
-">
+    <meta name="description" content="不知道大家通常是如何访问图床的，我之前一直使用的方式是：GitHub 图床 + raw.githubusercontent。
+图片相关的资源全部放在GitHub上，然后使用GitHub 提供的素材服务器raw.githubusercontent去访问。但是这种方式存在一个问题，那就是放在 Github 的资源在国...">
   
 
   <!-- feed -->
@@ -288,8 +284,8 @@
         
           
   <h1 class="title">
-    <a href="/understanding-of-shell-programming/">
-      对于Shell编程的理解
+    <a href="/free-cdn-jsdelivr-github/">
+      免费 CDN：JsDelivr + Github
     </a>
   </h1>
 
@@ -314,9 +310,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/' rel="nofollow">
+    <a href='/categories/Tutorial/GitHub/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Linux/学习笔记</p>
+      <p>Tutorial/GitHub</p>
     </a>
   </div>
 
@@ -327,7 +323,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jul 8, 2020</p>
+    <p>发布于：Jul 10, 2020</p>
   </a>
 </div>
 
@@ -343,13 +339,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>549 words</p>
+      <p>976 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>1 min</p>
+      <p>3 min</p>
     </a>
   </div>
 
@@ -362,7 +358,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/understanding-of-shell-programming/" class="leancloud_visitors" data-flag-title="对于Shell编程的理解">
+      <span id="/free-cdn-jsdelivr-github/" class="leancloud_visitors" data-flag-title="免费 CDN：JsDelivr + Github">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -385,59 +381,51 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>在开始聊Shell编程之前，我们先来看看计算机编程语言的都有哪些类型。</p>
-<p>计算机语言可以分为两大类：</p>
-<ol>
-<li>低级语言</li>
-<li>高级语言</li>
-</ol>
+          <p>不知道大家通常是如何访问图床的，我之前一直使用的方式是：<code>GitHub</code> 图床 + <code>raw.githubusercontent</code>。</p>
+<p>图片相关的资源全部放在<code>GitHub</code>上，然后使用GitHub 提供的素材服务器<code>raw.githubusercontent</code>去访问。但是这种方式存在一个问题，那就是放在 Github 的资源在国内加载速度比较慢，如果网络稍微差一些，资源可能就会加载失败。</p>
+<p>因此需要使用 CDN 来加速来优化资源加载速度。</p>
 <a id="more"></a>
 
-<p>低级语言包括：<strong>机器语言</strong>和<strong>汇编语言</strong>。</p>
-<p>高级语言包括：<strong>静态语言</strong>和<strong>动态语言</strong>。</p>
-<p>这里就不对机器语言和汇编语言做介绍了，今天的主角是高级语言下的动态语言。</p>
-<h3 id="动态语言"><a href="#动态语言" class="headerlink" title="动态语言"></a>动态语言</h3><p><strong>动态语言又叫做脚本语言。</strong></p>
-<p>它和传统的静态语言的区别就在于:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">前者的运行过程为：编写-&gt;解释-&gt;执行</span><br><span class="line">而后者的运行过程为：编写-&gt;编译-&gt;链接-&gt;执行</span><br></pre></td></tr></table></figure>
-<p>脚本语言的优势就在于 只要有一个可以写代码的编辑器和能解释执行的脚本解释器就行了。</p>
-<p>这样一想，也就明白了为什么搭建<code>Python</code>的开发环境远比<code>C#</code>要快，因为它只要安装一个解释器就好了。</p>
-<blockquote>
-<p>动态语言与静态语言存在的争议之一：</p>
+<h2 id="CDN-是什么"><a href="#CDN-是什么" class="headerlink" title="CDN 是什么"></a>CDN 是什么</h2><blockquote>
+<p>CDN的全称是<code>Content Delivery Network</code>，即内容分发网络。CDN是构建在网络之上的内容分发网络，依靠部署在各地的边缘服务器，通过中心平台的负载均衡、内容分发、调度等功能模块，使用户就近获取所需内容，降低网络拥塞，提高用户访问响应速度和命中率。CDN的关键技术主要有内容存储和分发技术。——百度百科</p>
 </blockquote>
-<p>在静态语言中，写代码时必须知道每个变量的类型; 而在动态语言中，随便什么时候，你都可以把变量设为任意类型的值。</p>
-<h3 id="Shell编程"><a href="#Shell编程" class="headerlink" title="Shell编程"></a>Shell编程</h3><p>最初在学习<code>Shell</code>脚本时，产生过这样一个问题：<br><strong>为什么还能用<code>PHP</code>写<code>Shell</code>脚本？</strong></p>
-<p>当时就很不理解。这里就反应了两个问题：</p>
-<ol>
-<li>对<code>PHP</code>的理解不深</li>
-<li>对<code>Shell</code>脚本的理解不深</li>
-</ol>
-<p><strong>理论上讲，只要一门语言提供了解释器，这门语言就可以胜任脚本编程。</strong></p>
-<p>所以用 <code>PHP</code> 可以写 <code>Shell</code> 脚本，就没有什么好奇怪的了。<br>你可能会问：这句话里面的 <code>Shell</code>怎么理解？</p>
-<p>还记得吗，<code>Shell</code>的概念是什么？</p>
-<blockquote>
-<p><code>Shell</code> 脚本就是将一堆的 <code>Shell</code> 命令以及指定执行 <code>Shell</code> ，通过放在一个文件中来执行。</p>
+<p>由于某些原因，很多公用免费的 CDN 资源在中国大陆并不很好用，就算是付费的，也有一定的限制，例如每天的刷新次数有限之类的。<br>幸运的是在中国大陆唯一有 license 的公有 CDN竟然是免费的，它就是——<a href="https://www.jsdelivr.com/" target="_blank" rel="noopener">JsDelivr</a>。</p>
+<h2 id="JsDelivr-是什么"><a href="#JsDelivr-是什么" class="headerlink" title="JsDelivr 是什么"></a>JsDelivr 是什么</h2><blockquote>
+<p>A free CDN for Open Source fast, reliable, and automated. —— JsDelivr 官网</p>
 </blockquote>
-<h3 id="脚本语言的分类"><a href="#脚本语言的分类" class="headerlink" title="脚本语言的分类"></a>脚本语言的分类</h3><p>脚本语言又可以分为以下两大类：</p>
-<ol>
-<li><code>Shell</code>脚本</li>
-<li>通用动态语言</li>
-</ol>
-<h5 id="常见的Shell脚本："><a href="#常见的Shell脚本：" class="headerlink" title="常见的Shell脚本："></a>常见的Shell脚本：</h5><ul>
-<li>sh</li>
-<li>bash</li>
-<li>csh</li>
-<li>ksh</li>
-<li>tcsh</li>
-<li>zsh</li>
-<li>AppleScript </li>
+<p>根据官网的介绍我们可以知道它是一个<strong>免费</strong>、<strong>快速</strong>、<strong>可靠</strong>、<strong>自动化</strong> 的CDN。</p>
+<p>那么，这么棒的CDN，到底该如何使用呢？下面会一一介绍。</p>
+<h2 id="快速上手"><a href="#快速上手" class="headerlink" title="快速上手"></a>快速上手</h2><p>JsDelivr 目前有三种用法：</p>
+<ul>
+<li>Npm</li>
+<li>Github</li>
+<li>Wordpress</li>
 </ul>
-<h5 id="常见的脚本语言"><a href="#常见的脚本语言" class="headerlink" title="常见的脚本语言"></a>常见的脚本语言</h5><ul>
-<li>JavaScript</li>
-<li>Perl</li>
-<li>PHP</li>
-<li>Python</li>
-<li>Ruby</li>
-<li>VBScript</li>
+<p>因为本文的重点是如何使用 GitHub + JsDelivr，来搭建免费的CDN，所以这里就不对其他两种用法做过多介绍。</p>
+<h3 id="1-新建Github-仓库"><a href="#1-新建Github-仓库" class="headerlink" title="1. 新建Github 仓库"></a>1. 新建Github 仓库</h3><p>这个仓库是用于存储资源文件的，最好是public，因为private的仓库，资源链接会带token验证，而这个token会存在过期的问题。</p>
+<h3 id="2-将本地资源推送至仓库"><a href="#2-将本地资源推送至仓库" class="headerlink" title="2. 将本地资源推送至仓库"></a>2. 将本地资源推送至仓库</h3><p>将资源文件加入本地仓库，然后推送至 CDN 的远程仓库。</p>
+<h3 id="3-发布仓库"><a href="#3-发布仓库" class="headerlink" title="3. 发布仓库"></a>3. 发布仓库</h3><p>如果没有发布就直接使用，可能会导致文件加载异常。</p>
+<p>自定义发布版本号：<br><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200710132805.png" alt=""></p>
+<p>然后点击<code>Publish release</code>。</p>
+<h3 id="4-通过jsDeliver引用资源"><a href="#4-通过jsDeliver引用资源" class="headerlink" title="4. 通过jsDeliver引用资源"></a>4. 通过jsDeliver引用资源</h3><p>只需要通过符合 JSDelivr 规则的 URL 引用，即可直接使用 Github 中的资源。</p>
+<p>规则如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;gh&#x2F;username&#x2F;repository@version&#x2F;file</span><br></pre></td></tr></table></figure>
+
+<p>参数说明：</p>
+<ul>
+<li><code>cdn.jsdelivr.net/gh/</code>：jsDeliver 规定Github 的引用地址</li>
+<li><code>username</code>：你的GitHub 用户名</li>
+<li><code>repository</code>：CDN 仓库</li>
+<li><code>@version</code>：发布的版本号</li>
+<li><code>file</code>：资源文件在仓库中的路径</li>
+</ul>
+<p>版本号不是必需的，是为了区分新旧资源，如果不使用版本号，将会直接引用最新资源，除此之外还可以使用某个范围内的版本，查看所有资源等，具体使用方法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 通过指定版本号引用</span><br><span class="line">https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;gh&#x2F;0xAiKang&#x2F;CDN&#x2F;blog&#x2F;images&#x2F;avatar.jpg</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 使用一个范围内的版本</span><br><span class="line">https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;gh&#x2F;jquery&#x2F;jquery@3.2.1&#x2F;dist&#x2F;jquery.min.js</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 忽略版本号则默认使用最新版</span><br><span class="line">https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;gh&#x2F;jquery&#x2F;jquery&#x2F;dist&#x2F;jquery.min.js</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 在任意JS&#x2F;CSS文件后添加 .min 能得到一个缩小版</span><br><span class="line">&#x2F;&#x2F; 如果它本身不存在，我们将会为你生成</span><br><span class="line">https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;gh&#x2F;jquery&#x2F;jquery@3.2.1&#x2F;src&#x2F;core.min.js</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 在末尾加 &#x2F; 则得到目录列表</span><br><span class="line">https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;gh&#x2F;jquery&#x2F;jquery&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>同样的一张图片，可以对比一下<code>jsDeliver</code>和<code>raw.githubusercontent</code> 的访问速度。</p>
+<ul>
+<li><code>jsDeliver</code>：<a href="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg</a></li>
+<li><code>raw.githubusercontent</code>：<a href="https://raw.githubusercontent.com/0xAiKang/CDN/master/blog/images/avatar.jpg" target="_blank" rel="noopener">https://raw.githubusercontent.com/0xAiKang/CDN/master/blog/images/avatar.jpg</a></li>
 </ul>
 
           
@@ -475,7 +463,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.aikang.me/understanding-of-shell-programming/>https://www.aikang.me/understanding-of-shell-programming/</a></p>
+            <p>本文永久链接是：<a href=https://www.aikang.me/free-cdn-jsdelivr-github/>https://www.aikang.me/free-cdn-jsdelivr-github/</a></p>
           
         
       </blockquote>
@@ -523,10 +511,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-08T21:55:36+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-10T13:34:57+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Jul 8, 2020</p>
+    <p>更新于：Jul 10, 2020</p>
   </a>
 </div>
 
@@ -535,7 +523,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Linux/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Linux</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Shell/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Shell</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Tutorial/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Tutorial</p></a></div>
 
 
         
@@ -553,12 +541,9 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.aikang.me/understanding-of-shell-programming/&title=对于Shell编程的理解 - Boo&summary=在开始聊Shell编程之前，我们先来看看计算机编程语言的都有哪些类型。
-计算机语言可以分为两大类：
-
-低级语言
-高级语言
-"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.aikang.me/free-cdn-jsdelivr-github/&title=免费 CDN：JsDelivr + Github - Boo&summary=不知道大家通常是如何访问图床的，我之前一直使用的方式是：GitHub 图床 + raw.githubusercontent。
+图片相关的资源全部放在GitHub上，然后使用GitHub 提供的素材服务器raw.githubusercontent去访问。但是这种方式存在一个问题，那就是放在 Github 的资源在国内加载速度比较慢，如果网络稍微差一些，资源可能就会加载失败。
+因此需要使用 CDN 来加速来优化资源加载速度。"
           
           >
           
@@ -570,12 +555,9 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.aikang.me/understanding-of-shell-programming/&title=对于Shell编程的理解 - Boo&summary=在开始聊Shell编程之前，我们先来看看计算机编程语言的都有哪些类型。
-计算机语言可以分为两大类：
-
-低级语言
-高级语言
-"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.aikang.me/free-cdn-jsdelivr-github/&title=免费 CDN：JsDelivr + Github - Boo&summary=不知道大家通常是如何访问图床的，我之前一直使用的方式是：GitHub 图床 + raw.githubusercontent。
+图片相关的资源全部放在GitHub上，然后使用GitHub 提供的素材服务器raw.githubusercontent去访问。但是这种方式存在一个问题，那就是放在 Github 的资源在国内加载速度比较慢，如果网络稍微差一些，资源可能就会加载失败。
+因此需要使用 CDN 来加速来优化资源加载速度。"
           
           >
           
@@ -587,12 +569,9 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.aikang.me/understanding-of-shell-programming/&title=对于Shell编程的理解 - Boo&summary=在开始聊Shell编程之前，我们先来看看计算机编程语言的都有哪些类型。
-计算机语言可以分为两大类：
-
-低级语言
-高级语言
-"
+          href="http://service.weibo.com/share/share.php?url=https://www.aikang.me/free-cdn-jsdelivr-github/&title=免费 CDN：JsDelivr + Github - Boo&summary=不知道大家通常是如何访问图床的，我之前一直使用的方式是：GitHub 图床 + raw.githubusercontent。
+图片相关的资源全部放在GitHub上，然后使用GitHub 提供的素材服务器raw.githubusercontent去访问。但是这种方式存在一个问题，那就是放在 Github 的资源在国内加载速度比较慢，如果网络稍微差一些，资源可能就会加载失败。
+因此需要使用 CDN 来加速来优化资源加载速度。"
           
           >
           
@@ -606,7 +585,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADqElEQVR42u3aQXLjMAwEQP//09n7VqVEzNC7cNK8OZYlopkDCqPXlxWtFwJw4MCBs8CBWwL3CtfT7//+/rvP393n6e9P93t6flwvOHDgwIEDBw7cMrjjBjAs7Om66UGcQp4e3HG94MCBAwcOHDhwS+GmDe3pA08LTyHSBnz8e3DgwIEDBw4cuB8Cd7vxTe/bPgccOHDgwIEDB+63waUDyHcf0PS+4MCBAwcOHDhwnw6XDijbQLttoE/3tybJBwcOHDhw4MCBuwQ3XdPAd9vnuF5w4MCBAwcOHLglcO06bWjbweNTo3x6fV0vOHDgwIEDBw7cErjTB6eDxVOw6eCxDcbTAwAHDhw4cODAgdsKl0Lc2ljaaKfAp3WBAwcOHDhw4MBthZs2vmkhaUFpI339xUVw4MCBAwcOHLgPhbu1obQBTRvxNvgGBw4cOHDgwIHbBpcGyen1LdjrcKWN8+P34MCBAwcOHDhwS+DShvVWoNwGyW2jO278wYEDBw4cOHDglsC1A8bXcN0OmNPnxEE6OHDgwIEDBw7cMrh0YHlrg+lgMW240zrBgQMHDhw4cOC2wN0KmtuNpwF22sjGBw4OHDhw4MCBA7cMrt1YC5MG1ul9038QcODAgQMHDhy4LXDti3vt70/vMy30XQcHDhw4cODAgQO3Be7WQLENktvr22D8uF5w4MCBAwcOHLhlcO9uiNOB5HTgevtgxxNgcODAgQMHDhy4fwT39hfxwoNJg+rpwY0Hp+DAgQMHDhw4cB8Glwa66SB0GjinB/M1XODAgQMHDhw4cFvgbgXKaQObvojYvjgYB+HgwIEDBw4cOHDL4NLC2kFo2vC2A9AYGhw4cODAgQMHbgncuwufgqeBdts4H98XHDhw4MCBAwduKVwb8KYbawtNA+jx38GBAwcOHDhw4JbATQPhacPcNrjtPtrfgQMHDhw4cODAbYW79cA2QE4D8rYxrwNpcODAgQMHDhy4ZXBpMD0FiQeKYQPeNujgwIEDBw4cOHBb4NpAOB1Eti/4tQebNtzgwIEDBw4cOHDb4G43vOn90gHldPAZ1w8OHDhw4MCBA7cUrm1424KmwfOtxvt4sAoOHDhw4MCBA/dD4NoXENOG99a+6kAaHDhw4MCBAwfuh8ClkOmgMm1848EnOHDgwIEDBw7cUrg0QG4b1TaQvgUKDhw4cODAgQP3aXBtcDv9/lZg3Qbd43rBgQMHDhw4cOCWwFmzBQ4cOHDgLHDg/vP6AyA+A+oXp2f8AAAAAElFTkSuQmCC">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAAC/UlEQVR42u3aQW4jMQwEQP//09l7sIbJJhOYTulmYGYklS8Nko8v67/rgQAMGDBgwIA5A/MI19MPF5+r7v/9uWe/t+4DBgwYMGDAgLkHUw5ARZjud7oXne7/9BxgwIABAwYMmLMw06BVfb/7/Z8+DxgwYMCAAQPm78JMg1gaDKvfBQMGDBgwYMCAmUJtN/bAgAEDBgwYMGDiBlU4wLPVyEuDIhgwYMCAAQPmc2DS4PWuv+P7gAEDBgwYMGDOwExXGszSRts00L3cBwwYMGDAgAFzBiYNSN3C1NYgUTVwxucAAwYMGDBgwJyHSYPV9Pm0QFbdfzxRBQYMGDBgwIB5O5juYM72SgeB0uD49L5gwIABAwYMmDMw1cBUbYSl39kOmGnhCgwYMGDAgAFzByZtYHULTtPnqgWp9DkwYMCAAQMGzF2Y9ODd99LgOA2kccADAwYMGDBgwJyB6Q7gTIPZNuD4fGDAgAEDBgyYj4GpNsjaBaFhwywNhC+hwYABAwYMGDBnYLYKSN2g9ur31mBR9T5gwIABAwYMmHswU4jfapBtF6jihhsYMGDAgAED5u1g0oNMA1412HUh1xpuYMCAAQMGDJi3hUkLR1sDR93n0sBZfg8MGDBgwIABcwamG7TSA6QDQ79V8AIDBgwYMGDA3IX5Clc3QG0Hwa3gCQYMGDBgwID5fJhqIEyDX/fC6QBUuRMJBgwYMGDAgDkDM21odQtQ030ewwUGDBgwYMCA+TyYNLh1C0vdoLkF0C5UgQEDBgwYMGDeDma62hsXC1XdPyjdHwwYMGDAgAFzF2atwFMsJE0bd2lBrdzYAwMGDBgwYMCcg0kDXff97qDQViFq3HADAwYMGDBgwLw9TLdxlg7+pMDTwaGXAREMGDBgwIAB82dhUsBu4y39HhgwYMCAAQMGTNr4qhaY0sJTF/THC1VgwIABAwYMmF+D6RaKtgpLadDbCoxgwIABAwYMmLswW42raXBLL7oGCQYMGDBgwIA5A2OBAQMGDBgwYI6tf90MZ3DFjtEnAAAAAElFTkSuQmCC">
           </div>
         </div>
       
@@ -626,24 +605,11 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/write-the-first-shell-script/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>编写第一个Shell 脚本</p>
-                <p class='content'>这篇笔记用来记录编写 Shell 脚本过程中的一些基础知识。
-
-
-什么是 shell 脚本
-Shell 脚本就是将一堆的 Shell 命令以及指定执行 Shell ，通过放在一个文件中来执行。
-...</p>
-              </a>
             
-            
-              <a class='next' href='/understanding-of-linux-shell-shell-script-shell-environment/'>
-                <p class='title'>关于Linux的Shell、Shell脚本、Shell环境的理解<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>如标题所示，这片笔记主要目的是加深对Linux的Shell、Shell脚本、Shell环境的理解。
-
-
-什么是Shell？
-在回答这个问题之前，我们先来考虑一个问题：人是如何跟计算机打交道的？或...</p>
+              <a class='next' href='/how-to-write-a-commit-log/'>
+                <p class='title'>如何写好Commit log<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>其实关于这个问题，老早都想整理了，只是一直没有腾出空来。最近刚好有空，索性整理了下。
+这里就不过多介绍什么是Git了，本文的重点是Commit Log，如果还不清楚Git是什么，可以看一下我的G...</p>
               </a>
             
           </div>
@@ -688,7 +654,7 @@ Shell 脚本就是将一堆的 Shell 命令以及指定执行 Shell ，通过放
 
   <script>
     window.subData = {
-      title: '对于Shell编程的理解',
+      title: '免费 CDN：JsDelivr + Github',
       tools: true
     }
   </script>
@@ -715,7 +681,7 @@ Shell 脚本就是将一堆的 Shell 命令以及指定执行 Shell ，通过放
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#动态语言"><span class="toc-text">动态语言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Shell编程"><span class="toc-text">Shell编程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#脚本语言的分类"><span class="toc-text">脚本语言的分类</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#常见的Shell脚本："><span class="toc-text">常见的Shell脚本：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#常见的脚本语言"><span class="toc-text">常见的脚本语言</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CDN-是什么"><span class="toc-text">CDN 是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JsDelivr-是什么"><span class="toc-text">JsDelivr 是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#快速上手"><span class="toc-text">快速上手</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-新建Github-仓库"><span class="toc-text">1. 新建Github 仓库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-将本地资源推送至仓库"><span class="toc-text">2. 将本地资源推送至仓库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-发布仓库"><span class="toc-text">3. 发布仓库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-通过jsDeliver引用资源"><span class="toc-text">4. 通过jsDeliver引用资源</span></a></li></ol></li></ol>
     </div>
   </section>
 
