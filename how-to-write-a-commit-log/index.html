@@ -16,12 +16,13 @@
 
   <!-- 页面元数据 -->
   
-    <title>Hexo Volantis 主题优化 | 增加分析与统计 - Boo</title>
+    <title>如何写好Commit log - Boo</title>
   
-    <meta name="keywords" content="Hexo,Tutorial">
+    <meta name="keywords" content="Tutorial,Git">
   
   
-    <meta name="description" content="Volantis 默认支持 不蒜子 的访问统计，可以自行添加百度统计和 Google Analytics。">
+    <meta name="description" content="其实关于这个问题，老早都想整理了，只是一直没有腾出空来。最近刚好有空，索性整理了下。
+这里就不过多介绍什么是Git了，本文的重点是Commit Log，如果还不清楚Git是什么，可以看一下我的Git系列的其他笔记。">
   
 
   <!-- feed -->
@@ -283,8 +284,8 @@
         
           
   <h1 class="title">
-    <a href="/hexo-volantis-theme-optimization-add-analysis-and-statistics/">
-      Hexo Volantis 主题优化 | 增加分析与统计
+    <a href="/how-to-write-a-commit-log/">
+      如何写好Commit log
     </a>
   </h1>
 
@@ -309,9 +310,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Tutorial/' rel="nofollow">
+    <a href='/categories/Git/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Tutorial</p>
+      <p>Git</p>
     </a>
   </div>
 
@@ -322,7 +323,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jul 9, 2020</p>
+    <p>发布于：Jul 10, 2020</p>
   </a>
 </div>
 
@@ -338,13 +339,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>479 words</p>
+      <p>698 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>1 min</p>
+      <p>2 min</p>
     </a>
   </div>
 
@@ -357,7 +358,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/hexo-volantis-theme-optimization-add-analysis-and-statistics/" class="leancloud_visitors" data-flag-title="Hexo Volantis 主题优化 | 增加分析与统计">
+      <span id="/how-to-write-a-commit-log/" class="leancloud_visitors" data-flag-title="如何写好Commit log">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -380,52 +381,54 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>Volantis 默认支持 <a href="http://busuanzi.ibruce.info/" target="_blank" rel="noopener">不蒜子</a> 的访问统计，可以自行添加<a href="https://tongji.baidu.com/" target="_blank" rel="noopener">百度统计</a>和 <a href="https://analytics.google.com/" target="_blank" rel="noopener">Google Analytics</a>。</p>
+          <p>其实关于这个问题，老早都想整理了，只是一直没有腾出空来。最近刚好有空，索性整理了下。</p>
+<p>这里就不过多介绍什么是<code>Git</code>了，本文的重点是<code>Commit Log</code>，如果还不清楚<code>Git</code>是什么，可以看一下我的<code>Git</code>系列的其他笔记。</p>
 <a id="more"></a>
 
-<h2 id="环境要求"><a href="#环境要求" class="headerlink" title="环境要求"></a>环境要求</h2><ul>
-<li>Hexo：4.2</li>
-<li>Node：12</li>
-<li>Volantis：2.6</li>
+<h2 id="为什么要关注提交信息"><a href="#为什么要关注提交信息" class="headerlink" title="为什么要关注提交信息"></a>为什么要关注提交信息</h2><ol>
+<li>加快<code>Reviewing Code</code>的过程</li>
+<li>提醒自己或他人，某个提交具体增加了什么功能，改动了哪些地方</li>
+<li>提高项目的整体质量</li>
+</ol>
+<h2 id="Angular-规范的-Commit-message-格式"><a href="#Angular-规范的-Commit-message-格式" class="headerlink" title="Angular 规范的 Commit message 格式"></a>Angular 规范的 Commit message 格式</h2><p>这种格式（规范）是我目前觉得相对其他格式（规范）而言，最容易接受、上手的一种。</p>
+<p>其核心是每次提交，Commit message 都包括三个部分：Header，Body 和 Footer。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;type&gt;(&lt;scope&gt;): &lt;subject&gt;</span><br><span class="line">&#x2F;&#x2F; 空一行</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&#x2F;&#x2F; 空一行</span><br><span class="line">&lt;footer&gt;</span><br></pre></td></tr></table></figure>
+<p>其中，Header 是必需的，Body 和 Footer 可以省略。</p>
+<h3 id="Header"><a href="#Header" class="headerlink" title="Header"></a>Header</h3><p>Header 部分只有一行，包括三个字段：<strong>type</strong>（必需）、<strong>scope</strong>（可选）和 <strong>subject</strong>（必需）。</p>
+<p><strong>type</strong> 用于说明 <code>commit</code> 的类别，只允许使用下面 7 个标识。</p>
+<ul>
+<li><strong>feat</strong> 新功能（feature）</li>
+<li><strong>fix</strong> 修补 bug</li>
+<li><strong>docs</strong> 文档（documentation）</li>
+<li><strong>style</strong> 格式（不影响代码运行的变动）</li>
+<li><strong>refactor</strong> 重构（即不是新增功能，也不是修改 bug 的代码变动）</li>
+<li><strong>test</strong> 增加测试</li>
+<li><strong>chore</strong> 构建过程、辅助工具的变动</li>
+<li><strong>perf</strong> 提高性能</li>
+<li><strong>typo</strong> 打字错误</li>
 </ul>
-<h2 id="分析与统计"><a href="#分析与统计" class="headerlink" title="分析与统计"></a>分析与统计</h2><h3 id="字数和阅读时长"><a href="#字数和阅读时长" class="headerlink" title="字数和阅读时长"></a>字数和阅读时长</h3><ol>
-<li>Volantis 默认没有安装 <code>wordcount</code>插件，所以需要手动安装：</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i --save hexo-wordcount</span><br></pre></td></tr></table></figure>
+<p><strong>scope</strong> 用于说明 <code>commit</code> 影响的范围，比如数据层、控制层、视图层等等，视项目不同而不同。</p>
+<p><strong>subject</strong> 是 <code>commit</code> 目的的简短描述，不超过 50 个字符。</p>
+<h3 id="Body"><a href="#Body" class="headerlink" title="Body"></a>Body</h3><p>Body 部分是对本次 commit 的详细描述，可以分成多行。</p>
+<h3 id="Footer"><a href="#Footer" class="headerlink" title="Footer"></a>Footer</h3><p>Footer 部分只用于不兼容变动和关闭 Issue。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>本来我自己一直使用的方式就是：<code>git commit -am &quot;fix login bug</code>，虽然并没有绝对的对错，但这显然不是最好的方式。</p>
+<p>这种东西并没有强制性的规定，只要团队之间约定好，然后按照这个约定协作就好了。</p>
+<p>所以我觉得在团队之间<code>commit</code>时，可以不用完全按照<code>Angular 规范的Commit message</code>格式去提交，可以按照以下约定来执行。</p>
+<ul>
+<li><code>commit</code>时，只用保留 Header 部分就好。</li>
+<li><code>pull request</code>时，才需要 Header、Body、Footer 这三部分。</li>
+</ul>
+<p>另外<code>commit</code>时需要注意以下几点：</p>
+<ul>
+<li>创建短小而明确的<code>commit</code>，一句话说清楚。</li>
+<li>一个小改动对应一次<code>commit</code>，不建议一大堆改动，一次<code>commit</code>。</li>
+<li>如果添加的代码会使项目发生极大的变化，那么需要及时更新<code>remade</code>文件以向他人说明此次更改。</li>
+</ul>
+<h4 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docs: add FAQ in readme file</span><br><span class="line">feat: increase user login function</span><br><span class="line">fix: fix user login bug</span><br></pre></td></tr></table></figure>
 
-<ol start="2">
-<li>修改主题配置文件<code>themes/volantis/_config.yml</code>，将 wordcount 插件打开</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">plugins:</span><br><span class="line">  ...</span><br><span class="line">  # 文章字数统计、阅读时长，开启需要安装插件: npm i --save hexo-wordcount</span><br><span class="line">  wordcount: true</span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li>继续修改主题配置文件<code>themes/volantis/_config.yml</code>，将 <code>wordcount</code> 放在需要显示的 meta 位置：</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 布局</span><br><span class="line">layout:</span><br><span class="line">  on_list:</span><br><span class="line">    meta: [..., wordcount, ...]</span><br><span class="line">  on_page:</span><br><span class="line">    meta:</span><br><span class="line">      header: [..., wordcount, ...]</span><br><span class="line">      footer: [..., wordcount, ...]</span><br></pre></td></tr></table></figure>
-
-<h3 id="百度统计"><a href="#百度统计" class="headerlink" title="百度统计"></a>百度统计</h3><p>百度统计是百度推出的一款免费的专业网站流量分析工具，能够告诉用户访客是如何找到并浏览用户的网站，在网站上做了些什么，非常有趣，接下来我们把百度统计添加到自己博客当中。</p>
-<ol>
-<li>访问<a href="https://tongji.baidu.com/" target="_blank" rel="noopener">百度统计首页</a>，注册一个账号后登陆，添加你的博客网站。</li>
-</ol>
-<p><img src="https://raw.githubusercontent.com/0xAiKang/CDN/master/blog/images/20200709204712.png" alt=""></p>
-<ol start="2">
-<li><p>点击获取代码，复制该代码。</p>
-</li>
-<li><p>在主题配置文件中，增加以下内容：</p>
-</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cnzz: true</span><br></pre></td></tr></table></figure>
-<p>用于设置是否开启百度统计。</p>
-<ol start="4">
-<li>在<code>themes/volantis/layout/_partial</code>目录下，新建一个<code>cnzz.ejs</code>文件，将刚才复制的内容粘贴进去：</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;% if (theme.cnzz)&#123; %&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">    var _hmt &#x3D; _hmt || [];</span><br><span class="line">    (function () &#123;</span><br><span class="line">        var hm &#x3D; document.createElement(&quot;script&quot;);</span><br><span class="line">        hm.src &#x3D; &quot;https:&#x2F;&#x2F;hm.baidu.com&#x2F;hm.js?xxxxxxxxxxxxxxxxxxxxxxx&quot;;</span><br><span class="line">        var s &#x3D; document.getElementsByTagName(&quot;script&quot;)[0];</span><br><span class="line">        s.parentNode.insertBefore(hm, s);</span><br><span class="line">    &#125;)();</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line">&lt;% &#125; %&gt;</span><br></pre></td></tr></table></figure>
-
-<ol start="5">
-<li>最后将以下内容放在网站首页的尾部<code>themes/volantis/layout/_partial/footer.ejs</code>中：</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;%- partial(&#39;cnzz&#39;) %&gt;</span><br></pre></td></tr></table></figure>
-<p>完成以上所有操作之后，可以在<a href="https://tongji.baidu.com/sc-web/10000236600/home/site/index" target="_blank" rel="noopener">百度统计管理页面</a>检查代码是否安装正确，如果正确安装，通常二十分钟之后就可以看到网站的分析数据了。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://ruby-china.org/topics/15737" target="_blank" rel="noopener">Git 如何写好 Commit Log？</a></li>
+</ul>
 
           
             <div class='article_footer'>
@@ -462,7 +465,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.aikang.me/hexo-volantis-theme-optimization-add-analysis-and-statistics/>https://www.aikang.me/hexo-volantis-theme-optimization-add-analysis-and-statistics/</a></p>
+            <p>本文永久链接是：<a href=https://www.aikang.me/how-to-write-a-commit-log/>https://www.aikang.me/how-to-write-a-commit-log/</a></p>
           
         
       </blockquote>
@@ -510,10 +513,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-09T21:19:08+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-10T09:23:51+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Jul 9, 2020</p>
+    <p>更新于：Jul 10, 2020</p>
   </a>
 </div>
 
@@ -522,7 +525,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Hexo/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Hexo</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Tutorial/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Tutorial</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Tutorial/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Tutorial</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Git/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Git</p></a></div>
 
 
         
@@ -540,7 +543,8 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.aikang.me/hexo-volantis-theme-optimization-add-analysis-and-statistics/&title=Hexo Volantis 主题优化 | 增加分析与统计 - Boo&summary=Volantis 默认支持 不蒜子 的访问统计，可以自行添加百度统计和 Google Analytics。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.aikang.me/how-to-write-a-commit-log/&title=如何写好Commit log - Boo&summary=其实关于这个问题，老早都想整理了，只是一直没有腾出空来。最近刚好有空，索性整理了下。
+这里就不过多介绍什么是Git了，本文的重点是Commit Log，如果还不清楚Git是什么，可以看一下我的Git系列的其他笔记。"
           
           >
           
@@ -552,7 +556,8 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.aikang.me/hexo-volantis-theme-optimization-add-analysis-and-statistics/&title=Hexo Volantis 主题优化 | 增加分析与统计 - Boo&summary=Volantis 默认支持 不蒜子 的访问统计，可以自行添加百度统计和 Google Analytics。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.aikang.me/how-to-write-a-commit-log/&title=如何写好Commit log - Boo&summary=其实关于这个问题，老早都想整理了，只是一直没有腾出空来。最近刚好有空，索性整理了下。
+这里就不过多介绍什么是Git了，本文的重点是Commit Log，如果还不清楚Git是什么，可以看一下我的Git系列的其他笔记。"
           
           >
           
@@ -564,7 +569,8 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.aikang.me/hexo-volantis-theme-optimization-add-analysis-and-statistics/&title=Hexo Volantis 主题优化 | 增加分析与统计 - Boo&summary=Volantis 默认支持 不蒜子 的访问统计，可以自行添加百度统计和 Google Analytics。"
+          href="http://service.weibo.com/share/share.php?url=https://www.aikang.me/how-to-write-a-commit-log/&title=如何写好Commit log - Boo&summary=其实关于这个问题，老早都想整理了，只是一直没有腾出空来。最近刚好有空，索性整理了下。
+这里就不过多介绍什么是Git了，本文的重点是Commit Log，如果还不清楚Git是什么，可以看一下我的Git系列的其他笔记。"
           
           >
           
@@ -578,7 +584,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVgAAAFYCAAAAAAzB7ucAAAEbElEQVR42u3aQW7dMAwFwNz/0u2+wEfIR5pOitGuTWTLoyzIB379sR5ZXwjAgrXAggVrgT2B/QrXxwf/8/Pqc7r7vtv/6VzV56QeYMGCBQsWLFiwYG9hywXwh9/vgn23r/rz9CKq5+t6gAULFixYsGDBgn0HNi3kU4gt4CrIVoMDFixYsGDBggUL9v+GTQPqbiDdbVTAggULFixYsGDBgp0U9On7u+dIGw2wYMGCBQsWLFiwvwM2LaDTQYvp+9IG48dPwoAFCxYsWLBgwYItwXZX+uG/5d+xB1iwYMGCBQsWLNgT2OmaDmKkhXj1PNXGYM0DLFiwYMGCBQsW7AlsWiBvXUAKtwW5/f1gwYIFCxYsWLBgb2CrD5xCdS9m+v5qA7Me5IMFCxYsWLBgwYI9ga0G1NMPmgbL20F3CjcOusGCBQsWLFiwYMGewKaFcxpMVxuC7cYhDbjjBgEsWLBgwYIFCxbsCLZbkKcFeBogP3Xx7cK/Cg0WLFiwYMGCBQv2FLZbGE8/YOv/03N0BzjKFwoWLFiwYMGCBQv2BLYbHHcD7W7AnQbf3aC7G8iXvcCCBQsWLFiwYMGewnYL8m5jMQVIBza6AfcUGCxYsGDBggULFuwNbBoobwfhWxf59EDHt/vAggULFixYsGDBnsB2g+RpkN0NnrvvmQbi6cWBBQsWLFiwYMGCvYVNA96tQYytILoLOg26P+4HCxYsWLBgwYIFewLbLYinDUQ6EDJtLLaDcrBgwYIFCxYsWLDvwm4Hw91GYlrwd8GnzxtPwoAFCxYsWLBgwYJdgd1+YdpgdM8xDc6nAyEf94MFCxYsWLBgwYI9gU2D52nAXd2/1bikF1R9DliwYMGCBQsWLNhb2O7G7QNdBep/jhZYsGDBggULFizYW9huQT4NyqeDG9NBkO3BD7BgwYIFCxYsWLC3sOmLtn9/q7HoBudpg7M+sAEWLFiwYMGCBQt2BXYaLE8bh7SRmAb24z8gsGDBggULFixYsKew3QdXC/hu4T/d/9QfQvmiwIIFCxYsWLBgwZ7ApgMZW4V/Glx3z7HVSHx7IWDBggULFixYsGBPYbdgph82fW7aaEwXWLBgwYIFCxYs2Hdgu4X4VuCdDm50C/rpQEj53GDBggULFixYsGB/JGwVLh0I2RrQ2BoMqTqBBQsWLFiwYMGCfRd2HPQ2C+30OV3ItIGpvh8sWLBgwYIFCxbsLex0pcHzFny3gN/6+cdzgQULFixYsGDBgj2BnTYE1eC5W/hvDYQ8NZDy8blgwYIFCxYsWLBgT2GfHrDoDk6kDca0UUnPBRYsWLBgwYIFC/Zd2DRgngbV3Q+bFv4/ZhIGLFiwYMGCBQsW7KuwacPxVOA+Da6r+8pBN1iwYMGCBQsWLNhfAZsG4tNgOr3wtYEVsGDBggULFixYsK/Adg/8VGCeAk8vYBycgwULFixYsGDBgj2FnQ5epIMdWx88vZj0u8CCBQsWLFiwYMG+A2vtLrBgwVpgwYK1wD66/gL6bxhcpO6YhQAAAABJRU5ErkJggg==">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAAC/klEQVR42u3aS27DMAwFQN//0um+aCD+3JrpaBfYkaXR5oHU9TJ+HBcCMGDAgAEDZg3MVRxvJ/72/PT/qe9M7QcMGDBgwIABsw8mHIBuWnAVNru+40GCAQMGDBgwYNbCdBdeDXbZ+U/vl/cDBgwYMGDAgAEzFOCmfoMBAwYMGDBgwNzVMMvOkw18YMCAAQMGDJjPh0k3qJIFqSpAdJ2P6USCAQMGDBgwYH4NprqBp/4u7wcMGDBgwIABswamO6oNt2xgy/6vvB8wYMCAAQMGzBqYakDKFoqyQbEK1V4/GDBgwIABA2YNTLWRFg1yXbjuPNl1ggEDBgwYMGD2wFSDUnah1QJUtcEWff+YfMGAAQMGDBgwj4eJFoiqENmNZg8oe8DpCh4YMGDAgAED5nEw00DdRtpUQava4AMDBgwYMGDA7IOJXtTJvncNjalG3xEMDBgwYMCAAbMOZrogVC4UBQNhNsiFwcGAAQMGDBgwa2CmNtS9QFS9GNS9iAQGDBgwYMCA+RyYbkC6O9h1A+dxPjBgwIABAwbMGpjsB7MQ1QDXPbDqAYMBAwYMGDBg9sFEQaob7xa0xi4GZTuRYMCAAQMGDJjHwkw32roNtG7gqwZAMGDAgAEDBsx+mOoC7wJ8BUf1gI+dSDBgwIABAwbM42GqBaVoIWgqoE0XwMCAAQMGDBgw+2G6haRXcmQD3dTz2yp4YMCAAQMGDJg/hykHo2YjbeoiUDtYggEDBgwYMGDWwlQv7JQv6hQLUVONQDBgwIABAwbMXpju6Bausg2yaKMwWhADAwYMGDBgwOyFuSswZQNadmPZC0jh9YEBAwYMGDBg1sFMX/iZbpBNHdRYJxIMGDBgwIAB8ziYboDKFpKyBzTd8AsHPDBgwIABAwbMx8JMN8CiBa9s4+64PzBgwIABAwbMv4OZKkTdFejCBwcGDBgwYMCAWQtTLShV55kqZHULa2DAgAEDBgyYvTDd4NSFyAa+7rrezg8GDBgwYMCAWQNjgAEDBgwYMGCWjS+94ms0OwDlNwAAAABJRU5ErkJggg==">
           </div>
         </div>
       
@@ -598,19 +604,18 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/how-to-write-a-commit-log/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>如何写好Commit log</p>
-                <p class='content'>其实关于这个问题，老早都想整理了，只是一直没有腾出空来。最近刚好有空，索性整理了下。
-这里就不过多介绍什么是Git了，本文的重点是Commit Log，如果还不清楚Git是什么，可以看一下我的G...</p>
-              </a>
             
-            
-              <a class='next' href='/hexo-volantis-theme-optimization-add-calendar/'>
-                <p class='title'>Hexo Volantis 主题优化 | 添加日历图<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>一直觉得GitHub 日历图（代码提交统计样式）很好看，偶然发现是可以通过配置将日历模块引入到Hexo 的主题中的。
-默认效果如下：
+              <a class='next' href='/hexo-volantis-theme-optimization-add-analysis-and-statistics/'>
+                <p class='title'>Hexo Volantis 主题优化 | 增加分析与统计<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>Volantis 默认支持 不蒜子 的访问统计，可以自行添加百度统计和 Google Analytics。
 
-因为我使用的Hexo 主题是Volantis、而该主题目前...</p>
+
+环境要求
+Hexo：4.2
+Node：12
+Volantis：2.6
+
+分析与统计...</p>
               </a>
             
           </div>
@@ -655,7 +660,7 @@
 
   <script>
     window.subData = {
-      title: 'Hexo Volantis 主题优化 | 增加分析与统计',
+      title: '如何写好Commit log',
       tools: true
     }
   </script>
@@ -682,7 +687,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#环境要求"><span class="toc-text">环境要求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分析与统计"><span class="toc-text">分析与统计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#字数和阅读时长"><span class="toc-text">字数和阅读时长</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#百度统计"><span class="toc-text">百度统计</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么要关注提交信息"><span class="toc-text">为什么要关注提交信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Angular-规范的-Commit-message-格式"><span class="toc-text">Angular 规范的 Commit message 格式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Header"><span class="toc-text">Header</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Body"><span class="toc-text">Body</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Footer"><span class="toc-text">Footer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#最佳实践"><span class="toc-text">最佳实践</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
     </div>
   </section>
 
