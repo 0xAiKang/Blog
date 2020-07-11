@@ -4,6 +4,64 @@
   
     
     <entry>
+      <title>Linux 中的eval、反引号、$()的区别</title>
+      <link href="/the-difference-between-eval-and-backquotes-in-linux-and/"/>
+      <url>/the-difference-between-eval-and-backquotes-in-linux-and/</url>
+      
+        <content type="html"><![CDATA[<p>之前在搭建 SSH 环境时，遇到了这样一个问题：</p><blockquote><p>使用命令：<code>eval$(ssh-agent)</code>去创建一个代理进程，但是会提示：<code>No Such file or directory</code> 。</p></blockquote><p>就很纳闷，之前都用着好好的，为什么在新的环境中就不行了？</p><p>后来，了解到原来一直使用的 <code>eval$(ssh-agent)</code> ，其中的<code>$()</code> 原来在<code>Linux</code>中有特殊的意义。</p><p>所以这篇笔记专门用来了解 <code>eval</code> 和 <code>反引号</code> 以及 <code>$()</code>之间的区别。 它们的作用都是<strong>命令替换</strong>。</p><a id="more"></a><h2 id="场景重现"><a href="#场景重现" class="headerlink" title="场景重现"></a>场景重现</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ &#96;ssh-agent&#96;</span><br><span class="line">sh.exe&quot;: SSH_AUTH_SOCK&#x3D;&#x2F;tmp&#x2F;ssh-myYvgp1404&#x2F;agent.1404;: No such file or directory</span><br><span class="line"></span><br><span class="line">$ eval ssh-agent</span><br><span class="line">SSH_AUTH_SOCK&#x3D;&#x2F;tmp&#x2F;ssh-zIQZKN6080&#x2F;agent.6080; export SSH_AUTH_SOCK;</span><br><span class="line">SSH_AGENT_PID&#x3D;1092; export SSH_AGENT_PID;</span><br><span class="line">echo Agent pid 1092;</span><br><span class="line"></span><br><span class="line">$ eval &#96;ssh-agent&#96;</span><br><span class="line">Agent pid 4288</span><br></pre></td></tr></table></figure><p>直到我输入 eval <code>ssh-agent</code> 时，似乎就对了。</p><h3 id="命令代换"><a href="#命令代换" class="headerlink" title="命令代换"></a>命令代换</h3><p>这三种不同的方式都是<code>shell</code>脚本中的命令代换。</p><p>命令代换是指<code>shell</code>能够将一个命令的标准输出插在一个命令行中任何位置。</p><h4 id="eval"><a href="#eval" class="headerlink" title="eval"></a>eval</h4><p>首先要介绍的是: <code>eval</code></p><p>它的作用是：<strong>重新运算求出参数的内容</strong>。</p><p>该命令使用于那些一次扫描无法实现其功能的变量。该命令对变量进行两次扫描。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ touch test.txt</span><br><span class="line">$ vim test.txt      </span><br><span class="line">&#x2F;&#x2F; 写入 Hello eval</span><br><span class="line"></span><br><span class="line">$ var&#x3D;&quot;cat test.txt&quot;</span><br><span class="line">&#x2F;&#x2F; 注意：中间没有空格，前面没有美元符号。</span><br><span class="line"></span><br><span class="line">$ echo $var</span><br><span class="line">cat test.txt</span><br><span class="line">$ eval $var</span><br><span class="line">Hello eval</span><br></pre></td></tr></table></figure><h4 id="反引号与"><a href="#反引号与" class="headerlink" title="反引号与 $()"></a>反引号与 $()</h4><p>实例一：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ DATE1&#x3D;$(date)</span><br><span class="line">$ DATE2&#x3D;&#96;date&#96;</span><br><span class="line">$ DATE3&#x3D;&#96;eval date&#96;</span><br><span class="line"></span><br><span class="line">$ echo $DATE1</span><br><span class="line">2019年01月23日 21:20:36</span><br><span class="line">$ echo $DATE2</span><br><span class="line">2019年01月23日 21:20:36</span><br><span class="line">$ echo $DATE3</span><br><span class="line">2019年01月23日 21:20:36</span><br></pre></td></tr></table></figure><p>实例二：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ echo &#96;echo &#39;\\&#39;&#96; </span><br><span class="line">\</span><br><span class="line">$ echo $(echo &#39;\\&#39;)</span><br><span class="line">\\</span><br></pre></td></tr></table></figure><p>暂时没太明白这三者的实际应用场景，不过了解到了 它们之间的一些区别与联系。</p><h3 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h3><ul><li><a href="https://kyle.io/2012/09/ssh-agent-messiness-solving-it/" target="_blank" rel="noopener">https://kyle.io/2012/09/ssh-agent-messiness-solving-it/</a></li><li><a href="https://blog.csdn.net/Y1730008223CONG/article/details/74136055" target="_blank" rel="noopener">shell脚本中命令代换：反引号、$()、eval区别</a></li><li><a href="https://blog.csdn.net/if9600/article/details/74221548" target="_blank" rel="noopener">shell脚本中命令代换：反引号、$()、eval区别2</a></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> Linux </category>
+          
+          <category> 学习笔记 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Linux </tag>
+            
+            <tag> Shell </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Linux 中的Shell 种类</title>
+      <link href="/shell-types-in-linux/"/>
+      <url>/shell-types-in-linux/</url>
+      
+        <content type="html"><![CDATA[<p>什么是Shell？</p><a id="more"></a><p>Shell 是一个程序，其作用是将用户输入的命令发送到OS（系统内核）。</p><p>据说它起源于作为存在于OS 内部和用户之间的外壳的依附着。所以为形象的称作为 壳（Shell）。</p><h2 id="Shell-的种类"><a href="#Shell-的种类" class="headerlink" title="Shell 的种类"></a>Shell 的种类</h2><p>Linux Shell 的种类很多，目前流行的Shell 包括ash、bash、ksh、csh、zsh等，种类多了，也就有了标准化的要求，这就是POSIX的由来。</p><p>POSIX 表示可移植操作系统接口（UNIX的可移植操作系统接口，缩写为POSIX），POSIX标准定义了操作系统应该为应用程序提供的接口标准。</p><p>通过以下命令来查看文件中的内容来查看自己主机中当前有哪些种类的Shell：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">$ cat &#x2F;etc&#x2F;shells</span><br><span class="line">&#x2F;bin&#x2F;sh</span><br><span class="line">&#x2F;bin&#x2F;bash</span><br><span class="line">&#x2F;bin&#x2F;ksh</span><br><span class="line">&#x2F;bin&#x2F;pdksh</span><br><span class="line">&#x2F;bin&#x2F;tcsh</span><br><span class="line">&#x2F;bin&#x2F;zsh</span><br><span class="line">&#x2F;bin&#x2F;dash</span><br><span class="line">&#x2F;bin&#x2F;posh</span><br><span class="line">&#x2F;usr&#x2F;bin&#x2F;sh</span><br><span class="line">&#x2F;usr&#x2F;bin&#x2F;bash</span><br><span class="line">&#x2F;usr&#x2F;bin&#x2F;ksh</span><br><span class="line">&#x2F;usr&#x2F;bin&#x2F;pdksh</span><br><span class="line">&#x2F;usr&#x2F;bin&#x2F;tcsh</span><br><span class="line">&#x2F;usr&#x2F;bin&#x2F;zsh</span><br><span class="line">&#x2F;usr&#x2F;bin&#x2F;dash</span><br><span class="line">&#x2F;usr&#x2F;bin&#x2F;posh</span><br></pre></td></tr></table></figure><p>如何查看当前正在使用的Shell 类型：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ echo $SHELL</span><br><span class="line">&#x2F;bin&#x2F;bash</span><br></pre></td></tr></table></figure><p><code>$SHELL</code>是一个环境变量，它记录了Linux 当前用户所使用的Shell类型。</p><p>用户可以通过直接输入各种Shell的二进制文件名（因为这些二进制文件本身是可以被执行的），来进入到该Shell下，比如进入<code>zsh</code>可以直接输入：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ &#x2F;bin&#x2F;zsh</span><br></pre></td></tr></table></figure><p>这个命令为用户又启动了一个Shell，这个Shell在最初登录的那个Shell之后，称为下级的Shell或子Shell。</p><h2 id="最标准的Shell"><a href="#最标准的Shell" class="headerlink" title="最标准的Shell"></a>最标准的Shell</h2><h3 id="Bash"><a href="#Bash" class="headerlink" title="Bash"></a>Bash</h3><p><code>sh</code>是Unix 上最古老的Shell，在<code>sh</code>的基础上添加了各种扩展功能的是<code>bash</code>，它成为Linux标准Shell。有如下的特点：</p><ul><li>使用上下键快速查看历史命令</li><li>Tab 键自动补全</li></ul><h2 id="其他Shell"><a href="#其他Shell" class="headerlink" title="其他Shell"></a>其他Shell</h2><h3 id="ash"><a href="#ash" class="headerlink" title="ash"></a>ash</h3><p><code>ash</code>是Linux 中占用系统资源最少的一个小Shell，它只包含24个内部命令，因而使用起来很不方便。</p><h3 id="csh"><a href="#csh" class="headerlink" title="csh"></a>csh</h3><p><code>csh</code>是Linux 比较大的内核，共有52个内部命令。该Shell其实是指向/bin/tcsh这样的一个Shell，也就是说，csh其实就是tcsh。</p><h3 id="zsh"><a href="#zsh" class="headerlink" title="zsh"></a>zsh</h3><p>zch是Linux 最大的Shell之一，共有84 个内部命令。 zsh具有如下特性：</p><ul><li>更好的自动补全、更高效</li><li>更好的文件名展开（通配符展开）</li><li>可定制性高</li></ul><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul><li><a href="https://academy.gmocloud.com/keywords/20170324/4010" target="_blank" rel="noopener">什么是Shell以及常见Shell种类</a></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> Linux </category>
+          
+          <category> 学习笔记 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Linux </tag>
+            
+            <tag> Shell </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>免费 CDN：JsDelivr + Github</title>
       <link href="/free-cdn-jsdelivr-github/"/>
       <url>/free-cdn-jsdelivr-github/</url>
