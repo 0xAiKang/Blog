@@ -4,7 +4,34 @@
   
     
     <entry>
-      <title>some practical linux commands</title>
+      <title>Wget 使用技巧</title>
+      <link href="/wget-tips/"/>
+      <url>/wget-tips/</url>
+      
+        <content type="html"><![CDATA[<p><code>wget</code> 是一个命令行的下载工具，对于经常使用<code>Linux</code>的用户来说，真是再熟悉不过了。下面总结了一些实用的<code>wget</code>使用技巧，可能会让你更加高效地使用 <code>wget</code>。</p><a id="more"></a><h3 id="重命名"><a href="#重命名" class="headerlink" title="重命名"></a>重命名</h3><p>最常见的使用方式：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget http:&#x2F;&#x2F;example.com&#x2F;filename.txt</span><br></pre></td></tr></table></figure><p>wget默认会以最后一个符合 <code>/</code> 的后面的字符来对下载文件命名，对于动态链接的下载通常文件名会不正确。</p><p>如果希望对这个下载的文件进行重命名，我们可以使用参数 <code>-O</code> 来指定一个文件名：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget -O file.zip http:&#x2F;&#x2F;example.com&#x2F;filename.txt</span><br></pre></td></tr></table></figure><h3 id="后台下载"><a href="#后台下载" class="headerlink" title="后台下载"></a>后台下载</h3><p>当需要下载比较大的文件时，使用参数 <code>-b</code> 可以隐藏在后台进行下载：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget -b http:&#x2F;&#x2F;wppkg.baidupcs.com&#x2F;issue&#x2F;netdisk&#x2F;MACguanjia&#x2F;BaiduNetdisk_mac_3.2.0.9.dmg</span><br></pre></td></tr></table></figure><p>然后可以使用以下命令查看当前的进度：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ tail -f wget-log</span><br></pre></td></tr></table></figure><h3 id="下载目录"><a href="#下载目录" class="headerlink" title="下载目录"></a>下载目录</h3><p>这条命令可以下载 <a href="http://example.com" target="_blank" rel="noopener">http://example.com</a> 网站上 packages 目录中的所有文件。</p><p>参数说明：</p><ul><li><code>-r</code>：下载目录</li><li><code>-np</code>：不遍历父目录</li><li><code>-nd</code>：不在本机重新创建目录结构</li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget -r -np -nd http:&#x2F;&#x2F;example.com&#x2F;packages&#x2F;</span><br></pre></td></tr></table></figure><p>与上一条命令相似，但多加了一个 <code>--accept=iso</code> 选项，这指示 wget 仅下载 i386 目录中所有扩展名为 iso 的文件。你也可以指定多个扩展名，只需用逗号分隔即可。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget -r -np -nd --accept&#x3D;iso http:&#x2F;&#x2F;example.com&#x2F;centos-5&#x2F;i386&#x2F;</span><br></pre></td></tr></table></figure><h3 id="批量下载"><a href="#批量下载" class="headerlink" title="批量下载"></a>批量下载</h3><p>此命令常用于批量下载的情形，把所有需要下载文件的地址放到 filename.txt 中，然后 wget 就会自动为你下载所有文件了。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget -i filename.txt</span><br></pre></td></tr></table></figure><h3 id="断点续传"><a href="#断点续传" class="headerlink" title="断点续传"></a>断点续传</h3><p>通常我们在下载大文件时，为了防止中途因为网络不稳定等因素所引起的下载失败，可以使用 <code>-c</code> 参数，作为断点续传。</p><p>好处是：如果当时下载失败了，之后再次下载该文件时，会继续上一次的下载，而不用重头下载了。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget -c http:&#x2F;&#x2F;example.com&#x2F;really-big-file.iso</span><br></pre></td></tr></table></figure><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>该命令可用来镜像一个网站，wget 将对链接进行转换。如果网站中的图像是放在另外的站点，那么可以使用 -H 选项</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget -m -k (-H) http:&#x2F;&#x2F;www.example.com&#x2F;</span><br></pre></td></tr></table></figure><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul><li><a href="https://linuxtoy.org/archives/wget-tips.html" target="_blank" rel="noopener">wget 使用技巧</a></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> Linux </category>
+          
+          <category> 命令整理 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Linux </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>一些实用的 Linux 命令</title>
       <link href="/some-practical-linux-commands/"/>
       <url>/some-practical-linux-commands/</url>
       
@@ -31,7 +58,7 @@
     
     
     <entry>
-      <title>linux add users and assign permissions</title>
+      <title>Linux 添加用户以及权限分配</title>
       <link href="/linux-add-users-and-assign-permissions/"/>
       <url>/linux-add-users-and-assign-permissions/</url>
       
