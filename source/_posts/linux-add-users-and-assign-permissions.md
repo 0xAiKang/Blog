@@ -1,5 +1,5 @@
 ---
-title: linux add users and assign permissions
+title: Linux 添加用户以及权限分配
 date: 2020-07-15 23:19:14
 tags: ["Linux"]
 categories: ["Linux", "学习笔记"]

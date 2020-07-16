@@ -1,5 +1,5 @@
 ---
-title: some practical linux commands
+title: 一些实用的 Linux 命令
 date: 2020-07-16 23:26:13
 tags: ["Linux"]
 categories: ["Linux", "命令整理"]
