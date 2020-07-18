@@ -2,7 +2,7 @@
 title: 解决Firefox “已阻止载入混合活动内容”
 date: 2020-07-18 15:15:30
 tags: ["https"]
-categories: [""]
+categories: ["一些经验"]
 ---
 
 最近需要将项目迁移至一台新的服务器，其中涉及到多个站点的`http`与`https`之间的转换。
