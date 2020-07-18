@@ -16,8 +16,13 @@
 
   <!-- 页面元数据 -->
   
-    <title>Boo</title>
+    <title>解决Firefox “已阻止载入混合活动内容” - Boo</title>
   
+    <meta name="keywords" content="https">
+  
+  
+    <meta name="description" content="最近需要将项目迁移至一台新的服务器，其中涉及到多个站点的http与https之间的转换。
+网站起初不能正常访问时，我没在意，以为是网络延迟（因为服务器放在国外），直到我打开控制台发现了如下异常：">
   
 
   <!-- feed -->
@@ -263,99 +268,180 @@
     <div class='body-wrapper'>
       
 
-
 <div class='l_main'>
   
-    <section class="post-list ">
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
       
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-      
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    </section>
+
+
+  <section class='meta'>
     
-  
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/resolve-firefox-has-blocked-loading-of-mixed-active-content/">
+      解决Firefox “已阻止载入混合活动内容”
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.aikang.me" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
 </div>
-<aside class='l_side'>
+
+            
+          
+            
+              
   
+  <div class='new-meta-item category'>
+    <a href='/categories/%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>一些经验</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Jul 18, 2020</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>452 words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>1 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/resolve-firefox-has-blocked-loading-of-mixed-active-content/" class="leancloud_visitors" data-flag-title="解决Firefox “已阻止载入混合活动内容”">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>最近需要将项目迁移至一台新的服务器，其中涉及到多个站点的<code>http</code>与<code>https</code>之间的转换。</p>
+<p>网站起初不能正常访问时，我没在意，以为是网络延迟（因为服务器放在国外），直到我打开控制台发现了如下异常：</p>
+<a id="more"></a>
+
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200718144533.png" alt="异常内容"></p>
+<p>这时我才意识到并不是网络延迟的问题，而是项目没有配置好。</p>
+<h2 id="什么是混合内容"><a href="#什么是混合内容" class="headerlink" title="什么是混合内容"></a>什么是混合内容</h2><blockquote>
+<p>当用户访问使用HTTPS的页面时，他们与web服务器之间的连接是使用SSL加密的，从而保护连接不受嗅探器和中间人攻击。<br>如果HTTPS页面包括由普通明文HTTP连接加密的内容，那么连接只是被部分加密：非加密的内容可以被嗅探者入侵，并且可以被中间人攻击者修改，因此连接不再受到保护。当一个网页出现这种情况时，它被称为混合内容页面。 —— <a href="https://developer.mozilla.org/zh-CN/docs/Security/MixedContent" target="_blank" rel="noopener">MDN</a></p>
+</blockquote>
+<p>通俗一点解释就是：<code>https</code> 的页面中混合着<code>http</code> 的请求，而这种请求不会被浏览器正常接受的，也被称作为混合内容页面。</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>既然已经明白了为什么会产生这个问题，那么要解决起来也就非常简单了。</p>
+<h3 id="让Firefox暂时不阻止"><a href="#让Firefox暂时不阻止" class="headerlink" title="让Firefox暂时不阻止"></a>让Firefox暂时不阻止</h3><ol>
+<li>打开新标签页，在地址栏输入 <code>about:config</code>，进入<code>FireFox</code>高级配置页面。</li>
+<li>搜索<code>security.mixed_content.block_active_content</code>，将默认值<code>true</code>更改为<code>false</code>。</li>
+</ol>
+<p>这种方式仅适用于本地调试。</p>
+<h3 id="避免在HTTPS页面中包含HTTP的内容"><a href="#避免在HTTPS页面中包含HTTP的内容" class="headerlink" title="避免在HTTPS页面中包含HTTP的内容"></a>避免在HTTPS页面中包含HTTP的内容</h3><p>更直接有效的方式应该是约定好项目中的协议，统一使用<code>https</code>或者<code>http</code>。</p>
+<h3 id="参考连接"><a href="#参考连接" class="headerlink" title="参考连接"></a>参考连接</h3><ul>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Security/MixedContent" target="_blank" rel="noopener">什么是混合内容——MDN</a></li>
+<li><a href="https://segmentfault.com/a/1190000015722535" target="_blank" rel="noopener">https访问遇到“已阻止载入混合内容”</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
   
     
     
 
-<section class="widget blogger shadow desktop mobile">
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
   <div class='content'>
     
-      
-        <a class='avatar flat-box' href='/about/'>
-          <img no-lazy src='https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg'/>
-        </a>
-      
-    
-    
-      <div class='text'>
+      <blockquote>
         
-        
-          <p>Stay foolish, Stay hungry</p>
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
 
-        
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
-        
-          
-            <a href="/atom.xml"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
           
         
           
-            <a href="mailto:aikangtongxue@gamil.com"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
+            <p>本文永久链接是：<a href=https://www.aikang.me/resolve-firefox-has-blocked-loading-of-mixed-active-content/>https://www.aikang.me/resolve-firefox-has-blocked-loading-of-mixed-active-content/</a></p>
           
         
-          
-            <a href="https://github.com/0xAikang"
-              class="social fab fa-github flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-          
-            <a href="https://music.163.com/#/user/home?id=112719323"
-              class="social fas fa-headphones-alt flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-      </div>
+      </blockquote>
     
   </div>
 </section>
@@ -365,108 +451,215 @@
   
     
     
+
+<section class="widget qrcode  desktop mobile">
   
 
-  <section class="widget category shadow desktop">
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.aikang.me" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-18T15:21:10+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Jul 18, 2020</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/https/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>https</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.aikang.me/resolve-firefox-has-blocked-loading-of-mixed-active-content/&title=解决Firefox “已阻止载入混合活动内容” - Boo&summary=最近需要将项目迁移至一台新的服务器，其中涉及到多个站点的http与https之间的转换。
+网站起初不能正常访问时，我没在意，以为是网络延迟（因为服务器放在国外），直到我打开控制台发现了如下异常："
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.aikang.me/resolve-firefox-has-blocked-loading-of-mixed-active-content/&title=解决Firefox “已阻止载入混合活动内容” - Boo&summary=最近需要将项目迁移至一台新的服务器，其中涉及到多个站点的http与https之间的转换。
+网站起初不能正常访问时，我没在意，以为是网络延迟（因为服务器放在国外），直到我打开控制台发现了如下异常："
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.aikang.me/resolve-firefox-has-blocked-loading-of-mixed-active-content/&title=解决Firefox “已阻止载入混合活动内容” - Boo&summary=最近需要将项目迁移至一台新的服务器，其中涉及到多个站点的http与https之间的转换。
+网站起初不能正常访问时，我没在意，以为是网络延迟（因为服务器放在国外），直到我打开控制台发现了如下异常："
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVgAAAFYCAAAAAAzB7ucAAAEeklEQVR42u3aW5LjIAwF0Ox/090LmOqCKwnsTB3+8rANh3ygG31+jCPjgwAsWAMsWLAG2Cuwn+L454Z/vP/Xc5YTbD4vXd+UB1iwYMGCBQsWLNi7sNsH4MVCdz9fLWz3+el80tepB1iwYMGCBQsWLNhnYNOFVwuJ9HvVDe7CxvcDCxYsWLBgwYIF+1Ww3YKh+34amO9uGFiwYMGCBQsWLNj/GzZtoJjamC7g11ReYMGCBQsWLFiwYEcbNqYW2N2IaqCezudaJwxYsGDBggULFizYLdh0dBsg3v667AEWLFiwYMGCBQv2Cmx3VBsudg/uUwF29XuxB1iwYMGCBQsWLNgrsNUDchowdxshqgf4NGhvrx8sWLBgwYIFCxbsVdjdg37aGJF+3r0uLTCqGxT/gwAWLFiwYMGCBQt2FHb3gjTY7hYC04H77nrSdS3/QQALFixYsGDBggV7BHa10G5w3A3Aq1BThc3ua7BgwYIFCxYsWLDPwKYFQRooV++bblwXJg3MwYIFCxYsWLBgwT4Dm15YbXhID+7twLnYeNEuZMCCBQsWLFiwYME+AlsFnCoAqsDV+04VKGDBggULFixYsGDfAXsqiJ46uHfnXX3+8r5gwYIFCxYsWLBgr8CmB/zuRKpA3YaK6Q3Z7oQBCxYsWLBgwYIFexT29EG6G6Tf2oh2QQIWLFiwYMGCBQv2FbBp4dCFTT/fnUf1uvh+YMGCBQsWLFiwYF8BWz1IdwG7BchUYdFu2AALFixYsGDBggV7BDY9OKeQacGRNlScAk0LJLBgwYIFCxYsWLDPwqYH4upGTAfj6QZVG1GW14MFCxYsWLBgwYJ9BHZ3olXAU6DVgiD93vIHBhYsWLBgwYIFC/YKbDXQToPs6n2mG0PSAiLeALBgwYIFCxYsWLCPwE4f7KsNGmlQPfVDGGvYAAsWLFiwYMGCBXsFNgVNA/Au2HRAPd1AAhYsWLBgwYIFC/YZ2LRQqDZUdCdeDaq7jRzbBQRYsGDBggULFizYq7BjDQub8OlGTRUO3ecvncCCBQsWLFiwYMFegT0VXHc3pNpIUoVKPZZBN1iwYMGCBQsWLNijsNWCYApiKmCuNoRUf1DblRdYsGDBggULFizYo7DVA3j3IL/bkFGd11QQv7vhYMGCBQsWLFiwYJ+BTRsWutdtT3go0D4VhIMFCxYsWLBgwYJ9F2z3gF0NprsFQzX4rhZEYMGCBQsWLFiwYO/CTjdGVN+vFgLdRo2poB0sWLBgwYIFCxbsXdhPcUwf/HeD8Gpwvft5N5gHCxYsWLBgwYIFexe2u/BqkDy1IdXAPS0Qlh5gwYIFCxYsWLBgH4FNg+GpwLl64E+f3w6yV6/BggULFixYsGDBfiVsWhCkC+6CpgVOXFCABQsWLFiwYMGC/SrYqTENPL2OZdAOFixYsGDBggUL9hHYtGGj2khRbQjZBUufNxawgwULFixYsGDBgr0KWz3Idw/uKXxaCKQFQ7UgAQsWLFiwYMGCBXsX1pgdYMGCNcCCBWuAPTp+AfPwnJHOVxvQAAAAAElFTkSuQmCC">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/vim-install-molokai-color-scheme/'>
+                <p class='title'>Vim 安装 molokai 配色方案<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>像solarized、gruvbox、 molokai、这些都是大名鼎鼎的VIM 配色方案，本文只介绍如何安装 molokai 。
+
+
+按照顺序执行完上面的命令，即可使用最经典的配色方案了。
+1...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: '解决Firefox “已阻止载入混合活动内容”',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
     
   <header>
     
-      <a href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
   </header>
 
 
     <div class='content'>
-      <ul class="entry navigation">
-        
-          <li><a class="flat-box"
-            title="/categories/Git/" href="/categories/Git/"
-            id="categoriesGit"
-            ><div class='name'>Git</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Linux/" href="/categories/Linux/"
-            id="categoriesLinux"
-            ><div class='name'>Linux</div><div class='badge'>(11)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/" href="/categories/Linux/%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/"
-            id="categoriesLinuxE591BDE4BBA4E695B4E79086"
-            ><div class='name'>命令整理</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" href="/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
-            id="categoriesLinuxE5ADA6E4B9A0E7AC94E8AEB0"
-            ><div class='name'>学习笔记</div><div class='badge'>(8)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Node/" href="/categories/Node/"
-            id="categoriesNode"
-            ><div class='name'>Node</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Node/Tutorial/" href="/categories/Node/Tutorial/"
-            id="categoriesNodeTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Tutorial/" href="/categories/Tutorial/"
-            id="categoriesTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(8)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/GitHub/" href="/categories/Tutorial/GitHub/"
-            id="categoriesTutorialGitHub"
-            ><div class='name'>GitHub</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/Skill/" href="/categories/Tutorial/Skill/"
-            id="categoriesTutorialSkill"
-            ><div class='name'>Skill</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/Skill/GitHub/" href="/categories/Tutorial/Skill/GitHub/"
-            id="categoriesTutorialSkillGitHub"
-            ><div class='name'>GitHub</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C/" href="/categories/%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C/"
-            id="categoriesE4B880E4BA9BE7BB8FE9AA8C"
-            ><div class='name'>一些经验</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E5%89%8D%E7%AB%AF/" href="/categories/%E5%89%8D%E7%AB%AF/"
-            id="categoriesE5898DE7ABAF"
-            ><div class='name'>前端</div><div class='badge'>(1)</div></a></li>
-        
-      </ul>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是混合内容"><span class="toc-text">什么是混合内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解决方案"><span class="toc-text">解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#让Firefox暂时不阻止"><span class="toc-text">让Firefox暂时不阻止</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#避免在HTTPS页面中包含HTTP的内容"><span class="toc-text">避免在HTTPS页面中包含HTTP的内容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考连接"><span class="toc-text">参考连接</span></a></li></ol></li></ol>
     </div>
   </section>
 
-
-  
-
-  
-    
-    
-  
-
-  <section class="widget tagcloud shadow desktop mobile">
-    
-  <header>
-    
-      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
-    
-  </header>
-
-
-    <div class='content'>
-      <a href="/tags/CI/" style="font-size: 14px; color: #999">CI</a> <a href="/tags/Git/" style="font-size: 14px; color: #999">Git</a> <a href="/tags/Hexo/" style="font-size: 16.5px; color: #888">Hexo</a> <a href="/tags/JavaScript/" style="font-size: 14px; color: #999">JavaScript</a> <a href="/tags/Linux/" style="font-size: 24px; color: #555">Linux</a> <a href="/tags/Node/" style="font-size: 14px; color: #999">Node</a> <a href="/tags/PM2/" style="font-size: 14px; color: #999">PM2</a> <a href="/tags/Shell/" style="font-size: 19px; color: #777">Shell</a> <a href="/tags/Tutorial/" style="font-size: 21.5px; color: #666">Tutorial</a> <a href="/tags/Vim/" style="font-size: 14px; color: #999">Vim</a> <a href="/tags/https/" style="font-size: 14px; color: #999">https</a> <a href="/tags/ssh/" style="font-size: 14px; color: #999">ssh</a>
-    </div>
-  </section>
-
-
-  
 
   
 
@@ -670,6 +863,60 @@ setInterval("createtime()",250);
 
 
 
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "prAyvaUeadxadA2wpcBQqNQn-gzGzoHsz",
+    appKey: "vkyEUTw0BixVjfFpFIzUdhak",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
 
 
 
