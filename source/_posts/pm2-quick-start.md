@@ -207,8 +207,11 @@ PM2 是一款非常优秀的 Node 进程管理工具，它有着丰富的特性�
 5. 设置异常重启次数，如果应用不断异常重启，并超过一定的限制次数，说明此时的环境长时间处于不可控状态，服务器异常。此时便可停止尝试，发出错误警告通知等。
 
 ### 参考链接
+* [pm2 从入门到精通](https://www.kancloud.cn/daiji/pm2/395273)
 * [如何在生产服务器上安装PM2运行Node.js应用程序](https://www.linuxidc.com/Linux/2019-07/159432.htm)
 * [PM2 配置文件说明解析](https://futurestud.io/tutorials/pm2-advanced-app-configuration-with-json-file)
 * [PM2 应用配置文件解析](https://pm2.keymetrics.io/docs/usage/application-declaration/)
 * [PM2 实用手册](https://fynn90.github.io/2018/01/11/PM2%E5%AE%9E%E7%94%A8%E6%89%8B%E5%86%8C/#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4)
 * [PM2 用法详解](https://www.cnblogs.com/cangqinglang/p/10676162.html)
+* [使用pm2 自动部署node项目](https://juejin.im/post/5b823506e51d4538d517662f#heading-5)
+* [PM2 中文文档](https://blog.windstone.cc/back-end/node/pm2.html#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4)
