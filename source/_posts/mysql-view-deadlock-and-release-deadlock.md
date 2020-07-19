@@ -50,7 +50,7 @@ SELECT * FROM information_schema.INNODB_TRX
 SELECT * FROM INFORMATION_SCHEMA.INNODB_LOCKS;
 ```
 
-![IMAGE](quiver-image-url/3132ADE1937E22BC247BCD42CC36954C.jpg =1225x121)
+![](https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200719163402.png)
 
 #### 3. 查看等待锁的事务
 
@@ -66,7 +66,15 @@ SELECT * FROM INFORMATION_SCHEMA.INNODB_LOCK_WAITS;
 SHOW OPEN TABLES where In_use > 0;
 ```
 
-![IMAGE](quiver-image-url/CA49DD24A1451E9E7F48642B42B8E4F2.jpg =1224x103)
+![](https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200719163422.png)
+
+#### 5. 查看最近死锁的日志
+
+```
+show engine innodb status
+```
+
+![](https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200719170929.png)
 
 在发生死锁时，这几种方式都可以查询到和当前死锁相关的信息。
 
