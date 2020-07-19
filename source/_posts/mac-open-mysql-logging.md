@@ -7,6 +7,8 @@ categories: ["Mysql"]
 
 有时候可能会想在本地开启Mysql 的日志记录，看看具体都执行了哪些SQL，其实非常简单。
 
+<!-- more -->
+
 1. 进入Mysql 命令行
 
 ```
