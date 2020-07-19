@@ -1,5 +1,5 @@
 ---
-title: how to put console.log the standard output of is recorded to a file
+title: 如何把 Console.log 的标准输出记录到文件
 date: 2020-07-18 16:16:51
 tags: ["Node"]
 categories: ["一些经验"]
