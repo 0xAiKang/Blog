@@ -404,13 +404,16 @@
 <p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200719155146.png" alt=""></p>
 <h4 id="2-查看正在锁的事务"><a href="#2-查看正在锁的事务" class="headerlink" title="2. 查看正在锁的事务"></a>2. 查看正在锁的事务</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM INFORMATION_SCHEMA.INNODB_LOCKS;</span><br></pre></td></tr></table></figure>
 
-<p>![IMAGE](quiver-image-url/3132ADE1937E22BC247BCD42CC36954C.jpg =1225x121)</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200719163402.png" alt=""></p>
 <h4 id="3-查看等待锁的事务"><a href="#3-查看等待锁的事务" class="headerlink" title="3. 查看等待锁的事务"></a>3. 查看等待锁的事务</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM INFORMATION_SCHEMA.INNODB_LOCK_WAITS;</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200719155801.png" alt=""></p>
 <h4 id="4-查询是否锁表"><a href="#4-查询是否锁表" class="headerlink" title="4. 查询是否锁表"></a>4. 查询是否锁表</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SHOW OPEN TABLES where In_use &gt; 0;</span><br></pre></td></tr></table></figure>
 
-<p>![IMAGE](quiver-image-url/CA49DD24A1451E9E7F48642B42B8E4F2.jpg =1224x103)</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200719163422.png" alt=""></p>
+<h4 id="5-查看最近死锁的日志"><a href="#5-查看最近死锁的日志" class="headerlink" title="5. 查看最近死锁的日志"></a>5. 查看最近死锁的日志</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show engine innodb status</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200719170929.png" alt=""></p>
 <p>在发生死锁时，这几种方式都可以查询到和当前死锁相关的信息。</p>
 <h3 id="解除死锁"><a href="#解除死锁" class="headerlink" title="解除死锁"></a>解除死锁</h3><p>如果需要解除死锁，有一种最简单粗暴的方式，那就是找到进程id之后，直接干掉。</p>
 <p>查看当前正在进行中的进程。</p>
@@ -510,7 +513,7 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-19T16:10:12+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-19T17:10:18+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：Jul 19, 2020</p>
@@ -598,6 +601,16 @@
         
           <div class="prev-next">
             
+              <a class='prev' href='/analysis-of-the-causes-of-mysql-row-lock/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Mysql 行锁原因分析</p>
+                <p class='content'>这篇文章来浅谈一下什么是Mysql 行锁，以及产生行锁的原因。
+
+
+锁的分类MySQL有三种锁的级别：页级、表级、行级。
+
+表级锁：开销小，加锁快；不会出现死锁；锁定粒度大，发生锁冲突的概率最高...</p>
+              </a>
+            
             
               <a class='next' href='/how-to-put-console-log-the-standard-output-of-is-recorded-to-a-file/'>
                 <p class='title'>如何把 Console.log 的标准输出记录到文件<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
@@ -678,7 +691,7 @@ winston - A l...</p>
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是死锁"><span class="toc-text">什么是死锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#死锁的表现"><span class="toc-text">死锁的表现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何避免死锁"><span class="toc-text">如何避免死锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看死锁"><span class="toc-text">查看死锁</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-查看正在进行中的事务"><span class="toc-text">1. 查看正在进行中的事务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-查看正在锁的事务"><span class="toc-text">2. 查看正在锁的事务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-查看等待锁的事务"><span class="toc-text">3. 查看等待锁的事务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-查询是否锁表"><span class="toc-text">4. 查询是否锁表</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解除死锁"><span class="toc-text">解除死锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是死锁"><span class="toc-text">什么是死锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#死锁的表现"><span class="toc-text">死锁的表现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何避免死锁"><span class="toc-text">如何避免死锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看死锁"><span class="toc-text">查看死锁</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-查看正在进行中的事务"><span class="toc-text">1. 查看正在进行中的事务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-查看正在锁的事务"><span class="toc-text">2. 查看正在锁的事务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-查看等待锁的事务"><span class="toc-text">3. 查看等待锁的事务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-查询是否锁表"><span class="toc-text">4. 查询是否锁表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-查看最近死锁的日志"><span class="toc-text">5. 查看最近死锁的日志</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解除死锁"><span class="toc-text">解除死锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
     </div>
   </section>
 
