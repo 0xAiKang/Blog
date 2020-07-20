@@ -143,5 +143,27 @@ kill -9 [pid]
 killall php
 ```
 
+
+### dig
+这个命令特别实用，可以用来查看域名解析情况。
+
+```
+dig aikang.me +nostats +nocomments +nocmd
+
+; <<>> DiG 9.10.6 <<>> aikang.me +nostats +nocomments +nocmd
+;; global options: +cmd
+;aikang.me.			IN	A
+aikang.me.		3581	IN	A	185.199.108.153
+aikang.me.		3581	IN	A	185.199.110.153
+aikang.me.		3581	IN	A	185.199.111.153
+aikang.me.		3581	IN	A	185.199.109.153
+aikang.me.		3581	IN	NS	ns12.domaincontrol.com.
+aikang.me.		3581	IN	NS	ns11.domaincontrol.com.
+ns12.domaincontrol.com.	59833	IN	A	173.201.73.6
+ns11.domaincontrol.com.	92984	IN	A	97.74.105.6
+ns12.domaincontrol.com.	146699	IN	AAAA	2603:5:2290::6
+ns11.domaincontrol.com.	92042	IN	AAAA	2603:5:2190::6
+```
+
 ### 参考链接
 * [鲜为人知而又实用的 Linux 命令](https://blog.csdn.net/zhu_xun/article/details/17018799)
