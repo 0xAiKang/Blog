@@ -16,12 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>Nginx 常见配置 - Boo</title>
+    <title>Socket.io 快速上手 - Boo</title>
   
-    <meta name="keywords" content="Nginx">
+    <meta name="keywords" content="Socket.io">
   
   
-    <meta name="description" content="最近接触Nginx 配置比较多，所以整理一下，方便后面回顾。">
+    <meta name="description" content="最近使用socket.io 和 redis 完成了一些小功能，觉得很实用，所以整理一下socket.io相关的知识。">
   
 
   <!-- feed -->
@@ -283,8 +283,8 @@
         
           
   <h1 class="title">
-    <a href="/nginx-common-configuration/">
-      Nginx 常见配置
+    <a href="/socket-io-quick-start/">
+      Socket.io 快速上手
     </a>
   </h1>
 
@@ -309,9 +309,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Nginx/' rel="nofollow">
+    <a href='/categories/Node/Socket-io/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Nginx</p>
+      <p>Node/Socket.io</p>
     </a>
   </div>
 
@@ -322,7 +322,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jul 19, 2020</p>
+    <p>发布于：Jul 20, 2020</p>
   </a>
 </div>
 
@@ -338,13 +338,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>393 words</p>
+      <p>1.1k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>1 min</p>
+      <p>5 min</p>
     </a>
   </div>
 
@@ -357,7 +357,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/nginx-common-configuration/" class="leancloud_visitors" data-flag-title="Nginx 常见配置">
+      <span id="/socket-io-quick-start/" class="leancloud_visitors" data-flag-title="Socket.io 快速上手">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -380,25 +380,65 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>最近接触Nginx 配置比较多，所以整理一下，方便后面回顾。</p>
+          <p>最近使用<code>socket.io</code> 和 <code>redis</code> 完成了一些小功能，觉得很实用，所以整理一下<code>socket.io</code>相关的知识。</p>
 <a id="more"></a>
 
-<h2 id="多站点配置"><a href="#多站点配置" class="headerlink" title="多站点配置"></a>多站点配置</h2><p>如果一台服务器，需要配置多套站点，推荐使用 <code>IP + 端口</code>配置站点，然后使用反向代理指向端口。</p>
-<p>站点配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen       40001;</span><br><span class="line">    </span><br><span class="line">    location ~ \.php &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">    location &#x2F; &#123;</span><br><span class="line">        ...</span><br><span class="line">	  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="socket-io-是什么"><a href="#socket-io-是什么" class="headerlink" title="socket.io 是什么"></a><code>socket.io</code> 是什么</h1><p>它是一个服务端与客户端之间建立通讯的工具。</p>
+<p>服务端创建好服务之后，客户端通过主机与之建立连接。然后就可以进行通讯了。</p>
+<p>想要使用好<code>socket.io</code>，一定要理解通讯的概念。通讯一定是双向的，如果客户端能够收到消息，那么在某个地方就一定存在服务端向客户端推送消息。</p>
+<h2 id="快速上手"><a href="#快速上手" class="headerlink" title="快速上手"></a>快速上手</h2><p>要开始使用<code>socket.io</code>进行开发，需要先安装Node和npm。</p>
+<p>创建一个名为<code>app.js</code>的文件，并添加以下代码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">var app &#x3D; require(&#39;express&#39;)();</span><br><span class="line">var http &#x3D; require(&#39;http&#39;).Server(app);</span><br><span class="line">&#x2F;&#x2F; 创建一个附加到http服务器的新socket.io实例</span><br><span class="line">var io &#x3D; require(&#39;socket.io&#39;)(http);</span><br><span class="line"></span><br><span class="line">app.get(&#39;&#x2F;&#39;, function(req, res)&#123;</span><br><span class="line">  res.sendFile(__dirname + &#39;&#x2F;index.html&#39;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">io.on(&#39;connection&#39;, function(socket)&#123;</span><br><span class="line">  console.log(&#39;a user connected&#39;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">http.listen(3000, function()&#123;</span><br><span class="line">  console.log(&#39;listening on *:3000&#39;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>这样就完成了一个最简单的<code>socket</code>服务端。</p>
+<p>创建<code>index.html</code> 文件来作为客户端提供服务。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">   &lt;head&gt;</span><br><span class="line">      &lt;title&gt;Hello world&lt;&#x2F;title&gt;</span><br><span class="line">   &lt;&#x2F;head&gt;</span><br><span class="line">   &lt;body&gt;Hello world&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
 
-<p>多站点配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 站点1 </span><br><span class="line">server &#123;</span><br><span class="line"> 	 	server_name  yoursite.com;</span><br><span class="line">		listen 80;</span><br><span class="line"></span><br><span class="line"> 	 	location &#x2F; &#123;</span><br><span class="line">		    proxy_pass http:&#x2F;&#x2F;127.0.0.1:40001;</span><br><span class="line">			  index  index.html index.htm index.jsp index.js;</span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 站点2</span><br><span class="line">server &#123;</span><br><span class="line"> 	 	server_name  yoursite2.com;</span><br><span class="line">		listen 80;</span><br><span class="line"></span><br><span class="line"> 	 	location &#x2F; &#123;</span><br><span class="line">		    proxy_pass http:&#x2F;&#x2F;127.0.0.1:40001;</span><br><span class="line">			  index  index.html index.htm index.jsp index.js;</span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>启动服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node app.js</span><br></pre></td></tr></table></figure>
+<p>创建的服务运行在本地的 <code>3000</code> 端口上，打开浏览器，输入<code>http://localhost:3000</code>进行访问。 </p>
+<h2 id="使用事件"><a href="#使用事件" class="headerlink" title="使用事件"></a>使用事件</h2><p><code>socket.io</code> 的核心理念就是允许发送、接收任意事件和任意数据。任意能被编码为 JSON 的对象都可以用于传输。二进制数据 也是支持的。</p>
+<p>在上面的代码中，我们已经创建了一个服务端的<code>socket.io</code>对象，如果想要能正常通讯，还需要在客户端同样也创建一个<code>socket.io</code>对象。这个脚本由服务端的<code>/socket.io/socket.io.js</code> 提供。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">   &lt;head&gt;</span><br><span class="line">      &lt;title&gt;Hello world&lt;&#x2F;title&gt;</span><br><span class="line">   &lt;&#x2F;head&gt;</span><br><span class="line">   &lt;script src &#x3D; &quot;&#x2F;socket.io&#x2F;socket.io.js&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">   </span><br><span class="line">   &lt;script&gt;</span><br><span class="line">      var socket &#x3D; io();</span><br><span class="line">   &lt;&#x2F;script&gt;</span><br><span class="line">   &lt;body&gt;Hello world&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
 
-<h2 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h2><p>反向代理其实已经在上面的配置中出现过了，多站点配置的原理就是利用反向代理。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line"> 	 	server_name  yoursite2.com;</span><br><span class="line">		listen 80;</span><br><span class="line"></span><br><span class="line"> 	 	location &#x2F; &#123;</span><br><span class="line">		    proxy_pass http:&#x2F;&#x2F;127.0.0.1:40001;</span><br><span class="line">			  index  index.html index.htm index.jsp index.js;</span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在客户端中建立 <code>socket.io</code> 连接。</p>
+<p>在服务端中添加以下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">  ...</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 只有有客户端连接，就会触发这个事件</span><br><span class="line">io.on(&#39;connection&#39;, function(socket) &#123;</span><br><span class="line">   console.log(&#39;A user connected&#39;);</span><br><span class="line"></span><br><span class="line">   &#x2F;&#x2F; 只有有客户端断开连接，就会触发这个事件</span><br><span class="line">   socket.on(&#39;disconnect&#39;, function () &#123;</span><br><span class="line">      console.log(&#39;A user disconnected&#39;);</span><br><span class="line">   &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">  ...</span><br></pre></td></tr></table></figure>
+<p>现在再次访问<code>http://localhost:3000</code>，不仅可以在浏览器中看见<code>hello world</code>，如果刷新浏览器，还能在控制台中看见以下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">A user connected</span><br><span class="line">A user disconnected</span><br><span class="line">A user connected</span><br></pre></td></tr></table></figure>
 
-<h2 id="SSL-配置"><a href="#SSL-配置" class="headerlink" title="SSL 配置"></a>SSL 配置</h2><p>申请好证书之后，将其放在服务器上，然后编辑Nginx 配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    server_name  yoursite.com;</span><br><span class="line">  </span><br><span class="line">    listen 443 ssl;</span><br><span class="line">    ssl on;</span><br><span class="line">    ssl_certificate ssl_0123cp_net&#x2F;full_chain.pem;  &#x2F;&#x2F; 证书所在路径</span><br><span class="line">    ssl_certificate_key ssl_0123cp_net&#x2F;private.key;  &#x2F;&#x2F; 证书对应的私钥所在路径</span><br><span class="line">  </span><br><span class="line">    location &#x2F; &#123;</span><br><span class="line">        proxy_pass http:&#x2F;&#x2F;127.0.0.1:40001;</span><br><span class="line">        index  index.html index.htm index.jsp index.js;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面的案例中，我们使用了<code>socket.io</code>的<code>connection</code>和<code>disconnect</code>事件，<code>socket.io</code>还有很多其中事件。 </p>
+<h3 id="事件处理"><a href="#事件处理" class="headerlink" title="事件处理"></a>事件处理</h3><p>在服务端中有以下是保留字：</p>
+<ul>
+<li>Connect</li>
+<li>Message</li>
+<li>Disconnect</li>
+<li>Reconnect</li>
+<li>Ping</li>
+<li>Join and</li>
+<li>Leave</li>
+</ul>
+<p>在客户端中以下是保留字：</p>
+<ul>
+<li>Connect</li>
+<li>Connect_error</li>
+<li>Connect_timeout</li>
+<li>Reconnect, etc</li>
+</ul>
+<h3 id="常用API"><a href="#常用API" class="headerlink" title="常用API"></a>常用API</h3><p>客户端 提供的一些用于处理错误/异常的API。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Connect − When the client successfully connects.</span><br><span class="line"></span><br><span class="line">Connecting − When the client is in the process of connecting.</span><br><span class="line"></span><br><span class="line">Disconnect − When the client is disconnected.</span><br><span class="line"></span><br><span class="line">Connect_failed − When the connection to the server fails.</span><br><span class="line"></span><br><span class="line">Error − An error event is sent from the server.</span><br><span class="line"></span><br><span class="line">Message − When the server sends a message using the send function.</span><br><span class="line"></span><br><span class="line">Reconnect − When reconnection to the server is successful.</span><br><span class="line"></span><br><span class="line">Reconnecting − When the client is in the process of connecting.</span><br><span class="line"></span><br><span class="line">Reconnect_failed − When the reconnection attempt fails.</span><br></pre></td></tr></table></figure>
 
-<h2 id="http重定向"><a href="#http重定向" class="headerlink" title="http重定向"></a>http重定向</h2><p>配置好 <code>https</code>之后，还需要做一件事，才能保证 <code>https</code>能够正常访问。</p>
-<p>因为访问任何一个网站时，默认使用的是<code>http</code>协议，所以需要在<code>Web Server</code>中配置<code>http</code> 自动跳转 <code>https</code>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    server_name yoursite.com;</span><br><span class="line">  </span><br><span class="line">    listen 80;</span><br><span class="line">    rewrite ^(.*) https:&#x2F;&#x2F;$server_name$1 permanent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="广播"><a href="#广播" class="headerlink" title="广播"></a>广播</h3><p>广播意味着向所有连接的客户端发送消息。</p>
+<p>要向所有客户端广播事件，我们可以使用<code>io.sockets.emit</code>方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">  ...</span><br><span class="line"></span><br><span class="line">var clients &#x3D; 0;</span><br><span class="line">io.on(&#39;connection&#39;, function(socket) &#123;</span><br><span class="line">   clients++;</span><br><span class="line">   io.sockets.emit(&#39;broadcast&#39;,&#123; description: clients + &#39; clients connected!&#39;&#125;);</span><br><span class="line">   socket.on(&#39;disconnect&#39;, function () &#123;</span><br><span class="line">      clients--;</span><br><span class="line">      io.sockets.emit(&#39;broadcast&#39;,&#123; description: clients + &#39; clients connected!&#39;&#125;);</span><br><span class="line">   &#125;);</span><br><span class="line">&#125;);</span><br><span class="line">  </span><br><span class="line">  ...</span><br></pre></td></tr></table></figure>
+
+<p>广播在<code>socket.io</code>中应用的非常多，有广播就意味着有接收。需要在客户端中处理广播事件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">   &lt;head&gt;</span><br><span class="line">      &lt;title&gt;Hello world&lt;&#x2F;title&gt;</span><br><span class="line">   &lt;&#x2F;head&gt;</span><br><span class="line">   &lt;script src &#x3D; &quot;&#x2F;socket.io&#x2F;socket.io.js&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">   &lt;script&gt;</span><br><span class="line">      var socket &#x3D; io();</span><br><span class="line">      socket.on(&#39;broadcast&#39;,function(data) &#123;</span><br><span class="line">         document.body.innerHTML &#x3D; &#39;&#39;;</span><br><span class="line">         document.write(data.description);</span><br><span class="line">      &#125;);</span><br><span class="line">   &lt;&#x2F;script&gt;</span><br><span class="line">   &lt;body&gt;Hello world&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>可以尝试打开多个浏览器，输入<code>http://localhost:3000</code>，可能会得到以下结果：</p>
+<p><img src="https://www.tutorialspoint.com/socket.io/images/broadcast_to_all.jpg" alt=""></p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://www.tutorialspoint.com/socket.io/index.htm" target="_blank" rel="noopener">Socket.io Tutorial</a></li>
+</ul>
 
           
             <div class='article_footer'>
@@ -435,7 +475,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.aikang.me/nginx-common-configuration/>https://www.aikang.me/nginx-common-configuration/</a></p>
+            <p>本文永久链接是：<a href=https://www.aikang.me/socket-io-quick-start/>https://www.aikang.me/socket-io-quick-start/</a></p>
           
         
       </blockquote>
@@ -483,10 +523,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-19T18:24:25+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-20T13:04:22+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Jul 19, 2020</p>
+    <p>更新于：Jul 20, 2020</p>
   </a>
 </div>
 
@@ -495,7 +535,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Nginx/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Nginx</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Socket-io/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Socket.io</p></a></div>
 
 
         
@@ -513,7 +553,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.aikang.me/nginx-common-configuration/&title=Nginx 常见配置 - Boo&summary=最近接触Nginx 配置比较多，所以整理一下，方便后面回顾。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.aikang.me/socket-io-quick-start/&title=Socket.io 快速上手 - Boo&summary=最近使用socket.io 和 redis 完成了一些小功能，觉得很实用，所以整理一下socket.io相关的知识。"
           
           >
           
@@ -525,7 +565,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.aikang.me/nginx-common-configuration/&title=Nginx 常见配置 - Boo&summary=最近接触Nginx 配置比较多，所以整理一下，方便后面回顾。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.aikang.me/socket-io-quick-start/&title=Socket.io 快速上手 - Boo&summary=最近使用socket.io 和 redis 完成了一些小功能，觉得很实用，所以整理一下socket.io相关的知识。"
           
           >
           
@@ -537,7 +577,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.aikang.me/nginx-common-configuration/&title=Nginx 常见配置 - Boo&summary=最近接触Nginx 配置比较多，所以整理一下，方便后面回顾。"
+          href="http://service.weibo.com/share/share.php?url=https://www.aikang.me/socket-io-quick-start/&title=Socket.io 快速上手 - Boo&summary=最近使用socket.io 和 redis 完成了一些小功能，觉得很实用，所以整理一下socket.io相关的知识。"
           
           >
           
@@ -551,7 +591,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAAC/klEQVR42u3aS3ICMQwFQO5/abJPhbJ+Q0bQ3gHD2G5vXkl+PI0/xwMBGDBgwIABswbmURwvX/zr9+rzp/e8em93P2DAgAEDBgyYfTDhABR8/gSZha4eTHY/YMCAAQMGDJi9MMcAVAxa3YWf5hnbDxgwYMCAAQPm62Ci31cLWlOFLzBgwIABAwYMmG7Ais4ThQUDBgwYMGDAgEk3qIqNs25wu30nEgwYMGDAgAHzNphuELvb5/J+wIABAwYMGDBrYLoj2zirPj91Eem4HzBgwIABAwbMGphqQIpuIPv/7kFU5wcDBgwYMGDA7IOJNsaijbbqBaApyOxFpHChCgwYMGDAgAFzO5ho8Kk2wKIAU7DR9b58HgwYMGDAgAGzBqYKVA163YDYhUhfHAIDBgwYMGDA3BamG4zSDa1kAOwGxXThCgwYMGDAgAGzBiYb3N5VkOrOXz5oMGDAgAEDBsxamGpwmgqKz+TIFqKOgGDAgAEDBgyYdTDZBXcLSlX46vuiBwAGDBgwYMCA+VyY7kKjjbjpRmB4XjBgwIABAwbMx8BkC0ndwtHU89UCGRgwYMCAAQNmP8zVG6w23KKBrRr8wIABAwYMGDB7YboLmvp+qrGWPlgwYMCAAQMGzBqYbPCaKmRNNdyyMMfCFRgwYMCAAQNmHUz14k/3Ik82mF0VKMGAAQMGDBgwe2HGCz4XNfCqwfGyQhUYMGDAgAED5jYw4Qs2xYJRdsPZ9XQPFgwYMGDAgAGzFyZbIOoGtW4harzQBgYMGDBgwIBZA9Md00Evu6FqQxAMGDBgwIABsx9mqjHWhes2AKv/PzbcwIABAwYMGDC3h6ludKpQlQ181SAIBgwYMGDAgPlcmG7DrXsxqFooS18QevfFITBgwIABAwbMbWGyga8LO33RCAwYMGDAgAHzvTDd93Thq/P9e6EKDBgwYMCAATMG0y0oVYNWtABVDXjhwAkGDBgwYMCAWQdzVXDqBrmpBlt4XWDAgAEDBgyYNTAGGDBgwIABA2bZ+AGgl2lSb5lwzwAAAABJRU5ErkJggg==">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAAC50lEQVR42u3aQXICMQwEQP7/aXInSWGNtBSC9i2pZW33XqYk3e7Wn+uGAAwYMGDAgFkDcwvX4+9/bfDk/9X3V/eN7wMGDBgwYMCAWQdzHIAODzT1vnJAa+4PBgwYMGDAgNkLMxXoqu+ZDnjxOcCAAQMGDBgwXwPz7PlqADsNaGDAgAEDBgwYMFMwVxe61gY8MGDAgAEDBszLYMoNqqHBo9P/r+lEggEDBgwYMGBeBtO92Lv9Hd8HDBgwYMCAAbMGprtOC0bVg6cFrPZ9wIABAwYMGDBrYKqDPGlwelUBrHqeuIIHBgwYMGDAgHk7mO6Lu0GuClf9/dPnwIABAwYMGDDrYdLBnOMDNMGmAiQYMGDAgAEDZi9MFyANYlWA04bcKRgYMGDAgAED5vNhrrpACp5CHX8gMGDAgAEDBswamLQQ1G2AlQtIRej4w4ABAwYMGDBg1sB0C0zdgJg2zqYKYGDAgAEDBgyY/TDdgDU9MN3d/x4uMGDAgAEDBswemLRxVYVIB35OG2fdwhcYMGDAgAEDZh9M2gCbaqClAe2q58GAAQMGDBgwe2BOB4TSQtR0Ievy4AcGDBgwYMCAWQPTDXbVgJY+NzUYBAYMGDBgwID5PJhqoy19Pr1A+r5yQQsMGDBgwIABswYmHfyZPtjUPmljEAwYMGDAgAGzD6Z60G5w6zbcqgUrMGDAgAEDBgyYe3FVg+NUwasdFMGAAQMGDBgwa2CmG1ppMOwGu6mGHxgwYMCAAQNmD0x3TUOdFqCuGiQCAwYMGDBgwOyB6RaMxgpEQw26tEEIBgwYMGDAgNkLkwa6NNilH+b0PCk4GDBgwIABA2YvzNTFqmBpA60LexzwwIABAwYMGDAfB9NtdJ0GtC7s8X5gwIABAwYMmK+H6RaS0gEmMGDAgAEDBsz3wnQvOnWx4wbZ8HnAgAEDBgwYMPtg0sbV1EDPdAMu/dBgwIABAwYMmD0w1j8BzwIDBgwYMGDedf0APx8bcxkyba4AAAAASUVORK5CYII=">
           </div>
         </div>
       
@@ -571,28 +611,15 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/socket-io-quick-start/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Socket.io 快速上手</p>
-                <p class='content'>最近使用socket.io 和 redis 完成了一些小功能，觉得很实用，所以整理一下socket.io相关的知识。
-
-
-socket.io 是什么它是一个服务端与客户端之间建立通讯的工具。
-服...</p>
-              </a>
             
-            
-              <a class='next' href='/mac-open-mysql-logging/'>
-                <p class='title'>Mac 开启 Mysql 日志记录<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>有时候可能会想在本地开启Mysql 的日志记录，看看具体都执行了哪些SQL，其实非常简单。
+              <a class='next' href='/nginx-common-configuration/'>
+                <p class='title'>Nginx 常见配置<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>最近接触Nginx 配置比较多，所以整理一下，方便后面回顾。
 
 
-
-进入Mysql 命令行
-
-1mysql -hlocalhost -uroot -p
-
-
-全局开启...</p>
+多站点配置如果一台服务器，需要配置多套站点，推荐使用 IP + 端口配置站点，然后使用反向代理指向端口。
+站点配置
+123456...</p>
               </a>
             
           </div>
@@ -637,7 +664,7 @@ socket.io 是什么它是一个服务端与客户端之间建立通讯的工具�
 
   <script>
     window.subData = {
-      title: 'Nginx 常见配置',
+      title: 'Socket.io 快速上手',
       tools: true
     }
   </script>
@@ -664,7 +691,7 @@ socket.io 是什么它是一个服务端与客户端之间建立通讯的工具�
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#多站点配置"><span class="toc-text">多站点配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#反向代理"><span class="toc-text">反向代理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SSL-配置"><span class="toc-text">SSL 配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#http重定向"><span class="toc-text">http重定向</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#快速上手"><span class="toc-text">快速上手</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用事件"><span class="toc-text">使用事件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#事件处理"><span class="toc-text">事件处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用API"><span class="toc-text">常用API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#广播"><span class="toc-text">广播</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
     </div>
   </section>
 
