@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>Redis 常见事件整理</title>
+      <link href="/redis-common-events-collation/"/>
+      <url>/redis-common-events-collation/</url>
+      
+        <content type="html"><![CDATA[<p>这篇笔记用来整理 Redis 的常用事件。</p><a id="more"></a><h2 id="客户端事件"><a href="#客户端事件" class="headerlink" title="客户端事件"></a>客户端事件</h2><p>客户端会发出一些事件的状态连接到Redis 服务器。</p><h3 id="Ready"><a href="#Ready" class="headerlink" title="Ready"></a>Ready</h3><h3 id="Error"><a href="#Error" class="headerlink" title="Error"></a>Error</h3><p>客户端连接Redis 时，如果出现异常，则会触发Error 事件。</p><h3 id="Connect"><a href="#Connect" class="headerlink" title="Connect"></a>Connect</h3><p>客户端连接至Redis 时，会触发连接事件。</p><h2 id="订阅者事件"><a href="#订阅者事件" class="headerlink" title="订阅者事件"></a>订阅者事件</h2><h3 id="Message"><a href="#Message" class="headerlink" title="Message"></a>Message</h3><p>将接收到来自订阅频道的消息，</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">client.on(&quot;message&quot;, function (channel, message) &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure><h3 id="Subscribe"><a href="#Subscribe" class="headerlink" title="Subscribe"></a>Subscribe</h3><p>监听订阅事件，返回订阅频道的订阅数量。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">client.on(&quot;subscribe&quot;, function (channel, count) &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure><h2 id="发布-订阅"><a href="#发布-订阅" class="headerlink" title="发布/订阅"></a>发布/订阅</h2><h3 id="Publish"><a href="#Publish" class="headerlink" title="Publish"></a>Publish</h3><p>将信息 <code>message</code> 发送到指定的频道 <code>channel</code> 。</p><p>返回值：接收到信息 <code>message</code> 的订阅者数量。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PUBLISH channel message</span><br></pre></td></tr></table></figure><h3 id="SUBSCRIBE"><a href="#SUBSCRIBE" class="headerlink" title="SUBSCRIBE"></a>SUBSCRIBE</h3><p>订阅给定频道的信息。</p><p>返回值：接收到的信息。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SUBSCRIBE channel [channel ...]</span><br></pre></td></tr></table></figure><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul><li><a href="https://redis.readthedocs.io/en/2.4/index.html" target="_blank" rel="noopener">Redis命令参考简体中文版</a></li><li><a href="https://github.com/NodeRedis/node-redis" target="_blank" rel="noopener">A high performance Node.js Redis client</a></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> Redis </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Redis </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Socket.io 快速上手</title>
       <link href="/socket-io-quick-start/"/>
       <url>/socket-io-quick-start/</url>
@@ -73,6 +98,8 @@
         <tags>
             
             <tag> Mysql </tag>
+            
+            <tag> Mac </tag>
             
         </tags>
       

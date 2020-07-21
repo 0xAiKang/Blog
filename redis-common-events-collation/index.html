@@ -5,8 +5,6 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
-    
   
   <!-- 渲染优化 -->
   <meta name="renderer" content="webkit">
@@ -18,8 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>Category: Linux - Boo</title>
+    <title>Redis 常见事件整理 - Boo</title>
   
+    <meta name="keywords" content="Redis">
+  
+  
+    <meta name="description" content="这篇笔记用来整理 Redis 的常用事件。">
   
 
   <!-- feed -->
@@ -265,19 +267,12 @@
     <div class='body-wrapper'>
       
 
-
 <div class='l_main'>
   
-    
-      
-  <section class="post-list ">
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
+
   
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
 
 
   <section class='meta'>
@@ -287,11 +282,11 @@
       <div class="meta" id="header-meta">
         
           
-  <h2 class="title">
-    <a href="/understanding-of-linux-shell-shell-script-shell-environment/">
-      关于Linux的Shell、Shell脚本、Shell环境的理解
+  <h1 class="title">
+    <a href="/redis-common-events-collation/">
+      Redis 常见事件整理
     </a>
-  </h2>
+  </h1>
 
 
         
@@ -314,9 +309,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/' rel="nofollow">
+    <a href='/categories/Redis/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Linux/学习笔记</p>
+      <p>Redis</p>
     </a>
   </div>
 
@@ -327,9 +322,14 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jul 8, 2020</p>
+    <p>发布于：Jul 21, 2020</p>
   </a>
 </div>
+
+            
+          
+            
+              
 
             
           
@@ -338,13 +338,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1k words</p>
+      <p>210 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>3 min</p>
+      <p>1 min</p>
     </a>
   </div>
 
@@ -353,6 +353,18 @@
           
             
               
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/redis-common-events-collation/" class="leancloud_visitors" data-flag-title="Redis 常见事件整理">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
 
             
           
@@ -365,118 +377,72 @@
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>如标题所示，这片笔记主要目的是加深对<code>Linux</code>的<code>Shell</code>、<code>Shell脚本</code>、<code>Shell环境</code>的理解。</p>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/understanding-of-linux-shell-shell-script-shell-environment/">
-            阅读全文 <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>这篇笔记用来整理 Redis 的常用事件。</p>
+<a id="more"></a>
 
-          </div>
-        
-      
-    
-  </section>
-  
-    
-      <br>
-      <div class="prev-next">
-        
-          <a class="prev" rel="prev" href="/categories/Linux/">
-            <section class="post prev white-box shadow" >
-              <i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;Previous&nbsp;
-            </section>
-          </a>
-        
-        <p class="current">
-          2 / 2
-        </p>
-        
-      </div>
-    
-    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
-    
-    
+<h2 id="客户端事件"><a href="#客户端事件" class="headerlink" title="客户端事件"></a>客户端事件</h2><p>客户端会发出一些事件的状态连接到Redis 服务器。</p>
+<h3 id="Ready"><a href="#Ready" class="headerlink" title="Ready"></a>Ready</h3><h3 id="Error"><a href="#Error" class="headerlink" title="Error"></a>Error</h3><p>客户端连接Redis 时，如果出现异常，则会触发Error 事件。</p>
+<h3 id="Connect"><a href="#Connect" class="headerlink" title="Connect"></a>Connect</h3><p>客户端连接至Redis 时，会触发连接事件。</p>
+<h2 id="订阅者事件"><a href="#订阅者事件" class="headerlink" title="订阅者事件"></a>订阅者事件</h2><h3 id="Message"><a href="#Message" class="headerlink" title="Message"></a>Message</h3><p>将接收到来自订阅频道的消息，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">client.on(&quot;message&quot;, function (channel, message) &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="Subscribe"><a href="#Subscribe" class="headerlink" title="Subscribe"></a>Subscribe</h3><p>监听订阅事件，返回订阅频道的订阅数量。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">client.on(&quot;subscribe&quot;, function (channel, count) &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
-  
+<h2 id="发布-订阅"><a href="#发布-订阅" class="headerlink" title="发布/订阅"></a>发布/订阅</h2><h3 id="Publish"><a href="#Publish" class="headerlink" title="Publish"></a>Publish</h3><p>将信息 <code>message</code> 发送到指定的频道 <code>channel</code> 。</p>
+<p>返回值：接收到信息 <code>message</code> 的订阅者数量。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PUBLISH channel message</span><br></pre></td></tr></table></figure>
 
+<h3 id="SUBSCRIBE"><a href="#SUBSCRIBE" class="headerlink" title="SUBSCRIBE"></a>SUBSCRIBE</h3><p>订阅给定频道的信息。</p>
+<p>返回值：接收到的信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SUBSCRIBE channel [channel ...]</span><br></pre></td></tr></table></figure>
 
-    
-  
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://redis.readthedocs.io/en/2.4/index.html" target="_blank" rel="noopener">Redis命令参考简体中文版</a></li>
+<li><a href="https://github.com/NodeRedis/node-redis" target="_blank" rel="noopener">A high performance Node.js Redis client</a></li>
+</ul>
 
-</div>
-<aside class='l_side'>
-  
+          
+            <div class='article_footer'>
+              
+                
   
     
     
 
-<section class="widget blogger shadow desktop mobile">
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
   <div class='content'>
     
-      
-        <a class='avatar flat-box' href='/about/'>
-          <img no-lazy src='https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg'/>
-        </a>
-      
-    
-    
-      <div class='text'>
+      <blockquote>
         
-        
-          <p>Stay foolish, Stay hungry</p>
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
 
-        
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
-        
-          
-            <a href="/atom.xml"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
           
         
           
-            <a href="mailto:aikangtongxue@gamil.com"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
+            <p>本文永久链接是：<a href=https://www.aikang.me/redis-common-events-collation/>https://www.aikang.me/redis-common-events-collation/</a></p>
           
         
-          
-            <a href="https://github.com/0xAikang"
-              class="social fab fa-github flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-          
-            <a href="https://music.163.com/#/user/home?id=112719323"
-              class="social fas fa-headphones-alt flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-      </div>
+      </blockquote>
     
   </div>
 </section>
@@ -486,128 +452,212 @@
   
     
     
+
+<section class="widget qrcode  desktop mobile">
   
 
-  <section class="widget category shadow desktop">
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.aikang.me" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-21T23:42:45+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Jul 21, 2020</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Redis/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Redis</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.aikang.me/redis-common-events-collation/&title=Redis 常见事件整理 - Boo&summary=这篇笔记用来整理 Redis 的常用事件。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.aikang.me/redis-common-events-collation/&title=Redis 常见事件整理 - Boo&summary=这篇笔记用来整理 Redis 的常用事件。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.aikang.me/redis-common-events-collation/&title=Redis 常见事件整理 - Boo&summary=这篇笔记用来整理 Redis 的常用事件。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAAC9klEQVR42u3aQXLjMAwEQP//09l7silhAEYJ5OZNtkSRrcsUwNeH8d/xQgAGDBgwYMCsgXk1x5cJP/1+dV19/7cbaM539R4wYMCAAQMGzD6YcgAqLjhd+BXoFKx6PxgwYMCAAQNmL8x04dUAli58GizL+wEDBgwYMGDAvB1Mt1CUgp1aDxgwYMCAAQMGTLchl0Km84EBAwYMGDBg3g+mG7DGB3aKcNOG4G2dSDBgwIABAwbMbTCnNvRXrtv7AQMGDBgwYMCsgZmOamGpW9hKC1jj/YABAwYMGDBg1sB0A1K1oHQqKKYNtC4oGDBgwIABA2YfTLchdhdo9yBS9XcwYMCAAQMGzF6Y7gGh9ADPFC5dVwwOBgwYMGDAgFkD0z2gU4WoBsJ0I9MP+u28YMCAAQMGDJjHwKQB6dR904CY/g8GDBgwYMCAeQ5MGtzSBli3kNQuQIEBAwYMGDBgHgczbVh1C1xdkGmgvFwXGDBgwIABA2YdzKnglh4ESgtRaQMtDaxgwIABAwYMmD0w0wCVBri08HRXYxAMGDBgwIABsxcmDUqnGm5pwEuDYPphwYABAwYMGDD7YE43tLoNu3aB6VDwAwMGDBgwYMDsgakudHrQJy0cnWqspc+DAQMGDBgwYPbCTAtG1QZaej0NcuXnwIABAwYMGDDrYH6qAVdd4DTgpQH1suEGBgwYMGDAgFkLc1ch6XSB63ihCgwYMGDAgAGzBqZbiJoeJOoGxDTgXe4XDBgwYMCAAfMYmFMLSOfrgk0hwYABAwYMGDB7YKZjGtCmB5G6BazLgAcGDBgwYMCA+fMwpwJTFaa7sSl0OaCCAQMGDBgwYNbBTBtmXbjfhgUDBgwYMGDAPAdmGqCmEKc+TBcWDBgwYMCAAfN+MNMDR+n9pw8agQEDBgwYMGDApAHstwPdjxeqwIABAwYMGDC3wUwLTukGq/NP3wsGDBgwYMCAeS7MqeDUDVhduPT9l/ODAQMGDBgwYNbAGGDAgAEDBgyYZeMfJgJmf4Cw95EAAAAASUVORK5CYII=">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/socket-io-quick-start/'>
+                <p class='title'>Socket.io 快速上手<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>最近使用socket.io 和 redis 完成了一些小功能，觉得很实用，所以整理一下socket.io相关的知识。
+
+
+socket.io 是什么它是一个服务端与客户端之间建立通讯的工具。
+服...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Redis 常见事件整理',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
     
   <header>
     
-      <a href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
   </header>
 
 
     <div class='content'>
-      <ul class="entry navigation">
-        
-          <li><a class="flat-box"
-            title="/categories/Git/" href="/categories/Git/"
-            id="categoriesGit"
-            ><div class='name'>Git</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Linux/" href="/categories/Linux/"
-            id="categoriesLinux"
-            ><div class='name'>Linux</div><div class='badge'>(11)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/" href="/categories/Linux/%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/"
-            id="categoriesLinuxE591BDE4BBA4E695B4E79086"
-            ><div class='name'>命令整理</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" href="/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
-            id="categoriesLinuxE5ADA6E4B9A0E7AC94E8AEB0"
-            ><div class='name'>学习笔记</div><div class='badge'>(8)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Mysql/" href="/categories/Mysql/"
-            id="categoriesMysql"
-            ><div class='name'>Mysql</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Nginx/" href="/categories/Nginx/"
-            id="categoriesNginx"
-            ><div class='name'>Nginx</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Node/" href="/categories/Node/"
-            id="categoriesNode"
-            ><div class='name'>Node</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Node/Socket-io/" href="/categories/Node/Socket-io/"
-            id="categoriesNodeSocket-io"
-            ><div class='name'>Socket.io</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Node/Tutorial/" href="/categories/Node/Tutorial/"
-            id="categoriesNodeTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Redis/" href="/categories/Redis/"
-            id="categoriesRedis"
-            ><div class='name'>Redis</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Tutorial/" href="/categories/Tutorial/"
-            id="categoriesTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(8)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/GitHub/" href="/categories/Tutorial/GitHub/"
-            id="categoriesTutorialGitHub"
-            ><div class='name'>GitHub</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/Skill/" href="/categories/Tutorial/Skill/"
-            id="categoriesTutorialSkill"
-            ><div class='name'>Skill</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/Skill/GitHub/" href="/categories/Tutorial/Skill/GitHub/"
-            id="categoriesTutorialSkillGitHub"
-            ><div class='name'>GitHub</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C/" href="/categories/%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C/"
-            id="categoriesE4B880E4BA9BE7BB8FE9AA8C"
-            ><div class='name'>一些经验</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E5%89%8D%E7%AB%AF/" href="/categories/%E5%89%8D%E7%AB%AF/"
-            id="categoriesE5898DE7ABAF"
-            ><div class='name'>前端</div><div class='badge'>(1)</div></a></li>
-        
-      </ul>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#客户端事件"><span class="toc-text">客户端事件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Ready"><span class="toc-text">Ready</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Error"><span class="toc-text">Error</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Connect"><span class="toc-text">Connect</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#订阅者事件"><span class="toc-text">订阅者事件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Message"><span class="toc-text">Message</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Subscribe"><span class="toc-text">Subscribe</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#发布-订阅"><span class="toc-text">发布&#x2F;订阅</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Publish"><span class="toc-text">Publish</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SUBSCRIBE"><span class="toc-text">SUBSCRIBE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
     </div>
   </section>
 
-
-  
-
-  
-    
-    
-  
-
-  <section class="widget tagcloud shadow desktop mobile">
-    
-  <header>
-    
-      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
-    
-  </header>
-
-
-    <div class='content'>
-      <a href="/tags/CI/" style="font-size: 14px; color: #999">CI</a> <a href="/tags/Git/" style="font-size: 14px; color: #999">Git</a> <a href="/tags/Hexo/" style="font-size: 18px; color: #7e7e7e">Hexo</a> <a href="/tags/JavaScript/" style="font-size: 14px; color: #999">JavaScript</a> <a href="/tags/Linux/" style="font-size: 24px; color: #555">Linux</a> <a href="/tags/Mac/" style="font-size: 14px; color: #999">Mac</a> <a href="/tags/Mysql/" style="font-size: 18px; color: #7e7e7e">Mysql</a> <a href="/tags/Nginx/" style="font-size: 14px; color: #999">Nginx</a> <a href="/tags/Node/" style="font-size: 16px; color: #8b8b8b">Node</a> <a href="/tags/PM2/" style="font-size: 14px; color: #999">PM2</a> <a href="/tags/Redis/" style="font-size: 14px; color: #999">Redis</a> <a href="/tags/Shell/" style="font-size: 20px; color: #707070">Shell</a> <a href="/tags/Socket-io/" style="font-size: 14px; color: #999">Socket.io</a> <a href="/tags/Tutorial/" style="font-size: 22px; color: #636363">Tutorial</a> <a href="/tags/Vim/" style="font-size: 14px; color: #999">Vim</a> <a href="/tags/https/" style="font-size: 14px; color: #999">https</a> <a href="/tags/ssh/" style="font-size: 14px; color: #999">ssh</a>
-    </div>
-  </section>
-
-
-  
 
   
 
@@ -811,6 +861,60 @@ setInterval("createtime()",250);
 
 
 
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "prAyvaUeadxadA2wpcBQqNQn-gzGzoHsz",
+    appKey: "vkyEUTw0BixVjfFpFIzUdhak",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
 
 
 
