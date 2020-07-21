@@ -1,7 +1,7 @@
 ---
 title: Mac 开启 Mysql 日志记录
 date: 2020-07-19 17:24:43
-tags: ["Mysql"]
+tags: ["Mysql", "Mac"]
 categories: ["Mysql"]
 ---
 
