@@ -5,8 +5,6 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
-    
   
   <!-- 渲染优化 -->
   <meta name="renderer" content="webkit">
@@ -18,8 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>Category: Redis - Boo</title>
+    <title>PHP 中使用 hash_hmac 加密 - Boo</title>
   
+    <meta name="keywords" content="PHP,Hash">
+  
+  
+    <meta name="description" content="今天做项目时，遇到一个问题，需要将一段哈希值按照某种规则进行加密。源码是用Node写的，需要翻译成PHP 版本的。">
   
 
   <!-- feed -->
@@ -265,25 +267,12 @@
     <div class='body-wrapper'>
       
 
-
 <div class='l_main'>
   
-    
-      
-  <section class="post-list ">
-    
-      
-        
-          
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
+
   
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
 
 
   <section class='meta'>
@@ -293,11 +282,11 @@
       <div class="meta" id="header-meta">
         
           
-  <h2 class="title">
-    <a href="/redis-common-events-collation/">
-      Redis 常见事件整理
+  <h1 class="title">
+    <a href="/php-uses-hash-hmac-encryption/">
+      PHP 中使用 hash_hmac 加密
     </a>
-  </h2>
+  </h1>
 
 
         
@@ -320,9 +309,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Redis/' rel="nofollow">
+    <a href='/categories/PHP/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Redis</p>
+      <p>PHP</p>
     </a>
   </div>
 
@@ -333,9 +322,14 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jul 21, 2020</p>
+    <p>发布于：Jul 23, 2020</p>
   </a>
 </div>
+
+            
+          
+            
+              
 
             
           
@@ -344,7 +338,7 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>210 words</p>
+      <p>421 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
@@ -359,6 +353,18 @@
           
             
               
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/php-uses-hash-hmac-encryption/" class="leancloud_visitors" data-flag-title="PHP 中使用 hash_hmac 加密">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
 
             
           
@@ -371,103 +377,74 @@
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这篇笔记用来整理 Redis 的常用事件。</p>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/redis-common-events-collation/">
-            阅读全文 <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>今天做项目时，遇到一个问题，需要将一段哈希值按照某种规则进行加密。源码是用<code>Node</code>写的，需要翻译成<code>PHP</code> 版本的。</p>
+<a id="more"></a>
 
-          </div>
-        
-      
-    
-  </section>
-  
-    
-    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
-    
-    
+<h3 id="PHP中使用-Hmac-方法生成带有密钥的哈希值"><a href="#PHP中使用-Hmac-方法生成带有密钥的哈希值" class="headerlink" title="PHP中使用 Hmac 方法生成带有密钥的哈希值"></a>PHP中使用 Hmac 方法生成带有密钥的哈希值</h3><p>在Node.js 中，这是一段用于生成“加盐”的哈希值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var crypto &#x3D; require(&#39;crypto&#39;);</span><br><span class="line"></span><br><span class="line">var secret &#x3D; &quot;122410&quot;</span><br><span class="line">var key &#x3D; &quot;key&quot;</span><br><span class="line">var hash &#x3D; crypto.createHmac(&#39;sha256&#39;, secret).update(key).digest(&#39;hex&#39;)</span><br><span class="line"></span><br><span class="line">console.log(hash);</span><br><span class="line">&#x2F;&#x2F; dcc9ddf4836d4ecb6bd12fccc983207f39cfb84c43c01932eee22357cf0567b4</span><br></pre></td></tr></table></figure>
 
-  
+<p>如果要翻译成PHP版本，其实非常简单，直接使用PHP 的 <code>hash_hmac</code>函数就可以了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$secret &#x3D; &quot;122410&quot;; </span><br><span class="line">$key &#x3D; &quot;key&quot;;</span><br><span class="line">echo hash_hmac(&quot;sha256&quot;, $key, $secret);</span><br><span class="line">&#x2F;&#x2F; dcc9ddf4836d4ecb6bd12fccc983207f39cfb84c43c01932eee22357cf0567b4</span><br></pre></td></tr></table></figure>
 
+<h4 id="将密钥设置成二进制"><a href="#将密钥设置成二进制" class="headerlink" title="将密钥设置成二进制"></a>将密钥设置成二进制</h4><p>如果需要加密的部分，并不是普通的字符串，而是二进制字符串，那么需要使用<code>pack</code>函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var_dump(hash_hmac(&quot;sha1&quot;, &quot;office:fred&quot;, &quot;AA381AC5E4298C23B3B3333333333333333333&quot;));</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 5e50e6458b0cdc7ee534967d113a9deffe6740d0</span><br><span class="line">&#x2F;&#x2F; 预期结果：46abe81345b1da2f1a330bba3d6254e110cd9ad8</span><br></pre></td></tr></table></figure>
 
-    
-  
+<p>先将十六进制字符串转换为二进制数据，然后再将其传递给<code>hash_hmac</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var_dump(hash_hmac(&quot;sha1&quot;, &quot;office:fred&quot;, pack(&quot;H*&quot;, &quot;AA381AC5E4298C23B3B3333333333333333333&quot;)));</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 46abe81345b1da2f1a330bba3d6254e110cd9ad8</span><br></pre></td></tr></table></figure>
 
-</div>
-<aside class='l_side'>
-  
+<h3 id="Node中使用crypto进行md5-加密"><a href="#Node中使用crypto进行md5-加密" class="headerlink" title="Node中使用crypto进行md5 加密"></a>Node中使用crypto进行md5 加密</h3><p>在PHP 中，如果需要获取某个字符串的md5 加密之后的哈希值，非常简单，直接使用<code>md5</code> 函数即可。</p>
+<p>但是在<code>node.js</code> 中，并没有为我们直接提供这样的函数，所以需要手动调用<code>crypto</code> 模块去转换：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var pwd &#x3D; &quot;122410&quot;;</span><br><span class="line">var hash &#x3D; crypto.createHash(&#39;md5&#39;).update(pwd).digest(&#39;hex&#39;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 913975c2f972ba6bbf5ba593c68a5dc5</span><br></pre></td></tr></table></figure>
+
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://stackoverflow.com/questions/13012239/how-to-set-the-hmacsha1-key-to-hex-in-php" target="_blank" rel="noopener">如何在PHP中将hmac sha1密钥设置为十六进制？</a></li>
+<li><a href="https://caligatio.github.io/jsSHA/" target="_blank" rel="noopener">在线转换工具</a></li>
+<li><a href="https://www.php.net/manual/zh/function.hash-hmac.php" target="_blank" rel="noopener">php hash_hmac 函数</a></li>
+<li><a href="http://nodejs.cn/api/crypto.html" target="_blank" rel="noopener">node.js crypto 模块</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
   
     
     
 
-<section class="widget blogger shadow desktop mobile">
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
   <div class='content'>
     
-      
-        <a class='avatar flat-box' href='/about/'>
-          <img no-lazy src='https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg'/>
-        </a>
-      
-    
-    
-      <div class='text'>
+      <blockquote>
         
-        
-          <p>Stay foolish, Stay hungry</p>
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
 
-        
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
-        
-          
-            <a href="/atom.xml"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
           
         
           
-            <a href="mailto:aikangtongxue@gamil.com"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
+            <p>本文永久链接是：<a href=https://www.aikang.me/php-uses-hash-hmac-encryption/>https://www.aikang.me/php-uses-hash-hmac-encryption/</a></p>
           
         
-          
-            <a href="https://github.com/0xAikang"
-              class="social fab fa-github flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-          
-            <a href="https://music.163.com/#/user/home?id=112719323"
-              class="social fas fa-headphones-alt flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-      </div>
+      </blockquote>
     
   </div>
 </section>
@@ -477,133 +454,212 @@
   
     
     
+
+<section class="widget qrcode  desktop mobile">
   
 
-  <section class="widget category shadow desktop">
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.aikang.me" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-23T00:20:05+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Jul 23, 2020</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Hash/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Hash</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.aikang.me/php-uses-hash-hmac-encryption/&title=PHP 中使用 hash_hmac 加密 - Boo&summary=今天做项目时，遇到一个问题，需要将一段哈希值按照某种规则进行加密。源码是用Node写的，需要翻译成PHP 版本的。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.aikang.me/php-uses-hash-hmac-encryption/&title=PHP 中使用 hash_hmac 加密 - Boo&summary=今天做项目时，遇到一个问题，需要将一段哈希值按照某种规则进行加密。源码是用Node写的，需要翻译成PHP 版本的。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.aikang.me/php-uses-hash-hmac-encryption/&title=PHP 中使用 hash_hmac 加密 - Boo&summary=今天做项目时，遇到一个问题，需要将一段哈希值按照某种规则进行加密。源码是用Node写的，需要翻译成PHP 版本的。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAAC+0lEQVR42u3aQW7DMAwEwPz/0+0D2sLikm5Dd3RLYMjS+LIg+fqwvl0vBGDAgAEDBswamFe4vmx48dzp/1fP/fR76j5gwIABAwYMmH0wxwHo4kApRBWger7T58GAAQMGDBgwe2HSg6dgVxdJ94/vAwYMGDBgwID5tzDdQlY3wIEBAwYMGDBgwKSFpOqFyw2x4UAJBgwYMGDAgHkOTLlBFRaa0kGgNZ1IMGDAgAEDBsyvwVTXVOC763d8HzBgwIABAwbMGpjuSgNY2qCrDh6V7wMGDBgwYMCAWQOTBqRqoWiqUTcV8MCAAQMGDBgw+2FOg1e1IZYGudPgOHWey0IVGDBgwIABA+ZtYdIXTBeqqueoDi4d7wcGDBgwYMCAWQeTvqBaWDqFKwezsHEHBgwYMGDAgHkOTBrougWl6YumA0ZgwIABAwYMmD0w1SDXHeRpF5KGClfHnUgwYMCAAQMGzNvCpI2v9OB3FbbSDxAnXzBgwIABAwbMn8OkjbA04KUfoFqYSgtWYMCAAQMGDJi9MO1Cz1BharrhdlxoAwMGDBgwYMCsgeluWB04qkJVg1saAMGAAQMGDBgw+2DSA003ytJCWXX/ywAKBgwYMGDAgFkH0x3I6Racuh8obdSBAQMGDBgwYPbCTF8oDVjdwlb3w4IBAwYMGDBg9sNMBazTi7yaa6qgBQYMGDBgwIDZC5MGpjhIFZ+7LDA1AyoYMGDAgAED5nkwaZDqgqXwaTAFAwYMGDBgwOyHSQPX1IW6AbD9XjBgwIABAwbMGpju6jbK0sLWVAELDBgwYMCAAbMX5q6Bne5+aYDrgoIBAwYMGDBg9sFUA1238ZY20NKAd/xeMGDAgAEDBsxamDRAVcGqg0jTQbLciQQDBgwYMGDAPBbmuBBUBEgbctVBJzBgwIABAwYMmNODpBeeDnS3F6rAgAEDBgwYML8G0y0oVRth3f+nPggYMGDAgAEDZi/MVHBKG2/dgaJ0oAkMGDBgwIABsxfGAgMGDBgwYMAsW5+BoGlSa4JbKAAAAABJRU5ErkJggg==">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/organize-common-sql-injection-statements/'>
+                <p class='title'>整理常见的 SQL 注入语句<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>这篇笔记的目的是整理各种 SQL 注入使用时的payload。
+
+
+
+说明：以下的payloads都基于单引号字符型注入。若是整型注入则把单引号和注释符（–+）去掉，若是双引号注入则把单引号换成...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'PHP 中使用 hash_hmac 加密',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
     
   <header>
     
-      <a href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
   </header>
 
 
     <div class='content'>
-      <ul class="entry navigation">
-        
-          <li><a class="flat-box"
-            title="/categories/Git/" href="/categories/Git/"
-            id="categoriesGit"
-            ><div class='name'>Git</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Linux/" href="/categories/Linux/"
-            id="categoriesLinux"
-            ><div class='name'>Linux</div><div class='badge'>(11)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/" href="/categories/Linux/%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/"
-            id="categoriesLinuxE591BDE4BBA4E695B4E79086"
-            ><div class='name'>命令整理</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" href="/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
-            id="categoriesLinuxE5ADA6E4B9A0E7AC94E8AEB0"
-            ><div class='name'>学习笔记</div><div class='badge'>(8)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Mysql/" href="/categories/Mysql/"
-            id="categoriesMysql"
-            ><div class='name'>Mysql</div><div class='badge'>(5)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Nginx/" href="/categories/Nginx/"
-            id="categoriesNginx"
-            ><div class='name'>Nginx</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Node/" href="/categories/Node/"
-            id="categoriesNode"
-            ><div class='name'>Node</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Node/Socket-io/" href="/categories/Node/Socket-io/"
-            id="categoriesNodeSocket-io"
-            ><div class='name'>Socket.io</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Node/Tutorial/" href="/categories/Node/Tutorial/"
-            id="categoriesNodeTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/PHP/" href="/categories/PHP/"
-            id="categoriesPHP"
-            ><div class='name'>PHP</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Redis/" href="/categories/Redis/"
-            id="categoriesRedis"
-            ><div class='name'>Redis</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Tutorial/" href="/categories/Tutorial/"
-            id="categoriesTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(8)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/GitHub/" href="/categories/Tutorial/GitHub/"
-            id="categoriesTutorialGitHub"
-            ><div class='name'>GitHub</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/Skill/" href="/categories/Tutorial/Skill/"
-            id="categoriesTutorialSkill"
-            ><div class='name'>Skill</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/Skill/GitHub/" href="/categories/Tutorial/Skill/GitHub/"
-            id="categoriesTutorialSkillGitHub"
-            ><div class='name'>GitHub</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C/" href="/categories/%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C/"
-            id="categoriesE4B880E4BA9BE7BB8FE9AA8C"
-            ><div class='name'>一些经验</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E5%89%8D%E7%AB%AF/" href="/categories/%E5%89%8D%E7%AB%AF/"
-            id="categoriesE5898DE7ABAF"
-            ><div class='name'>前端</div><div class='badge'>(1)</div></a></li>
-        
-      </ul>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#PHP中使用-Hmac-方法生成带有密钥的哈希值"><span class="toc-text">PHP中使用 Hmac 方法生成带有密钥的哈希值</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#将密钥设置成二进制"><span class="toc-text">将密钥设置成二进制</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Node中使用crypto进行md5-加密"><span class="toc-text">Node中使用crypto进行md5 加密</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
     </div>
   </section>
 
-
-  
-
-  
-    
-    
-  
-
-  <section class="widget tagcloud shadow desktop mobile">
-    
-  <header>
-    
-      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
-    
-  </header>
-
-
-    <div class='content'>
-      <a href="/tags/CI/" style="font-size: 14px; color: #999">CI</a> <a href="/tags/Git/" style="font-size: 14px; color: #999">Git</a> <a href="/tags/Hash/" style="font-size: 14px; color: #999">Hash</a> <a href="/tags/Hexo/" style="font-size: 18px; color: #7e7e7e">Hexo</a> <a href="/tags/JavaScript/" style="font-size: 14px; color: #999">JavaScript</a> <a href="/tags/Linux/" style="font-size: 24px; color: #555">Linux</a> <a href="/tags/Mac/" style="font-size: 14px; color: #999">Mac</a> <a href="/tags/Mysql/" style="font-size: 20px; color: #707070">Mysql</a> <a href="/tags/Nginx/" style="font-size: 14px; color: #999">Nginx</a> <a href="/tags/Node/" style="font-size: 16px; color: #8b8b8b">Node</a> <a href="/tags/PHP/" style="font-size: 14px; color: #999">PHP</a> <a href="/tags/PM2/" style="font-size: 14px; color: #999">PM2</a> <a href="/tags/Redis/" style="font-size: 14px; color: #999">Redis</a> <a href="/tags/Shell/" style="font-size: 20px; color: #707070">Shell</a> <a href="/tags/Socket-io/" style="font-size: 14px; color: #999">Socket.io</a> <a href="/tags/Tutorial/" style="font-size: 22px; color: #636363">Tutorial</a> <a href="/tags/Vim/" style="font-size: 14px; color: #999">Vim</a> <a href="/tags/Web-%E5%AE%89%E5%85%A8/" style="font-size: 16px; color: #8b8b8b">Web 安全</a> <a href="/tags/https/" style="font-size: 14px; color: #999">https</a> <a href="/tags/ssh/" style="font-size: 14px; color: #999">ssh</a>
-    </div>
-  </section>
-
-
-  
 
   
 
@@ -807,6 +863,60 @@ setInterval("createtime()",250);
 
 
 
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "prAyvaUeadxadA2wpcBQqNQn-gzGzoHsz",
+    appKey: "vkyEUTw0BixVjfFpFIzUdhak",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
 
 
 

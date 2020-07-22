@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>PHP 中使用 hash_hmac 加密</title>
+      <link href="/php-uses-hash-hmac-encryption/"/>
+      <url>/php-uses-hash-hmac-encryption/</url>
+      
+        <content type="html"><![CDATA[<p>今天做项目时，遇到一个问题，需要将一段哈希值按照某种规则进行加密。源码是用<code>Node</code>写的，需要翻译成<code>PHP</code> 版本的。</p><a id="more"></a><h3 id="PHP中使用-Hmac-方法生成带有密钥的哈希值"><a href="#PHP中使用-Hmac-方法生成带有密钥的哈希值" class="headerlink" title="PHP中使用 Hmac 方法生成带有密钥的哈希值"></a>PHP中使用 Hmac 方法生成带有密钥的哈希值</h3><p>在Node.js 中，这是一段用于生成“加盐”的哈希值。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var crypto &#x3D; require(&#39;crypto&#39;);</span><br><span class="line"></span><br><span class="line">var secret &#x3D; &quot;122410&quot;</span><br><span class="line">var key &#x3D; &quot;key&quot;</span><br><span class="line">var hash &#x3D; crypto.createHmac(&#39;sha256&#39;, secret).update(key).digest(&#39;hex&#39;)</span><br><span class="line"></span><br><span class="line">console.log(hash);</span><br><span class="line">&#x2F;&#x2F; dcc9ddf4836d4ecb6bd12fccc983207f39cfb84c43c01932eee22357cf0567b4</span><br></pre></td></tr></table></figure><p>如果要翻译成PHP版本，其实非常简单，直接使用PHP 的 <code>hash_hmac</code>函数就可以了。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$secret &#x3D; &quot;122410&quot;; </span><br><span class="line">$key &#x3D; &quot;key&quot;;</span><br><span class="line">echo hash_hmac(&quot;sha256&quot;, $key, $secret);</span><br><span class="line">&#x2F;&#x2F; dcc9ddf4836d4ecb6bd12fccc983207f39cfb84c43c01932eee22357cf0567b4</span><br></pre></td></tr></table></figure><h4 id="将密钥设置成二进制"><a href="#将密钥设置成二进制" class="headerlink" title="将密钥设置成二进制"></a>将密钥设置成二进制</h4><p>如果需要加密的部分，并不是普通的字符串，而是二进制字符串，那么需要使用<code>pack</code>函数。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var_dump(hash_hmac(&quot;sha1&quot;, &quot;office:fred&quot;, &quot;AA381AC5E4298C23B3B3333333333333333333&quot;));</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 5e50e6458b0cdc7ee534967d113a9deffe6740d0</span><br><span class="line">&#x2F;&#x2F; 预期结果：46abe81345b1da2f1a330bba3d6254e110cd9ad8</span><br></pre></td></tr></table></figure><p>先将十六进制字符串转换为二进制数据，然后再将其传递给<code>hash_hmac</code>：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var_dump(hash_hmac(&quot;sha1&quot;, &quot;office:fred&quot;, pack(&quot;H*&quot;, &quot;AA381AC5E4298C23B3B3333333333333333333&quot;)));</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 46abe81345b1da2f1a330bba3d6254e110cd9ad8</span><br></pre></td></tr></table></figure><h3 id="Node中使用crypto进行md5-加密"><a href="#Node中使用crypto进行md5-加密" class="headerlink" title="Node中使用crypto进行md5 加密"></a>Node中使用crypto进行md5 加密</h3><p>在PHP 中，如果需要获取某个字符串的md5 加密之后的哈希值，非常简单，直接使用<code>md5</code> 函数即可。</p><p>但是在<code>node.js</code> 中，并没有为我们直接提供这样的函数，所以需要手动调用<code>crypto</code> 模块去转换：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var pwd &#x3D; &quot;122410&quot;;</span><br><span class="line">var hash &#x3D; crypto.createHash(&#39;md5&#39;).update(pwd).digest(&#39;hex&#39;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 913975c2f972ba6bbf5ba593c68a5dc5</span><br></pre></td></tr></table></figure><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul><li><a href="https://stackoverflow.com/questions/13012239/how-to-set-the-hmacsha1-key-to-hex-in-php" target="_blank" rel="noopener">如何在PHP中将hmac sha1密钥设置为十六进制？</a></li><li><a href="https://caligatio.github.io/jsSHA/" target="_blank" rel="noopener">在线转换工具</a></li><li><a href="https://www.php.net/manual/zh/function.hash-hmac.php" target="_blank" rel="noopener">php hash_hmac 函数</a></li><li><a href="http://nodejs.cn/api/crypto.html" target="_blank" rel="noopener">node.js crypto 模块</a></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> PHP </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> PHP </tag>
+            
+            <tag> Hash </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>整理常见的 SQL 注入语句</title>
       <link href="/organize-common-sql-injection-statements/"/>
       <url>/organize-common-sql-injection-statements/</url>
