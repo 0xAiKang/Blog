@@ -16,12 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>Redis 常见事件整理 - Boo</title>
+    <title>认识SQL 注入常见方式 - Boo</title>
   
-    <meta name="keywords" content="Redis">
+    <meta name="keywords" content="Mysql">
   
   
-    <meta name="description" content="这篇笔记用来整理 Redis 的常用事件。">
+    <meta name="description" content="最近需要做一个检测SQL 注入的功能，无奈发现自己于对SQL 注入竟有点陌生，本着搞清楚原理才能更好的理解Bug 产生的原因，于是便有了这篇笔记。">
   
 
   <!-- feed -->
@@ -283,8 +283,8 @@
         
           
   <h1 class="title">
-    <a href="/redis-common-events-collation/">
-      Redis 常见事件整理
+    <a href="/know-common-ways-of-sql-injection/">
+      认识SQL 注入常见方式
     </a>
   </h1>
 
@@ -322,7 +322,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jul 21, 2020</p>
+    <p>发布于：Jul 22, 2020</p>
   </a>
 </div>
 
@@ -338,13 +338,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>210 words</p>
+      <p>999 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>1 min</p>
+      <p>4 min</p>
     </a>
   </div>
 
@@ -357,7 +357,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/redis-common-events-collation/" class="leancloud_visitors" data-flag-title="Redis 常见事件整理">
+      <span id="/know-common-ways-of-sql-injection/" class="leancloud_visitors" data-flag-title="认识SQL 注入常见方式">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -380,29 +380,38 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>这篇笔记用来整理 Redis 的常用事件。</p>
+          <p>最近需要做一个检测<code>SQL 注入</code>的功能，无奈发现自己于对<code>SQL 注入</code>竟有点陌生，本着搞清楚原理才能更好的理解Bug 产生的原因，于是便有了这篇笔记。</p>
 <a id="more"></a>
 
-<h2 id="客户端事件"><a href="#客户端事件" class="headerlink" title="客户端事件"></a>客户端事件</h2><p>客户端会发出一些事件的状态连接到Redis 服务器。</p>
-<h3 id="Ready"><a href="#Ready" class="headerlink" title="Ready"></a>Ready</h3><h3 id="Error"><a href="#Error" class="headerlink" title="Error"></a>Error</h3><p>客户端连接Redis 时，如果出现异常，则会触发Error 事件。</p>
-<h3 id="Connect"><a href="#Connect" class="headerlink" title="Connect"></a>Connect</h3><p>客户端连接至Redis 时，会触发连接事件。</p>
-<h2 id="订阅者事件"><a href="#订阅者事件" class="headerlink" title="订阅者事件"></a>订阅者事件</h2><h3 id="Message"><a href="#Message" class="headerlink" title="Message"></a>Message</h3><p>将接收到来自订阅频道的消息，</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">client.on(&quot;message&quot;, function (channel, message) &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<h3 id="Subscribe"><a href="#Subscribe" class="headerlink" title="Subscribe"></a>Subscribe</h3><p>监听订阅事件，返回订阅频道的订阅数量。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">client.on(&quot;subscribe&quot;, function (channel, count) &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="SQL-注入是什么？"><a href="#SQL-注入是什么？" class="headerlink" title="SQL 注入是什么？"></a>SQL 注入是什么？</h2><p>SQL 注入是一种将SQL 语句添加到REQUEST 参数中，传递到服务器并执行的一种攻击手段。</p>
+<p>SQL 注入攻击是REQUEST 引數未经过过滤，然后直接拼接到SQL 语句中，解析并执行，而达到预想之外的一种行为。</p>
+<h2 id="SQL-注入是怎样产生的"><a href="#SQL-注入是怎样产生的" class="headerlink" title="SQL 注入是怎样产生的"></a>SQL 注入是怎样产生的</h2><ol>
+<li>WEB 开发人员无法保证所有的输入都已经完美过滤。</li>
+<li>数据库未做安全配置，存在安全隐患。</li>
+</ol>
+<h2 id="如何进行SQL-注入"><a href="#如何进行SQL-注入" class="headerlink" title="如何进行SQL 注入"></a>如何进行SQL 注入</h2><p>这里以<code>PHP</code>、<code>Mysql</code>为例，介绍一下完整的SQL 注入攻击是如何产生的。</p>
+<h3 id="回显注入"><a href="#回显注入" class="headerlink" title="回显注入"></a>回显注入</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$db_host &#x3D; &quot;localhost&quot;;</span><br><span class="line">$db_user &#x3D; &quot;root&quot;;</span><br><span class="line">$db_pwd &#x3D; xxxxxx;</span><br><span class="line">$db_name &#x3D; &quot;User&quot;;</span><br><span class="line">$db_table &#x3D; &quot;Student&quot;;</span><br><span class="line"></span><br><span class="line">echo &#39;&lt;h1&gt;&#39;;</span><br><span class="line">echo &#39;Test ErrorBased Injections&#39;;</span><br><span class="line">echo &#39;&lt;&#x2F;h1&gt;&#39;;</span><br><span class="line">error_reporting(E_ALL ^ E_DEPRECATED);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 测试连接</span><br><span class="line">$conn &#x3D; mysqli_connect($db_host, $db_user, $db_pwd);</span><br><span class="line">if (!$conn)&#123;</span><br><span class="line">    echo &#39;Mysql 连接失败:&#39;.mysqli_error($conn);</span><br><span class="line">&#125;else &#123;</span><br><span class="line">    echo &#39;Mysql 连接成功&#39;;</span><br><span class="line">&#125;</span><br><span class="line">echo &#39;&lt;hr&gt;&#39;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;连接数据库</span><br><span class="line">mysqli_select_db($conn, $db_name) or die (&quot;无法连接到数据库: &quot;.$db_name);</span><br><span class="line">mysqli_query($conn, &#39;set names utf-8&#39;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 获取参数</span><br><span class="line">if(isset($_GET[&#39;id&#39;]))&#123;</span><br><span class="line">    $id&#x3D;$_GET[&#39;id&#39;];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 拼接SQL语句</span><br><span class="line">$sql&#x3D; &quot;SELECT * FROM $db_table WHERE id &#x3D; &#123;$id&#125; &quot;;</span><br><span class="line">echo &#39;查询SQL 语句:&#39;.$sql;</span><br><span class="line">echo &#39;&lt;hr&gt;&#39;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;执行</span><br><span class="line">$result&#x3D;mysqli_query($conn, $sql);</span><br><span class="line">$row&#x3D;mysqli_fetch_array($result, MYSQLI_BOTH);</span><br><span class="line">if($row) &#123;</span><br><span class="line">  echo &#39;Your Login name:&#39;.$row[&#39;username&#39;];</span><br><span class="line">  echo &#39;&lt;hr&gt;&#39;;</span><br><span class="line">  echo &#39;Your Password:&#39;.$row[&#39;password&#39;];</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>调用地址是<code>http://127.0.0.1/sqli.php?id=1</code>，使用<code>GET</code>传入参数<code>id</code>，输出的SQL 语句如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM Student WHERE id &#x3D; &#39;1&#39;</span><br></pre></td></tr></table></figure>
+<p>正常情况下，会返回<code>id = 1</code> 的学生信息。</p>
+<h4 id="1-数字注入"><a href="#1-数字注入" class="headerlink" title="1. 数字注入"></a>1. 数字注入</h4><p>如果在浏览器中输入：<code>http://127.0.0./sqli.php?id=1&#39; union select 1,2--+</code>会怎样呢？输出的SQL 语句如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM Student WHERE id &#x3D; -1 or 1&#x3D;1</span><br></pre></td></tr></table></figure>
+<p>这会导致所有的学生信息都被输出了，为什么会这样呢？这是因为<code>id = -1</code>是一个不存在的条件，而<code>1 = 1</code>却是一个永远存在的条件，这就相当于没有加 Where 条件。</p>
+<h4 id="2-字符串注入"><a href="#2-字符串注入" class="headerlink" title="2. 字符串注入"></a>2. 字符串注入</h4><p>现在有这样一种场景：<code>http://127.0.0./login.php</code>模拟用户登录。假设正确的用户名和密码是<code>Boo</code>、<code>122410</code>，那么在正常的登录情况下所执行的SQL 语句如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM Student WHERE username &#x3D; &#39;Boo&#39; ADN password &#x3D; &#39;122410&#39;</span><br></pre></td></tr></table></figure>
+<p>由于用户名和密码都是字符串，所以SQL 注入会把参数携带的数据变成<code>Mysql</code>中的注释。Mysql 中的注释有两种。</p>
+<h4 id="1"><a href="#1" class="headerlink" title="1. #"></a>1. <code>#</code></h4><p>假设<code>POST</code> 传递的参数分别是：<code>username = Boo&#39;#</code>、<code>password = xxxxxx</code>，那么产生的SQL 语句则是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM Student WHERE username &#x3D; &#39;Boo&#39;#&#39;ADN password &#x3D; &#39;xxxxxx&#39;</span><br></pre></td></tr></table></figure>
+<p>因为<code>#</code>号 后的所有字符串都会被当成注释来处理，所以上面的SQL 语句等价于：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM Student WHERE username &#x3D; &#39;Boo&#39;</span><br></pre></td></tr></table></figure>
 
-<h2 id="发布-订阅"><a href="#发布-订阅" class="headerlink" title="发布/订阅"></a>发布/订阅</h2><h3 id="Publish"><a href="#Publish" class="headerlink" title="Publish"></a>Publish</h3><p>将信息 <code>message</code> 发送到指定的频道 <code>channel</code> 。</p>
-<p>返回值：接收到信息 <code>message</code> 的订阅者数量。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PUBLISH channel message</span><br></pre></td></tr></table></figure>
-
-<h3 id="SUBSCRIBE"><a href="#SUBSCRIBE" class="headerlink" title="SUBSCRIBE"></a>SUBSCRIBE</h3><p>订阅给定频道的信息。</p>
-<p>返回值：接收到的信息。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SUBSCRIBE channel [channel ...]</span><br></pre></td></tr></table></figure>
-
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><a href="https://redis.readthedocs.io/en/2.4/index.html" target="_blank" rel="noopener">Redis命令参考简体中文版</a></li>
-<li><a href="https://github.com/NodeRedis/node-redis" target="_blank" rel="noopener">A high performance Node.js Redis client</a></li>
-</ul>
+<h4 id="2"><a href="#2" class="headerlink" title="2. --"></a>2. <code>--</code></h4><p>假设<code>POST</code>请求传递的参数分别是：<code>username = Boo&#39;--</code>、<code>password = xxxxxx</code>，那么产生的SQL 语句则是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM Student WHERE username &#x3D; &#39;Boo&#39;-- &#39;AND password &#x3D; &#39;xxxxxx&#39;</span><br></pre></td></tr></table></figure>
+<p>因为<code>--</code>号 后面的所有内容都会被当成注释处理，所以上面的SQL 语句等价于：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM Student WHERE username &#x3D; &#39;Boo&#39;</span><br></pre></td></tr></table></figure>
+<p>无论是上面的哪一种情况，攻击者都能在不知道具体密码的情况下而成功登录。</p>
+<p>这大概就是一个简单的SQL注入产生的完整过程了，这里只是抛砖引玉的介绍了下原理，而实际场景中的SQL 注入当然远远不止这两种。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><p><a href="https://blog.csdn.net/github_36032947/article/details/78442189" target="_blank" rel="noopener">SQL 注入常见方式以及检测方法</a></p>
 
           
             <div class='article_footer'>
@@ -439,7 +448,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.aikang.me/redis-common-events-collation/>https://www.aikang.me/redis-common-events-collation/</a></p>
+            <p>本文永久链接是：<a href=https://www.aikang.me/know-common-ways-of-sql-injection/>https://www.aikang.me/know-common-ways-of-sql-injection/</a></p>
           
         
       </blockquote>
@@ -487,10 +496,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-21T23:42:45+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-22T23:27:30+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Jul 21, 2020</p>
+    <p>更新于：Jul 22, 2020</p>
   </a>
 </div>
 
@@ -499,7 +508,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Redis/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Redis</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Mysql/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Mysql</p></a></div>
 
 
         
@@ -517,7 +526,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.aikang.me/redis-common-events-collation/&title=Redis 常见事件整理 - Boo&summary=这篇笔记用来整理 Redis 的常用事件。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.aikang.me/know-common-ways-of-sql-injection/&title=认识SQL 注入常见方式 - Boo&summary=最近需要做一个检测SQL 注入的功能，无奈发现自己于对SQL 注入竟有点陌生，本着搞清楚原理才能更好的理解Bug 产生的原因，于是便有了这篇笔记。"
           
           >
           
@@ -529,7 +538,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.aikang.me/redis-common-events-collation/&title=Redis 常见事件整理 - Boo&summary=这篇笔记用来整理 Redis 的常用事件。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.aikang.me/know-common-ways-of-sql-injection/&title=认识SQL 注入常见方式 - Boo&summary=最近需要做一个检测SQL 注入的功能，无奈发现自己于对SQL 注入竟有点陌生，本着搞清楚原理才能更好的理解Bug 产生的原因，于是便有了这篇笔记。"
           
           >
           
@@ -541,7 +550,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.aikang.me/redis-common-events-collation/&title=Redis 常见事件整理 - Boo&summary=这篇笔记用来整理 Redis 的常用事件。"
+          href="http://service.weibo.com/share/share.php?url=https://www.aikang.me/know-common-ways-of-sql-injection/&title=认识SQL 注入常见方式 - Boo&summary=最近需要做一个检测SQL 注入的功能，无奈发现自己于对SQL 注入竟有点陌生，本着搞清楚原理才能更好的理解Bug 产生的原因，于是便有了这篇笔记。"
           
           >
           
@@ -555,7 +564,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAAC9klEQVR42u3aQXLjMAwEQP//09l7silhAEYJ5OZNtkSRrcsUwNeH8d/xQgAGDBgwYMCsgXk1x5cJP/1+dV19/7cbaM539R4wYMCAAQMGzD6YcgAqLjhd+BXoFKx6PxgwYMCAAQNmL8x04dUAli58GizL+wEDBgwYMGDAvB1Mt1CUgp1aDxgwYMCAAQMGTLchl0Km84EBAwYMGDBg3g+mG7DGB3aKcNOG4G2dSDBgwIABAwbMbTCnNvRXrtv7AQMGDBgwYMCsgZmOamGpW9hKC1jj/YABAwYMGDBg1sB0A1K1oHQqKKYNtC4oGDBgwIABA2YfTLchdhdo9yBS9XcwYMCAAQMGzF6Y7gGh9ADPFC5dVwwOBgwYMGDAgFkD0z2gU4WoBsJ0I9MP+u28YMCAAQMGDJjHwKQB6dR904CY/g8GDBgwYMCAeQ5MGtzSBli3kNQuQIEBAwYMGDBgHgczbVh1C1xdkGmgvFwXGDBgwIABA2YdzKnglh4ESgtRaQMtDaxgwIABAwYMmD0w0wCVBri08HRXYxAMGDBgwIABsxcmDUqnGm5pwEuDYPphwYABAwYMGDD7YE43tLoNu3aB6VDwAwMGDBgwYMDsgakudHrQJy0cnWqspc+DAQMGDBgwYPbCTAtG1QZaej0NcuXnwIABAwYMGDDrYH6qAVdd4DTgpQH1suEGBgwYMGDAgFkLc1ch6XSB63ihCgwYMGDAgAGzBqZbiJoeJOoGxDTgXe4XDBgwYMCAAfMYmFMLSOfrgk0hwYABAwYMGDB7YKZjGtCmB5G6BazLgAcGDBgwYMCA+fMwpwJTFaa7sSl0OaCCAQMGDBgwYNbBTBtmXbjfhgUDBgwYMGDAPAdmGqCmEKc+TBcWDBgwYMCAAfN+MNMDR+n9pw8agQEDBgwYMGDApAHstwPdjxeqwIABAwYMGDC3wUwLTukGq/NP3wsGDBgwYMCAeS7MqeDUDVhduPT9l/ODAQMGDBgwYNbAGGDAgAEDBgyYZeMfJgJmf4Cw95EAAAAASUVORK5CYII=">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADtklEQVR42u3aQXLbQAwEQP3/087dKRV3AFCEVb03xxS52/RhgtHrxyqtFwJw4MCBs8CBWwL3Kq7Tz19d9/v3p9f/d6Ch/V5+Hhw4cODAgQMHbhnccQB8c331YKfPqR403eflPsCBAwcOHDhw4JbCpUF16j5XB0+f230h4MCBAwcOHDhw3w43BVANqFfP7Q5MwYEDBw4cOHDgvh1u+sDp89JCGhw4cODAgQMH7tvg4oI23MhUkO7CP97kgwMHDhw4cODADcFVv7j3V38unxccOHDgwIEDB24JXHedDharwfWpgvvt/cCBAwcOHDhw4JbApQ8+DYrdIvpqf90iuzxwBQcOHDhw4MCBWwY3dYAu7HSRXQ3ab68HBw4cOHDgwIFbCtctcNMgOhWM0xdVfcHgwIEDBw4cOHBb4E6DZRqIq/CnB6q+gHYBDg4cOHDgwIEDtwTuY8FxuHieDt7H/yEABw4cOHDgwIFbBvdTXNVAeXrgqSK6OzgFBw4cOHDgwIHbCpcW0tWA2y20u8H48SYfHDhw4MCBAwfuJrjqoLA6GE0PMgVSvj84cODAgQMHDtwSuOnAORWUq4VxOuhMIcGBAwcOHDhw4LbAdQNwuoG0mD4+0IcGmuDAgQMHDhw4cNvg0uCYXpe+gG7wrgbteAIMDhw4cODAgQP3ENzpSjfSLZLTweT0cy4DMDhw4MCBAwcO3HK46UA8Fby7g9TbAzA4cODAgQMHDtzNcNMb7A4iu4F8av9xkw8OHDhw4MCBA/dhuO6gLw266b93i+7uHwg4cODAgQMHDtxWuPINigPEahFefQHp7y9/BgcOHDhw4MCBWwLXvVH1ANUXlO43LcjBgQMHDhw4cOD+Clw6CDw9WDfoTgfbNMgfDzLBgQMHDhw4cOAeguveuPoFwW7QTgtncODAgQMHDhy4b4frDghT4OoX/qpFd/cPARw4cODAgQMHbgtc9eBTgXaqSD79XHo/cODAgQMHDhy4rXB3FcmfKo7vfmHlCTA4cODAgQMHDtzNcFMDxRQkDbLpC5sK5uDAgQMHDhw4cNvhqoVut6CeKran9nt5PThw4MCBAwcO3FK4buCtFsvdwWN30Hq8P3DgwIEDBw4cuC+Bqx6gOqhMB59p0D7+YiE4cODAgQMHDtyXwHUPkgbeboFdDdbgwIEDBw4cOHBb4e4qpKsBOQXv3qc8yAQHDhw4cODAgXsIrlrUngbo7ufi4rgYvC/3DQ4cOHDgwIEDtwTOCot1BODAgQNngQP37PoH3n0BF2hy5jIAAAAASUVORK5CYII=">
           </div>
         </div>
       
@@ -575,22 +584,14 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/know-common-ways-of-sql-injection/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>认识SQL 注入常见方式</p>
-                <p class='content'>最近需要做一个检测SQL 注入的功能，无奈发现自己于对SQL 注入竟有点陌生，本着搞清楚原理才能更好的理解Bug 产生的原因，于是便有了这篇笔记。
-
-
-SQL 注入是什么？SQL 注入是一种将S...</p>
-              </a>
             
-            
-              <a class='next' href='/socket-io-quick-start/'>
-                <p class='title'>Socket.io 快速上手<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>最近使用socket.io 和 redis 完成了一些小功能，觉得很实用，所以整理一下socket.io相关的知识。
+              <a class='next' href='/redis-common-events-collation/'>
+                <p class='title'>Redis 常见事件整理<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>这篇笔记用来整理 Redis 的常用事件。
 
 
-socket.io 是什么它是一个服务端与客户端之间建立通讯的工具。
-服...</p>
+客户端事件客户端会发出一些事件的状态连接到Redis 服务器。
+ReadyError客户端连接Redis 时，如果出现异常，则会触发Error 事...</p>
               </a>
             
           </div>
@@ -635,7 +636,7 @@ socket.io 是什么它是一个服务端与客户端之间建立通讯的工具�
 
   <script>
     window.subData = {
-      title: 'Redis 常见事件整理',
+      title: '认识SQL 注入常见方式',
       tools: true
     }
   </script>
@@ -662,7 +663,7 @@ socket.io 是什么它是一个服务端与客户端之间建立通讯的工具�
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#客户端事件"><span class="toc-text">客户端事件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Ready"><span class="toc-text">Ready</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Error"><span class="toc-text">Error</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Connect"><span class="toc-text">Connect</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#订阅者事件"><span class="toc-text">订阅者事件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Message"><span class="toc-text">Message</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Subscribe"><span class="toc-text">Subscribe</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#发布-订阅"><span class="toc-text">发布&#x2F;订阅</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Publish"><span class="toc-text">Publish</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SUBSCRIBE"><span class="toc-text">SUBSCRIBE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL-注入是什么？"><span class="toc-text">SQL 注入是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL-注入是怎样产生的"><span class="toc-text">SQL 注入是怎样产生的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何进行SQL-注入"><span class="toc-text">如何进行SQL 注入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#回显注入"><span class="toc-text">回显注入</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-数字注入"><span class="toc-text">1. 数字注入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-字符串注入"><span class="toc-text">2. 字符串注入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1"><span class="toc-text">1. #</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2"><span class="toc-text">2. --</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
     </div>
   </section>
 
