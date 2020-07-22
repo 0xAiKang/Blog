@@ -1,8 +1,8 @@
 ---
 title: 认识SQL 注入常见方式
 date: 2020-07-22 23:26:11
-tags: ["Mysql"]
-categories: ["Redis"]
+tags: ["Mysql", "Web 安全"] 
+categories: ["Mysql"]
 ---
 
 最近需要做一个检测`SQL 注入`的功能，无奈发现自己于对`SQL 注入`竟有点陌生，本着搞清楚原理才能更好的理解Bug 产生的原因，于是便有了这篇笔记。
