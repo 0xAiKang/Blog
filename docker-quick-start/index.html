@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>Docker 快速上手 - Boo</title>
+  
+    <meta name="keywords" content="Docker">
+  
+  
+    <meta name="description" content="这篇笔记的主要目的是用来记录学习 Docker 的过程。Docker这个词并不是第一次听说了，印象中好久以前就听说过这个东西了，只是一直没有真正去了解。">
+  
+
+  <!-- feed -->
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+
+
+  <div class="l_body nocover">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/docker-quick-start/">
+      Docker 快速上手
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.aikang.me" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Linux/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Linux</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Jul 23, 2020</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>5.5k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>22 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/docker-quick-start/" class="leancloud_visitors" data-flag-title="Docker 快速上手">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>这篇笔记的主要目的是用来记录学习 <code>Docker</code> 的过程。<code>Docker</code>这个词并不是第一次听说了，印象中好久以前就听说过这个东西了，只是一直没有真正去了解。</p>
+<a id="more"></a>
+
+<h2 id="诞生"><a href="#诞生" class="headerlink" title="诞生"></a>诞生</h2><p>软件开发最大的麻烦事之一，就是环境配置。</p>
+<p>开发者常常说的一句话：它在我的机器上可以跑了。言下之意就是，其他机器可能跑不了。因为可以正常跑的前提是：操作系统的设置，各种软件和组件、库的安装，只有它们都正确了，软件才能正常运行。</p>
+<p>配置环境如此麻烦，换一台机器，就得重来一次，旷日费时。因此，聪明的人们就想到，能不能从根本上解决问题。软件可以带环境安装。（这里说的软件是指最终要运行的工程）</p>
+<h2 id="虚拟机"><a href="#虚拟机" class="headerlink" title="虚拟机"></a>虚拟机</h2><p>虚拟机（virtual machine，简称VM）就是带环境安装的一种解决方案。它可以在一个操作系统中运行另外一种操作系统。比如在Windows系统中运行Linux 系统。应用程序对此毫无感觉，因为虚拟机看上去跟真是系统一模一样。而对于底层系统来说，虚拟机就是一个普通文件，不需要就删掉，对其他部分没有影响。</p>
+<p><strong>虚拟机（VM）是物理硬件的抽象，</strong> 将一台服务器转变为多台服务器。</p>
+<p>虽然用户可以通过虚拟机还原软件的原始环境，但是这个方案有几个缺点。在后面会做比较。</p>
+<h2 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h2><p>由于虚拟机存在一些缺点，Linux 发展出了另一种轻量级的操作系统虚拟化解决方案，Linux 容器（Linux Containers，缩写为 LXC）。</p>
+<p><strong>Linux 容器不是模拟一个完整的操作系统，而是对进程进行隔离。</strong></p>
+<p><strong>容器是应用层的抽象，它将代码和依赖关系打包在一起。</strong> 多个容器可以在同一台机器上运行，并与其他容器共享操作系统内核，每个容器在用户空间中作为独立进程运行。容器占用的空间比VM少（容器映像的大小通常为几十MB），可以处理更多的应用程序，并且需要更少的VM和操作系统。</p>
+<p>由于容器是进程级别的，相比虚拟机有很多的优势。后面会做比较。</p>
+<h2 id="Docker-是什么"><a href="#Docker-是什么" class="headerlink" title="Docker 是什么"></a>Docker 是什么</h2><p><strong>Docker 属于Linux 容器的一种封装，提供简单易用的容器使用接口。</strong> 它是目前最流行的 Linux 容器解决方案。</p>
+<h3 id="Docker-与虚拟机的区别"><a href="#Docker-与虚拟机的区别" class="headerlink" title="Docker 与虚拟机的区别"></a>Docker 与虚拟机的区别</h3><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>占用资源</th>
+<th>启动速度</th>
+<th>级别</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Docker</td>
+<td>占用资源少</td>
+<td>启动快</td>
+<td>轻量级</td>
+</tr>
+<tr>
+<td>虚拟机</td>
+<td>占用资源多</td>
+<td>启动慢</td>
+<td>重量级</td>
+</tr>
+</tbody></table>
+<h3 id="Docker-CE-与-Docker-EE"><a href="#Docker-CE-与-Docker-EE" class="headerlink" title="Docker CE 与 Docker EE"></a>Docker CE 与 Docker EE</h3><p><strong>Docker CE(Docker Community Edition)</strong> 是社区版，简单理解是免费使用，提供小企业与小的IT团队使用,希望从Docker开始，并尝试基于容器的应用程序部署。</p>
+<p><strong>Docker EE(Docker Enterprise Edition)</strong> 是企业版，收费。提供功能更强。适合大企业与打的IT团队。为企业开发和IT团队设计，他们在生产中构建、交付和运行业务关键应用程序</p>
+<p>Docker CE 有三种类型的更新通道：stable、test和 nightly</p>
+<ul>
+<li>Stable 提供一般可用性的最新版本</li>
+<li>Test 提供在一般可用之前准备好进行测试的预发布。</li>
+<li>Nightly 提供下一个主要版本的最新正在进行的工作。</li>
+</ul>
+<h2 id="安装-Docker-CE"><a href="#安装-Docker-CE" class="headerlink" title="安装 Docker-CE"></a>安装 Docker-CE</h2><p>这里以Ubuntu 18.04 为例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1. sudo apt install apt-transport-https ca-certificates software-properties-common curl-transport-https ca-certificates software-properties-common curl</span><br><span class="line">2. curl -fsSL https:&#x2F;&#x2F;mirrors.ustc.edu.cn&#x2F;docker-ce&#x2F;linux&#x2F;ubuntu&#x2F;gpg | sudo apt-key add --fsSL https:&#x2F;&#x2F;mirrors.ustc.edu.cn&#x2F;docker-ce&#x2F;linux&#x2F;ubuntu&#x2F;gpg | sudo apt-key add -</span><br><span class="line">3. sudo add-apt-repository &quot;deb [arch&#x3D;amd64] https:&#x2F;&#x2F;mirrors.ustc.edu.cn&#x2F;docker-ce&#x2F;linux&#x2F;ubuntu \-apt-repository &quot;deb [arch&#x3D;amd64] https:&#x2F;&#x2F;mirrors.ustc.edu.cn&#x2F;docker-ce&#x2F;linux&#x2F;ubuntu \</span><br><span class="line">$(lsb_release -cs) stable&quot;</span><br><span class="line">4. sudo apt update</span><br><span class="line">5. sudo apt install docker-ce</span><br></pre></td></tr></table></figure>
+<p>将当前用户添加到docker 用户组，可以不用sudo 运行docker</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo groupadd docker</span><br><span class="line">$ sudo usermod -aG docker $USER-aG docker $USER</span><br></pre></td></tr></table></figure>
+
+<h3 id="Docker-镜像"><a href="#Docker-镜像" class="headerlink" title="Docker 镜像"></a>Docker 镜像</h3><p>Docker 镜像就是一个只读的模板。</p>
+<p>例如：一个镜像可以包含一个完整的 ubuntu 操作系统环境，里面仅安装了 Apache 或用户需要的其它应用程序。</p>
+<p>镜像可以用来创建 Docker 容器。</p>
+<h3 id="Docker-容器"><a href="#Docker-容器" class="headerlink" title="Docker 容器"></a>Docker 容器</h3><p>Docker 利用容器来运行应用。</p>
+<p>容器是从镜像创建的运行实例。它可以被启动、开始、停止、删除。每个容器都是相互隔离的、保证安全的平台。</p>
+<p>可以把容器看做是一个简易版的 Linux 环境（包括root用户权限、进程空间、用户空间和网络空间等）和运行在其中的应用程序。</p>
+<blockquote>
+<p>注：镜像是只读的，容器在启动的时候创建一层可写层作为最上层。</p>
+</blockquote>
+<h3 id="Docker-仓库"><a href="#Docker-仓库" class="headerlink" title="Docker 仓库"></a>Docker 仓库</h3><p>仓库是集中存放镜像文件的场所。有时候会把仓库和仓库注册服务器（Registry）混为一谈，并不严格区分。实际上，仓库注册服务器上往往存放着多个仓库，每个仓库中又包含了多个镜像（image），每个镜像有不同的标签（tag）。</p>
+<p>仓库分为公开仓库（Public）和私有仓库（Private）两种形式。</p>
+<p>最大的公开仓库是 Docker Hub，存放了数量庞大的镜像供用户下载。 国内的公开仓库包括 Docker Pool 等，可以提供大陆用户更稳定快速的访问。</p>
+<p>当然，用户也可以在本地网络内创建一个私有仓库。</p>
+<p>当用户创建了自己的镜像之后就可以使用 push 命令将它上传到公有或者私有仓库，这样下次在另外一台机器上使用这个镜像时候，只需要从仓库上 pull 下来就可以了。</p>
+<blockquote>
+<p>注：Docker 仓库的概念跟 Git 类似，注册服务器可以理解为 GitHub 这样的托管服务。</p>
+</blockquote>
+<h4 id="镜像和容器的区别"><a href="#镜像和容器的区别" class="headerlink" title="镜像和容器的区别"></a>镜像和容器的区别</h4><p>容器和镜像的关系如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200723123056.png" alt=""></p>
+<p><code>Dockerfile</code>用于定义镜像，依赖镜像来运行容器，仓库则是存放镜像的地方。</p>
+<h4 id="Dockerfile-是什么？"><a href="#Dockerfile-是什么？" class="headerlink" title="Dockerfile 是什么？"></a>Dockerfile 是什么？</h4><p>Dockerfile 是一个创建Docker 镜像所需的文件，其中会包含一组指令来告诉Docker 如何构建我们的镜像。</p>
+<p>示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$ cat Dockerfile</span><br><span class="line"># 使用官方Python运行时作为父映像</span><br><span class="line">FROM python:2.7-slim</span><br><span class="line"></span><br><span class="line"># 将工作目录设置为&#x2F;app</span><br><span class="line">WORKDIR &#x2F;app</span><br><span class="line"></span><br><span class="line"># 将当前目录内容复制到容器at &#x2F;app</span><br><span class="line">COPY . &#x2F;app</span><br><span class="line"></span><br><span class="line"># 安装requirements.txt中指定的任何需要的包</span><br><span class="line">RUN pip install --trusted-host pypi.python.org -r requirements.txt</span><br><span class="line"></span><br><span class="line"># #让80 端口号对外开放</span><br><span class="line">EXPOSE 80</span><br><span class="line"></span><br><span class="line"># 定义环境变量</span><br><span class="line">ENV NAME World</span><br><span class="line"></span><br><span class="line"># 在容器启动时运行app.py</span><br><span class="line">CMD [&quot;python&quot;, &quot;app.py&quot;]</span><br></pre></td></tr></table></figure>
+
+<h4 id="如何用镜像创建一个容器？"><a href="#如何用镜像创建一个容器？" class="headerlink" title="如何用镜像创建一个容器？"></a>如何用镜像创建一个容器？</h4><p>首先，我们需要一个镜像，然后才能创建容器。想要在Docker 上创建一个镜像，非常简单。</p>
+<ol>
+<li>cd 到项目文件夹中</li>
+<li>使用 <code>docker build --tag=mydockerapp .</code> 命令，创建一个Docker 镜像。–tag 选项命名。</li>
+<li>使用 <code>docker run -d -p 4000:80 mydockerapp</code>命令，创建一个新容器。</li>
+</ol>
+<p>该命令表示：Docker 以<code>mydockerapp</code>镜像创建一个新容器，同时以分离模式在后台运行该应用程序，将该容器的80端口映射到主机的4000端口。</p>
+<p>其中：<br><code>-d</code>：让容器在后台运行<br><code>-p</code>：将容器内部端口映射到指定的主机端口上。<br><code>-P</code> :是容器内部端口随机映射到主机的端口上。</p>
+<h4 id="Docker-网络端口映射"><a href="#Docker-网络端口映射" class="headerlink" title="Docker 网络端口映射"></a>Docker 网络端口映射</h4><p>使用命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run -p 4000:80 mydocker</span><br></pre></td></tr></table></figure>
+<p>然后用<code>docker container ls</code>查看容器列表</p>
+<p>下图的意思表示：将该容器的端口80映射到4000，从而生成正确的URL <a href="http://localhost:4000。">http://localhost:4000。</a></p>
+<p>Docker 开放了 80 端口映射到主机端口 4000 上。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200723123121.png" alt=""></p>
+<h4 id="Docker-容器连接"><a href="#Docker-容器连接" class="headerlink" title="Docker 容器连接"></a>Docker 容器连接</h4><p>前面我们实现了通过网络端口来访问运行在 docker 容器内的服务。下面我们来实现通过端口连接到一个 docker 容器</p>
+<h4 id="如何运行负载均衡应用？"><a href="#如何运行负载均衡应用？" class="headerlink" title="如何运行负载均衡应用？"></a>如何运行负载均衡应用？</h4><p>在开始之前，你得首先满足以下条件：</p>
+<ol>
+<li>安装Docker 1.13或更高版本。</li>
+<li>了解如何创建容器。</li>
+<li>确保已经创建镜像并发布到注册表。我们在这里需要使用该共享镜像。</li>
+<li>确保镜像作为已部署的容器运行，并能访问。</li>
+</ol>
+<p>确保有<code>docker-compose.yml</code>配置文件，然后依次执行以下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ docker swarm init</span><br><span class="line">$ docker stack deploy -c docker-compose.yml getstartedlab</span><br><span class="line"># 顺利的话，就能直接部署成功了。使用docker container ls 可以看到正在运行的实例。</span><br><span class="line"># 使用 curl http:&#x2F;&#x2F;localhost:4000 或者是刷新浏览器。</span><br><span class="line"># 无论以哪种方式，容器ID 都会发生变化。从而证明负载均衡成功。</span><br><span class="line"># 对于每个请求，以循环方式选择5个任务中的一个来响应。</span><br><span class="line"># 容器ID与上一个命令（docker container ls -q）的输出匹配。</span><br></pre></td></tr></table></figure>
+<h4 id="关于服务"><a href="#关于服务" class="headerlink" title="关于服务"></a>关于服务</h4><p>在分布式应用程序中，应用程序的不同部分称为“服务”。例如，如果您想象一个视频共享站点，它可能包括一个用于在数据库中存储应用程序数据的服务，一个用户在上传内容后在后台进行视频转码的服务，一个用于前端的服务，等等。</p>
+<p>服务实际上只是“生产中的容器”。服务只运行一个镜像，但它编码了镜像运行的方式 - 它应该使用哪些端口，应该运行多少个容器副本，以便服务具有所需的容量，以及等等。扩展服务会更改运行该软件的容器实例的数量，从而为流程中的服务分配更多计算资源。</p>
+<p>在服务中运行的单个容器称为任务。任务被赋予以数字递增的唯一ID，最多为replicas您定义 的数量docker-compose.yml。</p>
+<p>幸运的是，使用Docker平台定义，运行和扩展服务非常容易 - 只需编写一个docker-compose.yml文件即可。</p>
+<h4 id="如何在Docker上安装-Docker-Machine？"><a href="#如何在Docker上安装-Docker-Machine？" class="headerlink" title="如何在Docker上安装 Docker Machine？"></a>如何在Docker上安装 Docker Machine？</h4><p>Ubuntu 18.04 请看文末的参考链接。</p>
+<p>MacOS 如果是从<a href="https://hub.docker.com/" target="_blank" rel="noopener"><code>DockerHub</code>官网</a>下载的<code>dmg</code> 安装的Docker，不用担心，<code>Docker-Machine</code> 已经安装好了。</p>
+<h4 id="如何安装VirtualBox？"><a href="#如何安装VirtualBox？" class="headerlink" title="如何安装VirtualBox？"></a>如何安装VirtualBox？</h4><p>Ubuntu 18.04 请看文末的参考链接。</p>
+<p>MacOS 则需要从<a href="https://www.virtualbox.org/wiki/Downloads" target="_blank" rel="noopener"><code>virtualbox</code>官网</a>下载dmg安装包。</p>
+<p>你可能会遇到一个错误，参考解决：<a href="http://osxdaily.com/2018/12/31/install-run-virtualbox-macos-install-kernel-fails/" target="_blank" rel="noopener">如何在MacOS上安装VirtualBox</a></p>
+<h3 id="了解Swarm集群"><a href="#了解Swarm集群" class="headerlink" title="了解Swarm集群"></a>了解Swarm集群</h3><p>群由多个节点组成，可以是物理或虚拟机。基本概念很简单：运行<code>docker swarm init</code>以启用<code>swarm模式</code>并使当前计算机成为一个<code>swarm管理器</code>。</p>
+<p>这个章节是这个文档系列中学的时间最长的，坑有点多，走了不少弯路，这一节也挺重要的 重点记下笔记。</p>
+<p>在MacOS 下，部分命令需要 sudo 权限。</p>
+<h4 id="创建一个集群（本地计算机的VM）"><a href="#创建一个集群（本地计算机的VM）" class="headerlink" title="创建一个集群（本地计算机的VM）"></a>创建一个集群（本地计算机的VM）</h4><p>在开始这部分之前，需要提前安装好<code>Oracle VirtualBox</code>.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker-machine create --driver virutalbox myvm1</span><br></pre></td></tr></table></figure>
+<p>如果你收到了这样的信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ Error with pre-create check: </span><br><span class="line">&quot;VBoxManage not found. Make sure VirtualBox is installed and VBoxManage is in the path&quot;</span><br></pre></td></tr></table></figure>
+<p>说明你的<code>Vritualbox</code>还是没有安装好。</p>
+<p>查看正在运行的VM</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker-machine ls</span><br><span class="line">NAME    ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER        ERRORS</span><br><span class="line">myvm1   -        virtualbox   Running   tcp:&#x2F;&#x2F;192.168.99.104:2376           v17.06.2-ce</span><br><span class="line">myvm2   -        virtualbox   Running   tcp:&#x2F;&#x2F;192.168.99.105:2376           v17.06.2-ce</span><br></pre></td></tr></table></figure>
+<p>这样就成功的创建了一台VM，接下来我们要将这台机器作为管理器，第二台作为工作者。</p>
+<p>另外值得一提的是，尽管我在Ubuntu 18.04 上分别安装好了docker-machine、virtualbox，但当我创建 VM 时，总是会提示我计算机没有开启什么虚拟化（BOIS）。</p>
+<p>后来我大概想明白了，可能是我的那台服务器的配置太低了，真的是某个设置项没有启动导致的。</p>
+<p>今天在MacBook 上重新操作了一边，异常顺利。</p>
+<p>记录一个问题：使用<code>docker-machine create --driver virtualbox myvm1</code>创建VM时，创建成功了，但是并不是我想要的实例。得到了以下信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(default) Creating a new host-only adapter produced an error: hostonlyif create failed:</span><br><span class="line">(default) 0%...</span><br><span class="line">(default) Progress state: E_FAIL</span><br><span class="line">(default) VBoxManage.exe: error: Failed to create the host-only adapter</span><br></pre></td></tr></table></figure>
+<p>找了好久也没有找到答案，最后是怎么解决的呢？重启机器（加上 sudo）。</p>
+<p>启动\停止 VM</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker-machine start Name</span><br><span class="line">$ docker-machine stop Name</span><br></pre></td></tr></table></figure>
+
+<h4 id="初始化Swarm-并添加节点"><a href="#初始化Swarm-并添加节点" class="headerlink" title="初始化Swarm 并添加节点"></a>初始化Swarm 并添加节点</h4><p>这里是一个小坑，之前在这里栽了好久。</p>
+<p>这里有两种方式初始化节点或者说操作 VM（推荐第一种）：</p>
+<ol>
+<li><p>ssh 连接VM 实例，在Docker VM Cli 中执行命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ docker-machine ssh myvm1</span><br><span class="line">docker@myvm1: $ docker swarm init --advertise-addr &lt;myvm1 ip&gt;&quot;</span><br><span class="line"># &lt;myvm1 ip&gt; 指docker-machine ls 对应的 ip</span><br><span class="line"></span><br><span class="line"># 正常会得到这样一个输出</span><br><span class="line">To add a worker to this swarm, run the following command:</span><br><span class="line">   docker swarm join --token SWMTKN-1-1j5rwl5kvffwtptdl79vw30zfgqd51hrda8xmrkmv0lnozjii4-0njs1rk0zdplj70wjk6uhmkfo 192.168.99.103:2377</span><br></pre></td></tr></table></figure>
+<h4 id="将myvm2-实例作为工作者加入（方式一）"><a href="#将myvm2-实例作为工作者加入（方式一）" class="headerlink" title="将myvm2 实例作为工作者加入（方式一）"></a>将myvm2 实例作为工作者加入（方式一）</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ docker-machine ssh myvm1</span><br><span class="line">docker@myvm1: $ docker swarm join </span><br><span class="line">--token SWMTKN-1-1j5rwl5kvffwtptdl79vw30zfgqd51hrda8xmrkmv0lnozjii4-0njs1rk0zdplj70wjk6uhmkfo </span><br><span class="line">192.168.99.103:2377</span><br><span class="line"></span><br><span class="line"># 成功，会得到这样的输出</span><br><span class="line">This node joined a swarm as a worker.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>直接通过 <code>docker-machine ssh myvm1</code> 执行相应命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker-machine ssh myvm1 &quot;docker swarm init --advertise-addr &lt;myvm1 ip&gt;&quot;</span><br><span class="line"># 同上</span><br></pre></td></tr></table></figure>
+<h4 id="将myvm2-实例作为工作者加入（方式二）"><a href="#将myvm2-实例作为工作者加入（方式二）" class="headerlink" title="将myvm2 实例作为工作者加入（方式二）"></a>将myvm2 实例作为工作者加入（方式二）</h4><p>执行上面得到的输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ docker-machine ssh myvm2 &quot; docker swarm join </span><br><span class="line">--token SWMTKN-1-1j5rwl5kvffwtptdl79vw30zfgqd51hrda8xmrkmv0lnozjii4-0njs1rk0zdplj70wjk6uhmkfo </span><br><span class="line">192.168.99.103:2377&quot;</span><br><span class="line"></span><br><span class="line"># 成功，会得到这样的输出</span><br><span class="line">This node joined a swarm as a worker.</span><br></pre></td></tr></table></figure>
+<p>这样，我们就成功的创建了一个集群，并将一个工作者作为一个节点加入了。</p>
+</li>
+</ol>
+<h5 id="在管理器上查看集群中的节点："><a href="#在管理器上查看集群中的节点：" class="headerlink" title="在管理器上查看集群中的节点："></a>在管理器上查看集群中的节点：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker@myvm1: $ docker node ls</span><br><span class="line">ID                            HOSTNAME     STATUS       AVAILABILITY        MANAGER STATUS</span><br><span class="line">rihwohkh3ph38fhillhhb84sk *   myvm1        Ready        Active              Leader</span><br><span class="line">brtu9urxwfd5j0zrmkubhpkbd     myvm2        Ready        Active</span><br></pre></td></tr></table></figure>
+<p>为什么上面要介绍那两种与 VM 实例进行交互的方式呢？</p>
+<p>因为会和后面的在集群部署应用程序有一定联系。</p>
+<h4 id="在集群中部署应用程序"><a href="#在集群中部署应用程序" class="headerlink" title="在集群中部署应用程序"></a>在集群中部署应用程序</h4><p>在开始部署之前，我们需要了解到有两种方式可以实现。</p>
+<ol>
+<li>docker-machine 为Swarm 管理器配置Shell</li>
+</ol>
+<p>到目前为止，我们与 VM 通信都是通过 <code>docker-machine ssh</code>这种方式，另一种更好的方式就是：将当前shell配置为与VM上的Docker守护程序通信。</p>
+<p>这样我们就可以直接本地的<code>docker-compose.yml</code>文件远程部署应用程序，而无需将其复制到其他任何位置。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ docker-machine env myvm1</span><br><span class="line">export DOCKER_TLS_VERIFY&#x3D;&quot;1&quot;</span><br><span class="line">export DOCKER_HOST&#x3D;&quot;tcp:&#x2F;&#x2F;192.168.99.100:2376&quot;</span><br><span class="line">export DOCKER_CERT_PATH&#x3D;&quot;&#x2F;Users&#x2F;sam&#x2F;.docker&#x2F;machine&#x2F;machines&#x2F;myvm1&quot;</span><br><span class="line">export DOCKER_MACHINE_NAME&#x3D;&quot;myvm1&quot;</span><br><span class="line"># Run this command to configure your shell:</span><br><span class="line"># eval $(docker-machine env myvm1)</span><br><span class="line"></span><br><span class="line"># 运行最后一行命令以配置与之通信的 shell </span><br><span class="line">$ eval $(docker-machine env myvm1) # eval $(sudodocker-machine env myvm1)</span><br></pre></td></tr></table></figure>
+<p>运行docker-machine ls 已验证 myvm1 现在是活动的计算机。带有星号（*）表示配置成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker-machine ls</span><br><span class="line">NAME    ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER        ERRORS</span><br><span class="line">myvm1   *        virtualbox   Running   tcp:&#x2F;&#x2F;192.168.99.100:2376           v17.06.2-ce</span><br><span class="line">myvm2   -        virtualbox   Running   tcp:&#x2F;&#x2F;192.168.99.101:2376           v17.06.2-ce</span><br></pre></td></tr></table></figure>
+<p>部署应用程序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ ls</span><br><span class="line">docker-compose.yml</span><br><span class="line">$ docker stack deploy -c docker-compose.yml getstartedlab</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>传统方式</li>
+</ol>
+<p>传统的方式就是将<code>docker-compose.yml</code>文件拷贝到对应的管理器中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 使用scp 命令将文件拷贝到 vm 实例中</span><br><span class="line">$ ls</span><br><span class="line">docker-compose.yml</span><br><span class="line">$ docker-machine scp docker-compose.yml myvm1:~</span><br></pre></td></tr></table></figure>
+<p>部署应用程序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 这里就可以随意选择使用之前介绍的方式一或者方式二</span><br><span class="line"></span><br><span class="line"># 方式一</span><br><span class="line">$ docker-machine ssh myvm1 &quot;docker stack deploy -c docker-compose.yml getstartedlab&quot;</span><br><span class="line"></span><br><span class="line"># 方式二</span><br><span class="line">$ docker-machine ssh myvm1</span><br><span class="line">docker@myvm1: $ docker stack deploy -c docker-compose.yml</span><br></pre></td></tr></table></figure>
+<p>耐心等待一会，就可以看到看到部署成功了。</p>
+<h4 id="访问集群"><a href="#访问集群" class="headerlink" title="访问集群"></a>访问集群</h4><p>在访问集群之前，你需要知道以下两件事：</p>
+<ul>
+<li>访问集群的IP 地址是VM 的IP，使用<code>docker-machine ls</code>查看</li>
+<li>是否存在端口号，取决于你的<code>docker-compose.yml</code>文件</li>
+</ul>
+<h2 id="Docker-常用命令"><a href="#Docker-常用命令" class="headerlink" title="Docker 常用命令"></a>Docker 常用命令</h2><h3 id="容器的生命周期"><a href="#容器的生命周期" class="headerlink" title="容器的生命周期"></a>容器的生命周期</h3><ul>
+<li>创建一个新的容器并运行：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ docker run [OPTIONS] IMAGE [COMMAND] [ARG...]</span><br><span class="line">$ docker run ubuntu:15.10 &#x2F;bin&#x2F;echo &quot;Hello world&quot;</span><br><span class="line"># 解释：Docker以ubuntu15.10镜像创建一个新容器，然后在容器里执行 bin&#x2F;echo &quot;Hello world&quot;，最后输出结果。</span><br><span class="line"></span><br><span class="line">参数</span><br><span class="line">* -d：让容器在后台运行</span><br><span class="line">* -p：内部容器绑定到指定的主机端口上</span><br><span class="line">* -P：内部容器端口随机映射到主机端口上</span><br><span class="line">* --name：给容器命名，如果不加--name 参数，Docker 会自动命名。</span><br></pre></td></tr></table></figure></li>
+<li>杀掉一个运行中的容器：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker kill -s KILL mydocker</span><br><span class="line"># mydocker 表示Contianer ID或者Name</span><br></pre></td></tr></table></figure></li>
+<li>结束停止一个运行中的容器：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker container stop mydocker</span><br><span class="line"># mydocker 表示Container ID或者Name</span><br></pre></td></tr></table></figure></li>
+<li>查看正在运行的容器：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ docker ps</span><br><span class="line"></span><br><span class="line">参数</span><br><span class="line">* -l：查询最后一次创建容器记录</span><br><span class="line">* --all：查询所有创建容器记录</span><br><span class="line">* -aq：查询所有创建容器的Container ID</span><br></pre></td></tr></table></figure></li>
+<li>停止Web 应用容器</li>
+</ul>
+<p>这个只是停止该容器的运行，并没有杀死</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker stop mydocker</span><br></pre></td></tr></table></figure>
+<ul>
+<li>启动Web 应用容器</li>
+</ul>
+<p>已经停止的容器，可以使用命令 docker start 来启动。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker start mydocker</span><br></pre></td></tr></table></figure>
+<ul>
+<li>移除Web 应用容器<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ docker rm mydocker</span><br><span class="line">mydocker</span><br><span class="line"># 删除容器时，容器必须是停止状态，否者会报错。</span><br></pre></td></tr></table></figure>
+<h3 id="镜像操作"><a href="#镜像操作" class="headerlink" title="镜像操作"></a>镜像操作</h3></li>
+<li>如何创建一个Docker 镜像<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker build --tag&#x3D;mydockerapp # 注意：标签名只能小写</span><br></pre></td></tr></table></figure></li>
+<li>列出下载到计算机中的镜像<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ docker image ls</span><br><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">hello-world         latest              fce289e99eb9        3 months ago        1.84kB</span><br><span class="line"></span><br><span class="line">各个选项说明:</span><br><span class="line">* REPOSITORY：表示镜像的仓库源</span><br><span class="line"></span><br><span class="line">* TAG：镜像的标签</span><br><span class="line"></span><br><span class="line">* IMAGE ID：镜像ID</span><br><span class="line"></span><br><span class="line">* CREATED：镜像创建时间</span><br><span class="line"></span><br><span class="line">* SIZE：镜像大小</span><br></pre></td></tr></table></figure></li>
+<li>查找镜像<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ docker search nginx </span><br><span class="line">NAME     DESCRIPTION                    STARS      OFFICIAL </span><br><span class="line">nginx    Official build of Nginx.       11154        [OK]</span><br><span class="line"></span><br><span class="line">NAME:镜像仓库源的名称</span><br><span class="line"></span><br><span class="line">DESCRIPTION:镜像的描述</span><br><span class="line"></span><br><span class="line">OFFICIAL:是否docker官方发布</span><br></pre></td></tr></table></figure></li>
+<li>获取一个新镜像</li>
+</ul>
+<p>如果我们决定使用上图中的 nginx 官方镜像，使用如下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker pull nginx</span><br></pre></td></tr></table></figure>
+<h3 id="容器操作"><a href="#容器操作" class="headerlink" title="容器操作"></a>容器操作</h3><ul>
+<li>列出下载到计算机中的 container <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker container ls</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="仓库操作"><a href="#仓库操作" class="headerlink" title="仓库操作"></a>仓库操作</h3><ul>
+<li>登入<code>hub.docker.com</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker login </span><br><span class="line"># 前提是先注册号账号</span><br></pre></td></tr></table></figure></li>
+<li>标记镜像，以便上传至目标位置<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker tag mydocker aikang&#x2F;get-started:part1</span><br><span class="line"># 最后上传至所登入的Docker Hub仓库</span><br></pre></td></tr></table></figure></li>
+<li>将标记的镜像上传到存储库：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker push mydocker aikang&#x2F;get-started:part1</span><br></pre></td></tr></table></figure></li>
+<li>从远程存储库中拉出并运行映像<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run -d -p 4000:80 aikang&#x2F;get-started:part1</span><br></pre></td></tr></table></figure>
+注意：无论在哪里执行<code>docker run</code>，它都会提取你的镜像，以及Python和所有依赖项requirements.txt，并运行你的代码。它们都在一个整洁的小包中一起旅行，你不需要在主机上安装任何东西让Docker运行它。</li>
+</ul>
+<h3 id="服务操作"><a href="#服务操作" class="headerlink" title="服务操作"></a>服务操作</h3><ul>
+<li>群集初始化，可以使节点变成群集管理器<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker swarm init</span><br></pre></td></tr></table></figure></li>
+<li>以服务运行<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker stack deploy -c docker-compose.yml getstartedlab</span><br><span class="line">Creating network getstartedlab_webnet</span><br><span class="line">Creating service getstartedlab_web</span><br><span class="line"># 需要有一个docker-compose.yml 文件</span><br></pre></td></tr></table></figure></li>
+<li>列出与应用程序关联的正在运行的服务<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker service ls</span><br></pre></td></tr></table></figure></li>
+<li>查看与堆栈相关的所有服务<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker stack services getstartedlab</span><br><span class="line"># getstartedlab 表示服务的Names</span><br></pre></td></tr></table></figure></li>
+<li>列出服务任务<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker service ps getstartedlab</span><br><span class="line"># getstartedlab 表示服务的Names</span><br></pre></td></tr></table></figure></li>
+<li>关闭服务<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker stack rm getstartedlab</span><br><span class="line"># getstartedlab 表示服务的Names</span><br></pre></td></tr></table></figure></li>
+<li>查看集群中的节点<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker node ls</span><br></pre></td></tr></table></figure>
+<h3 id="VM-交互"><a href="#VM-交互" class="headerlink" title="VM 交互"></a>VM 交互</h3></li>
+<li>创建一个VM 实例（Win、Mac、Linux）<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker-machine create --driver virtualbox myvm1</span><br></pre></td></tr></table></figure></li>
+<li>使用ssh 连接VM 实例<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker-machine ssh myvm1</span><br></pre></td></tr></table></figure></li>
+<li>查看关于节点的基本信息<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker-machine env myvm1</span><br></pre></td></tr></table></figure></li>
+<li>使用scp命令将本地文件copy到VM实例中<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker-machine scp &lt;filename&gt; myvm1:~  </span><br><span class="line"># 从当前目录拷贝到实例中的根目录下</span><br></pre></td></tr></table></figure></li>
+<li>删除指定VM<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker-machine rm myvm1</span><br></pre></td></tr></table></figure></li>
+<li>将Shell 与VM 连接<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ eval $(docker-machine env myvm1)</span><br></pre></td></tr></table></figure></li>
+<li>将Shell 与VM 断开，使用本地连接<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ eval $(docker-machine env -u)</span><br></pre></td></tr></table></figure>
+<h3 id="集群操作"><a href="#集群操作" class="headerlink" title="集群操作"></a>集群操作</h3>以下操作均需要在VM CLI 中运行</li>
+<li>初始化集群<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker swarm init --advertise-addr &lt;myvm1 ip&gt;</span><br></pre></td></tr></table></figure></li>
+<li>将节点加入集群<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker swarm join --token &lt;token&gt; &lt;ip&gt;:2377&quot;</span><br></pre></td></tr></table></figure></li>
+<li>让工作者离开集群<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker swarm leave</span><br></pre></td></tr></table></figure></li>
+<li>强制离开并关掉集群<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker swarm leave -f</span><br></pre></td></tr></table></figure></li>
+<li>查看该节点的详情信息<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker node inspect &lt;node ID&gt;</span><br></pre></td></tr></table></figure></li>
+<li>部署应用程序<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker stack deploy -c &lt;file&gt; &lt;app&gt;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="杂项"><a href="#杂项" class="headerlink" title="杂项"></a>杂项</h3><ul>
+<li>查看Docker版本：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker version</span><br></pre></td></tr></table></figure></li>
+<li>显示Docker系统信息，包括镜像和容器数：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker info</span><br></pre></td></tr></table></figure></li>
+<li>查看Docker 容器的配置和状态信息。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker inspect mydocker</span><br><span class="line"># 表示容器的Container ID 或者Names</span><br></pre></td></tr></table></figure></li>
+<li>查看指定容器映射到宿主机的端口号。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ docker port mydocker</span><br><span class="line">80&#x2F;tcp -&gt; 0.0.0.0:4000</span><br><span class="line"># mydocker 表示该应用的Container ID 或者Names</span><br></pre></td></tr></table></figure></li>
+<li>查看Web 应用程序日志<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ docker logs -f mydocker </span><br><span class="line"> * Running on http:&#x2F;&#x2F;0.0.0.0:80&#x2F; (Press CTRL+C to quit)</span><br><span class="line">113.87.130.57 - - [01&#x2F;Apr&#x2F;2019 12:58:34] &quot;GET &#x2F; HTTP&#x2F;1.1&quot; 200 -</span><br><span class="line">113.87.130.57 - - [01&#x2F;Apr&#x2F;2019 12:58:35] &quot;GET &#x2F; HTTP&#x2F;1.1&quot; 200 -</span><br><span class="line"># mydocker 表示该应用的Container ID 或者是Names</span><br></pre></td></tr></table></figure></li>
+<li>查看Web 应用程序容器的进程<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker top mydocker </span><br><span class="line"># </span><br><span class="line">UID        PID       PPID        C     STIME        TTY         TIME                CMD</span><br><span class="line">root      22358      22323       0     20:58        ?      00:00:00            python app.py</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="杂项-1"><a href="#杂项-1" class="headerlink" title="杂项"></a>杂项</h2><h3 id="容器有哪些网络模式"><a href="#容器有哪些网络模式" class="headerlink" title="容器有哪些网络模式"></a>容器有哪些网络模式</h3><h5 id="1-None"><a href="#1-None" class="headerlink" title="1. None"></a>1. None</h5><p>在该模式下容器没有对外网络，本地机只有一个回路地址</p>
+<h5 id="2-Container"><a href="#2-Container" class="headerlink" title="2. Container"></a>2. Container</h5><p>在该模式下，与另一个容器共享网络</p>
+<h5 id="3-Host"><a href="#3-Host" class="headerlink" title="3. Host"></a>3. Host</h5><p>在该模式下，与主机共享网络</p>
+<h5 id="4-Bridge"><a href="#4-Bridge" class="headerlink" title="4. Bridge"></a>4. Bridge</h5><p>该模式为Docker 默认的网络模式，在这种模式下，Docker 容器与外部的通信都是通过 iptable 实现的。</p>
+<h5 id="5-Overlay"><a href="#5-Overlay" class="headerlink" title="5. Overlay"></a>5. Overlay</h5><p>该模式为Docker 目前原生的跨主机多子网模型，主要是通过 vxlan 技术实现。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="http://www.ruanyifeng.com/blog/2018/02/docker-tutorial.html" target="_blank" rel="noopener">Docker 入门教程 - 阮一峰网络日志</a></li>
+<li><a href="wiki.jikexueyuan.com/project/docker-technology-and-combat">Docker 入门 - 极客学院</a></li>
+<li><a href="https://docs.docker.com/install/" target="_blank" rel="noopener">安装Docker ce - 官方文档</a></li>
+<li><a href="http://www.ityouknow.com/docker/2018/04/19/docker-swarm.html" target="_blank" rel="noopener">Docker Swarm 入门教程</a></li>
+<li><a href="http://www.runoob.com/docker/ubuntu-docker-install.html" target="_blank" rel="noopener">如何在Ubuntu 18.4上安装 Docker-ce</a></li>
+<li><a href="https://docs.docker.com/machine/install-machine/" target="_blank" rel="noopener">如何在Ubuntu 18.04上安装Docker Machine</a></li>
+<li><a href="https://linuxize.com/post/how-to-install-virtualbox-on-ubuntu-18-04/#disqus_thread" target="_blank" rel="noopener">如何在Ubuntu 18.04上安装VirtualBox</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.aikang.me/docker-quick-start/>https://www.aikang.me/docker-quick-start/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.aikang.me" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-23T12:34:25+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Jul 23, 2020</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Docker/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Docker</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.aikang.me/docker-quick-start/&title=Docker 快速上手 - Boo&summary=这篇笔记的主要目的是用来记录学习 Docker 的过程。Docker这个词并不是第一次听说了，印象中好久以前就听说过这个东西了，只是一直没有真正去了解。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.aikang.me/docker-quick-start/&title=Docker 快速上手 - Boo&summary=这篇笔记的主要目的是用来记录学习 Docker 的过程。Docker这个词并不是第一次听说了，印象中好久以前就听说过这个东西了，只是一直没有真正去了解。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.aikang.me/docker-quick-start/&title=Docker 快速上手 - Boo&summary=这篇笔记的主要目的是用来记录学习 Docker 的过程。Docker这个词并不是第一次听说了，印象中好久以前就听说过这个东西了，只是一直没有真正去了解。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAAC/UlEQVR42u3aQXLCQAwEQP7/6eSeCmWNVk4Q9N4As9a2L1OSH1/Wr+uBAAwYMGDAgFkD82iu9o1//P/Z5+p1z/bvngcMGDBgwIABsw+me7BqYVfXVaGq928/KDBgwIABAwbMWpjLAFS8Pg1gXehTWDBgwIABAwYMmOr3UwESDBgwYMCAAQPmbph0IFaF6F4PBgwYMGDAgHlfmLte/JnaN/3fv00iwYABAwYMGDB/BpOu08bR3Z/b5wEDBgwYMGDArIE5XWnAuquhNXYeMGDAgAEDBswamG5ASg/SHZSdNspSWDBgwIABAwbMXpirA18VkO7TDXTVfarfgwEDBgwYMGD2waSFTQev7kFPG2NP9wMDBgwYMGDArIE5bSSdgk4Fs7E6wYABAwYMGDBrYKYK7+5zGtzSBlj8RhUYMGDAgAED5mVhpl8UShtGKUi3AVV+0GDAgAEDBgyYtTDpAKz7QlF6kOnAGA/cwIABAwYMGDAvC5MGrNPCpwZm4w0wMGDAgAEDBsx6mDSYpaDdF426UOWGFxgwYMCAAQNmHUw6QDsNZOn/U6AqFBgwYMCAAQNmP8z0QKtaUBoUu8DlAAsGDBgwYMCAeRuY6SB3ev3pAwUDBgwYMGDAvD/M6UGqBXd/79bfnkSCAQMGDBgwYF4eJm7shIOu7oAsBWk3uMCAAQMGDBgwa2HSgVX6e3eQlg7iunWBAQMGDBgwYPbCpIOt4wFXc3DWbUhd7gcGDBgwYMCAWQszFcROgabuEwdNMGDAgAEDBswamNOVDthOX1C6q4EFBgwYMGDAgNkHMx2Uqi8edeGq36f1gAEDBgwYMGD2wtwV6KaCXnrAduAEAwYMGDBgwKyFqRaUBrV0gHfXg7kc6IEBAwYMGDBgPg6m3AhqBr20QdU+HxgwYMCAAQPm42C6DabuQG8q0P158gUDBgwYMGDA3AbTbSylhZQLbYJ1G2lgwIABAwYMmH0wp8Fpap8Uqrt/eeAGBgwYMGDAgHlZGAsMGDBgwIABs2x9A6fRaVJW56qvAAAAAElFTkSuQmCC">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/php-uses-hash-hmac-encryption/'>
+                <p class='title'>PHP 中使用 hash_hmac 加密<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>今天做项目时，遇到一个问题，需要将一段哈希值按照某种规则进行加密。源码是用Node写的，需要翻译成PHP 版本的。
+
+
+PHP中使用 Hmac 方法生成带有密钥的哈希值在Node.js 中，这是...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Docker 快速上手',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#诞生"><span class="toc-text">诞生</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#虚拟机"><span class="toc-text">虚拟机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#容器"><span class="toc-text">容器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker-是什么"><span class="toc-text">Docker 是什么</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker-与虚拟机的区别"><span class="toc-text">Docker 与虚拟机的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker-CE-与-Docker-EE"><span class="toc-text">Docker CE 与 Docker EE</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装-Docker-CE"><span class="toc-text">安装 Docker-CE</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker-镜像"><span class="toc-text">Docker 镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker-容器"><span class="toc-text">Docker 容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker-仓库"><span class="toc-text">Docker 仓库</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#镜像和容器的区别"><span class="toc-text">镜像和容器的区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Dockerfile-是什么？"><span class="toc-text">Dockerfile 是什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#如何用镜像创建一个容器？"><span class="toc-text">如何用镜像创建一个容器？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Docker-网络端口映射"><span class="toc-text">Docker 网络端口映射</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Docker-容器连接"><span class="toc-text">Docker 容器连接</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#如何运行负载均衡应用？"><span class="toc-text">如何运行负载均衡应用？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#关于服务"><span class="toc-text">关于服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#如何在Docker上安装-Docker-Machine？"><span class="toc-text">如何在Docker上安装 Docker Machine？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#如何安装VirtualBox？"><span class="toc-text">如何安装VirtualBox？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#了解Swarm集群"><span class="toc-text">了解Swarm集群</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#创建一个集群（本地计算机的VM）"><span class="toc-text">创建一个集群（本地计算机的VM）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#初始化Swarm-并添加节点"><span class="toc-text">初始化Swarm 并添加节点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#将myvm2-实例作为工作者加入（方式一）"><span class="toc-text">将myvm2 实例作为工作者加入（方式一）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#将myvm2-实例作为工作者加入（方式二）"><span class="toc-text">将myvm2 实例作为工作者加入（方式二）</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#在管理器上查看集群中的节点："><span class="toc-text">在管理器上查看集群中的节点：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#在集群中部署应用程序"><span class="toc-text">在集群中部署应用程序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#访问集群"><span class="toc-text">访问集群</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker-常用命令"><span class="toc-text">Docker 常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#容器的生命周期"><span class="toc-text">容器的生命周期</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#镜像操作"><span class="toc-text">镜像操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#容器操作"><span class="toc-text">容器操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#仓库操作"><span class="toc-text">仓库操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#服务操作"><span class="toc-text">服务操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VM-交互"><span class="toc-text">VM 交互</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#集群操作"><span class="toc-text">集群操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#杂项"><span class="toc-text">杂项</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#杂项-1"><span class="toc-text">杂项</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#容器有哪些网络模式"><span class="toc-text">容器有哪些网络模式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-None"><span class="toc-text">1. None</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-Container"><span class="toc-text">2. Container</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-Host"><span class="toc-text">3. Host</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-Bridge"><span class="toc-text">4. Bridge</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-Overlay"><span class="toc-text">5. Overlay</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+  
+    <meting-js
+      theme='#1BCDFC'
+      autoplay='false'
+      volume='0.7'
+      loop='all'
+      order='list'
+      fixed='false'
+      list-max-height='340px'
+      server='netease'
+      type='playlist'
+      id='3175833810'
+      list-folded='true'>
+    </meting-js>
+  
+
+
+        </div>
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://www.aikang.me">Copyright © 2020-2020 Boo</a></p>
+
+        <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+        
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?e27402d777cd041b2671da4853b20fa4";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+<script>
+  var now = new Date(); 
+  function createtime() { 
+      var grt= new Date("07/04/2020 14:12:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+  } 
+setInterval("createtime()",250);
+</script>
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "prAyvaUeadxadA2wpcBQqNQn-gzGzoHsz",
+    appKey: "vkyEUTw0BixVjfFpFIzUdhak",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
