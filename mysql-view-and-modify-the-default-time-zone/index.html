@@ -5,8 +5,6 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
-    
   
   <!-- 渲染优化 -->
   <meta name="renderer" content="webkit">
@@ -18,8 +16,13 @@
 
   <!-- 页面元数据 -->
   
-    <title>Tag: Hexo - Boo</title>
+    <title>Mysql 查看修改默认时区 - Boo</title>
   
+    <meta name="keywords" content="Mysql">
+  
+  
+    <meta name="description" content="在之前的笔记中，我们知道了时区相关的概念，以及如何在PHP 获取设置默认时区。
+这篇笔记就来学习一下如何在Mysql 上获取设置默认时区。">
   
 
   <!-- feed -->
@@ -265,29 +268,12 @@
     <div class='body-wrapper'>
       
 
-
 <div class='l_main'>
   
-    
-      
-  <section class="post-list ">
-    
-      
-        
-          
-        
-          
-        
-          
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
+
   
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
 
 
   <section class='meta'>
@@ -297,11 +283,11 @@
       <div class="meta" id="header-meta">
         
           
-  <h2 class="title">
-    <a href="/hexo-volantis-theme-optimization-add-analysis-and-statistics/">
-      Hexo Volantis 主题优化 | 增加分析与统计
+  <h1 class="title">
+    <a href="/mysql-view-and-modify-the-default-time-zone/">
+      Mysql 查看修改默认时区
     </a>
-  </h2>
+  </h1>
 
 
         
@@ -324,9 +310,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Tutorial/' rel="nofollow">
+    <a href='/categories/Mysql/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Tutorial</p>
+      <p>Mysql</p>
     </a>
   </div>
 
@@ -337,9 +323,14 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jul 9, 2020</p>
+    <p>发布于：Jul 25, 2020</p>
   </a>
 </div>
+
+            
+          
+            
+              
 
             
           
@@ -348,7 +339,7 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>479 words</p>
+      <p>230 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
@@ -363,6 +354,18 @@
           
             
               
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/mysql-view-and-modify-the-default-time-zone/" class="leancloud_visitors" data-flag-title="Mysql 查看修改默认时区">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
 
             
           
@@ -375,329 +378,66 @@
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Volantis 默认支持 <a href="http://busuanzi.ibruce.info/" target="_blank" rel="noopener">不蒜子</a> 的访问统计，可以自行添加<a href="https://tongji.baidu.com/" target="_blank" rel="noopener">百度统计</a>和 <a href="https://analytics.google.com/" target="_blank" rel="noopener">Google Analytics</a>。</p>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/hexo-volantis-theme-optimization-add-analysis-and-statistics/">
-            阅读全文 <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
-  
-
-
-  <section class='meta'>
-    
-      
-      
-      <div class="meta" id="header-meta">
-        
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
           
-  <h2 class="title">
-    <a href="/hexo-volantis-theme-optimization-add-calendar/">
-      Hexo Volantis 主题优化 | 添加日历图
-    </a>
-  </h2>
+          <p>在之前的笔记中，我们知道了时区相关的概念，以及如何在PHP 获取设置默认时区。</p>
+<p>这篇笔记就来学习一下如何在Mysql 上获取设置默认时区。</p>
+<a id="more"></a>
 
+<h3 id="查看默认时区"><a href="#查看默认时区" class="headerlink" title="查看默认时区"></a>查看默认时区</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like &quot;%time_zone%&quot;;</span><br><span class="line">+------------------+--------+</span><br><span class="line">| Variable_name    | Value  |</span><br><span class="line">+------------------+--------+</span><br><span class="line">| system_time_zone | CST    |</span><br><span class="line">| time_zone        | SYSTEM |</span><br><span class="line">+------------------+--------+</span><br><span class="line">2 rows in set (0.01 sec)</span><br></pre></td></tr></table></figure>
 
-        
-        <div class='new-meta-box'>
+<h3 id="设置默认时区"><a href="#设置默认时区" class="headerlink" title="设置默认时区"></a>设置默认时区</h3><h4 id="设置当前会话"><a href="#设置当前会话" class="headerlink" title="设置当前会话"></a>设置当前会话</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SET time_zone &#x3D; &quot;+8.00&quot;;</span><br><span class="line">mysql&gt; show variables like &quot;%time_zone%&quot;;</span><br></pre></td></tr></table></figure>
+<p>此修改只会对当前会话有效。</p>
+<h4 id="全局设置"><a href="#全局设置" class="headerlink" title="全局设置"></a>全局设置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SET global time_zone &#x3D; &quot;+8.00&quot;;</span><br></pre></td></tr></table></figure>
+<p>需要重启该会话，该配置才生效。</p>
+<h4 id="编辑-my-ini"><a href="#编辑-my-ini" class="headerlink" title="编辑 my.ini"></a>编辑 my.ini</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 打开Mysql 的配置文件 my.ini</span><br><span class="line">[mysqld]</span><br><span class="line">default-time_zone &#x3D; &#39;+8:00&#39;</span><br></pre></td></tr></table></figure>
+<p>需要重启Mysql 服务</p>
+<h5 id="时间格式"><a href="#时间格式" class="headerlink" title="时间格式"></a>时间格式</h5><p>GMT（Greenwich Mean Time）：格林威治标准时间<br>UTC：世界标准时间<br>CST（China Standard Time）：中国标准时间</p>
+<p>GMT + 8 = UTC + 8 = CST</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://majing.io/posts/10000004161181" target="_blank" rel="noopener">Mysql 查看修改时区 time_zone</a></li>
+</ul>
+
           
-            
-          
-            
+            <div class='article_footer'>
               
-<div class='new-meta-item author'>
-  <a href="https://www.aikang.me" rel="nofollow">
-    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
-    <p>Boo</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/Tutorial/' rel="nofollow">
-      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Tutorial</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jul 9, 2020</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-  <div class="new-meta-item wordcount">
-    <a class='notlink'>
-      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>422 words</p>
-    </a>
-  </div>
-  <div class="new-meta-item readtime">
-    <a class='notlink'>
-      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>1 min</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              
-
-            
-          
-        </div>
-        
-          <hr>
-        
-      </div>
-    
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>一直觉得GitHub 日历图（代码提交统计样式）很好看，偶然发现是可以通过配置将日历模块引入到Hexo 的主题中的。</p>
-<p>默认效果如下：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200709204832.png" alt=""></p>
-<p>因为我使用的Hexo 主题是<code>Volantis</code>、而该主题目前并没有集成该控件，所以需要手动配置。</p>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/hexo-volantis-theme-optimization-add-calendar/">
-            阅读全文 <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
-  
-
-
-  <section class='meta'>
-    
-      
-      
-      <div class="meta" id="header-meta">
-        
-          
-  <h2 class="title">
-    <a href="/hexo-quick-start/">
-      Hexo 快速上手
-    </a>
-  </h2>
-
-
-        
-        <div class='new-meta-box'>
-          
-            
-          
-            
-              
-<div class='new-meta-item author'>
-  <a href="https://www.aikang.me" rel="nofollow">
-    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
-    <p>Boo</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/Tutorial/' rel="nofollow">
-      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Tutorial</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jul 5, 2020</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-  <div class="new-meta-item wordcount">
-    <a class='notlink'>
-      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1.2k words</p>
-    </a>
-  </div>
-  <div class="new-meta-item readtime">
-    <a class='notlink'>
-      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>4 min</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              
-
-            
-          
-        </div>
-        
-          <hr>
-        
-      </div>
-    
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近使用Hexo 搭建了一套博客系统，整个过程还算顺利，不过还是遇到了一些问题，整理记录一下。</p>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/hexo-quick-start/">
-            阅读全文 <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-    
-  </section>
-  
-    
-    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
-    
-    
-
-  
-
-
-    
-  
-</div>
-<aside class='l_side'>
-  
+                
   
     
     
 
-<section class="widget blogger shadow desktop mobile">
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
   <div class='content'>
     
-      
-        <a class='avatar flat-box' href='/about/'>
-          <img no-lazy src='https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg'/>
-        </a>
-      
-    
-    
-      <div class='text'>
+      <blockquote>
         
-        
-          <p>Stay foolish, Stay hungry</p>
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
 
-        
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
-        
-          
-            <a href="/atom.xml"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
           
         
           
-            <a href="mailto:aikangtongxue@gamil.com"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
+            <p>本文永久链接是：<a href=https://www.aikang.me/mysql-view-and-modify-the-default-time-zone/>https://www.aikang.me/mysql-view-and-modify-the-default-time-zone/</a></p>
           
         
-          
-            <a href="https://github.com/0xAikang"
-              class="social fab fa-github flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-          
-            <a href="https://music.163.com/#/user/home?id=112719323"
-              class="social fas fa-headphones-alt flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-      </div>
+      </blockquote>
     
   </div>
 </section>
@@ -707,138 +447,214 @@
   
     
     
+
+<section class="widget qrcode  desktop mobile">
   
 
-  <section class="widget category shadow desktop">
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.aikang.me" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-25T23:45:03+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Jul 25, 2020</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Mysql/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Mysql</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.aikang.me/mysql-view-and-modify-the-default-time-zone/&title=Mysql 查看修改默认时区 - Boo&summary=在之前的笔记中，我们知道了时区相关的概念，以及如何在PHP 获取设置默认时区。
+这篇笔记就来学习一下如何在Mysql 上获取设置默认时区。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.aikang.me/mysql-view-and-modify-the-default-time-zone/&title=Mysql 查看修改默认时区 - Boo&summary=在之前的笔记中，我们知道了时区相关的概念，以及如何在PHP 获取设置默认时区。
+这篇笔记就来学习一下如何在Mysql 上获取设置默认时区。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.aikang.me/mysql-view-and-modify-the-default-time-zone/&title=Mysql 查看修改默认时区 - Boo&summary=在之前的笔记中，我们知道了时区相关的概念，以及如何在PHP 获取设置默认时区。
+这篇笔记就来学习一下如何在Mysql 上获取设置默认时区。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADnklEQVR42u3aQW7jQAwEwPz/07v3AEHIJhXTRs3NsiXNFC8N0l//rGh9IQAHDhw4Cxy4I3Bf4fp+/0+ff3rPb99X3199/tp5wYEDBw4cOHDgjsGVA+APUH91sOp93cKWzwsOHDhw4MCBA3cUbivwdsGqgGmgXTsvOHDgwIEDBw7ch8ClB54G6y4IOHDgwIEDBw4cuN4G0+f/Fni3GpngwIEDBw4cOHCfAtcNqlsHng6au897+SQfHDhw4MCBAwduCa67ugHz2uf4vODAgQMHDhw4cEfgtld3gL01yE7f2z4fOHDgwIEDBw7cEbhqYzINxtXfpwVKB+bdgAwOHDhw4MCBA3cNLh3kVjc0bSx2n1stTFpYcODAgQMHDhy4K3B/PYCuwncbpN33ptfBgQMHDhw4cOCuwU0Hyt2AWm4cPjVYDoM4OHDgwIEDBw7cFbinBtFbATiF6xaiHYDBgQMHDhw4cOCOwXUH1FsD5GlDMh4wd4HBgQMHDhw4cOCOwKV/KNxqFHYD+FYh44E8OHDgwIEDBw7cEbjp4HkbOL2eNmbHA2lw4MCBAwcOHLgXwW0FxukAOm1sbg3Iy9+DAwcOHDhw4MAdh5sG2q1APS1UCgQOHDhw4MCBA/cucN1AOW0odq9vBdlxgAYHDhw4cODAgTsGN20wVoPr04XZaqCCAwcOHDhw4MBdh0uD6FZwTZ/fDcLd9/zayAQHDhw4cODAgTsK191w2qisvv+pxme7EODAgQMHDhw4cEfg0oZk+ge9rYF2N/hOCwkOHDhw4MCBA3cVbgq0BbxVmMcap+DAgQMHDhw4cMfh0j/gTYPpFDoNwOXnggMHDhw4cODAHYOr3vhUgO0WJj34tLEKDhw4cODAgQN3DW5rw2kwTQuQNirT84IDBw4cOHDgwF2D2x4MdwuTFiC9njZUwYEDBw4cOHDgrsJ1D5o2DLcH19MgXN4XOHDgwIEDBw7cEbjp2gqwW43H6f7AgQMHDhw4cODeBW4aEJ+G6wbodmOyCwsOHDhw4MCBA3cMLg286f3TYFt9blrYdgcYHDhw4MCBAwfuxXDdwDsNyuNAujSIrhYOHDhw4MCBAwfuU+HSAXYXOt1Hd3ANDhw4cODAgQP3qXBbB0sH190GZ7eRCQ4cOHDgwIED9y5w0wCbBtEqUFq4dJANDhw4cODAgQN3HS4d4G6DTQNqF2bcyAQHDhw4cODAgXsRnNVb4MCBAwfOAgfuxes/1Rp6AFFP9NUAAAAASUVORK5CYII=">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/understanding-the-mysql-log/'>
+                <p class='title'>了解 Mysql 日志<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>日志无论在哪里都是尤为重要的存在，所以这篇笔记的目的就是了解Mysql 日志的。
+
+
+日志简介Mysql 的日志主要分为四类，使用这些日志文件，可以查看Mysql 内部发生的事情，这四类日志分别...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Mysql 查看修改默认时区',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
     
   <header>
     
-      <a href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
   </header>
 
 
     <div class='content'>
-      <ul class="entry navigation">
-        
-          <li><a class="flat-box"
-            title="/categories/Git/" href="/categories/Git/"
-            id="categoriesGit"
-            ><div class='name'>Git</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Linux/" href="/categories/Linux/"
-            id="categoriesLinux"
-            ><div class='name'>Linux</div><div class='badge'>(12)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/Tutorial/" href="/categories/Linux/Tutorial/"
-            id="categoriesLinuxTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/" href="/categories/Linux/%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/"
-            id="categoriesLinuxE591BDE4BBA4E695B4E79086"
-            ><div class='name'>命令整理</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" href="/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
-            id="categoriesLinuxE5ADA6E4B9A0E7AC94E8AEB0"
-            ><div class='name'>学习笔记</div><div class='badge'>(8)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Mysql/" href="/categories/Mysql/"
-            id="categoriesMysql"
-            ><div class='name'>Mysql</div><div class='badge'>(7)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Nginx/" href="/categories/Nginx/"
-            id="categoriesNginx"
-            ><div class='name'>Nginx</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Node/" href="/categories/Node/"
-            id="categoriesNode"
-            ><div class='name'>Node</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Node/Socket-io/" href="/categories/Node/Socket-io/"
-            id="categoriesNodeSocket-io"
-            ><div class='name'>Socket.io</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Node/Tutorial/" href="/categories/Node/Tutorial/"
-            id="categoriesNodeTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/PHP/" href="/categories/PHP/"
-            id="categoriesPHP"
-            ><div class='name'>PHP</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Redis/" href="/categories/Redis/"
-            id="categoriesRedis"
-            ><div class='name'>Redis</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Tutorial/" href="/categories/Tutorial/"
-            id="categoriesTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(8)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/GitHub/" href="/categories/Tutorial/GitHub/"
-            id="categoriesTutorialGitHub"
-            ><div class='name'>GitHub</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/Skill/" href="/categories/Tutorial/Skill/"
-            id="categoriesTutorialSkill"
-            ><div class='name'>Skill</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/Skill/GitHub/" href="/categories/Tutorial/Skill/GitHub/"
-            id="categoriesTutorialSkillGitHub"
-            ><div class='name'>GitHub</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C/" href="/categories/%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C/"
-            id="categoriesE4B880E4BA9BE7BB8FE9AA8C"
-            ><div class='name'>一些经验</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E5%89%8D%E7%AB%AF/" href="/categories/%E5%89%8D%E7%AB%AF/"
-            id="categoriesE5898DE7ABAF"
-            ><div class='name'>前端</div><div class='badge'>(1)</div></a></li>
-        
-      </ul>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#查看默认时区"><span class="toc-text">查看默认时区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设置默认时区"><span class="toc-text">设置默认时区</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#设置当前会话"><span class="toc-text">设置当前会话</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#全局设置"><span class="toc-text">全局设置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#编辑-my-ini"><span class="toc-text">编辑 my.ini</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#时间格式"><span class="toc-text">时间格式</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
     </div>
   </section>
 
-
-  
-
-  
-    
-    
-  
-
-  <section class="widget tagcloud shadow desktop mobile">
-    
-  <header>
-    
-      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
-    
-  </header>
-
-
-    <div class='content'>
-      <a href="/tags/CI/" style="font-size: 14px; color: #999">CI</a> <a href="/tags/Docker/" style="font-size: 14px; color: #999">Docker</a> <a href="/tags/Git/" style="font-size: 14px; color: #999">Git</a> <a href="/tags/Hash/" style="font-size: 14px; color: #999">Hash</a> <a href="/tags/Hexo/" style="font-size: 18px; color: #7e7e7e">Hexo</a> <a href="/tags/JavaScript/" style="font-size: 14px; color: #999">JavaScript</a> <a href="/tags/Linux/" style="font-size: 24px; color: #555">Linux</a> <a href="/tags/Mac/" style="font-size: 14px; color: #999">Mac</a> <a href="/tags/Mysql/" style="font-size: 22px; color: #636363">Mysql</a> <a href="/tags/Nginx/" style="font-size: 14px; color: #999">Nginx</a> <a href="/tags/Node/" style="font-size: 16px; color: #8b8b8b">Node</a> <a href="/tags/PHP/" style="font-size: 14px; color: #999">PHP</a> <a href="/tags/PM2/" style="font-size: 14px; color: #999">PM2</a> <a href="/tags/Redis/" style="font-size: 14px; color: #999">Redis</a> <a href="/tags/Shell/" style="font-size: 20px; color: #707070">Shell</a> <a href="/tags/Socket-io/" style="font-size: 14px; color: #999">Socket.io</a> <a href="/tags/Tutorial/" style="font-size: 24px; color: #555">Tutorial</a> <a href="/tags/Vim/" style="font-size: 14px; color: #999">Vim</a> <a href="/tags/Web-%E5%AE%89%E5%85%A8/" style="font-size: 16px; color: #8b8b8b">Web 安全</a> <a href="/tags/https/" style="font-size: 14px; color: #999">https</a> <a href="/tags/ssh/" style="font-size: 14px; color: #999">ssh</a>
-    </div>
-  </section>
-
-
-  
 
   
 
@@ -1042,6 +858,60 @@ setInterval("createtime()",250);
 
 
 
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "prAyvaUeadxadA2wpcBQqNQn-gzGzoHsz",
+    appKey: "vkyEUTw0BixVjfFpFIzUdhak",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
 
 
 

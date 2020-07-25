@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>Mysql 查看修改默认时区</title>
+      <link href="/mysql-view-and-modify-the-default-time-zone/"/>
+      <url>/mysql-view-and-modify-the-default-time-zone/</url>
+      
+        <content type="html"><![CDATA[<p>在之前的笔记中，我们知道了时区相关的概念，以及如何在PHP 获取设置默认时区。</p><p>这篇笔记就来学习一下如何在Mysql 上获取设置默认时区。</p><a id="more"></a><h3 id="查看默认时区"><a href="#查看默认时区" class="headerlink" title="查看默认时区"></a>查看默认时区</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like &quot;%time_zone%&quot;;</span><br><span class="line">+------------------+--------+</span><br><span class="line">| Variable_name    | Value  |</span><br><span class="line">+------------------+--------+</span><br><span class="line">| system_time_zone | CST    |</span><br><span class="line">| time_zone        | SYSTEM |</span><br><span class="line">+------------------+--------+</span><br><span class="line">2 rows in set (0.01 sec)</span><br></pre></td></tr></table></figure><h3 id="设置默认时区"><a href="#设置默认时区" class="headerlink" title="设置默认时区"></a>设置默认时区</h3><h4 id="设置当前会话"><a href="#设置当前会话" class="headerlink" title="设置当前会话"></a>设置当前会话</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SET time_zone &#x3D; &quot;+8.00&quot;;</span><br><span class="line">mysql&gt; show variables like &quot;%time_zone%&quot;;</span><br></pre></td></tr></table></figure><p>此修改只会对当前会话有效。</p><h4 id="全局设置"><a href="#全局设置" class="headerlink" title="全局设置"></a>全局设置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SET global time_zone &#x3D; &quot;+8.00&quot;;</span><br></pre></td></tr></table></figure><p>需要重启该会话，该配置才生效。</p><h4 id="编辑-my-ini"><a href="#编辑-my-ini" class="headerlink" title="编辑 my.ini"></a>编辑 my.ini</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 打开Mysql 的配置文件 my.ini</span><br><span class="line">[mysqld]</span><br><span class="line">default-time_zone &#x3D; &#39;+8:00&#39;</span><br></pre></td></tr></table></figure><p>需要重启Mysql 服务</p><h5 id="时间格式"><a href="#时间格式" class="headerlink" title="时间格式"></a>时间格式</h5><p>GMT（Greenwich Mean Time）：格林威治标准时间<br>UTC：世界标准时间<br>CST（China Standard Time）：中国标准时间</p><p>GMT + 8 = UTC + 8 = CST</p><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul><li><a href="https://majing.io/posts/10000004161181" target="_blank" rel="noopener">Mysql 查看修改时区 time_zone</a></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> Mysql </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Mysql </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>了解 Mysql 日志</title>
       <link href="/understanding-the-mysql-log/"/>
       <url>/understanding-the-mysql-log/</url>
