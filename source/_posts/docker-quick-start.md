@@ -1,8 +1,8 @@
 ---
 title: Docker 快速上手
 date: 2020-07-23 12:32:57
-tags: ["Docker"]
-categories: ["Linux"]
+tags: ["Docker", "Tutorial"]
+categories: ["Linux", "Tutorial"]
 ---
 
 这篇笔记的主要目的是用来记录学习 `Docker` 的过程。`Docker`这个词并不是第一次听说了，印象中好久以前就听说过这个东西了，只是一直没有真正去了解。
