@@ -16,13 +16,13 @@
 
   <!-- 页面元数据 -->
   
-    <title>Mysql 查看修改默认时区 - Boo</title>
+    <title>Mysql 存储过程入门 - Boo</title>
   
     <meta name="keywords" content="Mysql">
   
   
-    <meta name="description" content="在之前的笔记中，我们知道了时区相关的概念，以及如何在PHP 获取设置默认时区。
-这篇笔记就来学习一下如何在Mysql 上获取设置默认时区。">
+    <meta name="description" content="最近面临一个需求，需要使用Mysql 写一段存储过程，对数据库中的数据表做批量操作。
+应该算是知识盲区了，花了一些时间去学习如何写好一个存储过程，最终也顺利写出来了，记录一下。">
   
 
   <!-- feed -->
@@ -284,8 +284,8 @@
         
           
   <h1 class="title">
-    <a href="/mysql-view-and-modify-the-default-time-zone/">
-      Mysql 查看修改默认时区
+    <a href="/getting-started-with-mysql-stored-procedures/">
+      Mysql 存储过程入门
     </a>
   </h1>
 
@@ -323,7 +323,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jul 25, 2020</p>
+    <p>发布于：Jul 27, 2020</p>
   </a>
 </div>
 
@@ -339,13 +339,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>230 words</p>
+      <p>855 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>1 min</p>
+      <p>3 min</p>
     </a>
   </div>
 
@@ -358,7 +358,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/mysql-view-and-modify-the-default-time-zone/" class="leancloud_visitors" data-flag-title="Mysql 查看修改默认时区">
+      <span id="/getting-started-with-mysql-stored-procedures/" class="leancloud_visitors" data-flag-title="Mysql 存储过程入门">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -381,22 +381,51 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>在之前的笔记中，我们知道了时区相关的概念，以及如何在PHP 获取设置默认时区。</p>
-<p>这篇笔记就来学习一下如何在Mysql 上获取设置默认时区。</p>
+          <p>最近面临一个需求，需要使用Mysql 写一段存储过程，对数据库中的数据表做批量操作。</p>
+<p>应该算是知识盲区了，花了一些时间去学习如何写好一个存储过程，最终也顺利写出来了，记录一下。</p>
 <a id="more"></a>
 
-<h3 id="查看默认时区"><a href="#查看默认时区" class="headerlink" title="查看默认时区"></a>查看默认时区</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like &quot;%time_zone%&quot;;</span><br><span class="line">+------------------+--------+</span><br><span class="line">| Variable_name    | Value  |</span><br><span class="line">+------------------+--------+</span><br><span class="line">| system_time_zone | CST    |</span><br><span class="line">| time_zone        | SYSTEM |</span><br><span class="line">+------------------+--------+</span><br><span class="line">2 rows in set (0.01 sec)</span><br></pre></td></tr></table></figure>
+<p>以下两点是其中比较重要的部分：</p>
+<ol>
+<li>关于变量的使用</li>
+<li>在存储过程中使用动态SQL 语句</li>
+</ol>
+<h2 id="存储过程中的变量"><a href="#存储过程中的变量" class="headerlink" title="存储过程中的变量"></a>存储过程中的变量</h2><p>MySQL存储过程常见的变量：局部变量、用户变量、系统变量。</p>
+<h3 id="局部变量"><a href="#局部变量" class="headerlink" title="局部变量"></a>局部变量</h3><p>在过程体中，可以声明局部变量，用来临时保存一些值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DECLARE  var_name[, var_name] ...  type [DEFAULT value];</span><br></pre></td></tr></table></figure>
+<p>其中，type为MySQL的数据类型，如:int、float、date、varchar(length) 。</p>
+<p>使用局部变量时，需要注意以下两点：</p>
+<ol>
+<li>DECLARE用来声明局部变量，且DECLARE仅被用在BEGIN … END复合语句里，并且必须在复合语句的开头，在任何其它语句之前；可以被用在嵌套的块中，除了那些用相同名字声明变量的块。</li>
+<li>如果要给变量提供一个默认值，使用DEFAULT子句(值可以是常数，也可以指定为一个表达式)；如果没有DEFAULT子句，初始值为NULL。</li>
+</ol>
+<h3 id="用户变量"><a href="#用户变量" class="headerlink" title="用户变量"></a>用户变量</h3><p>用户变量与数据库连接有关：在当前连接中声明的变量，在连接断开的时候，就会消失；在此连接中声明的变量无法在另一连接中使用。</p>
+<p>用户变量使用<code>@</code>关键字去定义。</p>
+<h2 id="在存储过程中动态执行SQL"><a href="#在存储过程中动态执行SQL" class="headerlink" title="在存储过程中动态执行SQL"></a>在存储过程中动态执行SQL</h2><p>其实这个理解成一套模版，只要按照标准去执行这套模版，就可以了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">-- 连接数据库</span><br><span class="line">use databaseName;</span><br><span class="line">-- 定义结束符为 $$</span><br><span class="line">delimiter $$</span><br><span class="line">-- 判断是否存在该名称的存储过程，如果存在就删除</span><br><span class="line">drop procedure if exists wk;</span><br><span class="line">-- 创建新的存储过程</span><br><span class="line">create procedure wk()</span><br><span class="line">begin</span><br><span class="line">        -- 声明变量</span><br><span class="line">        declare days int default 366;</span><br><span class="line">        declare dates int;</span><br><span class="line">-- 循环体</span><br><span class="line">WHILE days - 1 &gt; 0 DO</span><br><span class="line">        -- 为变量赋值</span><br><span class="line">	    SET dates &#x3D; DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL dayofyear(now())- days DAY), &quot;%Y%m%d&quot;);</span><br><span class="line">		SET days &#x3D; days - 1;</span><br><span class="line">		-- 拼接表名</span><br><span class="line">		set @table_name &#x3D; CONCAT(&quot;tableName&quot;, dates);</span><br><span class="line">        -- 拼接需要执行SQL 语句，后面的内容需要根据实际情况替换掉</span><br><span class="line">        SET @sql &#x3D; CONCAT(&quot;ALTER TABLE &quot;, @table_name, &quot;</span><br><span class="line">          -- 需要执行的SQL </span><br><span class="line">          &quot;);</span><br><span class="line">        -- 预处理动态SQL 语句，其中stmt 是一个变量</span><br><span class="line">        PREPARE stmt FROM @sql;</span><br><span class="line">        -- 执行SQL 语句</span><br><span class="line">        EXECUTE stmt ;</span><br><span class="line">        -- 释放prepare</span><br><span class="line">        deallocate prepare stmt;</span><br><span class="line">-- 结束循环</span><br><span class="line">end WHILE;</span><br><span class="line">-- 结束定义语句</span><br><span class="line">end $$</span><br><span class="line">delimiter ;</span><br><span class="line">call wk();</span><br></pre></td></tr></table></figure>
+<p>大致上就是这样，至此，一个完整的Mysql 存储过程就完成了。</p>
+<blockquote>
+<p>如何在终端执行Mysql 文件？</p>
+</blockquote>
+<p>SQL 脚本准备好了，有两种方式可以执行它。</p>
+<ol>
+<li>方式一：不进入Mysql 终端，直接在命令行终端执行</li>
+<li>方式二：进入Mysql 终端，在Mysql 终端中执行</li>
+</ol>
+<p>这两种方式的共同点就是都需要已知Mysql 密码。</p>
+<p>对于方式一，可以使用以下命令来执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p &lt; .&#x2F;modify_user_table.sql</span><br></pre></td></tr></table></figure>
+<p>可以指定数据库：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p databaseName &lt; .&#x2F;modify_user_table.sql</span><br></pre></td></tr></table></figure>
 
-<h3 id="设置默认时区"><a href="#设置默认时区" class="headerlink" title="设置默认时区"></a>设置默认时区</h3><h4 id="设置当前会话"><a href="#设置当前会话" class="headerlink" title="设置当前会话"></a>设置当前会话</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SET time_zone &#x3D; &quot;+8.00&quot;;</span><br><span class="line">mysql&gt; show variables like &quot;%time_zone%&quot;;</span><br></pre></td></tr></table></figure>
-<p>此修改只会对当前会话有效。</p>
-<h4 id="全局设置"><a href="#全局设置" class="headerlink" title="全局设置"></a>全局设置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SET global time_zone &#x3D; &quot;+8.00&quot;;</span><br></pre></td></tr></table></figure>
-<p>需要重启该会话，该配置才生效。</p>
-<h4 id="编辑-my-ini"><a href="#编辑-my-ini" class="headerlink" title="编辑 my.ini"></a>编辑 my.ini</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 打开Mysql 的配置文件 my.ini</span><br><span class="line">[mysqld]</span><br><span class="line">default-time_zone &#x3D; &#39;+8:00&#39;</span><br></pre></td></tr></table></figure>
-<p>需要重启Mysql 服务</p>
-<h5 id="时间格式"><a href="#时间格式" class="headerlink" title="时间格式"></a>时间格式</h5><p>GMT（Greenwich Mean Time）：格林威治标准时间<br>UTC：世界标准时间<br>CST（China Standard Time）：中国标准时间</p>
-<p>GMT + 8 = UTC + 8 = CST</p>
+<p>对于方式二，可以使用以下命令来执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 进入Mysql 终端</span><br><span class="line">mysql -uroot -p </span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 执行SQL 文件</span><br><span class="line">source .&#x2F;modify_user_table.sql</span><br></pre></td></tr></table></figure>
+
 <h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><a href="https://majing.io/posts/10000004161181" target="_blank" rel="noopener">Mysql 查看修改时区 time_zone</a></li>
+<li><a href="https://pein0119.github.io/2014/10/22/MySQL%E7%BB%88%E7%AB%AF%E6%89%A7%E8%A1%8CSQL%E6%96%87%E4%BB%B6/" target="_blank" rel="noopener">Mysql 终端执行SQL 文件</a></li>
+<li><a href="https://www.cnblogs.com/geaozhang/p/6803423.html" target="_blank" rel="noopener">Mysql 存储过程中的变量定义</a></li>
+<li><a href="https://www.cnblogs.com/easonjim/p/7966918.html" target="_blank" rel="noopener">Mysql 中的变量定义和赋值</a></li>
+<li><a href="https://my.oschina.net/u/2331760/blog/3065637" target="_blank" rel="noopener">Mysql 存储过程中使用动态SQL 语句</a></li>
 </ul>
 
           
@@ -434,7 +463,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.aikang.me/mysql-view-and-modify-the-default-time-zone/>https://www.aikang.me/mysql-view-and-modify-the-default-time-zone/</a></p>
+            <p>本文永久链接是：<a href=https://www.aikang.me/getting-started-with-mysql-stored-procedures/>https://www.aikang.me/getting-started-with-mysql-stored-procedures/</a></p>
           
         
       </blockquote>
@@ -482,10 +511,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-25T23:45:03+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-27T23:51:55+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Jul 25, 2020</p>
+    <p>更新于：Jul 27, 2020</p>
   </a>
 </div>
 
@@ -512,8 +541,8 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.aikang.me/mysql-view-and-modify-the-default-time-zone/&title=Mysql 查看修改默认时区 - Boo&summary=在之前的笔记中，我们知道了时区相关的概念，以及如何在PHP 获取设置默认时区。
-这篇笔记就来学习一下如何在Mysql 上获取设置默认时区。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.aikang.me/getting-started-with-mysql-stored-procedures/&title=Mysql 存储过程入门 - Boo&summary=最近面临一个需求，需要使用Mysql 写一段存储过程，对数据库中的数据表做批量操作。
+应该算是知识盲区了，花了一些时间去学习如何写好一个存储过程，最终也顺利写出来了，记录一下。"
           
           >
           
@@ -525,8 +554,8 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.aikang.me/mysql-view-and-modify-the-default-time-zone/&title=Mysql 查看修改默认时区 - Boo&summary=在之前的笔记中，我们知道了时区相关的概念，以及如何在PHP 获取设置默认时区。
-这篇笔记就来学习一下如何在Mysql 上获取设置默认时区。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.aikang.me/getting-started-with-mysql-stored-procedures/&title=Mysql 存储过程入门 - Boo&summary=最近面临一个需求，需要使用Mysql 写一段存储过程，对数据库中的数据表做批量操作。
+应该算是知识盲区了，花了一些时间去学习如何写好一个存储过程，最终也顺利写出来了，记录一下。"
           
           >
           
@@ -538,8 +567,8 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.aikang.me/mysql-view-and-modify-the-default-time-zone/&title=Mysql 查看修改默认时区 - Boo&summary=在之前的笔记中，我们知道了时区相关的概念，以及如何在PHP 获取设置默认时区。
-这篇笔记就来学习一下如何在Mysql 上获取设置默认时区。"
+          href="http://service.weibo.com/share/share.php?url=https://www.aikang.me/getting-started-with-mysql-stored-procedures/&title=Mysql 存储过程入门 - Boo&summary=最近面临一个需求，需要使用Mysql 写一段存储过程，对数据库中的数据表做批量操作。
+应该算是知识盲区了，花了一些时间去学习如何写好一个存储过程，最终也顺利写出来了，记录一下。"
           
           >
           
@@ -553,7 +582,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADnklEQVR42u3aQW7jQAwEwPz/07v3AEHIJhXTRs3NsiXNFC8N0l//rGh9IQAHDhw4Cxy4I3Bf4fp+/0+ff3rPb99X3199/tp5wYEDBw4cOHDgjsGVA+APUH91sOp93cKWzwsOHDhw4MCBA3cUbivwdsGqgGmgXTsvOHDgwIEDBw7ch8ClB54G6y4IOHDgwIEDBw4cuN4G0+f/Fni3GpngwIEDBw4cOHCfAtcNqlsHng6au897+SQfHDhw4MCBAwduCa67ugHz2uf4vODAgQMHDhw4cEfgtld3gL01yE7f2z4fOHDgwIEDBw7cEbhqYzINxtXfpwVKB+bdgAwOHDhw4MCBA3cNLh3kVjc0bSx2n1stTFpYcODAgQMHDhy4K3B/PYCuwncbpN33ptfBgQMHDhw4cOCuwU0Hyt2AWm4cPjVYDoM4OHDgwIEDBw7cFbinBtFbATiF6xaiHYDBgQMHDhw4cOCOwXUH1FsD5GlDMh4wd4HBgQMHDhw4cOCOwKV/KNxqFHYD+FYh44E8OHDgwIEDBw7cEbjp4HkbOL2eNmbHA2lw4MCBAwcOHLgXwW0FxukAOm1sbg3Iy9+DAwcOHDhw4MAdh5sG2q1APS1UCgQOHDhw4MCBA/cucN1AOW0odq9vBdlxgAYHDhw4cODAgTsGN20wVoPr04XZaqCCAwcOHDhw4MBdh0uD6FZwTZ/fDcLd9/zayAQHDhw4cODAgTsK191w2qisvv+pxme7EODAgQMHDhw4cEfg0oZk+ge9rYF2N/hOCwkOHDhw4MCBA3cVbgq0BbxVmMcap+DAgQMHDhw4cMfh0j/gTYPpFDoNwOXnggMHDhw4cODAHYOr3vhUgO0WJj34tLEKDhw4cODAgQN3DW5rw2kwTQuQNirT84IDBw4cOHDgwF2D2x4MdwuTFiC9njZUwYEDBw4cOHDgrsJ1D5o2DLcH19MgXN4XOHDgwIEDBw7cEbjp2gqwW43H6f7AgQMHDhw4cODeBW4aEJ+G6wbodmOyCwsOHDhw4MCBA3cMLg286f3TYFt9blrYdgcYHDhw4MCBAwfuxXDdwDsNyuNAujSIrhYOHDhw4MCBAwfuU+HSAXYXOt1Hd3ANDhw4cODAgQP3qXBbB0sH190GZ7eRCQ4cOHDgwIED9y5w0wCbBtEqUFq4dJANDhw4cODAgQN3HS4d4G6DTQNqF2bcyAQHDhw4cODAgXsRnNVb4MCBAwfOAgfuxes/1Rp6AFFP9NUAAAAASUVORK5CYII=">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADrElEQVR42u3aS67jMAwEwNz/0jMnCCQ26YR5KO3ys6XyptHM658VrRcCcODAgbPAgVsC9wrX9Y3efP/0/qc+r54XHDhw4MCBAwduG9wUxC307X3fHiAE7J4XHDhw4MCBAwduK9wxABYPnAbQ0/5uoW+vd/19cODAgQMHDhy4PwaXFovHwBm+vt0nOHDgwIEDBw4cuLsDpMVmtSD92QAMDhw4cODAgQMXwk0H1PRgTwXvNZN8cODAgQMHDhy4Ibjqmi4eP/06Pi84cODAgQMHDtwSuKlVDay3xWS3KK0G3uM5wYEDBw4cOHDglsBNDZjTgrA6aK4G2WlQcODAgQMHDhy4bXDVjafFYHrf+KDN+5QbYHDgwIEDBw4cuC/DpSDpoDg9yFTgvg784MCBAwcOHDhwS+DSjaaFYfX61ddliGoBCw4cOHDgwIEDtwwu3cBt0fhUkVn9vPrAjwEYHDhw4MCBAwduCVx3UN0dIHcDdnrd66ANDhw4cODAgQO3DO6p4m/qep8CBAcOHDhw4MCB+xW4tOirBstugdktKsfAwYEDBw4cOHDglsBNBdkU6qmCNAU9fg8cOHDgwIEDB24ZXDU4VgvG6h8Rp2Cqnx/fBwcOHDhw4MCBWw5X3Uh1A1Wg6gPsBnFw4MCBAwcOHLhfg6sWe9PFYbfYTIP89e/BgQMHDhw4cOCWwXUPlgbkbmBNC8rq98CBAwcOHDhw4LbBdW+YFpLVwNr9fAwUHDhw4MCBAwduCVx1AJwOpNPrVx9AOtC+fSDgwIEDBw4cOHBb4J4a4E4BdIvM6nnKRSY4cODAgQMHDtyX4dKBdPX30wPjatHZLWrBgQMHDhw4cOC2wE0NdrsBtXvAKbjj98CBAwcOHDhw4JbAPVUQdmHT608F6re/BwcOHDhw4MCBWwL31B8GuwPt289ToOqAGhw4cODAgQMHbhtct2hM/2jYLSTTB9PeBzhw4MCBAwcO3BK47qoOsqcDbrXYbA/iwYEDBw4cOHDglsC9wjUVfNNCMX2gafAGBw4cOHDgwIHbClfd0HTATQGqwbladB4bYHDgwIEDBw4cuCVw1T8UpkVj+vvq9dNgDw4cOHDgwIED99fhpv+YOF1MVgP0xwIwOHDgwIEDBw7cl+Fui8M0UKcD7XSAftwvOHDgwIEDBw7cUrjqQHpqQ9XiMS0w08E6OHDgwIEDBw7cVripwW03ID9VSFYL1OsADA4cOHDgwIED9yU4q7bAgQMHDpwFDtyX1393IQEXfcinKQAAAABJRU5ErkJggg==">
           </div>
         </div>
       
@@ -573,22 +602,14 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/getting-started-with-mysql-stored-procedures/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Mysql 存储过程入门</p>
-                <p class='content'>最近面临一个需求，需要使用Mysql 写一段存储过程，对数据库中的数据表做批量操作。
-应该算是知识盲区了，花了一些时间去学习如何写好一个存储过程，最终也顺利写出来了，记录一下。
-
-
-以下两点是其...</p>
-              </a>
             
-            
-              <a class='next' href='/understanding-the-mysql-log/'>
-                <p class='title'>了解 Mysql 日志<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>日志无论在哪里都是尤为重要的存在，所以这篇笔记的目的就是了解Mysql 日志的。
+              <a class='next' href='/mysql-view-and-modify-the-default-time-zone/'>
+                <p class='title'>Mysql 查看修改默认时区<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>在之前的笔记中，我们知道了时区相关的概念，以及如何在PHP 获取设置默认时区。
+这篇笔记就来学习一下如何在Mysql 上获取设置默认时区。
 
 
-日志简介Mysql 的日志主要分为四类，使用这些日志文件，可以查看Mysql 内部发生的事情，这四类日志分别...</p>
+查看默认时区12345678mysql&gt; s...</p>
               </a>
             
           </div>
@@ -633,7 +654,7 @@
 
   <script>
     window.subData = {
-      title: 'Mysql 查看修改默认时区',
+      title: 'Mysql 存储过程入门',
       tools: true
     }
   </script>
@@ -660,7 +681,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#查看默认时区"><span class="toc-text">查看默认时区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设置默认时区"><span class="toc-text">设置默认时区</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#设置当前会话"><span class="toc-text">设置当前会话</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#全局设置"><span class="toc-text">全局设置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#编辑-my-ini"><span class="toc-text">编辑 my.ini</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#时间格式"><span class="toc-text">时间格式</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#存储过程中的变量"><span class="toc-text">存储过程中的变量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#局部变量"><span class="toc-text">局部变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#用户变量"><span class="toc-text">用户变量</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在存储过程中动态执行SQL"><span class="toc-text">在存储过程中动态执行SQL</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
     </div>
   </section>
 
