@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>如何解决“ORDER BY子句不在SELECT列表中”的问题</title>
+      <link href="/list-causes-mysql-5-7-with-select-distinct-and-order-by/"/>
+      <url>/list-causes-mysql-5-7-with-select-distinct-and-order-by/</url>
+      
+        <content type="html"><![CDATA[<p>记录一个最近遇到的Mysql 问题。</p><a id="more"></a><blockquote><p>问题描述：<br>在本地项目中，部分SQL 语句执行起来，总是会报一个错。<br>而同样的SQL，在线上的服务器中执行起来没有任何问题。</p></blockquote><p>错误提示内容：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Expression #2 of SELECT list is not in GROUP BY clause and contains nonaggregated column &#39;foodorder.orderlist.cname&#39; which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode&#x3D;only_full_group_by QMYSQL: Unable to execute query</span><br></pre></td></tr></table></figure><p>我的第一反应就是检查Mysql 的版本，很巧的是本地Mysql<br>的版本确实比服务器的版本低一些。很快我就想到一定是版本存在差异性，导致语法不兼容。</p><h2 id="升级Mysql"><a href="#升级Mysql" class="headerlink" title="升级Mysql"></a>升级Mysql</h2><p>既然是版本不一的问题，那就升级本地的Mysql 好了。</p><p>因为我的Mysql 是之前通过Homebrew 安装的，所以如需要升级，根本不用我自己手动去寻找安装包，直接通过Homebrew 的Upgrade 命令自动升级就好了。</p><p>起初我还担心自动升级会不会把我的Mysql 的版本更新的<code>5.7</code>以上，后来证明是我想多了。</p><p>不过在正式更新之前需要做好以下几件事情：</p><ul><li>对数据库做好必要的备份</li><li>停止本地Mysql 服务</li><li>确定所要更新的Mysql 版本</li></ul><p>做好以上三件事之后，就可以开始升级了。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ brew search mysql</span><br><span class="line">mysql@5.7 ✔</span><br><span class="line">$ brew upgrade mysql@5.7</span><br><span class="line">...</span><br></pre></td></tr></table></figure><p>终于安装好之后，再次开启Mysql 的服务，我发现还是没有解决我的问题，还是会提示相同的错误。</p><p>这时候我才意识到这个问题和Mysql 的版本没有关系，有关系应该是相关的模块。</p><p>通过查阅一番资料，才发现是因为 <code>group by</code> 中的列一定要出现在 <code>select</code> 中，除非强制 <code>sqlmode</code> 中使用 <code>ONLY_FULL_GROUP_BY</code>。</p><h2 id="开启sql-mode-模式"><a href="#开启sql-mode-模式" class="headerlink" title="开启sql-mode 模式"></a>开启sql-mode 模式</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ vim &#x2F;usr&#x2F;local&#x2F;etc&#x2F;my.cnf</span><br><span class="line"></span><br><span class="line"># 增加如下内容</span><br><span class="line">[mysqld]</span><br><span class="line">sql_mode&#x3D;&#39;STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION&#39;;</span><br><span class="line"></span><br><span class="line"># 或者</span><br><span class="line">[mysqld]</span><br><span class="line">sql_mode &#x3D; &quot;&quot;</span><br></pre></td></tr></table></figure><p>重启Mysql 服务器，即可。</p><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul><li><a href="https://stackoverflow.com/questions/36829911/how-to-resolve-order-by-clause-is-not-in-select-list-caused-mysql-5-7-with-sel/39353160" target="_blank" rel="noopener"> 如何解决 MySQL 5.7带有SELECT DISTINCT和ORDER BY的问题 | stack voerflow </a></li><li><a href="https://dev.mysql.com/doc/refman/5.7/en/sql-mode.html" target="_blank" rel="noopener">Mysql 服务器SQL 模式</a></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> Mysql </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Mysql </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Mysql 存储过程入门</title>
       <link href="/getting-started-with-mysql-stored-procedures/"/>
       <url>/getting-started-with-mysql-stored-procedures/</url>

@@ -5,8 +5,6 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
-    
   
   <!-- 渲染优化 -->
   <meta name="renderer" content="webkit">
@@ -18,8 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>Category: 前端 - Boo</title>
+    <title>如何解决“ORDER BY子句不在SELECT列表中”的问题 - Boo</title>
   
+    <meta name="keywords" content="Mysql">
+  
+  
+    <meta name="description" content="记录一个最近遇到的Mysql 问题。">
   
 
   <!-- feed -->
@@ -265,25 +267,12 @@
     <div class='body-wrapper'>
       
 
-
 <div class='l_main'>
   
-    
-      
-  <section class="post-list ">
-    
-      
-        
-          
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
+
   
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
 
 
   <section class='meta'>
@@ -293,11 +282,11 @@
       <div class="meta" id="header-meta">
         
           
-  <h2 class="title">
-    <a href="/moment-js-usage-summary/">
-      moment.js 用法总结
+  <h1 class="title">
+    <a href="/list-causes-mysql-5-7-with-select-distinct-and-order-by/">
+      如何解决“ORDER BY子句不在SELECT列表中”的问题
     </a>
-  </h2>
+  </h1>
 
 
         
@@ -320,9 +309,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/%E5%89%8D%E7%AB%AF/' rel="nofollow">
+    <a href='/categories/Mysql/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>前端</p>
+      <p>Mysql</p>
     </a>
   </div>
 
@@ -333,9 +322,14 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jul 7, 2020</p>
+    <p>发布于：Jul 28, 2020</p>
   </a>
 </div>
+
+            
+          
+            
+              
 
             
           
@@ -344,13 +338,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>642 words</p>
+      <p>538 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>3 min</p>
+      <p>2 min</p>
     </a>
   </div>
 
@@ -359,6 +353,18 @@
           
             
               
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/list-causes-mysql-5-7-with-select-distinct-and-order-by/" class="leancloud_visitors" data-flag-title="如何解决“ORDER BY子句不在SELECT列表中”的问题">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
 
             
           
@@ -371,104 +377,79 @@
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近在做的一个前端项目，经常会遇到对时间的处理，因为原生的时间格式处理起来很费劲，所以引入了一个轻量级的日期处理类库。</p>
-<p><a href="http://momentjs.cn/" target="_blank" rel="noopener">momentjs</a> 支持日期格式化、Date、时间戳等相互转换，它使得操作时间变得非常简单。</p>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/moment-js-usage-summary/">
-            阅读全文 <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>记录一个最近遇到的Mysql 问题。</p>
+<a id="more"></a>
 
-          </div>
-        
-      
-    
-  </section>
+<blockquote>
+<p>问题描述：<br>在本地项目中，部分SQL 语句执行起来，总是会报一个错。<br>而同样的SQL，在线上的服务器中执行起来没有任何问题。</p>
+</blockquote>
+<p>错误提示内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Expression #2 of SELECT list is not in GROUP BY clause and contains nonaggregated column &#39;foodorder.orderlist.cname&#39; which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode&#x3D;only_full_group_by QMYSQL: Unable to execute query</span><br></pre></td></tr></table></figure>
+
+<p>我的第一反应就是检查Mysql 的版本，很巧的是本地Mysql<br>的版本确实比服务器的版本低一些。很快我就想到一定是版本存在差异性，导致语法不兼容。</p>
+<h2 id="升级Mysql"><a href="#升级Mysql" class="headerlink" title="升级Mysql"></a>升级Mysql</h2><p>既然是版本不一的问题，那就升级本地的Mysql 好了。</p>
+<p>因为我的Mysql 是之前通过Homebrew 安装的，所以如需要升级，根本不用我自己手动去寻找安装包，直接通过Homebrew 的Upgrade 命令自动升级就好了。</p>
+<p>起初我还担心自动升级会不会把我的Mysql 的版本更新的<code>5.7</code>以上，后来证明是我想多了。</p>
+<p>不过在正式更新之前需要做好以下几件事情：</p>
+<ul>
+<li>对数据库做好必要的备份</li>
+<li>停止本地Mysql 服务</li>
+<li>确定所要更新的Mysql 版本</li>
+</ul>
+<p>做好以上三件事之后，就可以开始升级了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ brew search mysql</span><br><span class="line">mysql@5.7 ✔</span><br><span class="line">$ brew upgrade mysql@5.7</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>终于安装好之后，再次开启Mysql 的服务，我发现还是没有解决我的问题，还是会提示相同的错误。</p>
+<p>这时候我才意识到这个问题和Mysql 的版本没有关系，有关系应该是相关的模块。</p>
+<p>通过查阅一番资料，才发现是因为 <code>group by</code> 中的列一定要出现在 <code>select</code> 中，除非强制 <code>sqlmode</code> 中使用 <code>ONLY_FULL_GROUP_BY</code>。</p>
+<h2 id="开启sql-mode-模式"><a href="#开启sql-mode-模式" class="headerlink" title="开启sql-mode 模式"></a>开启sql-mode 模式</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ vim &#x2F;usr&#x2F;local&#x2F;etc&#x2F;my.cnf</span><br><span class="line"></span><br><span class="line"># 增加如下内容</span><br><span class="line">[mysqld]</span><br><span class="line">sql_mode&#x3D;&#39;STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION&#39;;</span><br><span class="line"></span><br><span class="line"># 或者</span><br><span class="line">[mysqld]</span><br><span class="line">sql_mode &#x3D; &quot;&quot;</span><br></pre></td></tr></table></figure>
+<p>重启Mysql 服务器，即可。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://stackoverflow.com/questions/36829911/how-to-resolve-order-by-clause-is-not-in-select-list-caused-mysql-5-7-with-sel/39353160" target="_blank" rel="noopener"> 如何解决 MySQL 5.7带有SELECT DISTINCT和ORDER BY的问题 | stack voerflow </a></li>
+<li><a href="https://dev.mysql.com/doc/refman/5.7/en/sql-mode.html" target="_blank" rel="noopener">Mysql 服务器SQL 模式</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
   
     
-    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
     
-    
+
+
 
   
 
-
-    
-  
-
-</div>
-<aside class='l_side'>
-  
   
     
     
 
-<section class="widget blogger shadow desktop mobile">
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
   <div class='content'>
     
-      
-        <a class='avatar flat-box' href='/about/'>
-          <img no-lazy src='https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg'/>
-        </a>
-      
-    
-    
-      <div class='text'>
+      <blockquote>
         
-        
-          <p>Stay foolish, Stay hungry</p>
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
 
-        
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
-        
-          
-            <a href="/atom.xml"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
           
         
           
-            <a href="mailto:aikangtongxue@gamil.com"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
+            <p>本文永久链接是：<a href=https://www.aikang.me/list-causes-mysql-5-7-with-select-distinct-and-order-by/>https://www.aikang.me/list-causes-mysql-5-7-with-select-distinct-and-order-by/</a></p>
           
         
-          
-            <a href="https://github.com/0xAikang"
-              class="social fab fa-github flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-          
-            <a href="https://music.163.com/#/user/home?id=112719323"
-              class="social fas fa-headphones-alt flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-      </div>
+      </blockquote>
     
   </div>
 </section>
@@ -478,138 +459,212 @@
   
     
     
+
+<section class="widget qrcode  desktop mobile">
   
 
-  <section class="widget category shadow desktop">
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.aikang.me" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-28T23:28:10+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Jul 28, 2020</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Mysql/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Mysql</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.aikang.me/list-causes-mysql-5-7-with-select-distinct-and-order-by/&title=如何解决“ORDER BY子句不在SELECT列表中”的问题 - Boo&summary=记录一个最近遇到的Mysql 问题。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.aikang.me/list-causes-mysql-5-7-with-select-distinct-and-order-by/&title=如何解决“ORDER BY子句不在SELECT列表中”的问题 - Boo&summary=记录一个最近遇到的Mysql 问题。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.aikang.me/list-causes-mysql-5-7-with-select-distinct-and-order-by/&title=如何解决“ORDER BY子句不在SELECT列表中”的问题 - Boo&summary=记录一个最近遇到的Mysql 问题。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVgAAAFYCAAAAAAzB7ucAAAEX0lEQVR42u3aS47jMAwE0L7/pWcOMGhEVaSVZPC0y882n7IQC/z5Yz2yfhCABWuBBQvWAnsF9qdc/1wwfP/XB3txn/S6aT1TD7BgwYIFCxYsWLB3YdPCp1CnG5G+Tr+3VR9YsGDBggULFizY98KeHqBPC9s66NeFlg1C7QEWLFiwYMGCBQv2q2Gn10/fTzcOLFiwYMGCBQsWLNgGNt2A6fen9YEFCxYsWLBgwYL9bNg2SE4LaK+fXqfdoLdPwoAFCxYsWLBgwYI9gk1XC/Etr2sPsGDBggULFixYsFdgpysNlqdB9nZjkjYELz3AggULFixYsGDBXoFtD8jTwHgaYG8F2lv1gwULFixYsGDBgr0LuzXwkBbcXvf087ZBSZ87DrrBggULFixYsGDBrsJuHfynGzUNpNsBk7YheNkggAULFixYsGDBgn0Udiu4bgtJobYbh61gHixYsGDBggULFuwd2PagPoU/3YCtRmba6IwnYcCCBQsWLFiwYME+CpsGvO1ARAqebug0UK8bB7BgwYIFCxYsWLBXYJ8KslPI9HenhZ7+fu3+YMGCBQsWLFiwYK/CbjUAU9DpBrR/mBb0ZYMAFixYsGDBggUL9grstFHYCqyfbhymAyO/fg4WLFiwYMGCBQv2Cmx6AD7dgOmGnK72Odvnefl7sGDBggULFixYsFdg04A5vlHZMLRAbSPSNkxx5wUWLFiwYMGCBQt2BXZrMGIbuG0kWhCwYMGCBQsWLFiw3wWbHthT4On3ThuINLhv4V82HGDBggULFixYsGA/CrYNmqcNRtpopECPD2yABQsWLFiwYMGCfQR2u+BbQXh8cB82DMf1gQULFixYsGDBgr0C2wa8Lfj0IJ8G4ynYtA6wYMGCBQsWLFiwd2C3ByHaA/lWsD59vnTD1oNusGDBggULFixYsBHs6UE5vtHh6zTgTjdi2vDUAxtgwYIFCxYsWLBgH4FtD8RtgJwOQrTAbYDdDmqABQsWLFiwYMGCfQ9sWkA7+NA2Bu1GTQdNxg0CWLBgwYIFCxYs2Edgpwfv7UGMLfjtxuC4PrBgwYIFCxYsWLBXYadB71ODG1uBeBvkxxsGFixYsGDBggUL9iNh0wGGtPA2qH4X8K8DG2DBggULFixYsGDfCrtdYLtRU/DTxgQsWLBgwYIFCxbs/wHbHsC3Byimz/WzvMCCBQsWLFiwYMG+F3a6pkHyViC+NUjSBuFgwYIFCxYsWLBg78KuH5DLg/ppoL0Nenq/46AdLFiwYMGCBQsW7FXYrYB5e2BjGqRv/1HAggULFixYsGDBfibs1gG+LWy6UW1Qv/ZHAAsWLFiwYMGCBftVsG2BWxs4Dcrb74EFCxYsWLBgwYL9P2CnAXS6AdOBje0GBCxYsGDBggULFux7YNOBja3BixR2er3T78fvgwULFixYsGDBgr0KOx2wmD54et30YL+1gXHQDRYsWLBgwYIFC/YRWGt3gQUL1gILFqwF9tH1F3hakUXuYqKtAAAAAElFTkSuQmCC">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/getting-started-with-mysql-stored-procedures/'>
+                <p class='title'>Mysql 存储过程入门<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>最近面临一个需求，需要使用Mysql 写一段存储过程，对数据库中的数据表做批量操作。
+应该算是知识盲区了，花了一些时间去学习如何写好一个存储过程，最终也顺利写出来了，记录一下。
+
+
+以下两点是其...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: '如何解决“ORDER BY子句不在SELECT列表中”的问题',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
     
   <header>
     
-      <a href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
   </header>
 
 
     <div class='content'>
-      <ul class="entry navigation">
-        
-          <li><a class="flat-box"
-            title="/categories/Git/" href="/categories/Git/"
-            id="categoriesGit"
-            ><div class='name'>Git</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Linux/" href="/categories/Linux/"
-            id="categoriesLinux"
-            ><div class='name'>Linux</div><div class='badge'>(12)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/Tutorial/" href="/categories/Linux/Tutorial/"
-            id="categoriesLinuxTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/" href="/categories/Linux/%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/"
-            id="categoriesLinuxE591BDE4BBA4E695B4E79086"
-            ><div class='name'>命令整理</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" href="/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
-            id="categoriesLinuxE5ADA6E4B9A0E7AC94E8AEB0"
-            ><div class='name'>学习笔记</div><div class='badge'>(8)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Mysql/" href="/categories/Mysql/"
-            id="categoriesMysql"
-            ><div class='name'>Mysql</div><div class='badge'>(9)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Nginx/" href="/categories/Nginx/"
-            id="categoriesNginx"
-            ><div class='name'>Nginx</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Node/" href="/categories/Node/"
-            id="categoriesNode"
-            ><div class='name'>Node</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Node/Socket-io/" href="/categories/Node/Socket-io/"
-            id="categoriesNodeSocket-io"
-            ><div class='name'>Socket.io</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Node/Tutorial/" href="/categories/Node/Tutorial/"
-            id="categoriesNodeTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/PHP/" href="/categories/PHP/"
-            id="categoriesPHP"
-            ><div class='name'>PHP</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Redis/" href="/categories/Redis/"
-            id="categoriesRedis"
-            ><div class='name'>Redis</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Tutorial/" href="/categories/Tutorial/"
-            id="categoriesTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(8)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/GitHub/" href="/categories/Tutorial/GitHub/"
-            id="categoriesTutorialGitHub"
-            ><div class='name'>GitHub</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/Skill/" href="/categories/Tutorial/Skill/"
-            id="categoriesTutorialSkill"
-            ><div class='name'>Skill</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/Skill/GitHub/" href="/categories/Tutorial/Skill/GitHub/"
-            id="categoriesTutorialSkillGitHub"
-            ><div class='name'>GitHub</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C/" href="/categories/%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C/"
-            id="categoriesE4B880E4BA9BE7BB8FE9AA8C"
-            ><div class='name'>一些经验</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E5%89%8D%E7%AB%AF/" href="/categories/%E5%89%8D%E7%AB%AF/"
-            id="categoriesE5898DE7ABAF"
-            ><div class='name'>前端</div><div class='badge'>(1)</div></a></li>
-        
-      </ul>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#升级Mysql"><span class="toc-text">升级Mysql</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开启sql-mode-模式"><span class="toc-text">开启sql-mode 模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
     </div>
   </section>
 
-
-  
-
-  
-    
-    
-  
-
-  <section class="widget tagcloud shadow desktop mobile">
-    
-  <header>
-    
-      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
-    
-  </header>
-
-
-    <div class='content'>
-      <a href="/tags/CI/" style="font-size: 14px; color: #999">CI</a> <a href="/tags/Docker/" style="font-size: 14px; color: #999">Docker</a> <a href="/tags/Git/" style="font-size: 14px; color: #999">Git</a> <a href="/tags/Hash/" style="font-size: 14px; color: #999">Hash</a> <a href="/tags/Hexo/" style="font-size: 18px; color: #7e7e7e">Hexo</a> <a href="/tags/JavaScript/" style="font-size: 14px; color: #999">JavaScript</a> <a href="/tags/Linux/" style="font-size: 24px; color: #555">Linux</a> <a href="/tags/Mac/" style="font-size: 14px; color: #999">Mac</a> <a href="/tags/Mysql/" style="font-size: 22px; color: #636363">Mysql</a> <a href="/tags/Nginx/" style="font-size: 14px; color: #999">Nginx</a> <a href="/tags/Node/" style="font-size: 16px; color: #8b8b8b">Node</a> <a href="/tags/PHP/" style="font-size: 14px; color: #999">PHP</a> <a href="/tags/PM2/" style="font-size: 14px; color: #999">PM2</a> <a href="/tags/Redis/" style="font-size: 14px; color: #999">Redis</a> <a href="/tags/Shell/" style="font-size: 20px; color: #707070">Shell</a> <a href="/tags/Socket-io/" style="font-size: 14px; color: #999">Socket.io</a> <a href="/tags/Tutorial/" style="font-size: 24px; color: #555">Tutorial</a> <a href="/tags/Vim/" style="font-size: 14px; color: #999">Vim</a> <a href="/tags/Web-%E5%AE%89%E5%85%A8/" style="font-size: 16px; color: #8b8b8b">Web 安全</a> <a href="/tags/https/" style="font-size: 14px; color: #999">https</a> <a href="/tags/ssh/" style="font-size: 14px; color: #999">ssh</a>
-    </div>
-  </section>
-
-
-  
 
   
 
@@ -813,6 +868,60 @@ setInterval("createtime()",250);
 
 
 
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "prAyvaUeadxadA2wpcBQqNQn-gzGzoHsz",
+    appKey: "vkyEUTw0BixVjfFpFIzUdhak",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
 
 
 
