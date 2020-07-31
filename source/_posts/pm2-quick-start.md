@@ -1,7 +1,7 @@
 ---
 title: PM2 快速上手
 date: 2020-07-12 21:44:47
-tags: ["PM2","Node", "Tutorial"]
+tags: ["PM2","Node", "Tutorial", "进程管理"]
 categories: ["Node", "Tutorial"]
 ---
 
