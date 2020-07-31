@@ -16,13 +16,13 @@
 
   <!-- 页面元数据 -->
   
-    <title>supervisor quick start - Boo</title>
+    <title>mysql only_full_group_by exception record - Boo</title>
   
-    <meta name="keywords" content="Tutorial,PHP,进程管理">
+    <meta name="keywords" content="Mysql">
   
   
-    <meta name="description" content="supervisord 是一个用 Python 写的进程管理工具，是类Unix系统中的一个进程管理工具，
-Supervisor 只适用于类Unix 系统，不适用于Window。">
+    <meta name="description" content="最近很频繁的遇到一个Mysql 异常，错误信息如下：
+123Expression #5 of SELECT list is not in GROUP BY clause and contains nonaggregated column &#39;cis.q1.query_date&#39; which is n...">
   
 
   <!-- feed -->
@@ -284,8 +284,8 @@ Supervisor 只适用于类Unix 系统，不适用于Window。">
         
           
   <h1 class="title">
-    <a href="/supervisor-quick-start/">
-      supervisor quick start
+    <a href="/mysql-only-full-group-by-exception-record/">
+      mysql only_full_group_by exception record
     </a>
   </h1>
 
@@ -310,9 +310,9 @@ Supervisor 只适用于类Unix 系统，不适用于Window。">
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/PHP/Tutorial/' rel="nofollow">
+    <a href='/categories/Mysql/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>PHP/Tutorial</p>
+      <p>Mysql</p>
     </a>
   </div>
 
@@ -323,7 +323,7 @@ Supervisor 只适用于类Unix 系统，不适用于Window。">
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jul 30, 2020</p>
+    <p>发布于：Jul 31, 2020</p>
   </a>
 </div>
 
@@ -339,13 +339,13 @@ Supervisor 只适用于类Unix 系统，不适用于Window。">
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1.5k words</p>
+      <p>754 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>6 min</p>
+      <p>2 min</p>
     </a>
   </div>
 
@@ -358,7 +358,7 @@ Supervisor 只适用于类Unix 系统，不适用于Window。">
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/supervisor-quick-start/" class="leancloud_visitors" data-flag-title="supervisor quick start">
+      <span id="/mysql-only-full-group-by-exception-record/" class="leancloud_visitors" data-flag-title="mysql only_full_group_by exception record">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -381,75 +381,35 @@ Supervisor 只适用于类Unix 系统，不适用于Window。">
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p><a href="http://supervisord.org/" target="_blank" rel="noopener">supervisord</a> 是一个用 Python 写的进程管理工具，是类Unix系统中的一个进程管理工具，</p>
-<p><code>Supervisor</code> 只适用于类Unix 系统，不适用于Window。</p>
+          <p>最近很频繁的遇到一个Mysql 异常，错误信息如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Expression #5 of SELECT list is not in GROUP BY clause and contains nonaggregated column &#39;cis.q1.query_date&#39; </span><br><span class="line">which is not functionally dependent on columns in GROUP BY clause; </span><br><span class="line">this is incompatible with sql_mode&#x3D;only_full_group_by</span><br></pre></td></tr></table></figure>
+
 <a id="more"></a>
 
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>因为<code>Supervisor</code> 是用 <code>Python</code> 所写的，所以可以直接使用<code>pip</code> 安装：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pip install supervisor</span><br></pre></td></tr></table></figure>
+<p>通过错误信息可以看到，是因为 <code>sql_mode</code> 引起的。</p>
+<p>查看Mysql 当前所使用的 <code>sql_mode</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">select @@sql_mode</span><br><span class="line"></span><br><span class="line">+-------------------------+</span><br><span class="line">|       @@sql_mode        |</span><br><span class="line">+-------------------------+</span><br><span class="line">|   ONLY_FULL_GROUP_BY    |</span><br><span class="line">+-------------------------+</span><br></pre></td></tr></table></figure>
 
-<p>Ubuntu：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install supervisor</span><br></pre></td></tr></table></figure>
-
-<p>Mac：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install supervisor</span><br></pre></td></tr></table></figure>
-
-<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p><code>Supervisor</code>运行时会启动一个进程——<code>supervisord</code> 。</p>
+<h3 id="sql-mode-配置解析"><a href="#sql-mode-配置解析" class="headerlink" title="sql_mode 配置解析"></a>sql_mode 配置解析</h3><h4 id="ONLY-FULL-GROUP-BY"><a href="#ONLY-FULL-GROUP-BY" class="headerlink" title="ONLY_FULL_GROUP_BY"></a>ONLY_FULL_GROUP_BY</h4><p>对于GROUP BY聚合操作，如果在SELECT中的列，没有在GROUP BY中出现，那么这个SQL是不合法的，因为列不在GROUP BY从句中。简而言之，就是SELECT后面接的列必须被GROUP BY后面接的列所包含。如：</p>
 <ul>
-<li><code>supervisord</code>：它负责启动所管理的进程，并将所管理的进程作为自己的子进程来启动，而且可以在所管理的进程出现崩溃时自动重启。</li>
-<li><code>supervisorctl</code>：是命令行管理工具，可以用来执行 stop、start、restart 等命令，来对这些子进程进行管理。</li>
+<li>select a,b from table group by a,b,c; (正确)</li>
+<li>select a,b,c from table group by a,b; (错误)</li>
 </ul>
-<p>查看默认配置项</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ echo_supervisord_conf</span><br></pre></td></tr></table></figure>
-
-<p>将默认配置项重定向至配置文件：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ echo_supervisord_conf &gt; &#x2F;etc&#x2F;supervisord.conf</span><br></pre></td></tr></table></figure>
-
-<p>然后可以看到 <code>/etc/</code> 配置文件下出现了以下文件，其中<code>/etc/supervisor</code> 是我们需要的配置文件。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ find &#x2F;etc&#x2F; -name supervisor</span><br><span class="line">&#x2F;etc&#x2F;default&#x2F;supervisor</span><br><span class="line">&#x2F;etc&#x2F;init.d&#x2F;supervisor</span><br><span class="line">&#x2F;etc&#x2F;supervisor</span><br></pre></td></tr></table></figure>
-
-<p><code>/etc/supervisord.conf</code> 核心配置文件，参考以下部分配置，<code>;</code> 表示注释。</p>
-<p>因为<code>Supervisor</code>默认配置会把socket文件和pid守护进程生成在/tmp/目录下，/tmp/目录是缓存目录，所以我们需要手动换成<code>/var/run</code>目录。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">[unix_http_server]</span><br><span class="line">;file&#x3D;&#x2F;tmp&#x2F;supervisor.sock   ; UNIX socket 文件，supervisorctl 会使用</span><br><span class="line">file&#x3D;&#x2F;var&#x2F;run&#x2F;supervisor.sock   ; 修改为 &#x2F;var&#x2F;run 目录，避免被系统删除</span><br><span class="line">;chmod&#x3D;0700                 ; socket 文件的 mode，默认是 0700</span><br><span class="line">;chown&#x3D;nobody:nogroup       ; socket 文件的 owner，格式： uid:gid</span><br><span class="line"></span><br><span class="line">;[inet_http_server]         ; HTTP 服务器，提供 web 管理界面</span><br><span class="line">;port&#x3D;127.0.0.1:9001        ; Web 管理后台运行的 IP 和端口，如果开放到公网，需要注意安全性</span><br><span class="line">;username&#x3D;user              ; 登录管理后台的用户名</span><br><span class="line">;password&#x3D;123               ; 登录管理后台的密码</span><br><span class="line"></span><br><span class="line">[supervisord]</span><br><span class="line">;logfile&#x3D;&#x2F;tmp&#x2F;supervisord.log ; 日志文件，默认是 $CWD&#x2F;supervisord.log</span><br><span class="line">logfile&#x3D;&#x2F;var&#x2F;log&#x2F;supervisor&#x2F;supervisord.log ; 修改为 &#x2F;var&#x2F;log 目录，避免被系统删除</span><br><span class="line">logfile_maxbytes&#x3D;50MB        ; 日志文件大小，超出会 rotate，默认 50MB</span><br><span class="line">logfile_backups&#x3D;10           ; 日志文件保留备份数量默认 10</span><br><span class="line">loglevel&#x3D;info                ; 日志级别，默认 info，其它: debug,warn,trace</span><br><span class="line">;pidfile&#x3D;&#x2F;tmp&#x2F;supervisord.pid ; pid 文件</span><br><span class="line">pidfile&#x3D;&#x2F;var&#x2F;run&#x2F;supervisord.pid ; 修改为 &#x2F;var&#x2F;run 目录，避免被系统删除</span><br><span class="line">nodaemon&#x3D;false               ; 是否在前台启动，默认是 false，即以 daemon 的方式启动</span><br><span class="line">minfds&#x3D;1024                  ; 可以打开的文件描述符的最小值，默认 1024</span><br><span class="line">minprocs&#x3D;200                 ; 可以打开的进程数的最小值，默认 200</span><br><span class="line"></span><br><span class="line">; the below section must remain in the config file for RPC</span><br><span class="line">; (supervisorctl&#x2F;web interface) to work, additional interfaces may be</span><br><span class="line">; added by defining them in separate rpcinterface: sections</span><br><span class="line">[rpcinterface:supervisor]</span><br><span class="line">supervisor.rpcinterface_factory &#x3D; supervisor.rpcinterface:make_main_rpcinterface</span><br><span class="line"></span><br><span class="line">[supervisorctl]</span><br><span class="line">;serverurl&#x3D;unix:&#x2F;&#x2F;&#x2F;tmp&#x2F;supervisor.sock ; 通过 UNIX socket 连接 supervisord，路径与 unix_http_server 部分的 file 一致</span><br><span class="line">serverurl&#x3D;unix:&#x2F;&#x2F;&#x2F;var&#x2F;run&#x2F;supervisor.sock ; 修改为 &#x2F;var&#x2F;run 目录，避免被系统删除</span><br><span class="line">;serverurl&#x3D;http:&#x2F;&#x2F;127.0.0.1:9001 ; 通过 HTTP 的方式连接 supervisord</span><br><span class="line"></span><br><span class="line">; 包含其他的配置文件</span><br><span class="line">[include]</span><br><span class="line">files &#x3D; relative&#x2F;directory&#x2F;*.ini    ; 可以是 *.conf 或 *.ini</span><br></pre></td></tr></table></figure>
-
-
-
-<p><code>/etc/supervisor/conf.d</code> 则是用来配置管理进程的配置文件，所有需要被<code>supervisor</code> 管理的进程都需要在这里先配置。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[program:demo]</span><br><span class="line">command&#x3D;php demo.php  &#x2F;&#x2F; 需要执行队列的名称</span><br><span class="line">directory&#x3D; &#x2F;var&#x2F;www  &#x2F;&#x2F; 命令执行的目录或者说执行 command 之前，先切换到工作目录 可以理解为在执行命令前会切换到这个目录 </span><br><span class="line">process_name&#x3D;%(process_num)02d &#x2F;&#x2F; 默认为 %(program_name)s，即 [program:x] 中的 x这个是进程名，如果下面的numprocs参数为1的话，就不用管这个参数了，它默认值%(program_name)s也就是上面的那个program冒号后面的</span><br><span class="line"></span><br><span class="line">numprocs&#x3D;1          &#x2F;&#x2F; 进程数量当不为1时的时候，就是进程池的概念，注意process_name的设置</span><br><span class="line">autostart&#x3D;true    &#x2F;&#x2F; 是否自动启动</span><br><span class="line">autorestart&#x3D;true      &#x2F;&#x2F; 程序意外退出是否自动重启</span><br><span class="line">startsecs&#x3D;1       &#x2F;&#x2F; 自动重启间隔 </span><br><span class="line">startretries&#x3D;20   &#x2F;&#x2F; 当进程启动失败后，最大尝试启动的次数。。当超过3次后，supervisor将把此进程的状态置为FAIL 默认值为3</span><br><span class="line">redirect_stderr&#x3D;true  &#x2F;&#x2F; 如果为true，则stderr的日志会被写入stdout日志文件中  理解为重定向输出的日志</span><br><span class="line">user&#x3D;root   &#x2F;&#x2F; 这个参数可以设置一个非root用户，当我们以root用户启动supervisord之后。我这里面设置的这个用户，也可以对supervisord进行管理 </span><br><span class="line">stopsignal&#x3D;INT</span><br><span class="line">stderr_logfile&#x3D;&#x2F;var&#x2F;log&#x2F;supervisor&#x2F;demo.err.log   &#x2F;&#x2F; 子进程的stdout的日志路径 输出日志文件</span><br><span class="line">stdout_logfile&#x3D;&#x2F;var&#x2F;log&#x2F;supervisor&#x2F;demo.out.log   &#x2F;&#x2F; 错误日志文件 当redirect_stderr&#x3D;true。这个就不用</span><br></pre></td></tr></table></figure>
-
-<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ supervisord -c &#x2F;etc&#x2F;supervisord.conf</span><br></pre></td></tr></table></figure>
-
-<h3 id="常用命令整理"><a href="#常用命令整理" class="headerlink" title="常用命令整理"></a>常用命令整理</h3><p>停止进程，program_name 为 [program:x] 里的 x</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">supervisorctl stop program_name</span><br></pre></td></tr></table></figure>
-
-<p>启动进程</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">supervisorctl start program_name</span><br></pre></td></tr></table></figure>
-
-<p>重启进程</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">supervisorctl restart program_name</span><br></pre></td></tr></table></figure>
-
-<p>结束所有属于名为 groupworker 这个分组的进程 (start，restart 同理)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">supervisorctl stop groupworker:</span><br></pre></td></tr></table></figure>
-
-<p>结束 groupworker:name1 这个进程 (start，restart 同理)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">supervisorctl stop groupworker:name1</span><br></pre></td></tr></table></figure>
-
-<p>停止全部进程，注：start、restart、stop 都不会载入最新的配置文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">supervisorctl stop all</span><br></pre></td></tr></table></figure>
-
-<p>载入最新的配置文件，停止原有进程并按新的配置启动、管理所有进程</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">supervisorctl reload</span><br></pre></td></tr></table></figure>
-
-<p>根据最新的配置文件，启动新配置或有改动的进程，配置没有改动的进程不会受影响而重启</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">supervisorctl update</span><br></pre></td></tr></table></figure>
-
-<h3 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h3><h4 id="unlinking-stale-socket-var-run-supervisor-sock"><a href="#unlinking-stale-socket-var-run-supervisor-sock" class="headerlink" title="unlinking stale socket /var/run/supervisor.sock"></a>unlinking stale socket /var/run/supervisor.sock</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ find &#x2F; -name supervisor.sock</span><br><span class="line">&#x2F;run&#x2F;supervisor.sock</span><br><span class="line"></span><br><span class="line">$ unlink &#x2F;run&#x2F;supervisor.sock</span><br></pre></td></tr></table></figure>
-
+<p>这个配置会使得GROUP BY语句环境变得十分狭窄，所以一般都不加这个配置</p>
+<h4 id="NO-AUTO-VALUE-ON-ZERO"><a href="#NO-AUTO-VALUE-ON-ZERO" class="headerlink" title="NO_AUTO_VALUE_ON_ZERO"></a>NO_AUTO_VALUE_ON_ZERO</h4><p>该值影响自增长列的插入。默认设置下，插入0或NULL代表生成下一个自增长值。（不信的可以试试，默认的sql_mode你在自增主键列设置为0，该字段会自动变为最新的自增值，效果和null一样），如果用户希望插入的值为0（不改变），该列又是自增长的，那么这个选项就有用了。</p>
+<h4 id="STRICT-TRANS-TABLES"><a href="#STRICT-TRANS-TABLES" class="headerlink" title="STRICT_TRANS_TABLES"></a>STRICT_TRANS_TABLES</h4><p>在该模式下，如果一个值不能插入到一个事务表中，则中断当前的操作，对非事务表不做限制。（InnoDB默认事务表，MyISAM默认非事务表；MySQL事务表支持将批处理当做一个完整的任务统一提交或回滚，即对包含在事务中的多条语句要么全执行，要么全部不执行。非事务表则不支持此种操作，批处理中的语句如果遇到错误，在错误前的语句执行成功，之后的则不执行；MySQL事务表有表锁与行锁非事务表则只有表锁）</p>
+<h4 id="NO-ZERO-IN-DATE"><a href="#NO-ZERO-IN-DATE" class="headerlink" title="NO_ZERO_IN_DATE"></a>NO_ZERO_IN_DATE</h4><p>在严格模式下，不允许日期和月份为零</p>
+<h4 id="NO-ZERO-DATE"><a href="#NO-ZERO-DATE" class="headerlink" title="NO_ZERO_DATE"></a>NO_ZERO_DATE</h4><p>设置该值，mysql数据库不允许插入零日期，插入零日期会抛出错误而不是警告。</p>
+<h4 id="ERROR-FOR-DIVISION-BY-ZERO"><a href="#ERROR-FOR-DIVISION-BY-ZERO" class="headerlink" title="ERROR_FOR_DIVISION_BY_ZERO"></a>ERROR_FOR_DIVISION_BY_ZERO</h4><p>在INSERT或UPDATE过程中，如果数据被零除，则产生错误而非警告。如 果未给出该模式，那么数据被零除时MySQL返回NULL</p>
+<h4 id="NO-AUTO-CREATE-USER"><a href="#NO-AUTO-CREATE-USER" class="headerlink" title="NO_AUTO_CREATE_USER"></a>NO_AUTO_CREATE_USER</h4><p>禁止GRANT创建密码为空的用户</p>
+<h4 id="NO-ENGINE-SUBSTITUTION"><a href="#NO-ENGINE-SUBSTITUTION" class="headerlink" title="NO_ENGINE_SUBSTITUTION"></a>NO_ENGINE_SUBSTITUTION</h4><p>如果需要的存储引擎被禁用或未编译，那么抛出错误。不设置此值时，用默认的存储引擎替代，并抛出一个异常</p>
+<h4 id="PIPES-AS-CONCAT"><a href="#PIPES-AS-CONCAT" class="headerlink" title="PIPES_AS_CONCAT"></a>PIPES_AS_CONCAT</h4><p>将”||”视为字符串的连接操作符而非或运算符，这和Oracle数据库是一样的，也和字符串的拼接函数Concat相类似</p>
+<h4 id="ANSI-QUOTES"><a href="#ANSI-QUOTES" class="headerlink" title="ANSI_QUOTES"></a>ANSI_QUOTES</h4><p>启用ANSI_QUOTES后，不能用双引号来引用字符串，因为它被解释为识别符</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>编辑<code>my.cnf</code>配置文件，将 <code>ONLY_FULL_GROUP_BY</code> 去掉。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line">sql_mode &#x3D; &quot;&quot;</span><br></pre></td></tr></table></figure>
+<p>然后重启Mysql 服务即可。</p>
 <h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><a href="http://m.aluaa.com/articles/2019/01/02/1546398594207.html" target="_blank" rel="noopener">“unix:///tmp/supervisor.sock no such file” 错误处理</a></li>
-<li><a href="https://segmentfault.com/a/1190000015768529" target="_blank" rel="noopener">https://segmentfault.com/a/1190000015768529</a></li>
-<li><a href="http://liyangliang.me/posts/2015/06/using-supervisor/" target="_blank" rel="noopener">使用 supervisor 管理进程</a></li>
-<li><a href="https://www.cnblogs.com/restran/p/4854623.html" target="_blank" rel="noopener">Python 进程管理工具 Supervisor 使用教程</a></li>
+<li><a href="https://blog.csdn.net/Abysscarry/article/details/79468411" target="_blank" rel="noopener">记一次Group by 查询时的ONLY_FULL_GROUP_BY错误以及后续</a></li>
 </ul>
 
           
@@ -487,7 +447,7 @@ Supervisor 只适用于类Unix 系统，不适用于Window。">
           
         
           
-            <p>本文永久链接是：<a href=https://www.aikang.me/supervisor-quick-start/>https://www.aikang.me/supervisor-quick-start/</a></p>
+            <p>本文永久链接是：<a href=https://www.aikang.me/mysql-only-full-group-by-exception-record/>https://www.aikang.me/mysql-only-full-group-by-exception-record/</a></p>
           
         
       </blockquote>
@@ -535,10 +495,10 @@ Supervisor 只适用于类Unix 系统，不适用于Window。">
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-30T20:41:18+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-31T20:18:28+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Jul 30, 2020</p>
+    <p>更新于：Jul 31, 2020</p>
   </a>
 </div>
 
@@ -547,7 +507,7 @@ Supervisor 只适用于类Unix 系统，不适用于Window。">
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Tutorial/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Tutorial</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>进程管理</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Mysql/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Mysql</p></a></div>
 
 
         
@@ -565,8 +525,8 @@ Supervisor 只适用于类Unix 系统，不适用于Window。">
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.aikang.me/supervisor-quick-start/&title=supervisor quick start - Boo&summary=supervisord 是一个用 Python 写的进程管理工具，是类Unix系统中的一个进程管理工具，
-Supervisor 只适用于类Unix 系统，不适用于Window。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.aikang.me/mysql-only-full-group-by-exception-record/&title=mysql only_full_group_by exception record - Boo&summary=最近很频繁的遇到一个Mysql 异常，错误信息如下：
+123Expression #5 of SELECT list is not in GROUP BY clause and contains nonaggregated column &#39;cis.q1.query_date&#39; which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode&#x3D;only_full_group_by"
           
           >
           
@@ -578,8 +538,8 @@ Supervisor 只适用于类Unix 系统，不适用于Window。"
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.aikang.me/supervisor-quick-start/&title=supervisor quick start - Boo&summary=supervisord 是一个用 Python 写的进程管理工具，是类Unix系统中的一个进程管理工具，
-Supervisor 只适用于类Unix 系统，不适用于Window。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.aikang.me/mysql-only-full-group-by-exception-record/&title=mysql only_full_group_by exception record - Boo&summary=最近很频繁的遇到一个Mysql 异常，错误信息如下：
+123Expression #5 of SELECT list is not in GROUP BY clause and contains nonaggregated column &#39;cis.q1.query_date&#39; which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode&#x3D;only_full_group_by"
           
           >
           
@@ -591,8 +551,8 @@ Supervisor 只适用于类Unix 系统，不适用于Window。"
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.aikang.me/supervisor-quick-start/&title=supervisor quick start - Boo&summary=supervisord 是一个用 Python 写的进程管理工具，是类Unix系统中的一个进程管理工具，
-Supervisor 只适用于类Unix 系统，不适用于Window。"
+          href="http://service.weibo.com/share/share.php?url=https://www.aikang.me/mysql-only-full-group-by-exception-record/&title=mysql only_full_group_by exception record - Boo&summary=最近很频繁的遇到一个Mysql 异常，错误信息如下：
+123Expression #5 of SELECT list is not in GROUP BY clause and contains nonaggregated column &#39;cis.q1.query_date&#39; which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode&#x3D;only_full_group_by"
           
           >
           
@@ -606,7 +566,7 @@ Supervisor 只适用于类Unix 系统，不适用于Window。"
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAADAElEQVR42u3aSXLDMAwEQP//08k9SwkYQCnRad5iOxTZukwBeH1YP64XAjBgwIABA+YYmFe4vv5/db9fD9Tcv7pP+z5gwIABAwYMmONgygGo+Pv0d1XoFO7y+WDAgAEDBgyYY2G2D3K1z1aQXLsPGDBgwIABA+bfwGwHu+55uvuCAQMGDBgwYMBUG13dYJheHAwYMGDAgAEDZqtBNm2sfYTrMZ1IMGDAgAEDBsyfwXTXNHDd/Xd8HzBgwIABAwbMMTBb665Bnm5QHN8DDBgwYMCAAXMMTHqwuxpo1e+vCltxwQwMGDBgwIABcwzMNEhNC1rTAtm04QcGDBgwYMCAORemG5SqhaFuUJxCrhXSwIABAwYMGDDHwGw3xtKLlgtJYQAsnx8MGDBgwIAB87Yw3YvcHRS7jbjy4BAYMGDAgAED5hiYrYumA0RpIWu9cAUGDBgwYMCAOQ5mWvBJD7YF0gVvN9zAgAEDBgwYMI+H6Qa26oBQNeh1YdLP1yp4YMCAAQMGDJjHwXQhUoCtIDh9YWDAgAEDBgyYc2HWNr55bTf82p1IMGDAgAEDBsxjYKoP3GqUTQtSW/tdDg6BAQMGDBgwYB4P0y0ATQtb3QCZBskYGAwYMGDAgAFzHEw60JMWkNL90kZc+cWBAQMGDBgwYI6FSQtD3YCYft5t7I07kWDAgAEDBgyYx8KMA9ESWDcATkHBgAEDBgwYMOfDVDdIC0XpgM/0uXFABQMGDBgwYMAcA5MGt6sLpODTFzANhGDAgAEDBgyYc2CmK25shRdJC2zlwhsYMGDAgAED5hiYaVBKA9+0MVZuoDULY2DAgAEDBgyY82DuKhxVC2Jd8K2BJzBgwIABAwbM+8Ckgz3doFcNZtULpwWvb/uCAQMGDBgwYP4tTPXgVbhqQEuD458FPDBgwIABAwbM42C6AOmB1waDwIABAwYMGDBvC3PXQbafdxs0GDBgwIABA+Y4mLSB1R34uXswKA2cYMCAAQMGDJjzYKxfAp4FBgwYMGDAPHV9AkIHIgrV3npgAAAAAElFTkSuQmCC">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADpUlEQVR42u3aS47jMAwFwNz/0tP7AQLrkXSHTpd2CfyRipsXMq9/Vmm9EIADBw6cBQ7cErhXcb198PDz/n/uu8/pfdX9gQMHDhw4cODAbYM7DoBvrk9hTiFOC9X9/hgeHDhw4MCBAwduKdxlAAwD5TRE9f6x84IDBw4cOHDgwP0RuDQwTwdwcODAgQMHDhw4cDMNyO6BpgfZ4MCBAwcOHDhw3wI3tZGr+9MCpI3M9D2/PskHBw4cOHDgwIEbgktXFXLL5/J5wYEDBw4cOHDglsB119XG0gB8V2N17LzgwIEDBw4cOHBL4Kb/KHgK3P2+G9Crg25w4MCBAwcOHLhtcNVB7el96QD69KApdHewDg4cOHDgwIEDtwWu24DsNjpTwGogPoWPB9LgwIEDBw4cOHAfgpsaIFc3eBqw44ZjMTBfFhAcOHDgwIEDB24p3NRguR00m4VMC3EMDg4cOHDgwIEDtwQufXEKWh0Md9+Xvve4MQsOHDhw4MCBA7cEbqohWB1U3wU5FcAvfzmAAwcOHDhw4MB9CK7b0LyrYTkdeNNzggMHDhw4cODAbYebGgifBtLuwdPCTAducODAgQMHDhy4rXDdgXS3oZg2QqvXV/cDDhw4cODAgQP3VLjyIDc86HSDciwwgwMHDhw4cODALYNLg+YUXLux2Lw/3h84cODAgQMHDtwSuNOAOBVA00Zj9X3VQl8+Bxw4cODAgQMH7iFw3aCcAlUH5GlQL+8fHDhw4MCBAwduKdx0ME4bjil8dZ/lAoEDBw4cOHDgwC2F6zYU0+B514B7ugEKDhw4cODAgQO3DS4d5KYNz6ng2Q3k6X7BgQMHDhw4cOCeBpcGxDR4VoHTwfZpAdLBNDhw4MCBAwcO3FPgpoJnCp0WcmpwfukADhw4cODAgQO3HC4NnN1B71Qw7gbzy+eBAwcOHDhw4MA9BK472J0K0t0B+VRABgcOHDhw4MCB2wLXXWkjszqYrgbbtFF6GdDBgQMHDhw4cOCWwI0HxLs2PNwYrRYOHDhw4MCBAwduG1waeNMDVaHSAXQV/LgRCw4cOHDgwIEDtxSu25icCrppoO2udgAGBw4cOHDgwIH7crjqAU6flxYsbZCCAwcOHDhw4MB9O1y3AVltpKYwcXAHBw4cOHDgwIFbClcd8N4dQE8LUb2+HYDBgQMHDhw4cOA+BHfbAPewMNXrTqHSQh4HYHDgwIEDBw4cuA/BWWGDEwE4cODAWeDAfXb9AMdMAggCjsKfAAAAAElFTkSuQmCC">
           </div>
         </div>
       
@@ -626,19 +586,14 @@ Supervisor 只适用于类Unix 系统，不适用于Window。"
         
           <div class="prev-next">
             
-              <a class='prev' href='/mysql-only-full-group-by-exception-record/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>mysql only_full_group_by exception record</p>
-                <p class='content'>最近很频繁的遇到一个Mysql 异常，错误信息如下：
-123Expression #5 of SELECT list is not in GROUP BY clause and contains...</p>
-              </a>
             
-            
-              <a class='next' href='/execute-and-use-php-code-on-the-linux-command-line/'>
-                <p class='title'>在 Linux 命令行中执行和使用 PHP 代码<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>众所周知，PHP是一门脚本语言，主要用于服务端（JavaScript 用于客户端）以通过HTTP 生成动态网页。
-所以与其他脚本语言一样，可以直接在终端中不需要网页浏览器来运行PHP 代码。
+              <a class='next' href='/supervisor-quick-start/'>
+                <p class='title'>supervisor quick start<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>supervisord 是一个用 Python 写的进程管理工具，是类Unix系统中的一个进程管理工具，
+Supervisor 只适用于类Unix 系统，不适用于Window。
 
-...</p>
+
+安装因为Su...</p>
               </a>
             
           </div>
@@ -683,7 +638,7 @@ Supervisor 只适用于类Unix 系统，不适用于Window。"
 
   <script>
     window.subData = {
-      title: 'supervisor quick start',
+      title: 'mysql only_full_group_by exception record',
       tools: true
     }
   </script>
@@ -710,7 +665,7 @@ Supervisor 只适用于类Unix 系统，不适用于Window。"
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置"><span class="toc-text">配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动"><span class="toc-text">启动</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#常用命令整理"><span class="toc-text">常用命令整理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常见问题"><span class="toc-text">常见问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#unlinking-stale-socket-var-run-supervisor-sock"><span class="toc-text">unlinking stale socket &#x2F;var&#x2F;run&#x2F;supervisor.sock</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#sql-mode-配置解析"><span class="toc-text">sql_mode 配置解析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ONLY-FULL-GROUP-BY"><span class="toc-text">ONLY_FULL_GROUP_BY</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#NO-AUTO-VALUE-ON-ZERO"><span class="toc-text">NO_AUTO_VALUE_ON_ZERO</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#STRICT-TRANS-TABLES"><span class="toc-text">STRICT_TRANS_TABLES</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#NO-ZERO-IN-DATE"><span class="toc-text">NO_ZERO_IN_DATE</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#NO-ZERO-DATE"><span class="toc-text">NO_ZERO_DATE</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ERROR-FOR-DIVISION-BY-ZERO"><span class="toc-text">ERROR_FOR_DIVISION_BY_ZERO</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#NO-AUTO-CREATE-USER"><span class="toc-text">NO_AUTO_CREATE_USER</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#NO-ENGINE-SUBSTITUTION"><span class="toc-text">NO_ENGINE_SUBSTITUTION</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PIPES-AS-CONCAT"><span class="toc-text">PIPES_AS_CONCAT</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ANSI-QUOTES"><span class="toc-text">ANSI_QUOTES</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解决方案"><span class="toc-text">解决方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
     </div>
   </section>
 
