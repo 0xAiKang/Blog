@@ -1,5 +1,5 @@
 ---
-title: mysql only_full_group_by exception record
+title: Mysql only_full_group_by 异常记录
 date: 2020-07-31 20:17:14
 tags: ["Mysql"]
 categories: ["Mysql"]

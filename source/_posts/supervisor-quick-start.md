@@ -1,5 +1,5 @@
 ---
-title: supervisor quick start
+title: Supervisor 快速上手
 date: 2020-07-30 20:38:38
 tags: ["PHP", "进程管理", "Tutorial"]
 categories: ["PHP", "Tutorial",]
