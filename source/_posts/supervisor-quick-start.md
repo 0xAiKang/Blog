@@ -2,7 +2,7 @@
 title: Supervisor 快速上手
 date: 2020-07-30 20:38:38
 tags: ["PHP", "进程管理", "Tutorial"]
-categories: ["PHP", "Tutorial",]
+categories: ["PHP", "Tutorial"]
 ---
 
 [supervisord](http://supervisord.org/) 是一个用 Python 写的进程管理工具，是类Unix系统中的一个进程管理工具，
