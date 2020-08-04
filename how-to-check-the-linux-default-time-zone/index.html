@@ -16,13 +16,13 @@
 
   <!-- 页面元数据 -->
   
-    <title>Mysql only_full_group_by 异常记录 - Boo</title>
+    <title>如何查看 Linux 默认时区 - Boo</title>
   
-    <meta name="keywords" content="Mysql">
+    <meta name="keywords" content="Linux">
   
   
-    <meta name="description" content="最近很频繁的遇到一个Mysql 异常，错误信息如下：
-123Expression #5 of SELECT list is not in GROUP BY clause and contains nonaggregated column &#39;cis.q1.query_date&#39; which is n...">
+    <meta name="description" content="最近遇到一个跟服务器时区相关的问题，没准备充分，当问题真正来临时，很懵。
+特别是在生产环境中，系统时区是特别重要的存在，很多应用在默认情况下，都是取的系统时区，如果时区处理不得当的话，可能会造成不必要的困扰。">
   
 
   <!-- feed -->
@@ -284,8 +284,8 @@
         
           
   <h1 class="title">
-    <a href="/mysql-only-full-group-by-exception-record/">
-      Mysql only_full_group_by 异常记录
+    <a href="/how-to-check-the-linux-default-time-zone/">
+      如何查看 Linux 默认时区
     </a>
   </h1>
 
@@ -310,9 +310,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Mysql/' rel="nofollow">
+    <a href='/categories/PHP/Tutorial/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Mysql</p>
+      <p>PHP/Tutorial</p>
     </a>
   </div>
 
@@ -323,7 +323,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jul 31, 2020</p>
+    <p>发布于：Aug 3, 2020</p>
   </a>
 </div>
 
@@ -339,13 +339,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>754 words</p>
+      <p>845 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>2 min</p>
+      <p>3 min</p>
     </a>
   </div>
 
@@ -358,7 +358,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/mysql-only-full-group-by-exception-record/" class="leancloud_visitors" data-flag-title="Mysql only_full_group_by 异常记录">
+      <span id="/how-to-check-the-linux-default-time-zone/" class="leancloud_visitors" data-flag-title="如何查看 Linux 默认时区">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -381,35 +381,50 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>最近很频繁的遇到一个Mysql 异常，错误信息如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Expression #5 of SELECT list is not in GROUP BY clause and contains nonaggregated column &#39;cis.q1.query_date&#39; </span><br><span class="line">which is not functionally dependent on columns in GROUP BY clause; </span><br><span class="line">this is incompatible with sql_mode&#x3D;only_full_group_by</span><br></pre></td></tr></table></figure>
-
+          <p>最近遇到一个跟服务器时区相关的问题，没准备充分，当问题真正来临时，很懵。</p>
+<p>特别是在生产环境中，系统时区是特别重要的存在，很多应用在默认情况下，都是取的系统时区，如果时区处理不得当的话，可能会造成不必要的困扰。</p>
 <a id="more"></a>
 
-<p>通过错误信息可以看到，是因为 <code>sql_mode</code> 引起的。</p>
-<p>查看Mysql 当前所使用的 <code>sql_mode</code>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">select @@sql_mode</span><br><span class="line"></span><br><span class="line">+-------------------------+</span><br><span class="line">|       @@sql_mode        |</span><br><span class="line">+-------------------------+</span><br><span class="line">|   ONLY_FULL_GROUP_BY    |</span><br><span class="line">+-------------------------+</span><br></pre></td></tr></table></figure>
-
-<h3 id="sql-mode-配置解析"><a href="#sql-mode-配置解析" class="headerlink" title="sql_mode 配置解析"></a>sql_mode 配置解析</h3><h4 id="ONLY-FULL-GROUP-BY"><a href="#ONLY-FULL-GROUP-BY" class="headerlink" title="ONLY_FULL_GROUP_BY"></a>ONLY_FULL_GROUP_BY</h4><p>对于GROUP BY聚合操作，如果在SELECT中的列，没有在GROUP BY中出现，那么这个SQL是不合法的，因为列不在GROUP BY从句中。简而言之，就是SELECT后面接的列必须被GROUP BY后面接的列所包含。如：</p>
+<h1 id="时区的概念"><a href="#时区的概念" class="headerlink" title="时区的概念"></a>时区的概念</h1><p>关于时区，有以下几个标准：</p>
 <ul>
-<li>select a,b from table group by a,b,c; (正确)</li>
-<li>select a,b,c from table group by a,b; (错误)</li>
+<li>CST：中国标准时间（China Standard Time）</li>
+<li>UTC：协调世界时，又称世界标准时间，简称UTC，从英文国际时间/法文协调时间”Universal Time/Temps Cordonné”而来。中国大陆、香港、澳门、台湾、蒙古国、新加坡、马来西亚、菲律宾、澳洲西部的时间与UTC的时差均为+8，也就是UTC+8。</li>
+<li>GMT：格林尼治标准时间（旧译格林威治平均时间或格林威治标准时间；英语：Greenwich Mean Time，GMT）是指位于英国伦敦郊区的皇家格林尼治天文台的标准时间，因为本初子午线被定义在通过那里的经线。</li>
 </ul>
-<p>这个配置会使得GROUP BY语句环境变得十分狭窄，所以一般都不加这个配置</p>
-<h4 id="NO-AUTO-VALUE-ON-ZERO"><a href="#NO-AUTO-VALUE-ON-ZERO" class="headerlink" title="NO_AUTO_VALUE_ON_ZERO"></a>NO_AUTO_VALUE_ON_ZERO</h4><p>该值影响自增长列的插入。默认设置下，插入0或NULL代表生成下一个自增长值。（不信的可以试试，默认的sql_mode你在自增主键列设置为0，该字段会自动变为最新的自增值，效果和null一样），如果用户希望插入的值为0（不改变），该列又是自增长的，那么这个选项就有用了。</p>
-<h4 id="STRICT-TRANS-TABLES"><a href="#STRICT-TRANS-TABLES" class="headerlink" title="STRICT_TRANS_TABLES"></a>STRICT_TRANS_TABLES</h4><p>在该模式下，如果一个值不能插入到一个事务表中，则中断当前的操作，对非事务表不做限制。（InnoDB默认事务表，MyISAM默认非事务表；MySQL事务表支持将批处理当做一个完整的任务统一提交或回滚，即对包含在事务中的多条语句要么全执行，要么全部不执行。非事务表则不支持此种操作，批处理中的语句如果遇到错误，在错误前的语句执行成功，之后的则不执行；MySQL事务表有表锁与行锁非事务表则只有表锁）</p>
-<h4 id="NO-ZERO-IN-DATE"><a href="#NO-ZERO-IN-DATE" class="headerlink" title="NO_ZERO_IN_DATE"></a>NO_ZERO_IN_DATE</h4><p>在严格模式下，不允许日期和月份为零</p>
-<h4 id="NO-ZERO-DATE"><a href="#NO-ZERO-DATE" class="headerlink" title="NO_ZERO_DATE"></a>NO_ZERO_DATE</h4><p>设置该值，mysql数据库不允许插入零日期，插入零日期会抛出错误而不是警告。</p>
-<h4 id="ERROR-FOR-DIVISION-BY-ZERO"><a href="#ERROR-FOR-DIVISION-BY-ZERO" class="headerlink" title="ERROR_FOR_DIVISION_BY_ZERO"></a>ERROR_FOR_DIVISION_BY_ZERO</h4><p>在INSERT或UPDATE过程中，如果数据被零除，则产生错误而非警告。如 果未给出该模式，那么数据被零除时MySQL返回NULL</p>
-<h4 id="NO-AUTO-CREATE-USER"><a href="#NO-AUTO-CREATE-USER" class="headerlink" title="NO_AUTO_CREATE_USER"></a>NO_AUTO_CREATE_USER</h4><p>禁止GRANT创建密码为空的用户</p>
-<h4 id="NO-ENGINE-SUBSTITUTION"><a href="#NO-ENGINE-SUBSTITUTION" class="headerlink" title="NO_ENGINE_SUBSTITUTION"></a>NO_ENGINE_SUBSTITUTION</h4><p>如果需要的存储引擎被禁用或未编译，那么抛出错误。不设置此值时，用默认的存储引擎替代，并抛出一个异常</p>
-<h4 id="PIPES-AS-CONCAT"><a href="#PIPES-AS-CONCAT" class="headerlink" title="PIPES_AS_CONCAT"></a>PIPES_AS_CONCAT</h4><p>将”||”视为字符串的连接操作符而非或运算符，这和Oracle数据库是一样的，也和字符串的拼接函数Concat相类似</p>
-<h4 id="ANSI-QUOTES"><a href="#ANSI-QUOTES" class="headerlink" title="ANSI_QUOTES"></a>ANSI_QUOTES</h4><p>启用ANSI_QUOTES后，不能用双引号来引用字符串，因为它被解释为识别符</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>编辑<code>my.cnf</code>配置文件，将 <code>ONLY_FULL_GROUP_BY</code> 去掉。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line">sql_mode &#x3D; &quot;&quot;</span><br></pre></td></tr></table></figure>
-<p>然后重启Mysql 服务即可。</p>
+<p>Linux 的时间分为两种：</p>
+<ol>
+<li>硬件时间：由 BIOS（或CMOS）所负责。</li>
+<li>系统时间：由 Linux 所负责，系统时间在系统开关机后读取硬件时间后，再由 Linux 管理时间。</li>
+</ol>
+<h2 id="date"><a href="#date" class="headerlink" title="date"></a>date</h2><p>date命令是显示或设置系统时间与日期。</p>
+<p>这个是最简单、最直观获取系统时间与日期的方式了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ date</span><br><span class="line">Thu Jul 30 13:23:50 CST 2020</span><br></pre></td></tr></table></figure>
+
+<p>显示所在时区：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">date +&quot;%Z %z&quot;</span><br><span class="line">CST +0800</span><br></pre></td></tr></table></figure>
+
+<p>date 命令常见参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">%H 小时，24小时制（00~23）</span><br><span class="line">%I 小时，12小时制（01~12）</span><br><span class="line">%k 小时，24小时制（0~23）</span><br><span class="line">%l 小时，12小时制（1~12）</span><br><span class="line">%M 分钟（00~59）</span><br><span class="line">%p 显示出AM或PM</span><br><span class="line">%r 显示时间，12小时制（hh:mm:ss %p）</span><br><span class="line">%s 从1970年1月1日00:00:00到目前经历的秒数</span><br><span class="line">%S 显示秒（00~59）</span><br><span class="line">%T 显示时间，24小时制（hh:mm:ss）</span><br><span class="line">%X 显示时间的格式（%H:%M:%S）</span><br><span class="line">%Z 以字符串的形式显示时区，日期域（CST）</span><br><span class="line">%z 以数字的形式显示时区 (+0800)</span><br><span class="line">%a 星期的简称（Sun~Sat）</span><br><span class="line">%A 星期的全称（Sunday~Saturday）</span><br><span class="line">%h,%b 月的简称（Jan~Dec）</span><br><span class="line">%B 月的全称（January~December）</span><br><span class="line">%c 日期和时间（Tue Nov 20 14:12:58 2012）</span><br><span class="line">%d 一个月的第几天（01~31）</span><br><span class="line">%x,%D 日期（mm&#x2F;dd&#x2F;yy）</span><br><span class="line">%j 一年的第几天（001~366）</span><br><span class="line">%m 月份（01~12）</span><br><span class="line">%w 一个星期的第几天（0代表星期天）</span><br><span class="line">%W 一年的第几个星期（00~53，星期一为第一天）</span><br><span class="line">%y 年的最后两个数字（1999则是99）</span><br></pre></td></tr></table></figure>
+
+<h2 id="timedatectl"><a href="#timedatectl" class="headerlink" title="timedatectl"></a>timedatectl</h2><p>timedatectl 命令非常的方便，当你不带任何参数运行它时，这条命令可以像下图一样，输出系统时间概览，其中包含当前时区：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ timedatectl</span><br><span class="line"></span><br><span class="line">Local time: Thu 2020-07-30 05:30:21 UTC</span><br><span class="line">                  Universal time: Thu 2020-07-30 05:30:21 UTC</span><br><span class="line">                        RTC time: Thu 2020-07-30 05:30:21</span><br><span class="line">                       Time zone: Etc&#x2F;UTC (UTC, +0000)</span><br><span class="line">       System clock synchronized: yes</span><br><span class="line">systemd-timesyncd.service active: yes</span><br><span class="line">                 RTC in local TZ: no</span><br></pre></td></tr></table></figure>
+
+<p>只查看时区：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ timedatectl | grep &quot;Time zone&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="etc-timezone"><a href="#etc-timezone" class="headerlink" title="/etc/timezone"></a>/etc/timezone</h2><p>使用 cat 命令显示文件 <code>/etc/timezone</code> 的内容，来查看时区：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cat &#x2F;etc&#x2F;timezone</span><br><span class="line">Etc&#x2F;UTC</span><br></pre></td></tr></table></figure>
+
+<p>选择时区</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ tzselect</span><br></pre></td></tr></table></figure>
+
+<p>选择完成之后，将时区相关的配置，写入<code>.profit</code>配置文件中。</p>
+<p>然后使用 souce 命令，强制生效。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">souce .profit</span><br></pre></td></tr></table></figure>
+
 <h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><a href="https://blog.csdn.net/Abysscarry/article/details/79468411" target="_blank" rel="noopener">记一次Group by 查询时的ONLY_FULL_GROUP_BY错误以及后续</a></li>
+<li><a href="https://linux.cn/article-7970-1.html" target="_blank" rel="noopener">在 Linux 中查看时区</a></li>
+<li><a href="https://man.linuxde.net/date" target="_blank" rel="noopener">Linux date 命令</a></li>
 </ul>
 
           
@@ -447,7 +462,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.aikang.me/mysql-only-full-group-by-exception-record/>https://www.aikang.me/mysql-only-full-group-by-exception-record/</a></p>
+            <p>本文永久链接是：<a href=https://www.aikang.me/how-to-check-the-linux-default-time-zone/>https://www.aikang.me/how-to-check-the-linux-default-time-zone/</a></p>
           
         
       </blockquote>
@@ -495,7 +510,7 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-08-03T08:05:40+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-08-03T22:04:00+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：Aug 3, 2020</p>
@@ -507,7 +522,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Mysql/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Mysql</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Linux/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Linux</p></a></div>
 
 
         
@@ -525,8 +540,8 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.aikang.me/mysql-only-full-group-by-exception-record/&title=Mysql only_full_group_by 异常记录 - Boo&summary=最近很频繁的遇到一个Mysql 异常，错误信息如下：
-123Expression #5 of SELECT list is not in GROUP BY clause and contains nonaggregated column &#39;cis.q1.query_date&#39; which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode&#x3D;only_full_group_by"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.aikang.me/how-to-check-the-linux-default-time-zone/&title=如何查看 Linux 默认时区 - Boo&summary=最近遇到一个跟服务器时区相关的问题，没准备充分，当问题真正来临时，很懵。
+特别是在生产环境中，系统时区是特别重要的存在，很多应用在默认情况下，都是取的系统时区，如果时区处理不得当的话，可能会造成不必要的困扰。"
           
           >
           
@@ -538,8 +553,8 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.aikang.me/mysql-only-full-group-by-exception-record/&title=Mysql only_full_group_by 异常记录 - Boo&summary=最近很频繁的遇到一个Mysql 异常，错误信息如下：
-123Expression #5 of SELECT list is not in GROUP BY clause and contains nonaggregated column &#39;cis.q1.query_date&#39; which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode&#x3D;only_full_group_by"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.aikang.me/how-to-check-the-linux-default-time-zone/&title=如何查看 Linux 默认时区 - Boo&summary=最近遇到一个跟服务器时区相关的问题，没准备充分，当问题真正来临时，很懵。
+特别是在生产环境中，系统时区是特别重要的存在，很多应用在默认情况下，都是取的系统时区，如果时区处理不得当的话，可能会造成不必要的困扰。"
           
           >
           
@@ -551,8 +566,8 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.aikang.me/mysql-only-full-group-by-exception-record/&title=Mysql only_full_group_by 异常记录 - Boo&summary=最近很频繁的遇到一个Mysql 异常，错误信息如下：
-123Expression #5 of SELECT list is not in GROUP BY clause and contains nonaggregated column &#39;cis.q1.query_date&#39; which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode&#x3D;only_full_group_by"
+          href="http://service.weibo.com/share/share.php?url=https://www.aikang.me/how-to-check-the-linux-default-time-zone/&title=如何查看 Linux 默认时区 - Boo&summary=最近遇到一个跟服务器时区相关的问题，没准备充分，当问题真正来临时，很懵。
+特别是在生产环境中，系统时区是特别重要的存在，很多应用在默认情况下，都是取的系统时区，如果时区处理不得当的话，可能会造成不必要的困扰。"
           
           >
           
@@ -566,7 +581,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADpUlEQVR42u3aS47jMAwFwNz/0tP7AQLrkXSHTpd2CfyRipsXMq9/Vmm9EIADBw6cBQ7cErhXcb198PDz/n/uu8/pfdX9gQMHDhw4cODAbYM7DoBvrk9hTiFOC9X9/hgeHDhw4MCBAwduKdxlAAwD5TRE9f6x84IDBw4cOHDgwP0RuDQwTwdwcODAgQMHDhw4cDMNyO6BpgfZ4MCBAwcOHDhw3wI3tZGr+9MCpI3M9D2/PskHBw4cOHDgwIEbgktXFXLL5/J5wYEDBw4cOHDglsB119XG0gB8V2N17LzgwIEDBw4cOHBL4Kb/KHgK3P2+G9Crg25w4MCBAwcOHLhtcNVB7el96QD69KApdHewDg4cOHDgwIEDtwWu24DsNjpTwGogPoWPB9LgwIEDBw4cOHAfgpsaIFc3eBqw44ZjMTBfFhAcOHDgwIEDB24p3NRguR00m4VMC3EMDg4cOHDgwIEDtwQufXEKWh0Md9+Xvve4MQsOHDhw4MCBA7cEbqohWB1U3wU5FcAvfzmAAwcOHDhw4MB9CK7b0LyrYTkdeNNzggMHDhw4cODAbYebGgifBtLuwdPCTAducODAgQMHDhy4rXDdgXS3oZg2QqvXV/cDDhw4cODAgQP3VLjyIDc86HSDciwwgwMHDhw4cODALYNLg+YUXLux2Lw/3h84cODAgQMHDtwSuNOAOBVA00Zj9X3VQl8+Bxw4cODAgQMH7iFw3aCcAlUH5GlQL+8fHDhw4MCBAwduKdx0ME4bjil8dZ/lAoEDBw4cOHDgwC2F6zYU0+B514B7ugEKDhw4cODAgQO3DS4d5KYNz6ng2Q3k6X7BgQMHDhw4cOCeBpcGxDR4VoHTwfZpAdLBNDhw4MCBAwcO3FPgpoJnCp0WcmpwfukADhw4cODAgQO3HC4NnN1B71Qw7gbzy+eBAwcOHDhw4MA9BK472J0K0t0B+VRABgcOHDhw4MCB2wLXXWkjszqYrgbbtFF6GdDBgQMHDhw4cOCWwI0HxLs2PNwYrRYOHDhw4MCBAwduG1waeNMDVaHSAXQV/LgRCw4cOHDgwIEDtxSu25icCrppoO2udgAGBw4cOHDgwIH7crjqAU6flxYsbZCCAwcOHDhw4MB9O1y3AVltpKYwcXAHBw4cOHDgwIFbClcd8N4dQE8LUb2+HYDBgQMHDhw4cOA+BHfbAPewMNXrTqHSQh4HYHDgwIEDBw4cuA/BWWGDEwE4cODAWeDAfXb9AMdMAggCjsKfAAAAAElFTkSuQmCC">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADsElEQVR42u3aQXLjMAwEQP//09kXuEgM4BjKNm/r2BLZ2sMURq8fK1ovBODAgQNngQO3BO4Vrne/f3vDy9+dPr+9/ul78XnBgQMHDhw4cOCWwV0HwMOBXkPrdL0TyO1+y+cFBw4cOHDgwIFbCnd7kNNGqge+DazVYFsN4sfzggMHDhw4cODA/RG4LkA3IKeDUnDgwIEDBw4cuP8drnvgaoBNHww4cODAgQMHDtxfh6sWtN3iuhtYu/v6WpMPDhw4cODAgQM3BJcG2af+Oz4vOHDgwIEDBw7cErjfWt0iu/uC4Ng5wIEDBw4cOHDglsCdNpYG4tsXAdOCuDv4TB8AOHDgwIEDBw7cNrjuDW5h0qCbgk49AHDgwIEDBw4cuO1wt5+fANLf3V63CnNbWB//w4ADBw4cOHDgwC2Fq25sqqCuXm/q/uVzgwMHDhw4cODAPQwuHWimwbg7KE3vNx6AwYEDBw4cOHDgfgkuLarTgWIK3y2w4+IcHDhw4MCBAwduCdxUkE0HhlPBuluwX+8LHDhw4MCBAwduGVy18K0GzNuDplCfhgUHDhw4cODAgdsKN1Us30JVi+VPFeLlohscOHDgwIEDB24Z3G2gTIPp2CCxOEAdfwDgwIEDBw4cOHBL4LoFbncAevrd9D7GCmlw4MCBAwcOHLilcNUNpEE5vW4XPh6kggMHDhw4cODALYFLN5wG1tvg2d3H6T7p/cGBAwcOHDhw4LbB3d5oqijuDi67A8m0mAYHDhw4cODAgdsCVx7kNb9X3XD64D52LnDgwIEDBw4cuGVwUxBp4ZwW0WlxHQd9cODAgQMHDhy4JXDpjapBtDo4TYN0NTiX4cGBAwcOHDhw4JbATRW31aCZFtDVQjstwN9CggMHDhw4cODALYPrQnRfNEwPUg2+7UAODhw4cODAgQO3DO5naHUD51ThnO4HHDhw4MCBAwfuqXDpALFaFHcfwDTM9eATHDhw4MCBAwduCdx04K0euDxILA5Mq38/fh8cOHDgwIEDB24JXDcYTr8YWB1QVgN3Fx4cOHDgwIEDB24bXLcATl8I/PYLiuX9ggMHDhw4cODALYX71CBxqtDuDkSvi+epJh8cOHDgwIEDB2453PRgMd3XVBFeHmSCAwcOHDhw4MA9DK5bIFcPnAbpalAGBw4cOHDgwIF7GtzUgDHd+NT9uoX6W0hw4MCBAwcOHLhlcGmB2/18qvCuBuc42IMDBw4cOHDgwC2Bs2oLHDhw4MBZ4MB9ef0DnVB74lVnLgcAAAAASUVORK5CYII=">
           </div>
         </div>
       
@@ -586,20 +601,11 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/how-to-check-the-linux-default-time-zone/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>如何查看 Linux 默认时区</p>
-                <p class='content'>最近遇到一个跟服务器时区相关的问题，没准备充分，当问题真正来临时，很懵。
-特别是在生产环境中，系统时区是特别重要的存在，很多应用在默认情况下，都是取的系统时区，如果时区处理不得当的话，可能会造成...</p>
-              </a>
             
-            
-              <a class='next' href='/supervisor-quick-start/'>
-                <p class='title'>Supervisor 快速上手<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>supervisord 是一个用 Python 写的进程管理工具，是类Unix系统中的一个进程管理工具，
-Supervisor 只适用于类Unix 系统，不适用于Window。
-
-
-安装因为Su...</p>
+              <a class='next' href='/mysql-only-full-group-by-exception-record/'>
+                <p class='title'>Mysql only_full_group_by 异常记录<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>最近很频繁的遇到一个Mysql 异常，错误信息如下：
+123Expression #5 of SELECT list is not in GROUP BY clause and contains...</p>
               </a>
             
           </div>
@@ -644,7 +650,7 @@ Supervisor 只适用于类Unix 系统，不适用于Window。
 
   <script>
     window.subData = {
-      title: 'Mysql only_full_group_by 异常记录',
+      title: '如何查看 Linux 默认时区',
       tools: true
     }
   </script>
@@ -671,7 +677,7 @@ Supervisor 只适用于类Unix 系统，不适用于Window。
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#sql-mode-配置解析"><span class="toc-text">sql_mode 配置解析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ONLY-FULL-GROUP-BY"><span class="toc-text">ONLY_FULL_GROUP_BY</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#NO-AUTO-VALUE-ON-ZERO"><span class="toc-text">NO_AUTO_VALUE_ON_ZERO</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#STRICT-TRANS-TABLES"><span class="toc-text">STRICT_TRANS_TABLES</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#NO-ZERO-IN-DATE"><span class="toc-text">NO_ZERO_IN_DATE</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#NO-ZERO-DATE"><span class="toc-text">NO_ZERO_DATE</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ERROR-FOR-DIVISION-BY-ZERO"><span class="toc-text">ERROR_FOR_DIVISION_BY_ZERO</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#NO-AUTO-CREATE-USER"><span class="toc-text">NO_AUTO_CREATE_USER</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#NO-ENGINE-SUBSTITUTION"><span class="toc-text">NO_ENGINE_SUBSTITUTION</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PIPES-AS-CONCAT"><span class="toc-text">PIPES_AS_CONCAT</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ANSI-QUOTES"><span class="toc-text">ANSI_QUOTES</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解决方案"><span class="toc-text">解决方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#date"><span class="toc-text">date</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#timedatectl"><span class="toc-text">timedatectl</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#etc-timezone"><span class="toc-text">&#x2F;etc&#x2F;timezone</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
     </div>
   </section>
 
