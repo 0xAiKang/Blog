@@ -5,8 +5,6 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
-    
   
   <!-- 渲染优化 -->
   <meta name="renderer" content="webkit">
@@ -18,8 +16,13 @@
 
   <!-- 页面元数据 -->
   
-    <title>Tag: Docker - Boo</title>
+    <title>Git Push -f 命令详解 - Boo</title>
   
+    <meta name="keywords" content="Git">
+  
+  
+    <meta name="description" content="最近遇到了一个Git Push 相关的问题，同事不小心把一些错误代码提交到仓库了。如果每个人直接更新的话，会导致错误代码也更新到本地了。
+这个时候想要避免这种情况的发生，唯一可以做的就是将那些错误代码直接覆盖掉。">
   
 
   <!-- feed -->
@@ -265,25 +268,12 @@
     <div class='body-wrapper'>
       
 
-
 <div class='l_main'>
   
-    
-      
-  <section class="post-list ">
-    
-      
-        
-          
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
+
   
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
 
 
   <section class='meta'>
@@ -293,11 +283,11 @@
       <div class="meta" id="header-meta">
         
           
-  <h2 class="title">
-    <a href="/docker-quick-start/">
-      Docker 快速上手
+  <h1 class="title">
+    <a href="/detailed-explanation-of-git-push-f-command/">
+      Git Push -f 命令详解
     </a>
-  </h2>
+  </h1>
 
 
         
@@ -320,9 +310,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Linux/Tutorial/' rel="nofollow">
+    <a href='/categories/Git/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Linux/Tutorial</p>
+      <p>Git</p>
     </a>
   </div>
 
@@ -333,9 +323,14 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jul 23, 2020</p>
+    <p>发布于：Aug 5, 2020</p>
   </a>
 </div>
+
+            
+          
+            
+              
 
             
           
@@ -344,13 +339,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>5.5k words</p>
+      <p>512 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>22 min</p>
+      <p>1 min</p>
     </a>
   </div>
 
@@ -359,6 +354,18 @@
           
             
               
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/detailed-explanation-of-git-push-f-command/" class="leancloud_visitors" data-flag-title="Git Push -f 命令详解">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
 
             
           
@@ -371,102 +378,69 @@
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这篇笔记的主要目的是用来记录学习 <code>Docker</code> 的过程。<code>Docker</code>这个词并不是第一次听说了，印象中好久以前就听说过这个东西了，只是一直没有真正去了解。</p>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/docker-quick-start/">
-            阅读全文 <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>最近遇到了一个Git Push 相关的问题，同事不小心把一些错误代码提交到仓库了。<br>如果每个人直接更新的话，会导致错误代码也更新到本地了。</p>
+<p>这个时候想要避免这种情况的发生，唯一可以做的就是将那些错误代码直接覆盖掉。</p>
+<a id="more"></a>
 
-          </div>
-        
-      
-    
-  </section>
-  
-    
-    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
-    
-    
+<h3 id="git-push-f"><a href="#git-push-f" class="headerlink" title="git push -f"></a>git push -f</h3><p><code>git push -f</code> 这个命令的作用是将自己本地仓库的代码直接推送至仓库，完全以你的提交为准，之前其他人的提交都会被覆盖。</p>
+<p>那么这么可怕的命令，究竟在什么情况下才适用呢？</p>
+<h4 id="使用时机"><a href="#使用时机" class="headerlink" title="使用时机"></a>使用时机</h4><p>有两种情况下适合使用这个命令：</p>
+<ol>
+<li>确定需要覆覆盖提交，就像上面的那种情况，在明确部分提交会导致异常时，可以使用新的提交去覆盖。</li>
+<li>需要整理历史提交记录时，有时候项目的 Commit Logs 可能比较乱，不能清晰的看出每一次提交的作用，可以使用 <code>rebase</code> 命令来清理历史提交记录。因为改变了历史，所以正常来说是 <code>push</code>不成功的，所以需要使用 <code>force push</code>来解决这个问题。</li>
+</ol>
+<h4 id="默认分支保护"><a href="#默认分支保护" class="headerlink" title="默认分支保护"></a>默认分支保护</h4><p>因为可能会出现不小心使用的情况，<code>Github</code>、<code>Gitlab</code>这类源码托管网站会提供分支保护机制。可以避免某个分支被 <code>force push</code>，默认是 <code>master</code>为保护分支。</p>
+<p>这里以<code>Gitlab</code>为例，<code>设置-&gt;仓库-&gt;Protected Branches</code>：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200805144123.png" alt=""></p>
+<p>所以如果想强制提交，前提需要取消对该分支的保护。</p>
+<blockquote>
+<p>万一自己的代码被覆盖掉了，还救得回来吗？</p>
+</blockquote>
+<p>其实也是有办法的，那就是换你或是其它有之前提交的同事，再次进行 <code>git push -f</code>，将正确的内容强制提交上去，覆盖上一次<code>git push -f</code>所造成的灾难。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><p><a href="https://gitbook.tw/chapters/github/using-force-push.html" target="_blank" rel="noopener">聽說 git push -f 這個指令很可怕，什麼情況可以使用它呢？</a></p>
 
-  
-
-
-    
-  
-</div>
-<aside class='l_side'>
-  
+          
+            <div class='article_footer'>
+              
+                
   
     
     
 
-<section class="widget blogger shadow desktop mobile">
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
   <div class='content'>
     
-      
-        <a class='avatar flat-box' href='/about/'>
-          <img no-lazy src='https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg'/>
-        </a>
-      
-    
-    
-      <div class='text'>
+      <blockquote>
         
-        
-          <p>Stay foolish, Stay hungry</p>
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
 
-        
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
-        
-          
-            <a href="/atom.xml"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
           
         
           
-            <a href="mailto:aikangtongxue@gamil.com"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
+            <p>本文永久链接是：<a href=https://www.aikang.me/detailed-explanation-of-git-push-f-command/>https://www.aikang.me/detailed-explanation-of-git-push-f-command/</a></p>
           
         
-          
-            <a href="https://github.com/0xAikang"
-              class="social fab fa-github flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-          
-            <a href="https://music.163.com/#/user/home?id=112719323"
-              class="social fas fa-headphones-alt flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-      </div>
+      </blockquote>
     
   </div>
 </section>
@@ -476,148 +450,214 @@
   
     
     
+
+<section class="widget qrcode  desktop mobile">
   
 
-  <section class="widget category shadow desktop">
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.aikang.me" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-08-05T14:49:50+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Aug 5, 2020</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Git/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Git</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.aikang.me/detailed-explanation-of-git-push-f-command/&title=Git Push -f 命令详解 - Boo&summary=最近遇到了一个Git Push 相关的问题，同事不小心把一些错误代码提交到仓库了。如果每个人直接更新的话，会导致错误代码也更新到本地了。
+这个时候想要避免这种情况的发生，唯一可以做的就是将那些错误代码直接覆盖掉。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.aikang.me/detailed-explanation-of-git-push-f-command/&title=Git Push -f 命令详解 - Boo&summary=最近遇到了一个Git Push 相关的问题，同事不小心把一些错误代码提交到仓库了。如果每个人直接更新的话，会导致错误代码也更新到本地了。
+这个时候想要避免这种情况的发生，唯一可以做的就是将那些错误代码直接覆盖掉。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.aikang.me/detailed-explanation-of-git-push-f-command/&title=Git Push -f 命令详解 - Boo&summary=最近遇到了一个Git Push 相关的问题，同事不小心把一些错误代码提交到仓库了。如果每个人直接更新的话，会导致错误代码也更新到本地了。
+这个时候想要避免这种情况的发生，唯一可以做的就是将那些错误代码直接覆盖掉。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADtklEQVR42u3aQXLcMAwEwP3/p5O7UykRA2gFJc2bY69ENn2YDPz5ZUXrgwAcOHDgLHDglsB9wvXz81df//z3PzZ0+J6/Paf7nuPzggMHDhw4cODALYM7DoAXBzoFrj6/+v7Tz5f3Aw4cOHDgwIEDtxRuOvBWA2v3Ym6HBwcOHDhw4MCB+0fguoG2G3ynngsOHDhw4MCBA/e/wVU3fFcR+vr/OYADBw4cOHDgwDXhqoH27oIyHYyn+//aJB8cOHDgwIEDB24IrrruKiC/9XV8XnDgwIEDBw4cuCVw0ysNtKdBujv4bp8PHDhw4MCBAwduCdzVQHk6EFcLzy7Y1QWUB9TgwIEDBw4cOHBL4dLgOvWHgengOb3Q6mAcHDhw4MCBAwduC1y1gKz+3BRcd/AcB96rgTQ4cODAgQMHDtzDcOlA+dNcabHZHXjHQR4cOHDgwIEDB24ZXHqwdjHYPHg1WFf3AQ4cOHDgwIEDtxWuGlCni8dq4K6+v3rhl+8FBw4cOHDgwIFbBnd68HQj3YFyF6p6rssiExw4cODAgQMH7mG49ODdorBalE4PmOOLAgcOHDhw4MCBWwJ310C3W3zeXYCmA3Jw4MCBAwcOHLitcN3BcPV5n+JKg2/6CwEOHDhw4MCBA/cWuG9tpFokViGnB+PgwIEDBw4cOHBb4arFXvkP8prBOgWpQl9eMDhw4MCBAwcO3DK4NAB3g+bdReV0UQoOHDhw4MCBA7cNLh7QHm4g/bmponOsgAUHDhw4cODAgVsCNxV4p4rG6YF3tWg9LjLBgQMHDhw4cOCWwE0F4FOodCBeHSynRSc4cODAgQMHDtx2uPIHw42nBWe6n/Si4oE0OHDgwIEDBw7cQ3Dp4LYbXE8Pkgbq7oAcHDhw4MCBAwduO9x0AXh18LQIvRv08jngwIEDBw4cOHDL4KaC6SnwKcTU908hL/cHDhw4cODAgQO3FK4aINPPHw+Aw31UgcCBAwcOHDhw4N4G1113D4rTwjX9Pjhw4MCBAwcO3FvgusEwLShTwPTC0kH38SQfHDhw4MCBAwfuIbhu4E2DarVInAqy8fnBgQMHDhw4cOCWwp0G3nRQXS0Yu0VkPHjuTvLBgQMHDhw4cOBeCjf1vO7Auh14T4tMcODAgQMHDhy4l8F1i8oUvgpV3Tc4cODAgQMHDtzb4KqBcKrgrO6ju7/0YsCBAwcOHDhw4LbBTQXU0wH0KVRaTHaD83EABgcOHDhw4MCBewjOKgZsBODAgQNngQP37PoN8g9/prOtHQ8AAAAASUVORK5CYII=">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/how-to-output-content-to-clipboard-on-windows-mac-linux/'>
+                <p class='title'>Windows/Mac/Linux 如何将内容输出到剪贴板<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>如何将输出直接复制至剪切板？在不同的系统中，所使用的命令是不同的。
+
+
+Mac12345678&#x2F;&#x2F; 将输出复制至剪贴板$ echo &quot;hello mac&quot;...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Git Push -f 命令详解',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
     
   <header>
     
-      <a href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
   </header>
 
 
     <div class='content'>
-      <ul class="entry navigation">
-        
-          <li><a class="flat-box"
-            title="/categories/Git/" href="/categories/Git/"
-            id="categoriesGit"
-            ><div class='name'>Git</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Linux/" href="/categories/Linux/"
-            id="categoriesLinux"
-            ><div class='name'>Linux</div><div class='badge'>(13)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/Tutorial/" href="/categories/Linux/Tutorial/"
-            id="categoriesLinuxTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/" href="/categories/Linux/%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/"
-            id="categoriesLinuxE591BDE4BBA4E695B4E79086"
-            ><div class='name'>命令整理</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" href="/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
-            id="categoriesLinuxE5ADA6E4B9A0E7AC94E8AEB0"
-            ><div class='name'>学习笔记</div><div class='badge'>(8)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Mysql/" href="/categories/Mysql/"
-            id="categoriesMysql"
-            ><div class='name'>Mysql</div><div class='badge'>(10)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Nginx/" href="/categories/Nginx/"
-            id="categoriesNginx"
-            ><div class='name'>Nginx</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Node/" href="/categories/Node/"
-            id="categoriesNode"
-            ><div class='name'>Node</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Node/Socket-io/" href="/categories/Node/Socket-io/"
-            id="categoriesNodeSocket-io"
-            ><div class='name'>Socket.io</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Node/Tutorial/" href="/categories/Node/Tutorial/"
-            id="categoriesNodeTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/PHP/" href="/categories/PHP/"
-            id="categoriesPHP"
-            ><div class='name'>PHP</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/PHP/Tutorial/" href="/categories/PHP/Tutorial/"
-            id="categoriesPHPTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Redis/" href="/categories/Redis/"
-            id="categoriesRedis"
-            ><div class='name'>Redis</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Shell/" href="/categories/Shell/"
-            id="categoriesShell"
-            ><div class='name'>Shell</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Tutorial/" href="/categories/Tutorial/"
-            id="categoriesTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(8)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/GitHub/" href="/categories/Tutorial/GitHub/"
-            id="categoriesTutorialGitHub"
-            ><div class='name'>GitHub</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/Skill/" href="/categories/Tutorial/Skill/"
-            id="categoriesTutorialSkill"
-            ><div class='name'>Skill</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/Skill/GitHub/" href="/categories/Tutorial/Skill/GitHub/"
-            id="categoriesTutorialSkillGitHub"
-            ><div class='name'>GitHub</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C/" href="/categories/%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C/"
-            id="categoriesE4B880E4BA9BE7BB8FE9AA8C"
-            ><div class='name'>一些经验</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E5%89%8D%E7%AB%AF/" href="/categories/%E5%89%8D%E7%AB%AF/"
-            id="categoriesE5898DE7ABAF"
-            ><div class='name'>前端</div><div class='badge'>(1)</div></a></li>
-        
-      </ul>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#git-push-f"><span class="toc-text">git push -f</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#使用时机"><span class="toc-text">使用时机</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#默认分支保护"><span class="toc-text">默认分支保护</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
     </div>
   </section>
 
-
-  
-
-  
-    
-    
-  
-
-  <section class="widget tagcloud shadow desktop mobile">
-    
-  <header>
-    
-      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
-    
-  </header>
-
-
-    <div class='content'>
-      <a href="/tags/CI/" style="font-size: 14px; color: #999">CI</a> <a href="/tags/Docker/" style="font-size: 14px; color: #999">Docker</a> <a href="/tags/Git/" style="font-size: 16px; color: #8b8b8b">Git</a> <a href="/tags/Hash/" style="font-size: 14px; color: #999">Hash</a> <a href="/tags/Hexo/" style="font-size: 18px; color: #7e7e7e">Hexo</a> <a href="/tags/JavaScript/" style="font-size: 14px; color: #999">JavaScript</a> <a href="/tags/Linux/" style="font-size: 24px; color: #555">Linux</a> <a href="/tags/Mac/" style="font-size: 14px; color: #999">Mac</a> <a href="/tags/Mysql/" style="font-size: 22px; color: #636363">Mysql</a> <a href="/tags/Nginx/" style="font-size: 14px; color: #999">Nginx</a> <a href="/tags/Node/" style="font-size: 16px; color: #8b8b8b">Node</a> <a href="/tags/PHP/" style="font-size: 18px; color: #7e7e7e">PHP</a> <a href="/tags/PM2/" style="font-size: 14px; color: #999">PM2</a> <a href="/tags/Redis/" style="font-size: 14px; color: #999">Redis</a> <a href="/tags/Shell/" style="font-size: 20px; color: #707070">Shell</a> <a href="/tags/Socket-io/" style="font-size: 14px; color: #999">Socket.io</a> <a href="/tags/Tutorial/" style="font-size: 24px; color: #555">Tutorial</a> <a href="/tags/Vim/" style="font-size: 14px; color: #999">Vim</a> <a href="/tags/Web-%E5%AE%89%E5%85%A8/" style="font-size: 16px; color: #8b8b8b">Web 安全</a> <a href="/tags/https/" style="font-size: 14px; color: #999">https</a> <a href="/tags/ssh/" style="font-size: 14px; color: #999">ssh</a> <a href="/tags/%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" style="font-size: 16px; color: #8b8b8b">进程管理</a>
-    </div>
-  </section>
-
-
-  
 
   
 
@@ -821,6 +861,60 @@ setInterval("createtime()",250);
 
 
 
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "prAyvaUeadxadA2wpcBQqNQn-gzGzoHsz",
+    appKey: "vkyEUTw0BixVjfFpFIzUdhak",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
 
 
 
