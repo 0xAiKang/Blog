@@ -2,7 +2,7 @@
 title: 如何查看 Linux 默认时区
 date: 2020-08-03 22:03:08
 tags: ["Linux"]
-categories: ["PHP", "Tutorial"]
+categories: ["Linux"]
 ---
 
 最近遇到一个跟服务器时区相关的问题，没准备充分，当问题真正来临时，很懵。
