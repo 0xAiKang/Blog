@@ -1,5 +1,5 @@
 ---
-title: how to output content to clipboard on windows/mac/linux
+title: Windows/Mac/Linux 如何将内容输出到剪贴板
 date: 2020-08-05 10:07:41
 tags: ["Shell"]
 categories: ["Shell"]
