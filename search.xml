@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>Mysql 删除数据及数据表</title>
+      <link href="/mysql-delete-data-and-data-table/"/>
+      <url>/mysql-delete-data-and-data-table/</url>
+      
+        <content type="html"><![CDATA[<p>在Mysql 中删除数据以及数据表非常的容易，但是需要特别小心，因为一旦删除所有数据都会消失。</p><a id="more"></a><h2 id="删除数据"><a href="#删除数据" class="headerlink" title="删除数据"></a>删除数据</h2><p>删除表内数据，使用<code>delete</code>关键字。</p><h3 id="删除指定条件的数据"><a href="#删除指定条件的数据" class="headerlink" title="删除指定条件的数据"></a>删除指定条件的数据</h3><p>删除用户表内id 为1 的用户：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">delete from User where id &#x3D; 1;</span><br></pre></td></tr></table></figure><h3 id="删除表内所有数据"><a href="#删除表内所有数据" class="headerlink" title="删除表内所有数据"></a>删除表内所有数据</h3><p>删除表中的全部数据，表结构不变。</p><p>对于 MyISAM 会立刻释放磁盘空间，InnoDB 不会释放磁盘空间。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">delete from User;</span><br></pre></td></tr></table></figure><p>释放磁盘空间</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">optimize table User;</span><br></pre></td></tr></table></figure><h3 id="删除数据表"><a href="#删除数据表" class="headerlink" title="删除数据表"></a>删除数据表</h3><p>删除数据表分为两种方式：</p><ol><li>删除数据表内数据以及表结构</li><li>只删除表内数据，保留表结构</li></ol><h4 id="drop"><a href="#drop" class="headerlink" title="drop"></a>drop</h4><p>使用<code>drop</code>关键词会删除整张表，啥都没有了。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drop table User;</span><br></pre></td></tr></table></figure><h4 id="truncate"><a href="#truncate" class="headerlink" title="truncate"></a>truncate</h4><p><code>truncate</code> 关键字则只删除表内数据，会保留表结构。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">truncate table User;</span><br></pre></td></tr></table></figure><blockquote><p>思考题：如何批量删除前缀相同的表？</p></blockquote><p>想要实现 <code>drop table like &#39;wp_%&#39;</code>，没有直接可用的命令，不过可以通过Mysql 的语法来拼接。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-- 删除”wp_”开头的表：</span><br><span class="line">SELECT CONCAT( &#39;drop table &#39;, table_name, &#39;;&#39; ) AS statement</span><br><span class="line">FROM information_schema.tables</span><br><span class="line">WHERE table_schema &#x3D; &#39;database_name&#39; AND table_name LIKE &#39;wp_%&#39;;</span><br></pre></td></tr></table></figure><p>其中<code>database_name</code>换成数据库的名称，<code>wp_</code>换成需要批量删除的表前缀。</p><blockquote><p>注意只有<code>drop</code>命令才能这样用：</p></blockquote><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drop table if exists tablename&#96;;</span><br></pre></td></tr></table></figure><blockquote><p><code>truncate</code>只能这样使用：</p></blockquote><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">truncate table &#96;tp_trade&#96;.&#96;setids&#96;;</span><br></pre></td></tr></table></figure><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul><li><p>当你不再需要该表时， 用<code>drop</code>;</p></li><li><p>当你仍要保留该表，但要删除所有记录时， 用<code>truncate</code>;</p></li><li><p>当你要删除部分记录时， 用<code>delete</code>。</p></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> Mysql </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> mysql </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Git Push -f 命令详解</title>
       <link href="/detailed-explanation-of-git-push-f-command/"/>
       <url>/detailed-explanation-of-git-push-f-command/</url>
