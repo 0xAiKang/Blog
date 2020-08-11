@@ -5,8 +5,6 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
-    
   
   <!-- 渲染优化 -->
   <meta name="renderer" content="webkit">
@@ -18,7 +16,9 @@
 
   <!-- 页面元数据 -->
   
-    <title>Tag: CI - Boo</title>
+    <title>Windows 和 Mac 在局域网内如何共享文件？ - Boo</title>
+  
+    <meta name="keywords" content="Mac,Skill,Windows">
   
   
 
@@ -265,25 +265,12 @@
     <div class='body-wrapper'>
       
 
-
 <div class='l_main'>
   
-    
-      
-  <section class="post-list ">
-    
-      
-        
-          
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
+
   
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
 
 
   <section class='meta'>
@@ -293,11 +280,11 @@
       <div class="meta" id="header-meta">
         
           
-  <h2 class="title">
-    <a href="/travis-ci-quick-start/">
-      Travis CI 快速上手
+  <h1 class="title">
+    <a href="/how-do-windows-and-mac-share-files-in-the-local-area-network/">
+      Windows 和 Mac 在局域网内如何共享文件？
     </a>
-  </h2>
+  </h1>
 
 
         
@@ -320,9 +307,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Tutorial/' rel="nofollow">
+    <a href='/categories/Skill/Windows/Mac/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Tutorial</p>
+      <p>Skill/Windows/Mac</p>
     </a>
   </div>
 
@@ -333,9 +320,14 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jul 5, 2020</p>
+    <p>发布于：Aug 11, 2020</p>
   </a>
 </div>
+
+            
+          
+            
+              
 
             
           
@@ -344,13 +336,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>564 words</p>
+      <p>449 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>2 min</p>
+      <p>1 min</p>
     </a>
   </div>
 
@@ -359,6 +351,18 @@
           
             
               
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/how-do-windows-and-mac-share-files-in-the-local-area-network/" class="leancloud_visitors" data-flag-title="Windows 和 Mac 在局域网内如何共享文件？">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
 
             
           
@@ -371,104 +375,78 @@
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近使用Github Pages 搭建Hexo 时，用到了一项新技术。hmm…也不能说是新技术吧，只是之前一直有听说，但却没有实际用过。</p>
-<p>它就是持续集成，听上去好像是一个高大上的概念，但通俗一点解释就是：写完代码提交之后，会根据你的要求，自动做编译测试。</p>
-<p>其中最出名大概就是<a href="https://travis-ci.com/" target="_blank" rel="noopener">Travis CI</a>了，本文的目的就是快速入门 Travis CI。</p>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/travis-ci-quick-start/">
-            阅读全文 <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <a id="more"></a>
 
-          </div>
-        
-      
-    
-  </section>
-  
-    
-    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
-    
-    
+<p>每当手上有两台或多台电脑时，如果想传送一个文件，第一个想到的就是微信、QQ等这类工具。<br>如果碰到了大一点的文件，就得换成网盘或者移动硬盘。</p>
+<p>身为一个做开发者，这种做法比较low，所以找了几篇文章学习到了如何在局域网内共享文件。</p>
+<h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>这里准备的是用 Windows 作为主机创建共享文件。</p>
+<p>首先要确认准备传输文件的 Windows 和 Mac 是在同一个路由器组成的局域网内。</p>
+<p>然后打开 Windows 的文件资源管理器，在其根目录下创建一个共享文件夹，名称随意，自己知道就好了。</p>
+<p>右键文件夹，点击属性，找到 共享 Tab，点击高级共享。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200811220638.png" alt=""></p>
+<p>勾选共享此文件夹，点击确定。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200811220726.png" alt=""></p>
+<p>然后回到共享文件夹，右键点击属性，找到共享，选择用户。</p>
+<p>如果允许其他人写入，则选择 Everyone，更改为：读取/写入。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200811220755.png" alt=""></p>
+<h2 id="访问"><a href="#访问" class="headerlink" title="访问"></a>访问</h2><p>Windows 本机访问</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># ComputerName 表示：你的计算机名称</span><br><span class="line"># ShareFolders 表示：共享文件夹名称</span><br><span class="line">file:&#x2F;&#x2F;ComputerName&#x2F;ShareFolders&#x2F;</span><br></pre></td></tr></table></figure>
 
-  
+<p>Mac 局域网访问</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># ComputerName 表示：需要访问的计算机名称</span><br><span class="line"># ShareFolders 表示：共享文件夹名称</span><br><span class="line">smb:&#x2F;&#x2F;ConputerName&#x2F;ShareFolders&#x2F;</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200811220823.png" alt=""></p>
+<p>通过验证之后，就能访问到共享文件夹了。</p>
+<p>到这里应该就能顺利的在两个或多个电脑之间传输文件了。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200811220855.png" alt=""></p>
+<p>如果还不能访问，可以ping 一下对方的主机，如果没有ping通，检查一下防火墙设置。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200811220920.png" alt=""></p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://zhuanlan.zhihu.com/p/32026197" target="_blank" rel="noopener">Windows 和 Mac 在局域网内如何共享文件？</a></li>
+<li><a href="https://blog.csdn.net/sscssz/article/details/50057759" target="_blank" rel="noopener">共享文件夹 一个实现Windows和Mac之间文件互传的简单方法</a></li>
+</ul>
 
-
-    
-  
-</div>
-<aside class='l_side'>
-  
+          
+            <div class='article_footer'>
+              
+                
   
     
     
 
-<section class="widget blogger shadow desktop mobile">
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
   <div class='content'>
     
-      
-        <a class='avatar flat-box' href='/about/'>
-          <img no-lazy src='https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg'/>
-        </a>
-      
-    
-    
-      <div class='text'>
+      <blockquote>
         
-        
-          <p>Stay foolish, Stay hungry</p>
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
 
-        
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
-        
-          
-            <a href="/atom.xml"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
           
         
           
-            <a href="mailto:aikangtongxue@gamil.com"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
+            <p>本文永久链接是：<a href=https://www.aikang.me/how-do-windows-and-mac-share-files-in-the-local-area-network/>https://www.aikang.me/how-do-windows-and-mac-share-files-in-the-local-area-network/</a></p>
           
         
-          
-            <a href="https://github.com/0xAikang"
-              class="social fab fa-github flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-          
-            <a href="https://music.163.com/#/user/home?id=112719323"
-              class="social fas fa-headphones-alt flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-      </div>
+      </blockquote>
     
   </div>
 </section>
@@ -478,168 +456,211 @@
   
     
     
+
+<section class="widget qrcode  desktop mobile">
   
 
-  <section class="widget category shadow desktop">
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.aikang.me" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-08-11T22:13:27+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Aug 11, 2020</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Mac/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Mac</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Skill/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Skill</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Windows/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Windows</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.aikang.me/how-do-windows-and-mac-share-files-in-the-local-area-network/&title=Windows 和 Mac 在局域网内如何共享文件？ - Boo&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.aikang.me/how-do-windows-and-mac-share-files-in-the-local-area-network/&title=Windows 和 Mac 在局域网内如何共享文件？ - Boo&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.aikang.me/how-do-windows-and-mac-share-files-in-the-local-area-network/&title=Windows 和 Mac 在局域网内如何共享文件？ - Boo&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVgAAAFYCAAAAAAzB7ucAAAEaUlEQVR42u3aQXLjMAwEQP//09kHpLwCBhDluJo3pyyKbPpATPD6MW4ZLwRgwRpgwYI1wB6BfYXj14Rv/n65kDfzXr336nN3f1seYMGCBQsWLFiwYM/CdiG6G+h+7wo+hUj3V/0+WLBgwYIFCxYs2Gdgpxfzq/m2D2IbbuwBFixYsGDBggUL9k/DVqGmhUk3OJ9+DyxYsGDBggULFux3w24H5F2QKjxYsGDBggULFizY74BtNyg0F5I2gqSAd80PFixYsGDBggUL9jNg08aIb/0ce4AFCxYsWLBgwYI9Ajsd1caMaaPGVpA9bRy5fD9YsGDBggULFizYI7DpBTnd0F1w3UJme/9gwYIFCxYsWLBgn4G9esE2TLrBtBDYPqD2fxDAggULFixYsGDBHoHdLhimhUQajKcNJ3EwDxYsWLBgwYIFC/Yo7NaF/3TAnc6b/lAufzhgwYIFCxYsWLBgj8BOA+mtwqC88GaDxdrFv3oAYMGCBQsWLFiwYI/Adi/K06A5PbgUYnrw7eAcLFiwYMGCBQsW7COwaSNDNyhOC440mE4D++4PDixYsGDBggULFuwZ2O4Fe/q96QF0Gza2CovyOsGCBQsWLFiwYME+AjstDKqFxtYBdQuU7XW+DbrBggULFixYsGDBPgqbBtJbhcL2QaQ/lOpBggULFixYsGDBgj0Du33hr8JuPZ8WEmmBdPlesGDBggULFixYsEdg0wv/3UDdgmP6uV0ITDthwIIFCxYsWLBgwa7AdgG7F/WtjXQPcBrgtw8aLFiwYMGCBQsW7BHYrUbedMHTAqUbzFef7zZ0gAULFixYsGDBgj0L293gFHT63HbwXoWLKy+wYMGCBQsWLFiwt8CmQfZ2QTHdcArahbtcN1iwYMGCBQsWLNijsNPgOL2oty/g4fPpAbTnAQsWLFiwYMGCBXsUNn1BWih0g/XuBqvrnAbcYMGCBQsWLFiwYJ+F3d7Q9OI9bdS4+73joBssWLBgwYIFCxbsCHYbZHrxngbu04aNdB6wYMGCBQsWLFiwz8BWL+JpcJwG5ncF7GkhUW7YAAsWLFiwYMGCBXsr7BSoGpB3A+b0/dX1bQ+wYMGCBQsWLFiwz8JOA+ou1DRonh70dH+XnTBgwYIFCxYsWLBgH4GtTjy9WG9veOs97cIHLFiwYMGCBQsW7EfATguFanC9VRCkwfrHBd1gwYIFCxYsWLBg/ws7HdsX/+0gvBq0Tw8ELFiwYMGCBQsW7FnY7YC6u8C7A+tuYTE+CLBgwYIFCxYsWLBHYVOgNMjubvRqY911TAsEsGDBggULFixYsJ8FmwbM1Y2k0NN5pw0b5R8WWLBgwYIFCxYs2D8FmzZ2VN+fBu7pgVSfu71AAAsWLFiwYMGCBftIHru14XT+rQMECxYsWLBgwYIF+9mwXZA0UP5pjvSgt/ZTDtTBggULFixYsGDBHoVNL8jVC/TWxX87QJ8G4mDBggULFixYsGCfgTV2B1iwYA2wYMEaYG8d/wBCsxZ6p2/UtAAAAABJRU5ErkJggg==">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/git-common-command-reference-manual/'>
+                <p class='title'>Git 常用命令参考手册<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>虽然每天都在使用Git，但是有些命令太久不使用，还是会忘记，所以这篇笔记的目的就是整理那些Git 常用命令。
+
+
+基础配置Git的设置文件为.gitconfig，它可以在用户主目录下（全局配置）...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Windows 和 Mac 在局域网内如何共享文件？',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
     
   <header>
     
-      <a href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
   </header>
 
 
     <div class='content'>
-      <ul class="entry navigation">
-        
-          <li><a class="flat-box"
-            title="/categories/Git/" href="/categories/Git/"
-            id="categoriesGit"
-            ><div class='name'>Git</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Linux/" href="/categories/Linux/"
-            id="categoriesLinux"
-            ><div class='name'>Linux</div><div class='badge'>(14)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/Tutorial/" href="/categories/Linux/Tutorial/"
-            id="categoriesLinuxTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/" href="/categories/Linux/%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/"
-            id="categoriesLinuxE591BDE4BBA4E695B4E79086"
-            ><div class='name'>命令整理</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" href="/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
-            id="categoriesLinuxE5ADA6E4B9A0E7AC94E8AEB0"
-            ><div class='name'>学习笔记</div><div class='badge'>(8)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Mysql/" href="/categories/Mysql/"
-            id="categoriesMysql"
-            ><div class='name'>Mysql</div><div class='badge'>(11)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Nginx/" href="/categories/Nginx/"
-            id="categoriesNginx"
-            ><div class='name'>Nginx</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Node/" href="/categories/Node/"
-            id="categoriesNode"
-            ><div class='name'>Node</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Node/Socket-io/" href="/categories/Node/Socket-io/"
-            id="categoriesNodeSocket-io"
-            ><div class='name'>Socket.io</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Node/Tutorial/" href="/categories/Node/Tutorial/"
-            id="categoriesNodeTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/PHP/" href="/categories/PHP/"
-            id="categoriesPHP"
-            ><div class='name'>PHP</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/PHP/Tutorial/" href="/categories/PHP/Tutorial/"
-            id="categoriesPHPTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Redis/" href="/categories/Redis/"
-            id="categoriesRedis"
-            ><div class='name'>Redis</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Shell/" href="/categories/Shell/"
-            id="categoriesShell"
-            ><div class='name'>Shell</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Skill/" href="/categories/Skill/"
-            id="categoriesSkill"
-            ><div class='name'>Skill</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Skill/Windows/" href="/categories/Skill/Windows/"
-            id="categoriesSkillWindows"
-            ><div class='name'>Windows</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Skill/Windows/Mac/" href="/categories/Skill/Windows/Mac/"
-            id="categoriesSkillWindowsMac"
-            ><div class='name'>Mac</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Tutorial/" href="/categories/Tutorial/"
-            id="categoriesTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(9)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/GitHub/" href="/categories/Tutorial/GitHub/"
-            id="categoriesTutorialGitHub"
-            ><div class='name'>GitHub</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/Linux/" href="/categories/Tutorial/Linux/"
-            id="categoriesTutorialLinux"
-            ><div class='name'>Linux</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/Skill/" href="/categories/Tutorial/Skill/"
-            id="categoriesTutorialSkill"
-            ><div class='name'>Skill</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/Skill/GitHub/" href="/categories/Tutorial/Skill/GitHub/"
-            id="categoriesTutorialSkillGitHub"
-            ><div class='name'>GitHub</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C/" href="/categories/%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C/"
-            id="categoriesE4B880E4BA9BE7BB8FE9AA8C"
-            ><div class='name'>一些经验</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E5%89%8D%E7%AB%AF/" href="/categories/%E5%89%8D%E7%AB%AF/"
-            id="categoriesE5898DE7ABAF"
-            ><div class='name'>前端</div><div class='badge'>(1)</div></a></li>
-        
-      </ul>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#准备"><span class="toc-text">准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#访问"><span class="toc-text">访问</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
     </div>
   </section>
 
-
-  
-
-  
-    
-    
-  
-
-  <section class="widget tagcloud shadow desktop mobile">
-    
-  <header>
-    
-      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
-    
-  </header>
-
-
-    <div class='content'>
-      <a href="/tags/CI/" style="font-size: 14px; color: #999">CI</a> <a href="/tags/Docker/" style="font-size: 14px; color: #999">Docker</a> <a href="/tags/Git/" style="font-size: 17.33px; color: #828282">Git</a> <a href="/tags/Hash/" style="font-size: 14px; color: #999">Hash</a> <a href="/tags/Hexo/" style="font-size: 17.33px; color: #828282">Hexo</a> <a href="/tags/JavaScript/" style="font-size: 14px; color: #999">JavaScript</a> <a href="/tags/Linux/" style="font-size: 24px; color: #555">Linux</a> <a href="/tags/Mac/" style="font-size: 15.67px; color: #8e8e8e">Mac</a> <a href="/tags/Mysql/" style="font-size: 20.67px; color: #6c6c6c">Mysql</a> <a href="/tags/Nginx/" style="font-size: 14px; color: #999">Nginx</a> <a href="/tags/Node/" style="font-size: 15.67px; color: #8e8e8e">Node</a> <a href="/tags/PHP/" style="font-size: 17.33px; color: #828282">PHP</a> <a href="/tags/PM2/" style="font-size: 14px; color: #999">PM2</a> <a href="/tags/Redis/" style="font-size: 14px; color: #999">Redis</a> <a href="/tags/Shell/" style="font-size: 19px; color: #777">Shell</a> <a href="/tags/Skill/" style="font-size: 14px; color: #999">Skill</a> <a href="/tags/Socket-io/" style="font-size: 14px; color: #999">Socket.io</a> <a href="/tags/Tutorial/" style="font-size: 22.33px; color: #606060">Tutorial</a> <a href="/tags/Vim/" style="font-size: 14px; color: #999">Vim</a> <a href="/tags/Web-%E5%AE%89%E5%85%A8/" style="font-size: 15.67px; color: #8e8e8e">Web 安全</a> <a href="/tags/Windows/" style="font-size: 14px; color: #999">Windows</a> <a href="/tags/https/" style="font-size: 14px; color: #999">https</a> <a href="/tags/mysql/" style="font-size: 14px; color: #999">mysql</a> <a href="/tags/ssh/" style="font-size: 14px; color: #999">ssh</a> <a href="/tags/%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" style="font-size: 15.67px; color: #8e8e8e">进程管理</a>
-    </div>
-  </section>
-
-
-  
 
   
 
@@ -843,6 +864,60 @@ setInterval("createtime()",250);
 
 
 
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "prAyvaUeadxadA2wpcBQqNQn-gzGzoHsz",
+    appKey: "vkyEUTw0BixVjfFpFIzUdhak",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
 
 
 
