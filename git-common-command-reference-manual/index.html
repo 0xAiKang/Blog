@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>Git 常用命令参考手册 - Boo</title>
+  
+    <meta name="keywords" content="Git">
+  
+  
+    <meta name="description" content="虽然每天都在使用Git，但是有些命令太久不使用，还是会忘记，所以这篇笔记的目的就是整理那些Git 常用命令。">
+  
+
+  <!-- feed -->
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+
+
+  <div class="l_body nocover">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/git-common-command-reference-manual/">
+      Git 常用命令参考手册
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.aikang.me" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Git/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Git</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Aug 11, 2020</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>2.4k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>10 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/git-common-command-reference-manual/" class="leancloud_visitors" data-flag-title="Git 常用命令参考手册">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>虽然每天都在使用<code>Git</code>，但是有些命令太久不使用，还是会忘记，所以这篇笔记的目的就是整理那些<code>Git</code> 常用命令。</p>
+<a id="more"></a>
+
+<h2 id="基础配置"><a href="#基础配置" class="headerlink" title="基础配置"></a>基础配置</h2><p>Git的设置文件为<code>.gitconfig</code>，它可以在用户主目录下（全局配置），也可以在项目目录下（项目配置）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"># 查看全局配置列表</span><br><span class="line">$ git config --global --list</span><br><span class="line"># 查看局部配置列表</span><br><span class="line">$ git config --local --list</span><br><span class="line"></span><br><span class="line"># 设置全局用户名&#x2F;邮箱</span><br><span class="line">$ git config --global user.name &quot;yourName&quot;</span><br><span class="line">$ git config --global user.email &quot;example@example.com&quot;</span><br><span class="line"></span><br><span class="line"># 设置本地当前工作区仓库用户名&#x2F;邮箱</span><br><span class="line">$ git config --local user.name &quot;yourName&quot;</span><br><span class="line">$ git config --local user.email &quot;example@example.com&quot;</span><br><span class="line"></span><br><span class="line"># 将默认文本编辑器设置为 emacs&#x2F;vim</span><br><span class="line">$ git config --global core.editor emacs&#x2F;vim</span><br><span class="line"></span><br><span class="line"># 编辑当前仓库的配置文件</span><br><span class="line">$ git config -e  # 等价与 vim .git&#x2F;config</span><br><span class="line"># 编辑全局配置文件</span><br><span class="line">$ git config --global -e</span><br></pre></td></tr></table></figure>
+
+<h3 id="命令别名配置"><a href="#命令别名配置" class="headerlink" title="命令别名配置"></a>命令别名配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 添加别名 git st &#x3D; git status</span><br><span class="line">$ git config --global alias.st status</span><br><span class="line"></span><br><span class="line"># 删除 st 别名</span><br><span class="line">$ git config --global --unset alias.st</span><br><span class="line"></span><br><span class="line"># 执行外部命令, 只要在前面加 ! 即可</span><br><span class="line">$ git config --global alias.st &#39;!echo hello&#39;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="代理配置"><a href="#代理配置" class="headerlink" title="代理配置"></a>代理配置</h3><p>如果想知道关于<code>Git</code>配置代理的更多信息，可以查阅<a href="https://github.com/0xAiKang/Note/blob/master/Skill/Git%20Clone%20%E5%A4%AA%E6%85%A2%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F.md" target="_blank" rel="noopener">这篇笔记</a>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 配置HTTP&#x2F;HTTPS 代理</span><br><span class="line">$ git config --global https.proxy  http:&#x2F;&#x2F;127.0.0.1:1087</span><br><span class="line">$ git config --global http.proxy  http:&#x2F;&#x2F;127.0.0.1:1087</span><br><span class="line"></span><br><span class="line"># 查看</span><br><span class="line">$ git config --global --get http.proxy</span><br><span class="line">$ git config --global --get https.proxy</span><br><span class="line"></span><br><span class="line"># 取消代理</span><br><span class="line">$ git config --global --unset http.proxy</span><br><span class="line">$ git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>
+
+<h3 id="生成SSHKey"><a href="#生成SSHKey" class="headerlink" title="生成SSHKey"></a>生成SSHKey</h3><p>关于如何配置<code>ssh config</code> 可以查阅<a href="https://github.com/0xAiKang/Note/blob/master/Git/%E9%80%9A%E8%BF%87SSH%20Config%20%E9%85%8D%E7%BD%AE%20Git%20SSH%20%E5%8D%8F%E8%AE%AE.md" target="_blank" rel="noopener">这篇笔记</a>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 将ssh key生成在默认下，也就是&#96;~&#x2F;.ssh&#x2F;id_rsa&#96;。</span><br><span class="line">$ ssh-keygen -t rsa -C &quot;youremail&quot;</span><br><span class="line"></span><br><span class="line"># 将ssh key生成在指定路径下的指定文件名中</span><br><span class="line">$ ssh-keygen -t rsa  -f ~&#x2F;.ssh&#x2F;id_rsa_bitbucket -C &quot;youremail&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 在当前目录新建一个Git代码库</span><br><span class="line">$ git init</span><br><span class="line"></span><br><span class="line"># 新建一个目录，将其初始化为Git代码库</span><br><span class="line">$ git init [project-name]</span><br><span class="line"></span><br><span class="line"># 下载一个项目和它的整个代码历史</span><br><span class="line">$ git clone [url] [project-name]</span><br><span class="line"></span><br><span class="line"># 浅克隆, 历史记录只克隆最后一条, 减少克隆时间</span><br><span class="line">$ git clone --depth&#x3D;1 https:&#x2F;&#x2F;github.com&#x2F;0xAiKang&#x2F;Note.git</span><br></pre></td></tr></table></figure>
+
+<h2 id="基础操作"><a href="#基础操作" class="headerlink" title="基础操作"></a>基础操作</h2><p>基础操作中的命令都是日常使用频率非常高的。</p>
+<h3 id="文件状态"><a href="#文件状态" class="headerlink" title="文件状态"></a>文件状态</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 查看工作区状态</span><br><span class="line">$ git status</span><br><span class="line"></span><br><span class="line"># 列出没有被 .gitignore 忽略的文件列表</span><br><span class="line">$ git status --ignored</span><br><span class="line"></span><br><span class="line"># 列出没有被 .gitignore 忽略的文件列表</span><br><span class="line">$ git ls-files</span><br></pre></td></tr></table></figure>
+<h3 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"># 暂存所有</span><br><span class="line">$ git add -A</span><br><span class="line"></span><br><span class="line"># 暂存某个文件</span><br><span class="line">$ git add .&#x2F;README.md</span><br><span class="line"></span><br><span class="line"># 添加当前目录的所有文件到暂存区    </span><br><span class="line">$ git add .</span><br><span class="line"></span><br><span class="line"># 暂存一系列文件</span><br><span class="line">$ git add 1.txt 2.txt ...</span><br><span class="line"></span><br><span class="line"># 从暂存区中删除文件（git add 的反向操作）</span><br><span class="line">$ git rm [file] </span><br><span class="line"></span><br><span class="line"># 暂存区、工作区一起删除</span><br><span class="line">$ git rm -f [file]</span><br><span class="line"></span><br><span class="line"># 停止追踪指定文件，但该文件会保留在工作区</span><br><span class="line">$ git rm --cached [file]</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看文件改动"><a href="#查看文件改动" class="headerlink" title="查看文件改动"></a>查看文件改动</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># 查看所有文件改动</span><br><span class="line">$ git diff</span><br><span class="line"></span><br><span class="line"># 查看具体文件的改动</span><br><span class="line">$ git diff README.md</span><br><span class="line"></span><br><span class="line"># 查看指定 commit-id 改动内容</span><br><span class="line">$ git diff [commit-id]</span><br><span class="line"></span><br><span class="line"># 对比工作区和版本库里的最新版本有什么区别</span><br><span class="line">$ git diff HEAD --[file-name]</span><br><span class="line"></span><br><span class="line"># 查看某个文件的历史修改记录</span><br><span class="line">$ git log README.md</span><br><span class="line">$ git show [commit-id] README.md</span><br></pre></td></tr></table></figure>
+
+<h3 id="撤销与回滚"><a href="#撤销与回滚" class="headerlink" title="撤销与回滚"></a>撤销与回滚</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"># 恢复暂存区的指定文件到工作区</span><br><span class="line">$ git checkout [file]</span><br><span class="line"></span><br><span class="line"># 恢复暂存区的所有文件到工作区</span><br><span class="line">$ git checkout .</span><br><span class="line"></span><br><span class="line"># 重置暂存区与工作区，与上一次commit保持一致</span><br><span class="line">$ git reset --hard</span><br><span class="line"></span><br><span class="line"># 回滚上一个版本</span><br><span class="line">$ git reset --hard HEAD^</span><br><span class="line"></span><br><span class="line"># 回退到指定版本（会重置暂存区与工作区）</span><br><span class="line">$ git reset --hard [commit-id]</span><br><span class="line"></span><br><span class="line"># 回退到指定版本（不会重置暂存区与工作区，会回到该版本的暂存状态）</span><br><span class="line">$ git reset --soft [commit-id]</span><br></pre></td></tr></table></figure>
+
+<h3 id="提交"><a href="#提交" class="headerlink" title="提交"></a>提交</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># 提交暂存区到本地仓库</span><br><span class="line">$ git commit -m [message]</span><br><span class="line"></span><br><span class="line"># 提交暂存区的指定文件到本地仓库</span><br><span class="line">git commit README.md -m [message]</span><br><span class="line"></span><br><span class="line"># 提交并显示diff变化</span><br><span class="line">git commit -v</span><br><span class="line"></span><br><span class="line"># 重写上一次的提交</span><br><span class="line"># 如果代码没有任何新变化，则用来改写上一次commit的提交信息</span><br><span class="line">$ git commit --amend -m [message]</span><br></pre></td></tr></table></figure>
+
+<h3 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"># 查看完整历史提交记录</span><br><span class="line">$ git log</span><br><span class="line"></span><br><span class="line"># 查看前n 条记录</span><br><span class="line">$ git log -n</span><br><span class="line"></span><br><span class="line"># 以图形方式查看完整历史提交记录</span><br><span class="line">$ git log --graph --pretty&#x3D;oneline --abbrev-commit</span><br><span class="line"></span><br><span class="line"># 通过commit log 进行搜索</span><br><span class="line">$ git log -i --grep&#x3D;&quot;fire bug&quot;</span><br><span class="line"></span><br><span class="line"># 列出提交者贡献数量, 只会打印作者和贡献数量</span><br><span class="line">$ git shortlog -sn</span><br><span class="line"></span><br><span class="line"># 以提交贡献数量排序并打印出信息</span><br><span class="line">$ git shortlog -n</span><br><span class="line"></span><br><span class="line"># 采用邮箱格式化的方式进行查看贡献度</span><br><span class="line">$ git shortlog -e</span><br></pre></td></tr></table></figure>
+
+<h3 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"># 查看本地分支</span><br><span class="line">git branch</span><br><span class="line"></span><br><span class="line"># 查看所有分支</span><br><span class="line">git branch -a</span><br><span class="line"></span><br><span class="line"># 查看本地分支所关联的远程分支</span><br><span class="line">git branch -vv</span><br><span class="line"></span><br><span class="line"># 查看本地 master 分支创建时间</span><br><span class="line">git reflog show --date&#x3D;iso master</span><br><span class="line"></span><br><span class="line"># 新建一个分支，但依然停留在当前分支</span><br><span class="line">$ git branch [branch-name]</span><br><span class="line"></span><br><span class="line"># 新建一个分支，并切换到该分支</span><br><span class="line">$ git checkout -b [branch]</span><br><span class="line"></span><br><span class="line"># 新建一个分支，指向指定commit</span><br><span class="line">$ git branch [branch] [commit-id]</span><br><span class="line"></span><br><span class="line"># 新建一个分支，与指定的远程分支建立追踪关系</span><br><span class="line">$ git branch --track [branch] [remote-branch]</span><br><span class="line"></span><br><span class="line"># 切换到指定分支，并更新工作区</span><br><span class="line">$ git checkout [branch-name]</span><br><span class="line"></span><br><span class="line"># 建立追踪关系，在现有分支与指定的远程分支之间</span><br><span class="line">$ git branch --set-upstream [branch] [remote-branch]</span><br><span class="line"></span><br><span class="line"># 合并指定分支到当前分支</span><br><span class="line">$ git merge [branch]</span><br><span class="line"></span><br><span class="line"># 选择一个commit，合并进当前分支</span><br><span class="line">$ git cherry-pick [commit-id]</span><br><span class="line"></span><br><span class="line"># 删除指定分支</span><br><span class="line">$ git branch -d [branch-name]</span><br><span class="line"></span><br><span class="line"># 强制删除指定分支</span><br><span class="line">$ git branch -D [branch-name]</span><br><span class="line"></span><br><span class="line"># 删除远程分支</span><br><span class="line">$ git push origin --delete [branch-name]</span><br><span class="line">$ git branch -dr [remote&#x2F;branch]</span><br></pre></td></tr></table></figure>
+
+<h3 id="远程仓库管理"><a href="#远程仓库管理" class="headerlink" title="远程仓库管理"></a>远程仓库管理</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"># 查看远程仓库（默认是origin，这是git 会使用的默认名称）</span><br><span class="line">$ git remote </span><br><span class="line"></span><br><span class="line"># 指定-v, 查看所有远程仓库地址</span><br><span class="line">$ git remote -v</span><br><span class="line"></span><br><span class="line"># 添加一个新的远程仓库</span><br><span class="line">$ git remote add [origin-name] https:&#x2F;&#x2F;github.com&#x2F;0xAiKang&#x2F;Note.git</span><br><span class="line"></span><br><span class="line"># 查看指定远程仓库的详情信息</span><br><span class="line">$ git remote show [origin-name]</span><br><span class="line"></span><br><span class="line"># 重命名远程仓库</span><br><span class="line">$ git remote rename [old-name] [new-name]</span><br><span class="line"></span><br><span class="line"># 移除远程仓库</span><br><span class="line">$ git remote remove [origin-name]</span><br></pre></td></tr></table></figure>
+
+<h3 id="Push"><a href="#Push" class="headerlink" title="Push"></a>Push</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 默认推送当前分支</span><br><span class="line">$ git push</span><br><span class="line"></span><br><span class="line"># 推送内容到主分支，并建立追踪关系</span><br><span class="line">$ git push -u origin master</span><br><span class="line"></span><br><span class="line"># 将本地分支推送到指定远程分支， （本地分支:远程分支）</span><br><span class="line">$ git push origin [branch]:[branch]</span><br><span class="line"></span><br><span class="line"># 强行推送当前分支到远程仓库，即使有冲突</span><br><span class="line">$ git push -f</span><br></pre></td></tr></table></figure>
+
+<h3 id="Pull"><a href="#Pull" class="headerlink" title="Pull"></a>Pull</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 取回默认远程仓库的变化，并自动与本地分支合并</span><br><span class="line">$ git pull</span><br><span class="line"></span><br><span class="line"># 取回指定远程仓库的变化，并自动与本地指定分支合并（远程分支名:本地分支名）</span><br><span class="line">$ git pull [remote] [branch]:[branch]</span><br><span class="line"></span><br><span class="line"># 取回指定远程仓库的变化，并自动与本地当前分支合并</span><br><span class="line">$ git pull origin master</span><br><span class="line"></span><br><span class="line"># 取回远程仓库的所有变动，但是不会自动与本地当前分支合并</span><br><span class="line">$ git fetch</span><br></pre></td></tr></table></figure>
+
+<h2 id="进阶操作"><a href="#进阶操作" class="headerlink" title="进阶操作"></a>进阶操作</h2><p>进阶操作中的命令是一些很实用，但可能不常使用，所以把它们单独拎出来。</p>
+<h3 id="cherry-pick"><a href="#cherry-pick" class="headerlink" title="cherry-pick"></a>cherry-pick</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 选择一个commit，合并进当前分支</span><br><span class="line">$ git cherry-pick [commit-id]</span><br><span class="line"></span><br><span class="line"># 保留原有作者信息进行提交</span><br><span class="line">$ git cherry-pick -x [commit-id]</span><br></pre></td></tr></table></figure>
+
+<h3 id="Stash"><a href="#Stash" class="headerlink" title="Stash"></a>Stash</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 将当前的工作区隐藏</span><br><span class="line">$ git stash</span><br><span class="line"></span><br><span class="line"># 恢复隐藏的工作区，并将此次隐藏记录从隐藏列表中移出</span><br><span class="line">$ git stash pop</span><br><span class="line"></span><br><span class="line"># 恢复隐藏的工作区，保留此次隐藏记录</span><br><span class="line">$ git stash apply</span><br><span class="line"></span><br><span class="line"># 查看当前隐藏列表</span><br><span class="line">$ git stash list</span><br></pre></td></tr></table></figure>
+
+<h3 id="Blame"><a href="#Blame" class="headerlink" title="Blame"></a>Blame</h3><p><code>git blame</code> 用于查看某个文件的修改历史记录是哪个作者进行了改动。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 查看 README.md 文件的修改历史记录，包括时间、作者以及内容</span><br><span class="line">$ git blame README.md</span><br><span class="line"></span><br><span class="line"># 查看谁改动了 README.md 文件的 11行-12行</span><br><span class="line">$ git blame -L 11,12 README.md</span><br><span class="line"></span><br><span class="line"># 查看谁改动了 README.md 文件11行以后</span><br><span class="line">$ git blame -L 11 README.md</span><br></pre></td></tr></table></figure>
+
+<h3 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"># 列出本地所有标签</span><br><span class="line">git tag</span><br><span class="line"></span><br><span class="line"># 新建一个tag在当前commit</span><br><span class="line">$ git tag [tag]</span><br><span class="line"></span><br><span class="line"># 新建一个tag在指定commit</span><br><span class="line">$ git tag [tag] [commit]</span><br><span class="line"></span><br><span class="line"># 删除本地tag</span><br><span class="line">$ git tag -d [tag]</span><br><span class="line"></span><br><span class="line"># 删除远程tag</span><br><span class="line">$ git push origin :refs&#x2F;tags&#x2F;[tagName]</span><br><span class="line"></span><br><span class="line"># 列出远程所有标签</span><br><span class="line">$ git ls-remote --tags origin</span><br><span class="line"></span><br><span class="line"># 创建带有附注标签</span><br><span class="line">$ git tag -a v1.1.0 -m &quot;标签描述&quot;</span><br><span class="line"></span><br><span class="line"># 查看本地tag信息</span><br><span class="line">$ git show [tag]</span><br><span class="line"></span><br><span class="line"># 提交指定tag</span><br><span class="line">$ git push [remote] [tag]</span><br><span class="line"></span><br><span class="line"># 提交所有tag</span><br><span class="line">$ git push [remote] --tags</span><br><span class="line"></span><br><span class="line"># 新建一个分支，指向某个tag</span><br><span class="line">$ git checkout -b [branch] [tag]</span><br></pre></td></tr></table></figure>
+
+<h3 id="Git-ProTips"><a href="#Git-ProTips" class="headerlink" title="Git ProTips"></a>Git ProTips</h3><p><code>Git ProTips</code> 则是整理的一些Git 的奇技淫巧。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># 通过使用别名，优化 git log 输出，这里另外提供几种模式, 可以选择喜欢的一种进行别名配置</span><br><span class="line">$ git config --global alias.lg &quot;log --graph --pretty&#x3D;format:&#39;%Cred%h - %Cgreen[%an]%Creset -%C(yellow)%d%Creset %s %C(yellow)&lt;%cr&gt;%Creset&#39; --abbrev-commit --date&#x3D;relative&quot;</span><br><span class="line"></span><br><span class="line">$ git config --global alias.his &quot;log --graph --decorate --oneline --pretty&#x3D;format:&#39;%Creset %s %C(magenta)in %Cred%h %C(magenta)commited by %Cgreen%cn %C(magenta)on %C(yellow) %cd %C(magenta)from %Creset %C(yellow)%d&#39; --abbrev-commit --date&#x3D;format:&#39;%Y-%m-%d %H:%M:%S&#39;&quot;</span><br><span class="line"></span><br><span class="line">$ git config --global alias.hist &quot;log --graph --decorate --oneline --pretty&#x3D;format:&#39;%Cred%h - %C(bold white) %s %Creset %C(yellow)%d  %C(cyan) &lt;%cd&gt; %Creset %Cgreen(%cn)&#39; --abbrev-commit --date&#x3D;format:&#39;%Y-%m-%d %H:%M:%S&#39;&quot;</span><br><span class="line"></span><br><span class="line">$ git config --global alias.lg &quot;log --color --graph --pretty&#x3D;format:&#39;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset&#39; --abbrev-commit&quot;</span><br><span class="line"></span><br><span class="line">$ git config --global alias.lg &quot;log --pretty&#x3D;format:&#39;%h - %an, %ar : %s&#39; &quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://github.com/xjh22222228/git-manual" target="_blank" rel="noopener">Git 常用命令整理</a></li>
+<li><a href="https://www.ruanyifeng.com/blog/2015/12/git-cheat-sheet.html" target="_blank" rel="noopener">常用Git 命令清单</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.aikang.me/git-common-command-reference-manual/>https://www.aikang.me/git-common-command-reference-manual/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.aikang.me" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-08-11T09:24:32+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Aug 11, 2020</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Git/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Git</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.aikang.me/git-common-command-reference-manual/&title=Git 常用命令参考手册 - Boo&summary=虽然每天都在使用Git，但是有些命令太久不使用，还是会忘记，所以这篇笔记的目的就是整理那些Git 常用命令。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.aikang.me/git-common-command-reference-manual/&title=Git 常用命令参考手册 - Boo&summary=虽然每天都在使用Git，但是有些命令太久不使用，还是会忘记，所以这篇笔记的目的就是整理那些Git 常用命令。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.aikang.me/git-common-command-reference-manual/&title=Git 常用命令参考手册 - Boo&summary=虽然每天都在使用Git，但是有些命令太久不使用，还是会忘记，所以这篇笔记的目的就是整理那些Git 常用命令。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADoUlEQVR42u3aS1bEMAwEwLn/peEEebFaChHzyrthfnaZRaPm82NF64MAHDhw4Cxw4JbAfcJ1+cEXz1d/fve67vvS84IDBw4cOHDgwG2DOw6ANwCXX1h8/vR9d/tMwS/hwYEDBw4cOHDglsKdHvD0/elFPBWU2+cFBw4cOHDgwIH7UrjTIJpCdy8MHDhw4MCBAwcOXA1mugA/vcD1ARgcOHDgwIEDB24Irhs8TwGqB/+6Jh8cOHDgwIEDB24I7imArY/j84IDBw4cOHDgwC2B665uQX16Md2B5th5wYEDBw4cOHDglsClATEddE6BdPcXvx8cOHDgwIEDB24ZXPUg1SI4hXwq+FZ/AcCBAwcOHDhw4LbCpY+rAbhbdKdBuBuUwYEDBw4cOHDgtsF1B4OPDQyb++kW3ZcXCA4cOHDgwIEDtwwuDZpPB9Y0YKcXcfs8OHDgwIEDBw7cUrh2YVsMmmPBNCzAy8EeHDhw4MCBAwduKVxaUKfBuFt4p4PTdNAJDhw4cODAgQO3FS49QLdwTp/v7q8ahMGBAwcOHDhw4LbBdYvm00B6emHVg6bPtwtpcODAgQMHDhy4l+HSgNkNqNMFdHUf5YIbHDhw4MCBAwduGVwaUKuvKw8OwwuYKqiP/3IABw4cOHDgwIF7Ga56sGoRPH1hx/8QOBSgwYEDBw4cOHDgtsFVA2X3YFOAU6DHwR4cOHDgwIEDB24ZXBXqqeI4hZkavN5+Hjhw4MCBAwcO3BK46sa6QXLq+6oXkAboy0EmOHDgwIEDBw7cy3BpkdwNrlMrLcbjCwYHDhw4cODAgVsGVw2i3QHh6cZTiGohfRygwYEDBw4cOHDglsClX5AWw93vndpftWgHBw4cOHDgwIH7b3DdQrc7SOwOKNOBaDsAgwMHDhw4cODA/TFcGmzTC5gquqv/YHgceMGBAwcOHDhw4P45XDcQpwPLFHR6gQMHDhw4cODAbYPrrimIanDtPl99HThw4MCBAwcO3Da46QK3Oqisfk71c9PHx385gAMHDhw4cODAvQwXF7QPDSyf3t9YAAYHDhw4cODAgVsCdxsAixvrDkZP9zNWON89BgcOHDhw4MCB+zK405+nwTMFnhpsggMHDhw4cODAfSvc04Xy1H7SiwAHDhw4cODAgdsOVy18q4F26mBVuLt9H+8XHDhw4MCBAwduGdxTg8GpA6SF9XgBDg4cOHDgwIEDtwTOKhbhCMCBAwfOAgfu3fULZvB+tfwBdtYAAAAASUVORK5CYII=">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/teach-you-how-to-start-an-aws-instance/'>
+                <p class='title'>手把手教你如何创建启动AWS实例<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>
+什么是AWS ？
+
+Amazon Web Services (AWS) 是亚马逊提供的全球最全面、应用最广泛的云平台。
+
+
+云这个概念最开始是从国内的阿里云、腾讯云这些地方听到的，后来服务器接...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Git 常用命令参考手册',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基础配置"><span class="toc-text">基础配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#命令别名配置"><span class="toc-text">命令别名配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代理配置"><span class="toc-text">代理配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#生成SSHKey"><span class="toc-text">生成SSHKey</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#准备工作"><span class="toc-text">准备工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基础操作"><span class="toc-text">基础操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#文件状态"><span class="toc-text">文件状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件操作"><span class="toc-text">文件操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看文件改动"><span class="toc-text">查看文件改动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#撤销与回滚"><span class="toc-text">撤销与回滚</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#提交"><span class="toc-text">提交</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#日志"><span class="toc-text">日志</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分支"><span class="toc-text">分支</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#远程仓库管理"><span class="toc-text">远程仓库管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Push"><span class="toc-text">Push</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Pull"><span class="toc-text">Pull</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#进阶操作"><span class="toc-text">进阶操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#cherry-pick"><span class="toc-text">cherry-pick</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Stash"><span class="toc-text">Stash</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Blame"><span class="toc-text">Blame</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#标签"><span class="toc-text">标签</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Git-ProTips"><span class="toc-text">Git ProTips</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+  
+    <meting-js
+      theme='#1BCDFC'
+      autoplay='false'
+      volume='0.7'
+      loop='all'
+      order='list'
+      fixed='false'
+      list-max-height='340px'
+      server='netease'
+      type='playlist'
+      id='3175833810'
+      list-folded='true'>
+    </meting-js>
+  
+
+
+        </div>
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://www.aikang.me">Copyright © 2020-2020 Boo</a></p>
+
+        <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+        
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?e27402d777cd041b2671da4853b20fa4";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+<script>
+  var now = new Date(); 
+  function createtime() { 
+      var grt= new Date("07/04/2020 14:12:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+  } 
+setInterval("createtime()",250);
+</script>
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "prAyvaUeadxadA2wpcBQqNQn-gzGzoHsz",
+    appKey: "vkyEUTw0BixVjfFpFIzUdhak",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
