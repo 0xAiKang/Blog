@@ -5,8 +5,6 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
-    
   
   <!-- 渲染优化 -->
   <meta name="renderer" content="webkit">
@@ -18,8 +16,13 @@
 
   <!-- 页面元数据 -->
   
-    <title>Tag: Git - Boo</title>
+    <title>手把手教你如何创建启动 Azure 实例 - Boo</title>
   
+    <meta name="keywords" content="Linux">
+  
+  
+    <meta name="description" content="这篇笔记用来整理如何创建启用 Azure 实例。因为这方面的笔记比较少，所以整理一下。
+一是方便自己以后回顾，二是给其他人作为参考。">
   
 
   <!-- feed -->
@@ -265,29 +268,12 @@
     <div class='body-wrapper'>
       
 
-
 <div class='l_main'>
   
-    
-      
-  <section class="post-list ">
-    
-      
-        
-          
-        
-          
-        
-          
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
+
   
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
 
 
   <section class='meta'>
@@ -297,11 +283,11 @@
       <div class="meta" id="header-meta">
         
           
-  <h2 class="title">
-    <a href="/git-common-command-reference-manual/">
-      Git 常用命令参考手册
+  <h1 class="title">
+    <a href="/teach-you-how-to-create-and-start-an-azure-instance/">
+      手把手教你如何创建启动 Azure 实例
     </a>
-  </h2>
+  </h1>
 
 
         
@@ -324,9 +310,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Git/' rel="nofollow">
+    <a href='/categories/Linux/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Git</p>
+      <p>Linux</p>
     </a>
   </div>
 
@@ -337,9 +323,14 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Aug 11, 2020</p>
+    <p>发布于：Aug 12, 2020</p>
   </a>
 </div>
+
+            
+          
+            
+              
 
             
           
@@ -348,13 +339,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>2.4k words</p>
+      <p>986 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>10 min</p>
+      <p>3 min</p>
     </a>
   </div>
 
@@ -363,6 +354,18 @@
           
             
               
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/teach-you-how-to-create-and-start-an-azure-instance/" class="leancloud_visitors" data-flag-title="手把手教你如何创建启动 Azure 实例">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
 
             
           
@@ -375,328 +378,128 @@
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>虽然每天都在使用<code>Git</code>，但是有些命令太久不使用，还是会忘记，所以这篇笔记的目的就是整理那些<code>Git</code> 常用命令。</p>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/git-common-command-reference-manual/">
-            阅读全文 <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
-  
-
-
-  <section class='meta'>
-    
-      
-      
-      <div class="meta" id="header-meta">
-        
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
           
-  <h2 class="title">
-    <a href="/detailed-explanation-of-git-push-f-command/">
-      Git Push -f 命令详解
-    </a>
-  </h2>
+          <p>这篇笔记用来整理如何创建启用 Azure 实例。因为这方面的笔记比较少，所以整理一下。</p>
+<p>一是方便自己以后回顾，二是给其他人作为参考。</p>
+<a id="more"></a>
 
+<h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>因为本文是创建微软云，所以首先你得有一个微软账号。</p>
+<p>打开 <a href="https://azure.microsoft.com/zh-cn/" target="_blank" rel="noopener">Microsoft Azure</a> 进行登录，登录成功之后，进入<a href="https://portal.azure.com/#home" target="_blank" rel="noopener">云服务管理后台</a>。</p>
+<h2 id="创建实例"><a href="#创建实例" class="headerlink" title="创建实例"></a>创建实例</h2><p>点击创建资源。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812135350.png" alt=""></p>
+<p>可以搜索你想创建的云服务类型，这里我选择的是 <code>Ubuntu Server 18.04 LTS</code>。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812135625.png" alt=""></p>
+<p>点击创建。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812135731.png" alt=""></p>
+<p>放心，这里的创建并不是正真意义上的创建。接下来需要为机器预设配置。</p>
+<p>下面对常见的配置进行简单说明：</p>
+<ul>
+<li><code>资源组</code>：用来分配一些权限以及策略。</li>
+<li><code>虚拟机名称</code>：你希望用什么名称来称呼这台机器（通常是英文）</li>
+<li><code>区域</code>：选择机器所在地区</li>
+<li><code>映像</code>：选择操作系统</li>
+<li><code>大小</code>：选择一个合适的负责类型，可以理解成机器的硬件配置。</li>
+<li><code>身份验证类型</code>：通常有两种：ssh 密钥和密码，强烈建议使用密钥而不使用密码（密哦存在被暴力破解的风险）。</li>
+<li><code>用户名</code>：微软云默认没有给<code>root</code> 用户，这里需要指定用户名称。</li>
+<li><code>公共入站端口</code>：通常是只开启<code>HTTP (80)</code>、<code>HTTPS (443)</code>、<code>SSH (22)</code> 。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812141205.png" alt=""></p>
+<p>完成基本配置之后，点击<code>下一步：磁盘</code>。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812141834.png" alt=""></p>
+<p>Azure 默认只有一个用于短期存储的临时盘，而临时盘通常都很小。</p>
+<p>默认的磁盘很小，如果想扩大有两种方式：</p>
+<ul>
+<li>创建新的磁盘，需要手动挂载。</li>
+<li>更改默认磁盘的大小。</li>
+</ul>
+<p>配置完磁盘之后，点击<code>下一步：网络</code>。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812142034.png" alt=""></p>
+<p>网络配置，公用ip 可以选择无，后面再去新建。</p>
+<p>然后点击<code>下一步：管理</code>。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812142317.png" alt=""></p>
+<p>管理、高级、标记这一块，如果没有特殊需求可以直接使用默认配置。</p>
+<p>最后点击<code>查看+创建</code>，可以看到预设的配置信息，如果符合预期，点击创建。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812142806.png" alt=""></p>
+<p>下载私钥并保存好。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812152220.png" alt=""></p>
+<p>此时，虽然已经创建好虚拟机，但是还不能直接使用，因为没有配置IP。</p>
+<h2 id="关联IP"><a href="#关联IP" class="headerlink" title="关联IP"></a>关联IP</h2><p>Azure 和 AWS 不同，它并没有弹性IP 的概念，如果需要配置IP，需要在搜索栏中搜索<code>公共IP地址</code>，</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812143323.png" alt=""></p>
+<p>点击第一个搜索结果。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812143437.png" alt=""></p>
+<p>点击添加。</p>
+<p>配置IP 基本信息，然后点击创建。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812143641.png" alt=""></p>
+<p>此时，只是创建了内网IP，并没有与外网IP 地址进行关联，</p>
+<p>点击刚才新建的公共 IP 地址，点击配置。</p>
+<p>资源类型选择网络接口，网络接口与对应的实例进行关联。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812153504.png" alt=""></p>
+<p>关联成功之后，就可以进行连接了。</p>
+<h3 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h3><ol>
+<li>打开终端</li>
+<li>请确保你对私钥具有只读访问权限。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod 400 &lt;私钥&gt;</span><br></pre></td></tr></table></figure></li>
+<li>运行以下示例命令以连接到 VM。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -i &lt;私钥路径&gt; user@ip_address</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>user</code>：表示VM 用户</li>
+<li><code>ip_address</code>：表示外网IP 地址</li>
+</ul>
+<h3 id="扩大默认磁盘大小"><a href="#扩大默认磁盘大小" class="headerlink" title="扩大默认磁盘大小"></a>扩大默认磁盘大小</h3><p>上面简单提到过，如果想要扩大默认磁盘的大小，有两种方式：</p>
+<ol>
+<li>添加新磁盘。这种方式需要手动挂载，如果对linux 并不熟悉，这种方式不推荐新手用户使用。</li>
+<li>更改默认磁盘大小。</li>
+</ol>
+<p>第二种方式并不能直接更改，需要先将服务器停掉（注意⚠️：不是删除）。</p>
+<p>搜索磁盘，点击第一个搜索结果。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812145110.png" alt=""></p>
+<p>点击需要扩大的磁盘实例，注意：只能扩大，不能缩小。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812145326.png" alt=""></p>
+<p>然后点击保存即可。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>至此，就已经完成了Azure 的创建了，这方面需要学习的还有很多，这里只是简单的整理了一下自己遇到的问题。</p>
+<p>有些地方可能没说清楚，但如果能帮到你那真是太好了</p>
 
-        
-        <div class='new-meta-box'>
           
-            
-          
-            
+            <div class='article_footer'>
               
-<div class='new-meta-item author'>
-  <a href="https://www.aikang.me" rel="nofollow">
-    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
-    <p>Boo</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/Git/' rel="nofollow">
-      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Git</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Aug 5, 2020</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-  <div class="new-meta-item wordcount">
-    <a class='notlink'>
-      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>512 words</p>
-    </a>
-  </div>
-  <div class="new-meta-item readtime">
-    <a class='notlink'>
-      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>1 min</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              
-
-            
-          
-        </div>
-        
-          <hr>
-        
-      </div>
-    
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近遇到了一个Git Push 相关的问题，同事不小心把一些错误代码提交到仓库了。<br>如果每个人直接更新的话，会导致错误代码也更新到本地了。</p>
-<p>这个时候想要避免这种情况的发生，唯一可以做的就是将那些错误代码直接覆盖掉。</p>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/detailed-explanation-of-git-push-f-command/">
-            阅读全文 <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
-  
-
-
-  <section class='meta'>
-    
-      
-      
-      <div class="meta" id="header-meta">
-        
-          
-  <h2 class="title">
-    <a href="/how-to-write-a-commit-log/">
-      如何写好Commit log
-    </a>
-  </h2>
-
-
-        
-        <div class='new-meta-box'>
-          
-            
-          
-            
-              
-<div class='new-meta-item author'>
-  <a href="https://www.aikang.me" rel="nofollow">
-    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
-    <p>Boo</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/Git/' rel="nofollow">
-      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Git</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jul 10, 2020</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-  <div class="new-meta-item wordcount">
-    <a class='notlink'>
-      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>698 words</p>
-    </a>
-  </div>
-  <div class="new-meta-item readtime">
-    <a class='notlink'>
-      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>2 min</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              
-
-            
-          
-        </div>
-        
-          <hr>
-        
-      </div>
-    
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>其实关于这个问题，老早都想整理了，只是一直没有腾出空来。最近刚好有空，索性整理了下。</p>
-<p>这里就不过多介绍什么是<code>Git</code>了，本文的重点是<code>Commit Log</code>，如果还不清楚<code>Git</code>是什么，可以看一下我的<code>Git</code>系列的其他笔记。</p>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/how-to-write-a-commit-log/">
-            阅读全文 <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-    
-  </section>
-  
-    
-    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
-    
-    
-
-  
-
-
-    
-  
-</div>
-<aside class='l_side'>
-  
+                
   
     
     
 
-<section class="widget blogger shadow desktop mobile">
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
   <div class='content'>
     
-      
-        <a class='avatar flat-box' href='/about/'>
-          <img no-lazy src='https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg'/>
-        </a>
-      
-    
-    
-      <div class='text'>
+      <blockquote>
         
-        
-          <p>Stay foolish, Stay hungry</p>
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
 
-        
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
-        
-          
-            <a href="/atom.xml"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
           
         
           
-            <a href="mailto:aikangtongxue@gamil.com"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
+            <p>本文永久链接是：<a href=https://www.aikang.me/teach-you-how-to-create-and-start-an-azure-instance/>https://www.aikang.me/teach-you-how-to-create-and-start-an-azure-instance/</a></p>
           
         
-          
-            <a href="https://github.com/0xAikang"
-              class="social fab fa-github flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-          
-            <a href="https://music.163.com/#/user/home?id=112719323"
-              class="social fas fa-headphones-alt flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-      </div>
+      </blockquote>
     
   </div>
 </section>
@@ -706,168 +509,212 @@
   
     
     
+
+<section class="widget qrcode  desktop mobile">
   
 
-  <section class="widget category shadow desktop">
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.aikang.me" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-08-12T23:50:34+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Aug 12, 2020</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Linux/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Linux</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.aikang.me/teach-you-how-to-create-and-start-an-azure-instance/&title=手把手教你如何创建启动 Azure 实例 - Boo&summary=这篇笔记用来整理如何创建启用 Azure 实例。因为这方面的笔记比较少，所以整理一下。
+一是方便自己以后回顾，二是给其他人作为参考。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.aikang.me/teach-you-how-to-create-and-start-an-azure-instance/&title=手把手教你如何创建启动 Azure 实例 - Boo&summary=这篇笔记用来整理如何创建启用 Azure 实例。因为这方面的笔记比较少，所以整理一下。
+一是方便自己以后回顾，二是给其他人作为参考。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.aikang.me/teach-you-how-to-create-and-start-an-azure-instance/&title=手把手教你如何创建启动 Azure 实例 - Boo&summary=这篇笔记用来整理如何创建启用 Azure 实例。因为这方面的笔记比较少，所以整理一下。
+一是方便自己以后回顾，二是给其他人作为参考。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADjElEQVR42u3aQW7DMAwEwPz/0+kDisLikm7odnSL4crUuIcF6dfbitYLAThw4MBZ4MAtgXuF69uGh/f/9HuqjsuDN58DDhw4cODAgQO3Da764KvrKXT3uen10+eCAwcOHDhw4MBthUsDbDUInx6wu19aLzhw4MCBAwcO3H+DG2sYDoOCAwcOHDhw4MCBqzUsq43Ju14gOHDgwIEDBw7cX4crD2ibhUyv6eeDAwcOHDhw4MBth5tqOD7ld3xecODAgQMHDhy4JXBTgbMaTLsD7m498XnBgQMHDhw4cOCWwKUBsQs8PWCuwsYfJoIDBw4cOHDgwC2Dq240PehNG41pcE6DNDhw4MCBAwcO3Ba46oNOr3cDcLdRmr6Ay/OCAwcOHDhw4MAth6sGxRRueqDdPcflPuDAgQMHDhw4cMvgugPg00ZjtYE53ejsBmRw4MCBAwcOHLhtcOkBuoG3esBugzMdoIMDBw4cOHDgwG2DS4Nqt9DuoPk0uE8HdnDgwIEDBw4cuC1wdwfhqfu7gbd6rvIkHxw4cODAgQMH7kNwv9UY7Abk08ZnNRAfB25w4MCBAwcOHLhlcGlwTRuL6fXpesoBGhw4cODAgQMHbhlctbGXAqSNxOp9dz0XHDhw4MCBAwduC1w6eO4G1+nBcbdhWR5IgwMHDhw4cODAfRhu6sDpoDkdcKf3pwNtcODAgQMHDhy4rXCnA9u0QXkXeHfAXN4PHDhw4MCBAwduGVw6UK7el4KlB586Dzhw4MCBAwcO3Ha4d3GdFlDdL30hU/uAAwcOHDhw4MBth6sWMg3RrWOqkXr8Gxw4cODAgQMHbjlcFygNyFOA6YD98pzgwIEDBw4cOHDL4FKAFOK40LDxmL6QciMTHDhw4MCBAwfuIXDVge90IJ4Cr+4DDhw4cODAgQO3HS4d4KZB+q4XNr3AgQMHDhw4cOC2wXVXGkyrB+8G7bH6wYEDBw4cOHDglsB1A+F0UK3um9aRNk7BgQMHDhw4cOC2wVUD73QD8hR4qr5qHeDAgQMHDhw4cNvhThuJUwBTA+qxgXMagMGBAwcOHDhw4B4Od/ffp/vc3sgEBw4cOHDgwIF7KFz1A8Rq4O02TNP6wIEDBw4cOHDgngJXHfh2C6wOlqcCbvyhIjhw4MCBAwcO3DK47gC3+2HgNGj1HyEOwODAgQMHDhw4cB+Cs2oLHDhw4MBZ4MB9eH0Bcy6DapHzW0UAAAAASUVORK5CYII=">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/how-do-windows-and-mac-share-files-in-the-local-area-network/'>
+                <p class='title'>Windows 和 Mac 在局域网内如何共享文件？<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>每当手上有两台或多台电脑时，如果想传送一个文件，第一个想到的就是微信、QQ等这类工具。如果碰到了大一点的文件，就得换成网盘或者移动硬盘。
+身为一个做开发者，这种做法比较low，所以找了几篇文章学...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: '手把手教你如何创建启动 Azure 实例',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
     
   <header>
     
-      <a href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
   </header>
 
 
     <div class='content'>
-      <ul class="entry navigation">
-        
-          <li><a class="flat-box"
-            title="/categories/Git/" href="/categories/Git/"
-            id="categoriesGit"
-            ><div class='name'>Git</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Linux/" href="/categories/Linux/"
-            id="categoriesLinux"
-            ><div class='name'>Linux</div><div class='badge'>(15)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/Tutorial/" href="/categories/Linux/Tutorial/"
-            id="categoriesLinuxTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/" href="/categories/Linux/%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/"
-            id="categoriesLinuxE591BDE4BBA4E695B4E79086"
-            ><div class='name'>命令整理</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" href="/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
-            id="categoriesLinuxE5ADA6E4B9A0E7AC94E8AEB0"
-            ><div class='name'>学习笔记</div><div class='badge'>(8)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Mysql/" href="/categories/Mysql/"
-            id="categoriesMysql"
-            ><div class='name'>Mysql</div><div class='badge'>(11)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Nginx/" href="/categories/Nginx/"
-            id="categoriesNginx"
-            ><div class='name'>Nginx</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Node/" href="/categories/Node/"
-            id="categoriesNode"
-            ><div class='name'>Node</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Node/Socket-io/" href="/categories/Node/Socket-io/"
-            id="categoriesNodeSocket-io"
-            ><div class='name'>Socket.io</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Node/Tutorial/" href="/categories/Node/Tutorial/"
-            id="categoriesNodeTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/PHP/" href="/categories/PHP/"
-            id="categoriesPHP"
-            ><div class='name'>PHP</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/PHP/Tutorial/" href="/categories/PHP/Tutorial/"
-            id="categoriesPHPTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Redis/" href="/categories/Redis/"
-            id="categoriesRedis"
-            ><div class='name'>Redis</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Shell/" href="/categories/Shell/"
-            id="categoriesShell"
-            ><div class='name'>Shell</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Skill/" href="/categories/Skill/"
-            id="categoriesSkill"
-            ><div class='name'>Skill</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Skill/Windows/" href="/categories/Skill/Windows/"
-            id="categoriesSkillWindows"
-            ><div class='name'>Windows</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Skill/Windows/Mac/" href="/categories/Skill/Windows/Mac/"
-            id="categoriesSkillWindowsMac"
-            ><div class='name'>Mac</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Tutorial/" href="/categories/Tutorial/"
-            id="categoriesTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(9)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/GitHub/" href="/categories/Tutorial/GitHub/"
-            id="categoriesTutorialGitHub"
-            ><div class='name'>GitHub</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/Linux/" href="/categories/Tutorial/Linux/"
-            id="categoriesTutorialLinux"
-            ><div class='name'>Linux</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/Skill/" href="/categories/Tutorial/Skill/"
-            id="categoriesTutorialSkill"
-            ><div class='name'>Skill</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/Skill/GitHub/" href="/categories/Tutorial/Skill/GitHub/"
-            id="categoriesTutorialSkillGitHub"
-            ><div class='name'>GitHub</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C/" href="/categories/%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C/"
-            id="categoriesE4B880E4BA9BE7BB8FE9AA8C"
-            ><div class='name'>一些经验</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E5%89%8D%E7%AB%AF/" href="/categories/%E5%89%8D%E7%AB%AF/"
-            id="categoriesE5898DE7ABAF"
-            ><div class='name'>前端</div><div class='badge'>(1)</div></a></li>
-        
-      </ul>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#准备"><span class="toc-text">准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建实例"><span class="toc-text">创建实例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关联IP"><span class="toc-text">关联IP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#连接"><span class="toc-text">连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#扩大默认磁盘大小"><span class="toc-text">扩大默认磁盘大小</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol></li></ol>
     </div>
   </section>
 
-
-  
-
-  
-    
-    
-  
-
-  <section class="widget tagcloud shadow desktop mobile">
-    
-  <header>
-    
-      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
-    
-  </header>
-
-
-    <div class='content'>
-      <a href="/tags/CI/" style="font-size: 14px; color: #999">CI</a> <a href="/tags/Docker/" style="font-size: 14px; color: #999">Docker</a> <a href="/tags/Git/" style="font-size: 17.33px; color: #828282">Git</a> <a href="/tags/Hash/" style="font-size: 14px; color: #999">Hash</a> <a href="/tags/Hexo/" style="font-size: 17.33px; color: #828282">Hexo</a> <a href="/tags/JavaScript/" style="font-size: 14px; color: #999">JavaScript</a> <a href="/tags/Linux/" style="font-size: 24px; color: #555">Linux</a> <a href="/tags/Mac/" style="font-size: 15.67px; color: #8e8e8e">Mac</a> <a href="/tags/Mysql/" style="font-size: 20.67px; color: #6c6c6c">Mysql</a> <a href="/tags/Nginx/" style="font-size: 14px; color: #999">Nginx</a> <a href="/tags/Node/" style="font-size: 15.67px; color: #8e8e8e">Node</a> <a href="/tags/PHP/" style="font-size: 17.33px; color: #828282">PHP</a> <a href="/tags/PM2/" style="font-size: 14px; color: #999">PM2</a> <a href="/tags/Redis/" style="font-size: 14px; color: #999">Redis</a> <a href="/tags/Shell/" style="font-size: 19px; color: #777">Shell</a> <a href="/tags/Skill/" style="font-size: 14px; color: #999">Skill</a> <a href="/tags/Socket-io/" style="font-size: 14px; color: #999">Socket.io</a> <a href="/tags/Tutorial/" style="font-size: 22.33px; color: #606060">Tutorial</a> <a href="/tags/Vim/" style="font-size: 14px; color: #999">Vim</a> <a href="/tags/Web-%E5%AE%89%E5%85%A8/" style="font-size: 15.67px; color: #8e8e8e">Web 安全</a> <a href="/tags/Windows/" style="font-size: 14px; color: #999">Windows</a> <a href="/tags/https/" style="font-size: 14px; color: #999">https</a> <a href="/tags/mysql/" style="font-size: 14px; color: #999">mysql</a> <a href="/tags/ssh/" style="font-size: 14px; color: #999">ssh</a> <a href="/tags/%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" style="font-size: 15.67px; color: #8e8e8e">进程管理</a>
-    </div>
-  </section>
-
-
-  
 
   
 
@@ -1071,6 +918,60 @@ setInterval("createtime()",250);
 
 
 
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "prAyvaUeadxadA2wpcBQqNQn-gzGzoHsz",
+    appKey: "vkyEUTw0BixVjfFpFIzUdhak",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
 
 
 

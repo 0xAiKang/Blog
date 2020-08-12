@@ -397,6 +397,119 @@
         
           
   <h2 class="title">
+    <a href="/teach-you-how-to-create-and-start-an-azure-instance/">
+      手把手教你如何创建启动 Azure 实例
+    </a>
+  </h2>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.aikang.me" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Linux/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Linux</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Aug 12, 2020</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>986 words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>3 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>这篇笔记用来整理如何创建启用 Azure 实例。因为这方面的笔记比较少，所以整理一下。</p>
+<p>一是方便自己以后回顾，二是给其他人作为参考。</p>
+      
+    </div>
+    
+      
+        <div class="button readmore">
+          <a href="/teach-you-how-to-create-and-start-an-azure-instance/">
+            阅读全文 <i class="fas fa-chevron-right"></i>
+          </a>
+        </div>
+      
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow reveal ">
+  
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h2 class="title">
     <a href="/how-do-windows-and-mac-share-files-in-the-local-area-network/">
       Windows 和 Mac 在局域网内如何共享文件？
     </a>
@@ -477,39 +590,17 @@
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
       
-        <a id="more"></a>
-
-<p>每当手上有两台或多台电脑时，如果想传送一个文件，第一个想到的就是微信、QQ等这类工具。<br>如果碰到了大一点的文件，就得换成网盘或者移动硬盘。</p>
+        <p>每当手上有两台或多台电脑时，如果想传送一个文件，第一个想到的就是微信、QQ等这类工具。<br>如果碰到了大一点的文件，就得换成网盘或者移动硬盘。</p>
 <p>身为一个做开发者，这种做法比较low，所以找了几篇文章学习到了如何在局域网内共享文件。</p>
-<h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>这里准备的是用 Windows 作为主机创建共享文件。</p>
-<p>首先要确认准备传输文件的 Windows 和 Mac 是在同一个路由器组成的局域网内。</p>
-<p>然后打开 Windows 的文件资源管理器，在其根目录下创建一个共享文件夹，名称随意，自己知道就好了。</p>
-<p>右键文件夹，点击属性，找到 共享 Tab，点击高级共享。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200811220638.png" alt=""></p>
-<p>勾选共享此文件夹，点击确定。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200811220726.png" alt=""></p>
-<p>然后回到共享文件夹，右键点击属性，找到共享，选择用户。</p>
-<p>如果允许其他人写入，则选择 Everyone，更改为：读取/写入。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200811220755.png" alt=""></p>
-<h2 id="访问"><a href="#访问" class="headerlink" title="访问"></a>访问</h2><p>Windows 本机访问</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># ComputerName 表示：你的计算机名称</span><br><span class="line"># ShareFolders 表示：共享文件夹名称</span><br><span class="line">file:&#x2F;&#x2F;ComputerName&#x2F;ShareFolders&#x2F;</span><br></pre></td></tr></table></figure>
-
-<p>Mac 局域网访问</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># ComputerName 表示：需要访问的计算机名称</span><br><span class="line"># ShareFolders 表示：共享文件夹名称</span><br><span class="line">smb:&#x2F;&#x2F;ConputerName&#x2F;ShareFolders&#x2F;</span><br></pre></td></tr></table></figure>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200811220823.png" alt=""></p>
-<p>通过验证之后，就能访问到共享文件夹了。</p>
-<p>到这里应该就能顺利的在两个或多个电脑之间传输文件了。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200811220855.png" alt=""></p>
-<p>如果还不能访问，可以ping 一下对方的主机，如果没有ping通，检查一下防火墙设置。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200811220920.png" alt=""></p>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><a href="https://zhuanlan.zhihu.com/p/32026197" target="_blank" rel="noopener">Windows 和 Mac 在局域网内如何共享文件？</a></li>
-<li><a href="https://blog.csdn.net/sscssz/article/details/50057759" target="_blank" rel="noopener">共享文件夹 一个实现Windows和Mac之间文件互传的简单方法</a></li>
-</ul>
-
       
     </div>
     
+      
+        <div class="button readmore">
+          <a href="/how-do-windows-and-mac-share-files-in-the-local-area-network/">
+            阅读全文 <i class="fas fa-chevron-right"></i>
+          </a>
+        </div>
       
     
   </section>
@@ -1420,119 +1511,6 @@
           </div>
         
       
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
-  
-
-
-  <section class='meta'>
-    
-      
-      
-      <div class="meta" id="header-meta">
-        
-          
-  <h2 class="title">
-    <a href="/supervisor-quick-start/">
-      Supervisor 快速上手
-    </a>
-  </h2>
-
-
-        
-        <div class='new-meta-box'>
-          
-            
-          
-            
-              
-<div class='new-meta-item author'>
-  <a href="https://www.aikang.me" rel="nofollow">
-    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
-    <p>Boo</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/PHP/Tutorial/' rel="nofollow">
-      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>PHP/Tutorial</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jul 30, 2020</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-  <div class="new-meta-item wordcount">
-    <a class='notlink'>
-      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1.5k words</p>
-    </a>
-  </div>
-  <div class="new-meta-item readtime">
-    <a class='notlink'>
-      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>6 min</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              
-
-            
-          
-        </div>
-        
-          <hr>
-        
-      </div>
-    
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a href="http://supervisord.org/" target="_blank" rel="noopener">supervisord</a> 是一个用 Python 写的进程管理工具，是类Unix系统中的一个进程管理工具，</p>
-<p><code>Supervisor</code> 只适用于类Unix 系统，不适用于Window。</p>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/supervisor-quick-start/">
-            阅读全文 <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
-
-          </div>
-        
-      
     
   </section>
   
@@ -1653,7 +1631,7 @@
           <li><a class="flat-box"
             title="/categories/Linux/" href="/categories/Linux/"
             id="categoriesLinux"
-            ><div class='name'>Linux</div><div class='badge'>(14)</div></a></li>
+            ><div class='name'>Linux</div><div class='badge'>(15)</div></a></li>
         
           <li><a class="flat-box child"
             title="/categories/Linux/Tutorial/" href="/categories/Linux/Tutorial/"
