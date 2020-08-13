@@ -36,15 +36,17 @@ categories: ["Skill", "Windows", "Mac"]
 
 ## 访问
 
-Windows 本机访问
+### Windows 本机访问
 ```
 # ComputerName 表示：你的计算机名称
 # ShareFolders 表示：共享文件夹名称
 file://ComputerName/ShareFolders/
 ```
 
-Mac 局域网访问
-
+### Mac 局域网访问
+Mac 有两种方式：
+1. 通过浏览器访问
+2. 通过访达访问，使用快捷键 `⌘ + k`
 ```
 # ComputerName 表示：需要访问的计算机名称
 # ShareFolders 表示：共享文件夹名称
@@ -61,6 +63,10 @@ smb://ConputerName/ShareFolders/
 如果还不能访问，可以ping 一下对方的主机，如果没有ping通，检查一下防火墙设置。
 
 ![](https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200811220920.png)
+
+如果防火墙关着，那么会 ping 不通。
+
+![](https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200813193747.png)
 
 ### 参考链接
 * [Windows 和 Mac 在局域网内如何共享文件？](https://zhuanlan.zhihu.com/p/32026197)
