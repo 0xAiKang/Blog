@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>如何申请免费的SSL 证书</title>
+      <link href="/how-to-apply-for-a-free-ssl-certificate/"/>
+      <url>/how-to-apply-for-a-free-ssl-certificate/</url>
+      
+        <content type="html"><![CDATA[<p>这篇笔记用来记录如何申请免费的 SSL 证书，通过本文介绍的方式所申请的证书有效期只有三个月，请谨慎选择。</p><a id="more"></a><h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>像这类提供免费 SSL 证书的网站非常多，这里我选择的平台是 <a href="https://freessl.cn/apply?domains=8188.com%252C*.8188.com&product=letsencrypt02&from=" target="_blank" rel="noopener">FreeSSL.cn</a> 。</p><p>在正式开始之前，你得准备一个邮箱，<a href="https://freessl.cn/register" target="_blank" rel="noopener">注册</a> 一个 <code>FreeSSL.cn</code> 账号，然后登录。</p><p>将需要申请证书的域名填写在输入框中，选择多域名通配符，然后点击创建免费的SSL 证书。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200814172918.png" alt=""></p><p>我这里选择的是泛域名，根据你自己的实际情况，去创建相应子域名的证书：</p><ul><li><code>example.com</code>：主域名</li><li><code>*.example.com</code>：泛域名</li></ul><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200814174731.png" alt=""></p><p>选择浏览器生成。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200814175011.png" alt=""></p><p>点击确认创建。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200814174930.png" alt=""></p><h3 id="添加TXT-记录"><a href="#添加TXT-记录" class="headerlink" title="添加TXT 记录"></a>添加TXT 记录</h3><p>打开需要申请 SSL 证书的域名管理后台，找到 DNS 管理。</p><p>添加 TXT 验证，将刚才的记录值与TXT 记录添加到对应的TXT 类型。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200814180141.png" alt=""></p><p>注意⚠️：记录值区分大小写。</p><p>检测是否配置成功。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200814175520.png" alt=""></p><p>在完成验证之前不要离开当前页面，验证成功之后，点击验证。</p><p>如果配置成功没问题，就可以点击验证，下载证书就完成了。</p><p>注意⚠️：使用此方式获取的证书，有效期只有三个月。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Tutorial </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> HTTPS </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>手把手教你如何创建启动 Azure 实例</title>
       <link href="/teach-you-how-to-create-and-start-an-azure-instance/"/>
       <url>/teach-you-how-to-create-and-start-an-azure-instance/</url>
