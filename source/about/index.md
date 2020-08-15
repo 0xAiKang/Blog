@@ -10,9 +10,12 @@ valine:
 ---
 
 ### 关于此博客
-博客建立于 `2020-07-04`，基于 [Hexo](https://hexo.io/) 框架，主题是 [Volantis](https://volantis.js.org/) ，托管在 [GitHub](https://github.com/) 上。
+
+博客名：`0x2BeAce` 读作 `To Be Ace`。 `Ace` 有多个意思，这里取 [a person who is very skilled at something](https://dictionary.cambridge.org/zhs/%E8%AF%8D%E5%85%B8/%E8%8B%B1%E8%AF%AD/ace) 。
 
 专门用于技术分享，记录一些感兴趣的东西。
+
+这里参考了 [Soros Liu](https://github.com/Sorosliu1029) 的博客。
 
 ### 关于我
 游离于2.5 次元的伪全栈，Linux 爱好者。
