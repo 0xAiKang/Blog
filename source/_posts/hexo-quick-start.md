@@ -160,12 +160,12 @@ Github Pages 是支持绑定自己的私有域名的，但默认只能绑定 `CN
 ```
 $ dig example.com +noall +answer
 
-; <<>> DiG 9.10.6 <<>> aikang.me +noall +answer
+; <<>> DiG 9.10.6 <<>> 0x2BeAce.com +noall +answer
 ;; global options: +cmd
-aikang.me.		4502	IN	A	185.199.111.153
-aikang.me.		4502	IN	A	185.199.110.153
-aikang.me.		4502	IN	A	185.199.108.153
-aikang.me.		4502	IN	A	185.199.109.153
+0x2BeAce.com.		4502	IN	A	185.199.111.153
+0x2BeAce.com.		4502	IN	A	185.199.110.153
+0x2BeAce.com.		4502	IN	A	185.199.108.153
+0x2BeAce.com.		4502	IN	A	185.199.109.153
 ```
 将example.com 替换成你自己的 apex 域，确认结果与上面 GitHub Pages 的 IP 地址相匹配。
 

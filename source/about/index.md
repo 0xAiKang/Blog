@@ -19,7 +19,7 @@ valine:
 
 你可以通过以下方式找到我：
 
-* [博客](https://www.aikang.me/)
+* [博客](https://www.0x2BeAce.com/)
 * [GitHub](https://github.com/0xAikang)
 * [Eamil](mailto:aikangtongxue@gamil.com)
 * [豆瓣](https://www.douban.com/people/164428873/) - 记录书影
