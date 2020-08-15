@@ -1,5 +1,5 @@
 ---
-title: 手把手教你如何创建启动AWS实例
+title: 手把手教你如何创建启动 AWS 实例
 date: 2020-08-10 14:05:17
 tags: ["Tutorial","Linux"]
 categories: ["Tutorial", "Linux"]
