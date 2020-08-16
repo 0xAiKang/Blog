@@ -4,6 +4,35 @@
   
     
     <entry>
+      <title>how to uninstall wsl (linux subsystem) in win 10?</title>
+      <link href="/how-to-uninstall-wsl-linux-subsystem-in-win-10/"/>
+      <url>/how-to-uninstall-wsl-linux-subsystem-in-win-10/</url>
+      
+        <content type="html"><![CDATA[<p>最近在Windows 上安装 WSL，遇到一点问题，需要将 Arch Linux 完全卸载。</p><a id="more"></a><p>在正式卸载之前，有以下几点需要注意：</p><ol><li>不要试图通过 Microsoft Store 去卸载，那里只有安装按钮，没有卸载按钮。</li><li>秋季创意者更新之前，可以使用<code>lxrun</code>命令去进行卸载操作，但是秋季创意者更新之后该命令就被移除了。</li></ol><h3 id="查看发行版"><a href="#查看发行版" class="headerlink" title="查看发行版"></a>查看发行版</h3><p>列出当前已经安装且随时可用的发行版：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wslconfig &#x2F;list</span><br></pre></td></tr></table></figure><p>列出所有发行版，包括正在安装、卸载和已损坏的发行版：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wslconfig &#x2F;list &#x2F;all</span><br></pre></td></tr></table></figure><h3 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h3><p>卸载已经安装的发行版：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ wslconfig &#x2F;list &#x2F;all</span><br><span class="line">Windows Subsystem for Linux Distributions:</span><br><span class="line">Arch (Default)</span><br><span class="line">$ wslconfig &#x2F;unregister Arch</span><br><span class="line">Unregistering...</span><br></pre></td></tr></table></figure><p>上面是以<code>Arch Linux</code>为例进行卸载，其他发行版同理，只需要替换发行版的名称就可以了。</p><blockquote><p>注意: 卸载发行版时，会永久删除所有与该发行版有关的数据和设置。</p></blockquote><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul><li><a href="https://blog.littlelanmoe.com/exp/494" target="_blank" rel="noopener">Windows 10 Linux子系统如何卸载？</a></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> Linux </category>
+          
+          <category> Windows </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Linux </tag>
+            
+            <tag> Arch Linux </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>how to install arch linux on win10</title>
       <link href="/how-to-install-arch-linux-on-win10/"/>
       <url>/how-to-install-arch-linux-on-win10/</url>
