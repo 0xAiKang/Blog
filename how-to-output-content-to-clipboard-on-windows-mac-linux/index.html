@@ -338,7 +338,7 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>166 words</p>
+      <p>280 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
@@ -385,7 +385,12 @@
 
 <h3 id="Mac"><a href="#Mac" class="headerlink" title="Mac"></a>Mac</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 将输出复制至剪贴板</span><br><span class="line">$ echo &quot;hello mac&quot; | pbcopy</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 将文件中的内容全部复制至剪贴板</span><br><span class="line">$ pbcopy &lt; remade.md</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 将剪切板中的内容粘贴至文件</span><br><span class="line">$ pbpaste &gt; remade.md</span><br></pre></td></tr></table></figure>
 
-<h3 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 将输出复制至剪贴板</span><br><span class="line">$ echo &quot;hello linux&quot; | xsel</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 将文件中的内容全部复制至剪贴板</span><br><span class="line">$ xsel &lt; remade.md</span><br></pre></td></tr></table></figure>
+<h3 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h3><p>Linux 用户需要先安装 <code>xclip</code>，它建立了终端和剪切板之间的通道。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 查看剪切板中的内容</span><br><span class="line">$ xclip -o</span><br><span class="line">$ xclip -selection c -o</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 将输出复制至剪贴板</span><br><span class="line">$ echo &quot;hello xclip&quot; | xclip-selection c</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 将文件中的内容全部复制至剪贴板</span><br><span class="line">$ xclip -selection c remade.md</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 将剪切板中的内容粘贴至文件</span><br><span class="line">$ xclip -selection c -o &gt; remade.md</span><br></pre></td></tr></table></figure>
+
+
+<p>或者直接使用<code>xsel</code>命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 将输出复制至剪贴板</span><br><span class="line">$ echo &quot;hello linux&quot; | xsel</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 将文件中的内容全部复制至剪贴板</span><br><span class="line">$ xsel &lt; remade.md</span><br></pre></td></tr></table></figure>
 
 <h3 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 将输出复制至剪贴板</span><br><span class="line">$ echo &quot;hello windows&quot; | clip</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 将文件中的内容全部复制至剪贴板</span><br><span class="line">$ clip &lt; remade.txt</span><br></pre></td></tr></table></figure>
           
@@ -471,10 +476,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-08-05T10:25:46+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-08-16T18:10:09+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Aug 5, 2020</p>
+    <p>更新于：Aug 16, 2020</p>
   </a>
 </div>
 
