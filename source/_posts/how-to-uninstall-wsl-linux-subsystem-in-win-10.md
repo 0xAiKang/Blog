@@ -1,5 +1,5 @@
 ---
-title: how to uninstall wsl (linux subsystem) in win 10?
+title: Win 10 如何卸载 WSL (Linux子系统)
 date: 2020-08-16 17:56:22
 tags: ["Linux", "Arch Linux"]
 categories: ["Linux", "Windows"]

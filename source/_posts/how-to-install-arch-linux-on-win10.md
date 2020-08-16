@@ -1,5 +1,5 @@
 ---
-title: how to install arch linux on win10
+title: Win10 如何安装 Arch Linux 
 date: 2020-08-16 17:50:09
 tags: ["Linux", "WSL", "Arch Linux", "Windows"]
 categories: ["Linux", "Windows"]
