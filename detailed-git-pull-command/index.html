@@ -16,12 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>Win 10 如何卸载 WSL (Linux子系统) - Boo</title>
+    <title>Git Pull 命令详解 - Boo</title>
   
-    <meta name="keywords" content="Linux,Arch Linux">
+    <meta name="keywords" content="Git">
   
   
-    <meta name="description" content="最近在Windows 上安装 WSL，遇到一点问题，需要将 Arch Linux 完全卸载。">
+    <meta name="description" content="这片文章主要用来讲解git pull命令的一些细节。">
   
 
   <!-- feed -->
@@ -283,8 +283,8 @@
         
           
   <h1 class="title">
-    <a href="/how-to-uninstall-wsl-linux-subsystem-in-win-10/">
-      Win 10 如何卸载 WSL (Linux子系统)
+    <a href="/detailed-git-pull-command/">
+      Git Pull 命令详解
     </a>
   </h1>
 
@@ -309,9 +309,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Linux/Windows/' rel="nofollow">
+    <a href='/categories/Git/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Linux/Windows</p>
+      <p>Git</p>
     </a>
   </div>
 
@@ -322,7 +322,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Aug 16, 2020</p>
+    <p>发布于：Aug 17, 2020</p>
   </a>
 </div>
 
@@ -338,13 +338,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>263 words</p>
+      <p>1.2k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>1 min</p>
+      <p>4 min</p>
     </a>
   </div>
 
@@ -357,7 +357,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/how-to-uninstall-wsl-linux-subsystem-in-win-10/" class="leancloud_visitors" data-flag-title="Win 10 如何卸载 WSL (Linux子系统)">
+      <span id="/detailed-git-pull-command/" class="leancloud_visitors" data-flag-title="Git Pull 命令详解">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -380,29 +380,73 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>最近在Windows 上安装 WSL，遇到一点问题，需要将 Arch Linux 完全卸载。</p>
+          <p>这片文章主要用来讲解<code>git pull</code>命令的一些细节。</p>
 <a id="more"></a>
 
-<p>在正式卸载之前，有以下几点需要注意：</p>
-<ol>
-<li>不要试图通过 Microsoft Store 去卸载，那里只有安装按钮，没有卸载按钮。</li>
-<li>秋季创意者更新之前，可以使用<code>lxrun</code>命令去进行卸载操作，但是秋季创意者更新之后该命令就被移除了。</li>
-</ol>
-<h3 id="查看发行版"><a href="#查看发行版" class="headerlink" title="查看发行版"></a>查看发行版</h3><p>列出当前已经安装且随时可用的发行版：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wslconfig &#x2F;list</span><br></pre></td></tr></table></figure>
+<h2 id="git-pull"><a href="#git-pull" class="headerlink" title="git pull"></a>git pull</h2><p>git pull 的作用是：取回远程主机某个分支的更新，再与本地指定分支自动合并。</p>
+<h3 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h3><p>将远程主机中的更改合并到当前分支，在默认情况下<code>git pull</code>是<code>git fetch</code>命令和<code>git merge Fetch_HEAD</code>命令的合集，后面会详细介绍。</p>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>这是git pull 的完整格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git pull [options] [&lt;repository&gt; [&lt;refspec&gt;…]]</span><br></pre></td></tr></table></figure>
 
-<p>列出所有发行版，包括正在安装、卸载和已损坏的发行版：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wslconfig &#x2F;list &#x2F;all</span><br></pre></td></tr></table></figure>
+<p>比如要取回<code>origin</code>主机的<code>fixbug</code>分支的最新提交，<strong>并与本地的<code>master</code>分支合并</strong>，就需要写成这个样子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git pull origin fixbug:master</span><br></pre></td></tr></table></figure>
 
-<h3 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h3><p>卸载已经安装的发行版：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ wslconfig &#x2F;list &#x2F;all</span><br><span class="line">Windows Subsystem for Linux Distributions:</span><br><span class="line">Arch (Default)</span><br><span class="line">$ wslconfig &#x2F;unregister Arch</span><br><span class="line">Unregistering...</span><br></pre></td></tr></table></figure>
-<p>上面是以<code>Arch Linux</code>为例进行卸载，其他发行版同理，只需要替换发行版的名称就可以了。</p>
-<blockquote>
-<p>注意: 卸载发行版时，会永久删除所有与该发行版有关的数据和设置。</p>
+<p>如果远程分支要与当前分支合并，则冒号及其冒号后的分支可以省略，就变成了这个样子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 取回firebug 分支的最新提交并与当前分支合并</span><br><span class="line">$ git pull origin fixbug</span><br></pre></td></tr></table></figure>
+
+<p>上面的命令表示，取回<code>origin/fixbug</code>分支最新的提交，并于当前分支合并。</p>
+<p>这里就等同于先<code>git fetch</code>获取所跟踪的远程分支的最新的提交，然后执行<code>git merge</code>合并到当前分支。也就是下面两条命令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 自动从当前分支的跟踪分支上获取最新的提交</span><br><span class="line">$ git fetch </span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 合并origin&#x2F;fixbug分支到当前分支</span><br><span class="line">$ git merge origin&#x2F;fixbug</span><br></pre></td></tr></table></figure>
+
+<h2 id="git-fetch"><a href="#git-fetch" class="headerlink" title="git fetch"></a>git fetch</h2><blockquote>
+<p>为什么这个分支是这种写法?</p>
 </blockquote>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><a href="https://blog.littlelanmoe.com/exp/494" target="_blank" rel="noopener">Windows 10 Linux子系统如何卸载？</a></li>
-</ul>
+<p>因为<code>git fetch</code>命令会获取当前追踪分支的最新更改，就等同于取回<code>origin/fixbug</code>分支到本地。</p>
+<p>你可以使用<code>git branch -a</code> 查看所有分支，会发现多了一个 <code>origin/fixbug</code>分支，前提是该分支已经建立了追踪关系。</p>
+<p>而这个分支所包含的内容就是最新的提交或者其他某些更改。所以此时你需要通过合并这个长的比较奇怪的分支，来更新本地的工作区。</p>
+<p>在某些场合，Git 会自动在本地分支与远程分支之间建立一种追踪关系（tracking）。比如，我们在clone 时，会发现所有本地分支默认与远程主机的同名分支，建立追踪关系。也就是说，本地的 master 分支自动追踪 <code>origin/master</code>分支。</p>
+<p>Git 也允许手动添加追踪关系。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 本地master分支与取回origin&#x2F;fixbug分支建立关系。</span><br><span class="line">$ git branch --set-upstream master origin&#x2F;fixbug</span><br></pre></td></tr></table></figure>
+
+<p>如果当前分支与远程分支存在追踪关系。那么git pull 就可以省略远程分支名。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git pull origin</span><br></pre></td></tr></table></figure>
+
+<p>上面的分支是什么意思呢？就是表示本地的当前分支会自动与对应的<code>origin</code>主机的“追踪分支”进行合并。</p>
+<p>如果当前分支只对应一种追踪分支，那么远程主机名都可以省略。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 这也就成了我们常看见的原始命令。</span><br><span class="line">$ git pull</span><br></pre></td></tr></table></figure>
+<p>上面的命令会自动的与唯一的追踪分支进行合并。</p>
+<blockquote>
+<p>如何将远程分支作为本地的默认分支？</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git branch --track &lt;remote branch&gt; remotes&#x2F;origin&#x2F;&lt;remote branch&gt;</span><br></pre></td></tr></table></figure>
+
+<p>这样就将远程的分支与本地同名分支建立了追踪关系。</p>
+<p>可以使用<code>git config -e</code>命令查看。</p>
+<p>当追踪关系只有一个时，那么使用<code>git pull</code> 命令，就可以直接更新<code>&lt;remote branch&gt;</code> 分支了。</p>
+<p>如果合并需要采用<code>rebase</code>模式，可以使用<code>--rebase</code>选项。</p>
+<h2 id="git-rebase"><a href="#git-rebase" class="headerlink" title="git rebase"></a>git rebase</h2><blockquote>
+<p>这里说一个题外话，<code>rebase</code> 是什么？有什么用？</p>
+</blockquote>
+<p><code>git rebase</code> 清除本地历史提交</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git --rebase &lt;远程主机名&gt;&lt;远程分支名&gt;:&lt;本地分支名&gt;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>git fetch 与 git pull 的区别。</p>
+</blockquote>
+<p>git fetch 表示从远程获取最新的版本到本地，但是不会自动合并。其过程用命令表示就是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git fetch origin master</span><br><span class="line">$ git log -p master..origin&#x2F;master</span><br><span class="line">$ git merge origin&#x2F;master</span><br></pre></td></tr></table></figure>
+
+<p>另一种写法就是：      </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git fetch origin master:tem</span><br><span class="line">$ git diff tem</span><br><span class="line">$ git merge tem</span><br></pre></td></tr></table></figure>
+<p>上面这两种写法都是都是一个意思。唯一有所区别的就是使用 <code>tem</code>分支代替了<code>origin/master</code>分支的存在。其含义是： </p>
+<ol>
+<li>从远程<code>origin</code>主机的<code>master</code>主分支下载最新的版本到本地<code>origin/master</code>分支，或者<code>tem</code>分支。</li>
+<li>比较本地master分支与origin/master（tem）分支的差异。</li>
+<li>最后进行合并</li>
+</ol>
+<p>git pull，相当于从远程获取最新的版本并合并到本地。       </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git pull origin master</span><br></pre></td></tr></table></figure>
+<p>上述命令其实相当于git fetch 和 git merge<br>在实际使用中，git fetch更安全一些，因为在merge前，我们可以查看更新情况，然后再决定是否合并。</p>
 
           
             <div class='article_footer'>
@@ -439,7 +483,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/how-to-uninstall-wsl-linux-subsystem-in-win-10/>https://www.0x2beace.com/how-to-uninstall-wsl-linux-subsystem-in-win-10/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/detailed-git-pull-command/>https://www.0x2beace.com/detailed-git-pull-command/</a></p>
           
         
       </blockquote>
@@ -487,10 +531,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-08-16T18:00:02+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-08-17T23:36:38+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Aug 16, 2020</p>
+    <p>更新于：Aug 17, 2020</p>
   </a>
 </div>
 
@@ -499,7 +543,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Linux/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Linux</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Arch-Linux/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Arch Linux</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Git/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Git</p></a></div>
 
 
         
@@ -517,7 +561,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/how-to-uninstall-wsl-linux-subsystem-in-win-10/&title=Win 10 如何卸载 WSL (Linux子系统) - Boo&summary=最近在Windows 上安装 WSL，遇到一点问题，需要将 Arch Linux 完全卸载。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/detailed-git-pull-command/&title=Git Pull 命令详解 - Boo&summary=这片文章主要用来讲解git pull命令的一些细节。"
           
           >
           
@@ -529,7 +573,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/how-to-uninstall-wsl-linux-subsystem-in-win-10/&title=Win 10 如何卸载 WSL (Linux子系统) - Boo&summary=最近在Windows 上安装 WSL，遇到一点问题，需要将 Arch Linux 完全卸载。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/detailed-git-pull-command/&title=Git Pull 命令详解 - Boo&summary=这片文章主要用来讲解git pull命令的一些细节。"
           
           >
           
@@ -541,7 +585,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/how-to-uninstall-wsl-linux-subsystem-in-win-10/&title=Win 10 如何卸载 WSL (Linux子系统) - Boo&summary=最近在Windows 上安装 WSL，遇到一点问题，需要将 Arch Linux 完全卸载。"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/detailed-git-pull-command/&title=Git Pull 命令详解 - Boo&summary=这片文章主要用来讲解git pull命令的一些细节。"
           
           >
           
@@ -555,7 +599,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADoElEQVR42u3aS3IbMQwFQN3/0sk+KdcQD6ANyc2dPsMhm5tXAF9/jGi8EIADBw6cAQ7cErhXOL56/mne/xZSnPff35++P13X8X7BgQMHDhw4cOCWwR0HwOIG0/megKsHO7ZfcODAgQMHDhy4pXDVhXQ3WA3G3QPt7hccOHDgwIEDB+5T4NJCZhpMpw4EHDhw4MCBAwfut8OdbigtXE7BggMHDhw4cODAfTpctWA4tdEqwO2gDQ4cOHDgwIED9y5waYHwXT/H+wUHDhw4cODAgVsC1x3TQbf63tMG+dh+wYEDBw4cOHDglsBNXRQ8fX46uFYPMr1wCA4cOHDgwIEDtw3uVkO5u9AuULcB/eV7wYEDBw4cOHDglsOlwTQthFaBTt/b/R0cOHDgwIEDB+5d4E4LkWmA7hYs04uP6UVJcODAgQMHDhy4rXDVINktDFYX/F3Qx+sEBw4cOHDgwIFbBpcWANMLhrcD9em6qusEBw4cOHDgwIHbAlddwNMLuxs9nb8bgGN4cODAgQMHDhy4JXC3Amk3IFcDa3rg5YMHBw4cOHDgwIFbCtcNjOlB3IZKgzg4cODAgQMHDtx2uOoGpxrUVchrBcqpTj44cODAgQMHDtw3w1Ub0lOf0wOqHmS30Q0OHDhw4MCBA7cdLt3Y6YbSADu13rRgCw4cOHDgwIEDtw2uGji7AbbbeE7XUS1sfvkcOHDgwIEDBw7cErgpmG7jOL3AmDa044MBBw4cOHDgwIFbApcCViFvF0KngvzjPODAgQMHDhw4cEvgToNmt8CYjm5hshrAH/8PDhw4cODAgQO3FK66kOo80wfQBSlDgwMHDhw4cODALYFLg+VUQbILXJ3nFQ5w4MCBAwcOHLitcGmjuQuZBtFu47r6PThw4MCBAwcO3Da4tFB5K6DeCsjdYA8OHDhw4MCBA7cN7nahsBqgTwuKVbC0IQ0OHDhw4MCBA/cucFOFwvT/p8G7e0Dp/ODAgQMHDhw4cFvg2hftwkbvVGO7WnDtHgw4cODAgQMHDtw2uGrgrT6fNpJT0Knfjzv54MCBAwcOHDhwPwxXDbzthYSN4vQCYbcxDQ4cOHDgwIED9ylw3Q1PAZ0G7hQWHDhw4MCBAwfu0+FOC5dVqBQ2DbrXC5ngwIEDBw4cOHDDcNMN4LTRfLvhfQoLDhw4cODAgQO3Ha7buL0FPrbhcL7HQiY4cODAgQMHDtwPwRnFQI4AHDhw4Axw4H52/AUUG3vinMnWAAAAAABJRU5ErkJggg==">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAAC+klEQVR42u3aQXICMQwEQP7/6eQBCbXWSNkgaN8oYC33XqYkP76sX9cDARgwYMCAAbMG5hGuHw988n31f1f7TT3v6fPBgAEDBgwYMOtgjgNQWFD1d6f7X30uPw8MGDBgwIABsxbm9GDdwqYD39h5wIABAwYMGDAfB9MOVofAYMCAAQMGDBgwd8Gcfn+6fwoHBgwYMGDAgHl/mDSYpQfoXhQ63e/2SSQYMGDAgAED5jaY6uo2jv76c3weMGDAgAEDBswamO5KG0Pd4JYO+i73AQMGDBgwYMCsgUkDUjpYSy8EVV9UtX4wYMCAAQMGzD6Yq8KrQa07kKsCp/VeDtzAgAEDBgwYMGtgpjZOG1jdeqoNrnIHDwwYMGDAgAHzsjDVBtNfBbk0SKawYMCAAQMGDJi9MNMXeKYCYjpQS18sGDBgwIABA+b9YKYCW3WAVm1QjQVMMGDAgAEDBsw6mO7g7LgRVA1cYfBLG1ZgwIABAwYMmL0wpys9YNpg6oLHAzcwYMCAAQMGzMvCpIOtaqHVgrvA1TrBgAEDBgwYMPtgqoVVA+DURaTuizse3IEBAwYMGDBg1sCcDtrS4JY2qlKoah2XjSowYMCAAQMGzDqYKaDuRZ90v7TRBgYMGDBgwIDZC5MeaHpglja22gM9MGDAgAEDBswamLihMzSgS6G7jbL2JBIMGDBgwIAB8zIw0wdIG0V3w14GPDBgwIABAwbMOphuwEoHedMNtNPGFRgwYMCAAQPm/WGmLwh1fxdfEHp2HjBgwIABAwbMGpjpRtHpwbqNre5+lwM3MGDAgAEDBszLw0wFpjSQdYPl1IUjMGDAgAEDBsxemOpB0wJPg1sXOA6gYMCAAQMGDJi1MNXCu8FvqvE01egCAwYMGDBgwHwezBRsGgRPG19gwIABAwYMGDDdAk//NzUY/LdGFRgwYMCAAQPmNphqg2nqIs/UhaPqiwYDBgwYMGDA7IcZH1xVC2qCTQVKMGDAgAEDBsweGAsMGDBgwIABs2x9A9mA6NLxd856AAAAAElFTkSuQmCC">
           </div>
         </div>
       
@@ -575,23 +619,15 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/detailed-git-pull-command/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Git Pull 命令详解</p>
-                <p class='content'>这片文章主要用来讲解git pull命令的一些细节。
-
-
-git pullgit pull 的作用是：取回远程主机某个分支的更新，再与本地指定分支自动合并。
-描述将远程主机中的更改合并到当前分支...</p>
-              </a>
             
-            
-              <a class='next' href='/how-to-install-arch-linux-on-win10/'>
-                <p class='title'>Win10 如何安装 Arch Linux<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>最近主力生产工具可能要拿去送修，所以可能有一段时间要和我的MBP 分开了。但是工作还是要继续，于是把之前闲置的 小米 Pro 15.6 给整起来。
-第一件需要做的事情就是配置开发环境。
+              <a class='next' href='/how-to-uninstall-wsl-linux-subsystem-in-win-10/'>
+                <p class='title'>Win 10 如何卸载 WSL (Linux子系统)<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>最近在Windows 上安装 WSL，遇到一点问题，需要将 Arch Linux 完全卸载。
 
 
-了解...</p>
+在正式卸载之前，有以下几点需要注意：
+
+不要试图通过 Microsoft Store 去卸载，那...</p>
               </a>
             
           </div>
@@ -636,7 +672,7 @@ git pullgit pull 的作用是：取回远程主机某个分支的更新，再与
 
   <script>
     window.subData = {
-      title: 'Win 10 如何卸载 WSL (Linux子系统)',
+      title: 'Git Pull 命令详解',
       tools: true
     }
   </script>
@@ -663,7 +699,7 @@ git pullgit pull 的作用是：取回远程主机某个分支的更新，再与
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#查看发行版"><span class="toc-text">查看发行版</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#卸载"><span class="toc-text">卸载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#git-pull"><span class="toc-text">git pull</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#描述"><span class="toc-text">描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#示例"><span class="toc-text">示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#git-fetch"><span class="toc-text">git fetch</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#git-rebase"><span class="toc-text">git rebase</span></a></li></ol>
     </div>
   </section>
 
