@@ -5,8 +5,6 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
-    
   
   <!-- 渲染优化 -->
   <meta name="renderer" content="webkit">
@@ -18,8 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>Category: Tutorial - Boo</title>
+    <title>如何让终端命令走代理？ - Boo</title>
   
+    <meta name="keywords" content="Git">
+  
+  
+    <meta name="description" content="问题描述：今天本来打算使用Homebrew 更新一个工具，但是输入完brew updata 之后，就一直是Updating Homebrew...">
   
 
   <!-- feed -->
@@ -265,25 +267,12 @@
     <div class='body-wrapper'>
       
 
-
 <div class='l_main'>
   
-    
-      
-  <section class="post-list ">
-    
-      
-        
-          
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
+
   
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
 
 
   <section class='meta'>
@@ -293,11 +282,11 @@
       <div class="meta" id="header-meta">
         
           
-  <h2 class="title">
-    <a href="/docker-quick-start/">
-      Docker 快速上手
+  <h1 class="title">
+    <a href="/how-to-make-terminal-commands-go-through-proxy/">
+      如何让终端命令走代理？
     </a>
-  </h2>
+  </h1>
 
 
         
@@ -320,9 +309,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Linux/Tutorial/' rel="nofollow">
+    <a href='/categories/Git/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Linux/Tutorial</p>
+      <p>Git</p>
     </a>
   </div>
 
@@ -333,9 +322,14 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jul 23, 2020</p>
+    <p>发布于：Aug 18, 2020</p>
   </a>
 </div>
+
+            
+          
+            
+              
 
             
           
@@ -344,13 +338,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>5.5k words</p>
+      <p>476 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>22 min</p>
+      <p>1 min</p>
     </a>
   </div>
 
@@ -359,6 +353,18 @@
           
             
               
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/how-to-make-terminal-commands-go-through-proxy/" class="leancloud_visitors" data-flag-title="如何让终端命令走代理？">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
 
             
           
@@ -371,103 +377,79 @@
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这篇笔记的主要目的是用来记录学习 <code>Docker</code> 的过程。<code>Docker</code>这个词并不是第一次听说了，印象中好久以前就听说过这个东西了，只是一直没有真正去了解。</p>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/docker-quick-start/">
-            阅读全文 <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>问题描述：今天本来打算使用Homebrew 更新一个工具，但是输入完<code>brew updata</code> 之后，就一直是<code>Updating Homebrew...</code></p>
+<a id="more"></a>
 
-          </div>
-        
-      
-    
-  </section>
+<p>这个时候，我产生了几个疑问：</p>
+<ol>
+<li>为什么卡着不动了，明明是有网络的啊。</li>
+<li>难道是因为Homebrew 需要访问国外的源？</li>
+<li>Shadowsocks 明明是开着全局代理，为什么没有用？</li>
+<li>如何让终端命令走代理，或者说如何让 Homebrew 走代理更新？</li>
+</ol>
+<h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2><p>首先先回答一下上面那些问题，因为国内网络环境进一步恶劣，使得从根本上造成了这个问题的产生。因为<code>Shadowshocks</code>的全局代理虽然对浏览器是有效，但对命令行无效。</p>
+<p>所以这一切的问题可以总结成一个问题：如果能让终端命令走代理就好了。</p>
+<p>好在Homebrew 是支持全局代理的，所以我们只需要在当前环境中加入代理配置就好了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export ALL_PROXY&#x3D;socks5:&#x2F;&#x2F;127.0.0.1:1080</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 1080 是本地 socks5 监听端口</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如何知道终端命令有没有走代理？</p>
+</blockquote>
+<p>有一个很简单的方法，那就是通过Curl 命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl https:&#x2F;&#x2F;www.google.com</span><br></pre></td></tr></table></figure>
+<p>如果走了本地代理，那么很快终端就会有输出，如果没有走则会提示403 端口请求超时。</p>
+<h3 id="永久生效"><a href="#永久生效" class="headerlink" title="永久生效"></a>永久生效</h3><p>需要注意的是，上面的配置仅仅只是临时的，如果重启一下终端，这个配置就失效了，那么有没有办法可以永久生效呢？</p>
+<p>当然是有的，只需要将环境变量写入终端中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># bash</span><br><span class="line">echo export ALL_PROXY&#x3D;socks5:&#x2F;&#x2F;127.0.0.1:1080 &gt;&gt; ~&#x2F;.bash_profile</span><br><span class="line"></span><br><span class="line"># zsh</span><br><span class="line">echo export ALL_PROXY&#x3D;socks5:&#x2F;&#x2F;127.0.0.1:1080 &gt;&gt; ~&#x2F;.zsh_profile</span><br></pre></td></tr></table></figure>
+
+<p>这样，Homebrew 就能通过 <code>Shadowsocks</code> 来更新了。</p>
+<h4 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h4><ul>
+<li><a href="https://www.logcg.com/archives/1617.html" target="_blank" rel="noopener">让 Homebrew 走代理更新</a></li>
+<li><a href="https://www.cnblogs.com/xjnotxj/p/7478614.html" target="_blank" rel="noopener">如何让Homebrew 走代理更新？</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
   
     
-    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
     
-    
+
+
 
   
 
-
-    
-  
-
-</div>
-<aside class='l_side'>
-  
   
     
     
 
-<section class="widget blogger shadow desktop mobile">
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
   <div class='content'>
     
-      
-        <a class='avatar flat-box' href='/about/'>
-          <img no-lazy src='https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg'/>
-        </a>
-      
-    
-    
-      <div class='text'>
+      <blockquote>
         
-        
-          <p>Stay foolish, Stay hungry</p>
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
 
-        
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
-        
-          
-            <a href="/atom.xml"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
           
         
           
-            <a href="mailto:aikangtongxue@gamil.com"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/how-to-make-terminal-commands-go-through-proxy/>https://www.0x2beace.com/how-to-make-terminal-commands-go-through-proxy/</a></p>
           
         
-          
-            <a href="https://github.com/0xAikang"
-              class="social fab fa-github flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-          
-            <a href="https://music.163.com/#/user/home?id=112719323"
-              class="social fas fa-headphones-alt flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-      </div>
+      </blockquote>
     
   </div>
 </section>
@@ -477,173 +459,212 @@
   
     
     
+
+<section class="widget qrcode  desktop mobile">
   
 
-  <section class="widget category shadow desktop">
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-08-18T23:43:24+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Aug 18, 2020</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Git/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Git</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/how-to-make-terminal-commands-go-through-proxy/&title=如何让终端命令走代理？ - Boo&summary=问题描述：今天本来打算使用Homebrew 更新一个工具，但是输入完brew updata 之后，就一直是Updating Homebrew..."
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/how-to-make-terminal-commands-go-through-proxy/&title=如何让终端命令走代理？ - Boo&summary=问题描述：今天本来打算使用Homebrew 更新一个工具，但是输入完brew updata 之后，就一直是Updating Homebrew..."
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/how-to-make-terminal-commands-go-through-proxy/&title=如何让终端命令走代理？ - Boo&summary=问题描述：今天本来打算使用Homebrew 更新一个工具，但是输入完brew updata 之后，就一直是Updating Homebrew..."
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADsUlEQVR42u3aQXLcMAwEQP//08k9KdcCA8iG182btCuJbOowBejjjxGNDwTgwIEDZ4ADdwTuIxz/Xv/qfv9N4MV92gsqXj9eLzhw4MCBAwcO3DG4dIIpVHVh1fPpcXu94MCBAwcOHDhwR+HSwFsNmtUFdDekO694veDAgQMHDhw4cG8Cl55/tfDp71uFV3DgwIEDBw4cuHeFq/5/63y3sQ0OHDhw4MCBA/db4LoN2q1gW4XsNr7PdvLBgQMHDhw4cOCW4LpjO4B+9XG8XnDgwIEDBw4cuCNw22MLPg2q6fXl54ADBw4cOHDgwB2BSwuN2xPs3m9aII0b1ODAgQMHDhw4cEfg0iD5aoHph4Td/03nXw3m4MCBAwcOHDhw1+G6C00nNC1sVjcu3ahP5wMOHDhw4MCBA3cUbjrBKXQapKcN7bVCJjhw4MCBAwcO3BfBpYW/7kSfAugCdQuz4MCBAwcOHDhwV+G2G8npfdMg3N3gaWAGBw4cOHDgwIG7ArcFMAVKg3X3udXC5VohExw4cODAgQMH7iG4bmM5bSinANOCZNroBgcOHDhw4MCBuw6XBtrqQrc+8HsqKLdfIHDgwIEDBw4cuCNw04ZuN5huFRTTBnr6AoADBw4cOHDgwF2Hq06g28iePudp6PIxOHDgwIEDBw7cMbhpgTItKHbBu4E3/WASHDhw4MCBAwfup8B1J9gNoFsLTINzGpjjQiY4cODAgQMHDtzDcGkBcgs+XVi38Z0WNsGBAwcOHDhw4H4a3HaATANyt3HcbWTHhUxw4MCBAwcOHLhvhpsWBruN5q2CaLdxPn0uOHDgwIEDBw7cNbjuxKYTrwJvb1D3ue1CJjhw4MCBAwcO3DfBPVX460JUG91bhdYuIDhw4MCBAwcO3FW4aeCdBuO1oDoMvp96gAMHDhw4cODAHYOrNnKrE5zCbwXm7rxebjg4cODAgQMHDtwPg+sG5q9uOG9/yLgWgMGBAwcOHDhw4B6Cm47tDw2rC94qXHavAwcOHDhw4MCBuwI3DoRLH/ql16cw3Y0GBw4cOHDgwIG7CjcNvF2YOIAO7z8tpIIDBw4cOHDgwF2FmwbVKXh3QdPg3H5xwIEDBw4cOHDg3gxu2pBOC6PTBnr3hQAHDhw4cODAgXsXuK2Gche8ClfdqPIxOHDgwIEDBw7cUbg0QHYb1NPr0vPpBoMDBw4cOHDgwF2FS4PqtHE9LUimBc842IMDBw4cOHDgwB2BM5obhgAcOHDgDHDgvnf8Beo2/UTVAXFCAAAAAElFTkSuQmCC">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/detailed-git-pull-command/'>
+                <p class='title'>Git Pull 命令详解<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>这片文章主要用来讲解git pull命令的一些细节。
+
+
+git pullgit pull 的作用是：取回远程主机某个分支的更新，再与本地指定分支自动合并。
+描述将远程主机中的更改合并到当前分支...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: '如何让终端命令走代理？',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
     
   <header>
     
-      <a href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
   </header>
 
 
     <div class='content'>
-      <ul class="entry navigation">
-        
-          <li><a class="flat-box"
-            title="/categories/Git/" href="/categories/Git/"
-            id="categoriesGit"
-            ><div class='name'>Git</div><div class='badge'>(5)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Linux/" href="/categories/Linux/"
-            id="categoriesLinux"
-            ><div class='name'>Linux</div><div class='badge'>(17)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/Tutorial/" href="/categories/Linux/Tutorial/"
-            id="categoriesLinuxTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/Windows/" href="/categories/Linux/Windows/"
-            id="categoriesLinuxWindows"
-            ><div class='name'>Windows</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/" href="/categories/Linux/%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/"
-            id="categoriesLinuxE591BDE4BBA4E695B4E79086"
-            ><div class='name'>命令整理</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" href="/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
-            id="categoriesLinuxE5ADA6E4B9A0E7AC94E8AEB0"
-            ><div class='name'>学习笔记</div><div class='badge'>(8)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Mysql/" href="/categories/Mysql/"
-            id="categoriesMysql"
-            ><div class='name'>Mysql</div><div class='badge'>(11)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Nginx/" href="/categories/Nginx/"
-            id="categoriesNginx"
-            ><div class='name'>Nginx</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Node/" href="/categories/Node/"
-            id="categoriesNode"
-            ><div class='name'>Node</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Node/Socket-io/" href="/categories/Node/Socket-io/"
-            id="categoriesNodeSocket-io"
-            ><div class='name'>Socket.io</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Node/Tutorial/" href="/categories/Node/Tutorial/"
-            id="categoriesNodeTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/PHP/" href="/categories/PHP/"
-            id="categoriesPHP"
-            ><div class='name'>PHP</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/PHP/Tutorial/" href="/categories/PHP/Tutorial/"
-            id="categoriesPHPTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Redis/" href="/categories/Redis/"
-            id="categoriesRedis"
-            ><div class='name'>Redis</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Shell/" href="/categories/Shell/"
-            id="categoriesShell"
-            ><div class='name'>Shell</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Skill/" href="/categories/Skill/"
-            id="categoriesSkill"
-            ><div class='name'>Skill</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Skill/Windows/" href="/categories/Skill/Windows/"
-            id="categoriesSkillWindows"
-            ><div class='name'>Windows</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Skill/Windows/Mac/" href="/categories/Skill/Windows/Mac/"
-            id="categoriesSkillWindowsMac"
-            ><div class='name'>Mac</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Tutorial/" href="/categories/Tutorial/"
-            id="categoriesTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(10)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/GitHub/" href="/categories/Tutorial/GitHub/"
-            id="categoriesTutorialGitHub"
-            ><div class='name'>GitHub</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/Linux/" href="/categories/Tutorial/Linux/"
-            id="categoriesTutorialLinux"
-            ><div class='name'>Linux</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/Skill/" href="/categories/Tutorial/Skill/"
-            id="categoriesTutorialSkill"
-            ><div class='name'>Skill</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/Skill/GitHub/" href="/categories/Tutorial/Skill/GitHub/"
-            id="categoriesTutorialSkillGitHub"
-            ><div class='name'>GitHub</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C/" href="/categories/%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C/"
-            id="categoriesE4B880E4BA9BE7BB8FE9AA8C"
-            ><div class='name'>一些经验</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E5%89%8D%E7%AB%AF/" href="/categories/%E5%89%8D%E7%AB%AF/"
-            id="categoriesE5898DE7ABAF"
-            ><div class='name'>前端</div><div class='badge'>(1)</div></a></li>
-        
-      </ul>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#方案"><span class="toc-text">方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#永久生效"><span class="toc-text">永久生效</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol></li></ol>
     </div>
   </section>
 
-
-  
-
-  
-    
-    
-  
-
-  <section class="widget tagcloud shadow desktop mobile">
-    
-  <header>
-    
-      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
-    
-  </header>
-
-
-    <div class='content'>
-      <a href="/tags/Arch-Linux/" style="font-size: 15.43px; color: #8f8f8f">Arch Linux</a> <a href="/tags/CI/" style="font-size: 14px; color: #999">CI</a> <a href="/tags/Docker/" style="font-size: 14px; color: #999">Docker</a> <a href="/tags/Git/" style="font-size: 18.29px; color: #7c7c7c">Git</a> <a href="/tags/HTTPS/" style="font-size: 14px; color: #999">HTTPS</a> <a href="/tags/Hash/" style="font-size: 14px; color: #999">Hash</a> <a href="/tags/Hexo/" style="font-size: 16.86px; color: #868686">Hexo</a> <a href="/tags/JavaScript/" style="font-size: 14px; color: #999">JavaScript</a> <a href="/tags/Linux/" style="font-size: 24px; color: #555">Linux</a> <a href="/tags/Mac/" style="font-size: 15.43px; color: #8f8f8f">Mac</a> <a href="/tags/Mysql/" style="font-size: 21.14px; color: #686868">Mysql</a> <a href="/tags/Nginx/" style="font-size: 14px; color: #999">Nginx</a> <a href="/tags/Node/" style="font-size: 15.43px; color: #8f8f8f">Node</a> <a href="/tags/PHP/" style="font-size: 16.86px; color: #868686">PHP</a> <a href="/tags/PM2/" style="font-size: 14px; color: #999">PM2</a> <a href="/tags/Redis/" style="font-size: 14px; color: #999">Redis</a> <a href="/tags/Shell/" style="font-size: 19.71px; color: #727272">Shell</a> <a href="/tags/Skill/" style="font-size: 14px; color: #999">Skill</a> <a href="/tags/Socket-io/" style="font-size: 14px; color: #999">Socket.io</a> <a href="/tags/Tutorial/" style="font-size: 22.57px; color: #5f5f5f">Tutorial</a> <a href="/tags/Vim/" style="font-size: 14px; color: #999">Vim</a> <a href="/tags/WSL/" style="font-size: 14px; color: #999">WSL</a> <a href="/tags/Web-%E5%AE%89%E5%85%A8/" style="font-size: 15.43px; color: #8f8f8f">Web 安全</a> <a href="/tags/Windows/" style="font-size: 15.43px; color: #8f8f8f">Windows</a> <a href="/tags/https/" style="font-size: 14px; color: #999">https</a> <a href="/tags/mysql/" style="font-size: 14px; color: #999">mysql</a> <a href="/tags/ssh/" style="font-size: 14px; color: #999">ssh</a> <a href="/tags/%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" style="font-size: 15.43px; color: #8f8f8f">进程管理</a>
-    </div>
-  </section>
-
-
-  
 
   
 
@@ -847,6 +868,60 @@ setInterval("createtime()",250);
 
 
 
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "prAyvaUeadxadA2wpcBQqNQn-gzGzoHsz",
+    appKey: "vkyEUTw0BixVjfFpFIzUdhak",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
 
 
 
