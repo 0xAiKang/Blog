@@ -5,7 +5,7 @@ tags: ["Git"]
 categories: ["Git"]
 ---
 
-> 问题描述：今天本来打算使用Homebrew 更新一个工具，但是输入完`brew updata` 之后，就一直是`Updating Homebrew...`
+问题描述：今天本来打算使用Homebrew 更新一个工具，但是输入完`brew updata` 之后，就一直是`Updating Homebrew...`
 
 <!-- more -->
 
