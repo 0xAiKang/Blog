@@ -362,8 +362,10 @@ docker@myvm1: $ docker stack deploy -c docker-compose.yml
 * 是否存在端口号，取决于你的`docker-compose.yml`文件
 
 ## Docker 常用命令
+
 ### 容器的生命周期
-* 创建一个新的容器并运行：
+
+创建一个新的容器并运行：
 ```
 $ docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
 $ docker run ubuntu:15.10 /bin/echo "Hello world"
@@ -375,17 +377,20 @@ $ docker run ubuntu:15.10 /bin/echo "Hello world"
 * -P：内部容器端口随机映射到主机端口上
 * --name：给容器命名，如果不加--name 参数，Docker 会自动命名。
 ```
-* 杀掉一个运行中的容器：
+
+杀掉一个运行中的容器：
 ```
 $ docker kill -s KILL mydocker
 # mydocker 表示Contianer ID或者Name
 ```
-* 结束停止一个运行中的容器：
+
+结束停止一个运行中的容器：
 ```
 $ docker container stop mydocker
 # mydocker 表示Container ID或者Name
 ```
-* 查看正在运行的容器：
+
+查看正在运行的容器：
 ```
 $ docker ps
 
@@ -394,30 +399,34 @@ $ docker ps
 * --all：查询所有创建容器记录
 * -aq：查询所有创建容器的Container ID
 ```
-* 停止Web 应用容器
+停止Web 应用容器
 
 这个只是停止该容器的运行，并没有杀死
 ```
 $ docker stop mydocker 
 ```
-* 启动Web 应用容器
+
+启动Web 应用容器
 
 已经停止的容器，可以使用命令 docker start 来启动。
 ```
 $ docker start mydocker 
 ```
-* 移除Web 应用容器
+
+移除Web 应用容器
 ```
 $ docker rm mydocker
 mydocker
 # 删除容器时，容器必须是停止状态，否者会报错。
 ```
 ### 镜像操作
-* 如何创建一个Docker 镜像
+
+如何创建一个Docker 镜像
 ```
 $ docker build --tag=mydockerapp # 注意：标签名只能小写
 ```
-* 列出下载到计算机中的镜像
+
+列出下载到计算机中的镜像
 ```
 $ docker image ls
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
@@ -425,16 +434,13 @@ hello-world         latest              fce289e99eb9        3 months ago        
 
 各个选项说明:
 * REPOSITORY：表示镜像的仓库源
-
 * TAG：镜像的标签
-
 * IMAGE ID：镜像ID
-
 * CREATED：镜像创建时间
-
 * SIZE：镜像大小
 ```
-* 查找镜像
+
+查找镜像
 ```
 $ docker search nginx 
 NAME     DESCRIPTION                    STARS      OFFICIAL 
@@ -446,154 +452,184 @@ DESCRIPTION:镜像的描述
 
 OFFICIAL:是否docker官方发布
 ```
-* 获取一个新镜像
+
+获取一个新镜像
 
 如果我们决定使用上图中的 nginx 官方镜像，使用如下命令：
 ```
 $ docker pull nginx
 ```
 ### 容器操作
-* 列出下载到计算机中的 container 
+
+列出下载到计算机中的 container 
 ```
 $ docker container ls
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
 ```
 
 ### 仓库操作
-* 登入`hub.docker.com`
+
+登入`hub.docker.com`
 ```
 $ docker login 
 # 前提是先注册号账号
 ```
-* 标记镜像，以便上传至目标位置
+
+标记镜像，以便上传至目标位置
 ```
 $ docker tag mydocker aikang/get-started:part1
 # 最后上传至所登入的Docker Hub仓库
 ```
-* 将标记的镜像上传到存储库：
+
+将标记的镜像上传到存储库：
 ```
 $ docker push mydocker aikang/get-started:part1
 ```
-* 从远程存储库中拉出并运行映像
+
+从远程存储库中拉出并运行映像
 ```
 $ docker run -d -p 4000:80 aikang/get-started:part1
 ```
 注意：无论在哪里执行`docker run`，它都会提取你的镜像，以及Python和所有依赖项requirements.txt，并运行你的代码。它们都在一个整洁的小包中一起旅行，你不需要在主机上安装任何东西让Docker运行它。
 
 ### 服务操作
-* 群集初始化，可以使节点变成群集管理器
+
+群集初始化，可以使节点变成群集管理器
 ```
 $ docker swarm init
 ```
-* 以服务运行
+
+以服务运行
 ```
 $ docker stack deploy -c docker-compose.yml getstartedlab
 Creating network getstartedlab_webnet
 Creating service getstartedlab_web
 # 需要有一个docker-compose.yml 文件
 ```
-* 列出与应用程序关联的正在运行的服务
+
+列出与应用程序关联的正在运行的服务
 ```
 $ docker service ls
 ```
-* 查看与堆栈相关的所有服务
+
+查看与堆栈相关的所有服务
 ```
 $ docker stack services getstartedlab
 # getstartedlab 表示服务的Names
 ```
-* 列出服务任务
+
+列出服务任务
 ```
 $ docker service ps getstartedlab
 # getstartedlab 表示服务的Names
 ```
-* 关闭服务
+
+关闭服务
 ```
 $ docker stack rm getstartedlab
 # getstartedlab 表示服务的Names
 ```
-* 查看集群中的节点
+
+查看集群中的节点
 ```
 $ docker node ls
 ```
 ### VM 交互
-* 创建一个VM 实例（Win、Mac、Linux）
+
+创建一个VM 实例（Win、Mac、Linux）
 ```
 $ docker-machine create --driver virtualbox myvm1
 ```
-* 使用ssh 连接VM 实例
+
+使用ssh 连接VM 实例
 ```
 $ docker-machine ssh myvm1
 ```
-* 查看关于节点的基本信息
+
+查看关于节点的基本信息
 ```
 $ docker-machine env myvm1
 ```
-* 使用scp命令将本地文件copy到VM实例中
+
+使用scp命令将本地文件copy到VM实例中
 ```
 $ docker-machine scp <filename> myvm1:~  
 # 从当前目录拷贝到实例中的根目录下
 ```
-* 删除指定VM
+
+删除指定VM
 ```
 $ docker-machine rm myvm1
 ```
-* 将Shell 与VM 连接
+
+将Shell 与VM 连接
 ```
 $ eval $(docker-machine env myvm1)
 ```
-* 将Shell 与VM 断开，使用本地连接
+
+将Shell 与VM 断开，使用本地连接
 ```
 $ eval $(docker-machine env -u)
 ```
 ### 集群操作
 以下操作均需要在VM CLI 中运行
-* 初始化集群
+
+初始化集群
 ```
 $ docker swarm init --advertise-addr <myvm1 ip>
 ```
-* 将节点加入集群
+
+将节点加入集群
 ```
 $ docker swarm join --token <token> <ip>:2377"
 ```
-* 让工作者离开集群
+
+让工作者离开集群
 ```
 $ docker swarm leave
 ```
-* 强制离开并关掉集群
+
+强制离开并关掉集群
 ```
 $ docker swarm leave -f
 ```
-* 查看该节点的详情信息
+
+查看该节点的详情信息
 ```
 $ docker node inspect <node ID>
 ```
-* 部署应用程序
+
+部署应用程序
 ```
 $ docker stack deploy -c <file> <app>
 ```
 
 ### 杂项
 
-* 查看Docker版本：
+查看Docker版本：
 ```
 $ docker version
 ```
-* 显示Docker系统信息，包括镜像和容器数：
+
+显示Docker系统信息，包括镜像和容器数：
 ```
 $ docker info
 ```
-* 查看Docker 容器的配置和状态信息。
+
+查看Docker 容器的配置和状态信息。
 ```
 $ docker inspect mydocker
 # 表示容器的Container ID 或者Names
 ```
-* 查看指定容器映射到宿主机的端口号。
+
+查看指定容器映射到宿主机的端口号。
 ```
 $ docker port mydocker
 80/tcp -> 0.0.0.0:4000
 # mydocker 表示该应用的Container ID 或者Names
 ```
-* 查看Web 应用程序日志
+
+查看Web 应用程序日志
 ```
 $ docker logs -f mydocker 
  * Running on http://0.0.0.0:80/ (Press CTRL+C to quit)
@@ -601,7 +637,8 @@ $ docker logs -f mydocker
 113.87.130.57 - - [01/Apr/2019 12:58:35] "GET / HTTP/1.1" 200 -
 # mydocker 表示该应用的Container ID 或者是Names
 ```
-* 查看Web 应用程序容器的进程
+
+查看Web 应用程序容器的进程
 ```
 $ docker top mydocker 
 # 
