@@ -39,7 +39,7 @@ $ timedatectl list-timezones
 ### 0x3. 设置硬件时间
 
 ```
-$ ls -al | grep localtime
+$ cd /etc/ && ls -al | grep localtime
 lrwxrwxrwx  1 root root         27 Jul 24 00:57 localtime -> /usr/share/zoneinfo/Etc/UTC
 ```
 可以看到默认链接的是`UTC`，所以需要手动更改链接时区文件。
