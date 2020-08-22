@@ -338,7 +338,7 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>533 words</p>
+      <p>539 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
@@ -405,7 +405,7 @@
 <li>硬件时间：由 BIOS（或CMOS）所负责。</li>
 <li>系统时间：由 Linux 所负责，系统时间在系统开关机后读取硬件时间后，再由 Linux 管理时间。</li>
 </ol>
-<h3 id="0x3-设置硬件时间"><a href="#0x3-设置硬件时间" class="headerlink" title="0x3. 设置硬件时间"></a>0x3. 设置硬件时间</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ls -al | grep localtime</span><br><span class="line">lrwxrwxrwx  1 root root         27 Jul 24 00:57 localtime -&gt; &#x2F;usr&#x2F;share&#x2F;zoneinfo&#x2F;Etc&#x2F;UTC</span><br></pre></td></tr></table></figure>
+<h3 id="0x3-设置硬件时间"><a href="#0x3-设置硬件时间" class="headerlink" title="0x3. 设置硬件时间"></a>0x3. 设置硬件时间</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd &#x2F;etc&#x2F; &amp;&amp; ls -al | grep localtime</span><br><span class="line">lrwxrwxrwx  1 root root         27 Jul 24 00:57 localtime -&gt; &#x2F;usr&#x2F;share&#x2F;zoneinfo&#x2F;Etc&#x2F;UTC</span><br></pre></td></tr></table></figure>
 <p>可以看到默认链接的是<code>UTC</code>，所以需要手动更改链接时区文件。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ln -sf &#x2F;usr&#x2F;share&#x2F;zoneinfo&#x2F;Asia&#x2F;Shanghai &#x2F;etc&#x2F;localtime</span><br></pre></td></tr></table></figure>
 
@@ -506,10 +506,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-08-09T21:24:17+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-08-22T08:44:06+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Aug 9, 2020</p>
+    <p>更新于：Aug 22, 2020</p>
   </a>
 </div>
 
