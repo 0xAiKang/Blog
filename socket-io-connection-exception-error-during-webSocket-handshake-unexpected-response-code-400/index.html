@@ -16,12 +16,14 @@
 
   <!-- 页面元数据 -->
   
-    <title>Git Clone 太慢怎么办？ - Boo</title>
+    <title>”Socket.io 连接异常：Error during WebSocket handshake Unexpected response code 400“ - Boo</title>
   
-    <meta name="keywords" content="Git,Skill">
+    <meta name="keywords" content="Nginx,Socket.io,wss">
   
   
-    <meta name="description" content="今天在使用git 时，需要克隆Bitbucket的一个仓库，于是像往常一样打开了iTerm，便放在一边了。直到一个小时后，我才想起来，想着应该克隆完了，打开才发现百分之一都没下载完。">
+    <meta name="description" content="前段时间线上的生产环境遇到一个问题：Error during WebSocket handshake: Unexpected response code: 400。
+起初我没太在意，以为就是正常的 socket.io 连接断开了。
+直到我发现 socker.io 的通讯方式由原来的在一个连接中通讯变成了每一次推送...">
   
 
   <!-- feed -->
@@ -283,8 +285,8 @@
         
           
   <h1 class="title">
-    <a href="/what-should-I-do-if-git-clone-is-too-slow/">
-      Git Clone 太慢怎么办？
+    <a href="/socket-io-connection-exception-error-during-webSocket-handshake-unexpected-response-code-400/">
+      ”Socket.io 连接异常：Error during WebSocket handshake Unexpected response code 400“
     </a>
   </h1>
 
@@ -309,9 +311,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Git/Skill/' rel="nofollow">
+    <a href='/categories/Socket-io/Nginx/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Git/Skill</p>
+      <p>Socket.io/Nginx</p>
     </a>
   </div>
 
@@ -322,7 +324,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Aug 19, 2020</p>
+    <p>发布于：Aug 23, 2020</p>
   </a>
 </div>
 
@@ -338,13 +340,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>910 words</p>
+      <p>436 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>3 min</p>
+      <p>1 min</p>
     </a>
   </div>
 
@@ -357,7 +359,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/what-should-I-do-if-git-clone-is-too-slow/" class="leancloud_visitors" data-flag-title="Git Clone 太慢怎么办？">
+      <span id="/socket-io-connection-exception-error-during-webSocket-handshake-unexpected-response-code-400/" class="leancloud_visitors" data-flag-title="”Socket.io 连接异常：Error during WebSocket handshake Unexpected response code 400“">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -380,42 +382,24 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>今天在使用git 时，需要克隆<code>Bitbucket</code>的一个仓库，于是像往常一样打开了<code>iTerm</code>，便放在一边了。<br>直到一个小时后，我才想起来，想着应该克隆完了，打开才发现百分之一都没下载完。</p>
+          <p>前段时间线上的生产环境遇到一个问题：<code>Error during WebSocket handshake: Unexpected response code: 400</code>。</p>
+<p>起初我没太在意，以为就是正常的 <code>socket.io</code> 连接断开了。</p>
+<p>直到我发现 <code>socker.io</code> 的通讯方式由原来的在一个连接中通讯变成了每一次推送都重起一个请求，我才意识到可能是哪里出问题了。</p>
 <a id="more"></a>
 
-<p><img src="https://i.loli.net/2020/03/15/hV53lgLruRd8XCW.jpg" alt="git clone 失败"></p>
-<p>强大的长城技术对GitHub、Bitbucket 这类源代码托管服务平台网开一面，并没有像Google、FaceBook那样直接一刀切，但是它做了严格的限速，这种折磨简直比无法访问更难受。</p>
-<p>上图中<code>git clone</code>的速度从来没有超过 <code>10k/s</code>，这也就意味着一个 <code>100M</code> 的项目，需要近三个小时才能下载完，而且由于网络的不稳定性，下载过程中偶尔会出现断开连接的情况，由于<code>git clone</code> 不支持端点续传，这就会导致前几个小时的下载量完全浪费掉了，只能重新开始下载。</p>
-<p>这篇文章主要用来介绍几种方式可以快速的克隆远程仓库。</p>
-<h3 id="浅复制"><a href="#浅复制" class="headerlink" title="浅复制"></a>浅复制</h3><p><code>git clone</code>默认会下载项目的完整历史版本，如果你只关心代码，而不关心历史信息，那么可以使用 git 的浅复制功能：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone --depth&#x3D;1 https:&#x2F;&#x2F;github.com&#x2F;bcit-ci&#x2F;CodeIgniter.git</span><br></pre></td></tr></table></figure>
-<p><code>--depth=1</code> 表示只下载最近一次的版本，使用浅复制可以大大减少下载的数据量，例如，CodeIgniter 项目完整下载有近 100MiB ，而使用浅复制只有 5MiB 多，这样即使在恶劣的网络环境下，也可以快速的获得代码。</p>
-<p>如果之后又想获取完整历史信息，可以使用下面的命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git fetch --unshallow</span><br></pre></td></tr></table></figure>
-<p>或者，如果你只想下载最新的代码，你也可以直接从远程仓库下载打包好的<code>zip</code>文件，这会比浅复制更快，因为它只包含了最新的代码文件，而且<code>zip</code>是压缩文件。但是很显然，使用浅复制会灵活一些。</p>
-<h3 id="GUI-工具"><a href="#GUI-工具" class="headerlink" title="GUI 工具"></a>GUI 工具</h3><p>如果你有幸正在使用代理，懂得如何科学上网的话，那么访问<code>GitHub</code>、<code>Bitbucket</code>对你来说应该不在话下。</p>
-<p>从源代码托管服务平台下载项目最简单的方法就是使用一款图形化界面（<code>GUI</code>）的Git工具。</p>
-<p>使用<code>GUI</code>工具方便之处就在于，可以在设置中直接配置是否使用代理。或者直接将代理配置尾系统代理。</p>
-<h3 id="http-https-proxy"><a href="#http-https-proxy" class="headerlink" title="http/https proxy"></a>http/https proxy</h3><p>如果你跟我一样，更喜欢使用原生的<code>git</code>命令，喜欢使用在命令行下操作的那种感觉，那么你也可以在命令行下直接配置代理。</p>
-<p>这里也有两种方式，根据实际情况自行选择。</p>
-<h4 id="http"><a href="#http" class="headerlink" title="http"></a>http</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global http.proxy http:&#x2F;&#x2F;127.0.0.1:1087</span><br><span class="line">$ git config --global https.proxy https:&#x2F;&#x2F;127.0.0.1:1087</span><br></pre></td></tr></table></figure>
-
-<p>或者直接编辑<code>~/.gitconifg</code>文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># vim ~&#x2F;.gitconfig</span><br><span class="line"></span><br><span class="line">[http]</span><br><span class="line">	proxy &#x3D; http:&#x2F;&#x2F;127.0.0.1:1087</span><br><span class="line">[https]</span><br><span class="line">	proxy &#x3D; https:&#x2F;&#x2F;127.0.0.1:1087</span><br></pre></td></tr></table></figure>
-
-<h4 id="socks5"><a href="#socks5" class="headerlink" title="socks5"></a>socks5</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global http.proxy socks5:&#x2F;&#x2F;127.0.0.1:1086</span><br><span class="line">$ git config --global https.proxy socks5:&#x2F;&#x2F;127.0.0.1:1086</span><br></pre></td></tr></table></figure>
-
-<p>其中，<code>1087</code>、<code>1086</code>分别是你本地机器的 <code>http</code>、<code>socks5</code>代理的端口号。 </p>
-<p>另外，如果想取消设置，可以输入以下命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global --unset http.proxy</span><br><span class="line">$ git conifg --global --unset https.proxy</span><br></pre></td></tr></table></figure>
-
-<p>配置完成后，重新 <code>clone</code>一遍，可以看到速度得到了极大的提升。</p>
-<p><img src="https://i.loli.net/2020/03/15/Xfw1r86iFgSGsxe.jpg" alt="git clone 成功"></p>
+<h2 id="nginx-作为wbsocket-代理"><a href="#nginx-作为wbsocket-代理" class="headerlink" title="nginx 作为wbsocket 代理"></a>nginx 作为wbsocket 代理</h2><p>经过一番查找，了解到 nginx 在作为反向代理时，如果需要使用 <code>wss</code>，那么还需要额外加一段配置。</p>
 <blockquote>
-<p>注意⚠️</p>
+<p>NGINX supports WebSocket by allowing a tunnel to be set up between a client and a backend server. For NGINX to send the Upgrade request from the client to the backend server, the Upgrade and Connection headers must be set explicitly.  —— Nginx 官网</p>
 </blockquote>
-<p>上面这种配置方式仅适用于 <code>https</code>协议，如果你在<code>clone</code>时选择<code>ssh</code>协议，那么速度仍然会很慢。</p>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><p><a href="https://www.aneasystone.com/archives/2015/08/git-clone-faster.html" target="_blank" rel="noopener">Git Clone 太慢怎么办？</a></p>
+<p>翻译过来就是：nginx 通过允许在客户端和后端服务器之间建立连接来支持 websocket 通讯，为了使 nginx 将升级请求从客户端发送到后端服务器，必须明确设置 Upgrade 和 Connection 标头。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">location &#x2F; &#123;</span><br><span class="line">  proxy_pass http:&#x2F;&#x2F;wsbackend;</span><br><span class="line">  </span><br><span class="line">  proxy_http_version 1.1;</span><br><span class="line">  proxy_set_header Upgrade $http_upgrade;</span><br><span class="line">  proxy_set_header Connection &quot;Upgrade&quot;;</span><br><span class="line">  proxy_set_header Host $host;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>第一行是 nginx 反向代理的配置，后面四行才是这个问题的解决方案。</p>
+<p>仔细想一想，因为本地没有 https 的概念，并没有发现这个问题，而线上是有配置证书的，所以暴露出了这个问题。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p><code>socket.io</code> 的请求并没有真正达到，请求发出之后中间为什么没有到达节点，这个是解决问题的关键。</p>
+<p>为了使 nginx 正确处理 <code>socket.io</code> 所需要做的就是正确设置标头，以处理将连接从 http 升级到 websocket 的请求。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://www.nginx.com/blog/websocket-nginx/" target="_blank" rel="noopener">Nginx 作为Websocket 反向代理</a></li>
+</ul>
 
           
             <div class='article_footer'>
@@ -452,7 +436,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/what-should-I-do-if-git-clone-is-too-slow/>https://www.0x2beace.com/what-should-I-do-if-git-clone-is-too-slow/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/socket-io-connection-exception-error-during-webSocket-handshake-unexpected-response-code-400/>https://www.0x2beace.com/socket-io-connection-exception-error-during-webSocket-handshake-unexpected-response-code-400/</a></p>
           
         
       </blockquote>
@@ -500,10 +484,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-08-19T23:02:03+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-08-23T10:39:08+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Aug 19, 2020</p>
+    <p>更新于：Aug 23, 2020</p>
   </a>
 </div>
 
@@ -512,7 +496,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Git/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Git</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Skill/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Skill</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Nginx/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Nginx</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Socket-io/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Socket.io</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/wss/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>wss</p></a></div>
 
 
         
@@ -530,7 +514,9 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/what-should-I-do-if-git-clone-is-too-slow/&title=Git Clone 太慢怎么办？ - Boo&summary=今天在使用git 时，需要克隆Bitbucket的一个仓库，于是像往常一样打开了iTerm，便放在一边了。直到一个小时后，我才想起来，想着应该克隆完了，打开才发现百分之一都没下载完。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/socket-io-connection-exception-error-during-webSocket-handshake-unexpected-response-code-400/&title=”Socket.io 连接异常：Error during WebSocket handshake Unexpected response code 400“ - Boo&summary=前段时间线上的生产环境遇到一个问题：Error during WebSocket handshake: Unexpected response code: 400。
+起初我没太在意，以为就是正常的 socket.io 连接断开了。
+直到我发现 socker.io 的通讯方式由原来的在一个连接中通讯变成了每一次推送都重起一个请求，我才意识到可能是哪里出问题了。"
           
           >
           
@@ -542,7 +528,9 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/what-should-I-do-if-git-clone-is-too-slow/&title=Git Clone 太慢怎么办？ - Boo&summary=今天在使用git 时，需要克隆Bitbucket的一个仓库，于是像往常一样打开了iTerm，便放在一边了。直到一个小时后，我才想起来，想着应该克隆完了，打开才发现百分之一都没下载完。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/socket-io-connection-exception-error-during-webSocket-handshake-unexpected-response-code-400/&title=”Socket.io 连接异常：Error during WebSocket handshake Unexpected response code 400“ - Boo&summary=前段时间线上的生产环境遇到一个问题：Error during WebSocket handshake: Unexpected response code: 400。
+起初我没太在意，以为就是正常的 socket.io 连接断开了。
+直到我发现 socker.io 的通讯方式由原来的在一个连接中通讯变成了每一次推送都重起一个请求，我才意识到可能是哪里出问题了。"
           
           >
           
@@ -554,7 +542,9 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/what-should-I-do-if-git-clone-is-too-slow/&title=Git Clone 太慢怎么办？ - Boo&summary=今天在使用git 时，需要克隆Bitbucket的一个仓库，于是像往常一样打开了iTerm，便放在一边了。直到一个小时后，我才想起来，想着应该克隆完了，打开才发现百分之一都没下载完。"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/socket-io-connection-exception-error-during-webSocket-handshake-unexpected-response-code-400/&title=”Socket.io 连接异常：Error during WebSocket handshake Unexpected response code 400“ - Boo&summary=前段时间线上的生产环境遇到一个问题：Error during WebSocket handshake: Unexpected response code: 400。
+起初我没太在意，以为就是正常的 socket.io 连接断开了。
+直到我发现 socker.io 的通讯方式由原来的在一个连接中通讯变成了每一次推送都重起一个请求，我才意识到可能是哪里出问题了。"
           
           >
           
@@ -568,7 +558,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADq0lEQVR42u3aQZbiMAwFQO5/6Z4T5MX6EkEw5R2hk1jljfqL158VrRcCcODAgbPAgVsC9wrX5YMvvr+6/+rz3ftOr58+/7RecODAgQMHDhy4bXDHDeAh3F0B6fuqYN19gAMHDhw4cODAfQvcbQN4uMFT2OpBpPeN1QsOHDhw4MCBA/djcN0gM73eDVrBgQMHDhw4cOD+d7g0OCwPhIegwIEDBw4cOHDgfg1uakD8riCz+vzqQP2xST44cODAgQMHDtwQXHWlweaWz3G94MCBAwcOHDhwS+C669Vc3WDz6QUOHDhw4MCBA7cFLm0QTwPObtDZPajpgwEHDhw4cODAgdsOd1dIOiieDlDThvgUFhw4cODAgQMHbivcXSFp43g6wJ4qeDoIPR5IgwMHDhw4cODAfQiuG1R2C6824NV9doNWcODAgQMHDhy4b4PrFpA2rk8FonGACg4cOHDgwIEDtxTuONAb+vupRrfcyKYNPDhw4MCBAwcO3BK4NIhMwavPqQaVpwcXHxA4cODAgQMHDtwSuNNBbXUA3A0i0wY2hYv/cwAHDhw4cODAgfsQ3FTQ2A0wqwDp9W5jDA4cOHDgwIED9y1w3evdgXa38U7vv7wPHDhw4MCBAwduOVw3cOwOrKcC07RhjxtgcODAgQMHDhy4h+DShrW6gVOwpwbS8QAdHDhw4MCBAwduCVwVpjq4fqrB7g6kj+sDBw4cOHDgwIFbApcWmgaOKWC6v+qB39YHDhw4cODAgQO3DK4aNHYLqwaW3UH4WBALDhw4cODAgQO3HK7b+FY33m2U04a3PNgGBw4cOHDgwIFbApdubApuKgjtQh+/Hxw4cODAgQMHbgncdCOZDorToDEdkMf1ggMHDhw4cODALYP7O1zdhjNd5cDxcJXrBAcOHDhw4MCBWwpX/eFguqG0QU4b8u4PKMGBAwcOHDhw4LbDpYHl9JpqbLt/3w4ywYEDBw4cOHDg3gQ3XeDpALhaWHfwXT2g24E0OHDgwIEDBw7ch+G6G65upPrcKtjU5+MgExw4cODAgQMH7sNw1Ya3Wli3sZ2CTgNTcODAgQMHDhy47XBpwzkdNL4r+HzbJB8cOHDgwIEDB+7L4dLgsvv9VPB52/CDAwcOHDhw4MD9GFw3AK02vtX3jO0PHDhw4MCBAwduKVz1BdXC3jUIrwad1QYeHDhw4MCBAwduK9zUALcbMKYHkAau5XrBgQMHDhw4cOCWwFm1BQ4cOHDgLHDgPrz+AeAhg2on0TndAAAAAElFTkSuQmCC">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZgAAAGYCAAAAABaUKuJAAAGFUlEQVR42u3dQW7cMBAEQP//0849gUB2z2jtAMXb2huJnFIOjVaQr2/rV64vIwBjgQFjgQFjgbGOMF/l+ueCf/38a7iervt0/euDX97n0+cGAwYMGDBgwIABAwZMDpMe7Pb37aCngKeBtZDtg3Q9LzBgwIABAwYMGDBgwMQwWwOYArdBsX1QfiqoggEDBgwYMGDAgAED5udhpgHtNohuFVrbQRIMGDBgwIABAwYMGDD/D8zbQXNaoLVBcnoeMGDAgAEDBgwYMGDAvA+zdeN2UG3w3CrQ2n2tzRMMGDBgwIABAwYMGDDXMNMA5/PSPMGAAQMGDAgwYMCAAXOEma5TELwtqrYCXHvf9PrfLy0wYMCAAQMGDBgwYMCcYabF12mw28XZdH/tAzU97/WDBwYMGDBgwIABAwYMmOuAOT3oLXQbWNMBtkVfCnQLVSd/MGDAgAEDBgwYMGDAHANmOrj2oFsH2rpeC9AWf4/7BAMGDBgwYMCAAQMGzBFmCrK1sRY8DcrTAJgG4nHyBwMGDBgwYMCAAQMGzBHmrRcA0+Jp+3rb358WiY+/BwMGDBgwYMCAAQMGTAzzU8ErDYRbL+69/SJiXCiCAQMGDBgwYMCAAQPmGqa9YBuk2kD29v5uP2+9KHl84Q8MGDBgwIABAwYMGDD/wGwFuK1B3u6jDbDtANMg3BZqYMCAAQMGDBgwYMCAOcNsB6t24+2DkgLd7nO7GLsuEMGAAQMGDBgwYMCAAXOE2Tp4Gyzbn9/eb/pgXA80hD2+8AcGDBgwYMCAAQMGDJgjzFZR1F7vO1xbgXX6ILUBtG4wwYABAwYMGDBgwIABExdKt4Nqi6jtAUwDdBowx3MDAwYMGDBgwIABAwbMdcBsC6jt4igtvNqi660CMH2AwIABAwYMGDBgwIABk8PUhc7l97Y2PP1zbwfd9PqP1wEDBgwYMGDAgAEDBsw1zFbh1RZk6UG3BjENlNuFIBgwYMCAAQMGDBgwYPL/P2ZaiLXX3Sqm2kFOi6/0948/BwMGDBgwYMCAAQMGzBEmvfH2oFLI6X6mQTG9fxqAwYABAwYMGDBgwIABk//HPvGFyu9NC6atwFcXWuG5r/8igAEDBgwYMGDAgAED5ggzDVrtANP7td9Pg/TW/dPrgAEDBgwYMGDAgAED5h6mLnQui6O28EoH+dagp4ExflDBgAEDBgwYMGDAgAET9zHTDbcDbgutFDgd+DgwpnMEAwYMGDBgwIABAwZMDLMdMKcFVhpQt/czDdJrARMMGDBgwIABAwYMGDD1P9zZWtOD3wbSraC5XQQeX/gDAwYMGDBgwIABAwbMEWZaDKXXaYu4rcFOA+P0fo/nAgMGDBgwYMCAAQMGzBFmevCtwW4XYFuFXRso6+AJBgwYMGDAgAEDBgyY64A5LXq2g+E0+H4qYK4XdWDAgAEDBgwYMGDAgDnCpBtvi6M2iG0NJg2Y28VZXZSBAQMGDBgwYMCAAQPmMWCmAG2RtFWQTe87LeLGQfLpemDAgAEDBgwYMGDAgKlhpkGtDXTpfqZgW0E7LQCvG0wwYMCAAQMGDBgwYMA8wqRBsw1cbTBrB/XWg9WCHOcCBgwYMGDAgAEDBgyYI0w6qLa42irQ2mDc7msrAF/fBwwYMGDAgAEDBgwYMDHMtOC6PeDbgbN9oLb2nZ4HDBgwYMCAAQMGDBgw9zApyO330yB2W0ilD8Jb52z3c/wMBgwYMGDAgAEDBgyYI8x0pQdNC7i3Cr02QG8F48fvgwEDBgwYMGDAgAED5gizFeBuD5gGyLYYS/fTgm4FZzBgwIABAwYMGDBgwOQw7YBbsNsDtQVXGhCnA24fyGPABAMGDBgwYMCAAQMGzBGmDVRbKy2utl74a4u17fOCAQMGDBgwYMCAAQPm8zBp0JoGw7cg032nhd/jZzBgwIABAwYMGDBgwHwcZmtgt0VWW4RtF2ZbDxQYMGDAgAEDBgwYMGBymPRFvekB2wcjHUD6wLQDn84TDBgwYMCAAQMGDBgw9zDti2rTYLk1qDTQTc+9XaiBAQMGDBgwYMCAAQPmHsb6XQsMGAsMGAsMGAuM9bj+AHwC+8tZkN5kAAAAAElFTkSuQmCC">
           </div>
         </div>
       
@@ -588,21 +578,14 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/socket-io-connection-exception-error-during-webSocket-handshake-unexpected-response-code-400/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>”Socket.io 连接异常：Error during WebSocket handshake Unexpected response code 400“</p>
-                <p class='content'>前段时间线上的生产环境遇到一个问题：Error during WebSocket handshake: Unexpected response code: 400。
-起初我没太在意，以为就是正常...</p>
-              </a>
             
-            
-              <a class='next' href='/how-to-make-terminal-commands-go-through-proxy/'>
-                <p class='title'>如何让终端命令走代理？<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>问题描述：今天本来打算使用Homebrew 更新一个工具，但是输入完brew updata 之后，就一直是Updating Homebrew...
+              <a class='next' href='/what-should-I-do-if-git-clone-is-too-slow/'>
+                <p class='title'>Git Clone 太慢怎么办？<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>今天在使用git 时，需要克隆Bitbucket的一个仓库，于是像往常一样打开了iTerm，便放在一边了。直到一个小时后，我才想起来，想着应该克隆完了，打开才发现百分之一都没下载完。
 
 
-这个时候，我产生了几个疑问：
 
-为什么卡着...</p>
+强大...</p>
               </a>
             
           </div>
@@ -647,7 +630,7 @@
 
   <script>
     window.subData = {
-      title: 'Git Clone 太慢怎么办？',
+      title: '”Socket.io 连接异常：Error during WebSocket handshake Unexpected response code 400“',
       tools: true
     }
   </script>
@@ -674,7 +657,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#浅复制"><span class="toc-text">浅复制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GUI-工具"><span class="toc-text">GUI 工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#http-https-proxy"><span class="toc-text">http&#x2F;https proxy</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#http"><span class="toc-text">http</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#socks5"><span class="toc-text">socks5</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#nginx-作为wbsocket-代理"><span class="toc-text">nginx 作为wbsocket 代理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
     </div>
   </section>
 
