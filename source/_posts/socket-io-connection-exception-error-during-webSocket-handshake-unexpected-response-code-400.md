@@ -1,5 +1,5 @@
 ---
-title: ”Socket.io 连接异常：Error during WebSocket handshake Unexpected response code 400“
+title: Socket.io 连接异常：Error during WebSocket handshake Unexpected response code 400
 date: 2020-08-23 10:34:50
 tags: ["Nginx", "Socket.io", "wss"]
 categories: ["Socket.io", "Nginx"]

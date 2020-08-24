@@ -1,5 +1,5 @@
 ---
-title: Win 10 如何卸载 WSL (Linux子系统)
+title: Win10 如何卸载 Arch Linux 
 date: 2020-08-16 17:56:22
 tags: ["Linux", "Arch Linux"]
 categories: ["Linux", "Windows"]
