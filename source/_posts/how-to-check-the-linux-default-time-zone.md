@@ -13,7 +13,7 @@ categories: ["Linux"]
 
 # 时区的概念
 关于时区，有以下几个标准：
-*  CST：中国标准时间（China Standard Time）
+*  CST：北美中部标准时间
 *  UTC：协调世界时，又称世界标准时间，简称UTC，从英文国际时间/法文协调时间”Universal Time/Temps Cordonné”而来。中国大陆、香港、澳门、台湾、蒙古国、新加坡、马来西亚、菲律宾、澳洲西部的时间与UTC的时差均为+8，也就是UTC+8。
 *  GMT：格林尼治标准时间（旧译格林威治平均时间或格林威治标准时间；英语：Greenwich Mean Time，GMT）是指位于英国伦敦郊区的皇家格林尼治天文台的标准时间，因为本初子午线被定义在通过那里的经线。
 
@@ -109,3 +109,4 @@ souce .profit
 ### 参考链接
 * [在 Linux 中查看时区](https://linux.cn/article-7970-1.html)
 * [Linux date 命令](https://man.linuxde.net/date)
+* [世界时钟地图](https://24timezones.com/map_zh.php#/map)
