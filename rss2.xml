@@ -9,8 +9,31 @@
     <atom:link href="https://www.0x2beace.com/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description></description>
-    <pubDate>Sun, 23 Aug 2020 02:43:00 GMT</pubDate>
+    <pubDate>Tue, 25 Aug 2020 12:10:32 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>Git 变基命令详解</title>
+      <link>https://www.0x2beace.com/detailed-explanation-of-git-rebase-commands/</link>
+      <guid>https://www.0x2beace.com/detailed-explanation-of-git-rebase-commands/</guid>
+      <pubDate>Mon, 24 Aug 2020 12:06:20 GMT</pubDate>
+      
+      <description>&lt;p&gt;“变基”命令是git 常用命令中，比较冷门的，一方面是因为这个命令比较“危险”，如果用不好，很有可能会导致代码丢失。另一方面是因为这个命令不像 add、commit、pull、push 属于必须要执行的命令，就算不用它，也能干活。&lt;/p&gt;</description>
+      
+      
+      
+      <content:encoded><![CDATA[<p>“变基”命令是git 常用命令中，比较冷门的，一方面是因为这个命令比较“危险”，如果用不好，很有可能会导致代码丢失。另一方面是因为这个命令不像 add、commit、pull、push 属于必须要执行的命令，就算不用它，也能干活。</p><a id="more"></a><h2 id="场景重现"><a href="#场景重现" class="headerlink" title="场景重现"></a>场景重现</h2><p>问题描述：有时候我们在本地提交完代码，下一个操作是需要推送到远程仓库，这时如果远程仓库已经有了更新的提交，那么当我们执行完<code>git push</code> 命令之后，不出意外会出现以下错误：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">! [rejected]        master -&gt; master (fetch first)</span><br><span class="line">error: failed to push some refs to &#39;git@gitlab.com:invest2&#x2F;invest_home.git&#39;</span><br><span class="line">hint: Updates were rejected because the remote contains work that you do</span><br><span class="line">hint: not have locally. This is usually caused by another repository pushing</span><br><span class="line">hint: to the same ref. You may want to first integrate the remote changes</span><br><span class="line">hint: (e.g., &#39;git pull ...&#39;) before pushing again.</span><br><span class="line">hint: See the &#39;Note about fast-forwards&#39; in &#39;git push --help&#39; for details.</span><br></pre></td></tr></table></figure><p>这时错误的意思是：推送失败，你需要先将远程仓库最新的提交更新到本地仓库，然后才能 <code>git push</code>。</p><p>所以这个时候你有两个选择：</p><ol><li>使用<code>git pull</code> 自动合并</li><li>使用<code>git fetch</code> 手动合并</li></ol><p>前者虽然用起来很方便，但是自动合并会留下一次合并记录，类似这样：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Merge branch &#39;master&#39; of bitbucket.org:maxt2013&#x2F;invest_home</span><br></pre></td></tr></table></figure><p>虽然这并不会影响什么，但如果你很重视 <code>commit logs</code>，那么这样的一次记录，是不被容忍的。</p><p>后者通过手动合并，确实可以做到没有多余的合并记录，但是每次手动合并有比较麻烦，那么有没有什么折中的方式，既可以不留下多余的记录，有比较省事。</p><p>答案是有的，它就是我们下面要介绍的“变基”。</p><h2 id="rebase"><a href="#rebase" class="headerlink" title="rebase"></a>rebase</h2><p>下面这条命令会将远程仓库中最新的提交合并到本地仓库，<code>--rebase</code>参数的作用是先取消 commit 记录，并把它们临时保存为补丁（patch），这些补丁放在 <code>.git/rebase</code>目录中，等远程仓库同步至本地之后，最后才将补丁合并到本地仓库。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull --rebase origin master</span><br></pre></td></tr></table></figure><p>下面用图来解释具体发生了什么。</p><p><code>git pull</code> 之前的情况：</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200823134641.png" alt=""></p><p>使用 <code>git pull --rebase origin</code>：</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200823134808.png" alt=""></p><p>最后使用 <code>git push</code>：</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200823134934.png" alt=""></p><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>如果你对 <code>commit logs</code>有强烈的控制欲望，那么变基命令是适合你的，如果你是使用git 的新手，或者你不在意 <code>commit logs</code>，那么直接使用 <code>git pull</code> 自动合并就好了。</p><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul><li><a href="https://blog.csdn.net/MBuger/article/details/70197532" target="_blank" rel="noopener">git push错误failed to push some refs to的解决</a></li></ul>]]></content:encoded>
+      
+      
+      <category domain="https://www.0x2BeAce.com/categories/Git/">Git</category>
+      
+      
+      <category domain="https://www.0x2BeAce.com/tags/Git/">Git</category>
+      
+      
+      <comments>https://www.0x2beace.com/detailed-explanation-of-git-rebase-commands/#disqus_thread</comments>
+      
+    </item>
     
     <item>
       <title>Socket.io 连接异常：Error during WebSocket handshake Unexpected response code 400</title>

@@ -5,8 +5,6 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
-    
   
   <!-- 渲染优化 -->
   <meta name="renderer" content="webkit">
@@ -18,8 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>Category: Skill - Boo</title>
+    <title>Git 变基命令详解 - Boo</title>
   
+    <meta name="keywords" content="Git">
+  
+  
+    <meta name="description" content="“变基”命令是git 常用命令中，比较冷门的，一方面是因为这个命令比较“危险”，如果用不好，很有可能会导致代码丢失。另一方面是因为这个命令不像 add、commit、pull、push 属于必须要执行的命令，就算不用它，也能干活。">
   
 
   <!-- feed -->
@@ -267,25 +269,12 @@
     <div class='body-wrapper'>
       
 
-
 <div class='l_main'>
   
-    
-      
-  <section class="post-list ">
-    
-      
-        
-          
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
+
   
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
 
 
   <section class='meta'>
@@ -295,11 +284,11 @@
       <div class="meta" id="header-meta">
         
           
-  <h2 class="title">
-    <a href="/how-to-choose-a-picture-bed-that-suits-you/">
-      如何选择一个适合自己的图床
+  <h1 class="title">
+    <a href="/detailed-explanation-of-git-rebase-commands/">
+      Git 变基命令详解
     </a>
-  </h2>
+  </h1>
 
 
         
@@ -322,9 +311,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Tutorial/Skill/GitHub/' rel="nofollow">
+    <a href='/categories/Git/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Tutorial/Skill/GitHub</p>
+      <p>Git</p>
     </a>
   </div>
 
@@ -335,9 +324,14 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jul 6, 2020</p>
+    <p>发布于：Aug 24, 2020</p>
   </a>
 </div>
+
+            
+          
+            
+              
 
             
           
@@ -346,13 +340,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>851 words</p>
+      <p>669 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>3 min</p>
+      <p>2 min</p>
     </a>
   </div>
 
@@ -361,6 +355,18 @@
           
             
               
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/detailed-explanation-of-git-rebase-commands/" class="leancloud_visitors" data-flag-title="Git 变基命令详解">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
 
             
           
@@ -373,107 +379,81 @@
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>因为没有把博客部署在服务器上，而是选择GitHub Pages 的方式，所以如果遇到需要插入图片的时候，只能通过图床来存储图片。</p>
-<p>如果不是因为<a href="https://sm.ms/" target="_blank" rel="noopener">SM.MS</a> 图床在今天突然挂掉了，我可能都不会去想是否需要更换图床这个问题。</p>
-<p><img src="https://raw.githubusercontent.com/0xAiKang/CDN/master/blog/images/20200706225801.png" alt=""></p>
-<p>于是我开始寻找一个免费、稳定的图床，最后在众多图床中，最后选择了GitHub 图床。</p>
-<p>使用GitHub 图床，可能唯一的问题是需要自备好科学上网工具，否则图片无法加载。</p>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/how-to-choose-a-picture-bed-that-suits-you/">
-            阅读全文 <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>“变基”命令是git 常用命令中，比较冷门的，一方面是因为这个命令比较“危险”，如果用不好，很有可能会导致代码丢失。另一方面是因为这个命令不像 add、commit、pull、push 属于必须要执行的命令，就算不用它，也能干活。</p>
+<a id="more"></a>
 
-          </div>
-        
-      
-    
-  </section>
+<h2 id="场景重现"><a href="#场景重现" class="headerlink" title="场景重现"></a>场景重现</h2><p>问题描述：有时候我们在本地提交完代码，下一个操作是需要推送到远程仓库，这时如果远程仓库已经有了更新的提交，那么当我们执行完<code>git push</code> 命令之后，不出意外会出现以下错误：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">! [rejected]        master -&gt; master (fetch first)</span><br><span class="line">error: failed to push some refs to &#39;git@gitlab.com:invest2&#x2F;invest_home.git&#39;</span><br><span class="line">hint: Updates were rejected because the remote contains work that you do</span><br><span class="line">hint: not have locally. This is usually caused by another repository pushing</span><br><span class="line">hint: to the same ref. You may want to first integrate the remote changes</span><br><span class="line">hint: (e.g., &#39;git pull ...&#39;) before pushing again.</span><br><span class="line">hint: See the &#39;Note about fast-forwards&#39; in &#39;git push --help&#39; for details.</span><br></pre></td></tr></table></figure>
+
+<p>这时错误的意思是：推送失败，你需要先将远程仓库最新的提交更新到本地仓库，然后才能 <code>git push</code>。</p>
+<p>所以这个时候你有两个选择：</p>
+<ol>
+<li>使用<code>git pull</code> 自动合并</li>
+<li>使用<code>git fetch</code> 手动合并</li>
+</ol>
+<p>前者虽然用起来很方便，但是自动合并会留下一次合并记录，类似这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Merge branch &#39;master&#39; of bitbucket.org:maxt2013&#x2F;invest_home</span><br></pre></td></tr></table></figure>
+
+<p>虽然这并不会影响什么，但如果你很重视 <code>commit logs</code>，那么这样的一次记录，是不被容忍的。</p>
+<p>后者通过手动合并，确实可以做到没有多余的合并记录，但是每次手动合并有比较麻烦，那么有没有什么折中的方式，既可以不留下多余的记录，有比较省事。</p>
+<p>答案是有的，它就是我们下面要介绍的“变基”。</p>
+<h2 id="rebase"><a href="#rebase" class="headerlink" title="rebase"></a>rebase</h2><p>下面这条命令会将远程仓库中最新的提交合并到本地仓库，<code>--rebase</code>参数的作用是先取消 commit 记录，并把它们临时保存为补丁（patch），这些补丁放在 <code>.git/rebase</code>目录中，等远程仓库同步至本地之后，最后才将补丁合并到本地仓库。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull --rebase origin master</span><br></pre></td></tr></table></figure>
+
+<p>下面用图来解释具体发生了什么。</p>
+<p><code>git pull</code> 之前的情况：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200823134641.png" alt=""></p>
+<p>使用 <code>git pull --rebase origin</code>：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200823134808.png" alt=""></p>
+<p>最后使用 <code>git push</code>：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200823134934.png" alt=""></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>如果你对 <code>commit logs</code>有强烈的控制欲望，那么变基命令是适合你的，如果你是使用git 的新手，或者你不在意 <code>commit logs</code>，那么直接使用 <code>git pull</code> 自动合并就好了。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://blog.csdn.net/MBuger/article/details/70197532" target="_blank" rel="noopener">git push错误failed to push some refs to的解决</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
   
     
-    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
     
-    
+
+
 
   
 
-
-    
-  
-
-</div>
-<aside class='l_side'>
-  
   
     
     
 
-<section class="widget blogger shadow desktop mobile">
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
   <div class='content'>
     
-      
-        <a class='avatar flat-box' href='/about/'>
-          <img no-lazy src='https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg'/>
-        </a>
-      
-    
-    
-      <div class='text'>
+      <blockquote>
         
-        
-          <p>Stay foolish, Stay hungry</p>
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
 
-        
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
-        
-          
-            <a href="/atom.xml"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
           
         
           
-            <a href="mailto:aikangtongxue@gamil.com"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/detailed-explanation-of-git-rebase-commands/>https://www.0x2beace.com/detailed-explanation-of-git-rebase-commands/</a></p>
           
         
-          
-            <a href="https://github.com/0xAikang"
-              class="social fab fa-github flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-          
-            <a href="https://music.163.com/#/user/home?id=112719323"
-              class="social fas fa-headphones-alt flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-      </div>
+      </blockquote>
     
   </div>
 </section>
@@ -483,188 +463,209 @@
   
     
     
+
+<section class="widget qrcode  desktop mobile">
   
 
-  <section class="widget category shadow desktop">
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-08-25T20:10:32+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Aug 25, 2020</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Git/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Git</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/detailed-explanation-of-git-rebase-commands/&title=Git 变基命令详解 - Boo&summary=“变基”命令是git 常用命令中，比较冷门的，一方面是因为这个命令比较“危险”，如果用不好，很有可能会导致代码丢失。另一方面是因为这个命令不像 add、commit、pull、push 属于必须要执行的命令，就算不用它，也能干活。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/detailed-explanation-of-git-rebase-commands/&title=Git 变基命令详解 - Boo&summary=“变基”命令是git 常用命令中，比较冷门的，一方面是因为这个命令比较“危险”，如果用不好，很有可能会导致代码丢失。另一方面是因为这个命令不像 add、commit、pull、push 属于必须要执行的命令，就算不用它，也能干活。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/detailed-explanation-of-git-rebase-commands/&title=Git 变基命令详解 - Boo&summary=“变基”命令是git 常用命令中，比较冷门的，一方面是因为这个命令比较“危险”，如果用不好，很有可能会导致代码丢失。另一方面是因为这个命令不像 add、commit、pull、push 属于必须要执行的命令，就算不用它，也能干活。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADi0lEQVR42u3aQXaDMAwFwNz/0u0JeLW+RCLS8S4FbDzO4lfK68eIxgsBOHDgwBngwC2Be4Xj6vk/F27Om643tl9w4MCBAwcOHLhlcMcB8OJF0o1VoVLosf2CAwcOHDhw4MAthTt9wRQ2BeyCT+0XHDhw4MCBAwfuW+CqMNWNdwuT6fPgwIEDBw4cOHDfDtctJE41nrsHDw4cOHDgwIED93S4aoP23Qfw7sAODhw4cODAgQO3Ha46qgF32+d4v+DAgQMHDhw4cEvguqNacKw2kKuFyqlG+eX64MCBAwcOHDhwS+CmC4bd59J57i7EggMHDhw4cODAbYObDpppkE0hu+tUAz04cODAgQMHDtw2uNOJqg3c0yBabXin66Sg4MCBAwcOHDhwT4FLA2c7YA79MLB7Pzhw4MCBAwcO3LfBpUF1Koi+PjTAgQMHDhw4cOC2wZ0G0elC4en1LmR6Pzhw4MCBAwcO3Ha4Lsh4w3cIols4vbwfHDhw4MCBAwfuIXCnG62+UDVgdw8sPXhw4MCBAwcOHLjtcHcHzmoju7vRbvC+nAccOHDgwIEDB24ZXHXBdMPVwmG3oTwV2MGBAwcOHDhw4LbCVRfuBuZ0w1Xg6YIoOHDgwIEDBw7cVri0AJlCTQXT6nzxAYIDBw4cOHDgwC2H6xYm7244p2DdAwAHDhw4cODAgdsO1124XTC8qYFdBY//cwAHDhw4cODAgbsZrhtguw3ruwqmXUhw4MCBAwcOHLjtcN1gmQbN7n1TgbncOAcHDhw4cODAgVsCV208TwXi9P5uo7wd8MGBAwcOHDhw4JbApY3ZFK5bwKwG4fSLcfk8OHDgwIEDBw7cMrj2hEN/TwueUwf8ZyMcHDhw4MCBAwduCVy7sFcMoNUXThvl6UGDAwcOHDhw4MA9Ba5asEwLh8cvFh7EaZBOG97gwIEDBw4cOHBPhasGzjTodjfeLYSCAwcOHDhw4MA9BW6qEd0tUN41T/r5cj5w4MCBAwcOHLhlcNXAmzaA04D97uvlTj44cODAgQMHDtyH4boA1R8CdhvV3YMtB3tw4MCBAwcOHLgvges2mtPGc3qA6TzgwIEDBw4cOHD/Ba4Ldgp/en0MEhw4cODAgQMHbincdKGxClktiJ6ukwZkcODAgQMHDhy47XBTjdupAmMVqtsAP94vOHDgwIEDBw7cEjijCI0AHDhw4Axw4D47fgHz2AAmKOblmwAAAABJRU5ErkJggg==">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/socket-io-connection-exception-error-during-webSocket-handshake-unexpected-response-code-400/'>
+                <p class='title'>Socket.io 连接异常：Error during WebSocket handshake Unexpected response code 400<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>前段时间线上的生产环境遇到一个问题：Error during WebSocket handshake: Unexpected response code: 400。
+起初我没太在意，以为就是正常...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Git 变基命令详解',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
     
   <header>
     
-      <a href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
   </header>
 
 
     <div class='content'>
-      <ul class="entry navigation">
-        
-          <li><a class="flat-box"
-            title="/categories/Git/" href="/categories/Git/"
-            id="categoriesGit"
-            ><div class='name'>Git</div><div class='badge'>(7)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Git/Skill/" href="/categories/Git/Skill/"
-            id="categoriesGitSkill"
-            ><div class='name'>Skill</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Linux/" href="/categories/Linux/"
-            id="categoriesLinux"
-            ><div class='name'>Linux</div><div class='badge'>(17)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/Tutorial/" href="/categories/Linux/Tutorial/"
-            id="categoriesLinuxTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/Windows/" href="/categories/Linux/Windows/"
-            id="categoriesLinuxWindows"
-            ><div class='name'>Windows</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/" href="/categories/Linux/%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/"
-            id="categoriesLinuxE591BDE4BBA4E695B4E79086"
-            ><div class='name'>命令整理</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" href="/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
-            id="categoriesLinuxE5ADA6E4B9A0E7AC94E8AEB0"
-            ><div class='name'>学习笔记</div><div class='badge'>(8)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Mysql/" href="/categories/Mysql/"
-            id="categoriesMysql"
-            ><div class='name'>Mysql</div><div class='badge'>(11)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Nginx/" href="/categories/Nginx/"
-            id="categoriesNginx"
-            ><div class='name'>Nginx</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Node/" href="/categories/Node/"
-            id="categoriesNode"
-            ><div class='name'>Node</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Node/Socket-io/" href="/categories/Node/Socket-io/"
-            id="categoriesNodeSocket-io"
-            ><div class='name'>Socket.io</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Node/Tutorial/" href="/categories/Node/Tutorial/"
-            id="categoriesNodeTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/PHP/" href="/categories/PHP/"
-            id="categoriesPHP"
-            ><div class='name'>PHP</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/PHP/Tutorial/" href="/categories/PHP/Tutorial/"
-            id="categoriesPHPTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Redis/" href="/categories/Redis/"
-            id="categoriesRedis"
-            ><div class='name'>Redis</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Shell/" href="/categories/Shell/"
-            id="categoriesShell"
-            ><div class='name'>Shell</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Skill/" href="/categories/Skill/"
-            id="categoriesSkill"
-            ><div class='name'>Skill</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Skill/Windows/" href="/categories/Skill/Windows/"
-            id="categoriesSkillWindows"
-            ><div class='name'>Windows</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Skill/Windows/Mac/" href="/categories/Skill/Windows/Mac/"
-            id="categoriesSkillWindowsMac"
-            ><div class='name'>Mac</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Socket-io/" href="/categories/Socket-io/"
-            id="categoriesSocket-io"
-            ><div class='name'>Socket.io</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Socket-io/Nginx/" href="/categories/Socket-io/Nginx/"
-            id="categoriesSocket-ioNginx"
-            ><div class='name'>Nginx</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Tutorial/" href="/categories/Tutorial/"
-            id="categoriesTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(10)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/GitHub/" href="/categories/Tutorial/GitHub/"
-            id="categoriesTutorialGitHub"
-            ><div class='name'>GitHub</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/Linux/" href="/categories/Tutorial/Linux/"
-            id="categoriesTutorialLinux"
-            ><div class='name'>Linux</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/Skill/" href="/categories/Tutorial/Skill/"
-            id="categoriesTutorialSkill"
-            ><div class='name'>Skill</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/Skill/GitHub/" href="/categories/Tutorial/Skill/GitHub/"
-            id="categoriesTutorialSkillGitHub"
-            ><div class='name'>GitHub</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C/" href="/categories/%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C/"
-            id="categoriesE4B880E4BA9BE7BB8FE9AA8C"
-            ><div class='name'>一些经验</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E5%89%8D%E7%AB%AF/" href="/categories/%E5%89%8D%E7%AB%AF/"
-            id="categoriesE5898DE7ABAF"
-            ><div class='name'>前端</div><div class='badge'>(1)</div></a></li>
-        
-      </ul>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#场景重现"><span class="toc-text">场景重现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rebase"><span class="toc-text">rebase</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
     </div>
   </section>
 
-
-  
-
-  
-    
-    
-  
-
-  <section class="widget tagcloud shadow desktop mobile">
-    
-  <header>
-    
-      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
-    
-  </header>
-
-
-    <div class='content'>
-      <a href="/tags/Arch-Linux/" style="font-size: 15.67px; color: #8e8e8e">Arch Linux</a> <a href="/tags/CI/" style="font-size: 14px; color: #999">CI</a> <a href="/tags/Docker/" style="font-size: 14px; color: #999">Docker</a> <a href="/tags/Git/" style="font-size: 19px; color: #777">Git</a> <a href="/tags/HTTPS/" style="font-size: 14px; color: #999">HTTPS</a> <a href="/tags/Hash/" style="font-size: 14px; color: #999">Hash</a> <a href="/tags/Hexo/" style="font-size: 17.33px; color: #828282">Hexo</a> <a href="/tags/JavaScript/" style="font-size: 14px; color: #999">JavaScript</a> <a href="/tags/Linux/" style="font-size: 24px; color: #555">Linux</a> <a href="/tags/Mac/" style="font-size: 15.67px; color: #8e8e8e">Mac</a> <a href="/tags/Mysql/" style="font-size: 20.67px; color: #6c6c6c">Mysql</a> <a href="/tags/Nginx/" style="font-size: 15.67px; color: #8e8e8e">Nginx</a> <a href="/tags/Node/" style="font-size: 15.67px; color: #8e8e8e">Node</a> <a href="/tags/PHP/" style="font-size: 17.33px; color: #828282">PHP</a> <a href="/tags/PM2/" style="font-size: 14px; color: #999">PM2</a> <a href="/tags/Redis/" style="font-size: 14px; color: #999">Redis</a> <a href="/tags/Shell/" style="font-size: 19px; color: #777">Shell</a> <a href="/tags/Skill/" style="font-size: 15.67px; color: #8e8e8e">Skill</a> <a href="/tags/Socket-io/" style="font-size: 15.67px; color: #8e8e8e">Socket.io</a> <a href="/tags/Tutorial/" style="font-size: 22.33px; color: #606060">Tutorial</a> <a href="/tags/Vim/" style="font-size: 14px; color: #999">Vim</a> <a href="/tags/WSL/" style="font-size: 14px; color: #999">WSL</a> <a href="/tags/Web-%E5%AE%89%E5%85%A8/" style="font-size: 15.67px; color: #8e8e8e">Web 安全</a> <a href="/tags/Windows/" style="font-size: 15.67px; color: #8e8e8e">Windows</a> <a href="/tags/https/" style="font-size: 14px; color: #999">https</a> <a href="/tags/mysql/" style="font-size: 14px; color: #999">mysql</a> <a href="/tags/ssh/" style="font-size: 14px; color: #999">ssh</a> <a href="/tags/wss/" style="font-size: 14px; color: #999">wss</a> <a href="/tags/%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" style="font-size: 15.67px; color: #8e8e8e">进程管理</a>
-    </div>
-  </section>
-
-
-  
 
   
 
@@ -868,6 +869,60 @@ setInterval("createtime()",250);
 
 
 
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "prAyvaUeadxadA2wpcBQqNQn-gzGzoHsz",
+    appKey: "vkyEUTw0BixVjfFpFIzUdhak",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
 
 
 
