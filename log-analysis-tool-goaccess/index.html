@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>日志分析工具 - GoAccess - Boo</title>
+  
+    <meta name="keywords" content="Nginx,GoAccess,Logs">
+  
+  
+    <meta name="description" content="在最近发生那件事情之前，日志很少能引起我的重视，导致往往出现什么问题，第一时间并不是去看日志。">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+
+
+  <div class="l_body nocover">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/log-analysis-tool-goaccess/">
+      日志分析工具 - GoAccess
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Nginx/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Nginx</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Aug 27, 2020</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>2k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>7 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/log-analysis-tool-goaccess/" class="leancloud_visitors" data-flag-title="日志分析工具 - GoAccess">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>在最近发生那件事情之前，<strong>日志</strong>很少能引起我的重视，导致往往出现什么问题，第一时间并不是去看日志。</p>
+<a id="more"></a>
+
+<p>很显然我完全忽视了它的强大性，就拿 nginx 的访问日志来说，可以从中分析出如下信息：</p>
+<ol>
+<li>请求的响应时间</li>
+<li>请求达到的后端服务器的地址和端口</li>
+<li>请求是否存在缓存配置</li>
+<li>请求体、请求头、响应体和响应头的大小等</li>
+<li>客户端的IP 地址、UserAgent 等信息</li>
+<li>自定义变量的内容</li>
+</ol>
+<p>通过这些信息，可以得到响应耗时的请求以及请求量和并发量，从而分析并发原因，这对于应用级别的服务来说是非常重要的。</p>
+<h2 id="GoAccess-是什么"><a href="#GoAccess-是什么" class="headerlink" title="GoAccess 是什么"></a>GoAccess 是什么</h2><p>GoAccess 是一个开源的<strong>实时网络日志分析器</strong>和<strong>交互式查看器</strong>，可以在类 Unix 系统中的终端或通过浏览器运行。 —— GoAccess 官方</p>
+<blockquote>
+<p>为什么选择 GoAccess？</p>
+</blockquote>
+<ol>
+<li><p>因为GoAccess 被设计成一个基于终端的快速日志分析器。它的核心思想是实时快速分析和查看Web服务器统计信息，而无需使用浏览器。同时也可以将输入到HTML 或者 CSV、JSON。</p>
+</li>
+<li><p>GoAccess几乎可以解析任何Web日志格式（Apache，Nginx，Amazon S3，Elastic Load Balancing，CloudFront等）。只需要设置日志格式并根据您的日志运行它。</p>
+</li>
+</ol>
+<h2 id="GoAccess-入门"><a href="#GoAccess-入门" class="headerlink" title="GoAccess 入门"></a>GoAccess 入门</h2><p>昨天在使用 GoAccess 时，踩到了一些坑，导致我一度认为这个工具是不是存在什么Bug。因为在看别人的教程中都是开箱即用。</p>
+<p>下面从安装到使用会一一详细说明。</p>
+<h3 id="安装-GoAccess"><a href="#安装-GoAccess" class="headerlink" title="安装 GoAccess"></a>安装 GoAccess</h3><p>因为服务器的操作系统是 <code>Ubuntu</code>，所以这里以 <code>Ubuntu</code>为例：</p>
+<p> 因为并非所有发行版都提供最新版本的 GoAccess，所以这里使用官方提供的最新稳定版的安装方式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ echo &quot;deb http:&#x2F;&#x2F;deb.goaccess.io&#x2F; $（lsb_release -cs）main&quot; | sudo tee -a &#x2F;etc&#x2F;apt&#x2F;sources.list.d&#x2F;goaccess.list</span><br><span class="line">$ wget -O - https:&#x2F;&#x2F;deb.goaccess.io&#x2F;gnugpg.key | sudo apt-key add - </span><br><span class="line">$ sudo apt-get update</span><br><span class="line">$ sudo apt-get install goaccess</span><br></pre></td></tr></table></figure>
+<h3 id="确定日志格式"><a href="#确定日志格式" class="headerlink" title="确定日志格式"></a>确定日志格式</h3><p>在计算机安装了GoAccess 之后，要做的第一件事情就是确定访问日志的日志格式，可以在永久设置它们，也可以通过命令行传递他们。</p>
+<p>这里用Nginx 的 access.log 为例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">36.113.128.155 - - [28&#x2F;Apr&#x2F;2019:02:20:01 +0000] &quot;GET &#x2F;Manage&#x2F;Dingdan&#x2F;fail_index&#x2F;startTime&#x2F;2019-04-28+00%3A00%3A00&#x2F;endTime&#x2F;2019-04-28+23%3A59%3A59.html HTTP&#x2F;1.1&quot; 200 7798 &quot;http:&#x2F;&#x2F;www.692213.com&#x2F;Manage&#x2F;Dingdan&#x2F;fail_index&#x2F;startTime&#x2F;2019-04-28+00%3A00%3A00&#x2F;endTime&#x2F;2019-04-28+23%3A59%3A59.html&quot; &quot;Mozilla&#x2F;5.0 (Windows NT 10.0; WOW64) AppleWebKit&#x2F;537.36 (KHTML, like Gecko) Chrome&#x2F;70.0.3538.110 Safari&#x2F;537.36&quot;</span><br></pre></td></tr></table></figure>
+
+<p>方式一，配置<code>.goaccessrc</code>文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vim ~&#x2F;.goaccessrc</span><br><span class="line"></span><br><span class="line">time-format %T</span><br><span class="line">date-format %d&#x2F;%b&#x2F;%Y</span><br><span class="line">log_format %h %^[%d:%t %^] &quot;%r&quot; %s %b &quot;%R&quot; &quot;%u&quot; %^</span><br></pre></td></tr></table></figure>
+
+<p>方式二，在命令行传递参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ goaccess nginx&#x2F;access.log --log-format&#x3D;&#39;%h %^[%d:%t %^] &quot;%r&quot; %s %b &quot;%R&quot; &quot;%u&quot; %^&#39; --date-format&#x3D;%d&#x2F;%b&#x2F;%Y --time-format&#x3D;%T</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意：无论是配置文件还是命令行参数 都不是永远不变的，只是相对于你要监控的日志格式。</p>
+</blockquote>
+<h3 id="运行GoAccess"><a href="#运行GoAccess" class="headerlink" title="运行GoAccess"></a>运行GoAccess</h3><p>方式一，通过<code>-p</code>参数，指定配置文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ goaccess nginx&#x2F;access.log  -p ~&#x2F;.goaccessrc</span><br></pre></td></tr></table></figure>
+
+<p>方式二，直接在命令行参数中指定日志格式，详情见上面的例子。</p>
+<h4 id="终端输出"><a href="#终端输出" class="headerlink" title="终端输出"></a>终端输出</h4><p>以下提示使用预定义日志格式的日志配置对话框供您选择，然后实时显示统计信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ goaccess nginx&#x2F;access.log -c</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200827144401.png" alt=""></p>
+<p>通常选择第三个，通用日志格式（CLF），成功之后就是这样个样子：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200827151540.png" alt=""></p>
+<p>控制台下的操作方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">* F1或h主要帮助。</span><br><span class="line">* F5重绘主窗口。</span><br><span class="line">* q退出程序，当前窗口或折叠活动模块</span><br><span class="line">* o或ENTER展开所选模块或打开窗口</span><br><span class="line">* 0-9并将Shift + 0所选模块设置为活动状态</span><br><span class="line">* j在展开的模块中向下滚动</span><br><span class="line">* k在扩展模块中向上滚动</span><br><span class="line">* c设置或更改方案颜色</span><br><span class="line">* ^ f在活动模块中向前滚动一个屏幕</span><br><span class="line">* ^ b在活动模块中向后滚动一个屏幕</span><br><span class="line">* TAB迭代模块（转发）</span><br><span class="line">* SHIFT + TAB迭代模块（向后）</span><br><span class="line">* s对活动模块的排序选项</span><br><span class="line">* &#x2F;搜索所有模块（允许正则表达式）</span><br><span class="line">* n找到下一个出现的位置</span><br><span class="line">* g移至屏幕的第一个项目或顶部</span><br><span class="line">* G移动到屏幕的最后一项或底部</span><br></pre></td></tr></table></figure>
+
+<h4 id="静态HTML-输出"><a href="#静态HTML-输出" class="headerlink" title="静态HTML 输出"></a>静态HTML 输出</h4><p>以下内容分析访问日志并在静态HTML报告中显示统计信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ goaccess -a -d -f nginx&#x2F;access.log.1 -p ~&#x2F;.goaccessrc -o &#x2F;var&#x2F;www&#x2F;report.html</span><br></pre></td></tr></table></figure>
+
+<h4 id="实时HTML-输出"><a href="#实时HTML-输出" class="headerlink" title="实时HTML 输出"></a>实时HTML 输出</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ goaccess -a -d -f nginx&#x2F;access.log.1 -p ~&#x2F;.goaccessrc -o &#x2F;var&#x2F;www&#x2F;report.html --real-time-html</span><br></pre></td></tr></table></figure>
+<p>然后用浏览器访问，大概就是这个样子：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200827151617.png" alt=""></p>
+<h4 id="配置文件及日志格式说明"><a href="#配置文件及日志格式说明" class="headerlink" title="配置文件及日志格式说明"></a>配置文件及日志格式说明</h4><p>GoAccess 的配置文件位于<code>%sysconfdir%/goaccess.conf</code>或<code>~/.goaccessrc</code></p>
+<blockquote>
+<p>其中，%sysconfdir%是 /etc/，/usr/etc/ 或 /usr/local/etc/</p>
+</blockquote>
+<p><code>time-format</code>和<code>date-format</code>的格式通常都是固定的，只有<code>log-format</code>的格式视具体日志格式而定。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">time-format %T</span><br><span class="line"></span><br><span class="line">date-format %d&#x2F;%b&#x2F;%Y</span><br></pre></td></tr></table></figure>
+
+<p><code>log-format</code>常用格式说明：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">* %x与时间格式和日期格式变量匹配的日期和时间字段。当给出时间戳而不是日期和时间在两个单独的变量中时使用。</span><br><span class="line">* %t时间字段匹配时间格式变量。</span><br><span class="line">* %d与日期格式变量匹配的日期字段。</span><br><span class="line">* %v服务器名称根据规范名称设置（服务器块或虚拟主机）。</span><br><span class="line">* %e这是HTTP身份验证确定的请求文档的人的用户标识。</span><br><span class="line">* %hhost（客户端IP地址，IPv4或IPv6）</span><br><span class="line">* %r来自客户端的请求行。这需要围绕请求的特定分隔符（单引号，双引号等）可解析。否则，使用特殊的格式说明符，如组合%m，%U，%q和%H解析各个字段。</span><br><span class="line">注意：使用或者%r获得完整的请求OR %m，%U，%q并%H形成你的要求，不要同时使用。</span><br><span class="line">* %m请求方法。</span><br><span class="line">* %U请求的URL路径。</span><br><span class="line">注意：如果查询字符串在%U，则无需使用%q。但是，如果URL路径不包含任何查询字符串，则可以使用%q并将查询字符串附加到请求中。</span><br><span class="line">* %q查询字符串。</span><br><span class="line">* %H请求协议。</span><br><span class="line">* %s服务器发送回客户端的状态代码。</span><br><span class="line">* %b返回给客户端的对象大小。</span><br><span class="line">* %R“Referer”HTTP请求标头。</span><br><span class="line">* %u用户代理HTTP请求标头。</span><br><span class="line">* %D服务请求所需的时间，以微秒为单位。</span><br><span class="line">* %T服务请求所需的时间，以毫秒为单位，分辨率为毫秒。</span><br><span class="line">* %L 服务请求所用的时间，以毫秒为单位的十进制数。</span><br><span class="line">* %^忽略此字段。</span><br><span class="line">* %~向前移动日志字符串，直到找到非空格（！isspace）char。</span><br><span class="line">* ~h X-Forwarded-For（XFF）字段中的主机（客户端IP地址，IPv4或IPv6）。</span><br></pre></td></tr></table></figure>
+
+<h4 id="常用参数"><a href="#常用参数" class="headerlink" title="常用参数"></a>常用参数</h4><ul>
+<li><code>-f</code>：指定需要分析的日志文件路径</li>
+<li><code>-c</code>：程序启动时提示日志/日期配置窗口</li>
+<li><code>-p</code>：指定要使用的自定义配置文件</li>
+<li><code>-d</code>：在HTML或JSON输出上启用IP解析器</li>
+<li><code>-o</code>：输出到指定扩展名文件中（Html、Json、CSV）</li>
+<li><code>-a</code>：按主机启用用户代理列表。为了更快地解析，请不要启用此标志</li>
+<li><code>-d</code>：在HTML或JSON输出上启用IP解析器。</li>
+</ul>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://goaccess.io/" target="_blank" rel="noopener">GoAccess 官网</a></li>
+<li><a href="https://goaccess.io/get-started" target="_blank" rel="noopener">GoAccess 入门</a></li>
+<li><a href="https://www.jianshu.com/p/c6310332f411" target="_blank" rel="noopener">使用GoAccess 分析Nginx 日志</a></li>
+<li><a href="https://github.com/stockrt/nginx2goaccess" target="_blank" rel="noopener">将Nginx log_format转换为goaccess配置文件</a></li>
+<li><a href="https://serverfault.com/questions/779405/goaccess-date-time-log-format-error" target="_blank" rel="noopener">GoAccess 日志格式转换案例一</a></li>
+<li><a href="https://github.com/allinurl/goaccess/issues/1244" target="_blank" rel="noopener">GoAccess 日志格式转换案例二</a></li>
+<li><a href="https://github.com/allinurl/goaccess/issues/668" target="_blank" rel="noopener">GoAccess 日志格式转换案例三</a></li>
+<li><a href="https://github.com/allinurl/goaccess/issues/1338" target="_blank" rel="noopener">GoAccess 日志格式转换案例四</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/log-analysis-tool-goaccess/>https://www.0x2beace.com/log-analysis-tool-goaccess/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-08-27T23:02:37+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Aug 27, 2020</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Nginx/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Nginx</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/GoAccess/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>GoAccess</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Logs/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Logs</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/log-analysis-tool-goaccess/&title=日志分析工具 - GoAccess - Boo&summary=在最近发生那件事情之前，日志很少能引起我的重视，导致往往出现什么问题，第一时间并不是去看日志。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/log-analysis-tool-goaccess/&title=日志分析工具 - GoAccess - Boo&summary=在最近发生那件事情之前，日志很少能引起我的重视，导致往往出现什么问题，第一时间并不是去看日志。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/log-analysis-tool-goaccess/&title=日志分析工具 - GoAccess - Boo&summary=在最近发生那件事情之前，日志很少能引起我的重视，导致往往出现什么问题，第一时间并不是去看日志。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAAC/0lEQVR42u3aS3LjMAwFQN//0skBZlICHijHUJo7/2iwtXkF8PVl/Xe9EIABAwYMGDBrYF7h+mfDH96/+rz7f9U60vOAAQMGDBgwYPbBlANQCHBVeLp/9/eX+4EBAwYMGDBg1sJ0C+8GsW5gTOuJzwMGDBgwYMCAARM2mKqNLTBgwIABAwYMmFMw3QA3/X0XDgwYMGDAgAHzfJj2gKoZ5E41vNKB39smkWDAgAEDBgyYt8F017RxdPfr+DxgwIABAwYMmDUw05UGqvTiUPq/5frAgAEDBgwYMGtg0oBUPcipoDiFLzfQwIABAwYMGDCPg6kWcmqf7gNL6zl2owoMGDBgwIAB82sw1UDVDWhpgdX6qp+Xvw8GDBgwYMCAWQOTNorShlT3f9N946AJBgwYMGDAgFkDkzaI7hqMTQdqaSMNDBgwYMCAAbMPJj3gNNilg7SrescNNzBgwIABAwbMGph0UFZtPE2D4vSg3UAJBgwYMGDAgNkD0wVKG1xT4O4A8PZJJBgwYMCAAQPmY2FSsGqhp4LcFCTu4IEBAwYMGDBgfh0mHZTd1YiaHjwNnGDAgAEDBgyYvTDdhtBdB3538GtPIsGAAQMGDBgwa2Cmg7NTjbBTgQ8MGDBgwIAB8xyY6qBsPMgKg9ypB1d+gGDAgAEDBgyYNTCnGkppQWkgixtR04EbGDBgwIABA+ZjYVKgbhCbNrjSQHp5bjBgwIABAwbMWpjqRt0gdrpB1Q2W5XOBAQMGDBgwYNbCpAWm3+teRDp2QegnKDBgwIABAwbMGpjp6oKcDo7TBwsGDBgwYMCA2QtzOjC9a+DWhS4P6MCAAQMGDBgw62BOBbpug6gL1P19dyAIBgwYMGDAgNkL094oPFg3yKWNrfZFIjBgwIABAwbMn4U5DTB9QMduVIEBAwYMGDBgHg+TBr1uY+tUoCsP3MCAAQMGDBgwHw8zvcgzfT8d0FVBwIABAwYMGDDPg5kGpynEqQtE4zrBgAEDBgwYMGtgLDBgwIABAwbMsvUN5wbm8IcJGSgAAAAASUVORK5CYII=">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/teach-you-how-to-create-and-start-a-google-cloud-instance/'>
+                <p class='title'>手把手教你如何创建启动 Google Cloud 实例<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>最近需要在Google Cloud 上重新开一台Hk区的服务器，所以写这篇笔记用来记录操作过程。
+
+
+创建VM 实例
+Google Cloud 官网
+Google Cloud Platform ...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: '日志分析工具 - GoAccess',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#GoAccess-是什么"><span class="toc-text">GoAccess 是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GoAccess-入门"><span class="toc-text">GoAccess 入门</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装-GoAccess"><span class="toc-text">安装 GoAccess</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#确定日志格式"><span class="toc-text">确定日志格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#运行GoAccess"><span class="toc-text">运行GoAccess</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#终端输出"><span class="toc-text">终端输出</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#静态HTML-输出"><span class="toc-text">静态HTML 输出</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#实时HTML-输出"><span class="toc-text">实时HTML 输出</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#配置文件及日志格式说明"><span class="toc-text">配置文件及日志格式说明</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#常用参数"><span class="toc-text">常用参数</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+  
+    <meting-js
+      theme='#1BCDFC'
+      autoplay='false'
+      volume='0.7'
+      loop='all'
+      order='list'
+      fixed='false'
+      list-max-height='340px'
+      server='netease'
+      type='playlist'
+      id='3175833810'
+      list-folded='true'>
+    </meting-js>
+  
+
+
+        </div>
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2020 Boo</a></p>
+
+        <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+        
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?fbe826b92f6d49a0ebacf4d848bd3add";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+<script>
+  var now = new Date(); 
+  function createtime() { 
+      var grt= new Date("07/04/2020 14:12:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+  } 
+setInterval("createtime()",250);
+</script>
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "prAyvaUeadxadA2wpcBQqNQn-gzGzoHsz",
+    appKey: "vkyEUTw0BixVjfFpFIzUdhak",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
