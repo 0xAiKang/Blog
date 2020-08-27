@@ -1,8 +1,8 @@
 ---
 title: 手把手教你如何创建启动 Azure 实例
 date: 2020-08-12 23:49:19
-tags: ["Linux"]
-categories: ["Linux"]
+tags: ["Linux", "云", "Tutorial"]
+categories: ["Linux", "Tutorial"]
 ---
 
 这篇笔记用来整理如何创建启用 Azure 实例。因为这方面可以找到的资料比较少，所以整理一下。
