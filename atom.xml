@@ -6,7 +6,7 @@
   <link href="https://www.0x2beace.com/atom.xml" rel="self"/>
   
   <link href="https://www.0x2beace.com/"/>
-  <updated>2020-08-25T12:54:50.257Z</updated>
+  <updated>2020-08-27T06:27:35.489Z</updated>
   <id>https://www.0x2beace.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>手把手教你如何创建启动 Google Cloud 实例</title>
+    <link href="https://www.0x2beace.com/teach-you-how-to-create-and-start-a-google-cloud-instance/"/>
+    <id>https://www.0x2beace.com/teach-you-how-to-create-and-start-a-google-cloud-instance/</id>
+    <published>2020-08-26T15:25:21.000Z</published>
+    <updated>2020-08-27T06:27:35.489Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近需要在Google Cloud 上重新开一台Hk区的服务器，所以写这篇笔记用来记录操作过程。</p><a id="more"></a><h2 id="创建VM-实例"><a href="#创建VM-实例" class="headerlink" title="创建VM 实例"></a>创建VM 实例</h2><ul><li><a href="https://cloud.google.com/" target="_blank" rel="noopener">Google Cloud 官网</a></li><li><a href="https://console.cloud.google.com/" target="_blank" rel="noopener">Google Cloud Platform 控制台</a></li></ul><p>进入控制台，找到 Compute Engine，点击创建实例。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200827142145.png" alt=""></p><p>新建虚拟机实例，选择相应的配置。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200827142211.png" alt=""></p><p>选择操作系统映像，以及磁盘大小。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200827142232.png" alt=""></p><p>基本配置如下：</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200827142253.png" alt=""></p><p>然后点击创建就可以了。创建成功之后，就可以看到该服务器的IP地址了。</p><p>这里需要注意的是，Google Cloud 的远程连接SSH 的方式与其他平台有所区别。</p><h2 id="创建SSH-连接"><a href="#创建SSH-连接" class="headerlink" title="创建SSH 连接"></a>创建SSH 连接</h2><p>Compute Engine =》元数据 =》SSH 密钥</p><p>找到修改，然后上传你的 SSH Key。</p><p>不知道SSH Key 是什么？</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa</span><br><span class="line"># 打开终端，输入上面那个命令</span><br><span class="line"># 然后在~&#x2F;.ssh 目录下会生成一个 公钥和私钥</span><br><span class="line"># 将 .pub 结尾的文件打开，复制其中的值，粘贴到Google Cloud 上就可以了。</span><br></pre></td></tr></table></figure><h3 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h3><p>使用<code>ssh -i max@35.241.77.3</code> 命令连接，其中 max 是用户名，后面是对应服务器 ip地址。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200827142317.png" alt=""></p><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul><li><a href="https://cloud.google.com/compute/docs/quickstart-linux" target="_blank" rel="noopener">开启Linux 虚拟机使用快速入门–官网文档</a></li><li><a href="https://zhuanlan.zhihu.com/p/40983101" target="_blank" rel="noopener">GCP（Google Cloud Platform）入门</a></li></ul>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;最近需要在Google Cloud 上重新开一台Hk区的服务器，所以写这篇笔记用来记录操作过程。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="Linux" scheme="https://www.0x2beace.com/categories/Linux/"/>
+    
+    <category term="Tutorial" scheme="https://www.0x2beace.com/categories/Linux/Tutorial/"/>
+    
+    
+    <category term="Tutorial" scheme="https://www.0x2beace.com/tags/Tutorial/"/>
+    
+    <category term="Linux" scheme="https://www.0x2beace.com/tags/Linux/"/>
+    
+    <category term="云" scheme="https://www.0x2beace.com/tags/%E4%BA%91/"/>
+    
+  </entry>
   
   <entry>
     <title>不常用Linux命令</title>
@@ -237,7 +264,7 @@
     <link href="https://www.0x2beace.com/teach-you-how-to-create-and-start-an-azure-instance/"/>
     <id>https://www.0x2beace.com/teach-you-how-to-create-and-start-an-azure-instance/</id>
     <published>2020-08-12T15:49:19.000Z</published>
-    <updated>2020-08-15T02:06:48.502Z</updated>
+    <updated>2020-08-27T06:26:47.806Z</updated>
     
     <content type="html"><![CDATA[<p>这篇笔记用来整理如何创建启用 Azure 实例。因为这方面可以找到的资料比较少，所以整理一下。</p><p>一是方便自己以后回顾，二是给其他人作为参考。</p><a id="more"></a><h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>因为本文是创建微软云，所以首先你得有一个微软账号。</p><p>打开 <a href="https://azure.microsoft.com/zh-cn/" target="_blank" rel="noopener">Microsoft Azure</a> 进行登录，登录成功之后，进入<a href="https://portal.azure.com/#home" target="_blank" rel="noopener">云服务管理后台</a>。</p><h2 id="创建实例"><a href="#创建实例" class="headerlink" title="创建实例"></a>创建实例</h2><p>点击创建资源。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812135350.png" alt=""></p><p>可以搜索你想创建的云服务类型，这里我选择的是 <code>Ubuntu Server 18.04 LTS</code>。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812135625.png" alt=""></p><p>点击创建。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812135731.png" alt=""></p><p>放心，这里的创建并不是正真意义上的创建。接下来需要为机器预设配置。</p><p>下面对常见的配置进行简单说明：</p><ul><li><code>资源组</code>：用来分配一些权限以及策略。</li><li><code>虚拟机名称</code>：你希望用什么名称来称呼这台机器（通常是英文）</li><li><code>区域</code>：选择机器所在地区</li><li><code>映像</code>：选择操作系统</li><li><code>大小</code>：选择一个合适的负责类型，可以理解成机器的硬件配置。</li><li><code>身份验证类型</code>：通常有两种：ssh 密钥和密码，强烈建议使用密钥而不使用密码（密哦存在被暴力破解的风险）。</li><li><code>用户名</code>：微软云默认没有给<code>root</code> 用户，这里需要指定用户名称。</li><li><code>公共入站端口</code>：通常是只开启<code>HTTP (80)</code>、<code>HTTPS (443)</code>、<code>SSH (22)</code> 。</li></ul><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812141205.png" alt=""></p><p>完成基本配置之后，点击<code>下一步：磁盘</code>。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812141834.png" alt=""></p><p>Azure 默认只有一个用于短期存储的临时盘，而临时盘通常都很小。</p><p>默认的磁盘很小，如果想扩大有两种方式：</p><ul><li>创建新的磁盘，需要手动挂载。</li><li>更改默认磁盘的大小。</li></ul><p>配置完磁盘之后，点击<code>下一步：网络</code>。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812142034.png" alt=""></p><p>网络配置，公用ip 可以选择无，后面再去新建。</p><p>然后点击<code>下一步：管理</code>。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812142317.png" alt=""></p><p>管理、高级、标记这一块，如果没有特殊需求可以直接使用默认配置。</p><p>最后点击<code>查看+创建</code>，可以看到预设的配置信息，如果符合预期，点击创建。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812142806.png" alt=""></p><p>下载私钥并保存好。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812152220.png" alt=""></p><p>此时，虽然已经创建好虚拟机，但是还不能直接使用，因为没有配置IP。</p><h2 id="关联IP"><a href="#关联IP" class="headerlink" title="关联IP"></a>关联IP</h2><p>Azure 和 AWS 不同，它并没有弹性IP 的概念，如果需要配置IP，需要在搜索栏中搜索<code>公共IP地址</code>，</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812143323.png" alt=""></p><p>点击第一个搜索结果。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812143437.png" alt=""></p><p>点击添加。</p><p>配置IP 基本信息，然后点击创建。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812143641.png" alt=""></p><p>此时，只是创建了内网IP，并没有与外网IP 地址进行关联，</p><p>点击刚才新建的公共 IP 地址，点击配置。</p><p>资源类型选择网络接口，网络接口与对应的实例进行关联。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812153504.png" alt=""></p><p>关联成功之后，就可以进行连接了。</p><h3 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h3><ol><li>打开终端</li><li>请确保你对私钥具有只读访问权限。</li></ol><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod 400 &lt;私钥&gt;</span><br></pre></td></tr></table></figure><ol start="3"><li>运行以下示例命令以连接到 VM。</li></ol><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -i &lt;私钥路径&gt; user@ip_address</span><br></pre></td></tr></table></figure><ul><li><code>user</code>：表示VM 用户</li><li><code>ip_address</code>：表示外网IP 地址</li></ul><h3 id="扩大默认磁盘大小"><a href="#扩大默认磁盘大小" class="headerlink" title="扩大默认磁盘大小"></a>扩大默认磁盘大小</h3><p>上面简单提到过，如果想要扩大默认磁盘的大小，有两种方式：</p><ol><li>添加新磁盘。这种方式需要手动挂载，如果对linux 并不熟悉，这种方式不推荐新手用户使用。</li><li>更改默认磁盘大小。</li></ol><p>第二种方式并不能直接更改，需要先将服务器停掉（注意⚠️：不是删除）。</p><p>搜索磁盘，点击第一个搜索结果。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812145110.png" alt=""></p><p>点击需要扩大的磁盘实例，注意：只能扩大，不能缩小。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812145326.png" alt=""></p><p>然后点击保存即可。</p><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>至此，就已经完成了Azure 的创建了，这方面需要学习的还有很多，这里只是简单的整理了一下自己遇到的问题。</p><p>有些地方可能没说清楚，但如果能帮到你那真是太好了</p>]]></content>
     
@@ -249,8 +276,14 @@
     
     <category term="Linux" scheme="https://www.0x2beace.com/categories/Linux/"/>
     
+    <category term="Tutorial" scheme="https://www.0x2beace.com/categories/Linux/Tutorial/"/>
+    
+    
+    <category term="Tutorial" scheme="https://www.0x2beace.com/tags/Tutorial/"/>
     
     <category term="Linux" scheme="https://www.0x2beace.com/tags/Linux/"/>
+    
+    <category term="云" scheme="https://www.0x2beace.com/tags/%E4%BA%91/"/>
     
   </entry>
   
@@ -310,7 +343,7 @@
     <link href="https://www.0x2beace.com/teach-you-how-to-start-an-aws-instance/"/>
     <id>https://www.0x2beace.com/teach-you-how-to-start-an-aws-instance/</id>
     <published>2020-08-10T06:05:17.000Z</published>
-    <updated>2020-08-15T02:04:33.174Z</updated>
+    <updated>2020-08-27T06:26:53.546Z</updated>
     
     <content type="html"><![CDATA[<blockquote><p>什么是AWS ？</p></blockquote><p><a href="https://aws.amazon.com/cn/?nc2=h_lg" target="_blank" rel="noopener">Amazon Web Services </a>(AWS) 是亚马逊提供的全球最全面、应用最广泛的云平台。</p><a id="more"></a><p>云这个概念最开始是从国内的阿里云、腾讯云这些地方听到的，后来服务器接触的多了，也慢慢了解了一些国外的云，如：亚马逊云、微软云。</p><p>在亚马逊云、软微云上创建一台实例其实是非常简单的事情，但由于这方面资料比较少，导致对于新用户可能不那么友好，我自己当初创建时就不怎么顺利。所以整理这篇笔记的目的有两个，一是方便自己日后回顾，二是给第一次使用的用户一些参考。</p><h2 id="启动实例"><a href="#启动实例" class="headerlink" title="启动实例"></a>启动实例</h2><p>首先登入到AWS ，找到<a href="https://console.aws.amazon.com/ec2/v2/home" target="_blank" rel="noopener">EC2</a> 并点击</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200810115939.png" alt="AWS"></p><p>在左侧菜单栏中点击实例</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200810121213.png" alt=""></p><p>点击启动实例</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200810121240.png" alt=""></p><h2 id="配置实例"><a href="#配置实例" class="headerlink" title="配置实例"></a>配置实例</h2><p>选择系统映像，这里以Linux 操作系统为例，我选择是<code>Ubuntu Server 18.04 LTS</code>，这个版本表示Ubuntu 服务端 长期稳定支持版本。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200810121309.png" alt=""></p><p>选择实例类型，根据自身需要考虑，当然 性能越好价格越高。这里我选择的是一个中等偏下的类型。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200810134659.png" alt=""></p><p>配置实例详情信息，这里的这些核心配置，通常都保持默认，只是将自动分配公有IP 地址改为禁用。这样再重启机器时，就不会改变IP了。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200810134802.png" alt=""></p><p>根据自身需要分配合适的硬盘大小。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200810134833.png" alt=""></p><p>配置安全组，所谓安全组就是拥有相同防火墙规则的群组。这个也是根据自身需要选择是否共用同一个安全组。</p><p>拥有同一个安全组就表示拥有相同的防火墙规则。设置完安全组之后，点击审核和启动。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200810134858.png" alt=""></p><p>下面会有一个界面给你确认机器的配置是否无误的，从头到尾检查没有问题之后就可以点击启动实例了。</p><h2 id="创建密钥"><a href="#创建密钥" class="headerlink" title="创建密钥"></a>创建密钥</h2><p>可以选择共用已有的密钥对也可以选择新建一个。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200810134919.png" alt=""></p><p>然后点击启动实例。</p><h2 id="分配弹性IP"><a href="#分配弹性IP" class="headerlink" title="分配弹性IP"></a>分配弹性IP</h2><p>启动完成之后点击查看实例。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200810134956.png" alt=""></p><p>在实例列表中，找到该实例之后，分别点击操作=&gt;联网=&gt;管理IP 地址=&gt;分配弹性 IP</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200810135020.png" alt=""></p><p>确认分配</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200810135056.png" alt=""></p><p>分配成功之后，会得到一个弹性IP（公有），然后返回实例列表</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200810135121.png" alt=""></p><h2 id="关联IP-地址"><a href="#关联IP-地址" class="headerlink" title="关联IP 地址"></a>关联IP 地址</h2><p>找到刚才启动的那个实例（没有实例ID），分别点击操作=&gt;关联地址</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200810135143.png" alt=""></p><p>这一步很重要，这里要将实例和弹性IP 地址关联，所以要选择该弹性IP 对应自己的实例。如果不确定是哪一个，可以返回到实例列表中去查看，就是那个没有名称的实例。</p><p>然后点击关联</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200810135205.png" alt=""></p><p>关联成功</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200810135233.png" alt=""></p><p>直到做完这一步才算正真的启动好一个实例。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200810135302.png" alt=""></p><h3 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h3><p>启动好实例之后，如何连接呢？</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh -i &lt;私钥路径&gt; ubuntu@ipaddress</span><br></pre></td></tr></table></figure><p>指定刚才生成的密钥对，使用ssh命令 即可连接。</p>]]></content>
     
@@ -322,14 +355,16 @@
     
     
     
-    <category term="Tutorial" scheme="https://www.0x2beace.com/categories/Tutorial/"/>
+    <category term="Linux" scheme="https://www.0x2beace.com/categories/Linux/"/>
     
-    <category term="Linux" scheme="https://www.0x2beace.com/categories/Tutorial/Linux/"/>
+    <category term="Tutorial" scheme="https://www.0x2beace.com/categories/Linux/Tutorial/"/>
     
     
     <category term="Tutorial" scheme="https://www.0x2beace.com/tags/Tutorial/"/>
     
     <category term="Linux" scheme="https://www.0x2beace.com/tags/Linux/"/>
+    
+    <category term="云" scheme="https://www.0x2beace.com/tags/%E4%BA%91/"/>
     
   </entry>
   
