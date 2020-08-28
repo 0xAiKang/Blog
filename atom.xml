@@ -6,7 +6,7 @@
   <link href="https://www.0x2beace.com/atom.xml" rel="self"/>
   
   <link href="https://www.0x2beace.com/"/>
-  <updated>2020-08-27T15:02:37.808Z</updated>
+  <updated>2020-08-28T13:40:17.879Z</updated>
   <id>https://www.0x2beace.com/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>命名规范——程序员的自我修养</title>
+    <link href="https://www.0x2beace.com/naming-convention-programmer-s-self-cultivation/"/>
+    <id>https://www.0x2beace.com/naming-convention-programmer-s-self-cultivation/</id>
+    <published>2020-08-28T13:36:57.000Z</published>
+    <updated>2020-08-28T13:40:17.879Z</updated>
+    
+    <content type="html"><![CDATA[<p>之所以会有这样一篇笔记呢，是因为在各种不同的场景下，面临命名这件事情，有时候会犯迷糊，不知道该如何选择正确的方式命名。所以这篇笔记的目的就是为解决这个问题。</p><a id="more"></a><h2 id="命名规范"><a href="#命名规范" class="headerlink" title="命名规范"></a>命名规范</h2><p>命名规范包含了：目录、文件、变量、函数命名。<br>值得一提的是：<strong>命名规则没有谁对谁错，在项目中保持一致才是关键。</strong></p><p>混乱或错误的命名不仅让我们对代码难以理解，更糟糕的是，会误导我们的思维，导致对代码的理解完全错误。<br>相反，良好的命名，则可以让我们的代码非常容易读懂，也能向读者正确表达事物以及逻辑的本质，从而使得代码的可维护性就大大增强，读命名好的文章是非常流畅的，会有一种享受的感觉。</p><h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><p>因为Windows，OSX 下文件夹不区分大小写，Linux 是区分的。所以在文件夹的命名上面，建议全部用小写。可以包含下划线(<code>_</code>)或连字符(<code>-</code>)。如果没有约定，(<code>_</code>)更好。</p><h3 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h3><p>文件的命名也是推荐和目录的连字符保持一致。Linux 文件系统推荐的文件命名是下划线(<code>_</code>)。</p><h3 id="类"><a href="#类" class="headerlink" title="类"></a>类</h3><p>类型名称通常使用大写驼峰命名法</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">class MyClass</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure><h4 id="类成员"><a href="#类成员" class="headerlink" title="类成员"></a>类成员</h4><p>不管是静态还是非静态，类数据成员的命名都可以和普通变量一样，采用驼峰命名法：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">class MyClass &#123;</span><br><span class="line">    public $myVariable;</span><br><span class="line">    public static $myStaticVariable;</span><br><span class="line">    </span><br><span class="line">    public function myFunction($firstWord, $secondWord)&#123;</span><br><span class="line">        &#x2F;&#x2F;方法中的参数名推荐使用小驼峰命名法</span><br><span class="line">        ...</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><blockquote><p>一般名称的前缀都是有第一规律的，如is（判断）、get（得到），set（设置）。</p></blockquote><h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><p>变量的命名有两种方式：</p><ul><li>下划线命名法：my_variable</li><li>小驼峰命名法：myVariable</li></ul><p>但通常还是推荐使用，下划线命名法（全是小写）。</p><blockquote><p>不同的语言也是有不同的规范，例如JavaScript 变量推荐驼峰命名法，CSS 推荐连字符(-)。</p></blockquote><h3 id="常量、全局常量"><a href="#常量、全局常量" class="headerlink" title="常量、全局常量"></a>常量、全局常量</h3><p>常量和全局常量通常使用全大写和下划线的方式来命名，例如：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const MY_CONSTANT;</span><br><span class="line">define(&quot;DEFAULT_NUM&quot;, 10);</span><br></pre></td></tr></table></figure><h3 id="特殊变量"><a href="#特殊变量" class="headerlink" title="特殊变量"></a>特殊变量</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;引用变量</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;静态变量</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;全局变量</span><br></pre></td></tr></table></figure><h3 id="函数命名"><a href="#函数命名" class="headerlink" title="函数命名"></a>函数命名</h3><p>函数的命名使用下划线命名法：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function my_function()&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h4 id="补充说明"><a href="#补充说明" class="headerlink" title="补充说明"></a>补充说明</h4><p>函数和方法的区别：<br>函数是一段可以重用的代码块，方法是在类里面的函数。</p><p>参考链接：</p><ul><li><a href="https://www.cnblogs.com/rainman/p/3756521.html" target="_blank" rel="noopener">PHP 命名规范</a></li><li><a href="https://www.zhihu.com/question/21440067" target="_blank" rel="noopener">如何优雅的为变量和函数命名</a></li><li><a href="https://zh-google-styleguide.readthedocs.io/en/latest/" target="_blank" rel="noopener">命名约定 | Google开源项目风格指南</a></li><li><a href="https://leohxj.gitbooks.io/a-programmer-prepares/programmer-basic/naming.html" target="_blank" rel="noopener">命名规范 | 程序员的自我修养</a></li></ul>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;之所以会有这样一篇笔记呢，是因为在各种不同的场景下，面临命名这件事情，有时候会犯迷糊，不知道该如何选择正确的方式命名。所以这篇笔记的目的就是为解决这个问题。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="碎碎念" scheme="https://www.0x2beace.com/categories/%E7%A2%8E%E7%A2%8E%E5%BF%B5/"/>
+    
+    
+    <category term="碎碎念" scheme="https://www.0x2beace.com/tags/%E7%A2%8E%E7%A2%8E%E5%BF%B5/"/>
+    
+  </entry>
   
   <entry>
     <title>日志分析工具 - GoAccess</title>
