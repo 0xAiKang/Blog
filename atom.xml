@@ -6,7 +6,7 @@
   <link href="https://www.0x2beace.com/atom.xml" rel="self"/>
   
   <link href="https://www.0x2beace.com/"/>
-  <updated>2020-08-28T13:40:17.879Z</updated>
+  <updated>2020-08-29T03:47:53.463Z</updated>
   <id>https://www.0x2beace.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Linux 如何生成密钥对进行 ssh 免密登录</title>
+    <link href="https://www.0x2beace.com/how-to-generate-a-key-pair-for-ssh-login-without-password/"/>
+    <id>https://www.0x2beace.com/how-to-generate-a-key-pair-for-ssh-login-without-password/</id>
+    <published>2020-08-29T03:46:41.000Z</published>
+    <updated>2020-08-29T03:47:53.463Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近因为项目快要上线了，服务器从测试环境转到了生产环境，登录方式也从原来的密码认证替换成了密钥认证。</p><a id="more"></a><p>这么做的目的是为了防止服务器密码被暴力破解。</p><blockquote><p>ssh 是什么？</p></blockquote><p>ssh 是一种协议，它可以基于密码进行认证，也可以基于密钥去认证用户。</p><h2 id="生成密钥对"><a href="#生成密钥对" class="headerlink" title="生成密钥对"></a>生成密钥对</h2><p>这里我们使用 <code>RSA</code> 类型的加密类型来创建密钥对。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -f ~&#x2F;.ssh&#x2F;your_key_name</span><br></pre></td></tr></table></figure><ol><li><code>-f</code> 参数表示指定密钥对生成位置与名称</li><li>密钥对通常放在 <code>$HOME/.ssh</code> 目录下</li><li>回车即可创建密钥对，如果不需要为密钥对进行加密，那么可以一路回车。</li></ol><p>创建成功之后，可以看到 <code>.ssh</code> 目录下多了两个文件，分别是：</p><ul><li><code>your_key</code>：密钥对的私钥，通常放在客户端。</li><li><code>your_key.pub</code>：密钥对中的公钥，通常放在服务端。</li></ul><h2 id="将本地的公钥传到服务器上"><a href="#将本地的公钥传到服务器上" class="headerlink" title="将本地的公钥传到服务器上"></a>将本地的公钥传到服务器上</h2><p>注意：这里是将<code>your_key.pub</code> 公钥文件上传至你需要连接的服务器，而不是<code>your_key</code>私钥文件。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-copy-id -i ~&#x2F;.ssh&#x2F;your_key.pub user@&lt;ip address&gt; -pport</span><br></pre></td></tr></table></figure><p><code>-i</code> 参数表示使用指定的密钥，<code>-p</code>参数表示指定端口，ssh 的默认端口是 22，如果没有更改默认端口，则可以省略。</p><p>这里需要输入一次密码进行确认，如果成功之后，会看到以下内容：</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200829105200.png" alt=""></p><blockquote><p>本地的公钥文件上传在服务器的哪里？</p></blockquote><p>在该用户的<code>.ssh/authorized_keys</code> 文件中。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat ~&#x2F;.ssh&#x2F;authorized_keys</span><br></pre></td></tr></table></figure><h2 id="通过密钥对进行免密登录"><a href="#通过密钥对进行免密登录" class="headerlink" title="通过密钥对进行免密登录"></a>通过密钥对进行免密登录</h2><p>现在我们可以使用以下命令登录到服务器中了：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -p port -i ~&#x2F;.ssh&#x2F;your_key user@&lt;ip address&gt;</span><br></pre></td></tr></table></figure><p>不出意外，就可以不用输入密码而直接成功登录了。</p><p>如果你仍然需要输入密码或者遇到其他问题了，可以从以下方向进行排查。</p><h3 id="常见问题："><a href="#常见问题：" class="headerlink" title="常见问题："></a>常见问题：</h3><ol><li>如果没有使用默认的密钥名称（id_rsa），则在连接主机时需要加上<code>-i</code> 参数，指定对应密钥的名称。否则由于默认私钥与远程主机中的自定义公钥不匹配，自然无法基于密钥进行认证，会再次提示你输入密码。</li><li>服务端的<code>$HOME/.ssh</code>目录的正常权限是700，服务端<code>$HOME/.ssh/authorized_keys</code>文件的权限默认为600。</li><li>上传密钥时使用的是：公钥（.pub），进行密钥认证时使用的是：私钥。</li></ol><h3 id="配置ssh-config"><a href="#配置ssh-config" class="headerlink" title="配置ssh config"></a>配置ssh config</h3><p>上面的命令虽然可以实现免密登录，但是命令太长了，就算是复制粘贴也有可能会出错。</p><p>那有没有什么好的办法，解决这个问题呢？</p><p>当然是有的啦。</p><p>在<code>$HOME/.ssh</code> 目录下，创建一个名为<code>config</code>的文件。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim $HOME&#x2F;.ssh&#x2F;conifg</span><br></pre></td></tr></table></figure><p>加入以下配置：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Host alias</span><br><span class="line">    User user</span><br><span class="line">    HostName ip address</span><br><span class="line">    Port port</span><br><span class="line">    IdentityFile ~&#x2F;.ssh&#x2F;your_key</span><br><span class="line">    ServerAliveInterval 360</span><br></pre></td></tr></table></figure><p>参数说明：</p><ul><li>Host：可以理解成别名，配置完成之后，最后就通过 <code>ssh alias</code> 进行登录。</li><li>User：远程主机的用户名称</li><li>HostName：远程主机的地址</li><li>Port：端口号</li><li>IdentityFile：私钥文件的路径</li><li>ServerAliveInterval：保持客户端与服务端会话在短时间内不会断开。</li></ul><p>当然，如果你是使用<code>ssh 客户端</code>，那就不用配置这些。</p><h3 id="禁用通过密码认证"><a href="#禁用通过密码认证" class="headerlink" title="禁用通过密码认证"></a>禁用通过密码认证</h3><p>如果上面的配置都无误，可以正常通过密钥进行免密登录，那么最后需要做的一件事情就是关闭服务端的通过密码进行身份认证。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;ssh&#x2F;sshd_config</span><br><span class="line"></span><br><span class="line"># 将yes 改为 no</span><br><span class="line">PasswordAuthentication yes</span><br></pre></td></tr></table></figure><p>然后重启 sshd 服务。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service sshd restart</span><br></pre></td></tr></table></figure><p>以上就是有关如何用自定义的密钥对进行免密认证的全部过程了。</p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;最近因为项目快要上线了，服务器从测试环境转到了生产环境，登录方式也从原来的密码认证替换成了密钥认证。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="Linux" scheme="https://www.0x2beace.com/categories/Linux/"/>
+    
+    
+    <category term="Linux" scheme="https://www.0x2beace.com/tags/Linux/"/>
+    
+    <category term="SSH" scheme="https://www.0x2beace.com/tags/SSH/"/>
+    
+    <category term="SSHD" scheme="https://www.0x2beace.com/tags/SSHD/"/>
+    
+  </entry>
   
   <entry>
     <title>命名规范——程序员的自我修养</title>
