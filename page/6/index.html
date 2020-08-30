@@ -289,6 +289,124 @@
         
           
   <h2 class="title">
+    <a href="/the-difference-between-eval-and-backquotes-in-linux-and/">
+      Linux 中的eval、反引号、$()的区别
+    </a>
+  </h2>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Linux/学习笔记</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Jul 11, 2020</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>499 words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>2 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>之前在搭建 SSH 环境时，遇到了这样一个问题：</p>
+<blockquote>
+<p>使用命令：<code>eval$(ssh-agent)</code>去创建一个代理进程，但是会提示：<code>No Such file or directory</code> 。</p>
+</blockquote>
+<p>就很纳闷，之前都用着好好的，为什么在新的环境中就不行了？</p>
+<p>后来，了解到原来一直使用的 <code>eval$(ssh-agent)</code> ，其中的<code>$()</code> 原来在<code>Linux</code>中有特殊的意义。</p>
+<p>所以这篇笔记专门用来了解 <code>eval</code> 和 <code>反引号</code> 以及 <code>$()</code>之间的区别。 它们的作用都是<strong>命令替换</strong>。</p>
+      
+    </div>
+    
+      
+        <div class="button readmore">
+          <a href="/the-difference-between-eval-and-backquotes-in-linux-and/">
+            阅读全文 <i class="fas fa-chevron-right"></i>
+          </a>
+        </div>
+      
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow reveal ">
+  
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h2 class="title">
     <a href="/shell-types-in-linux/">
       Linux 中的Shell 种类
     </a>
@@ -1295,122 +1413,6 @@
           </div>
         
       
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
-  
-
-
-  <section class='meta'>
-    
-      
-      
-      <div class="meta" id="header-meta">
-        
-          
-  <h2 class="title">
-    <a href="/how-to-choose-a-picture-bed-that-suits-you/">
-      如何选择一个适合自己的图床
-    </a>
-  </h2>
-
-
-        
-        <div class='new-meta-box'>
-          
-            
-          
-            
-              
-<div class='new-meta-item author'>
-  <a href="https://www.0x2BeAce.com" rel="nofollow">
-    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
-    <p>Boo</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/Tutorial/Skill/GitHub/' rel="nofollow">
-      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Tutorial/Skill/GitHub</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jul 6, 2020</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-  <div class="new-meta-item wordcount">
-    <a class='notlink'>
-      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>851 words</p>
-    </a>
-  </div>
-  <div class="new-meta-item readtime">
-    <a class='notlink'>
-      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>3 min</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              
-
-            
-          
-        </div>
-        
-          <hr>
-        
-      </div>
-    
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>因为没有把博客部署在服务器上，而是选择GitHub Pages 的方式，所以如果遇到需要插入图片的时候，只能通过图床来存储图片。</p>
-<p>如果不是因为<a href="https://sm.ms/" target="_blank" rel="noopener">SM.MS</a> 图床在今天突然挂掉了，我可能都不会去想是否需要更换图床这个问题。</p>
-<p><img src="https://raw.githubusercontent.com/0xAiKang/CDN/master/blog/images/20200706225801.png" alt=""></p>
-<p>于是我开始寻找一个免费、稳定的图床，最后在众多图床中，最后选择了GitHub 图床。</p>
-<p>使用GitHub 图床，可能唯一的问题是需要自备好科学上网工具，否则图片无法加载。</p>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/how-to-choose-a-picture-bed-that-suits-you/">
-            阅读全文 <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
-
-          </div>
-        
-      
     
   </section>
   
@@ -1527,6 +1529,16 @@
 
     <div class='content'>
       <ul class="entry navigation">
+        
+          <li><a class="flat-box"
+            title="/categories/Docker/" href="/categories/Docker/"
+            id="categoriesDocker"
+            ><div class='name'>Docker</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Docker/Tutorial/" href="/categories/Docker/Tutorial/"
+            id="categoriesDockerTutorial"
+            ><div class='name'>Tutorial</div><div class='badge'>(1)</div></a></li>
         
           <li><a class="flat-box"
             title="/categories/Git/" href="/categories/Git/"
@@ -1690,7 +1702,7 @@
 
 
     <div class='content'>
-      <a href="/tags/Arch-Linux/" style="font-size: 15.67px; color: #8e8e8e">Arch Linux</a> <a href="/tags/CI/" style="font-size: 14px; color: #999">CI</a> <a href="/tags/Docker/" style="font-size: 14px; color: #999">Docker</a> <a href="/tags/Git/" style="font-size: 19px; color: #777">Git</a> <a href="/tags/GoAccess/" style="font-size: 14px; color: #999">GoAccess</a> <a href="/tags/HTTPS/" style="font-size: 14px; color: #999">HTTPS</a> <a href="/tags/Hash/" style="font-size: 14px; color: #999">Hash</a> <a href="/tags/Hexo/" style="font-size: 17.33px; color: #828282">Hexo</a> <a href="/tags/JavaScript/" style="font-size: 14px; color: #999">JavaScript</a> <a href="/tags/Linux/" style="font-size: 24px; color: #555">Linux</a> <a href="/tags/Linux-Commands/" style="font-size: 14px; color: #999">Linux Commands</a> <a href="/tags/Logs/" style="font-size: 14px; color: #999">Logs</a> <a href="/tags/Mac/" style="font-size: 15.67px; color: #8e8e8e">Mac</a> <a href="/tags/Mysql/" style="font-size: 20.67px; color: #6c6c6c">Mysql</a> <a href="/tags/Nginx/" style="font-size: 17.33px; color: #828282">Nginx</a> <a href="/tags/Node/" style="font-size: 15.67px; color: #8e8e8e">Node</a> <a href="/tags/PHP/" style="font-size: 17.33px; color: #828282">PHP</a> <a href="/tags/PM2/" style="font-size: 14px; color: #999">PM2</a> <a href="/tags/Redis/" style="font-size: 14px; color: #999">Redis</a> <a href="/tags/SSH/" style="font-size: 14px; color: #999">SSH</a> <a href="/tags/SSHD/" style="font-size: 14px; color: #999">SSHD</a> <a href="/tags/Shell/" style="font-size: 19px; color: #777">Shell</a> <a href="/tags/Skill/" style="font-size: 15.67px; color: #8e8e8e">Skill</a> <a href="/tags/Socket-io/" style="font-size: 15.67px; color: #8e8e8e">Socket.io</a> <a href="/tags/Tutorial/" style="font-size: 22.33px; color: #606060">Tutorial</a> <a href="/tags/Vim/" style="font-size: 14px; color: #999">Vim</a> <a href="/tags/WSL/" style="font-size: 14px; color: #999">WSL</a> <a href="/tags/Web-%E5%AE%89%E5%85%A8/" style="font-size: 15.67px; color: #8e8e8e">Web 安全</a> <a href="/tags/Windows/" style="font-size: 15.67px; color: #8e8e8e">Windows</a> <a href="/tags/https/" style="font-size: 14px; color: #999">https</a> <a href="/tags/mysql/" style="font-size: 14px; color: #999">mysql</a> <a href="/tags/ssh/" style="font-size: 14px; color: #999">ssh</a> <a href="/tags/wss/" style="font-size: 14px; color: #999">wss</a> <a href="/tags/%E4%BA%91/" style="font-size: 17.33px; color: #828282">云</a> <a href="/tags/%E7%A2%8E%E7%A2%8E%E5%BF%B5/" style="font-size: 14px; color: #999">碎碎念</a> <a href="/tags/%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" style="font-size: 15.67px; color: #8e8e8e">进程管理</a>
+      <a href="/tags/Arch-Linux/" style="font-size: 15.67px; color: #8e8e8e">Arch Linux</a> <a href="/tags/CI/" style="font-size: 14px; color: #999">CI</a> <a href="/tags/Docker/" style="font-size: 15.67px; color: #8e8e8e">Docker</a> <a href="/tags/Docker-Hub/" style="font-size: 14px; color: #999">Docker Hub</a> <a href="/tags/Git/" style="font-size: 19px; color: #777">Git</a> <a href="/tags/GoAccess/" style="font-size: 14px; color: #999">GoAccess</a> <a href="/tags/HTTPS/" style="font-size: 14px; color: #999">HTTPS</a> <a href="/tags/Hash/" style="font-size: 14px; color: #999">Hash</a> <a href="/tags/Hexo/" style="font-size: 17.33px; color: #828282">Hexo</a> <a href="/tags/JavaScript/" style="font-size: 14px; color: #999">JavaScript</a> <a href="/tags/Linux/" style="font-size: 24px; color: #555">Linux</a> <a href="/tags/Linux-Commands/" style="font-size: 14px; color: #999">Linux Commands</a> <a href="/tags/Logs/" style="font-size: 14px; color: #999">Logs</a> <a href="/tags/Mac/" style="font-size: 15.67px; color: #8e8e8e">Mac</a> <a href="/tags/Mysql/" style="font-size: 20.67px; color: #6c6c6c">Mysql</a> <a href="/tags/Nginx/" style="font-size: 17.33px; color: #828282">Nginx</a> <a href="/tags/Node/" style="font-size: 15.67px; color: #8e8e8e">Node</a> <a href="/tags/PHP/" style="font-size: 17.33px; color: #828282">PHP</a> <a href="/tags/PM2/" style="font-size: 14px; color: #999">PM2</a> <a href="/tags/Redis/" style="font-size: 14px; color: #999">Redis</a> <a href="/tags/SSH/" style="font-size: 14px; color: #999">SSH</a> <a href="/tags/SSHD/" style="font-size: 14px; color: #999">SSHD</a> <a href="/tags/Shell/" style="font-size: 19px; color: #777">Shell</a> <a href="/tags/Skill/" style="font-size: 15.67px; color: #8e8e8e">Skill</a> <a href="/tags/Socket-io/" style="font-size: 15.67px; color: #8e8e8e">Socket.io</a> <a href="/tags/Tutorial/" style="font-size: 22.33px; color: #606060">Tutorial</a> <a href="/tags/Vim/" style="font-size: 14px; color: #999">Vim</a> <a href="/tags/WSL/" style="font-size: 14px; color: #999">WSL</a> <a href="/tags/Web-%E5%AE%89%E5%85%A8/" style="font-size: 15.67px; color: #8e8e8e">Web 安全</a> <a href="/tags/Windows/" style="font-size: 15.67px; color: #8e8e8e">Windows</a> <a href="/tags/https/" style="font-size: 14px; color: #999">https</a> <a href="/tags/mysql/" style="font-size: 14px; color: #999">mysql</a> <a href="/tags/ssh/" style="font-size: 14px; color: #999">ssh</a> <a href="/tags/wss/" style="font-size: 14px; color: #999">wss</a> <a href="/tags/%E4%BA%91/" style="font-size: 17.33px; color: #828282">云</a> <a href="/tags/%E7%A2%8E%E7%A2%8E%E5%BF%B5/" style="font-size: 14px; color: #999">碎碎念</a> <a href="/tags/%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" style="font-size: 15.67px; color: #8e8e8e">进程管理</a>
     </div>
   </section>
 

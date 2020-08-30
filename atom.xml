@@ -6,7 +6,7 @@
   <link href="https://www.0x2beace.com/atom.xml" rel="self"/>
   
   <link href="https://www.0x2beace.com/"/>
-  <updated>2020-08-29T03:47:53.463Z</updated>
+  <updated>2020-08-30T10:35:11.952Z</updated>
   <id>https://www.0x2beace.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Docker Hub 快速上手</title>
+    <link href="https://www.0x2beace.com/docker-hub-quick-start/"/>
+    <id>https://www.0x2beace.com/docker-hub-quick-start/</id>
+    <published>2020-08-30T10:32:02.000Z</published>
+    <updated>2020-08-30T10:35:11.952Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近将常使用的镜像放在了Docker 仓库（Docker Hub）上。GitHub 是托管代码的地方，而<a href="https://hub.docker.com/" target="_blank" rel="noopener">Docker Hub</a> 则是托管镜像的地方。</p><a id="more"></a><p>目前大部分需求都可以直接在 Docker Hub 中下载镜像来实现，如果想使用自己仓库中的镜像，那么需要先<a href="https://hub.docker.com/" target="_blank" rel="noopener">注册</a>一个账号。</p><h2 id="创建仓库"><a href="#创建仓库" class="headerlink" title="创建仓库"></a>创建仓库</h2><p>想要从 Docker Hub 使用自己的镜像之前，首先得<a href="https://hub.docker.com/repository/create" target="_blank" rel="noopener">创建</a>一个仓库，然后将目标镜镜像 push 到该仓库。</p><p>这个仓库可以是公开的也可以是私有的，这个并不影响你正常使用。</p><p>创建成功之后，就可以看到该仓库了。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200830180907.png" alt=""></p><h2 id="发布镜像"><a href="#发布镜像" class="headerlink" title="发布镜像"></a>发布镜像</h2><p>在发布之前，确保你本地存在目标镜像，可以使用 <code>docker images</code>来查看：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ docker images</span><br><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">adminer             latest              c3588b6003bb        3 weeks ago         90.4MB</span><br></pre></td></tr></table></figure><p>创建 Tag：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 语法</span><br><span class="line">docker tag local-image:tagname new-repo:tagname</span><br><span class="line"></span><br><span class="line"># 实例</span><br><span class="line">docker tag adminer:latest hoooliday&#x2F;runfast:adminer</span><br></pre></td></tr></table></figure><p>前面的 <code>tagname</code> 是本地镜像的标签名称，后面的<code>tagname</code> 是该镜像在仓库中的标签名称。</p><p>再次查看本地镜像：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ docker images</span><br><span class="line">hoooliday&#x2F;runfast   adminer             c3588b6003bb        3 weeks ago         90.4MB</span><br><span class="line">adminer             latest              c3588b6003bb        3 weeks ago         90.4MB</span><br></pre></td></tr></table></figure><p>发布镜像：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 语法</span><br><span class="line">docker push new-repo:tagname</span><br><span class="line"></span><br><span class="line"># 实例</span><br><span class="line">docker push hoooliday&#x2F;runfast:adminer</span><br></pre></td></tr></table></figure><p>发布成功之后，可以打开 Docker Hub 在 Repositories 的列表中就看到刚才的镜像了。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200830181829.png" alt=""></p><h2 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h2><p>首先需要在命令行中登录你的 docker hub 账号：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker login</span><br></pre></td></tr></table></figure><p>拉取自己的镜像，这里以 <a href="https://hub.docker.com/_/adminer" target="_blank" rel="noopener">adminer</a> 这个镜像为例：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker run --link mysql:mysql --name adminer \</span><br><span class="line">-d --restart&#x3D;always \</span><br><span class="line">-p 8006:8080 \</span><br><span class="line">hoooliday&#x2F;runfast:adminer</span><br></pre></td></tr></table></figure><p>唯一需要注意的就是最后一行，如果想要使用官方最新版本的 adminer ，那就直接写成 adminer，但如果想要使用自己的镜像，那就需要写成 <code>username/repo:tagname</code> 的格式。</p><p>查看本地所有镜像：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker images</span><br><span class="line">hoooliday&#x2F;runfast   adminer             c3588b6003bb        3 weeks ago         90.4MB</span><br></pre></td></tr></table></figure><p>此持就完成了Docker 镜像的发布和拉取了，当然这只是 Docker Hub 所有功能中的冰山一角。</p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;最近将常使用的镜像放在了Docker 仓库（Docker Hub）上。GitHub 是托管代码的地方，而&lt;a href=&quot;https://hub.docker.com/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Docker Hub&lt;/a&gt; 则是托管镜像的地方。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="Docker" scheme="https://www.0x2beace.com/categories/Docker/"/>
+    
+    <category term="Tutorial" scheme="https://www.0x2beace.com/categories/Docker/Tutorial/"/>
+    
+    
+    <category term="Tutorial" scheme="https://www.0x2beace.com/tags/Tutorial/"/>
+    
+    <category term="Docker" scheme="https://www.0x2beace.com/tags/Docker/"/>
+    
+    <category term="Docker Hub" scheme="https://www.0x2beace.com/tags/Docker-Hub/"/>
+    
+  </entry>
   
   <entry>
     <title>Linux 如何生成密钥对进行 ssh 免密登录</title>
