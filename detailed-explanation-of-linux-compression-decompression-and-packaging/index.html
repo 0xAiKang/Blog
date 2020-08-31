@@ -16,12 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>Docker Hub 快速上手 - Boo</title>
+    <title>Linux 压缩、解压、打包详解 - Boo</title>
   
-    <meta name="keywords" content="Tutorial,Docker,Docker Hub">
+    <meta name="keywords" content="Linux">
   
   
-    <meta name="description" content="最近将常使用的镜像放在了Docker 仓库（Docker Hub）上。GitHub 是托管代码的地方，而Docker Hub 则是托管镜像的地方。">
+    <meta name="description" content="在Linux 中，解压、压缩、打包是日常会很频繁用到的几个操作，但是因为参数很多，没有记忆点，加上压缩文件的类型很多，如果不经常使用，是真的容易忘记。">
   
 
   <!-- feed -->
@@ -285,8 +285,8 @@
         
           
   <h1 class="title">
-    <a href="/docker-hub-quick-start/">
-      Docker Hub 快速上手
+    <a href="/detailed-explanation-of-linux-compression-decompression-and-packaging/">
+      Linux 压缩、解压、打包详解
     </a>
   </h1>
 
@@ -311,9 +311,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Docker/Tutorial/' rel="nofollow">
+    <a href='/categories/Linux/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Docker/Tutorial</p>
+      <p>Linux</p>
     </a>
   </div>
 
@@ -324,7 +324,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Aug 30, 2020</p>
+    <p>发布于：Aug 31, 2020</p>
   </a>
 </div>
 
@@ -340,13 +340,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>512 words</p>
+      <p>887 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>2 min</p>
+      <p>3 min</p>
     </a>
   </div>
 
@@ -359,7 +359,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/docker-hub-quick-start/" class="leancloud_visitors" data-flag-title="Docker Hub 快速上手">
+      <span id="/detailed-explanation-of-linux-compression-decompression-and-packaging/" class="leancloud_visitors" data-flag-title="Linux 压缩、解压、打包详解">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -382,38 +382,68 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>最近将常使用的镜像放在了Docker 仓库（Docker Hub）上。GitHub 是托管代码的地方，而<a href="https://hub.docker.com/" target="_blank" rel="noopener">Docker Hub</a> 则是托管镜像的地方。</p>
+          <p>在Linux 中，解压、压缩、打包是日常会很频繁用到的几个操作，但是因为参数很多，没有记忆点，加上压缩文件的类型很多，如果不经常使用，是真的容易忘记。</p>
 <a id="more"></a>
 
-<p>目前大部分需求都可以直接在 Docker Hub 中下载镜像来实现，如果想使用自己仓库中的镜像，那么需要先<a href="https://hub.docker.com/" target="_blank" rel="noopener">注册</a>一个账号。</p>
-<h2 id="创建仓库"><a href="#创建仓库" class="headerlink" title="创建仓库"></a>创建仓库</h2><p>想要从 Docker Hub 使用自己的镜像之前，首先得<a href="https://hub.docker.com/repository/create" target="_blank" rel="noopener">创建</a>一个仓库，然后将目标镜镜像 push 到该仓库。</p>
-<p>这个仓库可以是公开的也可以是私有的，这个并不影响你正常使用。</p>
-<p>创建成功之后，就可以看到该仓库了。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200830180907.png" alt=""></p>
-<h2 id="发布镜像"><a href="#发布镜像" class="headerlink" title="发布镜像"></a>发布镜像</h2><p>在发布之前，确保你本地存在目标镜像，可以使用 <code>docker images</code>来查看：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ docker images</span><br><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">adminer             latest              c3588b6003bb        3 weeks ago         90.4MB</span><br></pre></td></tr></table></figure>
+<p>所以这篇笔记就是用来整理常见的那些解压、压缩、打包的命令。</p>
+<p>在正式学习之前，需要明确的两个概念，打包和压缩不是一回事：</p>
+<ul>
+<li>打包：是指将一大堆文件或目录变成一个总的文件。</li>
+<li>压缩：则是将一个大文件通过压缩算法变成一个小文件。</li>
+</ul>
+<p>为什么要区分这两个概念呢？这源于Linux 中很多压缩程序只能针对一个文件进行压缩，这样当你想要压缩一大堆文件时，你得先将这一大堆文件先打成一个包（tar命令），然后再用压缩程序进行压缩（gzip bzip2命令）。</p>
+<h2 id="tar"><a href="#tar" class="headerlink" title="tar"></a>tar</h2><h3 id="压缩-打包"><a href="#压缩-打包" class="headerlink" title="压缩/打包"></a>压缩/打包</h3><p>仅打包，不压缩。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -cvf foo.tar foo</span><br></pre></td></tr></table></figure>
 
-<p>创建 Tag：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 语法</span><br><span class="line">docker tag local-image:tagname new-repo:tagname</span><br><span class="line"></span><br><span class="line"># 实例</span><br><span class="line">docker tag adminer:latest hoooliday&#x2F;runfast:adminer</span><br></pre></td></tr></table></figure>
-<p>前面的 <code>tagname</code> 是本地镜像的标签名称，后面的<code>tagname</code> 是该镜像在仓库中的标签名称。</p>
-<p>再次查看本地镜像：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ docker images</span><br><span class="line">hoooliday&#x2F;runfast   adminer             c3588b6003bb        3 weeks ago         90.4MB</span><br><span class="line">adminer             latest              c3588b6003bb        3 weeks ago         90.4MB</span><br></pre></td></tr></table></figure>
+<p><code>foo.tar</code>这个文件名是自定义的，只是习惯上我们使用 <code>.tar</code> 作为包文件。</p>
+<p>打包，且压缩。<code>-z</code>参数表示以 <code>.tar.gz</code> 或者 <code>.tgz</code> 后缀名代表 gzip 压缩过的 tar 包。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zcvf foo.tar.gz foo</span><br></pre></td></tr></table></figure>
 
-<p>发布镜像：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 语法</span><br><span class="line">docker push new-repo:tagname</span><br><span class="line"></span><br><span class="line"># 实例</span><br><span class="line">docker push hoooliday&#x2F;runfast:adminer</span><br></pre></td></tr></table></figure>
+<p>打包，且压缩。<code>-j</code> 参数表示以 <code>.tar.bz2</code> 后缀名作为tar包名。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -jcvf foo.tar.gz foo</span><br></pre></td></tr></table></figure>
 
-<p>发布成功之后，可以打开 Docker Hub 在 Repositories 的列表中就看到刚才的镜像了。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200830181829.png" alt=""></p>
-<h2 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h2><p>首先需要在命令行中登录你的 docker hub 账号：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker login</span><br></pre></td></tr></table></figure>
+<h3 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h3><p>在当前目录下直接解压：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf foo.tar.gz</span><br></pre></td></tr></table></figure>
+<p>注意，如果这个目录下有同名的文件，不会询问，直接覆盖。</p>
+<p>解压至指定文件夹：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf foo.tar.gz -C &lt;dir name&gt;</span><br></pre></td></tr></table></figure>
 
-<p>拉取自己的镜像，这里以 <a href="https://hub.docker.com/_/adminer" target="_blank" rel="noopener">adminer</a> 这个镜像为例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker run --link mysql:mysql --name adminer \</span><br><span class="line">-d --restart&#x3D;always \</span><br><span class="line">-p 8006:8080 \</span><br><span class="line">hoooliday&#x2F;runfast:adminer</span><br></pre></td></tr></table></figure>
-<p>唯一需要注意的就是最后一行，如果想要使用官方最新版本的 adminer ，那就直接写成 adminer，但如果想要使用自己的镜像，那就需要写成 <code>username/repo:tagname</code> 的格式。</p>
-<p>查看本地所有镜像：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker images</span><br><span class="line">hoooliday&#x2F;runfast   adminer             c3588b6003bb        3 weeks ago         90.4MB</span><br></pre></td></tr></table></figure>
+<h2 id="gzip"><a href="#gzip" class="headerlink" title="gzip"></a>gzip</h2><p>gzip 命令用来压缩文件。文件经它压缩过后，其名称后面会多处 <code>.gz</code> 扩展名（不带 <code>.tar</code>）。</p>
+<h3 id="压缩"><a href="#压缩" class="headerlink" title="压缩"></a>压缩</h3><p>将当前目录的每个文件压缩成<code>.gz</code>文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gzip *</span><br></pre></td></tr></table></figure>
 
-<p>此持就完成了Docker 镜像的发布和拉取了，当然这只是 Docker Hub 所有功能中的冰山一角。</p>
+<p>递归压缩指定目录的所有文件及子目录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gzip -r &lt;dir name&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="解压-1"><a href="#解压-1" class="headerlink" title="解压"></a>解压</h3><p>解压当前目录下的<code>foo.gz</code> 文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gzip -d foo.gz</span><br></pre></td></tr></table></figure>
+<p>解压完成之后，<code>foo.gz</code> 就变成了 <code>foo</code> 文件。</p>
+<p>递归解压目录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gzip -dr &lt;dir name&gt;</span><br></pre></td></tr></table></figure>
+<p>解压完成之后，<code>&lt;dir name&gt;</code> 目录下的所有 <code>.gz</code> 文件都会变成正常文件。</p>
+<h2 id="zip"><a href="#zip" class="headerlink" title="zip"></a>zip</h2><p><code>zip</code> 可以用来解压缩文件，或者对文件进行打包操作。文件经它压缩后会另外产生具有 <code>.zip</code> 扩展名的压缩文件。</p>
+<h3 id="压缩-1"><a href="#压缩-1" class="headerlink" title="压缩"></a>压缩</h3><p>将当前目录下的指定目录，压缩为 <code>.zip</code>文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zip -q -r foo.zip &lt;dir name&gt;</span><br></pre></td></tr></table></figure>
+
+<p>将指定目录下的所有文件及其文件夹，压缩为<code>.zip</code> 文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zip -q -r foo.zip &#x2F;&lt;path to dir&gt;</span><br></pre></td></tr></table></figure>
+<p>注意，产生的压缩文件在执行命令的那个目录下。</p>
+<h3 id="解压-2"><a href="#解压-2" class="headerlink" title="解压"></a>解压</h3><p>unzip 命令用于解压缩由 zip 命令压缩的 <code>.zip</code>压缩包。</p>
+<p>查看压缩包内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unzip -v foo.zip</span><br></pre></td></tr></table></figure>
+
+<p>将压缩文件在指定目录下解压缩，如果已有相同的文件存在，要求 unzip命令不覆盖原先的文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unzip -n foo.zip -d &#x2F;&lt;file to dir&gt;</span><br></pre></td></tr></table></figure>
+
+<p>将压缩文件在当前目下解压，如果已有相同的文件，不询问，直接覆盖。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unzip -o foo.zip</span><br></pre></td></tr></table></figure>
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>Linux 下的压缩解压其实并不复杂，只是不常用的情况下，很容器忘记。</p>
+<p>如果你不知道在什么场景下，该使用什么命令，可以参照：</p>
+<ul>
+<li>如果只有一个大文件，可以使用 <code>gzip</code> 或者 <code>zip</code>命令。</li>
+<li>如果是一个完整的目录，里面有很多子目录以及文件，可以使用<code>tar</code>命令。</li>
+</ul>
 
           
             <div class='article_footer'>
@@ -450,7 +480,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/docker-hub-quick-start/>https://www.0x2beace.com/docker-hub-quick-start/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/detailed-explanation-of-linux-compression-decompression-and-packaging/>https://www.0x2beace.com/detailed-explanation-of-linux-compression-decompression-and-packaging/</a></p>
           
         
       </blockquote>
@@ -498,10 +528,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-08-30T18:35:11+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-08-31T23:51:20+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Aug 30, 2020</p>
+    <p>更新于：Aug 31, 2020</p>
   </a>
 </div>
 
@@ -510,7 +540,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Tutorial/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Tutorial</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Docker/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Docker</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Docker-Hub/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Docker Hub</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Linux/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Linux</p></a></div>
 
 
         
@@ -528,7 +558,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/docker-hub-quick-start/&title=Docker Hub 快速上手 - Boo&summary=最近将常使用的镜像放在了Docker 仓库（Docker Hub）上。GitHub 是托管代码的地方，而Docker Hub 则是托管镜像的地方。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/detailed-explanation-of-linux-compression-decompression-and-packaging/&title=Linux 压缩、解压、打包详解 - Boo&summary=在Linux 中，解压、压缩、打包是日常会很频繁用到的几个操作，但是因为参数很多，没有记忆点，加上压缩文件的类型很多，如果不经常使用，是真的容易忘记。"
           
           >
           
@@ -540,7 +570,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/docker-hub-quick-start/&title=Docker Hub 快速上手 - Boo&summary=最近将常使用的镜像放在了Docker 仓库（Docker Hub）上。GitHub 是托管代码的地方，而Docker Hub 则是托管镜像的地方。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/detailed-explanation-of-linux-compression-decompression-and-packaging/&title=Linux 压缩、解压、打包详解 - Boo&summary=在Linux 中，解压、压缩、打包是日常会很频繁用到的几个操作，但是因为参数很多，没有记忆点，加上压缩文件的类型很多，如果不经常使用，是真的容易忘记。"
           
           >
           
@@ -552,7 +582,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/docker-hub-quick-start/&title=Docker Hub 快速上手 - Boo&summary=最近将常使用的镜像放在了Docker 仓库（Docker Hub）上。GitHub 是托管代码的地方，而Docker Hub 则是托管镜像的地方。"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/detailed-explanation-of-linux-compression-decompression-and-packaging/&title=Linux 压缩、解压、打包详解 - Boo&summary=在Linux 中，解压、压缩、打包是日常会很频繁用到的几个操作，但是因为参数很多，没有记忆点，加上压缩文件的类型很多，如果不经常使用，是真的容易忘记。"
           
           >
           
@@ -566,7 +596,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAAC+UlEQVR42u3aQXIbMQwEQP3/08ndicvAAHIt7OZNsndFNi+oAV5/rP+uFwIwYMCAAQPmDMwrXB+f/+xz9fvpPtbOAwYMGDBgwIA5B1MugD6B2DpIF7T6ffk8YMCAAQMGDJizMN2Cbquwq2586+LAgAEDBgwYMGCqhdy0QKwGY2DAgAEDBgwYMNMCb+v57vvAgAEDBgwYML8XphsEdZ97F+zjOpFgwIABAwYMmG+DSQeAnvo5Pg8YMGDAgAED5gzMdFUbbdvv2frdf94LBgwYMGDAgDkD0w2IuoFTN5Cq/n614GufEwwYMGDAgAFzHqb6Q92/b8GkgO0EDwwYMGDAgAHzWJhqAVcNhtIBobRAq+6jXeCBAQMGDBgwYM7BbAVMaYH1rsCsfAFgwIABAwYMmLMw08KpOyhUvZitAOzLfYABAwYMGDBgzsFMg6Pt90wDq+7+wIABAwYMGDD3YbYKu2lw1R0ISgMxMGDAgAEDBszPgekGRtMAKh1E2mrggQEDBgwYMGDuw2wHQHFQFAJMB43AgAEDBgwYMPdgpgPF3TW9iOk+v/weDBgwYMCAAXMGZqtRVj1w+ny7cdYEAQMGDBgwYMDch0kLqWogNQ2etvbZLvDAgAEDBgwYMI+DmRZM6YBQGmxtB1xgwIABAwYMmJ8HkzbipgNCaaA1vSAwYMCAAQMGzD2Y7qpCpQdKB3/SRiEYMGDAgAED5j5MWmB1C8BxATb83O5EggEDBgwYMGAeC7MdEHUhUujuKl8EGDBgwIABA+YMzHR1odILmDbYyhcEBgwYMGDAgDkDMy2Y0v/rFpjT95UvFAwYMGDAgAFzDiYt6L4r2JoGUWVIMGDAgAEDBsxZmPSg00ZaWvClBSkYMGDAgAEDBky5kTUsBNMBo3awBQYMGDBgwID5tTDTRl03oJo26MoNNzBgwIABAwbM42GmA89pYde9iC5oORgDAwYMGDBgwJyDeVcDa1oIpoFY3PADAwYMGDBgwJyBscCAAQMGDBgwx9Zf2Hvl/5PBw7sAAAAASUVORK5CYII=">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVgAAAFYCAAAAAAzB7ucAAAEXklEQVR42u3aQW4jMQwEQP//09n7LoIRm5Q0a5RucRyPXMpBbPTnx9qyPgjAgrXAggVrgT0C+wnXPx+4+L6/3z+9j6d9VV+v7gMsWLBgwYIFCxbsWdjlC/Ai7BNg9XnpwT5CDO0PLFiwYMGCBQsW7F3YdCPpYJAOEFMHkQ4uYMGCBQsWLFiwYL8Ltnrx7gbX3QPt/uOABQsWLFiwYMGC/Q7YFPAztMYv/GDBggULFixYsGD/C9g0gJ56f3WlF//XN2HAggULFixYsGDBLsGmF/Fv/Tn2AAsWLFiwYMGCBXsEdtcFfaqokRY0uvuLPcCCBQsWLFiwYMEegU0vyKuB8e7ix1RRpPv9wYIFCxYsWLBgwZ6FfdrAVNEhhVp9/ipU9fXy78GCBQsWLFiwYMFeha1+8DREdXC4/TywYMGCBQsWLFiwd2GrAXEaaK/CdAPz1c/tDkBgwYIFCxYsWLBg3wE7PUBUA/WpgkUXqrxvsGDBggULFixYsFdguwH2LqDpIkka5D/+PViwYMGCBQsWLNirsOlFeToY7x7Q1L6XXwcLFixYsGDBggV7FLYLXQ3O04D9p7hSsHjwAQsWLFiwYMGCBXsEtgqXFjVWB4Y0SO9e9NOA/NegGyxYsGDBggULFuxW2G5AXIWbCsKr+1mGaRZHwIIFCxYsWLBgwb4TNgXeHXRPDRzdoB0sWLBgwYIFCxbsGdhqAFy92KcHFRcmNh08WLBgwYIFCxYs2HfDdgPgbjGiG1hXCxvV9XgQYMGCBQsWLFiwYI/CVi/SqweSDgbdgH11n+lzfn0/WLBgwYIFCxYs2COwaXCdfrFqkNwtYqSDy1gTBixYsGDBggULFuxW2GqBohtE7wq0u4F59WDAggULFixYsGDB3oGtFimqF/lqISQdLHYF5eXAHixYsGDBggULFuwR2Gqholvg6IJ0YapFjPI/CFiwYMGCBQsWLNgjsNXgOA2+u4PHdAGkOrAsHwxYsGDBggULFizYI7C7ixndC/rU/tIBoHwgYMGCBQsWLFiwYI/ApsHuboD0C04NGtUDBwsWLFiwYMGCBXsHNh0Ypgseq2CrMJ+htTyAgAULFixYsGDBgn0FbBpsd4sZ00F2GnxXBx6wYMGCBQsWLFiwd2CrwXH5wcOAu4on6b7BggULFixYsGDB3oWdBuwG3dUL/dTAUw3YwYIFCxYsWLBgwZ6B7a602NENmKsDQ/Xv0kEELFiwYMGCBQsW7BnY3V+0G4BXIVYHm26hY3nyAgsWLFiwYMGCBbsVtlucSA+iC5AOAOlg8/i5YMGCBQsWLFiwYK/AVgsL0++fOtjXNmHAggULFixYsGDBvhq2G4ynRYq0sNH9nmDBggULFixYsGC/A7ZaqFi+gIfFjmqg/frJCyxYsGDBggULFmwraE4Bu4HzdCHjdU0YsGDBggULFixYsEuw1bWt8LD5ANLgPR4QwIIFCxYsWLBgwW6BtWYXWLBgLbBgwVpgt64/KHAXa2FdIWEAAAAASUVORK5CYII=">
           </div>
         </div>
       
@@ -586,25 +616,13 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/detailed-explanation-of-linux-compression-decompression-and-packaging/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Linux 压缩、解压、打包详解</p>
-                <p class='content'>在Linux 中，解压、压缩、打包是日常会很频繁用到的几个操作，但是因为参数很多，没有记忆点，加上压缩文件的类型很多，如果不经常使用，是真的容易忘记。
-
-
-所以这篇笔记就是用来整理常见的那些解压...</p>
-              </a>
             
-            
-              <a class='next' href='/how-to-generate-a-key-pair-for-ssh-login-without-password/'>
-                <p class='title'>Linux 如何生成密钥对进行 ssh 免密登录<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>最近因为项目快要上线了，服务器从测试环境转到了生产环境，登录方式也从原来的密码认证替换成了密钥认证。
+              <a class='next' href='/docker-hub-quick-start/'>
+                <p class='title'>Docker Hub 快速上手<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>最近将常使用的镜像放在了Docker 仓库（Docker Hub）上。GitHub 是托管代码的地方，而Docker Hub 则是托管镜像的地方。
 
 
-这么做的目的是为了防止服务器密码被暴力破解。
-
-ssh 是什么？
-
-ssh 是一种协议，...</p>
+目前大部分需求都可以直接在 Docker ...</p>
               </a>
             
           </div>
@@ -649,7 +667,7 @@ ssh 是一种协议，...</p>
 
   <script>
     window.subData = {
-      title: 'Docker Hub 快速上手',
+      title: 'Linux 压缩、解压、打包详解',
       tools: true
     }
   </script>
@@ -676,7 +694,7 @@ ssh 是一种协议，...</p>
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建仓库"><span class="toc-text">创建仓库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#发布镜像"><span class="toc-text">发布镜像</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#拉取镜像"><span class="toc-text">拉取镜像</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#tar"><span class="toc-text">tar</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#压缩-打包"><span class="toc-text">压缩&#x2F;打包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解压"><span class="toc-text">解压</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gzip"><span class="toc-text">gzip</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#压缩"><span class="toc-text">压缩</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解压-1"><span class="toc-text">解压</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#zip"><span class="toc-text">zip</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#压缩-1"><span class="toc-text">压缩</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解压-2"><span class="toc-text">解压</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol></li></ol>
     </div>
   </section>
 
