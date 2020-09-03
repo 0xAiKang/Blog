@@ -1,7 +1,8 @@
 ---
 title: Mysql 主从架构配置
 date: 2020-09-03 23:40:16
-tags:
+tags: ["Mysql"]
+categories: ["Mysql"]
 ---
 
 Mysql 主从配置是数据库同步的必要步骤。

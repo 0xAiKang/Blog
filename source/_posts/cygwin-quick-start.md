@@ -1,15 +1,13 @@
 ---
-title: cygwin quick start
+title: Cygwin 快速上手
 date: 2020-09-01 22:16:25
 tags: ["Cygwin", "终端"]
 categories: ["终端"]
 ---
 
-在很早之前就听说过`Cygwin`和`MinGW64`这两东西。
+在很早之前就听说过`Cygwin`和`MinGW64`这两个东西，只是当时不是很理解这两个东西是做什么的，还经常和`msysGit` 搞混淆，加上最近用`MinGW64`用的很不顺手，所以打算安装一个`Cygwin`。
 
-只是当时不是很理解这两个东西是做什么的，还经常和`msysGit` 搞混淆。
-
-加上最近用`MinGW64`用的很不顺手，所以打算安装一个`Cygwin`。
+<!-- more -->
 
 ## 区别与联系
 
