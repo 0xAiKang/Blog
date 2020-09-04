@@ -5,8 +5,6 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
-    
   
   <!-- 渲染优化 -->
   <meta name="renderer" content="webkit">
@@ -18,8 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>Category: Tutorial - Boo</title>
+    <title>Zabbix 添加Agent 主机 - Boo</title>
   
+    <meta name="keywords" content="Linux,Zabbix">
+  
+  
+    <meta name="description" content="Zabbix-Server 安装完成之后，下一步需要添加主机才能看到数据。">
   
 
   <!-- feed -->
@@ -267,25 +269,12 @@
     <div class='body-wrapper'>
       
 
-
 <div class='l_main'>
   
-    
-      
-  <section class="post-list ">
-    
-      
-        
-          
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
+
   
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
 
 
   <section class='meta'>
@@ -295,11 +284,11 @@
       <div class="meta" id="header-meta">
         
           
-  <h2 class="title">
-    <a href="/docker-hub-quick-start/">
-      Docker Hub 快速上手
+  <h1 class="title">
+    <a href="/zabbix-add-agent-host/">
+      Zabbix 添加Agent 主机
     </a>
-  </h2>
+  </h1>
 
 
         
@@ -322,9 +311,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Docker/Tutorial/' rel="nofollow">
+    <a href='/categories/Linux/Zabbix/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Docker/Tutorial</p>
+      <p>Linux/Zabbix</p>
     </a>
   </div>
 
@@ -335,9 +324,14 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Aug 30, 2020</p>
+    <p>发布于：Sep 4, 2020</p>
   </a>
 </div>
+
+            
+          
+            
+              
 
             
           
@@ -346,13 +340,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>512 words</p>
+      <p>431 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>2 min</p>
+      <p>1 min</p>
     </a>
   </div>
 
@@ -361,6 +355,18 @@
           
             
               
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/zabbix-add-agent-host/" class="leancloud_visitors" data-flag-title="Zabbix 添加Agent 主机">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
 
             
           
@@ -373,103 +379,81 @@
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近将常使用的镜像放在了Docker 仓库（Docker Hub）上。GitHub 是托管代码的地方，而<a href="https://hub.docker.com/" target="_blank" rel="noopener">Docker Hub</a> 则是托管镜像的地方。</p>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/docker-hub-quick-start/">
-            阅读全文 <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>Zabbix-Server 安装完成之后，下一步需要添加主机才能看到数据。</p>
+<a id="more"></a>
 
-          </div>
-        
-      
-    
-  </section>
+<h2 id="安装Zabbix-Agent"><a href="#安装Zabbix-Agent" class="headerlink" title="安装Zabbix Agent"></a>安装Zabbix Agent</h2><p>Zabbix Agent 的作用是将服务器的数据发送给 Zabbix Server，所以只需要在需要监控的主机上安装 Zabbix Agent 就够了。</p>
+<p>因为我的环境是：<code>Ubuntu 18.04</code>、<code>Nginx</code>、<code>Mysql</code>、<code>PHP</code>，根据<a href="https://www.zabbix.com/cn/download" target="_blank" rel="noopener">官网</a>的选择对应的下载链接。</p>
+<p>在有了<code>Mysql</code> 和 <code>Nginx</code>的情况下，这里我只选择安装 <code>Zabbix Agent</code>，如果没有的话，那就需要额外安装<code>zabbix-mysql</code>、<code>zabbix-nginx-conf</code>、<code>zabbix-frontend-php</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ wget https:&#x2F;&#x2F;repo.zabbix.com&#x2F;zabbix&#x2F;5.0&#x2F;ubuntu&#x2F;pool&#x2F;main&#x2F;z&#x2F;zabbix-release&#x2F;zabbix-release_5.0-1+bionic_all.deb</span><br><span class="line">$ dpkg -i zabbix-release_5.0-1+bionic_all.deb</span><br><span class="line">$ apt update</span><br><span class="line">$ apt install zabbix-agent</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置-Zabbix-Agent"><a href="#配置-Zabbix-Agent" class="headerlink" title="配置 Zabbix Agent"></a>配置 Zabbix Agent</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># vim &#x2F;etc&#x2F;zabbix&#x2F;zabbix_agentd.conf</span><br><span class="line"></span><br><span class="line">Server：Zabbix Server 的IP 地址</span><br><span class="line">ServerActive：Zabbix Server 的IP 地址</span><br><span class="line">Hostname：Zabbix Agent 这台主机的别名</span><br></pre></td></tr></table></figure>
+<p>核心的配置只有这三行，改完之后，重启以下 Zabbix Agent。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ systemctl restart zabbix-agent</span><br></pre></td></tr></table></figure>
+
+<h2 id="添加主机"><a href="#添加主机" class="headerlink" title="添加主机"></a>添加主机</h2><p>完成以上配置之后，下一步需要做的就是打开 Zabbix 的Web 端，开始添加主机。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200904200443.png" alt=""></p>
+<p>配置主机基础信息：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200904205302.png" alt=""></p>
+<ul>
+<li>主机名称：zabbix_agentd.conf 中的Hostname</li>
+<li>客户端IP：需要监控的主机的IP 地址</li>
+<li>端口默认使用 10050</li>
+</ul>
+<p>配置模版：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200904213331.png" alt=""></p>
+<p>需要注意的是，如果没有配置模版，可能会导致没有数据。</p>
+<p>然后点击添加即可。</p>
+<p>打开监控面板，点击主机，正常情况下，主机状态应该是这样的。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200904214447.png" alt=""></p>
+<p>至此就完成了Agent 的添加，点击最新数据或者图形可以看到相应的数据。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://blog.51cto.com/dyc2005/1971212" target="_blank" rel="noopener">安装zabbix-agent并添加到zabbix web中监控</a></li>
+<li><a href="https://blog.csdn.net/kk185800961/article/details/84105621" target="_blank" rel="noopener">Zabbix 使用 Zabbix-Agent 添加新的Linux服务器监控</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
   
     
-    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
     
-    
+
+
 
   
 
-
-    
-  
-
-</div>
-<aside class='l_side'>
-  
   
     
     
 
-<section class="widget blogger shadow desktop mobile">
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
   <div class='content'>
     
-      
-        <a class='avatar flat-box' href='/about/'>
-          <img no-lazy src='https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg'/>
-        </a>
-      
-    
-    
-      <div class='text'>
+      <blockquote>
         
-        
-          <p>Stay foolish, Stay hungry</p>
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
 
-        
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
-        
-          
-            <a href="/atom.xml"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
           
         
           
-            <a href="mailto:aikangtongxue@gamil.com"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/zabbix-add-agent-host/>https://www.0x2beace.com/zabbix-add-agent-host/</a></p>
           
         
-          
-            <a href="https://github.com/0xAikang"
-              class="social fab fa-github flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-          
-            <a href="https://music.163.com/#/user/home?id=112719323"
-              class="social fas fa-headphones-alt flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-      </div>
+      </blockquote>
     
   </div>
 </section>
@@ -479,208 +463,217 @@
   
     
     
+
+<section class="widget qrcode  desktop mobile">
   
 
-  <section class="widget category shadow desktop">
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-09-04T21:50:36+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Sep 4, 2020</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Linux/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Linux</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Zabbix/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Zabbix</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/zabbix-add-agent-host/&title=Zabbix 添加Agent 主机 - Boo&summary=Zabbix-Server 安装完成之后，下一步需要添加主机才能看到数据。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/zabbix-add-agent-host/&title=Zabbix 添加Agent 主机 - Boo&summary=Zabbix-Server 安装完成之后，下一步需要添加主机才能看到数据。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/zabbix-add-agent-host/&title=Zabbix 添加Agent 主机 - Boo&summary=Zabbix-Server 安装完成之后，下一步需要添加主机才能看到数据。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAAC9UlEQVR42u3ay3HDMAwFQPXfdNJAMsRPsmEvb/LIFLm8vAF4/Rh/jgsBGDBgwIABswbmKo7jB4LvX80xNR8YMGDAgAEDZi9MOAAVN3qaJ7uOqXnAgAEDBgwYMJ8DcwxAwecoSDWgVddzfB8MGDBgwIAB83UwXaBoUIvCggEDBgwYMGDAdANdNLhlQbPgYMCAAQMGDJjPh+k2uLqNs2qwe7tOJBgwYMCAAQPmMZjsqEI99VzeDxgwYMCAAQNmDUx3TENWg+XYfsCAAQMGDBgwa2CqASm7ge5FomhBqr1+MGDAgAEDBswamGjDq9voil4Umn4v+jsYMGDAgAEDZh9MdyFdgG5A7M53TL5gwIABAwYMmLUw2cJQFqK6ker6wIABAwYMGDCfA3PXRaGxhSbnaR8MGDBgwIABA2YNTDa4ZcGigaxaoJq6UAQGDBgwYMCA2QvTbYhlYbsBr3sg6QoeGDBgwIABA2YtTDSAZUGywbELfIQGAwYMGDBgwKyDmWqsdf/XbfilIboVPDBgwIABAwbMy2CqDaxuQanaaKsGzPD3wYABAwYMGDBrYNIBKNvAmg5gRahyww0MGDBgwIAB87Yw0w2v6Ma6kNMFNjBgwIABAwbMPpi7PpCFqRbEqpD//g4GDBgwYMCAWQdTLSRVIavjruAIBgwYMGDAgNkLU22wdRcyNaoHGC5UgQEDBgwYMGDeHmZqg9Wglt3I1IGBAQMGDBgwYPbDdAtE3UZaF7zdEAQDBgwYMGDArIGZKhBlC17ZjXYhw89gwIABAwYMmDUwU4EpepGneyGpeyBHSDBgwIABAwbMOphsoMuCTAfJ6UYcGDBgwIABA2Y/TLXhVoWtNuaqAfXxTiQYMGDAgAEDZi1MtbA1tY50oQsMGDBgwIAB87Uw3aBWLVRF1/2yQhUYMGDAgAED5naYqUJTdIHRYJYtOL28EwkGDBgwYMCAeQxmKjhlLw5Fg2S1QJU+YDBgwIABAwbMGhgDDBgwYMCAAbNs/AKQhGZ//VAoqgAAAABJRU5ErkJggg==">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/mysql-master-slave-architecture-configuration/'>
+                <p class='title'>Mysql 主从架构配置<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>Mysql 主从配置是数据库同步的必要步骤。
+
+
+主机环境：
+
+Ubuntu 18.04 LTS
+Mysql 5.7
+
+下面会将主数据库简称为Master，从数据库简称为 Slave。
+配置Ma...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Zabbix 添加Agent 主机',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
     
   <header>
     
-      <a href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
   </header>
 
 
     <div class='content'>
-      <ul class="entry navigation">
-        
-          <li><a class="flat-box"
-            title="/categories/Docker/" href="/categories/Docker/"
-            id="categoriesDocker"
-            ><div class='name'>Docker</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Docker/Tutorial/" href="/categories/Docker/Tutorial/"
-            id="categoriesDockerTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Git/" href="/categories/Git/"
-            id="categoriesGit"
-            ><div class='name'>Git</div><div class='badge'>(7)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Git/Skill/" href="/categories/Git/Skill/"
-            id="categoriesGitSkill"
-            ><div class='name'>Skill</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Linux/" href="/categories/Linux/"
-            id="categoriesLinux"
-            ><div class='name'>Linux</div><div class='badge'>(24)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/Tutorial/" href="/categories/Linux/Tutorial/"
-            id="categoriesLinuxTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(4)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/Windows/" href="/categories/Linux/Windows/"
-            id="categoriesLinuxWindows"
-            ><div class='name'>Windows</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/Zabbix/" href="/categories/Linux/Zabbix/"
-            id="categoriesLinuxZabbix"
-            ><div class='name'>Zabbix</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/" href="/categories/Linux/%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/"
-            id="categoriesLinuxE591BDE4BBA4E695B4E79086"
-            ><div class='name'>命令整理</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" href="/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
-            id="categoriesLinuxE5ADA6E4B9A0E7AC94E8AEB0"
-            ><div class='name'>学习笔记</div><div class='badge'>(8)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Mysql/" href="/categories/Mysql/"
-            id="categoriesMysql"
-            ><div class='name'>Mysql</div><div class='badge'>(12)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Nginx/" href="/categories/Nginx/"
-            id="categoriesNginx"
-            ><div class='name'>Nginx</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Node/" href="/categories/Node/"
-            id="categoriesNode"
-            ><div class='name'>Node</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Node/Socket-io/" href="/categories/Node/Socket-io/"
-            id="categoriesNodeSocket-io"
-            ><div class='name'>Socket.io</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Node/Tutorial/" href="/categories/Node/Tutorial/"
-            id="categoriesNodeTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/PHP/" href="/categories/PHP/"
-            id="categoriesPHP"
-            ><div class='name'>PHP</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/PHP/Tutorial/" href="/categories/PHP/Tutorial/"
-            id="categoriesPHPTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Redis/" href="/categories/Redis/"
-            id="categoriesRedis"
-            ><div class='name'>Redis</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Shell/" href="/categories/Shell/"
-            id="categoriesShell"
-            ><div class='name'>Shell</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Skill/" href="/categories/Skill/"
-            id="categoriesSkill"
-            ><div class='name'>Skill</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Skill/Windows/" href="/categories/Skill/Windows/"
-            id="categoriesSkillWindows"
-            ><div class='name'>Windows</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Skill/Windows/Mac/" href="/categories/Skill/Windows/Mac/"
-            id="categoriesSkillWindowsMac"
-            ><div class='name'>Mac</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Socket-io/" href="/categories/Socket-io/"
-            id="categoriesSocket-io"
-            ><div class='name'>Socket.io</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Socket-io/Nginx/" href="/categories/Socket-io/Nginx/"
-            id="categoriesSocket-ioNginx"
-            ><div class='name'>Nginx</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Tutorial/" href="/categories/Tutorial/"
-            id="categoriesTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(9)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/GitHub/" href="/categories/Tutorial/GitHub/"
-            id="categoriesTutorialGitHub"
-            ><div class='name'>GitHub</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/Skill/" href="/categories/Tutorial/Skill/"
-            id="categoriesTutorialSkill"
-            ><div class='name'>Skill</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/Skill/GitHub/" href="/categories/Tutorial/Skill/GitHub/"
-            id="categoriesTutorialSkillGitHub"
-            ><div class='name'>GitHub</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C/" href="/categories/%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C/"
-            id="categoriesE4B880E4BA9BE7BB8FE9AA8C"
-            ><div class='name'>一些经验</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E5%89%8D%E7%AB%AF/" href="/categories/%E5%89%8D%E7%AB%AF/"
-            id="categoriesE5898DE7ABAF"
-            ><div class='name'>前端</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E7%A2%8E%E7%A2%8E%E5%BF%B5/" href="/categories/%E7%A2%8E%E7%A2%8E%E5%BF%B5/"
-            id="categoriesE7A28EE7A28EE5BFB5"
-            ><div class='name'>碎碎念</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E7%BB%88%E7%AB%AF/" href="/categories/%E7%BB%88%E7%AB%AF/"
-            id="categoriesE7BB88E7ABAF"
-            ><div class='name'>终端</div><div class='badge'>(1)</div></a></li>
-        
-      </ul>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装Zabbix-Agent"><span class="toc-text">安装Zabbix Agent</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置-Zabbix-Agent"><span class="toc-text">配置 Zabbix Agent</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加主机"><span class="toc-text">添加主机</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
     </div>
   </section>
 
-
-  
-
-  
-    
-    
-  
-
-  <section class="widget tagcloud shadow desktop mobile">
-    
-  <header>
-    
-      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
-    
-  </header>
-
-
-    <div class='content'>
-      <a href="/tags/Arch-Linux/" style="font-size: 15.67px; color: #8e8e8e">Arch Linux</a> <a href="/tags/CI/" style="font-size: 14px; color: #999">CI</a> <a href="/tags/Cygwin/" style="font-size: 14px; color: #999">Cygwin</a> <a href="/tags/Docker/" style="font-size: 15.67px; color: #8e8e8e">Docker</a> <a href="/tags/Docker-Hub/" style="font-size: 14px; color: #999">Docker Hub</a> <a href="/tags/Git/" style="font-size: 19px; color: #777">Git</a> <a href="/tags/GoAccess/" style="font-size: 14px; color: #999">GoAccess</a> <a href="/tags/HTTPS/" style="font-size: 14px; color: #999">HTTPS</a> <a href="/tags/Hash/" style="font-size: 14px; color: #999">Hash</a> <a href="/tags/Hexo/" style="font-size: 17.33px; color: #828282">Hexo</a> <a href="/tags/JavaScript/" style="font-size: 14px; color: #999">JavaScript</a> <a href="/tags/Linux/" style="font-size: 24px; color: #555">Linux</a> <a href="/tags/Linux-Commands/" style="font-size: 14px; color: #999">Linux Commands</a> <a href="/tags/Logs/" style="font-size: 14px; color: #999">Logs</a> <a href="/tags/Mac/" style="font-size: 15.67px; color: #8e8e8e">Mac</a> <a href="/tags/Mysql/" style="font-size: 20.67px; color: #6c6c6c">Mysql</a> <a href="/tags/Nginx/" style="font-size: 17.33px; color: #828282">Nginx</a> <a href="/tags/Node/" style="font-size: 15.67px; color: #8e8e8e">Node</a> <a href="/tags/PHP/" style="font-size: 17.33px; color: #828282">PHP</a> <a href="/tags/PM2/" style="font-size: 14px; color: #999">PM2</a> <a href="/tags/Redis/" style="font-size: 14px; color: #999">Redis</a> <a href="/tags/SSH/" style="font-size: 14px; color: #999">SSH</a> <a href="/tags/SSHD/" style="font-size: 14px; color: #999">SSHD</a> <a href="/tags/Shell/" style="font-size: 19px; color: #777">Shell</a> <a href="/tags/Skill/" style="font-size: 15.67px; color: #8e8e8e">Skill</a> <a href="/tags/Socket-io/" style="font-size: 15.67px; color: #8e8e8e">Socket.io</a> <a href="/tags/Tutorial/" style="font-size: 22.33px; color: #606060">Tutorial</a> <a href="/tags/Vim/" style="font-size: 14px; color: #999">Vim</a> <a href="/tags/WSL/" style="font-size: 14px; color: #999">WSL</a> <a href="/tags/Web-%E5%AE%89%E5%85%A8/" style="font-size: 15.67px; color: #8e8e8e">Web 安全</a> <a href="/tags/Windows/" style="font-size: 15.67px; color: #8e8e8e">Windows</a> <a href="/tags/Zabbix/" style="font-size: 14px; color: #999">Zabbix</a> <a href="/tags/https/" style="font-size: 14px; color: #999">https</a> <a href="/tags/mysql/" style="font-size: 14px; color: #999">mysql</a> <a href="/tags/ssh/" style="font-size: 14px; color: #999">ssh</a> <a href="/tags/wss/" style="font-size: 14px; color: #999">wss</a> <a href="/tags/%E4%BA%91/" style="font-size: 17.33px; color: #828282">云</a> <a href="/tags/%E7%A2%8E%E7%A2%8E%E5%BF%B5/" style="font-size: 14px; color: #999">碎碎念</a> <a href="/tags/%E7%BB%88%E7%AB%AF/" style="font-size: 14px; color: #999">终端</a> <a href="/tags/%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" style="font-size: 15.67px; color: #8e8e8e">进程管理</a>
-    </div>
-  </section>
-
-
-  
 
   
 
@@ -884,6 +877,60 @@ setInterval("createtime()",250);
 
 
 
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "prAyvaUeadxadA2wpcBQqNQn-gzGzoHsz",
+    appKey: "vkyEUTw0BixVjfFpFIzUdhak",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
 
 
 
