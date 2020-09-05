@@ -9,13 +9,14 @@ categories: ["Linux", "命令整理"]
 
 <!-- more -->
 
-### sudo!!
+### sudo !!
 有时候我们好不容易输完一长串命令，却被提示”权限不足”，如果这个时候有一个命令记住上一次的输入内容那该多好。
 
 还真有，`!!`命令可以获取最后一次输入的命令，所以我们直接输入下面这个命令就可以了。
 ```
-$ sudo!!
+$ sudo !!
 ```
+注意中间有一个空格。
 
 ### nl
 `nl` 命令类似`cat`命令，都是查看文件内容，但不同之处在于：`nl`命令会在文本内容的每一行前面，添加行号。
@@ -49,6 +50,27 @@ $ pstree | grep php
  | |     \--- 73098 boo grep --color=auto nginx
 ```
 
+### dig
+这个命令特别实用，可以用来查看域名解析情况。
+
+```
+dig 0x2BeAce.com +nostats +nocomments +nocmd
+
+; <<>> DiG 9.10.6 <<>> 0x2BeAce.com +nostats +nocomments +nocmd
+;; global options: +cmd
+;0x2BeAce.com.			IN	A
+0x2BeAce.com.		3581	IN	A	185.199.108.153
+0x2BeAce.com.		3581	IN	A	185.199.110.153
+0x2BeAce.com.		3581	IN	A	185.199.111.153
+0x2BeAce.com.		3581	IN	A	185.199.109.153
+0x2BeAce.com.		3581	IN	NS	ns12.domaincontrol.com.
+0x2BeAce.com.		3581	IN	NS	ns11.domaincontrol.com.
+ns12.domaincontrol.com.	59833	IN	A	173.201.73.6
+ns11.domaincontrol.com.	92984	IN	A	97.74.105.6
+ns12.domaincontrol.com.	146699	IN	AAAA	2603:5:2290::6
+ns11.domaincontrol.com.	92042	IN	AAAA	2603:5:2190::6
+```
+
 ### <空格> 命令
 这是一个有趣的命令，总所周知，用户在终端上键入的每一个命令都会被记录到`history`中，那么有没有一个命令可以骗过`history`，而不被记入呢？答案是有的。
 
@@ -66,6 +88,11 @@ $ history
 查看系统信息
 ```
 $ uname -a 
+```
+
+查找发行版信息
+```
+$ lsb_release -a
 ```
 
 查看当前日期
@@ -143,26 +170,11 @@ kill -9 [pid]
 killall php
 ```
 
+### 全局根据文件名查找文件具体路径
 
-### dig
-这个命令特别实用，可以用来查看域名解析情况。
-
+有时候很想找到某个文件，但是又不记得具体路径了，这时可以使用 `find` 命令：
 ```
-dig 0x2BeAce.com +nostats +nocomments +nocmd
-
-; <<>> DiG 9.10.6 <<>> 0x2BeAce.com +nostats +nocomments +nocmd
-;; global options: +cmd
-;0x2BeAce.com.			IN	A
-0x2BeAce.com.		3581	IN	A	185.199.108.153
-0x2BeAce.com.		3581	IN	A	185.199.110.153
-0x2BeAce.com.		3581	IN	A	185.199.111.153
-0x2BeAce.com.		3581	IN	A	185.199.109.153
-0x2BeAce.com.		3581	IN	NS	ns12.domaincontrol.com.
-0x2BeAce.com.		3581	IN	NS	ns11.domaincontrol.com.
-ns12.domaincontrol.com.	59833	IN	A	173.201.73.6
-ns11.domaincontrol.com.	92984	IN	A	97.74.105.6
-ns12.domaincontrol.com.	146699	IN	AAAA	2603:5:2290::6
-ns11.domaincontrol.com.	92042	IN	AAAA	2603:5:2190::6
+find / -name <file name>
 ```
 
 ### 参考链接
