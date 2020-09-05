@@ -2,7 +2,7 @@
 title: PM2 快速上手
 date: 2020-07-12 21:44:47
 tags: ["PM2","Node", "Tutorial", "进程管理"]
-categories: ["Node", "Tutorial"]
+categories: ["Node", "Tutorial", "进程管理"]
 ---
 
 [PM2](http://pm2.keymetrics.io/) 是Node.js 生产环境中的进程管理工具，自带负载均衡功能。
