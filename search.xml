@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>php-fpm configuration initialization</title>
+      <link href="/php-fpm-configuration-initialization/"/>
+      <url>/php-fpm-configuration-initialization/</url>
+      
+        <content type="html"><![CDATA[<p><code>php-fpm</code>（FastCGI Process Manger）是一个PHP FastCGI 管理器，专门和Nginx 的 <code>ngx_fastcgi_modul</code>模块对接，用来处理动态请求。</p><a id="more"></a><h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>当安装了PHP 之后，可以从以下三个方向来对默认配置进行修改，以达到优化的效果。</p><h3 id="1-核心配置文件"><a href="#1-核心配置文件" class="headerlink" title="1. 核心配置文件"></a>1. 核心配置文件</h3><p>核心配置文件其实就是 <code>php.ini</code>，该配置文件的作用通常是用来启用或禁用第三方模块，及修改PHP 时区等。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># vim &#x2F;usr&#x2F;local&#x2F;etc&#x2F;php&#x2F;php.ini</span><br><span class="line"></span><br><span class="line">date.timezone &#x3D; Asia&#x2F;Shanghai</span><br></pre></td></tr></table></figure><h3 id="2-全局配置文件"><a href="#2-全局配置文件" class="headerlink" title="2. 全局配置文件"></a>2. 全局配置文件</h3><p>全局配置文件<code>php-fpm.conf</code>，通常用来配置一些辅助性功能。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># vim &#x2F;usr&#x2F;local&#x2F;etc&#x2F;php-fpm.conf</span><br><span class="line"></span><br><span class="line">error_log &#x3D; &#x2F;var&#x2F;log&#x2F;php-fpm&#x2F;error.log</span><br><span class="line">log_level &#x3D; notice</span><br><span class="line">;process_max &#x3D; 0</span><br><span class="line">deamonize &#x3D; yes</span><br></pre></td></tr></table></figure><p>参数解析：</p><ul><li><code>error_log</code>：错误日志路径</li><li><code>log_level</code>：日志级别，默认为notice<ul><li><code>alert</code>：必须立即处理</li><li><code>error</code>：错误情况</li><li><code>warning</code>：警告情况</li><li><code>notice</code>：一般重要信息</li><li><code>debug</code>：调试信息</li></ul></li><li><code>process_max</code>：控制最大子进程数的全局变量，不建议设置具体数量，因为会限制扩展配置。</li><li><code>daemonize</code>：是否开启守护进程，默认为yes</li></ul><p>通常不会在<code>php-fpm.conf</code>中设定 <code>process_max</code>，因为会限制<code>www.conf</code>中的配置。</p><h3 id="3-扩展配置文件"><a href="#3-扩展配置文件" class="headerlink" title="3. 扩展配置文件"></a>3. 扩展配置文件</h3><p>扩展配置文件<code>www.conf</code>通常是与<code>php-fpm</code>服务相关的配置，大部分优化都是需要更改这个配置文件。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># vim &#x2F;usr&#x2F;local&#x2F;etc&#x2F;php-fpm.d&#x2F;www.conf</span><br><span class="line"></span><br><span class="line">listen &#x3D; 127.0.0.1:9000</span><br><span class="line">slowlog &#x3D; &#x2F;var&#x2F;log&#x2F;php-fpm&#x2F;www-slow.log</span><br><span class="line"></span><br><span class="line"># 这里按照10G 的空闲内存去设定</span><br><span class="line">pm &#x3D; dynamic</span><br><span class="line">pm.start_servers &#x3D; 16</span><br><span class="line">pm.max_children &#x3D; 256</span><br><span class="line">pm.min_spare_servers &#x3D; 16</span><br><span class="line">pm.max_spare_servers &#x3D; 32</span><br><span class="line">pm.max_requests &#x3D; 1000</span><br></pre></td></tr></table></figure><p>参数解析：</p><ul><li><code>listen</code>：有两种方式可以进行通讯。<ul><li><code>socket</code>：<code>unix:/run/php/php7.3-fpm.sock</code></li><li><code>http</code>：<code>127.0.0.1:9000</code> 因为<code>php-fpm</code>与<code>ngx_fastcgi_modul</code>的通讯方式是 9000端口，所以默认是 <code>127.0.0.1:9000</code></li></ul></li><li><code>slowlog</code>：慢查询日志路径</li><li><code>pm</code>：进程管理方式<ul><li><code>static</code>：静态模式。始终保持固定数量的子进程数，配合最大子进程数一起使用，这个方式很不灵活，通常不是默认。<ul><li><code>pm.max_children</code>：最大子进程数。</li></ul></li><li><code>dynamic</code>：动态模式。按照固定的最小子进程数启动，同时用最大子进程数去限制。<ul><li><code>pm.start_servers</code>：默认开启的进程数</li><li><code>pm.min_spare_servers</code>：最小空闲的进程数</li><li><code>pm.max_spare_servers</code>：最大空闲的进程数</li><li><code>pm.max_children</code>：最大子进程数</li><li><code>pm.max_requests</code>：每个进程能响应的请求数量，达到此限制之后，该PHP 进程就会被自动释放掉。</li></ul></li><li><code>nodaemonize</code>：每个进程在闲置一定时候后就会被杀掉。<ul><li><code>pm.max_children</code>：最大子进程数</li><li><code>pm.process_idle_timeout</code>：在多少秒之后，一个空闲的进程将会被杀死</li></ul></li></ul></li></ul><p>注意：<code>max_children</code> 是 PHPFPM Pool 最大的子进程数，它的数值取决于服务器实际空闲内存。假设你有一台10G 运行内存的服务器，我们知道一个空闲的PHP 进程占用的是 1M 内存，而一个正在处理请求的PHP 进程 大概会占用<code>10M-40M</code>内存，这里按照每个PHP 请求占用 40M 内存，那么<code>max_children = 10*1024M/40M = 256</code>，所以这个值得根据实际环境而设定。</p><p>以上就是<code>php-fpm</code> 初始化配置的核心部分了。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> PHP </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> PHP </tag>
+            
+            <tag> PHP-FPM </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Zabbix 快速上手</title>
       <link href="/zabbix-quick-start/"/>
       <url>/zabbix-quick-start/</url>
