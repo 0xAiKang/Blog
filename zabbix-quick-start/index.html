@@ -16,13 +16,10 @@
 
   <!-- 页面元数据 -->
   
-    <title>Zabbix 快速上手 - Boo</title>
+    <title>Zabbix 快速上手——部署 - Boo</title>
   
     <meta name="keywords" content="Linux,Zabbix,监控系统">
   
-  
-    <meta name="description" content="因为一些特殊原因，部分环境不是搭建在云上面，而是在托管的实体机上面，这就导致原本很多云可以帮我们做的事情，现在只能自己去做了。比如：监控系统。
-本着不想当运维的前端不是一个好全栈的思想，我迫切需要自己搭建一套监控系统来解放我自己的双手👐️。">
   
 
   <!-- feed -->
@@ -287,7 +284,7 @@
           
   <h1 class="title">
     <a href="/zabbix-quick-start/">
-      Zabbix 快速上手
+      Zabbix 快速上手——部署
     </a>
   </h1>
 
@@ -341,7 +338,7 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1.4k words</p>
+      <p>1.6k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
@@ -360,7 +357,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/zabbix-quick-start/" class="leancloud_visitors" data-flag-title="Zabbix 快速上手">
+      <span id="/zabbix-quick-start/" class="leancloud_visitors" data-flag-title="Zabbix 快速上手——部署">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -384,16 +381,14 @@
         <div class="article-entry" itemprop="articleBody">
           
           <p>因为一些特殊原因，部分环境不是搭建在云上面，而是在托管的实体机上面，这就导致原本很多云可以帮我们做的事情，现在只能自己去做了。<br>比如：监控系统。</p>
-<p>本着<strong>不想当运维的前端不是一个好全栈</strong>的思想，我迫切需要自己搭建一套监控系统来解放我自己的双手👐️。</p>
-<a id="more"></a>
-
+<p>本着<strong>不想当运维的前端不是一个好全栈</strong>的思想，我迫切需要自己搭建一套完整的监控系统来解放自己的双手👐️。</p>
 <p>我希望这套监控系统是怎样的？</p>
 <ol>
 <li>免费开源</li>
 <li>入门相对容易</li>
 <li>支持多平台分布式监控</li>
 </ol>
-<p>综合以上需求，最后我选择了 Zabbix。</p>
+<p>综合以上需求，最后我选择了 <a href="https://www.zabbix.com/" target="_blank" rel="noopener">Zabbix</a> 。</p>
 <p>网上找了一圈，并没有发现合适的入门教程，要么是教程太老了，要么是写的不够详细，学习曲线很陡，光是部署就很费劲，而Zabbix 重要的不是部署，而是学会如何使用。</p>
 <p>所以这篇笔记就是用来记录如何快速部署 Zabbix。</p>
 <h2 id="认识-Zabbix"><a href="#认识-Zabbix" class="headerlink" title="认识 Zabbix"></a>认识 Zabbix</h2><p><a href="https://www.zabbix.com/" target="_blank" rel="noopener">Zabbix</a> 是一个企业级的分布式开源监控方案。</p>
@@ -423,10 +418,16 @@
 <li>Web 前端：Zabbix 的交互界面</li>
 <li>Zabbix agent：需要被监控的主机</li>
 </ul>
-<p>上面安装的是 <code>mysql-server</code>，并没有安装 <code>mysql-client</code>，所以你可能需要手动安装:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apt install mysql-client</span><br></pre></td></tr></table></figure>
+<h3 id="3-初始数据库"><a href="#3-初始数据库" class="headerlink" title="3. 初始数据库"></a>3. 初始数据库</h3><p>安装完数据库之后，并不能直接登录，因为不知道root 用户的密码，所以需要重置root 用户的密码，重置的方式有多种，这里推荐我常使用的的一种。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># vim &#x2F;etc&#x2F;mysql&#x2F;conf.d&#x2F;mysql.conf  </span><br><span class="line"># 也许你编辑的配置文件和我的名称不一样，不过没关系。</span><br><span class="line"></span><br><span class="line"># 添加下面两行配置</span><br><span class="line">[mysqld]</span><br><span class="line">skip-grant-tables</span><br></pre></td></tr></table></figure>
 
-<h3 id="3-初始数据库"><a href="#3-初始数据库" class="headerlink" title="3. 初始数据库"></a>3. 初始数据库</h3><p>Mysql 默认用户是root，这里不推荐直接使用 root 用户去管理 zabbix 数据库，所以还是使用官方推荐的方式，创建一个新的用户去管理：</p>
+<p>重启Mysql 服务：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ service mysql restart</span><br></pre></td></tr></table></figure>
+
+<p>现在的root 用户已经没有密码了，所以下一步要做的就是修改root 用户密码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ mysql -hlocalhost -uroot -p</span><br><span class="line"></span><br><span class="line">mysql &gt; UPDATE mysql.user SET authentication_string&#x3D;PASSWORD(&#39;password&#39;), plugin&#x3D;&#39;mysql_native_password&#39; WHERE User&#x3D;&#39;root&#39; AND Host&#x3D;&#39;localhost&#39;;</span><br></pre></td></tr></table></figure>
+<p>然后再次修改刚才的配置文件，将下面那行配置给注释掉， 最后重启Mysql 服务就可以了。</p>
+<p>Mysql 默认用户是root，这里不推荐直接使用 root 用户去管理 zabbix 数据库，所以还是使用官方推荐的方式，创建一个新的用户去管理：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ mysql -hlocalhost -uroot -p</span><br><span class="line"></span><br><span class="line">mysql&gt; create database zabbix character set utf8 collate utf8_bin;</span><br><span class="line">mysql&gt; create user zabbix@localhost identified by &#39;password&#39;;</span><br><span class="line">mysql&gt; grant all privileges on zabbix.* to zabbix@localhost;</span><br><span class="line">mysql&gt; flush privileges;</span><br><span class="line">mysql&gt; quit;</span><br></pre></td></tr></table></figure>
 <p>这里默认Mysql 是运行在本地机器上，如果Mysql 运行在容器中，而Zabbix 又运行在本机上，可能会出现一些异常（我遇到了但没能解决）。</p>
 <p>导入初始架构和数据。</p>
@@ -457,7 +458,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ locale -a</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200902110702.png" alt=""></p>
-<h3 id="1-安装中文包"><a href="#1-安装中文包" class="headerlink" title="1. 安装中文包/"></a>1. 安装中文包/</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install language-pack-zh-hant language-pack-zh-hans</span><br></pre></td></tr></table></figure>
+<h3 id="1-安装中文包"><a href="#1-安装中文包" class="headerlink" title="1. 安装中文包"></a>1. 安装中文包</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install language-pack-zh-hant language-pack-zh-hans</span><br></pre></td></tr></table></figure>
 
 <h3 id="2-配置环境变量"><a href="#2-配置环境变量" class="headerlink" title="2. 配置环境变量"></a>2. 配置环境变量</h3><p>增加语言和编码的设置：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># vim &#x2F;etc&#x2F;environment</span><br><span class="line"></span><br><span class="line">LANG&#x3D;&quot;zh_CN.UTF-8&quot;</span><br><span class="line">LANGUAGE&#x3D;&quot;zh_CN:zh:en_US:en&quot;</span><br></pre></td></tr></table></figure>
@@ -560,10 +561,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-09-05T08:51:07+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-09-07T21:48:07+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Sep 5, 2020</p>
+    <p>更新于：Sep 7, 2020</p>
   </a>
 </div>
 
@@ -590,8 +591,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/zabbix-quick-start/&title=Zabbix 快速上手 - Boo&summary=因为一些特殊原因，部分环境不是搭建在云上面，而是在托管的实体机上面，这就导致原本很多云可以帮我们做的事情，现在只能自己去做了。比如：监控系统。
-本着不想当运维的前端不是一个好全栈的思想，我迫切需要自己搭建一套监控系统来解放我自己的双手👐️。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/zabbix-quick-start/&title=Zabbix 快速上手——部署 - Boo&summary="
           
           >
           
@@ -603,8 +603,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/zabbix-quick-start/&title=Zabbix 快速上手 - Boo&summary=因为一些特殊原因，部分环境不是搭建在云上面，而是在托管的实体机上面，这就导致原本很多云可以帮我们做的事情，现在只能自己去做了。比如：监控系统。
-本着不想当运维的前端不是一个好全栈的思想，我迫切需要自己搭建一套监控系统来解放我自己的双手👐️。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/zabbix-quick-start/&title=Zabbix 快速上手——部署 - Boo&summary="
           
           >
           
@@ -616,8 +615,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/zabbix-quick-start/&title=Zabbix 快速上手 - Boo&summary=因为一些特殊原因，部分环境不是搭建在云上面，而是在托管的实体机上面，这就导致原本很多云可以帮我们做的事情，现在只能自己去做了。比如：监控系统。
-本着不想当运维的前端不是一个好全栈的思想，我迫切需要自己搭建一套监控系统来解放我自己的双手👐️。"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/zabbix-quick-start/&title=Zabbix 快速上手——部署 - Boo&summary="
           
           >
           
@@ -710,7 +708,7 @@
 
   <script>
     window.subData = {
-      title: 'Zabbix 快速上手',
+      title: 'Zabbix 快速上手——部署',
       tools: true
     }
   </script>
@@ -737,7 +735,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#认识-Zabbix"><span class="toc-text">认识 Zabbix</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-text">安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-安装数据库"><span class="toc-text">1. 安装数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-安装Zabbix-server，Web前端，agent"><span class="toc-text">2. 安装Zabbix server，Web前端，agent</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-初始数据库"><span class="toc-text">3. 初始数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-配置数据库"><span class="toc-text">4. 配置数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-配置Web"><span class="toc-text">5. 配置Web</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-配置时区"><span class="toc-text">6. 配置时区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-启动服务"><span class="toc-text">7. 启动服务</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置中文语言包"><span class="toc-text">配置中文语言包</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-安装中文包"><span class="toc-text">1. 安装中文包&#x2F;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-配置环境变量"><span class="toc-text">2. 配置环境变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-替换Zabbix-语言包"><span class="toc-text">3. 替换Zabbix 语言包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-解决乱码问题"><span class="toc-text">4. 解决乱码问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-更新mibs-库"><span class="toc-text">5. 更新mibs 库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-重启服务"><span class="toc-text">6. 重启服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#认识-Zabbix"><span class="toc-text">认识 Zabbix</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-text">安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-安装数据库"><span class="toc-text">1. 安装数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-安装Zabbix-server，Web前端，agent"><span class="toc-text">2. 安装Zabbix server，Web前端，agent</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-初始数据库"><span class="toc-text">3. 初始数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-配置数据库"><span class="toc-text">4. 配置数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-配置Web"><span class="toc-text">5. 配置Web</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-配置时区"><span class="toc-text">6. 配置时区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-启动服务"><span class="toc-text">7. 启动服务</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置中文语言包"><span class="toc-text">配置中文语言包</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-安装中文包"><span class="toc-text">1. 安装中文包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-配置环境变量"><span class="toc-text">2. 配置环境变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-替换Zabbix-语言包"><span class="toc-text">3. 替换Zabbix 语言包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-解决乱码问题"><span class="toc-text">4. 解决乱码问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-更新mibs-库"><span class="toc-text">5. 更新mibs 库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-重启服务"><span class="toc-text">6. 重启服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
     </div>
   </section>
 

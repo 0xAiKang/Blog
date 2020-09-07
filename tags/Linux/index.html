@@ -315,7 +315,7 @@
           
   <h2 class="title">
     <a href="/zabbix-quick-start/">
-      Zabbix 快速上手
+      Zabbix 快速上手——部署
     </a>
   </h2>
 
@@ -364,7 +364,7 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1.4k words</p>
+      <p>1.6k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
@@ -395,16 +395,106 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>因为一些特殊原因，部分环境不是搭建在云上面，而是在托管的实体机上面，这就导致原本很多云可以帮我们做的事情，现在只能自己去做了。<br>比如：监控系统。</p>
-<p>本着<strong>不想当运维的前端不是一个好全栈</strong>的思想，我迫切需要自己搭建一套监控系统来解放我自己的双手👐️。</p>
+<p>本着<strong>不想当运维的前端不是一个好全栈</strong>的思想，我迫切需要自己搭建一套完整的监控系统来解放自己的双手👐️。</p>
+<p>我希望这套监控系统是怎样的？</p>
+<ol>
+<li>免费开源</li>
+<li>入门相对容易</li>
+<li>支持多平台分布式监控</li>
+</ol>
+<p>综合以上需求，最后我选择了 <a href="https://www.zabbix.com/" target="_blank" rel="noopener">Zabbix</a> 。</p>
+<p>网上找了一圈，并没有发现合适的入门教程，要么是教程太老了，要么是写的不够详细，学习曲线很陡，光是部署就很费劲，而Zabbix 重要的不是部署，而是学会如何使用。</p>
+<p>所以这篇笔记就是用来记录如何快速部署 Zabbix。</p>
+<h2 id="认识-Zabbix"><a href="#认识-Zabbix" class="headerlink" title="认识 Zabbix"></a>认识 Zabbix</h2><p><a href="https://www.zabbix.com/" target="_blank" rel="noopener">Zabbix</a> 是一个企业级的分布式开源监控方案。</p>
+<p>一个完整的监控系统是由服务机（zabbix server）和客户机（zabbix zgent）组成，运行大概流程是这样的：<br> <code>zabbix agent</code> 需要安装到被监控的主机上，它负责定期收集各项数据，并发送到 <code>zabbix server</code> 端，zabbix server将数据存储到自己的数据库中，<code>zabbix web</code>根据数据在前端进行展现和绘图。这里 agent 收集数据分为主动和被动两种模式：</p>
+<ul>
+<li>主动：agent 请求server 获取主动的监控项列表，并主动将监控项内需要检测的数据提交给 server/proxy 。</li>
+<li>被动：server 向agent请求获取监控项的数据，agent返回数据。</li>
+</ul>
+<p>工作原理：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200905083643.png" alt=""></p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>系统环境：</p>
+<ul>
+<li>Ubuntu 18.04 LTS</li>
+<li>Mysql 5.7</li>
+<li>PHP 7.2</li>
+<li>Nginx </li>
+<li>Zabbix 5.0</li>
+</ul>
+<h3 id="1-安装数据库"><a href="#1-安装数据库" class="headerlink" title="1. 安装数据库"></a>1. 安装数据库</h3><p>在正式安装之前，这里推荐先去<a href="https://www.zabbix.com/cn/download" target="_blank" rel="noopener">官网</a>找到符合自己的 Zabbix 服务器平台。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200902093733.png" alt=""></p>
+<p>根据自己的实际环境来找到属于自己的下载链接，比如我是<code>Zabbix 5.0 + Ubuntu 18.04 + Mysql + Nginx</code>，所以我的安装方式应该是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ wget https:&#x2F;&#x2F;repo.zabbix.com&#x2F;zabbix&#x2F;5.0&#x2F;ubuntu&#x2F;pool&#x2F;main&#x2F;z&#x2F;zabbix-release&#x2F;zabbix-release_5.0-1+bionic_all.deb</span><br><span class="line">$ dpkg -i zabbix-release_5.0-1+bionic_all.deb</span><br><span class="line">$ apt update</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-安装Zabbix-server，Web前端，agent"><a href="#2-安装Zabbix-server，Web前端，agent" class="headerlink" title="2. 安装Zabbix server，Web前端，agent"></a>2. 安装Zabbix server，Web前端，agent</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apt install zabbix-server-mysql zabbix-frontend-php zabbix-nginx-conf zabbix-agent</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Zabbix Server：用来接收并处理 Zabbix agent 传过来的数据</li>
+<li>Web 前端：Zabbix 的交互界面</li>
+<li>Zabbix agent：需要被监控的主机</li>
+</ul>
+<h3 id="3-初始数据库"><a href="#3-初始数据库" class="headerlink" title="3. 初始数据库"></a>3. 初始数据库</h3><p>安装完数据库之后，并不能直接登录，因为不知道root 用户的密码，所以需要重置root 用户的密码，重置的方式有多种，这里推荐我常使用的的一种。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># vim &#x2F;etc&#x2F;mysql&#x2F;conf.d&#x2F;mysql.conf  </span><br><span class="line"># 也许你编辑的配置文件和我的名称不一样，不过没关系。</span><br><span class="line"></span><br><span class="line"># 添加下面两行配置</span><br><span class="line">[mysqld]</span><br><span class="line">skip-grant-tables</span><br></pre></td></tr></table></figure>
+
+<p>重启Mysql 服务：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ service mysql restart</span><br></pre></td></tr></table></figure>
+
+<p>现在的root 用户已经没有密码了，所以下一步要做的就是修改root 用户密码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ mysql -hlocalhost -uroot -p</span><br><span class="line"></span><br><span class="line">mysql &gt; UPDATE mysql.user SET authentication_string&#x3D;PASSWORD(&#39;password&#39;), plugin&#x3D;&#39;mysql_native_password&#39; WHERE User&#x3D;&#39;root&#39; AND Host&#x3D;&#39;localhost&#39;;</span><br></pre></td></tr></table></figure>
+<p>然后再次修改刚才的配置文件，将下面那行配置给注释掉， 最后重启Mysql 服务就可以了。</p>
+<p>Mysql 默认用户是root，这里不推荐直接使用 root 用户去管理 zabbix 数据库，所以还是使用官方推荐的方式，创建一个新的用户去管理：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ mysql -hlocalhost -uroot -p</span><br><span class="line"></span><br><span class="line">mysql&gt; create database zabbix character set utf8 collate utf8_bin;</span><br><span class="line">mysql&gt; create user zabbix@localhost identified by &#39;password&#39;;</span><br><span class="line">mysql&gt; grant all privileges on zabbix.* to zabbix@localhost;</span><br><span class="line">mysql&gt; flush privileges;</span><br><span class="line">mysql&gt; quit;</span><br></pre></td></tr></table></figure>
+<p>这里默认Mysql 是运行在本地机器上，如果Mysql 运行在容器中，而Zabbix 又运行在本机上，可能会出现一些异常（我遇到了但没能解决）。</p>
+<p>导入初始架构和数据。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ zcat &#x2F;usr&#x2F;share&#x2F;doc&#x2F;zabbix-server-mysql*&#x2F;create.sql.gz | mysql -uzabbix -p zabbix</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-配置数据库"><a href="#4-配置数据库" class="headerlink" title="4. 配置数据库"></a>4. 配置数据库</h3><p>为Zabbix server配置数据库，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># vim &#x2F;etc&#x2F;zabbix&#x2F;zabbix_server.conf</span><br><span class="line"></span><br><span class="line">DBPassword&#x3D;password</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-配置Web"><a href="#5-配置Web" class="headerlink" title="5. 配置Web"></a>5. 配置Web</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># vim &#x2F;etc&#x2F;zabbix&#x2F;nginx.conf</span><br><span class="line"></span><br><span class="line"># 去掉前面的注释，换成你自己的端口或者域名。</span><br><span class="line"># listen 80;</span><br><span class="line"># server_name example.com;</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-配置时区"><a href="#6-配置时区" class="headerlink" title="6. 配置时区"></a>6. 配置时区</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># vim &#x2F;etc&#x2F;zabbix&#x2F;php-fpm.conf</span><br><span class="line"></span><br><span class="line">php_value[date.timezone] &#x3D; Asia&#x2F;Shanghai</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-启动服务"><a href="#7-启动服务" class="headerlink" title="7. 启动服务"></a>7. 启动服务</h3><p>启动Zabbix server和agent 进程，并为它们设置开机自启：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ systemctl restart zabbix-server zabbix-agent nginx php7.2-fpm</span><br><span class="line">$ systemctl enable zabbix-server zabbix-agent nginx php7.2-fpm</span><br></pre></td></tr></table></figure>
+
+<p>一切准备就绪之后，就可以访问了：<code>http://server_ip_or_name</code>，如果你上面配置的不是80 端口，那得记得加上对应的端口。如果你不能正常访问，那可能是因为防火墙没有允许该端口。</p>
+<p>初次进来，需要配置相关参数，确认无误之后，点击 Next step。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200902105706.png" alt=""></p>
+<p>Zabbix 默认的用户名和密码是<code>Admin</code>、<code>zabbix</code>，顺利登录到后台之后，记得修改默认登录密码。</p>
+<h2 id="配置中文语言包"><a href="#配置中文语言包" class="headerlink" title="配置中文语言包"></a>配置中文语言包</h2><p>如果需要设置中文版的环境，需要做一些额外的配置。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim &#x2F;usr&#x2F;share&#x2F;zabbix&#x2F;include&#x2F;locales.inc.php</span><br></pre></td></tr></table></figure>
+<p>将zh_CN 后面参数改为 true。</p>
+<p>如果在选择语言时，发现还是不能选择，并且提示：</p>
+<blockquote>
+<p>You are not able to choose some of the languages, because locales for them are not installed on the web server.</p>
+</blockquote>
+<p>这是因为你系统里没中文环境，查看当前的所有系统语言环境</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ locale -a</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200902110702.png" alt=""></p>
+<h3 id="1-安装中文包"><a href="#1-安装中文包" class="headerlink" title="1. 安装中文包"></a>1. 安装中文包</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install language-pack-zh-hant language-pack-zh-hans</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-配置环境变量"><a href="#2-配置环境变量" class="headerlink" title="2. 配置环境变量"></a>2. 配置环境变量</h3><p>增加语言和编码的设置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># vim &#x2F;etc&#x2F;environment</span><br><span class="line"></span><br><span class="line">LANG&#x3D;&quot;zh_CN.UTF-8&quot;</span><br><span class="line">LANGUAGE&#x3D;&quot;zh_CN:zh:en_US:en&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-替换Zabbix-语言包"><a href="#3-替换Zabbix-语言包" class="headerlink" title="3. 替换Zabbix 语言包"></a>3. 替换Zabbix 语言包</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ cd cd &#x2F;usr&#x2F;share&#x2F;zabbix&#x2F;locale&#x2F;zh_CN&#x2F;LC_MESSAGES</span><br><span class="line">$ wget https:&#x2F;&#x2F;github.com&#x2F;echohn&#x2F;zabbix-zh_CN&#x2F;archive&#x2F;v0.1.0.zip</span><br><span class="line">$ unzip master.zip</span><br><span class="line">$ rm frontend.mo</span><br><span class="line">$ cp zabbix-zh_CN-master&#x2F;frontend.mo frontend.mo</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-解决乱码问题"><a href="#4-解决乱码问题" class="headerlink" title="4. 解决乱码问题"></a>4. 解决乱码问题</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ wget https:&#x2F;&#x2F;github.com&#x2F;chenqing&#x2F;ng-mini&#x2F;blob&#x2F;master&#x2F;font&#x2F;msyh.ttf</span><br><span class="line">$ vim &#x2F;usr&#x2F;share&#x2F;zabbix&#x2F;include&#x2F;defines.inc.php</span><br><span class="line"></span><br><span class="line"># 找到 define(&#39;ZBX_GRAPH_FONT_NAME&#39;, &#39;graphfont&#39;);</span><br><span class="line"># 将graphfont 替换成 msyh</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-更新mibs-库"><a href="#5-更新mibs-库" class="headerlink" title="5. 更新mibs 库"></a>5. 更新mibs 库</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apt-get install snmp-mibs-downloader</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-重启服务"><a href="#6-重启服务" class="headerlink" title="6. 重启服务"></a>6. 重启服务</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ systemctl restart zabbix-server zabbix-agent php7.2-fpm</span><br></pre></td></tr></table></figure>
+
+<p>至此Zabbix 的完整部署过程就全介绍完了。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://www.cnblogs.com/zangdalei/p/5712951.html" target="_blank" rel="noopener">Zabbix 3.0 for Ubuntu 14.04 LTS 安装</a></li>
+<li><a href="https://www.zabbix.com/cn/download?zabbix=5.0&os_distribution=ubuntu&os_version=18.04_bionic&db=mysql&ws=nginx" target="_blank" rel="noopener">下载安装Zabbix——Zabbix 官网</a></li>
+<li><a href="https://yq.aliyun.com/articles/611489" target="_blank" rel="noopener">企业级分布式监控系统–zabbix</a></li>
+</ul>
+
       
     </div>
     
-      
-        <div class="button readmore">
-          <a href="/zabbix-quick-start/">
-            阅读全文 <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
       
     
   </section>
