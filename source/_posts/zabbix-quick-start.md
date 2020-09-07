@@ -1,5 +1,5 @@
 ---
-title: Zabbix 快速上手
+title: Zabbix 快速上手——部署
 date: 2020-09-05 08:49:02
 tags: ["Linux", "Zabbix", "监控系统"]
 categories: ["Linux", "Zabbix"]
@@ -8,16 +8,14 @@ categories: ["Linux", "Zabbix"]
 因为一些特殊原因，部分环境不是搭建在云上面，而是在托管的实体机上面，这就导致原本很多云可以帮我们做的事情，现在只能自己去做了。
 比如：监控系统。
 
-本着**不想当运维的前端不是一个好全栈**的思想，我迫切需要自己搭建一套监控系统来解放我自己的双手👐️。
-
-<!-- more -->
+本着**不想当运维的前端不是一个好全栈**的思想，我迫切需要自己搭建一套完整的监控系统来解放自己的双手👐️。
 
 我希望这套监控系统是怎样的？
 1. 免费开源
 2. 入门相对容易
 3. 支持多平台分布式监控
 
-综合以上需求，最后我选择了 Zabbix。
+综合以上需求，最后我选择了 [Zabbix](https://www.zabbix.com/) 。
 
 网上找了一圈，并没有发现合适的入门教程，要么是教程太老了，要么是写的不够详细，学习曲线很陡，光是部署就很费劲，而Zabbix 重要的不是部署，而是学会如何使用。
 
@@ -64,14 +62,32 @@ $ apt install zabbix-server-mysql zabbix-frontend-php zabbix-nginx-conf zabbix-a
 * Web 前端：Zabbix 的交互界面
 * Zabbix agent：需要被监控的主机
 
-上面安装的是 `mysql-server`，并没有安装 `mysql-client`，所以你可能需要手动安装:
-```
-$ apt install mysql-client
-```
-
 ### 3. 初始数据库
-Mysql 默认用户是root，这里不推荐直接使用 root 用户去管理 zabbix 数据库，所以还是使用官方推荐的方式，创建一个新的用户去管理：
+安装完数据库之后，并不能直接登录，因为不知道root 用户的密码，所以需要重置root 用户的密码，重置的方式有多种，这里推荐我常使用的的一种。
 
+```
+# vim /etc/mysql/conf.d/mysql.conf  
+# 也许你编辑的配置文件和我的名称不一样，不过没关系。
+
+# 添加下面两行配置
+[mysqld]
+skip-grant-tables
+```
+
+重启Mysql 服务：
+```
+$ service mysql restart
+```
+
+现在的root 用户已经没有密码了，所以下一步要做的就是修改root 用户密码：
+```
+$ mysql -hlocalhost -uroot -p
+
+mysql > UPDATE mysql.user SET authentication_string=PASSWORD('password'), plugin='mysql_native_password' WHERE User='root' AND Host='localhost';
+```
+然后再次修改刚才的配置文件，将下面那行配置给注释掉， 最后重启Mysql 服务就可以了。
+
+Mysql 默认用户是root，这里不推荐直接使用 root 用户去管理 zabbix 数据库，所以还是使用官方推荐的方式，创建一个新的用户去管理：
 ```
 $ mysql -hlocalhost -uroot -p
 
@@ -149,7 +165,7 @@ $ locale -a
 
 ![](https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200902110702.png)
 
-### 1. 安装中文包/
+### 1. 安装中文包
 ```
 apt-get install language-pack-zh-hant language-pack-zh-hans
 ```
