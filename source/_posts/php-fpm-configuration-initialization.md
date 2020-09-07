@@ -1,5 +1,5 @@
 ---
-title: php-fpm configuration initialization
+title: PHP-FPM 配置初始化
 date: 2020-09-06 11:57:11
 tags: ["PHP", "PHP-FPM"]
 categories: ["PHP"]
