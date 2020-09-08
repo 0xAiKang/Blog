@@ -1,5 +1,5 @@
 ---
-title: Zabbix 添加Agent 主机
+title: Zabbix 快速上手——添加Agent 主机
 date: 2020-09-04 21:48:16
 tags: ["Zabbix", "Linux"]
 categories: ["Linux", "Zabbix"]
