@@ -5,12 +5,11 @@ tags: ["Git","Skill"]
 categories: ["Git", "Skill"]
 ---
 
-今天在使用git 时，需要克隆`Bitbucket`的一个仓库，于是像往常一样打开了`iTerm`，便放在一边了。
+## 前言
+最近在使用git 时，需要克隆`Bitbucket`的一个仓库，于是像往常一样打开了`iTerm`，便放在一边了。
 直到一个小时后，我才想起来，想着应该克隆完了，打开才发现百分之一都没下载完。
 
-<!-- more -->
-
-![git clone 失败](https://i.loli.net/2020/03/15/hV53lgLruRd8XCW.jpg)
+![git clone 失败](https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200908092611.png)
 
 强大的长城技术对GitHub、Bitbucket 这类源代码托管服务平台网开一面，并没有像Google、FaceBook那样直接一刀切，但是它做了严格的限速，这种折磨简直比无法访问更难受。
 
@@ -75,12 +74,26 @@ $ git conifg --global --unset https.proxy
 
 配置完成后，重新 `clone`一遍，可以看到速度得到了极大的提升。
 
-![git clone 成功](https://i.loli.net/2020/03/15/Xfw1r86iFgSGsxe.jpg)
+![git clone 成功](https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200908092634.png)
 
 > 注意⚠️
 
 上面这种配置方式仅适用于 `https`协议，如果你在`clone`时选择`ssh`协议，那么速度仍然会很慢。
 
+### 替换域名
+如果你觉得上面的方式太麻烦了，或者是你没有代理，那么可以试试下面这种方式。
+
+这种方式简单暴力，替换就可以直接使用，使用规则如下：
+```
+# 原地址
+$ git clone https://github.com/996icu/996.ICU.git
+
+# 替换成
+$ git clone https://github.com.cnpmjs.org/996icu/996.ICU.git
+```
+只需要在`github.com`后面追加一个`.cnpmjs.org`就可以了。
+
+以上就是`git clone`太慢时的各种解决办法。
+
 ### 参考链接
 [Git Clone 太慢怎么办？](https://www.aneasystone.com/archives/2015/08/git-clone-faster.html)
-
