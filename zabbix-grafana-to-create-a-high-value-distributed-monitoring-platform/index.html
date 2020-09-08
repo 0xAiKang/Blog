@@ -16,12 +16,14 @@
 
   <!-- 页面元数据 -->
   
-    <title>当 Docker 容器无法正常启动时如何修改配置文件？ - Boo</title>
+    <title>Zabbix + Grafana 打造高颜值的分布式监控平台 - Boo</title>
   
-    <meta name="keywords" content="Docker">
+    <meta name="keywords" content="Linux,Zabbix">
   
   
-    <meta name="description" content="在容器无法正常启动的情况下，如何修改其配置文件？">
+    <meta name="description" content="在前面了解了如何部署 Zabbix，众所周知Zabbix 的部署并不是难的部分，配置才是最难的那部分。
+所以如何获取到想要的那部分数据，将那部分数据以更直观的方式展现出来，这才是我们更关心的。
+Zabbix 默认有自己的 Graphs，但是并不好用，所以使用Zabbix + Grafana 打造高颜值的分布式监控...">
   
 
   <!-- feed -->
@@ -285,8 +287,8 @@
         
           
   <h1 class="title">
-    <a href="/how-to-modify-the-configuration-file-when-the-docker-container-cannot-start-normally/">
-      当 Docker 容器无法正常启动时如何修改配置文件？
+    <a href="/zabbix-grafana-to-create-a-high-value-distributed-monitoring-platform/">
+      Zabbix + Grafana 打造高颜值的分布式监控平台
     </a>
   </h1>
 
@@ -311,9 +313,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Docker/' rel="nofollow">
+    <a href='/categories/Linux/Zabbix/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Docker</p>
+      <p>Linux/Zabbix</p>
     </a>
   </div>
 
@@ -324,7 +326,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Sep 7, 2020</p>
+    <p>发布于：Sep 8, 2020</p>
   </a>
 </div>
 
@@ -340,13 +342,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>682 words</p>
+      <p>1.1k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>2 min</p>
+      <p>4 min</p>
     </a>
   </div>
 
@@ -359,7 +361,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/how-to-modify-the-configuration-file-when-the-docker-container-cannot-start-normally/" class="leancloud_visitors" data-flag-title="当 Docker 容器无法正常启动时如何修改配置文件？">
+      <span id="/zabbix-grafana-to-create-a-high-value-distributed-monitoring-platform/" class="leancloud_visitors" data-flag-title="Zabbix + Grafana 打造高颜值的分布式监控平台">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -382,41 +384,70 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>在容器无法正常启动的情况下，如何修改其配置文件？</p>
+          <p>在前面了解了如何部署 Zabbix，众所周知Zabbix 的部署并不是难的部分，配置才是最难的那部分。</p>
+<p>所以如何获取到想要的那部分数据，将那部分数据以更直观的方式展现出来，这才是我们更关心的。</p>
+<p>Zabbix 默认有自己的 Graphs，但是并不好用，所以使用Zabbix + Grafana 打造高颜值的分布式监控平台才是最好的选择。</p>
 <a id="more"></a>
 
-<p>问题描述：因为错误的配置文件导致容器运行异常，无法正常启动，通常情况下只有进入容器才能修改配置文件，所以在不能进入容器的情况下该怎么办呢？</p>
-<p>这种情况下，有两种方式去修改：<br>2. Docker 容器的配置文件一般在 <code>/var/lib/docker/overlay/</code>目录下，可以找到该目录下对应的配置文件进行修改。<br>2. 把容器中的配置文件复制到主机中，修改完之后，再移动到容器中。</p>
-<h2 id="方式一"><a href="#方式一" class="headerlink" title="方式一"></a>方式一</h2><ol>
-<li><p>查询日志</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">docker logs &lt;容器名称&#x2F;容器id&gt;</span><br><span class="line"></span><br><span class="line">ERROR: mysqld failed while attempting to check config</span><br><span class="line">command was: &quot;mysqld --verbose --help&quot;</span><br><span class="line">2020-09-03T12:15:54.644699Z 0 [ERROR] unknown variable &#39;realy-log&#x3D;slave-relay-bin&#39;</span><br><span class="line">2020-09-03T12:15:54.650119Z 0 [ERROR] Aborting</span><br></pre></td></tr></table></figure>
-<p>由于异常日志可以得知是因为我将<code>relay-log</code> 写成了 <code>realy</code> 导致容器无法正常启动。</p>
-</li>
-<li><p>查找文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ find &#x2F; -name mysqld.cnf</span><br><span class="line"></span><br><span class="line">&#x2F;var&#x2F;lib&#x2F;docker&#x2F;overlay2&#x2F;02e1644bc1a4dc1adc9a0300e1815f364416570d69b715fb3b7de0a06cf0c495&#x2F;diff&#x2F;etc&#x2F;mysql&#x2F;mysql.conf.d&#x2F;mysqld.cnf</span><br><span class="line">&#x2F;var&#x2F;lib&#x2F;docker&#x2F;overlay2&#x2F;02e1644bc1a4dc1adc9a0300e1815f364416570d69b715fb3b7de0a06cf0c495&#x2F;merged&#x2F;etc&#x2F;mysql&#x2F;mysql.conf.d&#x2F;mysqld.cnf</span><br><span class="line">&#x2F;var&#x2F;lib&#x2F;docker&#x2F;overlay2&#x2F;4f128d7fb1200f722b0d2cfe3606149fe72987a7a16bc78551a2b1fe6c6c6572&#x2F;diff&#x2F;etc&#x2F;mysql&#x2F;mysql.conf.d&#x2F;mysqld.cnf</span><br><span class="line">&#x2F;var&#x2F;lib&#x2F;docker&#x2F;overlay2&#x2F;a68f1af4adf982b037f1bd37d61082fde1fa2b0e26ea0e2fe146edcb69b198ea&#x2F;diff&#x2F;etc&#x2F;mysql&#x2F;mysql.conf.d&#x2F;mysqld.cnf</span><br></pre></td></tr></table></figure>
-<p>这里可能会出现多个配置文件，这是因为每一次重启Mysql 容器都会保留一个配置文件，所以理论上，直接修改第一个配置文件，就是当前Mysql 所使用的配置文件。</p>
-</li>
-<li><p>修改配置文件</p>
-</li>
-<li><p>重启容器即可。</p>
-</li>
-</ol>
-<h2 id="方式二"><a href="#方式二" class="headerlink" title="方式二"></a>方式二</h2><p>如果第一种方式没生效，那可以尝试第二种方式。</p>
+<h2 id="Grafana-是什么？"><a href="#Grafana-是什么？" class="headerlink" title="Grafana 是什么？"></a>Grafana 是什么？</h2><blockquote>
+<p>Grafana是一个跨平台的开源度量分析和可是化的工具，可以通过该将采集的数据查询然后可视化的展示，并及时通知。</p>
+</blockquote>
+<p>Grafana 有以下特点：</p>
 <ol>
-<li><p>复制容器中的配置文件到主机：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 语法：docker cp &lt;容器名称&#x2F;容器id&gt;:&lt;配置文件在容器中的路径&gt; &lt;需要复制到主机的路径&gt;</span><br><span class="line"></span><br><span class="line">$ docker cp mysql:&#x2F;etc&#x2F;mysql&#x2F;mysql.conf.d&#x2F;mysqld.cnf ~&#x2F;mysqld.cnf</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>修改主机中的配置文件</p>
-</li>
-<li><p>将该配置文件mv 到容器中：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 语法：docker cp &lt;配置文件在主机中的路径&gt; &lt;容器名称&#x2F;容器id&gt;:&lt;配置文件在容器中的路径&gt;</span><br><span class="line"></span><br><span class="line">$ docker cp ~&#x2F;mysqld.cnf mysql:&#x2F;etc&#x2F;mysql&#x2F;mysql.conf.d&#x2F;mysqld.cnf</span><br></pre></td></tr></table></figure></li>
-<li><p>重启配置文件即可。</p>
-</li>
+<li>展示方式：快速灵活的客户端图表，面板插件有许多不同方式的可视化指标和日志，官方库中具有丰富的仪表盘插件，比如热图、折线图、图表等多种展示方式.</li>
+<li>数据源：Graphite、InfluxDB、OpenTSDB、Prometheus、Elasticsearch、CloudWatch和KairosDb、Zabbix等。</li>
+<li>通知提醒：以可视方式定义最重要指标的报警规则，Grafana将不断计算并发送通知，在数据达到预设阈值时通过slack，PagerDuty等处理通知。</li>
+<li>混合展示：在同一图表中混合使用不同的数据源，可以基于每个查询指定数据源，甚至自定义数据源。</li>
+<li>注释：使用来自不同数据源的丰富事件来展示图表，将鼠标悬停在事件上会显示完整的事件元数据和标记。</li>
+<li>过滤器：Ad-hoc过滤器允许动态创建新的键/值过滤器，这些过滤器会自动应用于使用该数据源的所有查询。</li>
 </ol>
-<p>总结：两种方式均可以有效解决上述问题，当然这类方式仅适用于容器是因错误的配置文件导致无法正常启动的情况。</p>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><a href="https://blog.csdn.net/LinHenk/article/details/88111616" target="_blank" rel="noopener">Docker修改无法启动的容器的配置文件</a></li>
-</ul>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>Grafana 的安装还是建议根据自己实际的系统环境去<a href="https://grafana.com/grafana/download/7.0.0" target="_blank" rel="noopener">官网</a>选择适合自己的下载链接。</p>
+<p>比如我的环境是 Ubuntu 18.04，我想安装 Grafana 7.0，所以我的安装方式应该是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install -y adduser libfontconfig1</span><br><span class="line">$ wget https:&#x2F;&#x2F;dl.grafana.com&#x2F;oss&#x2F;release&#x2F;grafana_7.0.0_amd64.deb</span><br><span class="line">$ sudo dpkg -i grafana_7.0.0_amd64.deb</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h3><p>以守护进程的方式启动 <code>grafana-server</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo systemctl daemon-reload</span><br><span class="line">$ sudo systemctl start grafana-server</span><br></pre></td></tr></table></figure>
+
+<p>设置开机启动：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo systemctl enable grafana-server.service</span><br></pre></td></tr></table></figure>
+
+<p>查看 <code>grafana-server</code>所监听的端口：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo netstat -lntp</span><br><span class="line">tcp6       0      0 :::3000                 :::*                    LISTEN      17194&#x2F;grafana-serve</span><br></pre></td></tr></table></figure>
+<p>3000 是Grafana 默认监听端口，然后通过浏览器访问 <code>http://your_ip_address:3000</code> 即可。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200907174006.png" alt=""></p>
+<p>正常应该可以看到该页面，如果你能看到3000 端口被监听，但是页面一直打不开，那可能是因为防火墙没有允许3000 端口。</p>
+<p>默认的用户名和密码都是：admin，登录之后记得第一时间修改默认密码。</p>
+<h3 id="安装Zabbix-插件"><a href="#安装Zabbix-插件" class="headerlink" title="安装Zabbix 插件"></a>安装Zabbix 插件</h3><p>打开Grafana 的插件列表，找到<a href="https://grafana.com/grafana/plugins/alexanderzobnin-zabbix-app" target="_blank" rel="noopener">Zabbix</a>。</p>
+<p>这里根据实实际情况，选择对应的版本。</p>
+<p>通过<code>grafana-cli</code> 安装zabbix 插件，将下面这行代码放在安装了 Grafana 的服务器上执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ grafana-cli plugins install alexanderzobnin-zabbix-app</span><br><span class="line">✔ Installed alexanderzobnin-zabbix-app successfully</span><br></pre></td></tr></table></figure>
+
+<p>安装完成之后，重启Grafana：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo systemctl restart grafana-server</span><br></pre></td></tr></table></figure>
+
+<p>然后打开Grafana 的Web 界面，在插件列表中找到 Zabbix。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200907175149.png" alt=""></p>
+<p>点击启用。</p>
+<h3 id="add-data-source"><a href="#add-data-source" class="headerlink" title="add data source"></a>add data source</h3><p>自从 Grafana 7.0 以后，没有签名的插件默认在 datasource 中是不可见的…</p>
+<p>坑啊，最初我安装的是 Zabbix5.0，然后看见Grafana 7.0 好像只适配4.0，心想完了，该不会出现什么版本不兼容的问题吧？</p>
+<p>结果在<code>add data source</code>这一步，一直找不到 zabbix…</p>
+<p>然后今天把5.0 完全卸载了，重新装回了4.0，结果到了<code>add data source</code>这一步才发现，还是找不到zabbix，当时心态就崩了…</p>
+<p>直到我看见<a href="https://sbcode.net/zabbix/grafana-zabbix-plugin/" target="_blank" rel="noopener">这篇文章</a>，这么重要的信息，官方文档中居然没记录。</p>
+<p>如果你无法访问，也可以直接进行修改：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># vim &#x2F;etc&#x2F;grafana&#x2F;grafana.ini</span><br><span class="line"></span><br><span class="line"># 添加一行</span><br><span class="line">allow_loading_unsigned_plugins &#x3D; alexanderzobnin-zabbix-datasource</span><br></pre></td></tr></table></figure>
+
+<p>然后重启Grafana：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo systemctl restart grafana-server</span><br></pre></td></tr></table></figure>
+
+<p>再次打开Web 页面，现在就能找到 Zabbix 了。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200907181658.png" alt=""></p>
+<h3 id="配置-data-source"><a href="#配置-data-source" class="headerlink" title="配置 data source"></a>配置 data source</h3><p>只用修改以下四个地方就好了，然后点击保存。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200907203549.png" alt=""></p>
+<h3 id="add-dashboard"><a href="#add-dashboard" class="headerlink" title="add dashboard"></a>add dashboard</h3><p>依次点击<code>add dashboard-&gt; add new panel</code>，然后按照以下方式配置，就可以选择展示自己想要的数据了。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200907204758.png" alt=""></p>
+<p>最后的效果：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200907204326.png" alt=""></p>
+<p>这里只是介绍了 Zabbix + Grafana 最基础的用法，能看到的数据也是最简单的一些，如果想看到更多的数据，那就得更加了解 Zabbix 了。</p>
 
           
             <div class='article_footer'>
@@ -453,7 +484,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/how-to-modify-the-configuration-file-when-the-docker-container-cannot-start-normally/>https://www.0x2beace.com/how-to-modify-the-configuration-file-when-the-docker-container-cannot-start-normally/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/zabbix-grafana-to-create-a-high-value-distributed-monitoring-platform/>https://www.0x2beace.com/zabbix-grafana-to-create-a-high-value-distributed-monitoring-platform/</a></p>
           
         
       </blockquote>
@@ -501,10 +532,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-09-07T08:14:53+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-09-08T21:09:34+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Sep 7, 2020</p>
+    <p>更新于：Sep 8, 2020</p>
   </a>
 </div>
 
@@ -513,7 +544,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Docker/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Docker</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Linux/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Linux</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Zabbix/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Zabbix</p></a></div>
 
 
         
@@ -531,7 +562,9 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/how-to-modify-the-configuration-file-when-the-docker-container-cannot-start-normally/&title=当 Docker 容器无法正常启动时如何修改配置文件？ - Boo&summary=在容器无法正常启动的情况下，如何修改其配置文件？"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/zabbix-grafana-to-create-a-high-value-distributed-monitoring-platform/&title=Zabbix + Grafana 打造高颜值的分布式监控平台 - Boo&summary=在前面了解了如何部署 Zabbix，众所周知Zabbix 的部署并不是难的部分，配置才是最难的那部分。
+所以如何获取到想要的那部分数据，将那部分数据以更直观的方式展现出来，这才是我们更关心的。
+Zabbix 默认有自己的 Graphs，但是并不好用，所以使用Zabbix + Grafana 打造高颜值的分布式监控平台才是最好的选择。"
           
           >
           
@@ -543,7 +576,9 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/how-to-modify-the-configuration-file-when-the-docker-container-cannot-start-normally/&title=当 Docker 容器无法正常启动时如何修改配置文件？ - Boo&summary=在容器无法正常启动的情况下，如何修改其配置文件？"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/zabbix-grafana-to-create-a-high-value-distributed-monitoring-platform/&title=Zabbix + Grafana 打造高颜值的分布式监控平台 - Boo&summary=在前面了解了如何部署 Zabbix，众所周知Zabbix 的部署并不是难的部分，配置才是最难的那部分。
+所以如何获取到想要的那部分数据，将那部分数据以更直观的方式展现出来，这才是我们更关心的。
+Zabbix 默认有自己的 Graphs，但是并不好用，所以使用Zabbix + Grafana 打造高颜值的分布式监控平台才是最好的选择。"
           
           >
           
@@ -555,7 +590,9 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/how-to-modify-the-configuration-file-when-the-docker-container-cannot-start-normally/&title=当 Docker 容器无法正常启动时如何修改配置文件？ - Boo&summary=在容器无法正常启动的情况下，如何修改其配置文件？"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/zabbix-grafana-to-create-a-high-value-distributed-monitoring-platform/&title=Zabbix + Grafana 打造高颜值的分布式监控平台 - Boo&summary=在前面了解了如何部署 Zabbix，众所周知Zabbix 的部署并不是难的部分，配置才是最难的那部分。
+所以如何获取到想要的那部分数据，将那部分数据以更直观的方式展现出来，这才是我们更关心的。
+Zabbix 默认有自己的 Graphs，但是并不好用，所以使用Zabbix + Grafana 打造高颜值的分布式监控平台才是最好的选择。"
           
           >
           
@@ -569,7 +606,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXgAAAF4CAAAAAB79r16AAAFJElEQVR42u3cMZIbMQwEQP3/03ZuB8sBhmv5qplpT1qSTSZTQN3nl/FPxgcBePAGePAGePBGAf4zHH+98I/np78/fV/6/NZ8Wy/w4MGDBw8ePHjw4JvwxwHg4fvpRk/BUojp+6bPjz3AgwcPHjx48ODBg78AnwaeNChND+Lp+2/PO/YCDx48ePDgwYMHD/4L4Z+CxDYAtQLRdr3gwYMHDx48ePDgwf9E+LTR5xRg+r704MCDBw8ePHjw4MGD/5/g4wadZbDZNhClwWjaqPV1nWTgwYMHDx48ePDgwQ/G6cZ/6uexF3jw4MGDBw8ePHjwBfjtOC0otP++LcRsg9vYCzx48ODBgwcPHjz4Any7EWkL3QoqT/NvCy/jdYAHDx48ePDgwYMHX4BvNey0gsnpBqbra12kNMCBBw8ePHjw4MGDB9+E3waQaSDaQscbvhTc4oAGHjx48ODBgwcPHnwRfgp2upF0o7eC07Zwc70CBR48ePDgwYMHDx78oq/mepAoNSa1Cxenn9MLAB48ePDgwYMHDx78TfhbE7eCVQt8ejG26wUPHjx48ODBgwcPvgmfLmRayLhVkNgWVtKAOL2o4MGDBw8ePHjw4ME34NOFbQPTttCRBr70YLaNTMcBCjx48ODBgwcPHjz4C/DjFy8blKYw20ajNBBNLxB48ODBgwcPHjx48A34tBCSBqZWQGoVUraFkfXFBA8ePHjw4MGDBw/+AvytQsc0kEwLGdt9pQWSYwfw4MGDBw8ePHjw4F+AnwaINvg0GE0vxLjQAR48ePDgwYMHDx78C/Cf8tgWKKYFh21BpT3/cScZePDgwYMHDx48ePAL+LSBqH1w08an9D2t944LM+DBgwcPHjx48ODBF+CngWIbhG41LJ0GqluFnMeDAg8ePHjw4MGDBw++CL8NELcCVSvAjaHa84MHDx48ePDgwYMHX4BPg087MLUKK9MA1b5I604y8ODBgwcPHjx48OAH/z9+2jB0e0PpOqYNSNsg9bhv8ODBgwcPHjx48OCL8KfBZxoc0sapbeHiFPR2Y9dxQxN48ODBgwcPHjx48AH8NgC1G4G2BYgYonyhHvcNHjx48ODBgwcPHvw/gK8VBML3pJ+nAXG7juNCCHjw4MGDBw8ePHjwC/gpUHoQrUAzhWs1MqUFFvDgwYMHDx48ePDgb8JvA8W0sHHrgNPn0wuSrhc8ePDgwYMHDx48+AZ8GiimhYLpPO0Dmwa57XPw4MGDBw8ePHjw4Jvw24WmAWcKug1Y6QVKA9OxJ3jw4MGDBw8ePHjwF+G3EFugW4WJtEGptW/w4MGDBw8ePHjw4G/AvzZxaaOnBzY92GnB5HFe8ODBgwcPHjx48OCL8K0Jp4WRFDIt0KTBMN3fsRt48ODBgwcPHjx48AX4uCFneRCnDVGtgJMefPsgwIMHDx48ePDgwYO/Ab8daeCaBqV24aPVgBUHNPDgwYMHDx48ePDgC/DtoHJaaJgWYqYBp3WR0vU8Jlfw4MGDBw8ePHjw4Bfw0wJCC6J10K1g1wpQ4MGDBw8ePHjw4MG/Ad8KENNgcquxqXUBag1N4MGDBw8ePHjw4MF/AXz6vN3INP1+q+BxvC/w4MGDBw8ePHjw4L8IflpA2AKdvncblLYFIvDgwYMHDx48ePDgb8KnE6S/Sw8qLWC0LkD6veP5wIMHDx48ePDgwYMvwrcbd1LAVgFmexDTYHQcEMGDBw8ePHjw4MGDL8Ab7w7w4MEb4MEb4MEbi/EbscSxA/dGcVIAAAAASUVORK5CYII=">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVgAAAFYCAAAAAAzB7ucAAAEYElEQVR42u3aS5LkMAgFwLr/pXtOUGE9QJKnO9lVhD9Sygug+PyILfFBABasAAsWrAB7BPZTjK8P/nJdet/Te7/9rl435QEWLFiwYMGCBQv2LOxyAvywoNX7qgc1Bbf6O/UACxYsWLBgwYIFewe2upFV+Or1UwdRhV72AAsWLFiwYMGCBftfwU41uNNC5On+VWCwYMGCBQsWLFiwfxO222huD0qEDfhdHw5YsGDBggULFizYO7DdBDptQKeN6CpcetDXJ2HAggULFixYsGDBLsFOJea/5XfZAyxYsGDBggULFuwR2G6kCXp1gCJ9TvqeMQ+wYMGCBQsWLFiwR2CrCXIKn0JUBz5S4On9gwULFixYsGDBgj0Lmw4uTA1gpBtbLUymCpi4UQ4WLFiwYMGCBQv2Kmx1o+mCqtCrB54exHijGyxYsGDBggULFuxW2GrinYLvOtDuIEm18HksEMCCBQsWLFiwYMFugV3daJpQTw1KTB9w+kHFBQ1YsGDBggULFizYo7CnEvPqwEQKsfs9X68HCxYsWLBgwYIFewS2++LlQYbNCXoVvvpBxJMwYMGCBQsWLFiwYK/ApgvsDnKkDfBqdAsfsGDBggULFixYsHdgqwtJwaqDHWkiv3uA4/G5YMGCBQsWLFiwYI/ATiXu7QWFBUo1sZ9aB1iwYMGCBQsWLNh3wK5upDpoMVWQdBvs1UGS5eeBBQsWLFiwYMGCvQpbbQxXE/L0udWDrH4Y45MwYMGCBQsWLFiwYFuw1YGItJFdfc70IMlPMx7XDxYsWLBgwYIFC/YI7KnE+1OMamJfbYi3G/9gwYIFCxYsWLBgj8CmCXZ1cGK1Id4tPNL7xj8wsGDBggULFixYsEdgpxrA1YR8KqHvFjRpwQMWLFiwYMGCBQv2Lmw3wa9uPC08phrX6XNjH7BgwYIFCxYsWLCvhN3VsE4b1d0BjuoH87h/sGDBggULFixYsEdguxuaPpip69LBjvQ58T8IYMGCBQsWLFiwYEdhpxLstHCoDkxMDVpMHQBYsGDBggULFizYu7DVDVc3NL3BqYZ8+2DBggULFixYsGDBHoGtDibsOog0pt4z1agHCxYsWLBgwYIFexZ2V8M5HYCYSvTTgYvuAYIFCxYsWLBgwYJ9B2w7US4m+lODGKcHOMCCBQsWLFiwYMHehU2hdw1cTBUu6YfRbYSDBQsWLFiwYMGCPQPbjV0J91jCXhzIKA98gAULFixYsGDBgj0C+ynG9IHsblxXC5N0v2DBggULFixYsGDPwnZBqgMeXYCpxvZUAQQWLFiwYMGCBQv2DuzqRqsJ9dSGUqjXTMKABQsWLFiwYMGCfRVsel23sb5a2Ew11MGCBQsWLFiwYMH+Ttjq/bsLh+mDLg9sgAULFixYsGDBgt0Kmybc1QZ3Cpmuc/oglz8QsGDBggULFixYsEdhq4lyt0HdhU7f273ucX1gwYIFCxYsWLBgj8CK2QALFqwACxasALs1/gEN35brHtisbgAAAABJRU5ErkJggg==">
           </div>
         </div>
       
@@ -589,20 +626,14 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/zabbix-grafana-to-create-a-high-value-distributed-monitoring-platform/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Zabbix + Grafana 打造高颜值的分布式监控平台</p>
-                <p class='content'>在前面了解了如何部署 Zabbix，众所周知Zabbix 的部署并不是难的部分，配置才是最难的那部分。
-所以如何获取到想要的那部分数据，将那部分数据以更直观的方式展现出来，这才是我们更关心的。
+            
+              <a class='next' href='/how-to-modify-the-configuration-file-when-the-docker-container-cannot-start-normally/'>
+                <p class='title'>当 Docker 容器无法正常启动时如何修改配置文件？<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>在容器无法正常启动的情况下，如何修改其配置文件？
+
+
+问题描述：因为错误的配置文件导致容器运行异常，无法正常启动，通常情况下只有进入容器才能修改配置文件，所以在不能进入容器的情况下该怎么办呢？
 ...</p>
-              </a>
-            
-            
-              <a class='next' href='/php-fpm-configuration-initialization/'>
-                <p class='title'>PHP-FPM 配置初始化<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>php-fpm（FastCGI Process Manger）是一个PHP FastCGI 管理器，专门和Nginx 的 ngx_fastcgi_modul模块对接，用来处理动态请求。
-
-
-初始...</p>
               </a>
             
           </div>
@@ -647,7 +678,7 @@
 
   <script>
     window.subData = {
-      title: '当 Docker 容器无法正常启动时如何修改配置文件？',
+      title: 'Zabbix + Grafana 打造高颜值的分布式监控平台',
       tools: true
     }
   </script>
@@ -674,7 +705,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#方式一"><span class="toc-text">方式一</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方式二"><span class="toc-text">方式二</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Grafana-是什么？"><span class="toc-text">Grafana 是什么？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#启动服务"><span class="toc-text">启动服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装Zabbix-插件"><span class="toc-text">安装Zabbix 插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#add-data-source"><span class="toc-text">add data source</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置-data-source"><span class="toc-text">配置 data source</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#add-dashboard"><span class="toc-text">add dashboard</span></a></li></ol></li></ol>
     </div>
   </section>
 
