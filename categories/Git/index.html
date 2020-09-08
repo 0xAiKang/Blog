@@ -470,13 +470,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>910 words</p>
+      <p>1k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>3 min</p>
+      <p>4 min</p>
     </a>
   </div>
 
@@ -500,16 +500,49 @@
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
       
-        <p>今天在使用git 时，需要克隆<code>Bitbucket</code>的一个仓库，于是像往常一样打开了<code>iTerm</code>，便放在一边了。<br>直到一个小时后，我才想起来，想着应该克隆完了，打开才发现百分之一都没下载完。</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近在使用git 时，需要克隆<code>Bitbucket</code>的一个仓库，于是像往常一样打开了<code>iTerm</code>，便放在一边了。<br>直到一个小时后，我才想起来，想着应该克隆完了，打开才发现百分之一都没下载完。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200908092611.png" alt="git clone 失败"></p>
+<p>强大的长城技术对GitHub、Bitbucket 这类源代码托管服务平台网开一面，并没有像Google、FaceBook那样直接一刀切，但是它做了严格的限速，这种折磨简直比无法访问更难受。</p>
+<p>上图中<code>git clone</code>的速度从来没有超过 <code>10k/s</code>，这也就意味着一个 <code>100M</code> 的项目，需要近三个小时才能下载完，而且由于网络的不稳定性，下载过程中偶尔会出现断开连接的情况，由于<code>git clone</code> 不支持端点续传，这就会导致前几个小时的下载量完全浪费掉了，只能重新开始下载。</p>
+<p>这篇文章主要用来介绍几种方式可以快速的克隆远程仓库。</p>
+<h3 id="浅复制"><a href="#浅复制" class="headerlink" title="浅复制"></a>浅复制</h3><p><code>git clone</code>默认会下载项目的完整历史版本，如果你只关心代码，而不关心历史信息，那么可以使用 git 的浅复制功能：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone --depth&#x3D;1 https:&#x2F;&#x2F;github.com&#x2F;bcit-ci&#x2F;CodeIgniter.git</span><br></pre></td></tr></table></figure>
+<p><code>--depth=1</code> 表示只下载最近一次的版本，使用浅复制可以大大减少下载的数据量，例如，CodeIgniter 项目完整下载有近 100MiB ，而使用浅复制只有 5MiB 多，这样即使在恶劣的网络环境下，也可以快速的获得代码。</p>
+<p>如果之后又想获取完整历史信息，可以使用下面的命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git fetch --unshallow</span><br></pre></td></tr></table></figure>
+<p>或者，如果你只想下载最新的代码，你也可以直接从远程仓库下载打包好的<code>zip</code>文件，这会比浅复制更快，因为它只包含了最新的代码文件，而且<code>zip</code>是压缩文件。但是很显然，使用浅复制会灵活一些。</p>
+<h3 id="GUI-工具"><a href="#GUI-工具" class="headerlink" title="GUI 工具"></a>GUI 工具</h3><p>如果你有幸正在使用代理，懂得如何科学上网的话，那么访问<code>GitHub</code>、<code>Bitbucket</code>对你来说应该不在话下。</p>
+<p>从源代码托管服务平台下载项目最简单的方法就是使用一款图形化界面（<code>GUI</code>）的Git工具。</p>
+<p>使用<code>GUI</code>工具方便之处就在于，可以在设置中直接配置是否使用代理。或者直接将代理配置尾系统代理。</p>
+<h3 id="http-https-proxy"><a href="#http-https-proxy" class="headerlink" title="http/https proxy"></a>http/https proxy</h3><p>如果你跟我一样，更喜欢使用原生的<code>git</code>命令，喜欢使用在命令行下操作的那种感觉，那么你也可以在命令行下直接配置代理。</p>
+<p>这里也有两种方式，根据实际情况自行选择。</p>
+<h4 id="http"><a href="#http" class="headerlink" title="http"></a>http</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global http.proxy http:&#x2F;&#x2F;127.0.0.1:1087</span><br><span class="line">$ git config --global https.proxy https:&#x2F;&#x2F;127.0.0.1:1087</span><br></pre></td></tr></table></figure>
+
+<p>或者直接编辑<code>~/.gitconifg</code>文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># vim ~&#x2F;.gitconfig</span><br><span class="line"></span><br><span class="line">[http]</span><br><span class="line">	proxy &#x3D; http:&#x2F;&#x2F;127.0.0.1:1087</span><br><span class="line">[https]</span><br><span class="line">	proxy &#x3D; https:&#x2F;&#x2F;127.0.0.1:1087</span><br></pre></td></tr></table></figure>
+
+<h4 id="socks5"><a href="#socks5" class="headerlink" title="socks5"></a>socks5</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global http.proxy socks5:&#x2F;&#x2F;127.0.0.1:1086</span><br><span class="line">$ git config --global https.proxy socks5:&#x2F;&#x2F;127.0.0.1:1086</span><br></pre></td></tr></table></figure>
+
+<p>其中，<code>1087</code>、<code>1086</code>分别是你本地机器的 <code>http</code>、<code>socks5</code>代理的端口号。 </p>
+<p>另外，如果想取消设置，可以输入以下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global --unset http.proxy</span><br><span class="line">$ git conifg --global --unset https.proxy</span><br></pre></td></tr></table></figure>
+
+<p>配置完成后，重新 <code>clone</code>一遍，可以看到速度得到了极大的提升。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200908092634.png" alt="git clone 成功"></p>
+<blockquote>
+<p>注意⚠️</p>
+</blockquote>
+<p>上面这种配置方式仅适用于 <code>https</code>协议，如果你在<code>clone</code>时选择<code>ssh</code>协议，那么速度仍然会很慢。</p>
+<h3 id="替换域名"><a href="#替换域名" class="headerlink" title="替换域名"></a>替换域名</h3><p>如果你觉得上面的方式太麻烦了，或者是你没有代理，那么可以试试下面这种方式。</p>
+<p>这种方式简单暴力，替换就可以直接使用，使用规则如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 原地址</span><br><span class="line">$ git clone https:&#x2F;&#x2F;github.com&#x2F;996icu&#x2F;996.ICU.git</span><br><span class="line"></span><br><span class="line"># 替换成</span><br><span class="line">$ git clone https:&#x2F;&#x2F;github.com.cnpmjs.org&#x2F;996icu&#x2F;996.ICU.git</span><br></pre></td></tr></table></figure>
+<p>只需要在<code>github.com</code>后面追加一个<code>.cnpmjs.org</code>就可以了。</p>
+<p>以上就是<code>git clone</code>太慢时的各种解决办法。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><p><a href="https://www.aneasystone.com/archives/2015/08/git-clone-faster.html" target="_blank" rel="noopener">Git Clone 太慢怎么办？</a></p>
+
       
     </div>
     
-      
-        <div class="button readmore">
-          <a href="/what-should-I-do-if-git-clone-is-too-slow/">
-            阅读全文 <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
       
     
   </section>
