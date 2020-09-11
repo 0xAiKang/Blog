@@ -1,7 +1,7 @@
 ---
 title: 如何申请免费的SSL 证书
 date: 2020-08-14 18:03:13
-tags: ["HTTPS"]
+tags: ["HTTPS", "SSL"]
 categories: ["Tutorial"]
 ---
 
