@@ -514,9 +514,152 @@
         
           
         
+          
+        
       
     
     
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow reveal ">
+  
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h2 class="title">
+    <a href="/what-is-devops-ci-cd-k8s/">
+      什么是DevOps、CI、CD、K8S
+    </a>
+  </h2>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Docker/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Docker</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Sep 12, 2020</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>812 words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>2 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>之所以要写这片笔记，是因为前几天在使用 gitlab 提交代码时，遇到了点问题。</p>
+<p>gitlab 提示我 commit 失败。跟进了一下，并没有找到答案。</p>
+<p><img src="https://note.youdao.com/yws/res/77963/7FE5E992EF4342039DD24A95068C11F5" alt="image"></p>
+<p>只是了解到一个叫做 <code>CI/CD</code>的东西。后来又延伸扩展到<code>DevOps</code>、<code>K8S</code> 这些新概念。</p>
+<p><img src="https://note.youdao.com/yws/res/77952/98C84A2F89DC42378E046A896A815AC1" alt="image"></p>
+<h2 id="什么是-DevOps？"><a href="#什么是-DevOps？" class="headerlink" title="什么是 DevOps？"></a>什么是 DevOps？</h2><p>如题，什么是 DevOps ？根据字面意思理解就是：<code>Dev</code> + <code>Ops</code>，开发（Development）和运营（Operations）这两个领域的合并。</p>
+<p>就我个人的理解，它是一个概念、一种思维，是一种通力合作，共同解决问题的方式。</p>
+<p>这里我就不追根溯源去解释为什么要合并开发和运营了，因为历史原因，总是存在着这样的问题。具体看参考链接一。</p>
+<p><img src="https://note.youdao.com/yws/res/78012/F4EE3FB3314241BC886F8D1CE425922E" alt="image"></p>
+<p>DevOps 也不仅仅是一种软件的部署方法。它通过一种全新的方式，来思考如何让软件的作者（开发部门）和运营者（运营部门）进行合作与协同。使用了DevOps模型之后，会使两个部门更好的交互。<br>其中，<code>自动化部署</code>的概念就是从中产生的。</p>
+<h2 id="什么是-CI-CD？"><a href="#什么是-CI-CD？" class="headerlink" title="什么是 CI/CD？"></a>什么是 CI/CD？</h2><p>Gitlab 的<code>CI/CD</code>到底是什么呢？</p>
+<p>昨天大致了解了下 <code>Gitlab CI/CD</code>，不是很明白，但觉得很厉害。<br>首先来看下官方文档的简介：</p>
+<blockquote>
+<p>软件开发的连续方法基于自动执行脚本，以最大限度地减少在开发应用程序时引入错误的可能性。从新代码的开发到部署，它们需要较少的人为干预甚至根本不需要干预。<br>它涉及在每次小迭代中不断构建，测试和部署代码更改，从而减少基于有缺陷或失败的先前版本开发新代码的机会。</p>
+</blockquote>
+<p>这里有三种主要的方法，根据最适合你的策略进行选择。</p>
+<h3 id="持续集成"><a href="#持续集成" class="headerlink" title="持续集成"></a>持续集成</h3><p>考虑一个应用程序，其代码存储在Gitlab中的存储库中。开发人员每天多次推送代码更改，对于每次推动到存储库，都可以创建一组脚本来自动构建和测试应用程序，从而减少向应用程序引入错误的可能性。这种方法被称为：<strong>持续集成（Continuous Integration）</strong></p>
+<h3 id="持续交付"><a href="#持续交付" class="headerlink" title="持续交付"></a>持续交付</h3><p><strong>持续交付 Continuous Delivery</strong>是持续集成的一个步骤，应用程序不仅在推送到代码库的每个代码更改时都构建和测试，而且作为一个额外的步骤，它也会连续部署，尽管部署是手动触发的。</p>
+<h3 id="持续部署"><a href="#持续部署" class="headerlink" title="持续部署"></a>持续部署</h3><p><strong>持续部署 Continuous Deployment</strong>也是持续集成的又一步，类似于持续交付。不同之处在于，不必手动部署应用程序，而是将其设置为自动部署。完全不需要人工干预就可以部署应用程序。</p>
+<h2 id="什么是-K8S？"><a href="#什么是-K8S？" class="headerlink" title="什么是 K8S？"></a>什么是 K8S？</h2><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://blog.csdn.net/bjweimengshu/article/details/79031552" target="_blank" rel="noopener">什么是DevOps？–程序员小灰</a></li>
+<li><a href="https://www.cnblogs.com/servicehot/p/6510199.html" target="_blank" rel="noopener">DevOps 到底是什么？</a></li>
+<li><a href="https://docs.gitlab.com/ee/ci/introduction/index.html" target="_blank" rel="noopener">使用GitLab介绍CI / CD</a></li>
+<li><a href="http://www.ttlsa.com/auto/gitlab-cicd-quick-start/" target="_blank" rel="noopener">Gitlab CI/CD 快速入门</a></li>
+<li><a href="https://docs.gitlab.com/ee/ci/quick_start/README.html" target="_blank" rel="noopener">Gitlab CI/CD 入门</a></li>
+<li><a href="https://docs.gitlab.com/ee/ci/README.html" target="_blank" rel="noopener">Gitlab CI 示例</a></li>
+<li><a href="https://docs.gitlab.com/ee/ci/docker/README.html" target="_blank" rel="noopener">Docker 集成</a></li>
+<li><a href="https://docs.gitlab.com/runner/" target="_blank" rel="noopener">Git Runner 是什么？</a></li>
+<li><a href="https://docs.gitlab.com/runner/install/" target="_blank" rel="noopener">安装Gitlab Runner</a></li>
+<li><a href="https://docs.gitlab.com/ee/topics/autodevops/index.html" target="_blank" rel="noopener">什么是 Auto DevOps</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/29232090" target="_blank" rel="noopener">K8S 是什么？知乎</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/33640916" target="_blank" rel="noopener">为什么 K8S 很酷</a></li>
+<li><a href="https://github.com/rootsongjc/kubernetes-handbook" target="_blank" rel="noopener">K8S 中文指南</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/28810342" target="_blank" rel="noopener">一文了解 K8S 是什么？</a></li>
+</ul>
+
+      
+    </div>
+    
+      
+    
+  </section>
+</article>
+
+          </div>
+        
       
         
           <div class='post-wrapper'>
@@ -1531,119 +1674,6 @@
           </div>
         
       
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
-  
-
-
-  <section class='meta'>
-    
-      
-      
-      <div class="meta" id="header-meta">
-        
-          
-  <h2 class="title">
-    <a href="/understand-ssh-config/">
-      了解 SSH Config
-    </a>
-  </h2>
-
-
-        
-        <div class='new-meta-box'>
-          
-            
-          
-            
-              
-<div class='new-meta-item author'>
-  <a href="https://www.0x2BeAce.com" rel="nofollow">
-    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
-    <p>Boo</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/Linux/' rel="nofollow">
-      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Linux</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Sep 2, 2020</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-  <div class="new-meta-item wordcount">
-    <a class='notlink'>
-      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1k words</p>
-    </a>
-  </div>
-  <div class="new-meta-item readtime">
-    <a class='notlink'>
-      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>3 min</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              
-
-            
-          
-        </div>
-        
-          <hr>
-        
-      </div>
-    
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>很早就接触到了SSH，起初并不知道有<code>ssh config</code>这样一个东西存在，基本上是摸着石头过河，中间遇到过不少问题，走过不少弯路。</p>
-<p>最后总结出来了两个解决办法，今天无意间发现原来其中有一个这么好用的工具一直都被我忽略了。</p>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/understand-ssh-config/">
-            阅读全文 <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
-
-          </div>
-        
-      
     
   </section>
   
@@ -1758,7 +1788,7 @@
           <li><a class="flat-box"
             title="/categories/Docker/" href="/categories/Docker/"
             id="categoriesDocker"
-            ><div class='name'>Docker</div><div class='badge'>(2)</div></a></li>
+            ><div class='name'>Docker</div><div class='badge'>(3)</div></a></li>
         
           <li><a class="flat-box child"
             title="/categories/Docker/Tutorial/" href="/categories/Docker/Tutorial/"
@@ -1952,7 +1982,7 @@
 
 
     <div class='content'>
-      <a href="/tags/Arch-Linux/" style="font-size: 15.43px; color: #8f8f8f">Arch Linux</a> <a href="/tags/CI/" style="font-size: 14px; color: #999">CI</a> <a href="/tags/Certbot/" style="font-size: 14px; color: #999">Certbot</a> <a href="/tags/Cygwin/" style="font-size: 14px; color: #999">Cygwin</a> <a href="/tags/Docker/" style="font-size: 18.29px; color: #7c7c7c">Docker</a> <a href="/tags/Docker-Hub/" style="font-size: 14px; color: #999">Docker Hub</a> <a href="/tags/Git/" style="font-size: 19.71px; color: #727272">Git</a> <a href="/tags/GoAccess/" style="font-size: 14px; color: #999">GoAccess</a> <a href="/tags/HTTPS/" style="font-size: 15.43px; color: #8f8f8f">HTTPS</a> <a href="/tags/Hash/" style="font-size: 14px; color: #999">Hash</a> <a href="/tags/Hexo/" style="font-size: 16.86px; color: #868686">Hexo</a> <a href="/tags/JavaScript/" style="font-size: 14px; color: #999">JavaScript</a> <a href="/tags/Linux/" style="font-size: 24px; color: #555">Linux</a> <a href="/tags/Linux-Commands/" style="font-size: 14px; color: #999">Linux Commands</a> <a href="/tags/Logs/" style="font-size: 14px; color: #999">Logs</a> <a href="/tags/Mac/" style="font-size: 15.43px; color: #8f8f8f">Mac</a> <a href="/tags/Mysql/" style="font-size: 21.14px; color: #686868">Mysql</a> <a href="/tags/Nginx/" style="font-size: 16.86px; color: #868686">Nginx</a> <a href="/tags/Node/" style="font-size: 15.43px; color: #8f8f8f">Node</a> <a href="/tags/PHP/" style="font-size: 18.29px; color: #7c7c7c">PHP</a> <a href="/tags/PHP-FPM/" style="font-size: 14px; color: #999">PHP-FPM</a> <a href="/tags/PM2/" style="font-size: 14px; color: #999">PM2</a> <a href="/tags/Redis/" style="font-size: 14px; color: #999">Redis</a> <a href="/tags/SSH/" style="font-size: 14px; color: #999">SSH</a> <a href="/tags/SSHD/" style="font-size: 14px; color: #999">SSHD</a> <a href="/tags/SSL/" style="font-size: 15.43px; color: #8f8f8f">SSL</a> <a href="/tags/Shell/" style="font-size: 19.71px; color: #727272">Shell</a> <a href="/tags/Skill/" style="font-size: 15.43px; color: #8f8f8f">Skill</a> <a href="/tags/Socket-io/" style="font-size: 15.43px; color: #8f8f8f">Socket.io</a> <a href="/tags/Supervisor/" style="font-size: 14px; color: #999">Supervisor</a> <a href="/tags/Tutorial/" style="font-size: 22.57px; color: #5f5f5f">Tutorial</a> <a href="/tags/Vim/" style="font-size: 14px; color: #999">Vim</a> <a href="/tags/WSL/" style="font-size: 14px; color: #999">WSL</a> <a href="/tags/Web-%E5%AE%89%E5%85%A8/" style="font-size: 15.43px; color: #8f8f8f">Web 安全</a> <a href="/tags/Windows/" style="font-size: 15.43px; color: #8f8f8f">Windows</a> <a href="/tags/Zabbix/" style="font-size: 18.29px; color: #7c7c7c">Zabbix</a> <a href="/tags/https/" style="font-size: 14px; color: #999">https</a> <a href="/tags/mysql/" style="font-size: 14px; color: #999">mysql</a> <a href="/tags/ssh/" style="font-size: 14px; color: #999">ssh</a> <a href="/tags/wss/" style="font-size: 14px; color: #999">wss</a> <a href="/tags/%E4%BA%91/" style="font-size: 16.86px; color: #868686">云</a> <a href="/tags/%E7%9B%91%E6%8E%A7%E7%B3%BB%E7%BB%9F/" style="font-size: 14px; color: #999">监控系统</a> <a href="/tags/%E7%A2%8E%E7%A2%8E%E5%BF%B5/" style="font-size: 14px; color: #999">碎碎念</a> <a href="/tags/%E7%BB%88%E7%AB%AF/" style="font-size: 14px; color: #999">终端</a> <a href="/tags/%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" style="font-size: 15.43px; color: #8f8f8f">进程管理</a>
+      <a href="/tags/Arch-Linux/" style="font-size: 15.43px; color: #8f8f8f">Arch Linux</a> <a href="/tags/CI/" style="font-size: 14px; color: #999">CI</a> <a href="/tags/Certbot/" style="font-size: 14px; color: #999">Certbot</a> <a href="/tags/Cygwin/" style="font-size: 14px; color: #999">Cygwin</a> <a href="/tags/DevOps/" style="font-size: 14px; color: #999">DevOps</a> <a href="/tags/Docker/" style="font-size: 18.29px; color: #7c7c7c">Docker</a> <a href="/tags/Docker-Hub/" style="font-size: 14px; color: #999">Docker Hub</a> <a href="/tags/Git/" style="font-size: 19.71px; color: #727272">Git</a> <a href="/tags/GoAccess/" style="font-size: 14px; color: #999">GoAccess</a> <a href="/tags/HTTPS/" style="font-size: 15.43px; color: #8f8f8f">HTTPS</a> <a href="/tags/Hash/" style="font-size: 14px; color: #999">Hash</a> <a href="/tags/Hexo/" style="font-size: 16.86px; color: #868686">Hexo</a> <a href="/tags/JavaScript/" style="font-size: 14px; color: #999">JavaScript</a> <a href="/tags/K8S/" style="font-size: 14px; color: #999">K8S</a> <a href="/tags/Linux/" style="font-size: 24px; color: #555">Linux</a> <a href="/tags/Linux-Commands/" style="font-size: 14px; color: #999">Linux Commands</a> <a href="/tags/Logs/" style="font-size: 14px; color: #999">Logs</a> <a href="/tags/Mac/" style="font-size: 15.43px; color: #8f8f8f">Mac</a> <a href="/tags/Mysql/" style="font-size: 21.14px; color: #686868">Mysql</a> <a href="/tags/Nginx/" style="font-size: 16.86px; color: #868686">Nginx</a> <a href="/tags/Node/" style="font-size: 15.43px; color: #8f8f8f">Node</a> <a href="/tags/PHP/" style="font-size: 18.29px; color: #7c7c7c">PHP</a> <a href="/tags/PHP-FPM/" style="font-size: 14px; color: #999">PHP-FPM</a> <a href="/tags/PM2/" style="font-size: 14px; color: #999">PM2</a> <a href="/tags/Redis/" style="font-size: 14px; color: #999">Redis</a> <a href="/tags/SSH/" style="font-size: 14px; color: #999">SSH</a> <a href="/tags/SSHD/" style="font-size: 14px; color: #999">SSHD</a> <a href="/tags/SSL/" style="font-size: 15.43px; color: #8f8f8f">SSL</a> <a href="/tags/Shell/" style="font-size: 19.71px; color: #727272">Shell</a> <a href="/tags/Skill/" style="font-size: 15.43px; color: #8f8f8f">Skill</a> <a href="/tags/Socket-io/" style="font-size: 15.43px; color: #8f8f8f">Socket.io</a> <a href="/tags/Supervisor/" style="font-size: 14px; color: #999">Supervisor</a> <a href="/tags/Tutorial/" style="font-size: 22.57px; color: #5f5f5f">Tutorial</a> <a href="/tags/Vim/" style="font-size: 14px; color: #999">Vim</a> <a href="/tags/WSL/" style="font-size: 14px; color: #999">WSL</a> <a href="/tags/Web-%E5%AE%89%E5%85%A8/" style="font-size: 15.43px; color: #8f8f8f">Web 安全</a> <a href="/tags/Windows/" style="font-size: 15.43px; color: #8f8f8f">Windows</a> <a href="/tags/Zabbix/" style="font-size: 18.29px; color: #7c7c7c">Zabbix</a> <a href="/tags/https/" style="font-size: 14px; color: #999">https</a> <a href="/tags/mysql/" style="font-size: 14px; color: #999">mysql</a> <a href="/tags/ssh/" style="font-size: 14px; color: #999">ssh</a> <a href="/tags/wss/" style="font-size: 14px; color: #999">wss</a> <a href="/tags/%E4%BA%91/" style="font-size: 16.86px; color: #868686">云</a> <a href="/tags/%E7%9B%91%E6%8E%A7%E7%B3%BB%E7%BB%9F/" style="font-size: 14px; color: #999">监控系统</a> <a href="/tags/%E7%A2%8E%E7%A2%8E%E5%BF%B5/" style="font-size: 14px; color: #999">碎碎念</a> <a href="/tags/%E7%BB%88%E7%AB%AF/" style="font-size: 14px; color: #999">终端</a> <a href="/tags/%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" style="font-size: 15.43px; color: #8f8f8f">进程管理</a>
     </div>
   </section>
 

@@ -18,7 +18,7 @@
 
   <!-- 页面元数据 -->
   
-    <title>Category: Docker - Boo</title>
+    <title>Tag: DevOps - Boo</title>
   
   
 
@@ -296,8 +296,8 @@
         
           
   <h2 class="title">
-    <a href="/how-to-modify-the-configuration-file-when-the-docker-container-cannot-start-normally-1/">
-      当 Docker 容器无法正常启动时如何修改配置文件
+    <a href="/what-is-devops-ci-cd-k8s/">
+      什么是DevOps、CI、CD、K8S
     </a>
   </h2>
 
@@ -322,9 +322,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Linux/Docker/' rel="nofollow">
+    <a href='/categories/Docker/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Linux/Docker</p>
+      <p>Docker</p>
     </a>
   </div>
 
@@ -335,7 +335,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Sep 10, 2020</p>
+    <p>发布于：Sep 12, 2020</p>
   </a>
 </div>
 
@@ -346,7 +346,7 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>682 words</p>
+      <p>812 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
@@ -376,17 +376,45 @@
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
       
-        <p>在容器无法正常启动的情况下，如何修改其配置文件？</p>
-<p>问题描述：因为错误的配置文件导致容器运行异常，无法正常启动，通常情况下只有进入容器才能修改配置文件，所以在不能进入容器的情况下该怎么办呢？</p>
+        <p>之所以要写这片笔记，是因为前几天在使用 gitlab 提交代码时，遇到了点问题。</p>
+<p>gitlab 提示我 commit 失败。跟进了一下，并没有找到答案。</p>
+<p><img src="https://note.youdao.com/yws/res/77963/7FE5E992EF4342039DD24A95068C11F5" alt="image"></p>
+<p>只是了解到一个叫做 <code>CI/CD</code>的东西。后来又延伸扩展到<code>DevOps</code>、<code>K8S</code> 这些新概念。</p>
+<p><img src="https://note.youdao.com/yws/res/77952/98C84A2F89DC42378E046A896A815AC1" alt="image"></p>
+<h2 id="什么是-DevOps？"><a href="#什么是-DevOps？" class="headerlink" title="什么是 DevOps？"></a>什么是 DevOps？</h2><p>如题，什么是 DevOps ？根据字面意思理解就是：<code>Dev</code> + <code>Ops</code>，开发（Development）和运营（Operations）这两个领域的合并。</p>
+<p>就我个人的理解，它是一个概念、一种思维，是一种通力合作，共同解决问题的方式。</p>
+<p>这里我就不追根溯源去解释为什么要合并开发和运营了，因为历史原因，总是存在着这样的问题。具体看参考链接一。</p>
+<p><img src="https://note.youdao.com/yws/res/78012/F4EE3FB3314241BC886F8D1CE425922E" alt="image"></p>
+<p>DevOps 也不仅仅是一种软件的部署方法。它通过一种全新的方式，来思考如何让软件的作者（开发部门）和运营者（运营部门）进行合作与协同。使用了DevOps模型之后，会使两个部门更好的交互。<br>其中，<code>自动化部署</code>的概念就是从中产生的。</p>
+<h2 id="什么是-CI-CD？"><a href="#什么是-CI-CD？" class="headerlink" title="什么是 CI/CD？"></a>什么是 CI/CD？</h2><p>Gitlab 的<code>CI/CD</code>到底是什么呢？</p>
+<p>昨天大致了解了下 <code>Gitlab CI/CD</code>，不是很明白，但觉得很厉害。<br>首先来看下官方文档的简介：</p>
+<blockquote>
+<p>软件开发的连续方法基于自动执行脚本，以最大限度地减少在开发应用程序时引入错误的可能性。从新代码的开发到部署，它们需要较少的人为干预甚至根本不需要干预。<br>它涉及在每次小迭代中不断构建，测试和部署代码更改，从而减少基于有缺陷或失败的先前版本开发新代码的机会。</p>
+</blockquote>
+<p>这里有三种主要的方法，根据最适合你的策略进行选择。</p>
+<h3 id="持续集成"><a href="#持续集成" class="headerlink" title="持续集成"></a>持续集成</h3><p>考虑一个应用程序，其代码存储在Gitlab中的存储库中。开发人员每天多次推送代码更改，对于每次推动到存储库，都可以创建一组脚本来自动构建和测试应用程序，从而减少向应用程序引入错误的可能性。这种方法被称为：<strong>持续集成（Continuous Integration）</strong></p>
+<h3 id="持续交付"><a href="#持续交付" class="headerlink" title="持续交付"></a>持续交付</h3><p><strong>持续交付 Continuous Delivery</strong>是持续集成的一个步骤，应用程序不仅在推送到代码库的每个代码更改时都构建和测试，而且作为一个额外的步骤，它也会连续部署，尽管部署是手动触发的。</p>
+<h3 id="持续部署"><a href="#持续部署" class="headerlink" title="持续部署"></a>持续部署</h3><p><strong>持续部署 Continuous Deployment</strong>也是持续集成的又一步，类似于持续交付。不同之处在于，不必手动部署应用程序，而是将其设置为自动部署。完全不需要人工干预就可以部署应用程序。</p>
+<h2 id="什么是-K8S？"><a href="#什么是-K8S？" class="headerlink" title="什么是 K8S？"></a>什么是 K8S？</h2><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://blog.csdn.net/bjweimengshu/article/details/79031552" target="_blank" rel="noopener">什么是DevOps？–程序员小灰</a></li>
+<li><a href="https://www.cnblogs.com/servicehot/p/6510199.html" target="_blank" rel="noopener">DevOps 到底是什么？</a></li>
+<li><a href="https://docs.gitlab.com/ee/ci/introduction/index.html" target="_blank" rel="noopener">使用GitLab介绍CI / CD</a></li>
+<li><a href="http://www.ttlsa.com/auto/gitlab-cicd-quick-start/" target="_blank" rel="noopener">Gitlab CI/CD 快速入门</a></li>
+<li><a href="https://docs.gitlab.com/ee/ci/quick_start/README.html" target="_blank" rel="noopener">Gitlab CI/CD 入门</a></li>
+<li><a href="https://docs.gitlab.com/ee/ci/README.html" target="_blank" rel="noopener">Gitlab CI 示例</a></li>
+<li><a href="https://docs.gitlab.com/ee/ci/docker/README.html" target="_blank" rel="noopener">Docker 集成</a></li>
+<li><a href="https://docs.gitlab.com/runner/" target="_blank" rel="noopener">Git Runner 是什么？</a></li>
+<li><a href="https://docs.gitlab.com/runner/install/" target="_blank" rel="noopener">安装Gitlab Runner</a></li>
+<li><a href="https://docs.gitlab.com/ee/topics/autodevops/index.html" target="_blank" rel="noopener">什么是 Auto DevOps</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/29232090" target="_blank" rel="noopener">K8S 是什么？知乎</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/33640916" target="_blank" rel="noopener">为什么 K8S 很酷</a></li>
+<li><a href="https://github.com/rootsongjc/kubernetes-handbook" target="_blank" rel="noopener">K8S 中文指南</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/28810342" target="_blank" rel="noopener">一文了解 K8S 是什么？</a></li>
+</ul>
+
       
     </div>
     
-      
-        <div class="button readmore">
-          <a href="/how-to-modify-the-configuration-file-when-the-docker-container-cannot-start-normally-1/">
-            阅读全文 <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
       
     
   </section>
@@ -408,7 +436,6 @@
 
     
   
-
 </div>
 <aside class='l_side'>
   
