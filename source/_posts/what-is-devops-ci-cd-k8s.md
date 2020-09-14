@@ -5,15 +5,17 @@ tags: ["DevOps", "K8S"]
 categories: ["Docker"]
 ---
 
-之所以要写这片笔记，是因为前几天在使用 gitlab 提交代码时，遇到了点问题。
+之所以要写这片笔记，是因为前段时间在使用 gitlab 提交代码时，遇到了点问题。
 
 gitlab 提示我 commit 失败。跟进了一下，并没有找到答案。
 
-![image](https://note.youdao.com/yws/res/77963/7FE5E992EF4342039DD24A95068C11F5)
+<!-- more -->
+
+![](https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200914094145.png)
 
 只是了解到一个叫做 `CI/CD`的东西。后来又延伸扩展到`DevOps`、`K8S` 这些新概念。
 
-![image](https://note.youdao.com/yws/res/77952/98C84A2F89DC42378E046A896A815AC1)
+![](https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200914094211.png)
 
 ## 什么是 DevOps？
 如题，什么是 DevOps ？根据字面意思理解就是：`Dev` + `Ops`，开发（Development）和运营（Operations）这两个领域的合并。
@@ -22,7 +24,7 @@ gitlab 提示我 commit 失败。跟进了一下，并没有找到答案。
 
 这里我就不追根溯源去解释为什么要合并开发和运营了，因为历史原因，总是存在着这样的问题。具体看参考链接一。
 
-![image](https://note.youdao.com/yws/res/78012/F4EE3FB3314241BC886F8D1CE425922E)
+![](https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200914094228.png)
 
 DevOps 也不仅仅是一种软件的部署方法。它通过一种全新的方式，来思考如何让软件的作者（开发部门）和运营者（运营部门）进行合作与协同。使用了DevOps模型之后，会使两个部门更好的交互。
 其中，`自动化部署`的概念就是从中产生的。
