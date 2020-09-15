@@ -16,13 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>什么是DevOps、CI、CD、K8S - Boo</title>
+    <title>use phpstorm to configure xdebug under windows and mac - Boo</title>
   
-    <meta name="keywords" content="DevOps,K8S">
+    <meta name="keywords" content="PHP,Xdebug">
   
   
-    <meta name="description" content="之所以要写这片笔记，是因为前段时间在使用 gitlab 提交代码时，遇到了点问题。
-gitlab 提示我 commit 失败。跟进了一下，并没有找到答案。">
+    <meta name="description" content="搭建过很多次开发环境了，但每次在调试这一块还是会多少耗费一点时间。所以便有了这篇关于PHPSTORM调试的笔记。">
   
 
   <!-- feed -->
@@ -286,8 +285,8 @@ gitlab 提示我 commit 失败。跟进了一下，并没有找到答案。">
         
           
   <h1 class="title">
-    <a href="/what-is-devops-ci-cd-k8s/">
-      什么是DevOps、CI、CD、K8S
+    <a href="/use-phpstorm-to-configure-xdebug-under-windows-and-mac/">
+      use phpstorm to configure xdebug under windows and mac
     </a>
   </h1>
 
@@ -312,9 +311,9 @@ gitlab 提示我 commit 失败。跟进了一下，并没有找到答案。">
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Docker/' rel="nofollow">
+    <a href='/categories/PHP/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Docker</p>
+      <p>PHP</p>
     </a>
   </div>
 
@@ -325,7 +324,7 @@ gitlab 提示我 commit 失败。跟进了一下，并没有找到答案。">
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Sep 12, 2020</p>
+    <p>发布于：Sep 15, 2020</p>
   </a>
 </div>
 
@@ -341,13 +340,13 @@ gitlab 提示我 commit 失败。跟进了一下，并没有找到答案。">
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>813 words</p>
+      <p>1.1k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>2 min</p>
+      <p>4 min</p>
     </a>
   </div>
 
@@ -360,7 +359,7 @@ gitlab 提示我 commit 失败。跟进了一下，并没有找到答案。">
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/what-is-devops-ci-cd-k8s/" class="leancloud_visitors" data-flag-title="什么是DevOps、CI、CD、K8S">
+      <span id="/use-phpstorm-to-configure-xdebug-under-windows-and-mac/" class="leancloud_visitors" data-flag-title="use phpstorm to configure xdebug under windows and mac">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -383,42 +382,108 @@ gitlab 提示我 commit 失败。跟进了一下，并没有找到答案。">
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>之所以要写这片笔记，是因为前段时间在使用 gitlab 提交代码时，遇到了点问题。</p>
-<p>gitlab 提示我 commit 失败。跟进了一下，并没有找到答案。</p>
+          <p>搭建过很多次开发环境了，但每次在调试这一块还是会多少耗费一点时间。<br>所以便有了这篇关于<code>PHPSTORM</code>调试的笔记。</p>
 <a id="more"></a>
 
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200914094145.png" alt=""></p>
-<p>只是了解到一个叫做 <code>CI/CD</code>的东西。后来又延伸扩展到<code>DevOps</code>、<code>K8S</code> 这些新概念。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200914094211.png" alt=""></p>
-<h2 id="什么是-DevOps？"><a href="#什么是-DevOps？" class="headerlink" title="什么是 DevOps？"></a>什么是 DevOps？</h2><p>如题，什么是 DevOps ？根据字面意思理解就是：<code>Dev</code> + <code>Ops</code>，开发（Development）和运营（Operations）这两个领域的合并。</p>
-<p>就我个人的理解，它是一个概念、一种思维，是一种通力合作，共同解决问题的方式。</p>
-<p>这里我就不追根溯源去解释为什么要合并开发和运营了，因为历史原因，总是存在着这样的问题。具体看参考链接一。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200914094228.png" alt=""></p>
-<p>DevOps 也不仅仅是一种软件的部署方法。它通过一种全新的方式，来思考如何让软件的作者（开发部门）和运营者（运营部门）进行合作与协同。使用了DevOps模型之后，会使两个部门更好的交互。<br>其中，<code>自动化部署</code>的概念就是从中产生的。</p>
-<h2 id="什么是-CI-CD？"><a href="#什么是-CI-CD？" class="headerlink" title="什么是 CI/CD？"></a>什么是 CI/CD？</h2><p>Gitlab 的<code>CI/CD</code>到底是什么呢？</p>
-<p>昨天大致了解了下 <code>Gitlab CI/CD</code>，不是很明白，但觉得很厉害。<br>首先来看下官方文档的简介：</p>
+<p>在进行调试之前，首先要做的是下载并安装<code>Xdebug</code>，然后才能做相应的配置。</p>
+<h2 id="下载Xdebug（Windows）"><a href="#下载Xdebug（Windows）" class="headerlink" title="下载Xdebug（Windows）"></a>下载Xdebug（Windows）</h2><ul>
+<li><a href="https://xdebug.org/download.php" target="_blank" rel="noopener">xdebug官网</a></li>
+</ul>
 <blockquote>
-<p>软件开发的连续方法基于自动执行脚本，以最大限度地减少在开发应用程序时引入错误的可能性。从新代码的开发到部署，它们需要较少的人为干预甚至根本不需要干预。<br>它涉及在每次小迭代中不断构建，测试和部署代码更改，从而减少基于有缺陷或失败的先前版本开发新代码的机会。</p>
+<p>如何选择符合自己PHP的版本的Xdebug，可以通过下面这种方法来判断。</p>
 </blockquote>
-<p>这里有三种主要的方法，根据最适合你的策略进行选择。</p>
-<h3 id="持续集成"><a href="#持续集成" class="headerlink" title="持续集成"></a>持续集成</h3><p>考虑一个应用程序，其代码存储在Gitlab中的存储库中。开发人员每天多次推送代码更改，对于每次推动到存储库，都可以创建一组脚本来自动构建和测试应用程序，从而减少向应用程序引入错误的可能性。这种方法被称为：<strong>持续集成（Continuous Integration）</strong></p>
-<h3 id="持续交付"><a href="#持续交付" class="headerlink" title="持续交付"></a>持续交付</h3><p><strong>持续交付 Continuous Delivery</strong>是持续集成的一个步骤，应用程序不仅在推送到代码库的每个代码更改时都构建和测试，而且作为一个额外的步骤，它也会连续部署，尽管部署是手动触发的。</p>
-<h3 id="持续部署"><a href="#持续部署" class="headerlink" title="持续部署"></a>持续部署</h3><p><strong>持续部署 Continuous Deployment</strong>也是持续集成的又一步，类似于持续交付。不同之处在于，不必手动部署应用程序，而是将其设置为自动部署。完全不需要人工干预就可以部署应用程序。</p>
-<h2 id="什么是-K8S？"><a href="#什么是-K8S？" class="headerlink" title="什么是 K8S？"></a>什么是 K8S？</h2><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
-<li><a href="https://blog.csdn.net/bjweimengshu/article/details/79031552" target="_blank" rel="noopener">什么是DevOps？–程序员小灰</a></li>
-<li><a href="https://www.cnblogs.com/servicehot/p/6510199.html" target="_blank" rel="noopener">DevOps 到底是什么？</a></li>
-<li><a href="https://docs.gitlab.com/ee/ci/introduction/index.html" target="_blank" rel="noopener">使用GitLab介绍CI / CD</a></li>
-<li><a href="http://www.ttlsa.com/auto/gitlab-cicd-quick-start/" target="_blank" rel="noopener">Gitlab CI/CD 快速入门</a></li>
-<li><a href="https://docs.gitlab.com/ee/ci/quick_start/README.html" target="_blank" rel="noopener">Gitlab CI/CD 入门</a></li>
-<li><a href="https://docs.gitlab.com/ee/ci/README.html" target="_blank" rel="noopener">Gitlab CI 示例</a></li>
-<li><a href="https://docs.gitlab.com/ee/ci/docker/README.html" target="_blank" rel="noopener">Docker 集成</a></li>
-<li><a href="https://docs.gitlab.com/runner/" target="_blank" rel="noopener">Git Runner 是什么？</a></li>
-<li><a href="https://docs.gitlab.com/runner/install/" target="_blank" rel="noopener">安装Gitlab Runner</a></li>
-<li><a href="https://docs.gitlab.com/ee/topics/autodevops/index.html" target="_blank" rel="noopener">什么是 Auto DevOps</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/29232090" target="_blank" rel="noopener">K8S 是什么？知乎</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/33640916" target="_blank" rel="noopener">为什么 K8S 很酷</a></li>
-<li><a href="https://github.com/rootsongjc/kubernetes-handbook" target="_blank" rel="noopener">K8S 中文指南</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/28810342" target="_blank" rel="noopener">一文了解 K8S 是什么？</a></li>
+<p>使用Xdubug官方提供的一个<a href="https://xdebug.org/wizard.php" target="_blank" rel="noopener">检测工具</a></p>
+<p>在命令行中输入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># Mac</span><br><span class="line">$ php -i | pbcopy</span><br><span class="line"></span><br><span class="line"># Linux</span><br><span class="line">$ php -i | xsel </span><br><span class="line"></span><br><span class="line"># Windows</span><br><span class="line">$ php -i | clip</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200915211657.png" alt=""></p>
+<p>将输出的<code>phpinfo</code>信息填入，然后就会自动检测该版本的PHP 所对应的Xdebug，如下图（这里以Windows 为例）：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200915211717.png" alt=""></p>
+<p>点击下载相应的文件。</p>
+<h2 id="安装并配置Xdebug"><a href="#安装并配置Xdebug" class="headerlink" title="安装并配置Xdebug"></a>安装并配置Xdebug</h2><ol>
+<li>将下载好的文件放进指定目录 <code>..\php\ext\</code></li>
+<li>配置<code>php.ini</code>文件，这里需要注意的是：要找到正确的<code>php.ini</code>文件。如果你不确定是哪一个，可以参考下面这个方法：</li>
+</ol>
+<p>打印出<code>phpinfo()</code>，找到字段<code>Loaded Configuration File</code>根据后面的路径去找就没错了。</p>
+<p>打开找到的php.ini配置文件，在最后面加上以下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># Windows</span><br><span class="line">[XDebug]</span><br><span class="line">zend_extension &#x3D; &quot;C:\xampp\php\ext\php_xdebug-2.6.1-7.2-vc15.dll&quot;  #这个地址指向 xdebug所在的文件路径</span><br><span class="line">xdebug.profiler_enable &#x3D; 1</span><br><span class="line">xdebug.remote_enable &#x3D; 1</span><br><span class="line">xdebug.remote_port&#x3D;9001</span><br><span class="line">xdebug.idekey&#x3D;PHPSTROM</span><br><span class="line">xdebug.remote_host &#x3D; localhost</span><br></pre></td></tr></table></figure>
+<p>其中：</p>
+<ol>
+<li><code>xdebug.remote.host</code>如果是本地调试，填<code>localhost</code>就好。</li>
+<li><code>xdebug.remote_port</code>为调试所监听的端口，通常默认使用 <code>9001</code> ，需要和PHPStorm 中的 Debug port 相同。</li>
+</ol>
+<h2 id="下载并安装Xdebug（Mac）"><a href="#下载并安装Xdebug（Mac）" class="headerlink" title="下载并安装Xdebug（Mac）"></a>下载并安装Xdebug（Mac）</h2><p>Mac 下安装Xdebug，有两种方式：</p>
+<ol>
+<li>使用<code>pecl</code>命令</li>
+<li>通过源码编译</li>
+</ol>
+<h3 id="使用-pecl"><a href="#使用-pecl" class="headerlink" title="使用 pecl"></a>使用 pecl</h3><blockquote>
+<p>Pecl 是 PHP 的包管理器。</p>
+</blockquote>
+<p>这里以<code>PHP5.6</code>为例，需要安装最新<code>2.5.x</code>版本的Xdebug，因为这是<code>PHP5.6</code>提供支持的最后一个版本。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pecl install xdebug-2.5.5</span><br></pre></td></tr></table></figure>
+<h3 id="源码编译"><a href="#源码编译" class="headerlink" title="源码编译"></a>源码编译</h3><p>源码获取的方式和上面Windows 的方式是一样的，将输出的<code>phpinfo</code>粘贴至输入框，然后下载对应版本的Xdebug。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ tar -xvzf xdebug-2.9.4.tgz</span><br><span class="line">$ cd xdebug-2.9.4.tgz</span><br><span class="line">$ phpize</span><br><span class="line">$ .&#x2F;configure</span><br><span class="line">$ make</span><br><span class="line">$ cp modules&#x2F;xdebug.so &#x2F;usr&#x2F;lib&#x2F;php&#x2F;extensions&#x2F;xdebug</span><br></pre></td></tr></table></figure>
+
+<h4 id="启用Xdebug"><a href="#启用Xdebug" class="headerlink" title="启用Xdebug"></a>启用Xdebug</h4><p>无论是通过哪种方式安装，在正式使用之前，都需要手动启用该模块。</p>
+<p>找到对应版本的 php.ini 文件并编辑，在配置文件中的最后部分加上以下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[XDebug]</span><br><span class="line">zend_extension&#x3D;&quot;&#x2F;usr&#x2F;local&#x2F;lib&#x2F;php&#x2F;extensions&#x2F;xdebug&#x2F;xdebug.so&quot;</span><br><span class="line">xdebug.profiler_enable &#x3D; 1</span><br><span class="line">xdebug.remote_enable &#x3D; 1</span><br><span class="line">xdebug.remote_port&#x3D;9001</span><br><span class="line">xdebug.idekey&#x3D;PHPSTORM</span><br><span class="line">xdebug.remote_host &#x3D; localhost</span><br></pre></td></tr></table></figure>
+
+<p>重启PHP即可。</p>
+<blockquote>
+<p>如何检查Xdebug 是否启用？</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ php -m | grep xdebug</span><br><span class="line">xdebug</span><br></pre></td></tr></table></figure>
+
+<h3 id="在PHPStorm中配置Xdebug"><a href="#在PHPStorm中配置Xdebug" class="headerlink" title="在PHPStorm中配置Xdebug"></a>在PHPStorm中配置Xdebug</h3><h4 id="Mac"><a href="#Mac" class="headerlink" title="Mac"></a>Mac</h4><ol>
+<li><code>File-&gt;Setting-&gt;PHP-&gt;Debug</code>，确保<code>PHPStorm</code> 已经找到了<code>Xdebug</code>。</li>
+</ol>
+<p>在刚才的配置没错的前提下，这里是可以看到已经成功安装了<code>Xdebug</code>的。</p>
+<p><img src="https://i.loli.net/2020/03/24/yw6EbgcujoFILXU.png" alt="image.png"></p>
+<p>如果显示没有安装，请检查上面两步操作有无问题。</p>
+<ol start="2">
+<li><code>File-&gt;Setting-&gt;PHP-&gt;Debug</code></li>
+</ol>
+<p><img src="https://i.loli.net/2020/03/24/iKkmq3AsIy2UOWX.jpg" alt="PHPStorm 2.jpg"></p>
+<p>Debug port 与<code>php.ini</code>配置文件中的<code>xdebug.remote_port</code>的对应参数保持一致。</p>
+<ol start="3">
+<li><code>File-&gt;Setting-&gt;PHP-&gt;Server</code>，这三个参数的值和<code>php.ini</code>中的保持一致。</li>
+</ol>
+<p><img src="https://i.loli.net/2020/03/24/sgzX4G957CuTWPj.jpg" alt="PHPStorm 3.jpg"></p>
+<ol start="4">
+<li>配置域名</li>
+</ol>
+<p><img src="https://i.loli.net/2020/03/24/kecrgBb1IfWaVYR.jpg" alt="PHPStorm 4.jpg"></p>
+<p>这里根据实际情况配置，我本地使用80 端口作为项目访问端口，所以这里填的是80。</p>
+<ol start="5">
+<li>配置调试参数</li>
+</ol>
+<p><img src="https://i.loli.net/2020/03/24/pShQCstHl7N32na.jpg" alt="PHPStorm 5.jpg"></p>
+<ol start="6">
+<li><code>Run-&gt;Web Server Debug Validation</code>，检查是否配置成功。</li>
+</ol>
+<p><img src="https://i.loli.net/2020/03/24/Plxvs6gKOcqIGV1.jpg" alt="PHPStorm 6.jpg"></p>
+<p>确保项目文件路径和本地域名能正常访问，如果一切正常则能看到输出。</p>
+<h3 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h3><p>Windows 下的PHPStorm 配置和Mac 几乎差不多，保证一下几点是正常的基本上没啥问题。</p>
+<ol>
+<li>确保PHPStorm 启用了对应版本的 Xdebug。</li>
+<li>PHPStorm 的调试信息与<code>php.ini</code>文件中保持一致。</li>
+<li>项目文件路径和本地域名能正常访问。</li>
+</ol>
+<blockquote>
+<p>Xdebug 调试端口并非一定要用9001，只要保持<code>php.ini</code>与<code>PHPStorm</code> 的保持一致就好了。</p>
+</blockquote>
+<h4 id="在PHPStorm中使用Xdebug"><a href="#在PHPStorm中使用Xdebug" class="headerlink" title="在PHPStorm中使用Xdebug"></a>在PHPStorm中使用Xdebug</h4><p>有两种方式使用Xdebug：</p>
+<ol>
+<li>直接在编辑器中开始调试。</li>
+<li>通过在请求地址中附加xdebug 的请求参数来调试，这招通常用来处理一些前后端分离的联动调试。</li>
+</ol>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://laravel-china.org/articles/16770/the-first-chapter-of-laravel-phpstrom-xdebug-configuration-and-use" target="_blank" rel="noopener">PhpStrom Xdebug 配置与使用</a></li>
+<li><a href="https://getgrav.org/blog/macos-mojave-apache-mysql-vhost-apc" target="_blank" rel="noopener">如何在Mac 上为不同版本的PHP 开启Xdebug</a></li>
+<li><a href="https://www.jetbrains.com/help/phpstorm/configuring-xdebug.html" target="_blank" rel="noopener">配置Xdebug-官方教程</a></li>
+<li><a href="https://xdebug.org/" target="_blank" rel="noopener">Xdebug 官网</a></li>
+<li><a href="https://xdebug.org/wizard.php" target="_blank" rel="noopener">Xdebug 检测工具</a></li>
 </ul>
 
           
@@ -456,7 +521,7 @@ gitlab 提示我 commit 失败。跟进了一下，并没有找到答案。">
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/what-is-devops-ci-cd-k8s/>https://www.0x2beace.com/what-is-devops-ci-cd-k8s/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/use-phpstorm-to-configure-xdebug-under-windows-and-mac/>https://www.0x2beace.com/use-phpstorm-to-configure-xdebug-under-windows-and-mac/</a></p>
           
         
       </blockquote>
@@ -504,10 +569,10 @@ gitlab 提示我 commit 失败。跟进了一下，并没有找到答案。">
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-09-14T09:44:10+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-09-15T21:19:06+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Sep 14, 2020</p>
+    <p>更新于：Sep 15, 2020</p>
   </a>
 </div>
 
@@ -516,7 +581,7 @@ gitlab 提示我 commit 失败。跟进了一下，并没有找到答案。">
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/DevOps/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>DevOps</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/K8S/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>K8S</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Xdebug/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Xdebug</p></a></div>
 
 
         
@@ -534,8 +599,7 @@ gitlab 提示我 commit 失败。跟进了一下，并没有找到答案。">
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/what-is-devops-ci-cd-k8s/&title=什么是DevOps、CI、CD、K8S - Boo&summary=之所以要写这片笔记，是因为前段时间在使用 gitlab 提交代码时，遇到了点问题。
-gitlab 提示我 commit 失败。跟进了一下，并没有找到答案。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/use-phpstorm-to-configure-xdebug-under-windows-and-mac/&title=use phpstorm to configure xdebug under windows and mac - Boo&summary=搭建过很多次开发环境了，但每次在调试这一块还是会多少耗费一点时间。所以便有了这篇关于PHPSTORM调试的笔记。"
           
           >
           
@@ -547,8 +611,7 @@ gitlab 提示我 commit 失败。跟进了一下，并没有找到答案。"
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/what-is-devops-ci-cd-k8s/&title=什么是DevOps、CI、CD、K8S - Boo&summary=之所以要写这片笔记，是因为前段时间在使用 gitlab 提交代码时，遇到了点问题。
-gitlab 提示我 commit 失败。跟进了一下，并没有找到答案。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/use-phpstorm-to-configure-xdebug-under-windows-and-mac/&title=use phpstorm to configure xdebug under windows and mac - Boo&summary=搭建过很多次开发环境了，但每次在调试这一块还是会多少耗费一点时间。所以便有了这篇关于PHPSTORM调试的笔记。"
           
           >
           
@@ -560,8 +623,7 @@ gitlab 提示我 commit 失败。跟进了一下，并没有找到答案。"
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/what-is-devops-ci-cd-k8s/&title=什么是DevOps、CI、CD、K8S - Boo&summary=之所以要写这片笔记，是因为前段时间在使用 gitlab 提交代码时，遇到了点问题。
-gitlab 提示我 commit 失败。跟进了一下，并没有找到答案。"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/use-phpstorm-to-configure-xdebug-under-windows-and-mac/&title=use phpstorm to configure xdebug under windows and mac - Boo&summary=搭建过很多次开发环境了，但每次在调试这一块还是会多少耗费一点时间。所以便有了这篇关于PHPSTORM调试的笔记。"
           
           >
           
@@ -575,7 +637,7 @@ gitlab 提示我 commit 失败。跟进了一下，并没有找到答案。"
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAAC+0lEQVR42u3aQXLbQAwEQP3/084DEpWAAewYUu9NlrzkNi9TGD6+rH+uBwIwYMCAAQPmDMwjXH9t+OLvz75/9fv0PtJ9wIABAwYMGDD3YMoBqHnAVzfcve6zfbfOAwYMGDBgwIC5C/MyAIW/T//eDZbj84ABAwYMGDBgPh6mO7hKgxoYMGDAgAEDBswUplq8dQu6tOADAwYMGDBgwHwezHcXad3B1TTw/bcmEgwYMGDAgAHzYzDdlQa+n/ocnwcMGDBgwIABcwZmulLIbjHXDYTxecCAAQMGDBgwZ2DSgJQCVQ+YHji9fzBgwIABAwbMfZjqQGirKEuLtxR6/OIQGDBgwIABA+bXwEwPmg6MyoGrWfiN4cGAAQMGDBgwZ2Cmg51uMOzuuzXwKg/cwIABAwYMGDBnYLYO1C62woItvU4ZEgwYMGDAgAFzBqZbrH0N1zSYpfdZDopgwIABAwYMmLeBST+vDY6Wg197ggcGDBgwYMCAOQeTHnAa3KrBsAtTHmyBAQMGDBgwYM7AdAdMaVGWDrDigVNa/IEBAwYMGDBgzsBMX7zpFmDdQJkCdQMnGDBgwIABA+Z9YLYHWGnBNi3cuvuBAQMGDBgwYO7CrF0g/H5a8E0fEBgwYMCAAQPmDsx4o7DoqoJM/6+7LxgwYMCAAQPmDsxWoZbu81ha0+AIBgwYMGDAgLkL0y2ypkGrW6Slv2sXfmDAgAEDBgyYszDVG98uxLYeSPe+wIABAwYMGDDvBzP9PIVKA1v3+uVBFRgwYMCAAQPm18FM13cNsKb7xkEUDBgwYMCAAXMGZhqU0oJrCtANjuUHBQYMGDBgwIA5B9MNdNMXgqoH2SoGyw8CDBgwYMCAAXMWZlqUbb8YlD6YboAEAwYMGDBgwICpBrbtwdZWoQcGDBgwYMCA+VyY7o1uHWw6MAMDBgwYMGDA3IfpDorSAVR1n27BNh2IgQEDBgwYMGDuwaTBKQ1m6YG3At7T+wYDBgwYMGDAnIGxwIABAwYMGDDH1h8NyGpD0at7hQAAAABJRU5ErkJggg==">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVgAAAFYCAAAAAAzB7ucAAAEcElEQVR42u3aQXLbMBAEQP//08k9VSliZpeQ7WrcZJoi0OABO9qvP8Yr4wsBWLAGWLBgDbBXYL/KsTaRf77vf885ncfT/f/7vOUBFixYsGDBggUL9i5sC/G0oBR063nHEIfzOF4HWLBgwYIFCxYs2I/AphNJwU4LghQoLRDa+T3+P1iwYMGCBQsWLNhfCZsG1+kGnB7o04IBLFiwYMGCBQsW7O+ETQ/g29/71n1gwYIFCxYsWLBgfwbsVqPFVuGQzisdbaEBFixYsGDBggUL9nvAthP6rZ9rD7BgwYIFCxYsWLBXYN8ebWPErUaNtCB4fA5YsGDBggULFizYK7DbjRbTQLmdTxrAT+8HCxYsWLBgwYIF+1nY6YF7ayPa+Uw3um0kiYNusGDBggULFixYsK/AbkOcBtfTAHtrXqeAj/eDBQsWLFiwYMGCvQq71QCRblh7QE8LhbbgiV8ssGDBggULFixYsFdgt4Pk6QalG9duyNaGgwULFixYsGDBgv0sbHugboPhdqEt9PbGPQbdYMGCBQsWLFiwYF+FnQa/6QaNGyLKhotpY8fxiwAWLFiwYMGCBQv2Kuw0+G0P5OkCtho9tgsSsGDBggULFixYsJ+BTQ/gaSPD9HktaAuWvjhgwYIFCxYsWLBg78K2gfD2AtYaJsKAvi0oHoNusGDBggULFixYsFdgnyaYNjy0E003clqo1IUAWLBgwYIFCxYs2G8F2zZonAbUKcC0gGiD9LpgAgsWLFiwYMGCBXsFdusgf3r/6fdOGzi2A/fjFw4sWLBgwYIFCxbsVdhbB/I2iE43Lr0+LXzAggULFixYsGDB3oV96yA9DZLbwH06r3EBAxYsWLBgwYIFC/YKbFoAtA9uD+hfS2NaAI0rL7BgwYIFCxYsWLCvwE4X3kK0C0mD9RYqDubBggULFixYsGDBXoFNg+tpULy1MWmDxXaAHv+CABYsWLBgwYIFC3YV9hTy9PrTfWkjyFaQ3l5P1wMWLFiwYMGCBQv2DuxawFs2SKRB9bRBI70eN7aABQsWLFiwYMGCvQLbHqjTgqENpNNCIQ3a28KnrrzAggULFixYsGDBrsJOGyPagqItOLY2oC0UwIIFCxYsWLBgwX4Wdmvipwf+aWPFVkA9BQcLFixYsGDBggX7WdjtA3y7QS18+r3T+da/IIAFCxYsWLBgwYJdhd1ueJgG4m1DxXZDRzrAggULFixYsGDB3oW91XjRFhqnz58WEFvrAwsWLFiwYMGCBXsHdnogngbG7cE9LRDeDrjBggULFixYsGDBfga2LQi2GizSgmErgJ++KGDBggULFixYsGC/B2waHG8v+K2NvlaQgAULFixYsGDBgv0RsGnB0Abs289P13u8LrBgwYIFCxYsWLA/ArYNtrf+vlUYnBYg1ysvsGDBggULFixYsEewabDcTmhaKKQbMt244/WBBQsWLFiwYMGCvQo7DZ5TkK1GinYDtwN3sGDBggULFixYsHdhjd0BFixYAyxYsAbYV8dfof1SdsDiLBwAAAAASUVORK5CYII=">
           </div>
         </div>
       
@@ -595,22 +657,15 @@ gitlab 提示我 commit 失败。跟进了一下，并没有找到答案。"
         
           <div class="prev-next">
             
-              <a class='prev' href='/use-phpstorm-to-configure-xdebug-under-windows-and-mac/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>use phpstorm to configure xdebug under windows and mac</p>
-                <p class='content'>搭建过很多次开发环境了，但每次在调试这一块还是会多少耗费一点时间。所以便有了这篇关于PHPSTORM调试的笔记。
-
-
-在进行调试之前，首先要做的是下载并安装Xdebug，然后才能做相应的配置。
-...</p>
-              </a>
             
-            
-              <a class='next' href='/how-to-automatically-apply-for-a-free-ssl-certificate/'>
-                <p class='title'>如何自动申请免费的SSL 证书<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>上次介绍了如何通过第三方网站申请免费的SSL 证书，但有效期只有三个月，三个月之后又需要再次申请，记得还好，如果忘了可能还会造成不必要的损失。
+              <a class='next' href='/what-is-devops-ci-cd-k8s/'>
+                <p class='title'>什么是DevOps、CI、CD、K8S<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>之所以要写这片笔记，是因为前段时间在使用 gitlab 提交代码时，遇到了点问题。
+gitlab 提示我 commit 失败。跟进了一下，并没有找到答案。
 
 
-Let’s Encrypt 是一个免费提供的S...</p>
+
+只是了解到一个叫做 CI/CD的...</p>
               </a>
             
           </div>
@@ -655,7 +710,7 @@ Let’s Encrypt 是一个免费提供的S...</p>
 
   <script>
     window.subData = {
-      title: '什么是DevOps、CI、CD、K8S',
+      title: 'use phpstorm to configure xdebug under windows and mac',
       tools: true
     }
   </script>
@@ -682,7 +737,7 @@ Let’s Encrypt 是一个免费提供的S...</p>
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是-DevOps？"><span class="toc-text">什么是 DevOps？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是-CI-CD？"><span class="toc-text">什么是 CI&#x2F;CD？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#持续集成"><span class="toc-text">持续集成</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#持续交付"><span class="toc-text">持续交付</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#持续部署"><span class="toc-text">持续部署</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是-K8S？"><span class="toc-text">什么是 K8S？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#下载Xdebug（Windows）"><span class="toc-text">下载Xdebug（Windows）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装并配置Xdebug"><span class="toc-text">安装并配置Xdebug</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#下载并安装Xdebug（Mac）"><span class="toc-text">下载并安装Xdebug（Mac）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用-pecl"><span class="toc-text">使用 pecl</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#源码编译"><span class="toc-text">源码编译</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#启用Xdebug"><span class="toc-text">启用Xdebug</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#在PHPStorm中配置Xdebug"><span class="toc-text">在PHPStorm中配置Xdebug</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Mac"><span class="toc-text">Mac</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Windows"><span class="toc-text">Windows</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#在PHPStorm中使用Xdebug"><span class="toc-text">在PHPStorm中使用Xdebug</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
     </div>
   </section>
 
