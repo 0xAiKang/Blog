@@ -1,5 +1,5 @@
 ---
-title: use phpstorm to configure xdebug under windows and mac
+title: Windows、Mac 下使用 PHPStorm 配置 Xdebug，实现断点调试
 date: 2020-09-15 21:15:36
 tags: ["PHP", "Xdebug"]
 categories: ["PHP"]
