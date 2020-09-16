@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>Mysql 数据库设计规范与原则</title>
+      <link href="/mysql-database-design-rules-and-principles/"/>
+      <url>/mysql-database-design-rules-and-principles/</url>
+      
+        <content type="html"><![CDATA[<p>最近需要根据业务需求重新设计一套完整的数据库，记录一下规范的数据库设计原则。</p><a id="more"></a><h3 id="1、数据库命名规范"><a href="#1、数据库命名规范" class="headerlink" title="1、数据库命名规范"></a>1、数据库命名规范</h3><ul><li>命名简洁明确，可以采用字母 + 数字进行组合，多个单词可以使用下划线 <code>_</code> 进行分割。</li><li>一般来说，数据表命名用单数，字段命名也用单数</li><li>数据库里面的密码一定要加密，不能保存明文</li><li>Mysql 引擎类型统一使用 InnoDB，字符编码统一使用 UTF-8</li></ul><h3 id="2、数据库表名命名规范"><a href="#2、数据库表名命名规范" class="headerlink" title="2、数据库表名命名规范"></a>2、数据库表名命名规范</h3><ul><li>命名简洁明确，可以采用字母 + 数字进行组合，多个单词可以使用下划线 <code>_</code> 进行分割。</li><li>可以合理增加表前缀，有效区分不同类型的数据表</li></ul><h3 id="3、数据库表字段名命名规范"><a href="#3、数据库表字段名命名规范" class="headerlink" title="3、数据库表字段名命名规范"></a>3、数据库表字段名命名规范</h3><ul><li>命名简洁明确，多个单词使用下划线<code>_</code>进行分割（统一使用小写）</li><li>避免使用自定义缩写，如：<code>date =&gt; dt</code></li><li>表与表之间的相关联字段名称要求尽可能的相同</li><li>每个字段尽量备注其含义</li></ul><h3 id="4、数据库表字段类型规范"><a href="#4、数据库表字段类型规范" class="headerlink" title="4、数据库表字段类型规范"></a>4、数据库表字段类型规范</h3><ul><li>最好给每个字段一个默认值，<strong>避免使用 NULL</strong>。字符型默认值为一个空字符值串，数值型的默认值为数值0，逻辑型的默认值为数值0</li><li>用尽量少的存储空间来存储一个字段的数据</li><li>能用 <code>tinyint</code> 就不用 <code>int</code>，能用 <code>int</code> 就不要用 <code>varchar</code>，能用 <code>varchar(16)</code>就不要用 <code>varchar(225)</code></li><li>boolean 类型的命名统一使用<code>is_xxx</code>格式</li></ul><h3 id="5、数据库表索引规范"><a href="#5、数据库表索引规范" class="headerlink" title="5、数据库表索引规范"></a>5、数据库表索引规范</h3><ul><li>为每个表创建一个主键索引;</li><li>为每个表创建合理的普通索引;</li></ul><h3 id="一些注意事项"><a href="#一些注意事项" class="headerlink" title="一些注意事项"></a>一些注意事项</h3><ul><li>避免使用NULL字段(NULL字段很难查询优化、NULL字段的索引需要额外空间、NULL字段的复合索引无效)</li><li>避免使用 <code>count(*)</code></li><li>避免使用 <code>select *</code></li></ul><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul><li><a href="https://www.cnblogs.com/tinywan/p/6547500.html" target="_blank" rel="noopener">MYSQL数据库设计规范与原则</a></li><li><a href="https://changsiyuan.github.io/2016/05/06/2016-5-6-database-design/" target="_blank" rel="noopener">数据库设计原则</a></li><li><a href="https://cloud.tencent.com/developer/article/1054482" target="_blank" rel="noopener">数据库表名字段命名规范</a></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> Mysql </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Mysql </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Windows、Mac 下使用 PHPStorm 配置 Xdebug，实现断点调试</title>
       <link href="/use-phpstorm-to-configure-xdebug-under-windows-and-mac/"/>
       <url>/use-phpstorm-to-configure-xdebug-under-windows-and-mac/</url>
