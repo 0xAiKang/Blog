@@ -5,8 +5,6 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
-    
   
   <!-- 渲染优化 -->
   <meta name="renderer" content="webkit">
@@ -18,7 +16,9 @@
 
   <!-- 页面元数据 -->
   
-    <title>Category: GitHub - Boo</title>
+    <title>Mysql 常见异常分析 - Boo</title>
+  
+    <meta name="keywords" content="Mysql">
   
   
 
@@ -267,25 +267,12 @@
     <div class='body-wrapper'>
       
 
-
 <div class='l_main'>
   
-    
-      
-  <section class="post-list ">
-    
-      
-        
-          
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
+
   
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
 
 
   <section class='meta'>
@@ -295,11 +282,11 @@
       <div class="meta" id="header-meta">
         
           
-  <h2 class="title">
-    <a href="/how-to-choose-a-picture-bed-that-suits-you/">
-      如何选择一个适合自己的图床
+  <h1 class="title">
+    <a href="/mysql-common-exception-analysis/">
+      Mysql 常见异常分析
     </a>
-  </h2>
+  </h1>
 
 
         
@@ -322,9 +309,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Tutorial/Skill/GitHub/' rel="nofollow">
+    <a href='/categories/Mysql/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Tutorial/Skill/GitHub</p>
+      <p>Mysql</p>
     </a>
   </div>
 
@@ -335,9 +322,14 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jul 6, 2020</p>
+    <p>发布于：Sep 17, 2020</p>
   </a>
 </div>
+
+            
+          
+            
+              
 
             
           
@@ -346,13 +338,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>851 words</p>
+      <p>523 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>3 min</p>
+      <p>2 min</p>
     </a>
   </div>
 
@@ -361,6 +353,18 @@
           
             
               
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/mysql-common-exception-analysis/" class="leancloud_visitors" data-flag-title="Mysql 常见异常分析">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
 
             
           
@@ -373,107 +377,87 @@
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>因为没有把博客部署在服务器上，而是选择GitHub Pages 的方式，所以如果遇到需要插入图片的时候，只能通过图床来存储图片。</p>
-<p>如果不是因为<a href="https://sm.ms/" target="_blank" rel="noopener">SM.MS</a> 图床在今天突然挂掉了，我可能都不会去想是否需要更换图床这个问题。</p>
-<p><img src="https://raw.githubusercontent.com/0xAiKang/CDN/master/blog/images/20200706225801.png" alt=""></p>
-<p>于是我开始寻找一个免费、稳定的图床，最后在众多图床中，最后选择了GitHub 图床。</p>
-<p>使用GitHub 图床，可能唯一的问题是需要自备好科学上网工具，否则图片无法加载。</p>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/how-to-choose-a-picture-bed-that-suits-you/">
-            阅读全文 <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <h2 id="Mysql-无法正常启动"><a href="#Mysql-无法正常启动" class="headerlink" title="Mysql 无法正常启动"></a>Mysql 无法正常启动</h2><p>异常描述：Mysql Server 无法正常启动，Client 连接Mysql 异常如下：</p>
+<blockquote>
+<p>ERROR 2002 (HY000): Can’t connect to local MySQL server through socket ‘/var/run/mysqld/mysqld.sock’ (2)</p>
+</blockquote>
+<p>首先，这个错误意味着 <code>/var/run/mysqld/mysqld.sock</code> 不存在，而该文件之所以不存在，可能是因为没有安装 <code>mysql-server</code>，也可能是因为该文件被移动了。</p>
+<p>如果是需要连接本机的Mysql（mysql -hlocalhost -uroot -p），那么需要先安装 <code>mysql server</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install mysql-server -y</span><br></pre></td></tr></table></figure>
 
-          </div>
-        
-      
-    
-  </section>
+<p>如果Mysql 服务确实有在本地运行，那么请检查<code>/etc/mysql/mysql.conf.d/mysqld.cnf</code> 配置文件，是否存在以下配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">socket &#x3D; &#x2F;var&#x2F;run&#x2F;mysqld&#x2F;mysqld.sock</span><br></pre></td></tr></table></figure>
+
+<p>如果只是需要连接其他主机，那么在本机上不安装 <code>Mysql Server</code> 也可以，但需要保证“其他主机”的Mysql 已经正常启动。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -h&lt;hostname&gt; -uroot -p</span><br></pre></td></tr></table></figure>
+
+<p>总结：<br>最有可能的情况是需要连接的Mysql 服务根本没有启动，要么没有在与从终端运行MySQL客户端的主机相同的主机上运行，小概率是因为配置文件错误导致。</p>
+<h2 id="Mysql-用户验证失败"><a href="#Mysql-用户验证失败" class="headerlink" title="Mysql 用户验证失败"></a>Mysql 用户验证失败</h2><p>异常描述：Mysql 创建完该用户之后，赋予权限并设置密码，但是总是会提示如下异常：</p>
+<blockquote>
+<p>ERROR 1045 (28000): Access denied for user ‘zabbix’@’172.17.0.1’ (using password: YES)</p>
+</blockquote>
+<p>出现该异常信息可能有以下几种情况：</p>
+<ol>
+<li>用户名密码错误</li>
+<li>该用户权限不足</li>
+</ol>
+<h2 id="Mysql-断开连接"><a href="#Mysql-断开连接" class="headerlink" title="Mysql 断开连接"></a>Mysql 断开连接</h2><p>异常描述：Mysql 偶尔会自己断开连接，然后必须重启Mysql 服务才能正常运行。</p>
+<blockquote>
+<p>ERROR 2013 (HY000): Lost connection to MySQL server at ‘reading initial communication packet’, system error: 102</p>
+</blockquote>
+<p>目前并没有找到合适的解决方案，不过能大致确定以下几个方向：</p>
+<ol>
+<li>反向DNS 解析，避免使用<code>localhost</code></li>
+<li>允许使用所有连接？</li>
+</ol>
+<p>localhost 对应socket？127.0.0.1 对应 TCP/IP？</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://cloud.tencent.com/developer/ask/35881" target="_blank" rel="noopener">错误2002(HY000)：无法通过Socket‘/var/run/mysqld/mysqld.sock’连接到本地MySQL服务器(2)</a></li>
+<li><a href="https://stackoverflow.com/questions/21091850/error-2013-hy000-lost-connection-to-mysql-server-at-reading-authorization-pa" target="_blank" rel="noopener">ERROR 2013 (HY000): Lost connection to MySQL server at ‘reading authorization packet’, system error: 0</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
   
     
-    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
     
-    
+
+
 
   
 
-
-    
-  
-
-</div>
-<aside class='l_side'>
-  
   
     
     
 
-<section class="widget blogger shadow desktop mobile">
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
   <div class='content'>
     
-      
-        <a class='avatar flat-box' href='/about/'>
-          <img no-lazy src='https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg'/>
-        </a>
-      
-    
-    
-      <div class='text'>
+      <blockquote>
         
-        
-          <p>Stay foolish, Stay hungry</p>
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
 
-        
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
-        
-          
-            <a href="/atom.xml"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
           
         
           
-            <a href="mailto:aikangtongxue@gamil.com"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/mysql-common-exception-analysis/>https://www.0x2beace.com/mysql-common-exception-analysis/</a></p>
           
         
-          
-            <a href="https://github.com/0xAikang"
-              class="social fab fa-github flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-          
-            <a href="https://music.163.com/#/user/home?id=112719323"
-              class="social fas fa-headphones-alt flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-      </div>
+      </blockquote>
     
   </div>
 </section>
@@ -483,223 +467,213 @@
   
     
     
+
+<section class="widget qrcode  desktop mobile">
   
 
-  <section class="widget category shadow desktop">
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-09-17T20:54:30+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Sep 17, 2020</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Mysql/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Mysql</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/mysql-common-exception-analysis/&title=Mysql 常见异常分析 - Boo&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/mysql-common-exception-analysis/&title=Mysql 常见异常分析 - Boo&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/mysql-common-exception-analysis/&title=Mysql 常见异常分析 - Boo&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADtUlEQVR42u3aQZLbMAwEwP3/p5N7Ui5yAMiGt5o3JbYkNvcwNfDPH6u0fhCAAwcOnAUO3BK4n+L674b//Pvp86++/+o+p+/d/n93v+DAgQMHDhw4cNvgrgPgAe4EcAvTPaDqQRyfBw4cOHDgwIEDtxTuFqAadNMXvg3gU/DH/YIDBw4cOHDgwP1yuKcKzGrRCg4cOHDgwIEDB64GVy0gq8Vp9T3AgQMHDhw4cOC+FS4e0DYHzd3rLuTHJvngwIEDBw4cOHBDcOl6CuJd1+X9ggMHDhw4cODALYF76geA1R/+Pf2DxfZ+wYEDBw4cOHDglsBVA2K60e6guRtcu/sDBw4cOHDgwIHbCnc7aE7Bq5/vBujqYPy4b3DgwIEDBw4cuGVw0y88VUjGAbUZkI9/UODAgQMHDhw4cEvg0mCYfm46yN5uePrgwIEDBw4cOHDgtsHdwnQLyLQY7QbcaiA+3g8cOHDgwIEDB24JXBokpwCnNlYOstVADA4cOHDgwIEDtwTuFqgamKvBtVpETv2wMZ7kgwMHDhw4cODAfQguvkEIVS0oq4F7qogFBw4cOHDgwIHbCpcWfdWBcreQTAvQx4IxOHDgwIEDBw7cErjbF3gq8HY3Nj2QPh4AOHDgwIEDBw7cMrju4Dj9fnpQ1UBefU55kg8OHDhw4MCBA/dmuGpBmQbkp4vP232MT/LBgQMHDhw4cODeDNcNsNUXmQq8U0H7+v3BgQMHDhw4cOCWwaUBNX1wF6I7+J4K6ODAgQMHDhw4cNvgpoLq7UZTyGoBWj3w40AaHDhw4MCBAwduGVw3WE4VhrfA3eePD6TBgQMHDhw4cODeBJcG2PRB6UoHylOD9OtrcODAgQMHDhy4ZXDtYPhwIO4WodXvvxxIgwMHDhw4cODALYGbGgh3B8nxRorFZbXoBAcOHDhw4MCB2wp3G1CrBWH1YKafUw7Y4MCBAwcOHDhwy+HSF0sDcbfQnAq28R8AOHDgwIEDBw7cErjumhoATwfuqSL0ZQAGBw4cOHDgwIH7MFw3IKYvnt53Cia9vh5IgwMHDhw4cODAfRiuG3irwblbRKbBNg3A4MCBAwcOHDhw3wIXD2iHistqcJ0aRLcDMDhw4MCBAwcO3JfCVYNtGkSngm35Ghw4cODAgQMH7pfBdVe1ME03Xi1awYEDBw4cOHDgtsOlA+np+6QHkhalKSw4cODAgQMHDtx2uO4A9+kCcarY7B4QOHDgwIEDBw7cFjgrLDgRgAMHDpwFDtxn119QPICX6rtpEgAAAABJRU5ErkJggg==">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/mysql-database-design-rules-and-principles/'>
+                <p class='title'>Mysql 数据库设计规范与原则<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>最近需要根据业务需求重新设计一套完整的数据库，记录一下规范的数据库设计原则。
+
+
+1、数据库命名规范
+命名简洁明确，可以采用字母 + 数字进行组合，多个单词可以使用下划线 _ 进行分割。
+一般来...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Mysql 常见异常分析',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
     
   <header>
     
-      <a href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
   </header>
 
 
     <div class='content'>
-      <ul class="entry navigation">
-        
-          <li><a class="flat-box"
-            title="/categories/Docker/" href="/categories/Docker/"
-            id="categoriesDocker"
-            ><div class='name'>Docker</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Docker/Tutorial/" href="/categories/Docker/Tutorial/"
-            id="categoriesDockerTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Git/" href="/categories/Git/"
-            id="categoriesGit"
-            ><div class='name'>Git</div><div class='badge'>(7)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Git/Skill/" href="/categories/Git/Skill/"
-            id="categoriesGitSkill"
-            ><div class='name'>Skill</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Linux/" href="/categories/Linux/"
-            id="categoriesLinux"
-            ><div class='name'>Linux</div><div class='badge'>(28)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/Docker/" href="/categories/Linux/Docker/"
-            id="categoriesLinuxDocker"
-            ><div class='name'>Docker</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/Tutorial/" href="/categories/Linux/Tutorial/"
-            id="categoriesLinuxTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(4)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/Windows/" href="/categories/Linux/Windows/"
-            id="categoriesLinuxWindows"
-            ><div class='name'>Windows</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/Zabbix/" href="/categories/Linux/Zabbix/"
-            id="categoriesLinuxZabbix"
-            ><div class='name'>Zabbix</div><div class='badge'>(4)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/" href="/categories/Linux/%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/"
-            id="categoriesLinuxE591BDE4BBA4E695B4E79086"
-            ><div class='name'>命令整理</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" href="/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
-            id="categoriesLinuxE5ADA6E4B9A0E7AC94E8AEB0"
-            ><div class='name'>学习笔记</div><div class='badge'>(8)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Mysql/" href="/categories/Mysql/"
-            id="categoriesMysql"
-            ><div class='name'>Mysql</div><div class='badge'>(14)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Nginx/" href="/categories/Nginx/"
-            id="categoriesNginx"
-            ><div class='name'>Nginx</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Node/" href="/categories/Node/"
-            id="categoriesNode"
-            ><div class='name'>Node</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Node/Socket-io/" href="/categories/Node/Socket-io/"
-            id="categoriesNodeSocket-io"
-            ><div class='name'>Socket.io</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Node/Tutorial/" href="/categories/Node/Tutorial/"
-            id="categoriesNodeTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Node/Tutorial/%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" href="/categories/Node/Tutorial/%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/"
-            id="categoriesNodeTutorialE8BF9BE7A88BE7AEA1E79086"
-            ><div class='name'>进程管理</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/PHP/" href="/categories/PHP/"
-            id="categoriesPHP"
-            ><div class='name'>PHP</div><div class='badge'>(5)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/PHP/Tutorial/" href="/categories/PHP/Tutorial/"
-            id="categoriesPHPTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/PHP/Tutorial/%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" href="/categories/PHP/Tutorial/%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/"
-            id="categoriesPHPTutorialE8BF9BE7A88BE7AEA1E79086"
-            ><div class='name'>进程管理</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Redis/" href="/categories/Redis/"
-            id="categoriesRedis"
-            ><div class='name'>Redis</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Shell/" href="/categories/Shell/"
-            id="categoriesShell"
-            ><div class='name'>Shell</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Skill/" href="/categories/Skill/"
-            id="categoriesSkill"
-            ><div class='name'>Skill</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Skill/Windows/" href="/categories/Skill/Windows/"
-            id="categoriesSkillWindows"
-            ><div class='name'>Windows</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Skill/Windows/Mac/" href="/categories/Skill/Windows/Mac/"
-            id="categoriesSkillWindowsMac"
-            ><div class='name'>Mac</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Socket-io/" href="/categories/Socket-io/"
-            id="categoriesSocket-io"
-            ><div class='name'>Socket.io</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Socket-io/Nginx/" href="/categories/Socket-io/Nginx/"
-            id="categoriesSocket-ioNginx"
-            ><div class='name'>Nginx</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Tutorial/" href="/categories/Tutorial/"
-            id="categoriesTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(10)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/GitHub/" href="/categories/Tutorial/GitHub/"
-            id="categoriesTutorialGitHub"
-            ><div class='name'>GitHub</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/Skill/" href="/categories/Tutorial/Skill/"
-            id="categoriesTutorialSkill"
-            ><div class='name'>Skill</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/Skill/GitHub/" href="/categories/Tutorial/Skill/GitHub/"
-            id="categoriesTutorialSkillGitHub"
-            ><div class='name'>GitHub</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C/" href="/categories/%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C/"
-            id="categoriesE4B880E4BA9BE7BB8FE9AA8C"
-            ><div class='name'>一些经验</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E5%89%8D%E7%AB%AF/" href="/categories/%E5%89%8D%E7%AB%AF/"
-            id="categoriesE5898DE7ABAF"
-            ><div class='name'>前端</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E7%A2%8E%E7%A2%8E%E5%BF%B5/" href="/categories/%E7%A2%8E%E7%A2%8E%E5%BF%B5/"
-            id="categoriesE7A28EE7A28EE5BFB5"
-            ><div class='name'>碎碎念</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E7%BB%88%E7%AB%AF/" href="/categories/%E7%BB%88%E7%AB%AF/"
-            id="categoriesE7BB88E7ABAF"
-            ><div class='name'>终端</div><div class='badge'>(1)</div></a></li>
-        
-      </ul>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Mysql-无法正常启动"><span class="toc-text">Mysql 无法正常启动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mysql-用户验证失败"><span class="toc-text">Mysql 用户验证失败</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mysql-断开连接"><span class="toc-text">Mysql 断开连接</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
     </div>
   </section>
 
-
-  
-
-  
-    
-    
-  
-
-  <section class="widget tagcloud shadow desktop mobile">
-    
-  <header>
-    
-      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
-    
-  </header>
-
-
-    <div class='content'>
-      <a href="/tags/Arch-Linux/" style="font-size: 15.25px; color: #919191">Arch Linux</a> <a href="/tags/CI/" style="font-size: 14px; color: #999">CI</a> <a href="/tags/Certbot/" style="font-size: 14px; color: #999">Certbot</a> <a href="/tags/Cygwin/" style="font-size: 14px; color: #999">Cygwin</a> <a href="/tags/DevOps/" style="font-size: 14px; color: #999">DevOps</a> <a href="/tags/Docker/" style="font-size: 17.75px; color: #808080">Docker</a> <a href="/tags/Docker-Hub/" style="font-size: 14px; color: #999">Docker Hub</a> <a href="/tags/Git/" style="font-size: 20.25px; color: #6f6f6f">Git</a> <a href="/tags/GoAccess/" style="font-size: 14px; color: #999">GoAccess</a> <a href="/tags/HTTPS/" style="font-size: 15.25px; color: #919191">HTTPS</a> <a href="/tags/Hash/" style="font-size: 14px; color: #999">Hash</a> <a href="/tags/Hexo/" style="font-size: 16.5px; color: #888">Hexo</a> <a href="/tags/JavaScript/" style="font-size: 14px; color: #999">JavaScript</a> <a href="/tags/K8S/" style="font-size: 14px; color: #999">K8S</a> <a href="/tags/Linux/" style="font-size: 24px; color: #555">Linux</a> <a href="/tags/Linux-Commands/" style="font-size: 14px; color: #999">Linux Commands</a> <a href="/tags/Logs/" style="font-size: 14px; color: #999">Logs</a> <a href="/tags/Mac/" style="font-size: 15.25px; color: #919191">Mac</a> <a href="/tags/Mysql/" style="font-size: 21.5px; color: #666">Mysql</a> <a href="/tags/Nginx/" style="font-size: 16.5px; color: #888">Nginx</a> <a href="/tags/Node/" style="font-size: 15.25px; color: #919191">Node</a> <a href="/tags/PHP/" style="font-size: 19px; color: #777">PHP</a> <a href="/tags/PHP-FPM/" style="font-size: 14px; color: #999">PHP-FPM</a> <a href="/tags/PM2/" style="font-size: 14px; color: #999">PM2</a> <a href="/tags/Redis/" style="font-size: 14px; color: #999">Redis</a> <a href="/tags/SSH/" style="font-size: 14px; color: #999">SSH</a> <a href="/tags/SSHD/" style="font-size: 14px; color: #999">SSHD</a> <a href="/tags/SSL/" style="font-size: 15.25px; color: #919191">SSL</a> <a href="/tags/Shell/" style="font-size: 20.25px; color: #6f6f6f">Shell</a> <a href="/tags/Skill/" style="font-size: 15.25px; color: #919191">Skill</a> <a href="/tags/Socket-io/" style="font-size: 15.25px; color: #919191">Socket.io</a> <a href="/tags/Supervisor/" style="font-size: 14px; color: #999">Supervisor</a> <a href="/tags/Tutorial/" style="font-size: 22.75px; color: #5e5e5e">Tutorial</a> <a href="/tags/Vim/" style="font-size: 14px; color: #999">Vim</a> <a href="/tags/WSL/" style="font-size: 14px; color: #999">WSL</a> <a href="/tags/Web-%E5%AE%89%E5%85%A8/" style="font-size: 15.25px; color: #919191">Web 安全</a> <a href="/tags/Windows/" style="font-size: 15.25px; color: #919191">Windows</a> <a href="/tags/Xdebug/" style="font-size: 14px; color: #999">Xdebug</a> <a href="/tags/Zabbix/" style="font-size: 17.75px; color: #808080">Zabbix</a> <a href="/tags/https/" style="font-size: 14px; color: #999">https</a> <a href="/tags/mysql/" style="font-size: 14px; color: #999">mysql</a> <a href="/tags/ssh/" style="font-size: 14px; color: #999">ssh</a> <a href="/tags/wss/" style="font-size: 14px; color: #999">wss</a> <a href="/tags/%E4%BA%91/" style="font-size: 16.5px; color: #888">云</a> <a href="/tags/%E7%9B%91%E6%8E%A7%E7%B3%BB%E7%BB%9F/" style="font-size: 14px; color: #999">监控系统</a> <a href="/tags/%E7%A2%8E%E7%A2%8E%E5%BF%B5/" style="font-size: 14px; color: #999">碎碎念</a> <a href="/tags/%E7%BB%88%E7%AB%AF/" style="font-size: 14px; color: #999">终端</a> <a href="/tags/%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" style="font-size: 15.25px; color: #919191">进程管理</a>
-    </div>
-  </section>
-
-
-  
 
   
 
@@ -903,6 +877,60 @@ setInterval("createtime()",250);
 
 
 
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "prAyvaUeadxadA2wpcBQqNQn-gzGzoHsz",
+    appKey: "vkyEUTw0BixVjfFpFIzUdhak",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
 
 
 
