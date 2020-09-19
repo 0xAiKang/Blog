@@ -5,6 +5,10 @@ tags: ["Mysql"]
 categories: ["Mysql"]
 ---
 
+本文用来整理 Mysql 使用过程中遇到的一些问题。
+
+<!-- more -->
+
 ## Mysql 无法正常启动
 异常描述：Mysql Server 无法正常启动，Client 连接Mysql 异常如下：
 
