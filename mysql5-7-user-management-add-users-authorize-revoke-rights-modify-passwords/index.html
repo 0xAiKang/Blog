@@ -16,12 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>Mysql 删除数据及数据表 - Boo</title>
+    <title>mysql5.7用户管理：添加用户、授权、撤权、修改密码 - Boo</title>
   
     <meta name="keywords" content="Mysql">
   
   
-    <meta name="description" content="在Mysql 中删除数据以及数据表非常的容易，但是需要特别小心，因为一旦删除所有数据都会消失。">
+    <meta name="description" content="因为Mysql 5.7 是目前使用最多的数据库，而5.7 在某些地方又和其他版本有所不同，所以记录一下。">
   
 
   <!-- feed -->
@@ -285,8 +285,8 @@
         
           
   <h1 class="title">
-    <a href="/mysql-delete-data-and-data-table/">
-      Mysql 删除数据及数据表
+    <a href="/mysql5-7-user-management-add-users-authorize-revoke-rights-modify-passwords/">
+      mysql5.7用户管理：添加用户、授权、撤权、修改密码
     </a>
   </h1>
 
@@ -324,7 +324,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Aug 6, 2020</p>
+    <p>发布于：Sep 20, 2020</p>
   </a>
 </div>
 
@@ -340,13 +340,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>400 words</p>
+      <p>609 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>1 min</p>
+      <p>2 min</p>
     </a>
   </div>
 
@@ -359,7 +359,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/mysql-delete-data-and-data-table/" class="leancloud_visitors" data-flag-title="Mysql 删除数据及数据表">
+      <span id="/mysql5-7-user-management-add-users-authorize-revoke-rights-modify-passwords/" class="leancloud_visitors" data-flag-title="mysql5.7用户管理：添加用户、授权、撤权、修改密码">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -382,54 +382,46 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>在Mysql 中删除数据以及数据表非常的容易，但是需要特别小心，因为一旦删除所有数据都会消失。</p>
+          <p>因为Mysql 5.7 是目前使用最多的数据库，而5.7 在某些地方又和其他版本有所不同，所以记录一下。</p>
 <a id="more"></a>
 
-<h2 id="删除数据"><a href="#删除数据" class="headerlink" title="删除数据"></a>删除数据</h2><p>删除表内数据，使用<code>delete</code>关键字。</p>
-<h3 id="删除指定条件的数据"><a href="#删除指定条件的数据" class="headerlink" title="删除指定条件的数据"></a>删除指定条件的数据</h3><p>删除用户表内id 为1 的用户：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">delete from User where id &#x3D; 1;</span><br></pre></td></tr></table></figure>
+<h2 id="创建用户"><a href="#创建用户" class="headerlink" title="创建用户"></a>创建用户</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 语法：CREATE USER &#39;username&#39;@&#39;host&#39; IDENTIFIED BY &#39;password&#39;;</span><br><span class="line"></span><br><span class="line">mysql&gt;  CREATE USER &#39;boo&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;122410&#39;;</span><br></pre></td></tr></table></figure>
+<p>host 参数说明：</p>
+<ul>
+<li><code>%</code>：匹配所有主机</li>
+<li><code>localhost</code>：当前主机，localhost 不会被解析成IP地址，而是通过UNIXsocket 连接</li>
+<li><code>127.0.0.1</code>：当前主机，通过TCP/IP 协议连接</li>
+<li><code>::1</code>：当前主机，兼容支持ipv6</li>
+</ul>
+<p>此时还没有授权，只能登陆，无法做其余操作</p>
+<h2 id="用户授权"><a href="#用户授权" class="headerlink" title="用户授权"></a>用户授权</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># 创建完成之后授权</span><br><span class="line">mysql&gt; grant all privileges ON &#96;dbName&#96;.* TO &#39;username&#39;@&#39;host&#39;;</span><br><span class="line"></span><br><span class="line"># 创建用户同时授权</span><br><span class="line">mysql&gt; grant all privileges on dbName.* to &#39;username&#39;@&#39;host&#39; identified by &#39;password&#39;;</span><br><span class="line"></span><br><span class="line"># 刷新权限</span><br><span class="line">mysql&gt;  flush privileges;</span><br><span class="line"></span><br><span class="line"># 查看用户所有权限</span><br><span class="line">mysql&gt; show grants for dev@&#39;%&#39;;</span><br><span class="line"></span><br><span class="line"># 撤消用户授权，撤消要求各参数与授权时使用的一致，可以先查看授权再撤消</span><br><span class="line">mysql&gt; revoke privileges ON dbName.* FROM &#39;username&#39;@&#39;host&#39;;</span><br></pre></td></tr></table></figure>
+<p>privileges 参数说明：</p>
+<ul>
+<li><code>all privileges</code>: 所有权限；</li>
+<li><code>select</code>: 查询；</li>
+<li><code>insert</code>: 新增记录;</li>
+<li><code>update</code>: 更新记录；</li>
+<li><code>delete</code>: 删除记录；</li>
+<li><code>create</code>: 创建表；</li>
+<li><code>drop</code>: 删除表；</li>
+<li><code>alter</code>: 修改表结构；</li>
+<li><code>index</code>: 索引相关权限；</li>
+<li><code>execute</code>: 执行存储过程与call函数</li>
+<li><code>references</code>： 外键相关；</li>
+<li><code>create temporary tables</code>：创建临时表；</li>
+<li><code>lock tables</code>：锁表；</li>
+<li><code>create view</code>：创建视图；</li>
+<li><code>show view</code>：查看视图结构；</li>
+<li><code>trigger</code>: 触发器；</li>
+</ul>
+<p>dbName 可以是某个库（<code>database</code>），也可以是具体到某张表（<code>database.table</code>），也可以是所整个数据库（<code>*</code>）。</p>
+<h2 id="修改密码"><a href="#修改密码" class="headerlink" title="修改密码"></a>修改密码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># 修改自己的密码</span><br><span class="line">mysql&gt; set password&#x3D;password(&#39;newpassword&#39;);</span><br><span class="line"></span><br><span class="line"># 修改别人密码——方法1</span><br><span class="line">mysql&gt; set password for &#39;username&#39;@&#39;host&#39; &#x3D; password(&#39;newpassword&#39;);</span><br><span class="line"></span><br><span class="line"># 修改别人密码——方法2: 适用mysql5.7以前的版本，5.7以后的版本中mysql.user表没有了password字段</span><br><span class="line">mysql&gt; update mysq.user set password&#x3D;password(&#39;newpassword&#39;) where user&#x3D;&#39;user&#39; and host&#x3D;&#39;host&#39;;</span><br><span class="line"></span><br><span class="line"># 修改别人密码——方法3：适用mysql5.7</span><br><span class="line">mysql&gt; update mysql.user set authentication_string&#x3D;password(&#39;newpassword&#39;) where user&#x3D;&#39;root&#39;;</span><br><span class="line"></span><br><span class="line"># 修改别人密码——方法4</span><br><span class="line">mysql&gt; alter user &#39;test&#39;@&#39;%&#39; identified by &#39;newpassword&#39;;</span><br></pre></td></tr></table></figure>
 
-<h3 id="删除表内所有数据"><a href="#删除表内所有数据" class="headerlink" title="删除表内所有数据"></a>删除表内所有数据</h3><p>删除表中的全部数据，表结构不变。</p>
-<p>对于 MyISAM 会立刻释放磁盘空间，InnoDB 不会释放磁盘空间。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">delete from User;</span><br></pre></td></tr></table></figure>
+<h2 id="删除用户"><a href="#删除用户" class="headerlink" title="删除用户"></a>删除用户</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; DROP USER &#39;username&#39;@&#39;host&#39;;</span><br></pre></td></tr></table></figure>
 
-<p>释放磁盘空间</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">optimize table User;</span><br></pre></td></tr></table></figure>
-
-<h3 id="删除数据表"><a href="#删除数据表" class="headerlink" title="删除数据表"></a>删除数据表</h3><p>删除数据表分为两种方式：</p>
-<ol>
-<li>删除数据表内数据以及表结构</li>
-<li>只删除表内数据，保留表结构</li>
-</ol>
-<h4 id="drop"><a href="#drop" class="headerlink" title="drop"></a>drop</h4><p>使用<code>drop</code>关键词会删除整张表，啥都没有了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drop table User;</span><br></pre></td></tr></table></figure>
-
-<h4 id="truncate"><a href="#truncate" class="headerlink" title="truncate"></a>truncate</h4><p><code>truncate</code> 关键字则只删除表内数据，会保留表结构。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">truncate table User;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>思考题：如何批量删除前缀相同的表？</p>
-</blockquote>
-<p>想要实现 <code>drop table like &#39;wp_%&#39;</code>，没有直接可用的命令，不过可以通过Mysql 的语法来拼接。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-- 删除”wp_”开头的表：</span><br><span class="line">SELECT CONCAT( &#39;drop table &#39;, table_name, &#39;;&#39; ) AS statement</span><br><span class="line">FROM information_schema.tables</span><br><span class="line">WHERE table_schema &#x3D; &#39;database_name&#39; AND table_name LIKE &#39;wp_%&#39;;</span><br></pre></td></tr></table></figure>
-<p>其中<code>database_name</code>换成数据库的名称，<code>wp_</code>换成需要批量删除的表前缀。</p>
-<blockquote>
-<p>注意只有<code>drop</code>命令才能这样用：</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drop table if exists tablename&#96;;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p><code>truncate</code>只能这样使用：</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">truncate table &#96;tp_trade&#96;.&#96;setids&#96;;</span><br></pre></td></tr></table></figure>
-
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
-<li><p>当你不再需要该表时， 用<code>drop</code>;</p>
-</li>
-<li><p>当你仍要保留该表，但要删除所有记录时， 用<code>truncate</code>;</p>
-</li>
-<li><p>当你要删除部分记录时， 用<code>delete</code>。</p>
-</li>
+<p>不建议直接通过修改<code>mysql.user</code>表去操作用户。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://blog.csdn.net/yu12377/article/details/78214336" target="_blank" rel="noopener">mysql5.7用户管理：添加用户、授权、撤权、修改密码</a></li>
 </ul>
 
           
@@ -467,7 +459,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/mysql-delete-data-and-data-table/>https://www.0x2beace.com/mysql-delete-data-and-data-table/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/mysql5-7-user-management-add-users-authorize-revoke-rights-modify-passwords/>https://www.0x2beace.com/mysql5-7-user-management-add-users-authorize-revoke-rights-modify-passwords/</a></p>
           
         
       </blockquote>
@@ -515,7 +507,7 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-09-20T23:39:21+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-09-20T23:43:47+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：Sep 20, 2020</p>
@@ -545,7 +537,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/mysql-delete-data-and-data-table/&title=Mysql 删除数据及数据表 - Boo&summary=在Mysql 中删除数据以及数据表非常的容易，但是需要特别小心，因为一旦删除所有数据都会消失。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/mysql5-7-user-management-add-users-authorize-revoke-rights-modify-passwords/&title=mysql5.7用户管理：添加用户、授权、撤权、修改密码 - Boo&summary=因为Mysql 5.7 是目前使用最多的数据库，而5.7 在某些地方又和其他版本有所不同，所以记录一下。"
           
           >
           
@@ -557,7 +549,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/mysql-delete-data-and-data-table/&title=Mysql 删除数据及数据表 - Boo&summary=在Mysql 中删除数据以及数据表非常的容易，但是需要特别小心，因为一旦删除所有数据都会消失。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/mysql5-7-user-management-add-users-authorize-revoke-rights-modify-passwords/&title=mysql5.7用户管理：添加用户、授权、撤权、修改密码 - Boo&summary=因为Mysql 5.7 是目前使用最多的数据库，而5.7 在某些地方又和其他版本有所不同，所以记录一下。"
           
           >
           
@@ -569,7 +561,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/mysql-delete-data-and-data-table/&title=Mysql 删除数据及数据表 - Boo&summary=在Mysql 中删除数据以及数据表非常的容易，但是需要特别小心，因为一旦删除所有数据都会消失。"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/mysql5-7-user-management-add-users-authorize-revoke-rights-modify-passwords/&title=mysql5.7用户管理：添加用户、授权、撤权、修改密码 - Boo&summary=因为Mysql 5.7 是目前使用最多的数据库，而5.7 在某些地方又和其他版本有所不同，所以记录一下。"
           
           >
           
@@ -583,7 +575,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADpElEQVR42u3aQXLjMAwEQP//08l9q1IiBpAFe5s3J45ENi9TmLx+rGi9EIADBw6cBQ7cErhXuMov/OPv0ueefv/f73XPCw4cOHDgwIEDtw1uasOnQN2DV4GmzgsOHDhw4MCBA7cV7jIAhhtJAaaDcvu84MCBAwcOHDhwXwqXfq5eQDpoBQcOHDhw4MCBA1c7eHXAefXc6vfAgQMHDhw4cOC+He7dA8kpoOr7H2/ywYEDBw4cOHDghuCq6+7B5rsGp+XzggMHDhw4cODALYHrrm5APb2YbvAdOy84cODAgQMHDtwSuDQgTsOnA9SpwehxsQ4OHDhw4MCBA7cE7urB1YJ5usieKpbTQA8OHDhw4MCBA/cpcKeAKVQ1qFYvtFustwtpcODAgQMHDhy4N8NVodKDnwbYeNA4PIAFBw4cOHDgwIHbCpdCpQPGapCdKqa7Cxw4cODAgQMHbitcNSCeDgbTYjkN5N1C/PLc4MCBAwcOHDhwS+C6IN1iOw3QUxdZviBw4MCBAwcOHLglcN3iuHqwavCeAq4W1eDAgQMHDhw4cJ8KVy2mqxuZKpxPLyIduIIDBw4cOHDgwG2FS0FOg3EKnQbt7iD1MniDAwcOHDhw4MAtgburME4Hl6fPmx6cxoU0OHDgwIEDBw7cQ3DVjaYBNR0kpn9fDfDHoODAgQMHDhw4cB8G1w3KU8E4Hbimv7+cAIMDBw4cOHDgwC2HSweI1WBbXd1BaLngBgcOHDhw4MCBWwJ3uqFqgKwW19X3dgN8NRiDAwcOHDhw4MBtgzstaKcGm+mgtHpB6T7AgQMHDhw4cOA+BS7dUAqZHjwdhHa/Vx5kggMHDhw4cODAPQSXFtDpwLH6D4l3vee0mAYHDhw4cODAgdsGlw4UqwH5OGgOFdDpBR8PMsGBAwcOHDhw4JbAna7pAWL1+dPB9jRAgwMHDhw4cODAbYW7a2PTRfW7Fzhw4MCBAwcO3Da47uoCpxfXLaTj54EDBw4cOHDgwC2B6wbCauDtFtGn8Ld9BgcOHDhw4MCBWwYXF7TFAjotpqs/T4vvy5+DAwcOHDhw4MAthbssZItQp+BrCuc0AIMDBw4cOHDgwH0J3F1BtRpc0wsEBw4cOHDgwIH7X+B+blrVAjvd32ODTHDgwIEDBw4cuCG46gu6Qbd6sOlAPhaAwYEDBw4cOHDgHoKbKnCrRXUXsDoIrRbq4MCBAwcOHDhwW+Gs4mAVAThw4MBZ4MA9u34B4lF9xEQ/+8wAAAAASUVORK5CYII=">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXgAAAF4CAAAAAB79r16AAAFJklEQVR42u3bQZLbMAwEQP//08k9qZQIzFBxbTVvu5EpsuHLLJDPL+u/rA8C8OAt8OAt8OCtAvxnuf78/F8v+Mfz/3ru6fNP+zztd3rfp/1iL/DgwYMHDx48ePDgi/DHAeDwgOmFb733CTR932PhwIMHDx48ePDgwYO/AJ8GpunP7cJvC5re87jA4MGDBw8ePHjw4MF/AfxpI6G9bxqEWgUBDx48ePDgwYMHD/4nw29hpgND03ulA1zgwYMHDx48ePDgwX8D/HhAJww+04vcKkzaiHl9kgw8ePDgwYMHDx48+AuB4qf/vPYCDx48ePDgwYMHD74An65246QdxFqBsOYFHjx48ODBgwcPHnwB/vRiW+jp77eBZdpgOd2/3XABDx48ePDgwYMHD/4G/HTjt4Fbhdl+wWIf8ODBgwcPHjx48OAvwKfBYlqI6cFbYNuGyTY4gQcPHjx48ODBgwd/E77V4Ng2UraNi+2g0/T88XPgwYMHDx48ePDgwRfgp0FlG3TShkca2Nr32hYUPHjw4MGDBw8ePPgGfNrISC+UFnLbeJkGvW2jBTx48ODBgwcPHjz4N+GnjYTtoNBpwEobF+3BpmmgAg8ePHjw4MGDBw++CZ/+oX86+DRteKQB6HS/9It2XCDw4MGDBw8ePHjw4Avw2wZAWoAWwGlAmn7Btg2VRxfw4MGDBw8ePHjw4F+E3x68tf80eG3XthF03KgBDx48ePDgwYMHD74In15k+/x08GgcWJaNl9b9wYMHDx48ePDgwYO/Cb8NLLfWFKgFuX1ffaAJPHjw4MGDBw8ePPiD/5jwKa9po+DW+6YBKz3XY6MIPHjw4MGDBw8ePPgi/DQITA++HaBqNU6m8Gnj5jhAgQcPHjx48ODBgwe/gE8DUPtCrfdPYabnnxYIPHjw4MGDBw8ePPgmfDrIND1Yq7HRGlA6PW9r8Ao8ePDgwYMHDx48+CZ8a8Boum970CkNeumKB5rAgwcPHjx48ODBgz+AbweY6eduDVC1GjDbwj4GKPDgwYMHDx48ePDgA/j0YunB0vdtwdKGyXrACjx48ODBgwcPHjz4AnyrwZEGo+lz6aBSa4BpGtjAgwcPHjx48ODBg2/Cbwec0ufSRsXt96afewxQ4MGDBw8ePHjw4MEH8K0BpFZDJB1MSoPOtjHy6AUePHjw4MGDBw8efAF+C5sWqj1YFIMs33M60AUePHjw4MGDBw8e/E346QGOGwCH+6cNlm2Qa4EfN0LAgwcPHjx48ODBg38RfhqAtgVsNURSwNYXBTx48ODBgwcPHjz4G/BT2NOCbAPO9HPTQqUBa11w8ODBgwcPHjx48OAvwG8vmj4/HgwawtwepDouDHjw4MGDBw8ePHjwRfjWwbZBqt3Y2H6xpvtPzwsePHjw4MGDBw8efAN+G1CmQeMzXK3Pte6Tnhs8ePDgwYMHDx48+CZ8ulKwNOBsA9oWbhsAwYMHDx48ePDgwYNvwn+WK4WZBq32oNG2obEtEHjw4MGDBw8ePHjwN+DTAaBtQ6Q1EJWeZ1vYsR948ODBgwcPHjx48Bfg3wowpwDbhkoarNJgCR48ePDgwYMHDx78N8NvYaeBLR1ESoNZzQk8ePDgwYMHDx48+C+EPy3EtAGyDXStway0wQIePHjw4MGDBw8e/E347UBT+99PA1kbMm34rBsh4MGDBw8ePHjw4MEv4LeDO9sGwxa4tV8rcI3fBx48ePDgwYMHDx58Ad56d4EHD94CD94CD94K1m8Ly6tdCpw7SgAAAABJRU5ErkJggg==">
           </div>
         </div>
       
@@ -603,21 +595,15 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/how-to-modify-the-linux-default-time-zone/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>如何修改 Linux 默认时区</p>
-                <p class='content'>在上一篇笔记中，我们知道了如何在Linux 中查看系统默认时区，这篇笔记来学习以下如何修改默认时区。
-
-
-在Linux 服务器或系统上保持正确的时间始终是一个好习惯，它可能具有以下优点：
-
-由于...</p>
-              </a>
             
-            
-              <a class='next' href='/detailed-explanation-of-git-push-f-command/'>
-                <p class='title'>Git Push -f 命令详解<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>最近遇到了一个Git Push 相关的问题，同事不小心把一些错误代码提交到仓库了。如果每个人直接更新的话，会导致错误代码也更新到本地了。
-这个时候想要避免这种情况的发生，唯一可以做的就是将那些错...</p>
+              <a class='next' href='/postman-tips/'>
+                <p class='title'>postman tips<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>Postman 作为http 请求工具，无论是开发还是测试所使用的频率还是挺高的，这篇笔记用来整理一下常用的使用技巧。
+
+
+发送表单提交这里的表单提交就是指传统的表单提交。
+核心请求头信息：
+1...</p>
               </a>
             
           </div>
@@ -662,7 +648,7 @@
 
   <script>
     window.subData = {
-      title: 'Mysql 删除数据及数据表',
+      title: 'mysql5.7用户管理：添加用户、授权、撤权、修改密码',
       tools: true
     }
   </script>
@@ -689,7 +675,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#删除数据"><span class="toc-text">删除数据</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#删除指定条件的数据"><span class="toc-text">删除指定条件的数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除表内所有数据"><span class="toc-text">删除表内所有数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除数据表"><span class="toc-text">删除数据表</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#drop"><span class="toc-text">drop</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#truncate"><span class="toc-text">truncate</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建用户"><span class="toc-text">创建用户</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户授权"><span class="toc-text">用户授权</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改密码"><span class="toc-text">修改密码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#删除用户"><span class="toc-text">删除用户</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
     </div>
   </section>
 

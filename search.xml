@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>mysql5.7用户管理：添加用户、授权、撤权、修改密码</title>
+      <link href="/mysql5-7-user-management-add-users-authorize-revoke-rights-modify-passwords/"/>
+      <url>/mysql5-7-user-management-add-users-authorize-revoke-rights-modify-passwords/</url>
+      
+        <content type="html"><![CDATA[<p>因为Mysql 5.7 是目前使用最多的数据库，而5.7 在某些地方又和其他版本有所不同，所以记录一下。</p><a id="more"></a><h2 id="创建用户"><a href="#创建用户" class="headerlink" title="创建用户"></a>创建用户</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 语法：CREATE USER &#39;username&#39;@&#39;host&#39; IDENTIFIED BY &#39;password&#39;;</span><br><span class="line"></span><br><span class="line">mysql&gt;  CREATE USER &#39;boo&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;122410&#39;;</span><br></pre></td></tr></table></figure><p>host 参数说明：</p><ul><li><code>%</code>：匹配所有主机</li><li><code>localhost</code>：当前主机，localhost 不会被解析成IP地址，而是通过UNIXsocket 连接</li><li><code>127.0.0.1</code>：当前主机，通过TCP/IP 协议连接</li><li><code>::1</code>：当前主机，兼容支持ipv6</li></ul><p>此时还没有授权，只能登陆，无法做其余操作</p><h2 id="用户授权"><a href="#用户授权" class="headerlink" title="用户授权"></a>用户授权</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># 创建完成之后授权</span><br><span class="line">mysql&gt; grant all privileges ON &#96;dbName&#96;.* TO &#39;username&#39;@&#39;host&#39;;</span><br><span class="line"></span><br><span class="line"># 创建用户同时授权</span><br><span class="line">mysql&gt; grant all privileges on dbName.* to &#39;username&#39;@&#39;host&#39; identified by &#39;password&#39;;</span><br><span class="line"></span><br><span class="line"># 刷新权限</span><br><span class="line">mysql&gt;  flush privileges;</span><br><span class="line"></span><br><span class="line"># 查看用户所有权限</span><br><span class="line">mysql&gt; show grants for dev@&#39;%&#39;;</span><br><span class="line"></span><br><span class="line"># 撤消用户授权，撤消要求各参数与授权时使用的一致，可以先查看授权再撤消</span><br><span class="line">mysql&gt; revoke privileges ON dbName.* FROM &#39;username&#39;@&#39;host&#39;;</span><br></pre></td></tr></table></figure><p>privileges 参数说明：</p><ul><li><code>all privileges</code>: 所有权限；</li><li><code>select</code>: 查询；</li><li><code>insert</code>: 新增记录;</li><li><code>update</code>: 更新记录；</li><li><code>delete</code>: 删除记录；</li><li><code>create</code>: 创建表；</li><li><code>drop</code>: 删除表；</li><li><code>alter</code>: 修改表结构；</li><li><code>index</code>: 索引相关权限；</li><li><code>execute</code>: 执行存储过程与call函数</li><li><code>references</code>： 外键相关；</li><li><code>create temporary tables</code>：创建临时表；</li><li><code>lock tables</code>：锁表；</li><li><code>create view</code>：创建视图；</li><li><code>show view</code>：查看视图结构；</li><li><code>trigger</code>: 触发器；</li></ul><p>dbName 可以是某个库（<code>database</code>），也可以是具体到某张表（<code>database.table</code>），也可以是所整个数据库（<code>*</code>）。</p><h2 id="修改密码"><a href="#修改密码" class="headerlink" title="修改密码"></a>修改密码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># 修改自己的密码</span><br><span class="line">mysql&gt; set password&#x3D;password(&#39;newpassword&#39;);</span><br><span class="line"></span><br><span class="line"># 修改别人密码——方法1</span><br><span class="line">mysql&gt; set password for &#39;username&#39;@&#39;host&#39; &#x3D; password(&#39;newpassword&#39;);</span><br><span class="line"></span><br><span class="line"># 修改别人密码——方法2: 适用mysql5.7以前的版本，5.7以后的版本中mysql.user表没有了password字段</span><br><span class="line">mysql&gt; update mysq.user set password&#x3D;password(&#39;newpassword&#39;) where user&#x3D;&#39;user&#39; and host&#x3D;&#39;host&#39;;</span><br><span class="line"></span><br><span class="line"># 修改别人密码——方法3：适用mysql5.7</span><br><span class="line">mysql&gt; update mysql.user set authentication_string&#x3D;password(&#39;newpassword&#39;) where user&#x3D;&#39;root&#39;;</span><br><span class="line"></span><br><span class="line"># 修改别人密码——方法4</span><br><span class="line">mysql&gt; alter user &#39;test&#39;@&#39;%&#39; identified by &#39;newpassword&#39;;</span><br></pre></td></tr></table></figure><h2 id="删除用户"><a href="#删除用户" class="headerlink" title="删除用户"></a>删除用户</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; DROP USER &#39;username&#39;@&#39;host&#39;;</span><br></pre></td></tr></table></figure><p>不建议直接通过修改<code>mysql.user</code>表去操作用户。</p><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul><li><a href="https://blog.csdn.net/yu12377/article/details/78214336" target="_blank" rel="noopener">mysql5.7用户管理：添加用户、授权、撤权、修改密码</a></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> Mysql </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Mysql </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>postman tips</title>
       <link href="/postman-tips/"/>
       <url>/postman-tips/</url>
@@ -158,6 +183,8 @@
             <tag> SSL </tag>
             
             <tag> Certbot </tag>
+            
+            <tag> HTTP </tag>
             
         </tags>
       
@@ -856,6 +883,8 @@
             
             <tag> SSL </tag>
             
+            <tag> HTTP </tag>
+            
         </tags>
       
     </entry>
@@ -1024,7 +1053,7 @@
       
         <tags>
             
-            <tag> mysql </tag>
+            <tag> Mysql </tag>
             
         </tags>
       
@@ -1600,7 +1629,9 @@
       
         <tags>
             
-            <tag> https </tag>
+            <tag> HTTPS </tag>
+            
+            <tag> HTTP </tag>
             
         </tags>
       
