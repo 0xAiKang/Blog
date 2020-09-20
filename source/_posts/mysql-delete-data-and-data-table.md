@@ -1,7 +1,7 @@
 ---
 title: Mysql 删除数据及数据表
 date: 2020-08-06 22:36:46
-tags: ["mysql"]
+tags: ["Mysql"]
 categories: ["Mysql"]
 ---
 

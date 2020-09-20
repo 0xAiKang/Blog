@@ -1,7 +1,7 @@
 ---
 title: 解决Firefox “已阻止载入混合活动内容”
 date: 2020-07-18 15:15:30
-tags: ["https"]
+tags: ["HTTP", "HTTPS"]
 categories: ["一些经验"]
 ---
 

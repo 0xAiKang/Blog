@@ -1,7 +1,7 @@
 ---
 title: 如何自动申请免费的SSL 证书
 date: 2020-09-11 16:18:20
-tags: ["SSL", "Certbot", "HTTPS"]
+tags: ["SSL", "Certbot", "HTTP","HTTPS"]
 categories: ["Tutorial"]
 ---
 
