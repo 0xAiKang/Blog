@@ -6,7 +6,7 @@
   <link href="https://www.0x2beace.com/atom.xml" rel="self"/>
   
   <link href="https://www.0x2beace.com/"/>
-  <updated>2020-09-23T14:41:58.011Z</updated>
+  <updated>2020-09-24T10:57:00.944Z</updated>
   <id>https://www.0x2beace.com/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Mysql 多表联查</title>
+    <link href="https://www.0x2beace.com/mysql-multi-table-joint-check/"/>
+    <id>https://www.0x2beace.com/mysql-multi-table-joint-check/</id>
+    <published>2020-09-24T10:56:22.000Z</published>
+    <updated>2020-09-24T10:57:00.944Z</updated>
+    
+    <content type="html"><![CDATA[<p>Mysql 的两张表联表查询可能大家都知道怎么查，但如果是三张表或者是更多张表呢？</p><a id="more"></a><p>其实不管是两张表还是三张表还是N 张表都是一样的。</p><h3 id="多表联查"><a href="#多表联查" class="headerlink" title="多表联查"></a>多表联查</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 语法一：</span><br><span class="line">select t1.*, t2.*, t3.* </span><br><span class="line">from table1 t1, table2 t2, table3 t3</span><br><span class="line">where t1.id &#x3D; t2.id and t1.id &#x3D; t3.id;</span><br><span class="line"></span><br><span class="line"># 语法二：</span><br><span class="line">select t1.*, t2.*, t3.* </span><br><span class="line">from table t1 inner join table2 t2 </span><br><span class="line">on t1.id &#x3D; t2.id </span><br><span class="line">inner join table3 t3 </span><br><span class="line">on t1.id &#x3D; t3.id;</span><br></pre></td></tr></table></figure><p>有几点需要注意：</p><ol><li>上面的id 并不一定非要使用id，可以是任何有关联性的其他字段</li><li>如果表名是关键字，那么需要查询时在这个关键字上加反引号，如：`order`</li><li><code>inner join</code> 可以根据实际情况可以换成<code>left join</code>、<code>right join</code> </li></ol>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;Mysql 的两张表联表查询可能大家都知道怎么查，但如果是三张表或者是更多张表呢？&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="Mysql" scheme="https://www.0x2beace.com/categories/Mysql/"/>
+    
+    
+    <category term="Mysql" scheme="https://www.0x2beace.com/tags/Mysql/"/>
+    
+  </entry>
   
   <entry>
     <title>PHP-FPM 与 Nginx 是什么关系？</title>
@@ -67,16 +88,12 @@
     <link href="https://www.0x2beace.com/how-to-access-the-project-address-and-connect-to-mysql-in-the-same-local-area-network/"/>
     <id>https://www.0x2beace.com/how-to-access-the-project-address-and-connect-to-mysql-in-the-same-local-area-network/</id>
     <published>2020-09-21T13:42:44.000Z</published>
-    <updated>2020-09-21T13:45:31.188Z</updated>
+    <updated>2020-09-23T14:46:39.880Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>如标题所示，在团队项目开发中这是两个很常见的问题，记录一下。</p><h3 id="局域网内共享项目地址"><a href="#局域网内共享项目地址" class="headerlink" title="局域网内共享项目地址"></a>局域网内共享项目地址</h3><p>有时候会有这样一种需求，自己在本地项目做开发，还没放到服务器上，但是其他人希望能在他的电脑上访问项目。</p><p>这个时候就需要这两台电脑在同一个局域网内，也就是连接相同的WiFi 。</p><p>然后查看自己的外网IP 地址是多少：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># mac&#x2F;linux</span><br><span class="line">ifconfig</span><br><span class="line"></span><br><span class="line"># windows</span><br><span class="line">ipconfig</span><br></pre></td></tr></table></figure><p>外网IP 地址通常是以<code>192.168.x.xxx</code>打头的IP ，然后把这个IP 配置到对应的域名。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># mac&#x2F;linux</span><br><span class="line">vim &#x2F;usr&#x2F;etc&#x2F;hosts</span><br><span class="line"></span><br><span class="line"># windows</span><br><span class="line">C:\Windows\ System32 \drivers\etc\hosts</span><br><span class="line"></span><br><span class="line"># hosts </span><br><span class="line">127.0.0.1 example.com</span><br><span class="line">192.168.x.xxx example.com</span><br></pre></td></tr></table></figure><p>配置完成之后，直接把<code>example.com</code>这个域名丢给对方，对方就在他自己的电脑上可以访问了。</p><h3 id="局域网内连接Mysql"><a href="#局域网内连接Mysql" class="headerlink" title="局域网内连接Mysql"></a>局域网内连接Mysql</h3><p>想要在局域网内，让别人能连接到我的数据库，需要注意以下两点：</p><ol><li>对本地Mysql 授权，允许其他用户连接</li><li>Mysql 开放外网访问</li></ol><p>对于第一点，可以以下命令来完成：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1. mysql -hlocalhost -uroot -p;</span><br><span class="line">2. use mysql;</span><br><span class="line"># 修改权限，允许其他人连接：</span><br><span class="line">3. update user set host&#x3D;&#39;%&#39; where user&#x3D;&quot;root&quot;;</span><br><span class="line">4. flush privileges;</span><br></pre></td></tr></table></figure><p>通常完成第一步，就可以连接了，如果连接异常，可以尝试第二步：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 打开Mysql 配置文件</span><br><span class="line">vim &#x2F;usr&#x2F;local&#x2F;etc&#x2F;my.cnf</span><br><span class="line"></span><br><span class="line">bind-address &#x3D; 0.0.0.0</span><br><span class="line"># 127.0.0.1 替换成 0.0.0.0;</span><br></pre></td></tr></table></figure><p>然后重启Mysql 数据库即可。</p><blockquote><p>其他人怎么连接我的数据库？</p></blockquote><p>把这个丢给他：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">host：你的外网IP 地址</span><br><span class="line">user：你的Mysql 用户</span><br><span class="line">pwd：你的Mysql 密码</span><br></pre></td></tr></table></figure>]]></content>
+    <content type="html"><![CDATA[<p>如标题所示，在团队项目开发中这是两个很常见的问题，记录一下。</p><a id="more"></a><h3 id="局域网内共享项目地址"><a href="#局域网内共享项目地址" class="headerlink" title="局域网内共享项目地址"></a>局域网内共享项目地址</h3><p>有时候会有这样一种需求，自己在本地项目做开发，还没放到服务器上，但是其他人希望能在他的电脑上访问项目。</p><p>这个时候就需要这两台电脑在同一个局域网内，也就是连接相同的WiFi 。</p><p>然后查看自己的外网IP 地址是多少：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># mac&#x2F;linux</span><br><span class="line">ifconfig</span><br><span class="line"></span><br><span class="line"># windows</span><br><span class="line">ipconfig</span><br></pre></td></tr></table></figure><p>外网IP 地址通常是以<code>192.168.x.xxx</code>打头的IP ，然后把这个IP 配置到对应的域名。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># mac&#x2F;linux</span><br><span class="line">vim &#x2F;usr&#x2F;etc&#x2F;hosts</span><br><span class="line"></span><br><span class="line"># windows</span><br><span class="line">C:\Windows\ System32 \drivers\etc\hosts</span><br><span class="line"></span><br><span class="line"># hosts </span><br><span class="line">127.0.0.1 example.com</span><br><span class="line">192.168.x.xxx example.com</span><br></pre></td></tr></table></figure><p>配置完成之后，直接把<code>example.com</code>这个域名丢给对方，对方就在他自己的电脑上可以访问了。</p><h3 id="局域网内连接Mysql"><a href="#局域网内连接Mysql" class="headerlink" title="局域网内连接Mysql"></a>局域网内连接Mysql</h3><p>想要在局域网内，让别人能连接到我的数据库，需要注意以下两点：</p><ol><li>对本地Mysql 授权，允许其他用户连接</li><li>Mysql 开放外网访问</li></ol><p>对于第一点，可以以下命令来完成：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1. mysql -hlocalhost -uroot -p;</span><br><span class="line">2. use mysql;</span><br><span class="line"># 修改权限，允许其他人连接：</span><br><span class="line">3. update user set host&#x3D;&#39;%&#39; where user&#x3D;&quot;root&quot;;</span><br><span class="line">4. flush privileges;</span><br></pre></td></tr></table></figure><p>通常完成第一步，就可以连接了，如果连接异常，可以尝试第二步：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 打开Mysql 配置文件</span><br><span class="line">vim &#x2F;usr&#x2F;local&#x2F;etc&#x2F;my.cnf</span><br><span class="line"></span><br><span class="line">bind-address &#x3D; 0.0.0.0</span><br><span class="line"># 127.0.0.1 替换成 0.0.0.0;</span><br></pre></td></tr></table></figure><p>然后重启Mysql 数据库即可。</p><blockquote><p>其他人怎么连接我的数据库？</p></blockquote><p>把这个丢给他：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">host：你的外网IP 地址</span><br><span class="line">user：你的Mysql 用户</span><br><span class="line">pwd：你的Mysql 密码</span><br></pre></td></tr></table></figure>]]></content>
     
     
-      
-      
-    <summary type="html">&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;如标题所示，在团队项目开发中这是两个很常见的问题，记录一下。&lt;/p&gt;
-&lt;h3 id=&quot;局域网内共享项目地址&quot;&gt;&lt;a href=&quot;#局域网内共</summary>
-      
+    <summary type="html">&lt;p&gt;如标题所示，在团队项目开发中这是两个很常见的问题，记录一下。&lt;/p&gt;</summary>
     
     
     
