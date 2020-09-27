@@ -1,7 +1,7 @@
 ---
 title: Windows/Mac/Linux 如何将内容输出到剪贴板
 date: 2020-08-05 10:07:41
-tags: ["Shell"]
+tags: ["Shell", "Mac", "Linux", "Windows"]
 categories: ["Shell"]
 ---
 
@@ -39,7 +39,6 @@ $ xclip -selection c remade.md
 $ xclip -selection c -o > remade.md
 ```
 
-
 或者直接使用`xsel`命令：
 ```
 // 将输出复制至剪贴板
@@ -47,6 +46,11 @@ $ echo "hello linux" | xsel
 
 // 将文件中的内容全部复制至剪贴板
 $ xsel < remade.md
+```
+
+需要注意的是：xsel、xclip 命令是在 X 环境下使用的，所以远程连接服务器时使用会报异常：
+```
+xclip error can't open display (null)
 ```
 
 ### Windows
