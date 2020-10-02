@@ -6,7 +6,7 @@
   <link href="https://www.0x2beace.com/atom.xml" rel="self"/>
   
   <link href="https://www.0x2beace.com/"/>
-  <updated>2020-10-01T02:40:44.980Z</updated>
+  <updated>2020-10-02T07:27:10.385Z</updated>
   <id>https://www.0x2beace.com/</id>
   
   <author>
@@ -15,6 +15,37 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>MysqliDb 快速上手</title>
+    <link href="https://www.0x2beace.com/mysqlidb-is-quick-to-get-started/"/>
+    <id>https://www.0x2beace.com/mysqlidb-is-quick-to-get-started/</id>
+    <published>2020-10-02T07:26:03.000Z</published>
+    <updated>2020-10-02T07:27:10.385Z</updated>
+    
+    <content type="html"><![CDATA[<p>MysqliDb 是基于 mysqli 扩展出来的一个类库，其中封装了很多常用的Mysql 基础操作，相比原生的方式，后者使用起来更加方便。</p><p>具有如下特点：</p><ol><li>支持链式操作</li><li>支持Mysql 函数的使用</li><li>…</li></ol><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>使用composer 安装</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer require thingengineer&#x2F;mysqli-database-class:dev-master</span><br></pre></td></tr></table></figure><p>因为<code>MysqliDb</code>没有命名空间，所以我们想要使用的话，不能自动加载，只能先引入。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">require &quot;MysqliDb.php&quot;;</span><br></pre></td></tr></table></figure><h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>初始化连接有几种方式：</p><h4 id="1-MysqliDb-字符串"><a href="#1-MysqliDb-字符串" class="headerlink" title="1. MysqliDb 字符串"></a>1. MysqliDb 字符串</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$db &#x3D; new MysqliDb (&#39;host&#39;, &#39;username&#39;, &#39;password&#39;, &#39;databaseName&#39;);</span><br></pre></td></tr></table></figure><h4 id="2-MysqliDb-对象"><a href="#2-MysqliDb-对象" class="headerlink" title="2. MysqliDb 对象"></a>2. MysqliDb 对象</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$db &#x3D; new MysqliDb ([</span><br><span class="line">  &#39;host&#39; &#x3D;&gt; &#39;host&#39;,</span><br><span class="line">  &#39;username&#39; &#x3D;&gt; &#39;username&#39;, </span><br><span class="line">  &#39;password&#39; &#x3D;&gt; &#39;password&#39;,</span><br><span class="line">  &#39;db&#39;&#x3D;&gt; &#39;databaseName&#39;,</span><br><span class="line">  &#39;port&#39; &#x3D;&gt; 3306,</span><br><span class="line">  &#39;prefix&#39; &#x3D;&gt; &#39;my_&#39;,</span><br><span class="line">  &#39;charset&#39; &#x3D;&gt; &#39;utf8&#39;</span><br><span class="line">]);</span><br></pre></td></tr></table></figure><h4 id="3-mysqli-对象"><a href="#3-mysqli-对象" class="headerlink" title="3. mysqli 对象"></a>3. mysqli 对象</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$mysqli &#x3D; new mysqli (&#39;host&#39;, &#39;username&#39;, &#39;password&#39;, &#39;databaseName&#39;);</span><br><span class="line">$db &#x3D; new MysqliDb ($mysqli);</span><br></pre></td></tr></table></figure><h3 id="新增"><a href="#新增" class="headerlink" title="新增"></a>新增</h3><p>向user 表中插入一条记录：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$data &#x3D; [</span><br><span class="line">  &quot;name&quot; &#x3D;&gt; &quot;boo&quot;,</span><br><span class="line">  &quot;age&quot; &#x3D;&gt; 21,</span><br><span class="line">  &quot;gender&quot; &#x3D;&gt; &quot;man&quot;</span><br><span class="line">];</span><br><span class="line">$success &#x3D; $db-&gt;insert(&quot;user&quot;, $data);</span><br></pre></td></tr></table></figure><p>返回值类型：bool</p><h3 id="修改"><a href="#修改" class="headerlink" title="修改"></a>修改</h3><p>修改user 表中的一条记录</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$data &#x3D; [</span><br><span class="line">  &quot;age&quot; &#x3D;&gt; 22,</span><br><span class="line">];</span><br><span class="line">$success &#x3D; $db-&gt;where([&quot;name&quot; &#x3D;&gt; &quot;boo&quot;])</span><br><span class="line">   -&gt;update(&quot;user&quot;, $data);</span><br></pre></td></tr></table></figure><p>返回值类型：bool</p><h3 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h3><h4 id="获取user-表所有数据："><a href="#获取user-表所有数据：" class="headerlink" title="获取user 表所有数据："></a>获取user 表所有数据：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$result &#x3D; $db-&gt;get(&quot;user&quot;, null, &quot;*&quot;);</span><br></pre></td></tr></table></figure><p>返回值：多维数组</p><h4 id="获取user-表单条数据："><a href="#获取user-表单条数据：" class="headerlink" title="获取user 表单条数据："></a>获取user 表单条数据：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$result &#x3D; $db-&gt;getOne(&quot;user&quot;,  &quot;*&quot;);</span><br></pre></td></tr></table></figure><p>返回值：关联数组</p><h4 id="获取user-表单个字段的值："><a href="#获取user-表单个字段的值：" class="headerlink" title="获取user 表单个字段的值："></a>获取user 表单个字段的值：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$result &#x3D; $db-&gt;where(&quot;name&quot;, &quot;boo&quot;)</span><br><span class="line"> -&gt;getValue(&quot;user&quot;, &quot;*&quot;);</span><br></pre></td></tr></table></figure><p>返回值：string</p><h4 id="获取查询条数："><a href="#获取查询条数：" class="headerlink" title="获取查询条数："></a>获取查询条数：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$result &#x3D; $db-&gt;getValue(&quot;user&quot;, &quot;count(*)&quot;);</span><br></pre></td></tr></table></figure><h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><p>删除user 表中一条记录</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$success &#x3D; $db-&gt;where(&quot;user_id&quot;, &quot;boo&quot;)</span><br><span class="line">  -&gt;delete(&quot;user);</span><br></pre></td></tr></table></figure><h3 id="运行原生SQL"><a href="#运行原生SQL" class="headerlink" title="运行原生SQL"></a>运行原生SQL</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$result &#x3D; $db-&gt;rawQuery(&quot;select * from user where name &#x3D; \&quot;boo\&quot;&quot;)</span><br></pre></td></tr></table></figure><p>总体来说，MysqliDb 真的挺好用的，基本上可以满足所有日常需求。<br>这里只是列举了最基本的CURD，更多操作可以参考<a href="https://github.com/joshcam/PHP-MySQLi-Database-Class" target="_blank" rel="noopener">官网手册</a>。</p><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><p><a href="https://packagist.org/packages/joshcam/mysqli-database-class" target="_blank" rel="noopener">joshcam/mysqli-database-class</a></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;MysqliDb 是基于 mysqli 扩展出来的一个类库，其中封装了很多常用的Mysql 基础操作，相比原生的方式，后者使用起来更加方便。&lt;/p&gt;
+&lt;p&gt;具有如下特点：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;支持链式操作&lt;/li&gt;
+&lt;li&gt;支持Mysql 函数的使用&lt;/li&gt;
+&lt;li</summary>
+      
+    
+    
+    
+    <category term="Mysql" scheme="https://www.0x2beace.com/categories/Mysql/"/>
+    
+    
+    <category term="Mysql" scheme="https://www.0x2beace.com/tags/Mysql/"/>
+    
+    <category term="Mysqli" scheme="https://www.0x2beace.com/tags/Mysqli/"/>
+    
+  </entry>
   
   <entry>
     <title>PHPStrom 高级技巧整理</title>

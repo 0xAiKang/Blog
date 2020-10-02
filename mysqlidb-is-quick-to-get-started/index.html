@@ -16,9 +16,9 @@
 
   <!-- 页面元数据 -->
   
-    <title>PHPStrom 高级技巧整理 - Boo</title>
+    <title>MysqliDb 快速上手 - Boo</title>
   
-    <meta name="keywords" content="PHP,PHPStorm">
+    <meta name="keywords" content="Mysql,Mysqli">
   
   
 
@@ -283,8 +283,8 @@
         
           
   <h1 class="title">
-    <a href="/phpstorm-advanced-skills-finishing/">
-      PHPStrom 高级技巧整理
+    <a href="/mysqlidb-is-quick-to-get-started/">
+      MysqliDb 快速上手
     </a>
   </h1>
 
@@ -309,9 +309,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/PHP/' rel="nofollow">
+    <a href='/categories/Mysql/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>PHP</p>
+      <p>Mysql</p>
     </a>
   </div>
 
@@ -322,7 +322,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Oct 1, 2020</p>
+    <p>发布于：Oct 2, 2020</p>
   </a>
 </div>
 
@@ -338,13 +338,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>157 words</p>
+      <p>549 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>1 min</p>
+      <p>2 min</p>
     </a>
   </div>
 
@@ -357,7 +357,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/phpstorm-advanced-skills-finishing/" class="leancloud_visitors" data-flag-title="PHPStrom 高级技巧整理">
+      <span id="/mysqlidb-is-quick-to-get-started/" class="leancloud_visitors" data-flag-title="MysqliDb 快速上手">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -380,13 +380,46 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>PHPStrom 是我日常使用频率很高的 IDE。</p>
-<p>基础的使用这里就不过多介绍了，这里主要是用来整理一些比较高级的用法。</p>
-<h3 id="调试技巧"><a href="#调试技巧" class="headerlink" title="调试技巧"></a>调试技巧</h3><p>调试是日常开发中，不可缺少的一部分。</p>
-<h4 id="路径映射"><a href="#路径映射" class="headerlink" title="路径映射"></a>路径映射</h4><p>通常都是用来调试本地代码，可如果需要调试虚拟机或者其他应用中时，那该怎么做呢？</p>
-<p>打开偏好设置或者设置，找到一个已经配置好的服务，勾选映射。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200930144728.png" alt=""></p>
-<p>然后找到该服务的入口配置文件，后面的文件路径填绝对路径。</p>
+          <p>MysqliDb 是基于 mysqli 扩展出来的一个类库，其中封装了很多常用的Mysql 基础操作，相比原生的方式，后者使用起来更加方便。</p>
+<p>具有如下特点：</p>
+<ol>
+<li>支持链式操作</li>
+<li>支持Mysql 函数的使用</li>
+<li>…</li>
+</ol>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>使用composer 安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer require thingengineer&#x2F;mysqli-database-class:dev-master</span><br></pre></td></tr></table></figure>
+<p>因为<code>MysqliDb</code>没有命名空间，所以我们想要使用的话，不能自动加载，只能先引入。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">require &quot;MysqliDb.php&quot;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>初始化连接有几种方式：</p>
+<h4 id="1-MysqliDb-字符串"><a href="#1-MysqliDb-字符串" class="headerlink" title="1. MysqliDb 字符串"></a>1. MysqliDb 字符串</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$db &#x3D; new MysqliDb (&#39;host&#39;, &#39;username&#39;, &#39;password&#39;, &#39;databaseName&#39;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-MysqliDb-对象"><a href="#2-MysqliDb-对象" class="headerlink" title="2. MysqliDb 对象"></a>2. MysqliDb 对象</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$db &#x3D; new MysqliDb ([</span><br><span class="line">  &#39;host&#39; &#x3D;&gt; &#39;host&#39;,</span><br><span class="line">  &#39;username&#39; &#x3D;&gt; &#39;username&#39;, </span><br><span class="line">  &#39;password&#39; &#x3D;&gt; &#39;password&#39;,</span><br><span class="line">  &#39;db&#39;&#x3D;&gt; &#39;databaseName&#39;,</span><br><span class="line">  &#39;port&#39; &#x3D;&gt; 3306,</span><br><span class="line">  &#39;prefix&#39; &#x3D;&gt; &#39;my_&#39;,</span><br><span class="line">  &#39;charset&#39; &#x3D;&gt; &#39;utf8&#39;</span><br><span class="line">]);</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-mysqli-对象"><a href="#3-mysqli-对象" class="headerlink" title="3. mysqli 对象"></a>3. mysqli 对象</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$mysqli &#x3D; new mysqli (&#39;host&#39;, &#39;username&#39;, &#39;password&#39;, &#39;databaseName&#39;);</span><br><span class="line">$db &#x3D; new MysqliDb ($mysqli);</span><br></pre></td></tr></table></figure>
+
+<h3 id="新增"><a href="#新增" class="headerlink" title="新增"></a>新增</h3><p>向user 表中插入一条记录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$data &#x3D; [</span><br><span class="line">  &quot;name&quot; &#x3D;&gt; &quot;boo&quot;,</span><br><span class="line">  &quot;age&quot; &#x3D;&gt; 21,</span><br><span class="line">  &quot;gender&quot; &#x3D;&gt; &quot;man&quot;</span><br><span class="line">];</span><br><span class="line">$success &#x3D; $db-&gt;insert(&quot;user&quot;, $data);</span><br></pre></td></tr></table></figure>
+<p>返回值类型：bool</p>
+<h3 id="修改"><a href="#修改" class="headerlink" title="修改"></a>修改</h3><p>修改user 表中的一条记录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$data &#x3D; [</span><br><span class="line">  &quot;age&quot; &#x3D;&gt; 22,</span><br><span class="line">];</span><br><span class="line">$success &#x3D; $db-&gt;where([&quot;name&quot; &#x3D;&gt; &quot;boo&quot;])</span><br><span class="line">   -&gt;update(&quot;user&quot;, $data);</span><br></pre></td></tr></table></figure>
+<p>返回值类型：bool</p>
+<h3 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h3><h4 id="获取user-表所有数据："><a href="#获取user-表所有数据：" class="headerlink" title="获取user 表所有数据："></a>获取user 表所有数据：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$result &#x3D; $db-&gt;get(&quot;user&quot;, null, &quot;*&quot;);</span><br></pre></td></tr></table></figure>
+<p>返回值：多维数组</p>
+<h4 id="获取user-表单条数据："><a href="#获取user-表单条数据：" class="headerlink" title="获取user 表单条数据："></a>获取user 表单条数据：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$result &#x3D; $db-&gt;getOne(&quot;user&quot;,  &quot;*&quot;);</span><br></pre></td></tr></table></figure>
+<p>返回值：关联数组</p>
+<h4 id="获取user-表单个字段的值："><a href="#获取user-表单个字段的值：" class="headerlink" title="获取user 表单个字段的值："></a>获取user 表单个字段的值：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$result &#x3D; $db-&gt;where(&quot;name&quot;, &quot;boo&quot;)</span><br><span class="line">	 -&gt;getValue(&quot;user&quot;, &quot;*&quot;);</span><br></pre></td></tr></table></figure>
+<p>返回值：string</p>
+<h4 id="获取查询条数："><a href="#获取查询条数：" class="headerlink" title="获取查询条数："></a>获取查询条数：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$result &#x3D; $db-&gt;getValue(&quot;user&quot;, &quot;count(*)&quot;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><p>删除user 表中一条记录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$success &#x3D; $db-&gt;where(&quot;user_id&quot;, &quot;boo&quot;)</span><br><span class="line">  -&gt;delete(&quot;user);</span><br></pre></td></tr></table></figure>
+
+<h3 id="运行原生SQL"><a href="#运行原生SQL" class="headerlink" title="运行原生SQL"></a>运行原生SQL</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$result &#x3D; $db-&gt;rawQuery(&quot;select * from user where name &#x3D; \&quot;boo\&quot;&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>总体来说，MysqliDb 真的挺好用的，基本上可以满足所有日常需求。<br>这里只是列举了最基本的CURD，更多操作可以参考<a href="https://github.com/joshcam/PHP-MySQLi-Database-Class" target="_blank" rel="noopener">官网手册</a>。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><p><a href="https://packagist.org/packages/joshcam/mysqli-database-class" target="_blank" rel="noopener">joshcam/mysqli-database-class</a></p>
 
           
             <div class='article_footer'>
@@ -423,7 +456,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/phpstorm-advanced-skills-finishing/>https://www.0x2beace.com/phpstorm-advanced-skills-finishing/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/mysqlidb-is-quick-to-get-started/>https://www.0x2beace.com/mysqlidb-is-quick-to-get-started/</a></p>
           
         
       </blockquote>
@@ -471,10 +504,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-10-01T10:40:44+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-10-02T15:27:10+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Oct 1, 2020</p>
+    <p>更新于：Oct 2, 2020</p>
   </a>
 </div>
 
@@ -483,7 +516,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHPStorm/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHPStorm</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Mysql/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Mysql</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Mysqli/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Mysqli</p></a></div>
 
 
         
@@ -501,7 +534,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/phpstorm-advanced-skills-finishing/&title=PHPStrom 高级技巧整理 - Boo&summary="
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/mysqlidb-is-quick-to-get-started/&title=MysqliDb 快速上手 - Boo&summary="
           
           >
           
@@ -513,7 +546,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/phpstorm-advanced-skills-finishing/&title=PHPStrom 高级技巧整理 - Boo&summary="
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/mysqlidb-is-quick-to-get-started/&title=MysqliDb 快速上手 - Boo&summary="
           
           >
           
@@ -525,7 +558,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/phpstorm-advanced-skills-finishing/&title=PHPStrom 高级技巧整理 - Boo&summary="
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/mysqlidb-is-quick-to-get-started/&title=MysqliDb 快速上手 - Boo&summary="
           
           >
           
@@ -539,7 +572,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADrUlEQVR42u3awW7CQAwEUP7/p+m9FcqO7YCp3t6IIjZ5y2Hq6eNpldYDAThw4MBZ4MAtgXsU158v/HX99L6r66/uS++fel9w4MCBAwcOHLhtcMcBMIS7uv9q/6sDefmCzQN6uR84cODAgQMHDtxSuMsA2PzcDbKn31+Fv7wfHDhw4MCBAwfun8GlEFODzHR/cODAgQMHDhw4cGfBtHo9LZK/PgCDAwcOHDhw4MA14eKCNnzw7sBz6r6PN/ngwIEDBw4cOHBDcOmaKqg/9bn8vuDAgQMHDhw4cEvguqtaEKcHkxbWz5sWOHDgwIEDBw7cFrhqQOwOONNBZxV86qDBgQMHDhw4cOC2wU29WAqVfu/dB3P8AwEHDhw4cODAgVsCdzpA7BbWU9erAGmhHjf54MCBAwcOHDhwb4ZrB8KwQD4eGA4NKqcHreDAgQMHDhw4cNvh0hfpFsZ3FcqPoQUOHDhw4MCBA7cVbqqAPg24dwXvdJ9nuMCBAwcOHDhw4L4NrhtMqwPH6oB0alDaDsDgwIEDBw4cOHA3wXWD6nFwLMJ2B6lT+4MDBw4cOHDgwG2Dqz5wtdDtDky7+3WLcXDgwIEDBw4cuG+Fqz7I6fVqoJ4q2C8PABw4cODAgQMHbglcN0BWC+spoGmYuJAGBw4cOHDgwIH7MFxaPFev371fN5hffj84cODAgQMHDtwyuDQQTsFNBdnTgWk7GIMDBw4cOHDgwC2DOx0odgNlGoyrAbcddE8LaXDgwIEDBw4cuA/DpSsFKf8jX3P/akFdbvLBgQMHDhw4cODeBJcGwGoRXAWaCsjVwSo4cODAgQMHDtxWuOqLPZsrLai7hfnpAPTyucCBAwcOHDhw4JbBVTdIC+EqWAqZ3nd8QODAgQMHDhw4cEvhUoipIrh6MNV9xpp8cODAgQMHDhy4ZXDTD1wtgtMBavpDiAew4MCBAwcOHDhwS+Hu+ge/qcA7FXTLwRgcOHDgwIEDB24JXDsQhkH2rgBdDb5xwAYHDhw4cODAgVsC1w2Ep7DTL5pCj30GBw4cOHDgwIFbBlcNvN2it1qITwXbOKCDAwcOHDhw4MAthasGyunA3A3o5cJ5uskHBw4cOHDgwIH7ErjToBkXwWHwvm2wCQ4cOHDgwIED98/gUrBpoO6g9fQHAQ4cOHDgwIEDtxWuWiB3B4en+94N/7YmHxw4cODAgQMHbghuqsCdfoG7BqnlPwDAgQMHDhw4cOCWwFnZAgcOHDhwFjhwH14/YAJ+tdac0loAAAAASUVORK5CYII=">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADvElEQVR42u3aQW7jQAwEQP//07v3LBZmk3RMG6VbAEuaqcmhwdbjj6t1PRCAAwcOnAscuCNwj+b18/5/XlD8/fT+Z79/9rt4v+DAgQMHDhw4cMfgygGwCJFuuPqeKkx6UOXngQMHDhw4cODAHYVLA296fxUi3XAVZLxfcODAgQMHDhy4L4HrDghTwO46pwcNDhw4cODAgQP3rXDTANsN0L8V2MGBAwcOHDhw4D4FLh0EvuuaDi7f3uSDAwcOHDhw4MAtwU0HkZ/2d3u/4MCBAwcOHDhwR+BeFUhfVSC/KuiW9wkOHDhw4MCBA3cEbvtDwVcPINMDqH64WD5gcODAgQMHDhy4I3DdALkVONMNdn83/aAQHDhw4MCBAwfuGly3sN0aUG5d1aDdDcTgwIEDBw4cOHDX4LovSgPkFDZd77RYbw8ywYEDBw4cOHDgfhlu/MBh8E0L7G3YciAGBw4cOHDgwIH7MLjqwK87AH1VcT09gKdNPjhw4MCBAwcO3DG4rQC7tfFpUJ8W4+DAgQMHDhw4cNfg0g/24sHfVvBsflC4VYyDAwcOHDhw4MBdg0sL53RQ2H3+VgE9fQ44cODAgQMHDtynwaVBNR0IphvvBubu3+VCGhw4cODAgQMH7k1w04I2fU56X7qurUFneQIMDhw4cODAgQN3BK5bPG8H43JBPByAxgU7OHDgwIEDBw7cUbhukN3aeHdwuhWgx4NMcODAgQMHDhy4X4ar3phueArYDazVwjkO1ODAgQMHDhw4cEfgukF4a8FpoO4OYKsHXB5kggMHDhw4cODAHYFLg2YXtHpA2+vrDjTBgQMHDhw4cOCuwk2L5mmQTYNy9b3pYLV8UODAgQMHDhw4cMfgukVzNxCnQTkFSYvy9oeF4MCBAwcOHDhwb4arBsUuYHeh3WJ6+v7/7h8cOHDgwIEDB+4Y3HbhOy2Up+uaFtPlQhocOHDgwIEDB+4IXDqITIPzOIAO39cdeIIDBw4cOHDgwF2Dm17lIjcciE4Hn+kBlf9xwIEDBw4cOHDgjsBtBcTuh4DpYDGF3SrUwYEDBw4cOHDgrsK9utjtLnwLYKsQBwcOHDhw4MCBuwoXF7TDBW8VzluB/uk/Djhw4MCBAwcO3JfBdYG3Ave0QI8/LAQHDhw4cODAgftwuDR4poE4PbDpc5++Fxw4cODAgQMH7ijcdoCcHkh3ELo9+AQHDhw4cODAgbsK1y1w04VMYarBOB1QtgMwOHDgwIEDBw7cm+BcYUGOABw4cOBc4MC99/oLg3P8U0V6OvAAAAAASUVORK5CYII=">
           </div>
         </div>
       
@@ -559,23 +592,13 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/mysqlidb-is-quick-to-get-started/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>MysqliDb 快速上手</p>
-                <p class='content'>MysqliDb 是基于 mysqli 扩展出来的一个类库，其中封装了很多常用的Mysql 基础操作，相比原生的方式，后者使用起来更加方便。
-具有如下特点：
-
-支持链式操作
-支持Mysql 函数...</p>
-              </a>
             
-            
-              <a class='next' href='/recursive-algorithm/'>
-                <p class='title'>递归算法<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>最近在业务上遇到一个需求，需要根据已知的一个数一层一层查找除所有对应下级用户，然后将结果放在数组中。
-
-
-最后返回的结果大概是这样：
-123456789101112131415161718192...</p>
+              <a class='next' href='/phpstorm-advanced-skills-finishing/'>
+                <p class='title'>PHPStrom 高级技巧整理<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>PHPStrom 是我日常使用频率很高的 IDE。
+基础的使用这里就不过多介绍了，这里主要是用来整理一些比较高级的用法。
+调试技巧调试是日常开发中，不可缺少的一部分。
+路径映射通常都是用来调试本...</p>
               </a>
             
           </div>
@@ -620,7 +643,7 @@
 
   <script>
     window.subData = {
-      title: 'PHPStrom 高级技巧整理',
+      title: 'MysqliDb 快速上手',
       tools: true
     }
   </script>
@@ -647,7 +670,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#调试技巧"><span class="toc-text">调试技巧</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#路径映射"><span class="toc-text">路径映射</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-text">安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#初始化"><span class="toc-text">初始化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-MysqliDb-字符串"><span class="toc-text">1. MysqliDb 字符串</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-MysqliDb-对象"><span class="toc-text">2. MysqliDb 对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-mysqli-对象"><span class="toc-text">3. mysqli 对象</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#新增"><span class="toc-text">新增</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改"><span class="toc-text">修改</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查询"><span class="toc-text">查询</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#获取user-表所有数据："><span class="toc-text">获取user 表所有数据：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#获取user-表单条数据："><span class="toc-text">获取user 表单条数据：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#获取user-表单个字段的值："><span class="toc-text">获取user 表单个字段的值：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#获取查询条数："><span class="toc-text">获取查询条数：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除"><span class="toc-text">删除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#运行原生SQL"><span class="toc-text">运行原生SQL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
     </div>
   </section>
 
