@@ -6,7 +6,7 @@
   <link href="https://www.0x2beace.com/atom.xml" rel="self"/>
   
   <link href="https://www.0x2beace.com/"/>
-  <updated>2020-10-05T12:29:53.756Z</updated>
+  <updated>2020-10-07T12:24:40.708Z</updated>
   <id>https://www.0x2beace.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Docker 数据挂载</title>
+    <link href="https://www.0x2beace.com/docker-data-mount/"/>
+    <id>https://www.0x2beace.com/docker-data-mount/</id>
+    <published>2020-10-07T12:24:01.000Z</published>
+    <updated>2020-10-07T12:24:40.708Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="数据挂载"><a href="#数据挂载" class="headerlink" title="数据挂载"></a>数据挂载</h3><p>数据挂载在Docker 中还是挺重要的一部分，因为有多种方式，而不同的方式所对应的处理数据的逻辑也不一样。</p><ol><li>Volumes：Docker 管理宿主机文件系统的一部分（/var/lib/docker/volumes）。</li><li>Bind Mounts：将宿主机上的任意位置的文件或目录挂载到容器中。</li><li>tmpfs：挂载存储在主机系统的内存中，而不会写入主机的文件系统。如果不系统将数据持久存储在任何位置，可以使用tmpfs，同时避免写入容器可写层提高性能。</li></ol><p>这里主要介绍前两者，后者使用的并不多。注意第一种和第二种是存在区别的，前者是使用的数据卷进行挂载，而后者则是直接使用的宿主机上的文件或者目录挂载到容器中。</p><p>众所周知，将容器删除之后，容器内所有的改动将不复存在。</p><p>挂载数据卷通常是最常用且最好的方式，这种方式会将容器中的数据持久化在宿主机中，这样做的好处就是当容器被删除或者无法正常启动时，数据仍是完整的。</p><p>挂载数据卷有两种方式：</p><ol><li>使用<code>--mount</code></li><li>使用<code>-v</code></li></ol><p>前者是新版本的方式，后者是老版本的方式，其效果都是一样的。</p><h4 id="Volumes"><a href="#Volumes" class="headerlink" title="Volumes"></a>Volumes</h4><p>创建一个数据卷：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker volume create &lt;volume name&gt;</span><br></pre></td></tr></table></figure><p>列出数据卷列表：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker volume ls</span><br></pre></td></tr></table></figure><p>列出数据卷的详情信息：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker volume inspect &lt;volume name&gt;</span><br></pre></td></tr></table></figure><p>删除数据卷：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker volume rm &lt;volume name&gt;</span><br></pre></td></tr></table></figure><p>用数据卷创建一个容器：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 新版本</span><br><span class="line">docker run -d -it \</span><br><span class="line">--name&#x3D;nginx --mount src&#x3D;&lt;volume name&gt;,dst&#x3D;&#x2F;usr&#x2F;share&#x2F;nginx&#x2F;html \</span><br><span class="line">nginx</span><br><span class="line"></span><br><span class="line"># 老版本</span><br><span class="line">docker run -d -it \</span><br><span class="line">--name&#x3D;nginx -v &lt;volume name&gt;:&#x2F;usr&#x2F;share&#x2F;nginx&#x2F;html \</span><br><span class="line">nginx</span><br></pre></td></tr></table></figure><p>需要注意的是：</p><ol><li>如果没有指定数据卷，则会自动创建</li></ol><h4 id="Bind-Mounts"><a href="#Bind-Mounts" class="headerlink" title="Bind Mounts"></a>Bind Mounts</h4><p>使用bind mounts 创建一个容器：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 新版本</span><br><span class="line">docker run -d -it \</span><br><span class="line">--name nginx \</span><br><span class="line">-p 8080:80 \</span><br><span class="line">--mounts type&#x3D;bind,src&#x3D;&#x2F;var&#x2F;www,dst&#x3D;&#x2F;usr&#x2F;share&#x2F;nginx&#x2F;html \</span><br><span class="line">nginx</span><br><span class="line"></span><br><span class="line"># 老版本</span><br><span class="line">docker run -d -it \</span><br><span class="line">--name nginx \</span><br><span class="line">-p 8080:80 \</span><br><span class="line">-v &#x2F;var&#x2F;www:&#x2F;usr&#x2F;share&#x2F;nginx&#x2F;html \</span><br><span class="line">nginx</span><br></pre></td></tr></table></figure><p>需要注意的是： </p><ol><li>如果源文件/目录没有存在，docker 不会自动创建，而会自动抛出一个错误。</li><li>如果挂载目标在容器中是非空目录，则该目录现有内容将被隐藏。</li></ol>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3 id=&quot;数据挂载&quot;&gt;&lt;a href=&quot;#数据挂载&quot; class=&quot;headerlink&quot; title=&quot;数据挂载&quot;&gt;&lt;/a&gt;数据挂载&lt;/h3&gt;&lt;p&gt;数据挂载在Docker 中还是挺重要的一部分，因为有多种方式，而不同的方式所对应的处理数据的逻辑也不一样。&lt;/p&gt;
+&lt;ol&gt;</summary>
+      
+    
+    
+    
+    <category term="Docker" scheme="https://www.0x2beace.com/categories/Docker/"/>
+    
+    
+    <category term="Docker" scheme="https://www.0x2beace.com/tags/Docker/"/>
+    
+  </entry>
   
   <entry>
     <title>nginx 超时问题——upstream timed out (110: Connection timed out) while reading response header from upstream</title>
