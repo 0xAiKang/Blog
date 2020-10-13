@@ -1,5 +1,5 @@
 ---
-title: quick start message queue
+title: 消息队列快速上手
 date: 2020-10-11 20:03:16
 tags: ["PHP", "MQ"]
 categories: ["PHP"]
