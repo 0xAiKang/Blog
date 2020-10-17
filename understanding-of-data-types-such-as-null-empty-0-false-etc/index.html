@@ -1,0 +1,1600 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>对于NULL、空、0、false等数据类型的理解 - Boo</title>
+  
+    <meta name="keywords" content="PHP">
+  
+  
+    <meta name="description" content="之所以决定写这片笔记，是因为一直对 空 这个概念很模糊，在代码逻辑中常会遇到需要判断的时候，总是模拟两可。">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+
+
+  <div class="l_body nocover">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/understanding-of-data-types-such-as-null-empty-0-false-etc/">
+      对于NULL、空、0、false等数据类型的理解
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/PHP/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>PHP</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Oct 17, 2020</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>744 words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>4 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/understanding-of-data-types-such-as-null-empty-0-false-etc/" class="leancloud_visitors" data-flag-title="对于NULL、空、0、false等数据类型的理解">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>之所以决定写这片笔记，是因为一直对 空 这个概念很模糊，在代码逻辑中常会遇到需要判断的时候，总是模拟两可。</p>
+<a id="more"></a>
+
+<p>常见的“空”有以下这些：</p>
+<ul>
+<li>整形0：0</li>
+<li>字符1：1</li>
+<li>字符空：””</li>
+<li>字符零：”0”</li>
+<li>空数组：[]</li>
+<li>true</li>
+<li>false</li>
+<li>null</li>
+</ul>
+<p>NUll 上面的那些都好理解，都是常见的，重点介绍一下NULL。</p>
+<h3 id="NULL-是什么？"><a href="#NULL-是什么？" class="headerlink" title="NULL 是什么？"></a>NULL 是什么？</h3><blockquote>
+<p>Null是在计算机具有保留的值，可以用于指针不去引用对象，现在很多程序都会使用指针来表示条件，但是在不同的语言中，含义是不一样的。</p>
+</blockquote>
+<p>这里我们只介绍 PHP 中的 NULL。</p>
+<p>在 PHP 中，表示一个变量没有赋值、或者是被赋值的值为 NULL，以及被 unset 的。</p>
+<h3 id="使用PHP-函数对变量进行比较："><a href="#使用PHP-函数对变量进行比较：" class="headerlink" title="使用PHP 函数对变量进行比较："></a>使用PHP 函数对变量进行比较：</h3><table>
+<thead>
+<tr>
+<th align="left">表达式</th>
+<th align="left"><a href="https://www.php.net/manual/zh/function.gettype.php" target="_blank" rel="noopener">gettype()</a></th>
+<th align="left"><a href="https://www.php.net/manual/zh/function.empty.php" target="_blank" rel="noopener">empty()</a></th>
+<th align="left"><a href="https://www.php.net/manual/zh/function.is-null.php" target="_blank" rel="noopener">is_null()</a></th>
+<th align="left"><a href="https://www.php.net/manual/zh/function.isset.php" target="_blank" rel="noopener">isset()</a></th>
+<th align="left"><a href="https://www.php.net/manual/zh/language.types.boolean.php" target="_blank" rel="noopener">boolean</a> : <code>if($x)</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>$x = &quot;&quot;;</code></td>
+<td align="left"><a href="https://www.php.net/manual/zh/language.types.string.php" target="_blank" rel="noopener">string</a></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+</tr>
+<tr>
+<td align="left"><code>$x = null;</code></td>
+<td align="left"><a href="https://www.php.net/manual/zh/language.types.null.php" target="_blank" rel="noopener">NULL</a></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+</tr>
+<tr>
+<td align="left"><code>var $x;</code></td>
+<td align="left"><a href="https://www.php.net/manual/zh/language.types.null.php" target="_blank" rel="noopener">NULL</a></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+</tr>
+<tr>
+<td align="left">$x is undefined</td>
+<td align="left"><a href="https://www.php.net/manual/zh/language.types.null.php" target="_blank" rel="noopener">NULL</a></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+</tr>
+<tr>
+<td align="left"><code>$x = array();</code></td>
+<td align="left"><a href="https://www.php.net/manual/zh/language.types.array.php" target="_blank" rel="noopener">array</a></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+</tr>
+<tr>
+<td align="left"><code>$x = false;</code></td>
+<td align="left"><a href="https://www.php.net/manual/zh/language.types.boolean.php" target="_blank" rel="noopener">boolean</a></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+</tr>
+<tr>
+<td align="left"><code>$x = true;</code></td>
+<td align="left"><a href="https://www.php.net/manual/zh/language.types.boolean.php" target="_blank" rel="noopener">boolean</a></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+</tr>
+<tr>
+<td align="left"><code>$x = 1;</code></td>
+<td align="left"><a href="https://www.php.net/manual/zh/language.types.integer.php" target="_blank" rel="noopener">integer</a></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+</tr>
+<tr>
+<td align="left"><code>$x = 42;</code></td>
+<td align="left"><a href="https://www.php.net/manual/zh/language.types.integer.php" target="_blank" rel="noopener">integer</a></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+</tr>
+<tr>
+<td align="left"><code>$x = 0;</code></td>
+<td align="left"><a href="https://www.php.net/manual/zh/language.types.integer.php" target="_blank" rel="noopener">integer</a></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+</tr>
+<tr>
+<td align="left"><code>$x = -1;</code></td>
+<td align="left"><a href="https://www.php.net/manual/zh/language.types.integer.php" target="_blank" rel="noopener">integer</a></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+</tr>
+<tr>
+<td align="left"><code>$x = &quot;1&quot;;</code></td>
+<td align="left"><a href="https://www.php.net/manual/zh/language.types.string.php" target="_blank" rel="noopener">string</a></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+</tr>
+<tr>
+<td align="left"><code>$x = &quot;0&quot;;</code></td>
+<td align="left"><a href="https://www.php.net/manual/zh/language.types.string.php" target="_blank" rel="noopener">string</a></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+</tr>
+<tr>
+<td align="left"><code>$x = &quot;-1&quot;;</code></td>
+<td align="left"><a href="https://www.php.net/manual/zh/language.types.string.php" target="_blank" rel="noopener">string</a></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+</tr>
+<tr>
+<td align="left"><code>$x = &quot;php&quot;;</code></td>
+<td align="left"><a href="https://www.php.net/manual/zh/language.types.string.php" target="_blank" rel="noopener">string</a></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+</tr>
+<tr>
+<td align="left"><code>$x = &quot;true&quot;;</code></td>
+<td align="left"><a href="https://www.php.net/manual/zh/language.types.string.php" target="_blank" rel="noopener">string</a></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+</tr>
+<tr>
+<td align="left"><code>$x = &quot;false&quot;;</code></td>
+<td align="left"><a href="https://www.php.net/manual/zh/language.types.string.php" target="_blank" rel="noopener">string</a></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+</tr>
+</tbody></table>
+<h3 id="松散判断"><a href="#松散判断" class="headerlink" title="松散判断 =="></a>松散判断 ==</h3><table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="left"><strong><code>TRUE</code></strong></th>
+<th align="left"><strong><code>FALSE</code></strong></th>
+<th align="left"><code>1</code></th>
+<th align="left"><code>0</code></th>
+<th align="left"><code>-1</code></th>
+<th align="left"><code>&quot;1&quot;</code></th>
+<th align="left"><code>&quot;0&quot;</code></th>
+<th align="left"><code>&quot;-1&quot;</code></th>
+<th align="left"><strong><code>NULL</code></strong></th>
+<th align="left"><code>array()</code></th>
+<th align="left"><code>&quot;php&quot;</code></th>
+<th><code>&quot;&quot;</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td><strong><code>FALSE</code></strong></td>
+</tr>
+<tr>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td><strong><code>TRUE</code></strong></td>
+</tr>
+<tr>
+<td align="left"><code>1</code></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td><strong><code>FALSE</code></strong></td>
+</tr>
+<tr>
+<td align="left"><code>0</code></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td><strong><code>TRUE</code></strong></td>
+</tr>
+<tr>
+<td align="left"><code>-1</code></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td><strong><code>FALSE</code></strong></td>
+</tr>
+<tr>
+<td align="left"><code>&quot;1&quot;</code></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td><strong><code>FALSE</code></strong></td>
+</tr>
+<tr>
+<td align="left"><code>&quot;0&quot;</code></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td><strong><code>FALSE</code></strong></td>
+</tr>
+<tr>
+<td align="left"><code>&quot;-1&quot;</code></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td><strong><code>FALSE</code></strong></td>
+</tr>
+<tr>
+<td align="left"><strong><code>NULL</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td><strong><code>TRUE</code></strong></td>
+</tr>
+<tr>
+<td align="left"><code>array()</code></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td><strong><code>FALSE</code></strong></td>
+</tr>
+<tr>
+<td align="left"><code>&quot;php&quot;</code></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td><strong><code>FALSE</code></strong></td>
+</tr>
+<tr>
+<td align="left"><code>&quot;&quot;</code></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td><strong><code>TRUE</code></strong></td>
+</tr>
+</tbody></table>
+<h3 id="严格比较"><a href="#严格比较" class="headerlink" title="严格比较 ==="></a>严格比较 ===</h3><table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="left"><strong><code>TRUE</code></strong></th>
+<th align="left"><strong><code>FALSE</code></strong></th>
+<th align="left"><code>1</code></th>
+<th align="left"><code>0</code></th>
+<th align="left"><code>-1</code></th>
+<th align="left"><code>&quot;1&quot;</code></th>
+<th align="left"><code>&quot;0&quot;</code></th>
+<th align="left"><code>&quot;-1&quot;</code></th>
+<th align="left"><strong><code>NULL</code></strong></th>
+<th align="left"><code>array()</code></th>
+<th align="left"><code>&quot;php&quot;</code></th>
+<th><code>&quot;&quot;</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td><strong><code>FALSE</code></strong></td>
+</tr>
+<tr>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td><strong><code>FALSE</code></strong></td>
+</tr>
+<tr>
+<td align="left"><code>1</code></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td><strong><code>FALSE</code></strong></td>
+</tr>
+<tr>
+<td align="left"><code>0</code></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td><strong><code>FALSE</code></strong></td>
+</tr>
+<tr>
+<td align="left"><code>-1</code></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td><strong><code>FALSE</code></strong></td>
+</tr>
+<tr>
+<td align="left"><code>&quot;1&quot;</code></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td><strong><code>FALSE</code></strong></td>
+</tr>
+<tr>
+<td align="left"><code>&quot;0&quot;</code></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td><strong><code>FALSE</code></strong></td>
+</tr>
+<tr>
+<td align="left"><code>&quot;-1&quot;</code></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td><strong><code>FALSE</code></strong></td>
+</tr>
+<tr>
+<td align="left"><strong><code>NULL</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td><strong><code>FALSE</code></strong></td>
+</tr>
+<tr>
+<td align="left"><code>array()</code></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td><strong><code>FALSE</code></strong></td>
+</tr>
+<tr>
+<td align="left"><code>&quot;php&quot;</code></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>TRUE</code></strong></td>
+<td><strong><code>FALSE</code></strong></td>
+</tr>
+<tr>
+<td align="left"><code>&quot;&quot;</code></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td align="left"><strong><code>FALSE</code></strong></td>
+<td><strong><code>TRUE</code></strong></td>
+</tr>
+</tbody></table>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><p><a href="https://www.php.net/manual/zh/types.comparisons.php" target="_blank" rel="noopener">PHP 类型比较表</a></p>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/understanding-of-data-types-such-as-null-empty-0-false-etc/>https://www.0x2beace.com/understanding-of-data-types-such-as-null-empty-0-false-etc/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-10-17T17:22:32+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Oct 17, 2020</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/understanding-of-data-types-such-as-null-empty-0-false-etc/&title=对于NULL、空、0、false等数据类型的理解 - Boo&summary=之所以决定写这片笔记，是因为一直对 空 这个概念很模糊，在代码逻辑中常会遇到需要判断的时候，总是模拟两可。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/understanding-of-data-types-such-as-null-empty-0-false-etc/&title=对于NULL、空、0、false等数据类型的理解 - Boo&summary=之所以决定写这片笔记，是因为一直对 空 这个概念很模糊，在代码逻辑中常会遇到需要判断的时候，总是模拟两可。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/understanding-of-data-types-such-as-null-empty-0-false-etc/&title=对于NULL、空、0、false等数据类型的理解 - Boo&summary=之所以决定写这片笔记，是因为一直对 空 这个概念很模糊，在代码逻辑中常会遇到需要判断的时候，总是模拟两可。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVgAAAFYCAAAAAAzB7ucAAAEWklEQVR42u3aQdbqMAgGUPe/ad8C3qABvqD+5zKz2jS5dQAcXm9xJV4IwIIVYMGCFWBXYF/NeHxA+P7uuqfrpDzAggULFixYsGDB7sIeJ8APBzi9Xl2/+v0TXHf9p9+DBQsWLFiwYMGC/QxsdWPdBDsFnSowYh5gwYIFCxYsWLBgfwq2m4inGtCPiful+8CCBQsWLFiwYMH+Nuy7GelEPg4FFixYsGDBggUL9idgywMKh/enBjqq61Yb7F8zCQMWLFiwYMGCBQv2CLYa1QGOX/vc9gALFixYsGDBggW7AjuN6QuoJu7TBD5doPy3HliwYMGCBQsWLNgV2G6CnDpAtSFdfUGpQePj/YEFCxYsWLBgwYJdgZ0myt2GcPdgpy/qCfZaYx8sWLBgwYIFCxbsKmz6wN2NdRvct15kubEOFixYsGDBggULdhW2euBuoXB7ECT1wroeYMGCBQsWLFiwYHdhqwl0d4PdQqJb0EwHPcqFCliwYMGCBQsWLNhV2GlCnzpwN5FPN7bbjXOwYMGCBQsWLFiwq7BPG60OTqQb49N1u+ct/5HAggULFixYsGDBrsBOBx6616uJ/7QAmBYw5QIBLFiwYMGCBQsW7ApsqgBIJeTpgmAKfAwNFixYsGDBggULdgU2nThXG8fdgYnU71LrggULFixYsGDBgt2FrQKmGtnVBnm18EgXDsfnAAsWLFiwYMGCBbsCe3uw4tYAR6pQiT8XLFiwYMGCBQsW7CrsdGPTQYjpgEf3Rb6L8egBFixYsGDBggULdgW2OqAwbUy/wtGFmD7veGADLFiwYMGCBQsW7FXYaeO7Cz9tpE8HTeIFBFiwYMGCBQsWLNgV2NMHVb8/bgwX17lVqHT3fTwJAxYsWLBgwYIFC/YKbDXxr25sC7xb0FyfhAELFixYsGDBggUbhU1vLDV4MU3gu7+vnh8sWLBgwYIFCxbsZ2CrhUBq4OJ0ne7gxRSyW0iABQsWLFiwYMGC/Sxs93o30e7ePx20SDXuwYIFCxYsWLBgwX4XbLrhPYVPDZDc+mOABQsWLFiwYMGC3YGdwnQb0KnC4zFhD8fjCwALFixYsGDBggX7VbDTxnQVZKsxfdpILze6wYIFCxYsWLBgwa7CpgctuoXC9L5ug707KAIWLFiwYMGCBQv2O2CnDeCthnl3QCR13uNGN1iwYMGCBQsWLNgo7DS6Ax/TBnn3+il4ez2wYMGCBQsWLFiwK7CpgqCaUKcOOgWeNsIfG91gwYIFCxYsWLBgr8J2C4LtgYvpc7ovcjywARYsWLBgwYIFC/YqbHpj1Q2nC4puwdAuYMCCBQsWLFiwYMH+FOw00a6uW70+LSSO/zBgwYIFCxYsWLBg/xTsaULebbSPBy2GAytgwYIFCxYsWLBgPwubahhP15uum1q/fB0sWLBgwYIFCxbsKmw3Qe4WEKnBi+o+p435coEAFixYsGDBggUL9gqsyAZYsGAFWLBgBdir8Q8q3w/jYWPEMgAAAABJRU5ErkJggg==">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/summary-of-vim-commonly-used-shortcut-keys/'>
+                <p class='title'>Vim 常用快捷键总结<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>Vim 是我在Linux 下比较常用的文本编辑器，这里整理一下常用的操作。
+基本操作
+移动到行首：0
+移动到行尾：$
+光标移动到文件开始位置：gg
+光标移动到文件结束位置: shift + g
+...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: '对于NULL、空、0、false等数据类型的理解',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#NULL-是什么？"><span class="toc-text">NULL 是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用PHP-函数对变量进行比较："><span class="toc-text">使用PHP 函数对变量进行比较：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#松散判断"><span class="toc-text">松散判断 &#x3D;&#x3D;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#严格比较"><span class="toc-text">严格比较 &#x3D;&#x3D;&#x3D;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+  
+    <meting-js
+      theme='#1BCDFC'
+      autoplay='false'
+      volume='0.7'
+      loop='all'
+      order='list'
+      fixed='false'
+      list-max-height='340px'
+      server='netease'
+      type='playlist'
+      id='3175833810'
+      list-folded='true'>
+    </meting-js>
+  
+
+
+        </div>
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2020 Boo</a></p>
+
+        <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+        
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?fbe826b92f6d49a0ebacf4d848bd3add";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+<script>
+  var now = new Date(); 
+  function createtime() { 
+      var grt= new Date("07/04/2020 14:12:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+  } 
+setInterval("createtime()",250);
+</script>
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "prAyvaUeadxadA2wpcBQqNQn-gzGzoHsz",
+    appKey: "vkyEUTw0BixVjfFpFIzUdhak",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
