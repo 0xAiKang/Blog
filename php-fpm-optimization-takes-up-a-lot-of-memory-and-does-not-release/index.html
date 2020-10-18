@@ -5,8 +5,6 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
-    
   
   <!-- 渲染优化 -->
   <meta name="renderer" content="webkit">
@@ -18,8 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>Tag: Cygwin - Boo</title>
+    <title>PHP-FPM 优化——占用内存大不释放 - Boo</title>
   
+    <meta name="keywords" content="PHP,PHP-FPM">
+  
+  
+    <meta name="description" content="在传统的 LNMP 架构中，如果Web 应用部分，突然变得特别卡，通常都是内存耗尽导致。">
   
 
   <!-- feed -->
@@ -267,25 +269,12 @@
     <div class='body-wrapper'>
       
 
-
 <div class='l_main'>
   
-    
-      
-  <section class="post-list ">
-    
-      
-        
-          
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
+
   
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
 
 
   <section class='meta'>
@@ -295,11 +284,11 @@
       <div class="meta" id="header-meta">
         
           
-  <h2 class="title">
-    <a href="/cygwin-quick-start/">
-      Cygwin 快速上手
+  <h1 class="title">
+    <a href="/php-fpm-optimization-takes-up-a-lot-of-memory-and-does-not-release/">
+      PHP-FPM 优化——占用内存大不释放
     </a>
-  </h2>
+  </h1>
 
 
         
@@ -322,9 +311,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/%E7%BB%88%E7%AB%AF/' rel="nofollow">
+    <a href='/categories/PHP/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>终端</p>
+      <p>PHP</p>
     </a>
   </div>
 
@@ -335,9 +324,14 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Sep 1, 2020</p>
+    <p>发布于：Oct 18, 2020</p>
   </a>
 </div>
+
+            
+          
+            
+              
 
             
           
@@ -346,13 +340,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>418 words</p>
+      <p>634 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>1 min</p>
+      <p>2 min</p>
     </a>
   </div>
 
@@ -361,6 +355,18 @@
           
             
               
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/php-fpm-optimization-takes-up-a-lot-of-memory-and-does-not-release/" class="leancloud_visitors" data-flag-title="PHP-FPM 优化——占用内存大不释放">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
 
             
           
@@ -373,102 +379,80 @@
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在很早之前就听说过<code>Cygwin</code>和<code>MinGW64</code>这两个东西，只是当时不是很理解这两个东西是做什么的，还经常和<code>msysGit</code> 搞混淆，加上最近用<code>MinGW64</code>用的很不顺手，所以打算安装一个<code>Cygwin</code>。</p>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/cygwin-quick-start/">
-            阅读全文 <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>在传统的 LNMP 架构中，如果Web 应用部分，突然变得特别卡，通常都是内存耗尽导致。</p>
+<a id="more"></a>
 
-          </div>
-        
-      
-    
-  </section>
+<p>这里说的内存，指的是物理运行内存，而不是虚拟内存（Swap）。</p>
+<p>LNMP架构中PHP是运行在FastCGI模式下，按照官方的说法，php-cgi会在每个请求结束的时候会回收脚本使用的全部内存，但是并不会释放给操作系统，而是继续持有以应对下一次PHP请求。而php-fpm是 FastCGI进程管理器，用于控制php的内存和进程等。</p>
+<p>所以，解决的办法就是通过php-fpm 优化总的进程数和单个进程占用的内存，从而解决php-fpm 进程占用内存大和不释放内存的问题。</p>
+<h3 id="查看当前占用情况"><a href="#查看当前占用情况" class="headerlink" title="查看当前占用情况"></a>查看当前占用情况</h3><p>如果发现Web 应用出现严重卡顿，请求超时等问题，首先检查一下内存的占用情况。常用的命令有：Top、Glances、Free 等。</p>
+<p>使用Glances 或者 Top 命令查看进程，然后按下按键 M，可以查看主机当前的内存占用情况，按照占用内存由多到少排序。</p>
+<p>也可以使用以下命令查看当前 php-fpm 总进程数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -ylC php-fpm --sort:rss</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201018104932.png" alt=""></p>
+<p>其中 rss 就是内存占用情况。</p>
+<p>查看当前php-fpm 进程的内存占用情况及启动时间：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -e -o &#39;pid,comm,args,pcpu,rsz,vsz,stime,user,uid&#39;|grep www|sort -nrk5</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201018105106.png" alt=""></p>
+<p>可以看到无论哪一种方式，结果都是一样的。</p>
+<p>查看当前php-fpm进程平均占用内存情况：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ps --no-headers -o &quot;rss,cmd&quot; -C php-fpm | awk &#39;&#123; sum+&#x3D;$1 &#125; END &#123; printf (&quot;%d%s\n&quot;, sum&#x2F;NR&#x2F;1024,&quot;M&quot;) &#125;&#39;</span><br><span class="line">&#x2F;&#x2F; 22M</span><br></pre></td></tr></table></figure>
+
+<h3 id="优化配置"><a href="#优化配置" class="headerlink" title="优化配置"></a>优化配置</h3><p>解决上面那个问题的核心就是 php-fpm 配置中的 <code>max_requests</code>。</p>
+<p>即当一个 PHP-CGI 进程处理的请求数累积到 max_requests 个后，自动重启该进程，这样达到了释放内存的目的了。</p>
+<p>一般来说一个php-fpm 进程占用的内存为30M-40M，所以根据自身实际情况作判断，有以下两种情况：</p>
+<ol>
+<li>实际结果是大于 30M - 40M，那么需要让 php-fpm “早一些“释放内存，<code>max_requests</code> 的数值改小一些。</li>
+<li>实际结果是小于 30M - 40M，则可以让 php-fpm “晚一些“释放内存，<code>max_requests</code>的数值改大一些。</li>
+</ol>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://wzfou.com/php-fpm/" target="_blank" rel="noopener">Linux的php-fpm优化心得-php-fpm进程占用内存大和不释放内存问题</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
   
     
-    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
     
-    
+
+
 
   
 
-
-    
-  
-</div>
-<aside class='l_side'>
-  
   
     
     
 
-<section class="widget blogger shadow desktop mobile">
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
   <div class='content'>
     
-      
-        <a class='avatar flat-box' href='/about/'>
-          <img no-lazy src='https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg'/>
-        </a>
-      
-    
-    
-      <div class='text'>
+      <blockquote>
         
-        
-          <p>Stay foolish, Stay hungry</p>
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
 
-        
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
-        
-          
-            <a href="/atom.xml"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
           
         
           
-            <a href="mailto:aikangtongxue@gamil.com"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/php-fpm-optimization-takes-up-a-lot-of-memory-and-does-not-release/>https://www.0x2beace.com/php-fpm-optimization-takes-up-a-lot-of-memory-and-does-not-release/</a></p>
           
         
-          
-            <a href="https://github.com/0xAikang"
-              class="social fab fa-github flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-          
-            <a href="https://music.163.com/#/user/home?id=112719323"
-              class="social fas fa-headphones-alt flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-      </div>
+      </blockquote>
     
   </div>
 </section>
@@ -478,228 +462,217 @@
   
     
     
+
+<section class="widget qrcode  desktop mobile">
   
 
-  <section class="widget category shadow desktop">
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-10-18T15:59:01+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Oct 18, 2020</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP-FPM/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP-FPM</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/php-fpm-optimization-takes-up-a-lot-of-memory-and-does-not-release/&title=PHP-FPM 优化——占用内存大不释放 - Boo&summary=在传统的 LNMP 架构中，如果Web 应用部分，突然变得特别卡，通常都是内存耗尽导致。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/php-fpm-optimization-takes-up-a-lot-of-memory-and-does-not-release/&title=PHP-FPM 优化——占用内存大不释放 - Boo&summary=在传统的 LNMP 架构中，如果Web 应用部分，突然变得特别卡，通常都是内存耗尽导致。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/php-fpm-optimization-takes-up-a-lot-of-memory-and-does-not-release/&title=PHP-FPM 优化——占用内存大不释放 - Boo&summary=在传统的 LNMP 架构中，如果Web 应用部分，突然变得特别卡，通常都是内存耗尽导致。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVgAAAFYCAAAAAAzB7ucAAAEY0lEQVR42u3aQXIcMQgFUN//0s4+Va4GPi15kqfdeKbV4skLoPj6tl5ZXwjAgrXAggVrgT0C+zVcfz//0+en3z39vbtf973V78seYMGCBQsWLFiwYI/ClhPgJaAqzNM5qhdQ3T/2AAsWLFiwYMGCBXsFtguyVRhUwbvvT/dv/4OABQsWLFiwYMGC/QjY6cG2C4vphYEFCxYsWLBgwYL9P2HfTsi7hch00AIsWLBgwYIFCxbsZ8NuDTSkiXwKUt3v107CgAULFixYsGDBgi3BThPrf/Xz2AMsWLBgwYIFCxbsEdh0TRP/7vNpo3yrcf/oARYsWLBgwYIFC/YI7PRg1QNu7dcF6Sb+1Tge4wILFixYsGDBggV7BHaa8G8HPC04pudJG/tgwYIFCxYsWLBg78J2A9hqIFcvrnvx3UKl+g9Q9gILFixYsGDBggV7BLa64fbgxlbBsXXBaxcPFixYsGDBggUL9gjstPG8PYgxvZjpIEZamPy4L1iwYMGCBQsWLNgjsGkiPU24txrjWxe8VcCABQsWLFiwYMGCPQvbLQiqAVYT+zTg6cWm7wcLFixYsGDBggV7F7bbcG4nzsNA0uem5xxDgwULFixYsGDBgj0Cu5XQTwcl0gGRdCBjq8EPFixYsGDBggUL9i5stTCY/m46eJE24qeDIO0CBCxYsGDBggULFuxV2LRQ2Gocb1/kVrzjAgEsWLBgwYIFCxbsCuy0obuVwKfvnRYUWwMnYMGCBQsWLFiwYO/AThu9W5CnCo3tRjpYsGDBggULFizYu7BpIl4NuPue7oW8XcCUzwUWLFiwYMGCBQv2KGwVcCuh3hrcSAcyqo3s8j5gwYIFCxYsWLBgj8KmDe5ugt49cBV4axCjGh9YsGDBggULFizYO7DrAwvFQNNGdneftCE/noQBCxYsWLBgwYIF+wrsNPHeSvjTxLz7fNqYf4wXLFiwYMGCBQsW7BXYbuGQBrh1sd1CYGvwAyxYsGDBggULFuxd2LQRXIWbwk/P003440ESsGDBggULFixYsFdg04GNaYHRfW7aYN9ucJcLBLBgwYIFCxYsWLCvwG4NQHyHa21wogm9VliABQsWLFiwYMGCPQLbHUzYbhy/lqgPC5ouNFiwYMGCBQsWLNg7sG8n/ClQOojRbdR39wULFixYsGDBggV7FzbesFkATAPuFhLVQY90gQULFixYsGDBgr0Dmyb83d91A31rcGOrYAALFixYsGDBggV7FjZOiIeFRbdAmD6XxtMeLAELFixYsGDBggV7FHZaEKQFQgrXHfhIL+YxLrBgwYIFCxYsWLBXYKcFwelA2ol7OLBRPh9YsGDBggULFizYj4CNG8NLDfXphaYFxWsFAliwYMGCBQsWLNhfAZt+P4XpNsKncYIFCxYsWLBgwYK9C9t9YXd1obcKhBSw/F6wYMGCBQsWLFiwR2G7Kw14q+DogkwHScCCBQsWLFiwYMH+Llhrd4EFC9YCCxasBfbV9QfwotW6c49DBAAAAABJRU5ErkJggg==">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/understanding-of-data-types-such-as-null-empty-0-false-etc/'>
+                <p class='title'>对于NULL、空、0、false等数据类型的理解<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>之所以决定写这片笔记，是因为一直对 空 这个概念很模糊，在代码逻辑中常会遇到需要判断的时候，总是模拟两可。
+
+
+常见的“空”有以下这些：
+
+整形0：0
+字符1：1
+字符空：””
+字符零：”0”
+...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'PHP-FPM 优化——占用内存大不释放',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
     
   <header>
     
-      <a href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
   </header>
 
 
     <div class='content'>
-      <ul class="entry navigation">
-        
-          <li><a class="flat-box"
-            title="/categories/Docker/" href="/categories/Docker/"
-            id="categoriesDocker"
-            ><div class='name'>Docker</div><div class='badge'>(4)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Docker/Tutorial/" href="/categories/Docker/Tutorial/"
-            id="categoriesDockerTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Git/" href="/categories/Git/"
-            id="categoriesGit"
-            ><div class='name'>Git</div><div class='badge'>(7)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Git/Skill/" href="/categories/Git/Skill/"
-            id="categoriesGitSkill"
-            ><div class='name'>Skill</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Linux/" href="/categories/Linux/"
-            id="categoriesLinux"
-            ><div class='name'>Linux</div><div class='badge'>(30)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/Docker/" href="/categories/Linux/Docker/"
-            id="categoriesLinuxDocker"
-            ><div class='name'>Docker</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/Mac/" href="/categories/Linux/Mac/"
-            id="categoriesLinuxMac"
-            ><div class='name'>Mac</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/Tutorial/" href="/categories/Linux/Tutorial/"
-            id="categoriesLinuxTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(4)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/Windows/" href="/categories/Linux/Windows/"
-            id="categoriesLinuxWindows"
-            ><div class='name'>Windows</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/Zabbix/" href="/categories/Linux/Zabbix/"
-            id="categoriesLinuxZabbix"
-            ><div class='name'>Zabbix</div><div class='badge'>(4)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/" href="/categories/Linux/%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/"
-            id="categoriesLinuxE591BDE4BBA4E695B4E79086"
-            ><div class='name'>命令整理</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" href="/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
-            id="categoriesLinuxE5ADA6E4B9A0E7AC94E8AEB0"
-            ><div class='name'>学习笔记</div><div class='badge'>(8)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Mysql/" href="/categories/Mysql/"
-            id="categoriesMysql"
-            ><div class='name'>Mysql</div><div class='badge'>(18)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Nginx/" href="/categories/Nginx/"
-            id="categoriesNginx"
-            ><div class='name'>Nginx</div><div class='badge'>(4)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Node/" href="/categories/Node/"
-            id="categoriesNode"
-            ><div class='name'>Node</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Node/Socket-io/" href="/categories/Node/Socket-io/"
-            id="categoriesNodeSocket-io"
-            ><div class='name'>Socket.io</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Node/Tutorial/" href="/categories/Node/Tutorial/"
-            id="categoriesNodeTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Node/Tutorial/%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" href="/categories/Node/Tutorial/%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/"
-            id="categoriesNodeTutorialE8BF9BE7A88BE7AEA1E79086"
-            ><div class='name'>进程管理</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/PHP/" href="/categories/PHP/"
-            id="categoriesPHP"
-            ><div class='name'>PHP</div><div class='badge'>(15)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/PHP/Tutorial/" href="/categories/PHP/Tutorial/"
-            id="categoriesPHPTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/PHP/Tutorial/%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" href="/categories/PHP/Tutorial/%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/"
-            id="categoriesPHPTutorialE8BF9BE7A88BE7AEA1E79086"
-            ><div class='name'>进程管理</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Redis/" href="/categories/Redis/"
-            id="categoriesRedis"
-            ><div class='name'>Redis</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Shell/" href="/categories/Shell/"
-            id="categoriesShell"
-            ><div class='name'>Shell</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Skill/" href="/categories/Skill/"
-            id="categoriesSkill"
-            ><div class='name'>Skill</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Skill/Windows/" href="/categories/Skill/Windows/"
-            id="categoriesSkillWindows"
-            ><div class='name'>Windows</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Skill/Windows/Mac/" href="/categories/Skill/Windows/Mac/"
-            id="categoriesSkillWindowsMac"
-            ><div class='name'>Mac</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Socket-io/" href="/categories/Socket-io/"
-            id="categoriesSocket-io"
-            ><div class='name'>Socket.io</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Socket-io/Nginx/" href="/categories/Socket-io/Nginx/"
-            id="categoriesSocket-ioNginx"
-            ><div class='name'>Nginx</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Tutorial/" href="/categories/Tutorial/"
-            id="categoriesTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(10)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/GitHub/" href="/categories/Tutorial/GitHub/"
-            id="categoriesTutorialGitHub"
-            ><div class='name'>GitHub</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/Skill/" href="/categories/Tutorial/Skill/"
-            id="categoriesTutorialSkill"
-            ><div class='name'>Skill</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Tutorial/Skill/GitHub/" href="/categories/Tutorial/Skill/GitHub/"
-            id="categoriesTutorialSkillGitHub"
-            ><div class='name'>GitHub</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C/" href="/categories/%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C/"
-            id="categoriesE4B880E4BA9BE7BB8FE9AA8C"
-            ><div class='name'>一些经验</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E5%89%8D%E7%AB%AF/" href="/categories/%E5%89%8D%E7%AB%AF/"
-            id="categoriesE5898DE7ABAF"
-            ><div class='name'>前端</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E7%A2%8E%E7%A2%8E%E5%BF%B5/" href="/categories/%E7%A2%8E%E7%A2%8E%E5%BF%B5/"
-            id="categoriesE7A28EE7A28EE5BFB5"
-            ><div class='name'>碎碎念</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E7%BB%88%E7%AB%AF/" href="/categories/%E7%BB%88%E7%AB%AF/"
-            id="categoriesE7BB88E7ABAF"
-            ><div class='name'>终端</div><div class='badge'>(1)</div></a></li>
-        
-      </ul>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#查看当前占用情况"><span class="toc-text">查看当前占用情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#优化配置"><span class="toc-text">优化配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
     </div>
   </section>
 
-
-  
-
-  
-    
-    
-  
-
-  <section class="widget tagcloud shadow desktop mobile">
-    
-  <header>
-    
-      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
-    
-  </header>
-
-
-    <div class='content'>
-      <a href="/tags/Arch-Linux/" style="font-size: 15.11px; color: #919191">Arch Linux</a> <a href="/tags/CI/" style="font-size: 14px; color: #999">CI</a> <a href="/tags/Certbot/" style="font-size: 14px; color: #999">Certbot</a> <a href="/tags/Cygwin/" style="font-size: 14px; color: #999">Cygwin</a> <a href="/tags/DevOps/" style="font-size: 14px; color: #999">DevOps</a> <a href="/tags/Docker/" style="font-size: 18.44px; color: #7b7b7b">Docker</a> <a href="/tags/Docker-Hub/" style="font-size: 14px; color: #999">Docker Hub</a> <a href="/tags/Git/" style="font-size: 20.67px; color: #6c6c6c">Git</a> <a href="/tags/GoAccess/" style="font-size: 14px; color: #999">GoAccess</a> <a href="/tags/HTTP/" style="font-size: 16.22px; color: #8a8a8a">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 16.22px; color: #8a8a8a">HTTPS</a> <a href="/tags/Hash/" style="font-size: 14px; color: #999">Hash</a> <a href="/tags/Hexo/" style="font-size: 16.22px; color: #8a8a8a">Hexo</a> <a href="/tags/JSON/" style="font-size: 14px; color: #999">JSON</a> <a href="/tags/JavaScript/" style="font-size: 14px; color: #999">JavaScript</a> <a href="/tags/K8S/" style="font-size: 14px; color: #999">K8S</a> <a href="/tags/Linux/" style="font-size: 24px; color: #555">Linux</a> <a href="/tags/Linux-Commands/" style="font-size: 14px; color: #999">Linux Commands</a> <a href="/tags/Logs/" style="font-size: 14px; color: #999">Logs</a> <a href="/tags/MQ/" style="font-size: 14px; color: #999">MQ</a> <a href="/tags/Mac/" style="font-size: 17.33px; color: #828282">Mac</a> <a href="/tags/Mysql/" style="font-size: 22.89px; color: #5d5d5d">Mysql</a> <a href="/tags/Mysqli/" style="font-size: 14px; color: #999">Mysqli</a> <a href="/tags/Nginx/" style="font-size: 19.56px; color: #737373">Nginx</a> <a href="/tags/Node/" style="font-size: 15.11px; color: #919191">Node</a> <a href="/tags/PDO/" style="font-size: 14px; color: #999">PDO</a> <a href="/tags/PHP/" style="font-size: 21.78px; color: #646464">PHP</a> <a href="/tags/PHP-FPM/" style="font-size: 16.22px; color: #8a8a8a">PHP-FPM</a> <a href="/tags/PHPStorm/" style="font-size: 14px; color: #999">PHPStorm</a> <a href="/tags/PM2/" style="font-size: 14px; color: #999">PM2</a> <a href="/tags/Postman/" style="font-size: 14px; color: #999">Postman</a> <a href="/tags/Redis/" style="font-size: 14px; color: #999">Redis</a> <a href="/tags/SSH/" style="font-size: 14px; color: #999">SSH</a> <a href="/tags/SSHD/" style="font-size: 14px; color: #999">SSHD</a> <a href="/tags/SSL/" style="font-size: 15.11px; color: #919191">SSL</a> <a href="/tags/Shell/" style="font-size: 20.67px; color: #6c6c6c">Shell</a> <a href="/tags/Skill/" style="font-size: 15.11px; color: #919191">Skill</a> <a href="/tags/Socket/" style="font-size: 14px; color: #999">Socket</a> <a href="/tags/Socket-io/" style="font-size: 15.11px; color: #919191">Socket.io</a> <a href="/tags/Supervisor/" style="font-size: 14px; color: #999">Supervisor</a> <a href="/tags/Terminal/" style="font-size: 14px; color: #999">Terminal</a> <a href="/tags/Tutorial/" style="font-size: 21.78px; color: #646464">Tutorial</a> <a href="/tags/Vim/" style="font-size: 15.11px; color: #919191">Vim</a> <a href="/tags/WSL/" style="font-size: 14px; color: #999">WSL</a> <a href="/tags/Web-%E5%AE%89%E5%85%A8/" style="font-size: 15.11px; color: #919191">Web 安全</a> <a href="/tags/Windows/" style="font-size: 16.22px; color: #8a8a8a">Windows</a> <a href="/tags/Xdebug/" style="font-size: 14px; color: #999">Xdebug</a> <a href="/tags/Zabbix/" style="font-size: 17.33px; color: #828282">Zabbix</a> <a href="/tags/ssh/" style="font-size: 14px; color: #999">ssh</a> <a href="/tags/wss/" style="font-size: 14px; color: #999">wss</a> <a href="/tags/%E4%BA%91/" style="font-size: 16.22px; color: #8a8a8a">云</a> <a href="/tags/%E5%B1%80%E5%9F%9F%E7%BD%91/" style="font-size: 14px; color: #999">局域网</a> <a href="/tags/%E7%9B%91%E6%8E%A7%E7%B3%BB%E7%BB%9F/" style="font-size: 14px; color: #999">监控系统</a> <a href="/tags/%E7%A2%8E%E7%A2%8E%E5%BF%B5/" style="font-size: 14px; color: #999">碎碎念</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 14px; color: #999">算法</a> <a href="/tags/%E7%BB%88%E7%AB%AF/" style="font-size: 14px; color: #999">终端</a> <a href="/tags/%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" style="font-size: 15.11px; color: #919191">进程管理</a> <a href="/tags/%E9%98%B2%E7%81%AB%E5%A2%99/" style="font-size: 14px; color: #999">防火墙</a>
-    </div>
-  </section>
-
-
-  
 
   
 
@@ -903,6 +876,60 @@ setInterval("createtime()",250);
 
 
 
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "prAyvaUeadxadA2wpcBQqNQn-gzGzoHsz",
+    appKey: "vkyEUTw0BixVjfFpFIzUdhak",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
 
 
 

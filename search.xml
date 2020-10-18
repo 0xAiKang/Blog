@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>PHP-FPM 优化——占用内存大不释放</title>
+      <link href="/php-fpm-optimization-takes-up-a-lot-of-memory-and-does-not-release/"/>
+      <url>/php-fpm-optimization-takes-up-a-lot-of-memory-and-does-not-release/</url>
+      
+        <content type="html"><![CDATA[<p>在传统的 LNMP 架构中，如果Web 应用部分，突然变得特别卡，通常都是内存耗尽导致。</p><a id="more"></a><p>这里说的内存，指的是物理运行内存，而不是虚拟内存（Swap）。</p><p>LNMP架构中PHP是运行在FastCGI模式下，按照官方的说法，php-cgi会在每个请求结束的时候会回收脚本使用的全部内存，但是并不会释放给操作系统，而是继续持有以应对下一次PHP请求。而php-fpm是 FastCGI进程管理器，用于控制php的内存和进程等。</p><p>所以，解决的办法就是通过php-fpm 优化总的进程数和单个进程占用的内存，从而解决php-fpm 进程占用内存大和不释放内存的问题。</p><h3 id="查看当前占用情况"><a href="#查看当前占用情况" class="headerlink" title="查看当前占用情况"></a>查看当前占用情况</h3><p>如果发现Web 应用出现严重卡顿，请求超时等问题，首先检查一下内存的占用情况。常用的命令有：Top、Glances、Free 等。</p><p>使用Glances 或者 Top 命令查看进程，然后按下按键 M，可以查看主机当前的内存占用情况，按照占用内存由多到少排序。</p><p>也可以使用以下命令查看当前 php-fpm 总进程数：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -ylC php-fpm --sort:rss</span><br></pre></td></tr></table></figure><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201018104932.png" alt=""></p><p>其中 rss 就是内存占用情况。</p><p>查看当前php-fpm 进程的内存占用情况及启动时间：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -e -o &#39;pid,comm,args,pcpu,rsz,vsz,stime,user,uid&#39;|grep www|sort -nrk5</span><br></pre></td></tr></table></figure><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201018105106.png" alt=""></p><p>可以看到无论哪一种方式，结果都是一样的。</p><p>查看当前php-fpm进程平均占用内存情况：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ps --no-headers -o &quot;rss,cmd&quot; -C php-fpm | awk &#39;&#123; sum+&#x3D;$1 &#125; END &#123; printf (&quot;%d%s\n&quot;, sum&#x2F;NR&#x2F;1024,&quot;M&quot;) &#125;&#39;</span><br><span class="line">&#x2F;&#x2F; 22M</span><br></pre></td></tr></table></figure><h3 id="优化配置"><a href="#优化配置" class="headerlink" title="优化配置"></a>优化配置</h3><p>解决上面那个问题的核心就是 php-fpm 配置中的 <code>max_requests</code>。</p><p>即当一个 PHP-CGI 进程处理的请求数累积到 max_requests 个后，自动重启该进程，这样达到了释放内存的目的了。</p><p>一般来说一个php-fpm 进程占用的内存为30M-40M，所以根据自身实际情况作判断，有以下两种情况：</p><ol><li>实际结果是大于 30M - 40M，那么需要让 php-fpm “早一些“释放内存，<code>max_requests</code> 的数值改小一些。</li><li>实际结果是小于 30M - 40M，则可以让 php-fpm “晚一些“释放内存，<code>max_requests</code>的数值改大一些。</li></ol><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul><li><a href="https://wzfou.com/php-fpm/" target="_blank" rel="noopener">Linux的php-fpm优化心得-php-fpm进程占用内存大和不释放内存问题</a></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> PHP </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> PHP </tag>
+            
+            <tag> PHP-FPM </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>对于NULL、空、0、false等数据类型的理解</title>
       <link href="/understanding-of-data-types-such-as-null-empty-0-false-etc/"/>
       <url>/understanding-of-data-types-such-as-null-empty-0-false-etc/</url>
