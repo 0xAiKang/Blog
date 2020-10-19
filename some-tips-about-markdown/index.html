@@ -16,12 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>PHP-FPM 优化——占用内存大不释放 - Boo</title>
+    <title>some tips about markdown - Boo</title>
   
-    <meta name="keywords" content="PHP,PHP-FPM">
+    <meta name="keywords" content="MarkDown">
   
   
-    <meta name="description" content="在传统的 LNMP 架构中，如果Web 应用部分，突然变得特别卡，通常都是内存耗尽导致。">
+    <meta name="description" content="这篇笔记的目的是整理Markdown 的一些不常用，却又十分有用的小技巧。">
   
 
   <!-- feed -->
@@ -285,8 +285,8 @@
         
           
   <h1 class="title">
-    <a href="/php-fpm-optimization-takes-up-a-lot-of-memory-and-does-not-release/">
-      PHP-FPM 优化——占用内存大不释放
+    <a href="/some-tips-about-markdown/">
+      some tips about markdown
     </a>
   </h1>
 
@@ -311,9 +311,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/PHP/' rel="nofollow">
+    <a href='/categories/Tips/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>PHP</p>
+      <p>Tips</p>
     </a>
   </div>
 
@@ -324,7 +324,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Oct 18, 2020</p>
+    <p>发布于：Oct 19, 2020</p>
   </a>
 </div>
 
@@ -340,13 +340,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>634 words</p>
+      <p>652 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>2 min</p>
+      <p>3 min</p>
     </a>
   </div>
 
@@ -359,7 +359,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/php-fpm-optimization-takes-up-a-lot-of-memory-and-does-not-release/" class="leancloud_visitors" data-flag-title="PHP-FPM 优化——占用内存大不释放">
+      <span id="/some-tips-about-markdown/" class="leancloud_visitors" data-flag-title="some tips about markdown">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -382,36 +382,63 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>在传统的 LNMP 架构中，如果Web 应用部分，突然变得特别卡，通常都是内存耗尽导致。</p>
+          <p>这篇笔记的目的是整理Markdown 的一些不常用，却又十分有用的小技巧。</p>
 <a id="more"></a>
 
-<p>这里说的内存，指的是物理运行内存，而不是虚拟内存（Swap）。</p>
-<p>LNMP架构中PHP是运行在FastCGI模式下，按照官方的说法，php-cgi会在每个请求结束的时候会回收脚本使用的全部内存，但是并不会释放给操作系统，而是继续持有以应对下一次PHP请求。而php-fpm是 FastCGI进程管理器，用于控制php的内存和进程等。</p>
-<p>所以，解决的办法就是通过php-fpm 优化总的进程数和单个进程占用的内存，从而解决php-fpm 进程占用内存大和不释放内存的问题。</p>
-<h3 id="查看当前占用情况"><a href="#查看当前占用情况" class="headerlink" title="查看当前占用情况"></a>查看当前占用情况</h3><p>如果发现Web 应用出现严重卡顿，请求超时等问题，首先检查一下内存的占用情况。常用的命令有：Top、Glances、Free 等。</p>
-<p>使用Glances 或者 Top 命令查看进程，然后按下按键 M，可以查看主机当前的内存占用情况，按照占用内存由多到少排序。</p>
-<p>也可以使用以下命令查看当前 php-fpm 总进程数：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -ylC php-fpm --sort:rss</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>什么是Markdown？</p>
+</blockquote>
+<p>Markdown 是一种轻量级标记语言，创始人为约翰·格鲁伯。它允许人们使用易读易写的纯文本格式编写文档，然后转换成有效的XHTML文档。这种语言吸收了很多在电子邮件中已有的纯文本标记的特性。 —— 维基百科</p>
+<h2 id="Markdown-高级技巧"><a href="#Markdown-高级技巧" class="headerlink" title="Markdown 高级技巧"></a>Markdown 高级技巧</h2><p>在Markdown 中，可以直接插入 HTML，目前支持的HTML 元素有：</p>
+<ul>
+<li><code>&lt;kbd&gt;</code></li>
+<li><code>&lt;b&gt;</code></li>
+<li><code>&lt;i&gt;</code></li>
+<li><code>&lt;em&gt;</code></li>
+<li><code>&lt;sub&gt;</code></li>
+<li><code>&lt;sup&gt;</code></li>
+<li><code>&lt;br&gt;</code></li>
+<li>等</li>
+</ul>
+<h3 id="键盘标签"><a href="#键盘标签" class="headerlink" title="键盘标签"></a>键盘标签</h3><p>可以使用<code>&lt;kbd&gt;</code>标签使文本看起来像按钮，这与常规反引号文本略有不同。</p>
+<blockquote>
+<p>Copy code with <kbd>Control</kbd> + <kbd>C</kbd></p>
+</blockquote>
+<h3 id="可视化差异"><a href="#可视化差异" class="headerlink" title="可视化差异"></a>可视化差异</h3><p>可以使用反引号可视化差异，并<code>diff</code>根据需要突出显示红色或绿色的线。</p>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">10 PRINT “BASIC IS COOL”</span><br><span class="line"><span class="deletion">- 20 GOTO 11</span></span><br><span class="line"><span class="addition">+ 20 GOTO 10</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201018104932.png" alt=""></p>
-<p>其中 rss 就是内存占用情况。</p>
-<p>查看当前php-fpm 进程的内存占用情况及启动时间：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -e -o &#39;pid,comm,args,pcpu,rsz,vsz,stime,user,uid&#39;|grep www|sort -nrk5</span><br></pre></td></tr></table></figure>
+<h3 id="隐藏不必要的输出"><a href="#隐藏不必要的输出" class="headerlink" title="隐藏不必要的输出"></a>隐藏不必要的输出</h3><p>添加冗长的错误日志或冗长程序输出的问题可以解决的错误有帮助的，但如果它占用页的垂直空间，可以考虑使用<code>&lt;details&gt;</code>和<code>&lt;summary&gt;</code>标签。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;details&gt;</span><br><span class="line">&lt;summary&gt;git clone 成功，点击查看详情信息&lt;&#x2F;summary&gt;</span><br><span class="line">&lt;pre&gt;</span><br><span class="line">Cloning into &#39;php-markdown-blog&#39;...</span><br><span class="line">remote: Enumerating objects: 67, done.</span><br><span class="line">remote: Counting objects: 100% (67&#x2F;67), done.</span><br><span class="line">remote: Compressing objects: 100% (55&#x2F;55), done.</span><br><span class="line">remote: Total 67 (delta 12), reused 59 (delta 7), pack-reused 0</span><br><span class="line">Unpacking objects: 100% (67&#x2F;67), done.</span><br><span class="line">&lt;&#x2F;details&gt;</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201018105106.png" alt=""></p>
-<p>可以看到无论哪一种方式，结果都是一样的。</p>
-<p>查看当前php-fpm进程平均占用内存情况：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ps --no-headers -o &quot;rss,cmd&quot; -C php-fpm | awk &#39;&#123; sum+&#x3D;$1 &#125; END &#123; printf (&quot;%d%s\n&quot;, sum&#x2F;NR&#x2F;1024,&quot;M&quot;) &#125;&#39;</span><br><span class="line">&#x2F;&#x2F; 22M</span><br></pre></td></tr></table></figure>
+<details>
+<summary>git clone 成功，点击查看详情信息</summary>
+<pre>
+Cloning into 'php-markdown-blog'...
+remote: Enumerating objects: 67, done.
+remote: Counting objects: 100% (67/67), done.
+remote: Compressing objects: 100% (55/55), done.
+remote: Total 67 (delta 12), reused 59 (delta 7), pack-reused 0
+Unpacking objects: 100% (67/67), done.
+</details>
 
-<h3 id="优化配置"><a href="#优化配置" class="headerlink" title="优化配置"></a>优化配置</h3><p>解决上面那个问题的核心就是 php-fpm 配置中的 <code>max_requests</code>。</p>
-<p>即当一个 PHP-CGI 进程处理的请求数累积到 max_requests 个后，自动重启该进程，这样达到了释放内存的目的了。</p>
-<p>一般来说一个php-fpm 进程占用的内存为30M-40M，所以根据自身实际情况作判断，有以下两种情况：</p>
-<ol>
-<li>实际结果是大于 30M - 40M，那么需要让 php-fpm “早一些“释放内存，<code>max_requests</code> 的数值改小一些。</li>
-<li>实际结果是小于 30M - 40M，则可以让 php-fpm “晚一些“释放内存，<code>max_requests</code>的数值改大一些。</li>
-</ol>
+<h3 id="使图像文字居中"><a href="#使图像文字居中" class="headerlink" title="使图像文字居中"></a>使图像文字居中</h3><p>HTML 中的<code>&lt;div align=&quot;center&quot;&gt;</code> 居然可以神奇的应用在 Markdown 中，然所有内容居中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;div align&#x3D;&quot;center&quot;&gt;</span><br><span class="line">&lt;img src&#x3D;&quot;https:&#x2F;&#x2F;octodex.github.com&#x2F;images&#x2F;dunetocat.png&quot; width&#x3D;&quot;200&quot;&gt;</span><br><span class="line">&lt;p&gt;This is some centered text.&lt;&#x2F;p&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
+<div align="center">
+<img src="https://octodex.github.com/images/dunetocat.png" width="200">
+<p>This is some centered text.</p>
+</div>
+
+<h3 id="较小的文字"><a href="#较小的文字" class="headerlink" title="较小的文字"></a>较小的文字</h3><p>使用<code>&lt;sub&gt;</code>、<code>&lt;sup&gt;</code>标签，可以使文字变小，非常适合在图像下面添加描述。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;div align&#x3D;&quot;center&quot;&gt;</span><br><span class="line">&lt;img src&#x3D;&quot;https:&#x2F;&#x2F;octodex.github.com&#x2F;images&#x2F;megacat-2.png&quot; width&#x3D;&quot;200&quot;&gt;&lt;br&gt;</span><br><span class="line">&lt;sup&gt;&lt;strong&gt;Fig 1:&lt;&#x2F;strong&gt; Megatocat into action&lt;&#x2F;sup&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line">View more octocats on the [Octodex](https:&#x2F;&#x2F;octodex.github.com&#x2F;)!</span><br></pre></td></tr></table></figure>
+
+<div align="center">
+<img src="https://octodex.github.com/images/megacat-2.png" width="200"><br>
+<sup><strong>Fig 1:</strong> Megatocat into action</sup>
+</div>
+
+<p>View more octocats on the <a href="https://octodex.github.com/" target="_blank" rel="noopener">Octodex</a></p>
 <h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><a href="https://wzfou.com/php-fpm/" target="_blank" rel="noopener">Linux的php-fpm优化心得-php-fpm进程占用内存大和不释放内存问题</a></li>
+<li><a href="https://github.blog/2020-04-09-github-protips-tips-tricks-hacks-and-secrets-from-lee-reilly/#9-a-numbers-game" target="_blank" rel="noopener">GitHub ProTips</a></li>
 </ul>
 
           
@@ -449,7 +476,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/php-fpm-optimization-takes-up-a-lot-of-memory-and-does-not-release/>https://www.0x2beace.com/php-fpm-optimization-takes-up-a-lot-of-memory-and-does-not-release/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/some-tips-about-markdown/>https://www.0x2beace.com/some-tips-about-markdown/</a></p>
           
         
       </blockquote>
@@ -497,10 +524,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-10-18T15:59:01+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-10-19T22:05:14+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Oct 18, 2020</p>
+    <p>更新于：Oct 19, 2020</p>
   </a>
 </div>
 
@@ -509,7 +536,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP-FPM/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP-FPM</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/MarkDown/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>MarkDown</p></a></div>
 
 
         
@@ -527,7 +554,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/php-fpm-optimization-takes-up-a-lot-of-memory-and-does-not-release/&title=PHP-FPM 优化——占用内存大不释放 - Boo&summary=在传统的 LNMP 架构中，如果Web 应用部分，突然变得特别卡，通常都是内存耗尽导致。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/some-tips-about-markdown/&title=some tips about markdown - Boo&summary=这篇笔记的目的是整理Markdown 的一些不常用，却又十分有用的小技巧。"
           
           >
           
@@ -539,7 +566,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/php-fpm-optimization-takes-up-a-lot-of-memory-and-does-not-release/&title=PHP-FPM 优化——占用内存大不释放 - Boo&summary=在传统的 LNMP 架构中，如果Web 应用部分，突然变得特别卡，通常都是内存耗尽导致。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/some-tips-about-markdown/&title=some tips about markdown - Boo&summary=这篇笔记的目的是整理Markdown 的一些不常用，却又十分有用的小技巧。"
           
           >
           
@@ -551,7 +578,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/php-fpm-optimization-takes-up-a-lot-of-memory-and-does-not-release/&title=PHP-FPM 优化——占用内存大不释放 - Boo&summary=在传统的 LNMP 架构中，如果Web 应用部分，突然变得特别卡，通常都是内存耗尽导致。"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/some-tips-about-markdown/&title=some tips about markdown - Boo&summary=这篇笔记的目的是整理Markdown 的一些不常用，却又十分有用的小技巧。"
           
           >
           
@@ -565,7 +592,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVgAAAFYCAAAAAAzB7ucAAAEY0lEQVR42u3aQXIcMQgFUN//0s4+Va4GPi15kqfdeKbV4skLoPj6tl5ZXwjAgrXAggVrgT0C+zVcfz//0+en3z39vbtf973V78seYMGCBQsWLFiwYI/ClhPgJaAqzNM5qhdQ3T/2AAsWLFiwYMGCBXsFtguyVRhUwbvvT/dv/4OABQsWLFiwYMGC/QjY6cG2C4vphYEFCxYsWLBgwYL9P2HfTsi7hch00AIsWLBgwYIFCxbsZ8NuDTSkiXwKUt3v107CgAULFixYsGDBgi3BThPrf/Xz2AMsWLBgwYIFCxbsEdh0TRP/7vNpo3yrcf/oARYsWLBgwYIFC/YI7PRg1QNu7dcF6Sb+1Tge4wILFixYsGDBggV7BHaa8G8HPC04pudJG/tgwYIFCxYsWLBg78J2A9hqIFcvrnvx3UKl+g9Q9gILFixYsGDBggV7BLa64fbgxlbBsXXBaxcPFixYsGDBggUL9gjstPG8PYgxvZjpIEZamPy4L1iwYMGCBQsWLNgjsGkiPU24txrjWxe8VcCABQsWLFiwYMGCPQvbLQiqAVYT+zTg6cWm7wcLFixYsGDBggV7F7bbcG4nzsNA0uem5xxDgwULFixYsGDBgj0Cu5XQTwcl0gGRdCBjq8EPFixYsGDBggUL9i5stTCY/m46eJE24qeDIO0CBCxYsGDBggULFuxV2LRQ2Gocb1/kVrzjAgEsWLBgwYIFCxbsCuy0obuVwKfvnRYUWwMnYMGCBQsWLFiwYO/AThu9W5CnCo3tRjpYsGDBggULFizYu7BpIl4NuPue7oW8XcCUzwUWLFiwYMGCBQv2KGwVcCuh3hrcSAcyqo3s8j5gwYIFCxYsWLBgj8KmDe5ugt49cBV4axCjGh9YsGDBggULFizYO7DrAwvFQNNGdneftCE/noQBCxYsWLBgwYIF+wrsNPHeSvjTxLz7fNqYf4wXLFiwYMGCBQsW7BXYbuGQBrh1sd1CYGvwAyxYsGDBggULFuxd2LQRXIWbwk/P003440ESsGDBggULFixYsFdg04GNaYHRfW7aYN9ucJcLBLBgwYIFCxYsWLCvwG4NQHyHa21wogm9VliABQsWLFiwYMGCPQLbHUzYbhy/lqgPC5ouNFiwYMGCBQsWLNg7sG8n/ClQOojRbdR39wULFixYsGDBggV7FzbesFkATAPuFhLVQY90gQULFixYsGDBgr0Dmyb83d91A31rcGOrYAALFixYsGDBggV7FjZOiIeFRbdAmD6XxtMeLAELFixYsGDBggV7FHZaEKQFQgrXHfhIL+YxLrBgwYIFCxYsWLBXYKcFwelA2ol7OLBRPh9YsGDBggULFizYj4CNG8NLDfXphaYFxWsFAliwYMGCBQsWLNhfAZt+P4XpNsKncYIFCxYsWLBgwYK9C9t9YXd1obcKhBSw/F6wYMGCBQsWLFiwR2G7Kw14q+DogkwHScCCBQsWLFiwYMH+Llhrd4EFC9YCCxasBfbV9QfwotW6c49DBAAAAABJRU5ErkJggg==">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAAC9ElEQVR42u3aS3YDIQwEQN//0sk+id+gFoytuFj6CzWbfmoeX9af64EADBgwYMCAGQPzCNevH7x4/dn7V5//+b3VfaTnAQMGDBgwYMDMg1kOQBefTzccB7IncPH3wYABAwYMGDBjYVYDVhq4qq+n+4nPAwYMGDBgwID5OJh0o9WgBgYMGDBgwIABc1fASw/eLfjAgAEDBgwYMJ8H0y24dg+uuoHvZU0kGDBgwIABA+Y2mOraPbg6NQgrnwcMGDBgwIABMwamu1bB0kFUGgjj84ABAwYMGDBgxsCkASmFOjVw2rZ/MGDAgAEDBswYmDTAVTfULeyqvx9/HwwYMGDAgAEzBiY9yGpQOwXeDY5PPw8GDBgwYMCAGQOTFmjpQGj34GtXwQcGDBgwYMCAmQtTHfCcKspOX1RavjgEBgwYMGDAgBkDk2747oIsHUAt/y4YMGDAgAEDZgxMdeB0anB0qsArB0IwYMCAAQMGzBiYdLBTHUilgaxbqFUHaWDAgAEDBgyYeTDdiz/tYNX8XHdwBQYMGDBgwICZB1MdVKUDo2oB1n1AcQEIBgwYMGDAgBkHs3qw9P1dxd3p4AcGDBgwYMCAmQdTvcCTBsEuWHUAVQ6OYMCAAQMGDJh/A9Mt0qrvlwuy4iCrXbiBAQMGDBgwYN4eprvBXUVYWsSlr4MBAwYMGDBg5sGkF4N2F3bVYJg+mHITCQYMGDBgwIAZA5MWatVgtev/uw8MDBgwYMCAATMfJi3c0kIsLch2DbSWB1VgwIABAwYMmLeD6a7TxVw7sFUfPBgwYMCAAQNmDMyuwJRuOA2MV2BxQAUDBgwYMGDAjINJA126wW5Bt/sBgAEDBgwYMGDmwxwPUOEBTw26wIABAwYMGDBg0otE6UFOXVACAwYMGDBgwHwuTHWAVL2A1A10tw+qwIABAwYMGDC3wewuxE5BrF5YelkTCQYMGDBgwIC5DWZXcbWroOsWdtWACQYMGDBgwICZB2OBAQMGDBgwYIatb57x5+FQgWPVAAAAAElFTkSuQmCC">
           </div>
         </div>
       
@@ -585,30 +612,14 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/some-tips-about-markdown/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>some tips about markdown</p>
-                <p class='content'>这篇笔记的目的是整理Markdown 的一些不常用，却又十分有用的小技巧。
-
-
-
-什么是Markdown？
-
-Markdown 是一种轻量级标记语言，创始人为约翰·格鲁伯。它允许人们使用易读易写...</p>
-              </a>
             
-            
-              <a class='next' href='/understanding-of-data-types-such-as-null-empty-0-false-etc/'>
-                <p class='title'>对于NULL、空、0、false等数据类型的理解<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>之所以决定写这片笔记，是因为一直对 空 这个概念很模糊，在代码逻辑中常会遇到需要判断的时候，总是模拟两可。
+              <a class='next' href='/php-fpm-optimization-takes-up-a-lot-of-memory-and-does-not-release/'>
+                <p class='title'>PHP-FPM 优化——占用内存大不释放<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>在传统的 LNMP 架构中，如果Web 应用部分，突然变得特别卡，通常都是内存耗尽导致。
 
 
-常见的“空”有以下这些：
-
-整形0：0
-字符1：1
-字符空：””
-字符零：”0”
-...</p>
+这里说的内存，指的是物理运行内存，而不是虚拟内存（Swap）。
+LNMP架构中PHP是运行在Fast...</p>
               </a>
             
           </div>
@@ -653,7 +664,7 @@ Markdown 是一种轻量级标记语言，创始人为约翰·格鲁伯。它允
 
   <script>
     window.subData = {
-      title: 'PHP-FPM 优化——占用内存大不释放',
+      title: 'some tips about markdown',
       tools: true
     }
   </script>
@@ -680,7 +691,7 @@ Markdown 是一种轻量级标记语言，创始人为约翰·格鲁伯。它允
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#查看当前占用情况"><span class="toc-text">查看当前占用情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#优化配置"><span class="toc-text">优化配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Markdown-高级技巧"><span class="toc-text">Markdown 高级技巧</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#键盘标签"><span class="toc-text">键盘标签</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#可视化差异"><span class="toc-text">可视化差异</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#隐藏不必要的输出"><span class="toc-text">隐藏不必要的输出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使图像文字居中"><span class="toc-text">使图像文字居中</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#较小的文字"><span class="toc-text">较小的文字</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
     </div>
   </section>
 
