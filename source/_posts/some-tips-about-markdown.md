@@ -1,5 +1,5 @@
 ---
-title: some tips about markdown
+title: 关于 Markdown 的一些技巧
 date: 2020-10-19 22:04:23
 tags: ["MarkDown"]
 categories: ["Tips"]
