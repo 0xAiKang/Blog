@@ -18,7 +18,7 @@ categories: ["PHP"]
 ```
 <?php
 $num = 22.356;
-echo sprintf("%.2f", $n); // 22.36
+echo sprintf("%.2f", $num); // 22.36
 ```
 `%.2f` 是目标格式，其中2 表示2 位，`f`表示视为浮点数。
 
@@ -31,7 +31,7 @@ echo sprintf("%.2f", $n); // 22.36
 <?php
 echo round(3.4);         // 3
 echo round(3.5);         // 4
-echo round(22.356, 2);  // 22.36
+echo round(22.356, 2);   // 22.36
 ```
 
 ## 保留N位小数不做四舍五入
@@ -39,7 +39,7 @@ echo round(22.356, 2);  // 22.36
 ```
 <?php
 $num = 22.356;
-echo sprintf("%.2f",substr(sprintf("%.3f", $n), 0, -1));  // 22.35
+echo sprintf("%.2f",substr(sprintf("%.3f", $num), 0, -1));  // 22.35
 ```
 
 ## 获取小数位长度
