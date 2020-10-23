@@ -16,13 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>Supervisor 快速上手 - Boo</title>
+    <title>MySQL Integer类型与INT(11)详解 - Boo</title>
   
-    <meta name="keywords" content="Tutorial,PHP,进程管理,Supervisor">
+    <meta name="keywords" content="Mysql">
   
   
-    <meta name="description" content="supervisord 是一个用 Python 写的进程管理工具，是类Unix系统中的一个进程管理工具，
-Supervisor 只适用于类Unix 系统，不适用于Window。">
+    <meta name="description" content="MySQL支持的整数类型有TINYINT、SMALLINT、MEDIUMINT、INT、BIGINT。">
   
 
   <!-- feed -->
@@ -286,8 +285,8 @@ Supervisor 只适用于类Unix 系统，不适用于Window。">
         
           
   <h1 class="title">
-    <a href="/supervisor-quick-start/">
-      Supervisor 快速上手
+    <a href="/mysql-integer-type-and-int-11-detailed-explanation/">
+      MySQL Integer类型与INT(11)详解
     </a>
   </h1>
 
@@ -312,9 +311,9 @@ Supervisor 只适用于类Unix 系统，不适用于Window。">
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/PHP/Tutorial/%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/' rel="nofollow">
+    <a href='/categories/Mysql/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>PHP/Tutorial/进程管理</p>
+      <p>Mysql</p>
     </a>
   </div>
 
@@ -325,7 +324,7 @@ Supervisor 只适用于类Unix 系统，不适用于Window。">
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jul 30, 2020</p>
+    <p>发布于：Oct 23, 2020</p>
   </a>
 </div>
 
@@ -341,13 +340,13 @@ Supervisor 只适用于类Unix 系统，不适用于Window。">
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1.5k words</p>
+      <p>643 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>6 min</p>
+      <p>2 min</p>
     </a>
   </div>
 
@@ -360,7 +359,7 @@ Supervisor 只适用于类Unix 系统，不适用于Window。">
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/supervisor-quick-start/" class="leancloud_visitors" data-flag-title="Supervisor 快速上手">
+      <span id="/mysql-integer-type-and-int-11-detailed-explanation/" class="leancloud_visitors" data-flag-title="MySQL Integer类型与INT(11)详解">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -383,75 +382,51 @@ Supervisor 只适用于类Unix 系统，不适用于Window。">
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p><a href="http://supervisord.org/" target="_blank" rel="noopener">supervisord</a> 是一个用 Python 写的进程管理工具，是类Unix系统中的一个进程管理工具，</p>
-<p><code>Supervisor</code> 只适用于类Unix 系统，不适用于Window。</p>
+          <p>MySQL支持的整数类型有TINYINT、SMALLINT、MEDIUMINT、INT、BIGINT。</p>
 <a id="more"></a>
 
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>因为<code>Supervisor</code> 是用 <code>Python</code> 所写的，所以可以直接使用<code>pip</code> 安装：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pip install supervisor</span><br></pre></td></tr></table></figure>
+<p>每种整数类型所需的存储空间和范围如下：<br>|类型|字节|最小值(有符号)|最大值(有符号)|最小值(无符号)|最大值(无符号)|<br>|-|-|-|-|-|-|<br>|TINYINT|1|-128|127|0|255|<br>|SMALLINT|2|-32768|32767|0|65535|<br>|MEDIUMINT|3|-8388608|8388607|0|16777215|<br>|INT|4|-2147483648|2147483647|0|4294967295|<br>|BIGINT|8|-9223372036854775808|(9223372036854775807|0|18446744073709551615|</p>
+<h2 id="有无限制的区别"><a href="#有无限制的区别" class="headerlink" title="有无限制的区别"></a>有无限制的区别</h2><p>在创建数据表时，通常会看见 <code>int(11)</code>和<code>int</code>这样的写法，这两者有什么区别，各自又代表什么意思呢？</p>
+<ol>
+<li>对应Integer 类型而言，仅表示字段的显示宽度。</li>
+<li>对于DECIMAL类型，表示数字的总数。</li>
+<li>对于字符字段，这是可以存储的最大字符数，例如VARCHAR（20）可以存储20个字符。</li>
+</ol>
+<p><strong>显示宽度并不影响可以存储在该列中的最大值。</strong><code>int(3)</code>和<code>int(11)</code> 所能存储的最大范围是一样的。</p>
+<p>将某个字段设置成<code>INT(20)</code>并不意味着将能够存储20位数字，这个字段最终能存储的最大范围还是 INT 的范围。</p>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>创建一张临时表：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE tmp_table_a (</span><br><span class="line">    id INT(3) NOT NULL AUTO_INCREMENT,</span><br><span class="line">    name varchar(16) DEFAULT &#39;&#39; NOT NULL, </span><br><span class="line">    PRIMARY KEY (&#96;id&#96;)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
 
-<p>Ubuntu：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install supervisor</span><br></pre></td></tr></table></figure>
+<p>查看表结构：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; desc tmp_table_a;</span><br><span class="line">+-------+-------------+------+-----+---------+----------------+</span><br><span class="line">| Field | Type        | Null | Key | Default | Extra          |</span><br><span class="line">+-------+-------------+------+-----+---------+----------------+</span><br><span class="line">| id    | int(3)      | NO   | PRI | NULL    | auto_increment |</span><br><span class="line">| name  | varchar(16) | NO   |     |         |                |</span><br><span class="line">+-------+-------------+------+-----+---------+----------------+</span><br></pre></td></tr></table></figure>
 
-<p>Mac：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install supervisor</span><br></pre></td></tr></table></figure>
+<p>插入超过”长度”的数字：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO tmp_table_a(id, name) VALUES(123456, &quot;boo&quot;);</span><br></pre></td></tr></table></figure>
 
-<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p><code>Supervisor</code>运行时会启动一个进程——<code>supervisord</code> 。</p>
-<ul>
-<li><code>supervisord</code>：它负责启动所管理的进程，并将所管理的进程作为自己的子进程来启动，而且可以在所管理的进程出现崩溃时自动重启。</li>
-<li><code>supervisorctl</code>：是命令行管理工具，可以用来执行 stop、start、restart 等命令，来对这些子进程进行管理。</li>
-</ul>
-<p>查看默认配置项</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ echo_supervisord_conf</span><br></pre></td></tr></table></figure>
+<p>查看结果，发现数字并没有插入失败：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from tmp_table_a;</span><br><span class="line">+--------+------+</span><br><span class="line">| id     | name |</span><br><span class="line">+--------+------+</span><br><span class="line">| 123456 | boo  |</span><br><span class="line">+--------+------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
 
-<p>将默认配置项重定向至配置文件：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ echo_supervisord_conf &gt; &#x2F;etc&#x2F;supervisord.conf</span><br></pre></td></tr></table></figure>
+<h2 id="有无符号的区别"><a href="#有无符号的区别" class="headerlink" title="有无符号的区别"></a>有无符号的区别</h2><p>那么问题来了，既然加不加数字并没有什么区别，那为什么还多此一举呢？</p>
+<p>这是因为“正常”情况下确实没有什么区别，只有当<strong>字段设置为UNSIGNED ZEROFILL 属性时</strong>，为INT 增加数字才会有意义。</p>
+<p>表示如果要存储的数字少于N 个字符，则这些数字将在左侧补零。</p>
+<h3 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h3><p>创建一张 UNSIGNED ZEROFILL 的数据表：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE tmp_table_b (</span><br><span class="line">    id INT(3) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,</span><br><span class="line">    name varchar(16) DEFAULT &#39;&#39; NOT NULL, </span><br><span class="line">    PRIMARY KEY (&#96;id&#96;)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
 
-<p>然后可以看到 <code>/etc/</code> 配置文件下出现了以下文件，其中<code>/etc/supervisor</code> 是我们需要的配置文件。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ find &#x2F;etc&#x2F; -name supervisor</span><br><span class="line">&#x2F;etc&#x2F;default&#x2F;supervisor</span><br><span class="line">&#x2F;etc&#x2F;init.d&#x2F;supervisor</span><br><span class="line">&#x2F;etc&#x2F;supervisor</span><br></pre></td></tr></table></figure>
+<p>查看表结构：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; desc tmp_table_b;</span><br><span class="line">+-------+--------------------------+------+-----+---------+----------------+</span><br><span class="line">| Field | Type                     | Null | Key | Default | Extra          |</span><br><span class="line">+-------+--------------------------+------+-----+---------+----------------+</span><br><span class="line">| id    | int(3) unsigned zerofill | NO   | PRI | NULL    | auto_increment |</span><br><span class="line">| name  | varchar(16)              | NO   |     |         |                |</span><br><span class="line">+-------+--------------------------+------+-----+---------+----------------+</span><br></pre></td></tr></table></figure>
 
-<p><code>/etc/supervisord.conf</code> 核心配置文件，参考以下部分配置，<code>;</code> 表示注释。</p>
-<p>因为<code>Supervisor</code>默认配置会把socket文件和pid守护进程生成在/tmp/目录下，/tmp/目录是缓存目录，所以我们需要手动换成<code>/var/run</code>目录。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">[unix_http_server]</span><br><span class="line">;file&#x3D;&#x2F;tmp&#x2F;supervisor.sock   ; UNIX socket 文件，supervisorctl 会使用</span><br><span class="line">file&#x3D;&#x2F;var&#x2F;run&#x2F;supervisor.sock   ; 修改为 &#x2F;var&#x2F;run 目录，避免被系统删除</span><br><span class="line">;chmod&#x3D;0700                 ; socket 文件的 mode，默认是 0700</span><br><span class="line">;chown&#x3D;nobody:nogroup       ; socket 文件的 owner，格式： uid:gid</span><br><span class="line"></span><br><span class="line">;[inet_http_server]         ; HTTP 服务器，提供 web 管理界面</span><br><span class="line">;port&#x3D;127.0.0.1:9001        ; Web 管理后台运行的 IP 和端口，如果开放到公网，需要注意安全性</span><br><span class="line">;username&#x3D;user              ; 登录管理后台的用户名</span><br><span class="line">;password&#x3D;123               ; 登录管理后台的密码</span><br><span class="line"></span><br><span class="line">[supervisord]</span><br><span class="line">;logfile&#x3D;&#x2F;tmp&#x2F;supervisord.log ; 日志文件，默认是 $CWD&#x2F;supervisord.log</span><br><span class="line">logfile&#x3D;&#x2F;var&#x2F;log&#x2F;supervisor&#x2F;supervisord.log ; 修改为 &#x2F;var&#x2F;log 目录，避免被系统删除</span><br><span class="line">logfile_maxbytes&#x3D;50MB        ; 日志文件大小，超出会 rotate，默认 50MB</span><br><span class="line">logfile_backups&#x3D;10           ; 日志文件保留备份数量默认 10</span><br><span class="line">loglevel&#x3D;info                ; 日志级别，默认 info，其它: debug,warn,trace</span><br><span class="line">;pidfile&#x3D;&#x2F;tmp&#x2F;supervisord.pid ; pid 文件</span><br><span class="line">pidfile&#x3D;&#x2F;var&#x2F;run&#x2F;supervisord.pid ; 修改为 &#x2F;var&#x2F;run 目录，避免被系统删除</span><br><span class="line">nodaemon&#x3D;false               ; 是否在前台启动，默认是 false，即以 daemon 的方式启动</span><br><span class="line">minfds&#x3D;1024                  ; 可以打开的文件描述符的最小值，默认 1024</span><br><span class="line">minprocs&#x3D;200                 ; 可以打开的进程数的最小值，默认 200</span><br><span class="line"></span><br><span class="line">; the below section must remain in the config file for RPC</span><br><span class="line">; (supervisorctl&#x2F;web interface) to work, additional interfaces may be</span><br><span class="line">; added by defining them in separate rpcinterface: sections</span><br><span class="line">[rpcinterface:supervisor]</span><br><span class="line">supervisor.rpcinterface_factory &#x3D; supervisor.rpcinterface:make_main_rpcinterface</span><br><span class="line"></span><br><span class="line">[supervisorctl]</span><br><span class="line">;serverurl&#x3D;unix:&#x2F;&#x2F;&#x2F;tmp&#x2F;supervisor.sock ; 通过 UNIX socket 连接 supervisord，路径与 unix_http_server 部分的 file 一致</span><br><span class="line">serverurl&#x3D;unix:&#x2F;&#x2F;&#x2F;var&#x2F;run&#x2F;supervisor.sock ; 修改为 &#x2F;var&#x2F;run 目录，避免被系统删除</span><br><span class="line">;serverurl&#x3D;http:&#x2F;&#x2F;127.0.0.1:9001 ; 通过 HTTP 的方式连接 supervisord</span><br><span class="line"></span><br><span class="line">; 包含其他的配置文件</span><br><span class="line">[include]</span><br><span class="line">files &#x3D; relative&#x2F;directory&#x2F;*.ini    ; 可以是 *.conf 或 *.ini</span><br></pre></td></tr></table></figure>
+<p>插入记录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO tmp_table_b(id, name) VALUES(1, &quot;boo&quot;);</span><br></pre></td></tr></table></figure>
 
+<p>查看记录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from tmp_table_b;</span><br><span class="line">+-----+------+</span><br><span class="line">| id  | name |</span><br><span class="line">+-----+------+</span><br><span class="line">| 001 | boo  |</span><br><span class="line">+-----+------+</span><br></pre></td></tr></table></figure>
 
-
-<p><code>/etc/supervisor/conf.d</code> 则是用来配置管理进程的配置文件，所有需要被<code>supervisor</code> 管理的进程都需要在这里先配置。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[program:demo]</span><br><span class="line">command&#x3D;php demo.php  &#x2F;&#x2F; 需要执行队列的名称</span><br><span class="line">directory&#x3D; &#x2F;var&#x2F;www  &#x2F;&#x2F; 命令执行的目录或者说执行 command 之前，先切换到工作目录 可以理解为在执行命令前会切换到这个目录 </span><br><span class="line">process_name&#x3D;%(process_num)02d &#x2F;&#x2F; 默认为 %(program_name)s，即 [program:x] 中的 x这个是进程名，如果下面的numprocs参数为1的话，就不用管这个参数了，它默认值%(program_name)s也就是上面的那个program冒号后面的</span><br><span class="line"></span><br><span class="line">numprocs&#x3D;1          &#x2F;&#x2F; 进程数量当不为1时的时候，就是进程池的概念，注意process_name的设置</span><br><span class="line">autostart&#x3D;true    &#x2F;&#x2F; 是否自动启动</span><br><span class="line">autorestart&#x3D;true      &#x2F;&#x2F; 程序意外退出是否自动重启</span><br><span class="line">startsecs&#x3D;1       &#x2F;&#x2F; 自动重启间隔 </span><br><span class="line">startretries&#x3D;20   &#x2F;&#x2F; 当进程启动失败后，最大尝试启动的次数。。当超过3次后，supervisor将把此进程的状态置为FAIL 默认值为3</span><br><span class="line">redirect_stderr&#x3D;true  &#x2F;&#x2F; 如果为true，则stderr的日志会被写入stdout日志文件中  理解为重定向输出的日志</span><br><span class="line">user&#x3D;root   &#x2F;&#x2F; 这个参数可以设置一个非root用户，当我们以root用户启动supervisord之后。我这里面设置的这个用户，也可以对supervisord进行管理 </span><br><span class="line">stopsignal&#x3D;INT</span><br><span class="line">stderr_logfile&#x3D;&#x2F;var&#x2F;log&#x2F;supervisor&#x2F;demo.err.log   &#x2F;&#x2F; 子进程的stdout的日志路径 输出日志文件</span><br><span class="line">stdout_logfile&#x3D;&#x2F;var&#x2F;log&#x2F;supervisor&#x2F;demo.out.log   &#x2F;&#x2F; 错误日志文件 当redirect_stderr&#x3D;true。这个就不用</span><br></pre></td></tr></table></figure>
-
-<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ supervisord -c &#x2F;etc&#x2F;supervisord.conf</span><br></pre></td></tr></table></figure>
-
-<h3 id="常用命令整理"><a href="#常用命令整理" class="headerlink" title="常用命令整理"></a>常用命令整理</h3><p>停止进程，program_name 为 [program:x] 里的 x</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">supervisorctl stop program_name</span><br></pre></td></tr></table></figure>
-
-<p>启动进程</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">supervisorctl start program_name</span><br></pre></td></tr></table></figure>
-
-<p>重启进程</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">supervisorctl restart program_name</span><br></pre></td></tr></table></figure>
-
-<p>结束所有属于名为 groupworker 这个分组的进程 (start，restart 同理)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">supervisorctl stop groupworker:</span><br></pre></td></tr></table></figure>
-
-<p>结束 groupworker:name1 这个进程 (start，restart 同理)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">supervisorctl stop groupworker:name1</span><br></pre></td></tr></table></figure>
-
-<p>停止全部进程，注：start、restart、stop 都不会载入最新的配置文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">supervisorctl stop all</span><br></pre></td></tr></table></figure>
-
-<p>载入最新的配置文件，停止原有进程并按新的配置启动、管理所有进程</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">supervisorctl reload</span><br></pre></td></tr></table></figure>
-
-<p>根据最新的配置文件，启动新配置或有改动的进程，配置没有改动的进程不会受影响而重启</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">supervisorctl update</span><br></pre></td></tr></table></figure>
-
-<h3 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h3><h4 id="unlinking-stale-socket-var-run-supervisor-sock"><a href="#unlinking-stale-socket-var-run-supervisor-sock" class="headerlink" title="unlinking stale socket /var/run/supervisor.sock"></a>unlinking stale socket /var/run/supervisor.sock</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ find &#x2F; -name supervisor.sock</span><br><span class="line">&#x2F;run&#x2F;supervisor.sock</span><br><span class="line"></span><br><span class="line">$ unlink &#x2F;run&#x2F;supervisor.sock</span><br></pre></td></tr></table></figure>
-
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ol>
+<li>对于Integer 类型而言，“数字”并不会限制其能存储的最大范围。</li>
+<li>有无符号，不仅会限制其能存储的最大范围，还可以配置“数字”自动补零。</li>
+</ol>
 <h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><a href="http://m.aluaa.com/articles/2019/01/02/1546398594207.html" target="_blank" rel="noopener">“unix:///tmp/supervisor.sock no such file” 错误处理</a></li>
-<li><a href="https://segmentfault.com/a/1190000015768529" target="_blank" rel="noopener">https://segmentfault.com/a/1190000015768529</a></li>
-<li><a href="http://liyangliang.me/posts/2015/06/using-supervisor/" target="_blank" rel="noopener">使用 supervisor 管理进程</a></li>
-<li><a href="https://www.cnblogs.com/restran/p/4854623.html" target="_blank" rel="noopener">Python 进程管理工具 Supervisor 使用教程</a></li>
+<li><a href="https://www.cnblogs.com/polk6/p/11595107.html" target="_blank" rel="noopener">MySQL Integer类型与INT(11)</a></li>
 </ul>
 
           
@@ -489,7 +464,7 @@ Supervisor 只适用于类Unix 系统，不适用于Window。">
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/supervisor-quick-start/>https://www.0x2beace.com/supervisor-quick-start/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/mysql-integer-type-and-int-11-detailed-explanation/>https://www.0x2beace.com/mysql-integer-type-and-int-11-detailed-explanation/</a></p>
           
         
       </blockquote>
@@ -537,10 +512,10 @@ Supervisor 只适用于类Unix 系统，不适用于Window。">
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-09-04T21:54:06+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-10-23T18:39:49+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Sep 4, 2020</p>
+    <p>更新于：Oct 23, 2020</p>
   </a>
 </div>
 
@@ -549,7 +524,7 @@ Supervisor 只适用于类Unix 系统，不适用于Window。">
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Tutorial/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Tutorial</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>进程管理</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Supervisor/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Supervisor</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Mysql/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Mysql</p></a></div>
 
 
         
@@ -567,8 +542,7 @@ Supervisor 只适用于类Unix 系统，不适用于Window。">
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/supervisor-quick-start/&title=Supervisor 快速上手 - Boo&summary=supervisord 是一个用 Python 写的进程管理工具，是类Unix系统中的一个进程管理工具，
-Supervisor 只适用于类Unix 系统，不适用于Window。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/mysql-integer-type-and-int-11-detailed-explanation/&title=MySQL Integer类型与INT(11)详解 - Boo&summary=MySQL支持的整数类型有TINYINT、SMALLINT、MEDIUMINT、INT、BIGINT。"
           
           >
           
@@ -580,8 +554,7 @@ Supervisor 只适用于类Unix 系统，不适用于Window。"
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/supervisor-quick-start/&title=Supervisor 快速上手 - Boo&summary=supervisord 是一个用 Python 写的进程管理工具，是类Unix系统中的一个进程管理工具，
-Supervisor 只适用于类Unix 系统，不适用于Window。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/mysql-integer-type-and-int-11-detailed-explanation/&title=MySQL Integer类型与INT(11)详解 - Boo&summary=MySQL支持的整数类型有TINYINT、SMALLINT、MEDIUMINT、INT、BIGINT。"
           
           >
           
@@ -593,8 +566,7 @@ Supervisor 只适用于类Unix 系统，不适用于Window。"
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/supervisor-quick-start/&title=Supervisor 快速上手 - Boo&summary=supervisord 是一个用 Python 写的进程管理工具，是类Unix系统中的一个进程管理工具，
-Supervisor 只适用于类Unix 系统，不适用于Window。"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/mysql-integer-type-and-int-11-detailed-explanation/&title=MySQL Integer类型与INT(11)详解 - Boo&summary=MySQL支持的整数类型有TINYINT、SMALLINT、MEDIUMINT、INT、BIGINT。"
           
           >
           
@@ -608,7 +580,7 @@ Supervisor 只适用于类Unix 系统，不适用于Window。"
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAADBklEQVR42u3ay24jMQwEQP//Tyf3xQYmm3RgxqXb2POQSpcGqceX8d/xQAAGDBgwYMCcgXmE46fn//29et90HmvrAQMGDBgwYMCcgykHoOGCny3k2ffS38vrAQMGDBgwYMCchakGui5cXDha3rinQRQMGDBgwIAB8zEw3eC2VRjrXoMBAwYMGDBgwKSNrm6BadrYAwMGDBgwYMB8HkxaOHrWONtu5L2ssAUGDBgwYMCAOQfz24WjV1/H6wEDBgwYMGDAnIGZjmrhaTsgTgPlj+8FAwYMGDBgwJyB6RaIqv9vBbLp+9vrBAMGDBgwYMCcgelOOF3wNkwKWD44BAYMGDBgwIA5A5Me6KlOeHrwpxrkxoEUDBgwYMCAAXMOZvrhtKGW3t/dgPJ9YMCAAQMGDJgzMOkHuguabsRWAax9cAgMGDBgwIABcw5mq6DULYRtFazSjQMDBgwYMGDA3IHpLmAa7LqNu61gVw6eYMCAAQMGDJizMFsTnQaxtPE2LqCBAQMGDBgwYM7AbB30mQa6NLClARAMGDBgwIABcx+mW4jqNtC2A+CrDjqBAQMGDBgwYO7BTA/uVINc9//q/dMCV5x8wYABAwYMGDBvA/OqAtK0QZc25OJCHBgwYMCAAQPmLEw3sE2D4XZDbdy4AwMGDBgwYMD8WZjuwtIDPd3nu4W0csMNDBgwYMCAAfO2MNOGWbewtNUgSzeiHPDAgAEDBgwYMGdgtoNUCpYGwep1ueEGBgwYMGDAgHl7mLSwMy1sbR1A6ga9p/MBAwYMGDBgwJyBmY7tRl0a1NYCJhgwYMCAAQPmDMw0ME0bYd0A1y2sdRuAYMCAAQMGDJh7MGmgmzbk0sA4hR5X8MCAAQMGDBgwbwfTfdFWI20aGNNgCAYMGDBgwID5XJju89OgOH3/rwU8MGDAgAEDBsxZmLTw1C1QTRt05YYbGDBgwIABA+btYdKGWNqgSzeiC1qeHxgwYMCAAQPmHMzLGlhLAay6ISkkGDBgwIABA+YejAEGDBgwYMCAOTa+Ae125vAWW3nVAAAAAElFTkSuQmCC">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVgAAAFYCAAAAAAzB7ucAAAEeElEQVR42u3aS3IbMQwFQN//0so+KZfwAJAjpZo7/2bIphZ4MH5e1pH1gwAsWAssWLAW2CuwP831zwP/+v5vX797Xvd9vx40PM/UAyxYsGDBggULFuxd2HIBHB703fOrF1L9+tTvlfcPFixYsGDBggUL9hHYagG9VdCnB0kDQfX7ax5gwYIFCxYsWLBgvwq2Gyy2GtNV4LjgBwsWLFiwYMGCBftfw3YL8lv7OBWAwIIFCxYsWLBgwX4G7LSA7gaA1/L6+kkYsGDBggULFixYsCXYdKUDD9/2ddsDLFiwYMGCBQsW7BXYrUI8bRBPBze2Bja2AwpYsGDBggULFizYO7DdArm6wWlB3m20bz0v/YCABQsWLFiwYMGCvQPbLaynASI92BQ4DSDdCwMLFixYsGDBggX7LOy0AZ3+fXU/6Xu2Akw5EIEFCxYsWLBgwYK9Ars18JACdAv3blDoBpc4eIAFCxYsWLBgwYK9AtttAG9Bbw+GVN+/FWza/0EACxYsWLBgwYIFexV2q7E8HbjofhC2LxgsWLBgwYIFCxbsM7DdF6UF9nTAojuokRb+06AEFixYsGDBggUL9g7stEG9PbixVfB3L6j7HrBgwYIFCxYsWLDPwE4b0ekBp43yaaHfDShxQAALFixYsGDBggV7FLbbID51QWkw6AaZ9X2ABQsWLFiwYMGCfRR2q9BOD1S9oPT5WwGj/R8EsGDBggULFixYsEdg00I//XkXPi3o4wGLZtABCxYsWLBgwYIF+yxs9QDdDadQW43satB5hevtRYMFCxYsWLBgwYK9ApuCTBvM00GJuGBfCiTlwAIWLFiwYMGCBQv2Cmx3sCEdeNhugFeflw58dPcJFixYsGDBggUL9i5sWsCnoKca51u/vxVowIIFCxYsWLBgwd6FnQKmBys3jIsgXYBpgzxOXmDBggULFixYsGBXYdODpA3mbiE+hU/hugMi5eQFFixYsGDBggULdhW2WzhPIdJGdDegbAGXfcCCBQsWLFiwYMFegd06SDdopMFjGgSq52xfKFiwYMGCBQsWLNgrsNPBiu4FnR7cSBvv6XvAggULFixYsGDBfhZsF/RUI7q7ugMj48ADFixYsGDBggUL9irsrcZwtzDvvifdRzdggAULFixYsGDBgv0s2OkGp5DboGkwSgMNWLBgwYIFCxYs2GdguxtID7w9CNKFmv4dWLBgwYIFCxYs2GdgTw1GpFDdAr97Ed0PVnlgAyxYsGDBggULFuxR2K0AMC3spwMc0wGT7kDJ2+QFFixYsGDBggUL9ijsNBBUC+vuQMV0sKP7QYkDD1iwYMGCBQsWLNhHYNMCPoXtNrq7AyLT4JKeHyxYsGDBggULFux3wW41oNOAsDWAke7/WkAACxYsWLBgwYIFewW2uqF2AR4+f6sxPh7YAAsWLFiwYMGCBXsUNh3Y2Bqw2BqYSM+xHoDAggULFixYsGDBXoVN16lCvxsE0n2mzykPoIAFCxYsWLBgwYK9AmvtLrBgwVpgwYK1wB5dfwB2yBHFKuEOjgAAAABJRU5ErkJggg==">
           </div>
         </div>
       
@@ -628,19 +600,11 @@ Supervisor 只适用于类Unix 系统，不适用于Window。"
         
           <div class="prev-next">
             
-              <a class='prev' href='/mysql-only-full-group-by-exception-record/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Mysql only_full_group_by 异常记录</p>
-                <p class='content'>最近很频繁的遇到一个Mysql 异常，错误信息如下：
-123Expression #5 of SELECT list is not in GROUP BY clause and contains...</p>
-              </a>
             
-            
-              <a class='next' href='/execute-and-use-php-code-on-the-linux-command-line/'>
-                <p class='title'>在 Linux 命令行中执行和使用 PHP 代码<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>众所周知，PHP是一门脚本语言，主要用于服务端（JavaScript 用于客户端）以通过HTTP 生成动态网页。
-所以与其他脚本语言一样，可以直接在终端中不需要网页浏览器来运行PHP 代码。
-
-...</p>
+              <a class='next' href='/how-to-install-swoole-on-windows/'>
+                <p class='title'>Windows 如何安装 Swoole？<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>Swoole 是一个 PHP 的协程高性能网络通信引擎。
+目前仅支持 Linux(2.3.32 以上内核)、FreeBSD、MacOS 三种操作系统，它并不支持直接在 Windows 下安装，因...</p>
               </a>
             
           </div>
@@ -685,7 +649,7 @@ Supervisor 只适用于类Unix 系统，不适用于Window。"
 
   <script>
     window.subData = {
-      title: 'Supervisor 快速上手',
+      title: 'MySQL Integer类型与INT(11)详解',
       tools: true
     }
   </script>
@@ -712,7 +676,7 @@ Supervisor 只适用于类Unix 系统，不适用于Window。"
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置"><span class="toc-text">配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动"><span class="toc-text">启动</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#常用命令整理"><span class="toc-text">常用命令整理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常见问题"><span class="toc-text">常见问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#unlinking-stale-socket-var-run-supervisor-sock"><span class="toc-text">unlinking stale socket &#x2F;var&#x2F;run&#x2F;supervisor.sock</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#有无限制的区别"><span class="toc-text">有无限制的区别</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#示例"><span class="toc-text">示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#有无符号的区别"><span class="toc-text">有无符号的区别</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#示例-1"><span class="toc-text">示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
     </div>
   </section>
 
