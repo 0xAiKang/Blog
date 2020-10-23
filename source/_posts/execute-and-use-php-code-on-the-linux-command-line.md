@@ -9,6 +9,8 @@ categories: ["PHP"]
 
 所以与其他脚本语言一样，可以直接在终端中不需要网页浏览器来运行PHP 代码。
 
+<!-- more -->
+
 ## 获取安装信息
 在安装完PHP 以及Nginx 之后，接下来我们通常需要做的是，在`/usr/local/var/www` (Mac 上的Nginx 工作目录)上创建一个内容为`<?php phpinfo(); ?>`，名为index.php的文件来测试PHP 是否安装正确。
 
@@ -106,7 +108,7 @@ $ php -t /project to path -S localhost:port
 * `php -m`：显示已经安装的模块
 * `php -r`：运行PHP代码不使用脚本标签'<?..?>'
 * `php -v`：查看PHP 版本
-* `php -ini`：查看加载配置文件（php.ini、conf.d）
+* `php --ini`：查看加载配置文件（php.ini、conf.d）
 * `php -i | grep configure`：查看静态编译模块
 * `php --ri swoole`：查看指定模块的配置
 
