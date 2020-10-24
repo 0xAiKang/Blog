@@ -1,11 +1,13 @@
 ---
 title: Windows 如何安装 Swoole？
 date: 2020-10-21 19:56:53
-tags: ["PHP", "Windows", "Cygwin"]
+tags: ["PHP", "Windows", "Cygwin", "Swoole"]
 categories: ["PHP"]
 ---
 
 [Swoole](https://www.swoole.com/) 是一个 PHP 的协程高性能网络通信引擎。
+
+<!-- more -->
 
 目前仅支持 Linux(2.3.32 以上内核)、FreeBSD、MacOS 三种操作系统，它并不支持直接在 Windows 下安装，因为Windows 系统默认没有以下软件：
 * gcc-4.8 或更高版本
