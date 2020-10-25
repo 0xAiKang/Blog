@@ -16,12 +16,10 @@
 
   <!-- 页面元数据 -->
   
-    <title>初始进程与线程 - Boo</title>
+    <title>sorting out some concepts in swoole - Boo</title>
   
-    <meta name="keywords" content="PHP,进程,线程">
+    <meta name="keywords" content="PHP,Swoole">
   
-  
-    <meta name="description" content="关于进程和线程，此前已经有很多优秀的文章了，这里只是抛砖引玉，基于自己的理解并整理加深印象。">
   
 
   <!-- feed -->
@@ -285,8 +283,8 @@
         
           
   <h1 class="title">
-    <a href="/initial-process-and-thread/">
-      初始进程与线程
+    <a href="/sorting-out-some-concepts-in-swoole/">
+      sorting out some concepts in swoole
     </a>
   </h1>
 
@@ -324,7 +322,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Oct 24, 2020</p>
+    <p>发布于：Oct 25, 2020</p>
   </a>
 </div>
 
@@ -340,13 +338,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1.1k words</p>
+      <p>884 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>3 min</p>
+      <p>2 min</p>
     </a>
   </div>
 
@@ -359,7 +357,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/initial-process-and-thread/" class="leancloud_visitors" data-flag-title="初始进程与线程">
+      <span id="/sorting-out-some-concepts-in-swoole/" class="leancloud_visitors" data-flag-title="sorting out some concepts in swoole">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -382,45 +380,25 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>关于进程和线程，此前已经有很多优秀的文章了，这里只是抛砖引玉，基于自己的理解并整理加深印象。</p>
-<a id="more"></a>
-
-<h2 id="操作系统下的进程与线程"><a href="#操作系统下的进程与线程" class="headerlink" title="操作系统下的进程与线程"></a>操作系统下的进程与线程</h2><p>在正式介绍进程和线程之前，从操作系统的角度了解一下。</p>
-<p>众所周知，现代的操作系统（Mac OS X，UNIX，Linux，Windows等）都是支持“多任务”的操作系统。</p>
-<p>那么什么是“多任务”呢？简单的说，多任务就是同时运行多个任务，比如一边听歌，一边写博客。</p>
-<p>多核 CPU可以直接同时运行多个任务，<br>而对于单核 CPU 来说，只能让系统轮流执行每个任务，因为任务之间切换很快，在宏观上看上去就是同时执行的了。</p>
-<p>对于操作系统来说，一个任务就是一个进程。<br>而有的进程同时做几件事情，也就是同时运行多个子任务，我们把进程内的这类子任务称为线程。</p>
-<p>由于每个进程至少要干一件事情，所以，<strong>一个进程至少有一个线程</strong>。</p>
-<p>PHP 默认是执行单任务的进程，也就是只有一个线程。如果我们要同时执行多个任务怎么办？</p>
-<p>有两种解决方案：</p>
-<ol>
-<li>启动多个进程，每个进程虽然只有一个线程，但多个进程可以一块执行多个任务。</li>
-<li>启动一个进程，在一个进程内启动多个线程，这样，多个线程也可以一块执行多个任务。</li>
-</ol>
-<h2 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h2><p>线程是最小的执行单元，而进程由至少一个线程组成，知道这一点后，再来理解多线程就不难了。</p>
-<p><strong>多线程就是指一个进程中同时有多个线程正在执行。</strong></p>
-<h3 id="为什么要使用多线程？"><a href="#为什么要使用多线程？" class="headerlink" title="为什么要使用多线程？"></a>为什么要使用多线程？</h3><p>对于一个程序来说，很多操作事非常耗时的，如数据库I/O操作、文件读写等。如果使用单线程，那么就只能等待该线程处理完这些操作之后，才能继续往下执行其他操作。</p>
-<p>而如果使用多线程，就可以将耗时的那部分操作通过其他线程去执行，从而提高程序执行效率。</p>
-<h3 id="多线程的缺点"><a href="#多线程的缺点" class="headerlink" title="多线程的缺点"></a>多线程的缺点</h3><ul>
-<li>使用过多线程会过度消耗系统资源，因为创建线程需要开辟新的内存。</li>
-<li>影响系统性能，操作系统需要来回对多线程进行切换。</li>
-<li>同时还需要考虑线程异常（挂起、中止）时可能会对造成程序的影响。</li>
-</ul>
-<p>总结：<br>多线程是异步的，分别创建N 个线程并不能说明他们就是在同时运行，实际上是操作系统在各个线程之间来回切换，并且切换速度非常快，这也就造成了在宏观上给我们同时运行的错觉。</p>
-<h2 id="多进程"><a href="#多进程" class="headerlink" title="多进程"></a>多进程</h2><p><strong>多进程就是指计算机同时执行多个进程。</strong></p>
-<h2 id="多进程还是多线程"><a href="#多进程还是多线程" class="headerlink" title="多进程还是多线程"></a>多进程还是多线程</h2><p>下面引用一个<a href="https://www.zhihu.com/question/19901763/answer/13299543" target="_blank" rel="noopener">知乎上的回答</a>，非常通俗的解释了选择多进程还是多线程的问题。</p>
-<ul>
-<li>单进程单线程：一个人在一个桌子上吃菜。</li>
-<li>单进程多线程：多个人在同一个桌子上一起吃菜。</li>
-<li>多进程单线程：多个人每个人在自己的桌子上吃菜。</li>
-</ul>
-<p>多线程的问题是多个人同时吃一道菜的时候容器发生争抢。例如两个人同时夹一个菜，一个人刚伸出筷子，结果伸到的时候菜已经被夹走了。通俗点说也就说资源共享容器发生冲突争抢。</p>
-<p>对于Windows 系统来说，“开桌子”的开销很大，因此Windows 鼓励大家在一个桌子上吃菜。因此 Windows 多线程的学习重点是资源争抢与同步方面的问题。</p>
-<p>而对于Linux 系统来说，“开桌子”的开销很小，因为Linux 鼓励大家尽量每个人都开自己的桌子吃菜。但这同事也带来了新的问题：两个人坐在不同的桌子上，说话不方便。因为，Linux 多线程的学习重点是进程之间的通讯方式。</p>
+          <p><a href="https://www.swoole.com/" target="_blank" rel="noopener">Swoole</a> 是一个非常优秀的PHP 的协程高性能网络通信引擎。</p>
+<p>在学习过程中，遇到了一些新或旧的概念，在此整理一下。</p>
+<h2 id="长连接-短连接"><a href="#长连接-短连接" class="headerlink" title="长连接/短连接"></a>长连接/短连接</h2><p>长连接： 客户端和服务端建立连接后不进行断开，之后客户端再次访问这个服务器上的内容时，继续使用这一条连接通道。<br>短连接： 客户端和服务端建立连接，发送完数据后立马断开连接。下次要取数据，需要再次建立连接。</p>
+<h2 id="串行-并行-并发"><a href="#串行-并行-并发" class="headerlink" title="串行/并行/并发"></a>串行/并行/并发</h2><p>串行：执行多个任务时，各个任务按顺序执行，完成一个之后才能进行下一个。<br>并行：多个任务在同一时刻发生并执行。<br>并发：</p>
+<h2 id="IO（Input-Output，输入输出）"><a href="#IO（Input-Output，输入输出）" class="headerlink" title="IO（Input/Output，输入输出）"></a>IO（Input/Output，输入输出）</h2><p>在计算机中，输入 / 输出（即 IO）是指信息处理系统（比如计算机）和外部世界（可以是人或其他信息处理系统）的通信。</p>
+<p>输入是指系统接收的信号或数据，输出是指从系统发出的数据或信号。</p>
+<p>涉及到IO 操作的通常有磁盘、网络、文件等。</p>
+<h2 id="同步-异步"><a href="#同步-异步" class="headerlink" title="同步/异步"></a>同步/异步</h2><p><strong>同步和异步是一种消息通信机制</strong>。其关注点在于 <code>被调用者返回</code> 和 <code>结果返回</code> 之间的关系， 描述对象是被调用对象的行为。</p>
+<p>同步：在发出一个同步调用后，没有得到结果返回之前，该调用就不会返回，只有等待结果返回之后才会继续执行后续操作。<br>异步：发出调用，直接返回。异步可以通过状态、回调、通知调用者结果，可以先执行其他操作，直到回调结果返回之后，再回来执行回调那部分的操作。</p>
+<h2 id="阻塞-非阻塞"><a href="#阻塞-非阻塞" class="headerlink" title="阻塞/非阻塞"></a>阻塞/非阻塞</h2><p><strong>阻塞和非阻塞是一种业务流程处理方式</strong>。关注点在于调用发生时 <code>调用者状态</code> 和 <code>被调用者返回结果</code> 之间的关系。 </p>
+<p>描述的是等待结果时候调用者的状态。 此时结果可能是同步返回的，也能是异步返回。</p>
+<p>阻塞：在结果返回之前，该线程会被挂起，后续代码只有在结果返回后才能执行。<br>非阻塞：在不能立刻获取结果前，该调用不会阻塞当前线程。</p>
+<h2 id="同步阻塞-非同步阻塞"><a href="#同步阻塞-非同步阻塞" class="headerlink" title="同步阻塞/非同步阻塞"></a>同步阻塞/非同步阻塞</h2><p>实际编程中，通过<strong>线程</strong>实现<strong>进程</strong>的<strong>同步非阻塞</strong>，通过<strong>协程</strong>实现<strong>线程</strong>的<strong>同步非阻塞</strong>。</p>
+<p>同步阻塞：打电话问老板有没有某书（调用），老板说查一下，让你别挂电话（同步），你一直等待老板给你结果，什么事也不做（阻塞）。</p>
+<p>同步非阻塞：打电话问老板有没有某书（调用），老板说查一下，让你别挂电话（同步），等电话的过程中你还一边嗑瓜子（非阻塞）。</p>
+<h2 id="异步阻塞-异步非阻塞"><a href="#异步阻塞-异步非阻塞" class="headerlink" title="异步阻塞/异步非阻塞"></a>异步阻塞/异步非阻塞</h2><p>异步阻塞：打电话问老板有没有某书（调用），老板说你先挂电话，有了结果通知你（异步），你挂了电话后（结束调用）, 除了等老板电话通知结果，什么事情也不做（阻塞）。</p>
+<p>异步非阻塞：打电话问老板有没有某书（调用），老板说你先挂电话，有了结果通知你（异步），你挂电话后（结束调用），一遍等电话，一遍嗑瓜子。（非阻塞）</p>
 <h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><a href="https://www.liaoxuefeng.com/wiki/897692888725344/923056118147584" target="_blank" rel="noopener">进程和线程</a></li>
-<li><a href="https://www.cnblogs.com/linuxAndMcu/p/11064916.html" target="_blank" rel="noopener">多进程和多线程的概念</a></li>
-<li><a href="https://www.zhihu.com/question/19901763/answer/13299543" target="_blank" rel="noopener">多线程有什么用？——知乎</a></li>
+<li><a href="https://learnku.com/articles/45280" target="_blank" rel="noopener">Swoole 中涉及的一些基本概念</a></li>
 </ul>
 
           
@@ -458,7 +436,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/initial-process-and-thread/>https://www.0x2beace.com/initial-process-and-thread/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/sorting-out-some-concepts-in-swoole/>https://www.0x2beace.com/sorting-out-some-concepts-in-swoole/</a></p>
           
         
       </blockquote>
@@ -506,10 +484,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-10-24T21:53:41+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-10-25T20:25:16+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Oct 24, 2020</p>
+    <p>更新于：Oct 25, 2020</p>
   </a>
 </div>
 
@@ -518,7 +496,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E8%BF%9B%E7%A8%8B/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>进程</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E7%BA%BF%E7%A8%8B/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>线程</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Swoole/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Swoole</p></a></div>
 
 
         
@@ -536,7 +514,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/initial-process-and-thread/&title=初始进程与线程 - Boo&summary=关于进程和线程，此前已经有很多优秀的文章了，这里只是抛砖引玉，基于自己的理解并整理加深印象。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/sorting-out-some-concepts-in-swoole/&title=sorting out some concepts in swoole - Boo&summary="
           
           >
           
@@ -548,7 +526,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/initial-process-and-thread/&title=初始进程与线程 - Boo&summary=关于进程和线程，此前已经有很多优秀的文章了，这里只是抛砖引玉，基于自己的理解并整理加深印象。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/sorting-out-some-concepts-in-swoole/&title=sorting out some concepts in swoole - Boo&summary="
           
           >
           
@@ -560,7 +538,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/initial-process-and-thread/&title=初始进程与线程 - Boo&summary=关于进程和线程，此前已经有很多优秀的文章了，这里只是抛砖引玉，基于自己的理解并整理加深印象。"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/sorting-out-some-concepts-in-swoole/&title=sorting out some concepts in swoole - Boo&summary="
           
           >
           
@@ -574,7 +552,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAADAElEQVR42u3aQVLEMAwEwP3/p+EBQEUjORAt7dtmkzhuX6Ykvz6Mb8cLARgwYMCAAbMG5tUcX15Y/P/quav50u+I3w8GDBgwYMCAWQdTDkDh/XcB/nT/dD1gwIABAwYMmL0w1YBVDVTVAJYGtSpM/DwYMGDAgAED5t/CVINdN6iBAQMGDBgwYMCchukWuLrzTwMoGDBgwIABA+b9YOIGVTHgdd+TNuge04kEAwYMGDBgwPwaTDqmhaO7f7fXAwYMGDBgwIBZAzMdVbBTB4c+bh5gwIABAwYMmD0w3YDUheoGx+5Gxd8PBgwYMGDAgFkH0w1q3QBYXcj0vvh5MGDAgAEDBsxamG5gOv2B043rHnQCAwYMGDBgwOyBSQPZtBGXBscqyLGNAAMGDBgwYMCsheke/Ok2zNKNmAbEy+tgwIABAwYMmDUw3UJUd+JT0KfnAwMGDBgwYMDsg5k23qZBLQ2E6XfF6wQDBgwYMGDArIOZNryqz08LU92AV4YDAwYMGDBgwKyFSReeFpLS+aaFrfQAExgwYMCAAQNmD0wK0G5kDQNhCtQNqmDAgAEDBgyY94GZFq5OB7ruRpWDJhgwYMCAAQNmHUw3MHUhpw2+tLEXN9zAgAEDBgwYMI+HmTa27ipYVYNhWsi63AAwYMCAAQMGzBqY042ytND0Go4UOG64gQEDBgwYMGAeDzN98V0Nuul98XUwYMCAAQMGzHqYNFBNC1vThZ/aIDBgwIABAwbMfphqQy2euFnQ6m5kOh8YMGDAgAEDZg/MdFQD2qmFnoK8DHhgwIABAwYMmMfDnD6wkwa/biGrGygv1wEGDBgwYMCAWQczDWRX0ClIGgSrhTUwYMCAAQMGzPvCVBeWBq3u9VMNt/L7wYABAwYMGDD/DubuAHf6QFL7RBUYMGDAgAED5m1hqgDdhXUD3Z8HPDBgwIABAwbM7TBpEJs25lLIaZC7bNCBAQMGDBgwYNbBTIPTqeDXhUrnLx8cAgMGDBgwYMA8FsYAAwYMGDBgwCwbn8KQY6w7sECjAAAAAElFTkSuQmCC">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADnklEQVR42u3aQY7cMAwEwPn/p5N7goXcJAVzFqXbGLZHKl3apD5/jNL4IAAHDhw4Axy4JXCf4vjvhf9c/+n36frpPafrT+dVXS84cODAgQMHDtw2uMcBMLy/CpRuUHq9ul5w4MCBAwcOHLitcLcWWH0+DeLdYH68Hxw4cODAgQMH7pfB3SpwToOCAwcOHDhw4MCBmwm6TwufT+F+3ZcDOHDgwIEDBw7cpYZ0FbYbkFPwdZ18cODAgQMHDhy4Ibh0TEG+9bu8XnDgwIEDBw4cuCVw3fEUtlrYTAPw7QEOHDhw4MCBA7cFrhoQqwXEp4XNakM6nUd8MBEcOHDgwIEDB24J3CmQpgtO31cNwtV5ddcLDhw4cODAgQO3Da4aiNPnq4XSqflWgzU4cODAgQMHDty3wE0tND2YmM4rPUjYDvbgwIEDBw4cOHBL4NKFpcG3W1jsNpQ/QwMcOHDgwIEDB24r3FRD91ZDuxqcp54HBw4cOHDgwIHbBlctAKYBtdvgTjdgep7gwIEDBw4cOHDb4NKJp0HzWkExnG91w45fDuDAgQMHDhw4cC/DVf+4WpBMN2Q6mKfrBwcOHDhw4MCB+xa4arDtLrQ7n6n7wIEDBw4cOHDgtsNdD4xN8C5EtUD6uJMPDhw4cODAgQO3BC4FqwbabuM6DbJpwfTH94EDBw4cOHDgwC2Bmzq4N9W4nnpuKvAeK8DgwIEDBw4cOHAvwVVHWuCcApze6LhACg4cOHDgwIEDtwSuWhicbhDfDt5jGwQOHDhw4MCBA7cEbqpxmwbLqcZ0tQGdBnNw4MCBAwcOHLhtcGnBMW7ghhsyFWSrDejjb3DgwIEDBw4cuGVwUw3oqSCb/n81gMeBHhw4cODAgQMHbilcGhynC5/pAm/NN+7kgwMHDhw4cODALYGbmlgabG/dNzUvcODAgQMHDhy4rXBPwVLYWzCfoXF6Hzhw4MCBAwcO3Da4qULj1MK716cKoceGNDhw4MCBAwcO3Mtw3cB4mkh64DC9r3sgsf3lAA4cOHDgwIED9zJcGnirgbYLOPW+ctAGBw4cOHDgwIFbCpcGzqlCZneDbjWkj4VMcODAgQMHDhy4L4e7DVYtYHY3/noABgcOHDhw4MCBexmu+p5uML29seDAgQMHDhw4cN8Cl/7BWwcUuwE6DdLgwIEDBw4cOHBb4boN3BSgGlynNqL8AQAOHDhw4MCBA7cEzsgGOHDgwIEzwIF7efwFn8l80x/OC3gAAAAASUVORK5CYII=">
           </div>
         </div>
       
@@ -594,20 +572,14 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/sorting-out-some-concepts-in-swoole/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>sorting out some concepts in swoole</p>
-                <p class='content'>Swoole 是一个非常优秀的PHP 的协程高性能网络通信引擎。
-在学习过程中，遇到了一些新或旧的概念，在此整理一下。
-长连接/短连接长连接： 客户端和服务端建立连接后不进行断开，之后客户端再次...</p>
-              </a>
             
-            
-              <a class='next' href='/mysql-integer-type-and-int-11-detailed-explanation/'>
-                <p class='title'>MySQL Integer类型与INT(11)详解<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>MySQL支持的整数类型有TINYINT、SMALLINT、MEDIUMINT、INT、BIGINT。
+              <a class='next' href='/initial-process-and-thread/'>
+                <p class='title'>初始进程与线程<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>关于进程和线程，此前已经有很多优秀的文章了，这里只是抛砖引玉，基于自己的理解并整理加深印象。
 
 
-每种整数类型所需的存储空间和范围如下：|类型|字节|最小值(有符号)|最大值(有符号)...</p>
+操作系统下的进程与线程在正式介绍进程和线程之前，从操作系统的角度了解一下。
+众所周知，现代的操作...</p>
               </a>
             
           </div>
@@ -652,7 +624,7 @@
 
   <script>
     window.subData = {
-      title: '初始进程与线程',
+      title: 'sorting out some concepts in swoole',
       tools: true
     }
   </script>
@@ -679,7 +651,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#操作系统下的进程与线程"><span class="toc-text">操作系统下的进程与线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多线程"><span class="toc-text">多线程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么要使用多线程？"><span class="toc-text">为什么要使用多线程？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#多线程的缺点"><span class="toc-text">多线程的缺点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多进程"><span class="toc-text">多进程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多进程还是多线程"><span class="toc-text">多进程还是多线程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#长连接-短连接"><span class="toc-text">长连接&#x2F;短连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#串行-并行-并发"><span class="toc-text">串行&#x2F;并行&#x2F;并发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IO（Input-Output，输入输出）"><span class="toc-text">IO（Input&#x2F;Output，输入输出）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#同步-异步"><span class="toc-text">同步&#x2F;异步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#阻塞-非阻塞"><span class="toc-text">阻塞&#x2F;非阻塞</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#同步阻塞-非同步阻塞"><span class="toc-text">同步阻塞&#x2F;非同步阻塞</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#异步阻塞-异步非阻塞"><span class="toc-text">异步阻塞&#x2F;异步非阻塞</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
     </div>
   </section>
 
