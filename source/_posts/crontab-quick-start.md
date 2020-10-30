@@ -1,5 +1,5 @@
 ---
-title: crontab quick start
+title: Crontab 快速上手
 date: 2020-10-27 23:22:29
 tags: ["Linux", "Crontab"]
 categories: ["Linux"]
