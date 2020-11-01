@@ -16,13 +16,10 @@
 
   <!-- 页面元数据 -->
   
-    <title>Crontab 快速上手 - Boo</title>
+    <title>swoole process learning - Boo</title>
   
-    <meta name="keywords" content="Linux,Crontab">
+    <meta name="keywords" content="PHP,Swoole">
   
-  
-    <meta name="description" content="Crontab 是Unix 系统中基于时间的任务管理工具。
-这个命令与传统的 Unix 命令不一样，下面会一一介绍其规则及其用法。">
   
 
   <!-- feed -->
@@ -286,8 +283,8 @@
         
           
   <h1 class="title">
-    <a href="/crontab-quick-start/">
-      Crontab 快速上手
+    <a href="/swoole-process-learning/">
+      swoole process learning
     </a>
   </h1>
 
@@ -312,9 +309,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Linux/' rel="nofollow">
+    <a href='/categories/PHP/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Linux</p>
+      <p>PHP</p>
     </a>
   </div>
 
@@ -325,7 +322,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Oct 27, 2020</p>
+    <p>发布于：Nov 1, 2020</p>
   </a>
 </div>
 
@@ -341,13 +338,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>681 words</p>
+      <p>1.4k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>2 min</p>
+      <p>5 min</p>
     </a>
   </div>
 
@@ -360,7 +357,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/crontab-quick-start/" class="leancloud_visitors" data-flag-title="Crontab 快速上手">
+      <span id="/swoole-process-learning/" class="leancloud_visitors" data-flag-title="swoole process learning">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -383,87 +380,41 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p><a href="https://zh.wikipedia.org/zh-hans/Cron" target="_blank" rel="noopener">Crontab</a> 是Unix 系统中基于时间的任务管理工具。</p>
-<p>这个命令与传统的 Unix 命令不一样，下面会一一介绍其规则及其用法。</p>
-<a id="more"></a>
+          <p>记录Swoole 进程学习过程。</p>
+<h3 id="1-创建一个进程"><a href="#1-创建一个进程" class="headerlink" title="1. 创建一个进程"></a>1. 创建一个进程</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">&#x2F;&#x2F;  获取当前进程 ID</span><br><span class="line">echo &quot;我是 一个 主进程，我的ID是：&quot; . posix_getpid().PHP_EOL;</span><br><span class="line">&#x2F;&#x2F; 为进程设置名称</span><br><span class="line">cli_get_process_title(&quot;Master&quot;);</span><br><span class="line"></span><br><span class="line">while (true) &#123;</span><br><span class="line">	sleep(1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="crontab-还是-cron"><a href="#crontab-还是-cron" class="headerlink" title="crontab 还是 cron"></a>crontab 还是 cron</h2><p><a href="https://baike.baidu.com/item/crontab" target="_blank" rel="noopener">crontab</a> 还是 <a href="https://baike.baidu.com/item/cron" target="_blank" rel="noopener">cron</a>？初次接触 crontab 的同学可能会被这两个词给绕晕。</p>
-<p>其实可以这样来理解：<code>crontab</code>就是 <code>cron</code>服务的命令行工具，而<code>cron</code>则是背后处理<code>crontab</code>投递任务的服务。</p>
-<h3 id="文件格式"><a href="#文件格式" class="headerlink" title="文件格式"></a>文件格式</h3><p>crontab 命令是以固定的时间格式来使用的，</p>
-<table>
-<thead>
-<tr>
-<th>表示意义</th>
-<th>分钟</th>
-<th>小时</th>
-<th>日期</th>
-<th>月份</th>
-<th>周</th>
-<th>命令</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>范围</td>
-<td>0～59（*）</td>
-<td>0～23（*）</td>
-<td>1～31（*）</td>
-<td>1～12（*）</td>
-<td>0～7（*）</td>
-<td>需要执行的命令</td>
-</tr>
-</tbody></table>
-<p>另外还有一些特殊字符具有特殊含义：</p>
-<ul>
-<li><code>*</code> 表示任何时刻都接收。举个栗子：<code>* 12 * * *</code> 表示不论何月、何日的星期几的十二点都执行指定命令。</li>
-</ul>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201027163458.png" alt=""></p>
-<h3 id="常用实例"><a href="#常用实例" class="headerlink" title="常用实例"></a>常用实例</h3><p>每分钟执行一次：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*&#x2F;1 * * * * 或者 * * * * *</span><br></pre></td></tr></table></figure>
+<h3 id="2-创建一个子进程，如何回收子进程。"><a href="#2-创建一个子进程，如何回收子进程。" class="headerlink" title="2. 创建一个子进程，如何回收子进程。"></a>2. 创建一个子进程，如何回收子进程。</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">&#x2F;&#x2F;  获取当前进程 ID</span><br><span class="line">echo &quot;我是 一个 主进程，我的ID是：&quot; . posix_getpid().PHP_EOL;</span><br><span class="line">&#x2F;&#x2F; 为进程设置名称</span><br><span class="line">cli_get_process_title(&quot;Master&quot;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 创建一个子进程</span><br><span class="line">$child &#x3D; new \Swoole\Process(function ()&#123;</span><br><span class="line">	cli_get_process_title(&quot;Child&quot;);</span><br><span class="line">	&#x2F;&#x2F; 这是一个匿名函数，也就是定义子进程需要做的事情。</span><br><span class="line">	echo &quot;我是一个子进程，我的ID 是：&quot; . posix_getpid() . PHP_EOL;</span><br><span class="line">	&#x2F;&#x2F; 如果就这样放着不管，那么这个子进程不会被回收，它是一个僵尸进程，虽然在那里但是并没有做事情，它的生命周期已经结束了。</span><br><span class="line">&#125;);</span><br><span class="line">&#x2F;&#x2F; 创建</span><br><span class="line">$child-&gt;start();</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 回收子进程</span><br><span class="line">\Swoole\Process::wait();</span><br><span class="line"></span><br><span class="line">while (true) &#123;</span><br><span class="line">	sleep(1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>每五分钟执行一次：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*&#x2F;5 * * * *</span><br></pre></td></tr></table></figure>
-
-<p>每小时执行一次：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 * * * *  或者 0 *&#x2F;1 * * *</span><br></pre></td></tr></table></figure>
-
-<p>每天执行一次：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 0 * *  *</span><br></pre></td></tr></table></figure>
-
-<p>每周执行一次：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 0 * *  0</span><br></pre></td></tr></table></figure>
-
-<p>每月执行一次：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 0 1 *  0</span><br></pre></td></tr></table></figure>
-
-<h3 id="如何使用"><a href="#如何使用" class="headerlink" title="如何使用"></a>如何使用</h3><p>初次接触<code>crontab</code> 命令时，我也比较纳闷，这个命令倒底是如何使用的？</p>
-<p>使用 crontab 有两种方式：</p>
+<h3 id="3-重定向子进程标准输出"><a href="#3-重定向子进程标准输出" class="headerlink" title="3. 重定向子进程标准输出"></a>3. 重定向子进程标准输出</h3><p>子进程默认的标准输出是输出到屏幕上，可以通过对子进程设置，把输出重定向至管道。</p>
+<p>然后再由主进程把管道中的内容读取出来。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;  获取当前进程 ID</span><br><span class="line">echo &quot;我是 一个 主进程，我的ID是：&quot; . posix_getpid().PHP_EOL;</span><br><span class="line">&#x2F;&#x2F; 为进程设置名称</span><br><span class="line">cli_get_process_title(&quot;Master&quot;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 创建一个子进程</span><br><span class="line">$child &#x3D; new \Swoole\Process(function ()&#123;</span><br><span class="line">	cli_get_process_title(&quot;Child&quot;);</span><br><span class="line"></span><br><span class="line">	while (true) &#123;</span><br><span class="line">		&#x2F;&#x2F; 这是一个匿名函数，也就是定义子进程需要做的事情。</span><br><span class="line">		echo &quot;我是一个子进程，我的ID 是：&quot; . posix_getpid() . PHP_EOL;</span><br><span class="line">		&#x2F;&#x2F; 如果就这样放着不管，那么这个子进程不会被回收，它是一个僵尸进程，虽然在那里但是并没有做事情，它的生命周期已经结束了。</span><br><span class="line">		sleep(1);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;, true);</span><br><span class="line">&#x2F;&#x2F; 创建</span><br><span class="line">$child-&gt;start();</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 回收子进程，是否阻塞等待，默认为true，阻塞。</span><br><span class="line">\Swoole\Process::wait(false);</span><br><span class="line"></span><br><span class="line">while (true) &#123;</span><br><span class="line">	echo &quot;通过主进程从管道中读取信息：&quot;. $child-&gt;read(). PHP_EOL;</span><br><span class="line">	sleep(1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样做的好处是，可以通过主进程集中处理子进程的输出（比如可以写入日志），避免输出直接到屏幕中了。</p>
+<p>第一个参数的作用是：是否将输出重定向至主进程。<br>true：将输出重定向至主进程管道。<br>false：直接将输出重定向至屏幕。</p>
+<p>第二个参数的作用是：是否创建管道。<br>0：不创建</p>
 <ol>
-<li>crontab -e：直接接受标准输入（键盘）上键入的命令，并将它们载入crontab。</li>
-<li>crontab file：将file 作为crontab 的任务列表文件并载入crontab</li>
+<li>创建Tcp 管道</li>
+<li>创建Udp 管道</li>
 </ol>
-<p>第一种方式没什么好说的，直接在终端添加 crontab 任务就行了，下面简单说一下第二种（其实两者的核心都是一样的）。</p>
-<h4 id="创建crontab-文件"><a href="#创建crontab-文件" class="headerlink" title="创建crontab 文件"></a>创建crontab 文件</h4><p>首先创建一个文件，该文件的内容以<strong>功能描述</strong>、<strong>执行时间</strong>、<strong>执行任务</strong> 这几部分组成。</p>
-<p>其中，前两者并不是一定需要，只是为了方便自己日后或其他人能快速知道这个任务具体是做什么的，<code>#</code> 表示注释。</p>
-<p>示例，创建一个名称为<code>script_cron</code> 的crontab 文件：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 每分钟执行一次 script.php 脚本</span><br><span class="line">* * * * * &#x2F;usr&#x2F;bin&#x2F;php ~&#x2F;script.php</span><br></pre></td></tr></table></figure>
-
-<h4 id="运行crontab"><a href="#运行crontab" class="headerlink" title="运行crontab"></a>运行crontab</h4><p>为了提交刚刚创建的crontab 文件，可以把这个新创建的文件名称作为<code>crontab</code>命令的参数：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ crontab script_cron</span><br></pre></td></tr></table></figure>
-
-<h4 id="列出cron-服务"><a href="#列出cron-服务" class="headerlink" title="列出cron 服务"></a>列出cron 服务</h4><p>使用<code>-l</code> 参数列出crontab文件：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ crontab -l</span><br><span class="line"># 每分钟执行一次 script.php 脚本</span><br><span class="line">* * * * * &#x2F;usr&#x2F;bin&#x2F;php ~&#x2F;script.php</span><br></pre></td></tr></table></figure>
-
-<h4 id="编辑cron-服务"><a href="#编辑cron-服务" class="headerlink" title="编辑cron 服务"></a>编辑cron 服务</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ crontab -e</span><br></pre></td></tr></table></figure>
-
-<h4 id="删除cron-服务"><a href="#删除cron-服务" class="headerlink" title="删除cron 服务"></a>删除cron 服务</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ crontab -r</span><br></pre></td></tr></table></figure>
-
-<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ol>
-<li>新创建的cron 任务，不会马上执行，至少要过两分钟才执行。</li>
-<li>如果需要执行的任务，涉及到路径，建立使用绝对路径来表示。</li>
+<p>第三个参数的作用是：是否启用协程。</p>
+<h3 id="4-多个子进程的回收"><a href="#4-多个子进程的回收" class="headerlink" title="4. 多个子进程的回收"></a>4. 多个子进程的回收</h3><p>如果主进程只是执行一次就退出，而子进程还一直在，那么主进程也不会直接退出。</p>
+<p>如果有多个子进程，其中某一个子进程退出了，而另一个并没有退出，这时主进程也会选择退出，而剩余的那个子进程则成了僵尸进程。<br>因为它的父进程的ID 为零。</p>
+<p>如果不做信号处理，否则子进程一旦退出，都会引起父进程退出。如果这时还有其他子进程没有退出，这会造成其他子进程变成僵尸进程。   </p>
+<ol start="5">
+<li>在子进程中创建服务</li>
 </ol>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><a href="https://www.linuxprobe.com/how-to-crontab.html" target="_blank" rel="noopener">crontab用法与实例</a></li>
-</ul>
+<p>分别是Master、Manager、Worker 进程，以及该子进程的父进程。</p>
+<p>可以单独设置http 进程：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$http-&gt;set([</span><br><span class="line">  &quot;worker_num&quot; &#x3D;&gt; 1</span><br><span class="line">]);</span><br></pre></td></tr></table></figure>
+
+<p>这样的话，进程就变成了两类：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201101204306.png" alt=""></p>
+<p>最上面那个是父进程，下面三个分别是Master、Manger、Worker 进程。</p>
+<h3 id="6-在进程中使用协程"><a href="#6-在进程中使用协程" class="headerlink" title="6. 在进程中使用协程"></a>6. 在进程中使用协程</h3><h3 id="7-子进程使用管道进行通信"><a href="#7-子进程使用管道进行通信" class="headerlink" title="7. 子进程使用管道进行通信"></a>7. 子进程使用管道进行通信</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">use \Swoole\Process;</span><br><span class="line">&#x2F;&#x2F;  引入协程</span><br><span class="line">use \Swoole\Coroutine\Mysql as Mysql;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;  获取当前进程 ID</span><br><span class="line">echo &quot;我是 一个 主进程，我的ID是：&quot; . posix_getpid().PHP_EOL;</span><br><span class="line"></span><br><span class="line">$child &#x3D; new Process(function (Process $proces)&#123;</span><br><span class="line">	&#x2F;&#x2F; $mysql &#x3D; new \think\db\builder\Mysql();</span><br><span class="line">	$mysql &#x3D; new Mysql();</span><br><span class="line">	$db &#x3D; $mysql-&gt;connect([&quot;host&quot; &#x3D;&gt; &quot;127.0.0.1&quot;, &quot;user&quot; &#x3D;&gt; &quot;root&quot;, &quot;password&quot; &#x3D;&gt; &quot;122410&quot;, &quot;database&quot; &#x3D;&gt; &quot;2v&quot;]);</span><br><span class="line">	while (true) &#123;</span><br><span class="line">		$sql &#x3D; &quot;select * from 2v.2v_user where is_delete &#x3D; 0 limit 0, 1&quot;;</span><br><span class="line">		$rows &#x3D; $mysql-&gt;query($sql);</span><br><span class="line">		if ($rows) &#123;</span><br><span class="line">			$proces-&gt;write(&quot;我是一号子进程，正在查询数据：&quot;.$rows[0][&quot;user_name&quot;]);</span><br><span class="line">		&#125;</span><br><span class="line">		sleep(1);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;, false, 1, true);</span><br><span class="line">&#x2F;&#x2F; 创建子进程</span><br><span class="line">$child-&gt;start();</span><br><span class="line"></span><br><span class="line">$child2 &#x3D; new Process(function (Process $process) &#123;</span><br><span class="line">	while (true) &#123;</span><br><span class="line">		sleep(1);</span><br><span class="line">		$res &#x3D; $process-&gt;read();</span><br><span class="line">		if ($res) &#123;</span><br><span class="line">			echo &quot;我是二号子进程，正在获取数据：&quot;.$res.PHP_EOL;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br><span class="line">&#x2F;&#x2F; 创建第二个子进程</span><br><span class="line">$child2-&gt;start();</span><br><span class="line"></span><br><span class="line">while (true) &#123;</span><br><span class="line">	&#x2F;&#x2F; 一号子进程从管道中读取数据</span><br><span class="line">	$data &#x3D; $child-&gt;read();</span><br><span class="line">	if ($data) &#123;</span><br><span class="line">		&#x2F;&#x2F; 如果数据存在，二号子进程则向管道中写入数据</span><br><span class="line">		$child2-&gt;write($data);</span><br><span class="line">	&#125;</span><br><span class="line">	sleep(1);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 通过信号回收子进程</span><br><span class="line">Process::signal(SIGCHLD, function ($sig) &#123;</span><br><span class="line">	&#x2F;&#x2F; 必须为false，非阻塞模式</span><br><span class="line">	while ($res &#x3D; Process::wait(false)) &#123;</span><br><span class="line">		echo &quot;PID &#x3D; &#123;$res[&#39;pid&#39;]&#125;&quot;;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-子进程使用队列进行通信"><a href="#8-子进程使用队列进行通信" class="headerlink" title="8. 子进程使用队列进行通信"></a>8. 子进程使用队列进行通信</h3><h3 id="9-设置定时任务"><a href="#9-设置定时任务" class="headerlink" title="9. 设置定时任务"></a>9. 设置定时任务</h3><p>通过Swoole 设置定时任务，到点之后自动执行定时任务。</p>
+<p>核心逻辑：创建一个Manager 进程，通过一个while 循环，定时获取获取当前时间判断是否需要执行定时任务。</p>
+<p>如果需要执行定时任务，则发送一个信号，在主进程中监听该信号， 然后执行对应的业务逻辑。</p>
+<p>从 Swoole 4.x 版本开始，不再以监听信号的方式作为回收子进程了。</p>
 
           
             <div class='article_footer'>
@@ -500,7 +451,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/crontab-quick-start/>https://www.0x2beace.com/crontab-quick-start/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/swoole-process-learning/>https://www.0x2beace.com/swoole-process-learning/</a></p>
           
         
       </blockquote>
@@ -548,10 +499,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-10-27T23:31:45+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-11-01T21:33:08+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Oct 27, 2020</p>
+    <p>更新于：Nov 1, 2020</p>
   </a>
 </div>
 
@@ -560,7 +511,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Linux/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Linux</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Crontab/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Crontab</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Swoole/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Swoole</p></a></div>
 
 
         
@@ -578,8 +529,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/crontab-quick-start/&title=Crontab 快速上手 - Boo&summary=Crontab 是Unix 系统中基于时间的任务管理工具。
-这个命令与传统的 Unix 命令不一样，下面会一一介绍其规则及其用法。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/swoole-process-learning/&title=swoole process learning - Boo&summary="
           
           >
           
@@ -591,8 +541,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/crontab-quick-start/&title=Crontab 快速上手 - Boo&summary=Crontab 是Unix 系统中基于时间的任务管理工具。
-这个命令与传统的 Unix 命令不一样，下面会一一介绍其规则及其用法。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/swoole-process-learning/&title=swoole process learning - Boo&summary="
           
           >
           
@@ -604,8 +553,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/crontab-quick-start/&title=Crontab 快速上手 - Boo&summary=Crontab 是Unix 系统中基于时间的任务管理工具。
-这个命令与传统的 Unix 命令不一样，下面会一一介绍其规则及其用法。"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/swoole-process-learning/&title=swoole process learning - Boo&summary="
           
           >
           
@@ -619,7 +567,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAAC7klEQVR42u3aS3KDMBAFQN//0skF4mJ+wkzc2mEDkprNqxm9fow/xwsBGDBgwIABswbmVRyXE7y5P3p99fy7dXT3AwYMGDBgwIDZBxMOQBcLym4gHcCS0On3gQEDBgwYMGDWwkQD1t3P37YeMGDAgAEDBszXwWQDXjUgggEDBgwYMGDAfAom21CLNtbAgAEDBgwYMGC6Da/u7933PaYTCQYMGDBgwIC5DSY7uoWj09fl/YABAwYMGDBg1sB0R3TCaMDq3tfeDxgwYMCAAQNmDUw1IGULWdlCVBWivX4wYMCAAQMGzBqYbpCaPgBUvb+6nnChCgwYMGDAgAHzWJhqgOs2uqLzdaHC7wMDBgwYMGDArIWZKhR1f08Hs6kACQYMGDBgwIBZC5MNSFnQbOA6vc5yoQoMGDBgwIAB83GYagEoGgy7G5mCCIOBAQMGDBgwYNbDVKGqB466hbFokAsXqsCAAQMGDBgwj4eZWng1kJ3acPmgEhgwYMCAAQNmHUy10NP9PQtXnTf8PjBgwIABAwbMGpjsg9H/qxvrNs7aHwgMGDBgwIABsw4mu7Gphlv2vmqDMPyhwYABAwYMGDBrYKYnmD5QlC1sVYMfGDBgwIABA+b/wHQLV9WAOFUYyx4YAgMGDBgwYMDsg8kGpW7wGwtiwfWMNdzAgAEDBgwYMGtgpq6nC1nV4Bc+kAQGDBgwYMCAWQvTLRx1g9upjYfvAwMGDBgwYMCsh8kGo2oQSwew5oe43DcYMGDAgAEDZg3M3QWibiMu2mArF9rAgAEDBgwYMGtgugd6qgudhstChJMvGDBgwIABA+bxMN1CUzbwVf8//iHAgAEDBgwYMGthqgGqWjCaKjRVgykYMGDAgAEDBkz1gM+pglQ1cIIBAwYMGDBgvg8mu6Hphlt23tuTLxgwYMCAAQPmOEy24VYtTGXfk23IVecFAwYMGDBgwOyDmQpOXbjTUJeQYMCAAQMGDJg1MAYYMGDAgAEDZtn4BT+1ZJ1e7412AAAAAElFTkSuQmCC">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAAC/UlEQVR42u3aQXIbMQwEQP3/08kD5NQCA9IR7OZNql0u2bxMAXz9Mb4cLwRgwIABAwbMGphXON4mLD73r/eq86TrqO4HDBgwYMCAAbMPphyAHp7vgky///S7PR8YMGDAgAEDZi1MNWDd+t0NjNX5y/sBAwYMGDBgwPw6mG5hq7vBKTwYMGDAgAEDBsytBli3kNWFAwMGDBgwYMD8fJhbQaxbmJpC/PdOJBgwYMCAAQPm22C647sacKcKU+X9gAEDBgwYMGDWwExHN1B13386kOn3374HBgwYMGDAgFkDc+oiUHUD3UJUCp1eZAIDBgwYMGDA7IHpAlUXkjbapt/rHtBjoQoMGDBgwIAB87Ew04CXbrjbwEuDYXs+MGDAgAEDBsxamKcJbxW40nlPFcrAgAEDBgwYMHthTgFN/68GtmqDrv08GDBgwIABA2YNTNr4uhXsThXIuusFAwYMGDBgwOyD6RZ4UrhucOyOU4BgwIABAwYMmD0waUEnXXA3AKbPdS8MgQEDBgwYMGD2wdwuSHUB02AYQ3QLVWDAgAEDBgyYj4VJg1W64dMBMC28gQEDBgwYMGD2wlSDVTcIpoWl6frS4AcGDBgwYMCA2QdTXVh6YefWc8eDIxgwYMCAAQNmDcy08JQWkKrBLW24pQ05MGDAgAEDBswemHRB6QLSINYtWKX/gwEDBgwYMGD2wqQXgU5tuHsg03WPO5FgwIABAwYMmI+DSS/0pFC3Amb7YhEYMGDAgAEDZi1M2qiaBsbTB5IGSDBgwIABAwbMHpjpmAJNG27TAhUYMGDAgAEDZi/MKxzdglF6ISgtiMWBEwwYMGDAgAGzDiYNdFPIbmCcHtRjIQwMGDBgwIABsxZmGqC6kOkBnSp0gQEDBgwYMGDATC8a3Tqg9rxgwIABAwYMmF8H0w1w3Y1NG4PVAAkGDBgwYMCA2QuTNsSmDbRxoywMimDAgAEDBgyY/TDHG1eHClxVsO4BlhtuYMCAAQMGDJiPhTHAgAEDBgwYMMvGX/qI5vBJqUHVAAAAAElFTkSuQmCC">
           </div>
         </div>
       
@@ -639,20 +587,14 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/swoole-process-learning/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>swoole process learning</p>
-                <p class='content'>记录Swoole 进程学习过程。
-1. 创建一个进程123456789&lt;?php&#x2F;&#x2F;  获取当前进程 IDecho &quot;我是 一个 主进程，我的ID是：&quo...</p>
-              </a>
             
-            
-              <a class='next' href='/sorting-out-some-concepts-in-swoole/'>
-                <p class='title'>Swoole 常见概念整理<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>Swoole 是一个非常优秀的PHP 的协程高性能网络通信引擎。
-在学习过程中，遇到了一些新或旧的概念，在此整理一下。
+              <a class='next' href='/crontab-quick-start/'>
+                <p class='title'>Crontab 快速上手<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>Crontab 是Unix 系统中基于时间的任务管理工具。
+这个命令与传统的 Unix 命令不一样，下面会一一介绍其规则及其用法。
 
 
-长连接/短连接长连接： 客户端和服务端建立连接后不进行断开，之后客户端...</p>
+crontab 还是 croncrontab 还是 cro...</p>
               </a>
             
           </div>
@@ -697,7 +639,7 @@
 
   <script>
     window.subData = {
-      title: 'Crontab 快速上手',
+      title: 'swoole process learning',
       tools: true
     }
   </script>
@@ -724,7 +666,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#crontab-还是-cron"><span class="toc-text">crontab 还是 cron</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#文件格式"><span class="toc-text">文件格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用实例"><span class="toc-text">常用实例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何使用"><span class="toc-text">如何使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#创建crontab-文件"><span class="toc-text">创建crontab 文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#运行crontab"><span class="toc-text">运行crontab</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#列出cron-服务"><span class="toc-text">列出cron 服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#编辑cron-服务"><span class="toc-text">编辑cron 服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#删除cron-服务"><span class="toc-text">删除cron 服务</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注意事项"><span class="toc-text">注意事项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-创建一个进程"><span class="toc-text">1. 创建一个进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-创建一个子进程，如何回收子进程。"><span class="toc-text">2. 创建一个子进程，如何回收子进程。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-重定向子进程标准输出"><span class="toc-text">3. 重定向子进程标准输出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-多个子进程的回收"><span class="toc-text">4. 多个子进程的回收</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-在进程中使用协程"><span class="toc-text">6. 在进程中使用协程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-子进程使用管道进行通信"><span class="toc-text">7. 子进程使用管道进行通信</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-子进程使用队列进行通信"><span class="toc-text">8. 子进程使用队列进行通信</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-设置定时任务"><span class="toc-text">9. 设置定时任务</span></a></li></ol>
     </div>
   </section>
 
