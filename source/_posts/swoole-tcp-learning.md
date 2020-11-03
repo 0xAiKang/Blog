@@ -5,7 +5,7 @@ tags: ["PHP", "Swoole"]
 categories: ["PHP"]
 ---
 
-最近一直在学习Swoole，刚好有个老项目的一小部分有用到了Tcp 协议，借此机会重构一下。
+最近一直在学习Swoole，刚好有个老项目的一小部分(一个脚本)有用到了Tcp 协议，借此机会重构一下。
 
 <!-- more -->
 
@@ -14,7 +14,7 @@ categories: ["PHP"]
 
 原始的处理方式，不合理的地方有以下几点：
 1. 目标服务器需要开放指定端口，这会导致目标服务器向外暴露，不安全。
-2. 如果有多台目标服务器，这会导致需要修改源码，脚本维护起来不方便。
+2. 如果有多台目标服务器，这会导致频繁需要修改源码，脚本维护起来不方便。
 
 ### 重构
 重构需要解决的问题有如下：
@@ -32,10 +32,6 @@ use Swoole\Process;
  * 创建Server 对象，监听本地 9501 端口。
  */
 $server = new Swoole\Server("0.0.0.0", 9501);
-
-$server->set([
-	"enable_coroutine" => false,
-]);
 
 $workers = [];
 
@@ -55,7 +51,7 @@ $server->on("Connect", function ($server, $fd) {
 	  // 向客户端推送消息   
 	  $server->send($fd, $str);
 	  
-	}, true);
+	}, true, 0, false);
 	
 	// 启动子进程
 	$pid = $process->start();
@@ -77,12 +73,12 @@ $server->on("Close", function ($server, $fd) {
 	global $workers;
 	
 	foreach ($workers as $worker) {
-	  if ($item['fd'] === $fd){
+	  if ($worker['fd'] === $fd){
 	    // 检查子进程是否存在
   		if (Process::kill($worker['pid'], 0)){
-  			array_shift($workers);
+  			array_shift($worker);
   			// 通过信号终止子进程
-  			Process::kill($item['pid'], SIGKILL);
+  			Process::kill($worker['pid'], SIGKILL);
   		}
 	  }
 	}

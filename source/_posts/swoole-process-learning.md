@@ -7,6 +7,8 @@ categories: ["PHP"]
 
 记录Swoole 进程学习过程。
 
+<!-- more -->
+
 ### 1. 创建一个进程
 ```
 <?php
