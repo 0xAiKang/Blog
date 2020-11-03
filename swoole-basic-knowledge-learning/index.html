@@ -16,13 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>Crontab 快速上手 - Boo</title>
+    <title>Swoole 基础知识学习 - Boo</title>
   
-    <meta name="keywords" content="Linux,Crontab">
+    <meta name="keywords" content="PHP,Swoole">
   
   
-    <meta name="description" content="Crontab 是Unix 系统中基于时间的任务管理工具。
-这个命令与传统的 Unix 命令不一样，下面会一一介绍其规则及其用法。">
+    <meta name="description" content="这篇笔记用来记录Swoole 基础知识的学习。">
   
 
   <!-- feed -->
@@ -286,8 +285,8 @@
         
           
   <h1 class="title">
-    <a href="/crontab-quick-start/">
-      Crontab 快速上手
+    <a href="/swoole-basic-knowledge-learning/">
+      Swoole 基础知识学习
     </a>
   </h1>
 
@@ -312,9 +311,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Linux/' rel="nofollow">
+    <a href='/categories/PHP/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Linux</p>
+      <p>PHP</p>
     </a>
   </div>
 
@@ -325,7 +324,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Oct 27, 2020</p>
+    <p>发布于：Nov 3, 2020</p>
   </a>
 </div>
 
@@ -341,13 +340,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>681 words</p>
+      <p>825 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>2 min</p>
+      <p>3 min</p>
     </a>
   </div>
 
@@ -360,7 +359,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/crontab-quick-start/" class="leancloud_visitors" data-flag-title="Crontab 快速上手">
+      <span id="/swoole-basic-knowledge-learning/" class="leancloud_visitors" data-flag-title="Swoole 基础知识学习">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -383,86 +382,39 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p><a href="https://zh.wikipedia.org/zh-hans/Cron" target="_blank" rel="noopener">Crontab</a> 是Unix 系统中基于时间的任务管理工具。</p>
-<p>这个命令与传统的 Unix 命令不一样，下面会一一介绍其规则及其用法。</p>
+          <p>这篇笔记用来记录Swoole 基础知识的学习。</p>
 <a id="more"></a>
 
-<h2 id="crontab-还是-cron"><a href="#crontab-还是-cron" class="headerlink" title="crontab 还是 cron"></a>crontab 还是 cron</h2><p><a href="https://baike.baidu.com/item/crontab" target="_blank" rel="noopener">crontab</a> 还是 <a href="https://baike.baidu.com/item/cron" target="_blank" rel="noopener">cron</a>？初次接触 crontab 的同学可能会被这两个词给绕晕。</p>
-<p>其实可以这样来理解：<code>crontab</code>就是 <code>cron</code>服务的命令行工具，而<code>cron</code>则是背后处理<code>crontab</code>投递任务的服务。</p>
-<h3 id="文件格式"><a href="#文件格式" class="headerlink" title="文件格式"></a>文件格式</h3><p>crontab 命令是以固定的时间格式来使用的，</p>
-<table>
-<thead>
-<tr>
-<th>表示意义</th>
-<th>分钟</th>
-<th>小时</th>
-<th>日期</th>
-<th>月份</th>
-<th>周</th>
-<th>命令</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>范围</td>
-<td>0～59（*）</td>
-<td>0～23（*）</td>
-<td>1～31（*）</td>
-<td>1～12（*）</td>
-<td>0～7（*）</td>
-<td>需要执行的命令</td>
-</tr>
-</tbody></table>
-<p>另外还有一些特殊字符具有特殊含义：</p>
-<ul>
-<li><code>*</code> 表示任何时刻都接收。举个栗子：<code>* 12 * * *</code> 表示不论何月、何日的星期几的十二点都执行指定命令。</li>
+<h2 id="Master、Manager、Worker、Reactor"><a href="#Master、Manager、Worker、Reactor" class="headerlink" title="Master、Manager、Worker、Reactor"></a>Master、Manager、Worker、Reactor</h2><h3 id="Master"><a href="#Master" class="headerlink" title="Master"></a>Master</h3><p>Master 进程是一个多线程进程。</p>
+<h3 id="Manager-进程"><a href="#Manager-进程" class="headerlink" title="Manager 进程"></a>Manager 进程</h3><p>负责创建 / 回收 worker/task 进程</p>
+<h3 id="Worker-进程"><a href="#Worker-进程" class="headerlink" title="Worker 进程"></a>Worker 进程</h3><ul>
+<li>接受由 Reactor 线程投递的请求数据包，并执行 PHP 回调函数处理数据</li>
+<li>生成响应数据并发给 Reactor 线程，由 Reactor 线程发送给 TCP 客户端</li>
+<li>可以是异步非阻塞模式，也可以是同步阻塞模式</li>
+<li>Worker 以多进程的方式运行</li>
 </ul>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201027163458.png" alt=""></p>
-<h3 id="常用实例"><a href="#常用实例" class="headerlink" title="常用实例"></a>常用实例</h3><p>每分钟执行一次：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*&#x2F;1 * * * * 或者 * * * * *</span><br></pre></td></tr></table></figure>
-
-<p>每五分钟执行一次：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*&#x2F;5 * * * *</span><br></pre></td></tr></table></figure>
-
-<p>每小时执行一次：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 * * * *  或者 0 *&#x2F;1 * * *</span><br></pre></td></tr></table></figure>
-
-<p>每天执行一次：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 0 * *  *</span><br></pre></td></tr></table></figure>
-
-<p>每周执行一次：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 0 * *  0</span><br></pre></td></tr></table></figure>
-
-<p>每月执行一次：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 0 1 *  0</span><br></pre></td></tr></table></figure>
-
-<h3 id="如何使用"><a href="#如何使用" class="headerlink" title="如何使用"></a>如何使用</h3><p>初次接触<code>crontab</code> 命令时，我也比较纳闷，这个命令倒底是如何使用的？</p>
-<p>使用 crontab 有两种方式：</p>
-<ol>
-<li>crontab -e：直接接受标准输入（键盘）上键入的命令，并将它们载入crontab。</li>
-<li>crontab file：将file 作为crontab 的任务列表文件并载入crontab</li>
-</ol>
-<p>第一种方式没什么好说的，直接在终端添加 crontab 任务就行了，下面简单说一下第二种（其实两者的核心都是一样的）。</p>
-<h4 id="创建crontab-文件"><a href="#创建crontab-文件" class="headerlink" title="创建crontab 文件"></a>创建crontab 文件</h4><p>首先创建一个文件，该文件的内容以<strong>功能描述</strong>、<strong>执行时间</strong>、<strong>执行任务</strong> 这几部分组成。</p>
-<p>其中，前两者并不是一定需要，只是为了方便自己日后或其他人能快速知道这个任务具体是做什么的，<code>#</code> 表示注释。</p>
-<p>示例，创建一个名称为<code>script_cron</code> 的crontab 文件：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 每分钟执行一次 script.php 脚本</span><br><span class="line">* * * * * &#x2F;usr&#x2F;bin&#x2F;php ~&#x2F;script.php</span><br></pre></td></tr></table></figure>
-
-<h4 id="运行crontab"><a href="#运行crontab" class="headerlink" title="运行crontab"></a>运行crontab</h4><p>为了提交刚刚创建的crontab 文件，可以把这个新创建的文件名称作为<code>crontab</code>命令的参数：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ crontab script_cron</span><br></pre></td></tr></table></figure>
-
-<h4 id="列出cron-服务"><a href="#列出cron-服务" class="headerlink" title="列出cron 服务"></a>列出cron 服务</h4><p>使用<code>-l</code> 参数列出crontab文件：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ crontab -l</span><br><span class="line"># 每分钟执行一次 script.php 脚本</span><br><span class="line">* * * * * &#x2F;usr&#x2F;bin&#x2F;php ~&#x2F;script.php</span><br></pre></td></tr></table></figure>
-
-<h4 id="编辑cron-服务"><a href="#编辑cron-服务" class="headerlink" title="编辑cron 服务"></a>编辑cron 服务</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ crontab -e</span><br></pre></td></tr></table></figure>
-
-<h4 id="删除cron-服务"><a href="#删除cron-服务" class="headerlink" title="删除cron 服务"></a>删除cron 服务</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ crontab -r</span><br></pre></td></tr></table></figure>
-
-<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ol>
-<li>新创建的cron 任务，不会马上执行，至少要过两分钟才执行。</li>
-<li>如果需要执行的任务，涉及到路径，建立使用绝对路径来表示。</li>
+<h3 id="Reactor-线程"><a href="#Reactor-线程" class="headerlink" title="Reactor 线程"></a>Reactor 线程</h3><ul>
+<li>Reactor 线程是在 Master 进程中创建的线程</li>
+<li>负责维护客户端 TCP 连接、处理网络 IO、处理协议、收发数据</li>
+<li>不执行任何 PHP 代码</li>
+<li>将 TCP 客户端发来的数据缓冲、拼接、拆分成完整的一个请求数据包</li>
+</ul>
+<p>有一个更加通俗的比喻来描述这三者的关系：<br>假设 <code>Server</code> 就是一个工厂，那 <code>Reactor</code> 就是销售，接受客户订单。而 <code>Worker</code>就是工人，当销售接到订单后，<code>Worker</code>去工作生产出客户要的东西，而 <code>TaskWorker</code> 可以理解为行政人员，可以帮助 <code>Worker</code> 干些杂事，让 <code>Worker</code>专心工作。</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>IPv4 使用 127.0.0.1 表示监听本机，0.0.0.0 表示监听所有地址<br>IPv6 使用::1 表示监听本机，:: (相当于 0:0:0:0) 表示监听所有地址</p>
+<h3 id="TCP-协议"><a href="#TCP-协议" class="headerlink" title="TCP 协议"></a>TCP 协议</h3><p>TCP (Transmission Control Protocol 传输控制协议）协议是一种面向连接的，可靠的，基于字节流的传输通信协议。</p>
+<h3 id="UDP-协议"><a href="#UDP-协议" class="headerlink" title="UDP 协议"></a>UDP 协议</h3><p>UDP (User Datagram Protocol 用户数据报协议）是一种无连接的传输层协议，提供面向事务的简单不可靠信息传送服务。</p>
+<p>UDP 服务器与 TCP 服务器不同，UDP 没有连接的概念。启动 Server 后，客户端无需 Connect，直接可以向 Server 监听的 9502 端口发送数据包。</p>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="TCP-“粘包”问题"><a href="#TCP-“粘包”问题" class="headerlink" title="TCP “粘包”问题"></a>TCP “粘包”问题</h3><p>首先来解释以下所谓的“粘包”问题其本质是什么。</p>
+<p>服务端建立服务，客户端向服务端发起连接，正常情况下，服务端的每次 send，客户端都能正常 recv。但在并发的情况下，服务端的两次send 或者更多次 sned，客户端可能一次就 recv了。</p>
+<p>所以这就导致“粘包”问题的产生。</p>
+<p>TCP 协议的本质是流协议，它只会保证保证发送方以什么顺序发送字节，接收方就一定能按这个顺序接收到。所以所谓的“粘包”问题不应该是传输层的问题，而是应用层的问题。</p>
+<h3 id="无法连接到服务器的简单检测手段"><a href="#无法连接到服务器的简单检测手段" class="headerlink" title="无法连接到服务器的简单检测手段"></a>无法连接到服务器的简单检测手段</h3><ol>
+<li>在 Linux 下，使用 <code>netstat -an | grep</code> 端口，查看端口是否已经被打开处于 Listening 状态</li>
+<li>上一步确认后，再检查防火墙问题，这里的防火墙指的是机器本身的防火墙，如果是云服务器，那么还包括云的防火墙。</li>
+<li>注意服务器所使用的 IP 地址，如果是 <code>127.0.0.1</code> 回环地址，则客户端只能使用 <code>127.0.0.1</code> 才能连接上，所以如果希望其他机器也能访问本机，那就使用<code>0.0.0.0</code>。</li>
 </ol>
 <h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><a href="https://www.linuxprobe.com/how-to-crontab.html" target="_blank" rel="noopener">crontab用法与实例</a></li>
+<li><a href="https://www.zhihu.com/question/20210025" target="_blank" rel="noopener">怎么解决TCP网络传输「粘包」问题？</a></li>
 </ul>
 
           
@@ -500,7 +452,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/crontab-quick-start/>https://www.0x2beace.com/crontab-quick-start/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/swoole-basic-knowledge-learning/>https://www.0x2beace.com/swoole-basic-knowledge-learning/</a></p>
           
         
       </blockquote>
@@ -548,10 +500,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-10-27T23:31:45+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-11-03T22:35:50+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Oct 27, 2020</p>
+    <p>更新于：Nov 3, 2020</p>
   </a>
 </div>
 
@@ -560,7 +512,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Linux/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Linux</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Crontab/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Crontab</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Swoole/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Swoole</p></a></div>
 
 
         
@@ -578,8 +530,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/crontab-quick-start/&title=Crontab 快速上手 - Boo&summary=Crontab 是Unix 系统中基于时间的任务管理工具。
-这个命令与传统的 Unix 命令不一样，下面会一一介绍其规则及其用法。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/swoole-basic-knowledge-learning/&title=Swoole 基础知识学习 - Boo&summary=这篇笔记用来记录Swoole 基础知识的学习。"
           
           >
           
@@ -591,8 +542,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/crontab-quick-start/&title=Crontab 快速上手 - Boo&summary=Crontab 是Unix 系统中基于时间的任务管理工具。
-这个命令与传统的 Unix 命令不一样，下面会一一介绍其规则及其用法。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/swoole-basic-knowledge-learning/&title=Swoole 基础知识学习 - Boo&summary=这篇笔记用来记录Swoole 基础知识的学习。"
           
           >
           
@@ -604,8 +554,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/crontab-quick-start/&title=Crontab 快速上手 - Boo&summary=Crontab 是Unix 系统中基于时间的任务管理工具。
-这个命令与传统的 Unix 命令不一样，下面会一一介绍其规则及其用法。"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/swoole-basic-knowledge-learning/&title=Swoole 基础知识学习 - Boo&summary=这篇笔记用来记录Swoole 基础知识的学习。"
           
           >
           
@@ -619,7 +568,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAAC7klEQVR42u3aS3KDMBAFQN//0skF4mJ+wkzc2mEDkprNqxm9fow/xwsBGDBgwIABswbmVRyXE7y5P3p99fy7dXT3AwYMGDBgwIDZBxMOQBcLym4gHcCS0On3gQEDBgwYMGDWwkQD1t3P37YeMGDAgAEDBszXwWQDXjUgggEDBgwYMGDAfAom21CLNtbAgAEDBgwYMGC6Da/u7933PaYTCQYMGDBgwIC5DSY7uoWj09fl/YABAwYMGDBg1sB0R3TCaMDq3tfeDxgwYMCAAQNmDUw1IGULWdlCVBWivX4wYMCAAQMGzBqYbpCaPgBUvb+6nnChCgwYMGDAgAHzWJhqgOs2uqLzdaHC7wMDBgwYMGDArIWZKhR1f08Hs6kACQYMGDBgwIBZC5MNSFnQbOA6vc5yoQoMGDBgwIAB83GYagEoGgy7G5mCCIOBAQMGDBgwYNbDVKGqB466hbFokAsXqsCAAQMGDBgwj4eZWng1kJ3acPmgEhgwYMCAAQNmHUy10NP9PQtXnTf8PjBgwIABAwbMGpjsg9H/qxvrNs7aHwgMGDBgwIABsw4mu7Gphlv2vmqDMPyhwYABAwYMGDBrYKYnmD5QlC1sVYMfGDBgwIABA+b/wHQLV9WAOFUYyx4YAgMGDBgwYMDsg8kGpW7wGwtiwfWMNdzAgAEDBgwYMGtgpq6nC1nV4Bc+kAQGDBgwYMCAWQvTLRx1g9upjYfvAwMGDBgwYMCsh8kGo2oQSwew5oe43DcYMGDAgAEDZg3M3QWibiMu2mArF9rAgAEDBgwYMGtgugd6qgudhstChJMvGDBgwIABA+bxMN1CUzbwVf8//iHAgAEDBgwYMGthqgGqWjCaKjRVgykYMGDAgAEDBkz1gM+pglQ1cIIBAwYMGDBgvg8mu6Hphlt23tuTLxgwYMCAAQPmOEy24VYtTGXfk23IVecFAwYMGDBgwOyDmQpOXbjTUJeQYMCAAQMGDJg1MAYYMGDAgAEDZtn4BT+1ZJ1e7412AAAAAElFTkSuQmCC">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADpklEQVR42u3aS3IaQAwFQO5/abJPKmXpSYBst3b8hpmezUPi8VRRPRCAAwcOnAIH7gjcI6x/Fvzr+fR91XXS16fnBQcOHDhw4MCBuwZXDoDFjVY3XP18FaL6fHpecODAgQMHDhy4q3BfBsDiBtP1q0E1veDxecGBAwcOHDhw4H4Y3LQR2W2EprDgwIEDBw4cOHDgsqDaDbDb3wcOHDhw4MCBA/dT4doD2nAAnQ6Mu8E4vThw4MCBAwcOHLjvAtetrcbmpx7H5wUHDhw4cODAgTsCN61u0E0Hx1cKHDhw4MCBAwfuClwaELuNzrRR+RhW9aLL5wMHDhw4cODAgTsC1x34dgfK042mF/CywTc4cODAgQMHDtxRuC5UuvGtA6YBt3vh4MCBAwcOHDhw1+CmAbQamF8VZF914f9dDxw4cODAgQMH7ghcGkirr1chU8DpHxvb64EDBw4cOHDgwB2Fmw6ety5ia5A9Dd7xJB8cOHDgwIEDB+7FcGkjsgvZDdJbAbkboMcDaXDgwIEDBw4cuDfBpYDbwGlA7u4rBQYHDhw4cODAgbsO9+qBbnphU9C1iwQHDhw4cODAgTsCFw9mh8G1O/ieDqTXgj04cODAgQMHDtwRuDRgbgXfKmA1GKcXN/7lAA4cOHDgwIED9yG4aXWh0vd3g2u1gVleDxw4cODAgQMH7hhc2pjcbnymg+o0mLcvBhw4cODAgQMH7pvATRuS3UZkGnS7+4vXAwcOHDhw4MCBOwI3HfCmjc4p7PQiu8EYHDhw4MCBAwfuGlwagNMgm0J0gVLgtYE0OHDgwIEDBw7ci+G6B55uqL3R5kW2A23znODAgQMHDhw4cNfhns1qbyBsiE4boeNzggMHDhw4cODAHYdLg+QUotv43Aq25f2AAwcOHDhw4MAdhdsaDE+D7Ltgq+uCAwcOHDhw4MB9F7it57uvd9/XDezp58GBAwcOHDhw4K7BTWsrwI4PNLzQ8jnAgQMHDhw4cOCOwE0DYncj03Wnwbvb+PzylwM4cODAgQMHDtyH4dLAu/XHwzQgbzdG1yf54MCBAwcOHDhwb4JLG4hb71sLqsMGaTsAgwMHDhw4cODA/RC4NEhvfV86yP7yMThw4MCBAwcO3C+DSxubWwPmZ7POBGBw4MCBAwcOHLgiXDe4ThuL1Y1XP59+T/nCwYEDBw4cOHDgjsFtDXDXGoZNmGljs3xecODAgQMHDhy4I3Cq2eBEAA4cOHAKHLjP1h/VTXzT/jLzBAAAAABJRU5ErkJggg==">
           </div>
         </div>
       
@@ -639,22 +588,14 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/swoole-process-learning/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Swoole 进程学习</p>
-                <p class='content'>记录Swoole 进程学习过程。
-
-
-1. 创建一个进程123456789&lt;?php&#x2F;&#x2F;  获取当前进程 IDecho &quot;我是 一个 主进程，我的ID是：&q...</p>
-              </a>
             
-            
-              <a class='next' href='/sorting-out-some-concepts-in-swoole/'>
-                <p class='title'>Swoole 常见概念整理<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>Swoole 是一个非常优秀的PHP 的协程高性能网络通信引擎。
-在学习过程中，遇到了一些新或旧的概念，在此整理一下。
+              <a class='next' href='/swoole-tcp-learning/'>
+                <p class='title'>Swoole Tcp 学习<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>最近一直在学习Swoole，刚好有个老项目的一小部分(一个脚本)有用到了Tcp 协议，借此机会重构一下。
 
 
-长连接/短连接长连接： 客户端和服务端建立连接后不进行断开，之后客户端...</p>
+场景描述：该脚本的作用用一句话就可以概述：将本地数据源推送给另外一台服务器。
+原始的...</p>
               </a>
             
           </div>
@@ -699,7 +640,7 @@
 
   <script>
     window.subData = {
-      title: 'Crontab 快速上手',
+      title: 'Swoole 基础知识学习',
       tools: true
     }
   </script>
@@ -726,7 +667,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#crontab-还是-cron"><span class="toc-text">crontab 还是 cron</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#文件格式"><span class="toc-text">文件格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用实例"><span class="toc-text">常用实例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何使用"><span class="toc-text">如何使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#创建crontab-文件"><span class="toc-text">创建crontab 文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#运行crontab"><span class="toc-text">运行crontab</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#列出cron-服务"><span class="toc-text">列出cron 服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#编辑cron-服务"><span class="toc-text">编辑cron 服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#删除cron-服务"><span class="toc-text">删除cron 服务</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注意事项"><span class="toc-text">注意事项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Master、Manager、Worker、Reactor"><span class="toc-text">Master、Manager、Worker、Reactor</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Master"><span class="toc-text">Master</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Manager-进程"><span class="toc-text">Manager 进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Worker-进程"><span class="toc-text">Worker 进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Reactor-线程"><span class="toc-text">Reactor 线程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他"><span class="toc-text">其他</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP-协议"><span class="toc-text">TCP 协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UDP-协议"><span class="toc-text">UDP 协议</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见问题"><span class="toc-text">常见问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP-“粘包”问题"><span class="toc-text">TCP “粘包”问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#无法连接到服务器的简单检测手段"><span class="toc-text">无法连接到服务器的简单检测手段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
     </div>
   </section>
 

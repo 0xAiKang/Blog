@@ -21,7 +21,7 @@
     <meta name="keywords" content="PHP,Swoole">
   
   
-    <meta name="description" content="最近一直在学习Swoole，刚好有个老项目的一小部分有用到了Tcp 协议，借此机会重构一下。">
+    <meta name="description" content="最近一直在学习Swoole，刚好有个老项目的一小部分(一个脚本)有用到了Tcp 协议，借此机会重构一下。">
   
 
   <!-- feed -->
@@ -340,7 +340,7 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>613 words</p>
+      <p>612 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
@@ -382,14 +382,14 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>最近一直在学习Swoole，刚好有个老项目的一小部分有用到了Tcp 协议，借此机会重构一下。</p>
+          <p>最近一直在学习Swoole，刚好有个老项目的一小部分(一个脚本)有用到了Tcp 协议，借此机会重构一下。</p>
 <a id="more"></a>
 
 <h3 id="场景描述："><a href="#场景描述：" class="headerlink" title="场景描述："></a>场景描述：</h3><p>该脚本的作用用一句话就可以概述：将本地数据源推送给另外一台服务器。</p>
 <p>原始的处理方式，不合理的地方有以下几点：</p>
 <ol>
 <li>目标服务器需要开放指定端口，这会导致目标服务器向外暴露，不安全。</li>
-<li>如果有多台目标服务器，这会导致需要修改源码，脚本维护起来不方便。</li>
+<li>如果有多台目标服务器，这会导致频繁需要修改源码，脚本维护起来不方便。</li>
 </ol>
 <h3 id="重构"><a href="#重构" class="headerlink" title="重构"></a>重构</h3><p>重构需要解决的问题有如下：</p>
 <ol>
@@ -399,7 +399,7 @@
 <li>因为数据源是不间断的，理论上只要客户端的连接不主动断开，服务端的数据推送就不会主动停止。</li>
 </ol>
 <p>最终使用Swoole 的Tcp + Process 实现了以上需求，核心代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">use Swoole\Process;</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> * 创建Server 对象，监听本地 9501 端口。</span><br><span class="line"> *&#x2F;</span><br><span class="line">$server &#x3D; new Swoole\Server(&quot;0.0.0.0&quot;, 9501);</span><br><span class="line"></span><br><span class="line">$server-&gt;set([</span><br><span class="line">	&quot;enable_coroutine&quot; &#x3D;&gt; false,</span><br><span class="line">]);</span><br><span class="line"></span><br><span class="line">$workers &#x3D; [];</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> * 监听连接进入事件</span><br><span class="line"> *&#x2F;</span><br><span class="line">$server-&gt;on(&quot;Connect&quot;, function ($server, $fd) &#123;</span><br><span class="line">	global $workers;</span><br><span class="line">	</span><br><span class="line">	&#x2F;&#x2F; 创建子进程</span><br><span class="line">	$process &#x3D; new swoole_process(function (swoole_process $worker) use ($server, $fd) &#123;</span><br><span class="line">		echo &quot;Client Connect&quot; . PHP_EOL;</span><br><span class="line"></span><br><span class="line">	  &#x2F;&#x2F; todo 业务逻辑</span><br><span class="line">	  ...</span><br><span class="line">	   </span><br><span class="line">	  &#x2F;&#x2F; 向客户端推送消息   </span><br><span class="line">	  $server-&gt;send($fd, $str);</span><br><span class="line">	  </span><br><span class="line">	&#125;, true);</span><br><span class="line">	</span><br><span class="line">	&#x2F;&#x2F; 启动子进程</span><br><span class="line">	$pid &#x3D; $process-&gt;start();</span><br><span class="line">	</span><br><span class="line">	array_push($workers, [&quot;pid&quot; &#x3D;&gt; $pid, &quot;fd&quot; &#x3D;&gt; $fd]);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> * 监听数据接收事件</span><br><span class="line"> *&#x2F;</span><br><span class="line">$server-&gt;on(&quot;Receive&quot;, function ($server, $fd, $from_id, $data)&#123;</span><br><span class="line">	$server-&gt;send($fd, &quot;Server: &quot; . $data);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> * 监听连接关闭事件</span><br><span class="line"> *&#x2F;</span><br><span class="line">$server-&gt;on(&quot;Close&quot;, function ($server, $fd) &#123;</span><br><span class="line">	global $workers;</span><br><span class="line">	</span><br><span class="line">	foreach ($workers as $worker) &#123;</span><br><span class="line">	  if ($item[&#39;fd&#39;] &#x3D;&#x3D;&#x3D; $fd)&#123;</span><br><span class="line">	    &#x2F;&#x2F; 检查子进程是否存在</span><br><span class="line">  		if (Process::kill($worker[&#39;pid&#39;], 0))&#123;</span><br><span class="line">  			array_shift($workers);</span><br><span class="line">  			&#x2F;&#x2F; 通过信号终止子进程</span><br><span class="line">  			Process::kill($item[&#39;pid&#39;], SIGKILL);</span><br><span class="line">  		&#125;</span><br><span class="line">	  &#125;</span><br><span class="line">	&#125;</span><br><span class="line">	echo &quot;Client Close&quot; . PHP_EOL;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 启动TCP 服务器</span><br><span class="line">$server-&gt;start();</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">use Swoole\Process;</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> * 创建Server 对象，监听本地 9501 端口。</span><br><span class="line"> *&#x2F;</span><br><span class="line">$server &#x3D; new Swoole\Server(&quot;0.0.0.0&quot;, 9501);</span><br><span class="line"></span><br><span class="line">$workers &#x3D; [];</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> * 监听连接进入事件</span><br><span class="line"> *&#x2F;</span><br><span class="line">$server-&gt;on(&quot;Connect&quot;, function ($server, $fd) &#123;</span><br><span class="line">	global $workers;</span><br><span class="line">	</span><br><span class="line">	&#x2F;&#x2F; 创建子进程</span><br><span class="line">	$process &#x3D; new swoole_process(function (swoole_process $worker) use ($server, $fd) &#123;</span><br><span class="line">		echo &quot;Client Connect&quot; . PHP_EOL;</span><br><span class="line"></span><br><span class="line">	  &#x2F;&#x2F; todo 业务逻辑</span><br><span class="line">	  ...</span><br><span class="line">	   </span><br><span class="line">	  &#x2F;&#x2F; 向客户端推送消息   </span><br><span class="line">	  $server-&gt;send($fd, $str);</span><br><span class="line">	  </span><br><span class="line">	&#125;, true, 0, false);</span><br><span class="line">	</span><br><span class="line">	&#x2F;&#x2F; 启动子进程</span><br><span class="line">	$pid &#x3D; $process-&gt;start();</span><br><span class="line">	</span><br><span class="line">	array_push($workers, [&quot;pid&quot; &#x3D;&gt; $pid, &quot;fd&quot; &#x3D;&gt; $fd]);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> * 监听数据接收事件</span><br><span class="line"> *&#x2F;</span><br><span class="line">$server-&gt;on(&quot;Receive&quot;, function ($server, $fd, $from_id, $data)&#123;</span><br><span class="line">	$server-&gt;send($fd, &quot;Server: &quot; . $data);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> * 监听连接关闭事件</span><br><span class="line"> *&#x2F;</span><br><span class="line">$server-&gt;on(&quot;Close&quot;, function ($server, $fd) &#123;</span><br><span class="line">	global $workers;</span><br><span class="line">	</span><br><span class="line">	foreach ($workers as $worker) &#123;</span><br><span class="line">	  if ($worker[&#39;fd&#39;] &#x3D;&#x3D;&#x3D; $fd)&#123;</span><br><span class="line">	    &#x2F;&#x2F; 检查子进程是否存在</span><br><span class="line">  		if (Process::kill($worker[&#39;pid&#39;], 0))&#123;</span><br><span class="line">  			array_shift($worker);</span><br><span class="line">  			&#x2F;&#x2F; 通过信号终止子进程</span><br><span class="line">  			Process::kill($worker[&#39;pid&#39;], SIGKILL);</span><br><span class="line">  		&#125;</span><br><span class="line">	  &#125;</span><br><span class="line">	&#125;</span><br><span class="line">	echo &quot;Client Close&quot; . PHP_EOL;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 启动TCP 服务器</span><br><span class="line">$server-&gt;start();</span><br></pre></td></tr></table></figure>
 
 <p>其实实现的原理很简单，利用Swoole 的基于事件的 Tcp 异步编程，当有客户端连接时，就创建一个子进程进行推送数据，但客户端连接断开时，就通过信号结束该客户端对应的子进程。</p>
 
@@ -486,7 +486,7 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-11-02T23:24:26+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-11-02T23:40:47+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：Nov 2, 2020</p>
@@ -516,7 +516,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/swoole-tcp-learning/&title=Swoole Tcp 学习 - Boo&summary=最近一直在学习Swoole，刚好有个老项目的一小部分有用到了Tcp 协议，借此机会重构一下。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/swoole-tcp-learning/&title=Swoole Tcp 学习 - Boo&summary=最近一直在学习Swoole，刚好有个老项目的一小部分(一个脚本)有用到了Tcp 协议，借此机会重构一下。"
           
           >
           
@@ -528,7 +528,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/swoole-tcp-learning/&title=Swoole Tcp 学习 - Boo&summary=最近一直在学习Swoole，刚好有个老项目的一小部分有用到了Tcp 协议，借此机会重构一下。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/swoole-tcp-learning/&title=Swoole Tcp 学习 - Boo&summary=最近一直在学习Swoole，刚好有个老项目的一小部分(一个脚本)有用到了Tcp 协议，借此机会重构一下。"
           
           >
           
@@ -540,7 +540,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/swoole-tcp-learning/&title=Swoole Tcp 学习 - Boo&summary=最近一直在学习Swoole，刚好有个老项目的一小部分有用到了Tcp 协议，借此机会重构一下。"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/swoole-tcp-learning/&title=Swoole Tcp 学习 - Boo&summary=最近一直在学习Swoole，刚好有个老项目的一小部分(一个脚本)有用到了Tcp 协议，借此机会重构一下。"
           
           >
           
@@ -574,11 +574,22 @@
         
           <div class="prev-next">
             
+              <a class='prev' href='/swoole-basic-knowledge-learning/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Swoole 基础知识学习</p>
+                <p class='content'>这篇笔记用来记录Swoole 基础知识的学习。
+
+
+Master、Manager、Worker、ReactorMasterMaster 进程是一个多线程进程。
+Manager 进程负责创建 / ...</p>
+              </a>
+            
             
               <a class='next' href='/swoole-process-learning/'>
                 <p class='title'>Swoole 进程学习<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
                 <p class='content'>记录Swoole 进程学习过程。
-1. 创建一个进程123456789&lt;?php&#x2F;&#x2F;  获取当前进程 IDecho &quot;我是 一个 主进程，我的ID是：&quo...</p>
+
+
+1. 创建一个进程123456789&lt;?php&#x2F;&#x2F;  获取当前进程 IDecho &quot;我是 一个 主进程，我的ID是：&q...</p>
               </a>
             
           </div>

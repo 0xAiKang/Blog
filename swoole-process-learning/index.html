@@ -21,6 +21,8 @@
     <meta name="keywords" content="PHP,Swoole">
   
   
+    <meta name="description" content="记录Swoole 进程学习过程。">
+  
 
   <!-- feed -->
   
@@ -381,6 +383,8 @@
         <div class="article-entry" itemprop="articleBody">
           
           <p>记录Swoole 进程学习过程。</p>
+<a id="more"></a>
+
 <h3 id="1-创建一个进程"><a href="#1-创建一个进程" class="headerlink" title="1. 创建一个进程"></a>1. 创建一个进程</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">&#x2F;&#x2F;  获取当前进程 ID</span><br><span class="line">echo &quot;我是 一个 主进程，我的ID是：&quot; . posix_getpid().PHP_EOL;</span><br><span class="line">&#x2F;&#x2F; 为进程设置名称</span><br><span class="line">cli_get_process_title(&quot;Master&quot;);</span><br><span class="line"></span><br><span class="line">while (true) &#123;</span><br><span class="line">	sleep(1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h3 id="2-创建一个子进程，如何回收子进程。"><a href="#2-创建一个子进程，如何回收子进程。" class="headerlink" title="2. 创建一个子进程，如何回收子进程。"></a>2. 创建一个子进程，如何回收子进程。</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">&#x2F;&#x2F;  获取当前进程 ID</span><br><span class="line">echo &quot;我是 一个 主进程，我的ID是：&quot; . posix_getpid().PHP_EOL;</span><br><span class="line">&#x2F;&#x2F; 为进程设置名称</span><br><span class="line">cli_get_process_title(&quot;Master&quot;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 创建一个子进程</span><br><span class="line">$child &#x3D; new \Swoole\Process(function ()&#123;</span><br><span class="line">	cli_get_process_title(&quot;Child&quot;);</span><br><span class="line">	&#x2F;&#x2F; 这是一个匿名函数，也就是定义子进程需要做的事情。</span><br><span class="line">	echo &quot;我是一个子进程，我的ID 是：&quot; . posix_getpid() . PHP_EOL;</span><br><span class="line">	&#x2F;&#x2F; 如果就这样放着不管，那么这个子进程不会被回收，它是一个僵尸进程，虽然在那里但是并没有做事情，它的生命周期已经结束了。</span><br><span class="line">&#125;);</span><br><span class="line">&#x2F;&#x2F; 创建</span><br><span class="line">$child-&gt;start();</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 回收子进程</span><br><span class="line">\Swoole\Process::wait();</span><br><span class="line"></span><br><span class="line">while (true) &#123;</span><br><span class="line">	sleep(1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -499,10 +503,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-11-01T22:39:43+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-11-03T22:33:18+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Nov 1, 2020</p>
+    <p>更新于：Nov 3, 2020</p>
   </a>
 </div>
 
@@ -529,7 +533,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/swoole-process-learning/&title=Swoole 进程学习 - Boo&summary="
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/swoole-process-learning/&title=Swoole 进程学习 - Boo&summary=记录Swoole 进程学习过程。"
           
           >
           
@@ -541,7 +545,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/swoole-process-learning/&title=Swoole 进程学习 - Boo&summary="
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/swoole-process-learning/&title=Swoole 进程学习 - Boo&summary=记录Swoole 进程学习过程。"
           
           >
           
@@ -553,7 +557,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/swoole-process-learning/&title=Swoole 进程学习 - Boo&summary="
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/swoole-process-learning/&title=Swoole 进程学习 - Boo&summary=记录Swoole 进程学习过程。"
           
           >
           
@@ -589,11 +593,11 @@
             
               <a class='prev' href='/swoole-tcp-learning/'>
                 <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Swoole Tcp 学习</p>
-                <p class='content'>最近一直在学习Swoole，刚好有个老项目的一小部分有用到了Tcp 协议，借此机会重构一下。
+                <p class='content'>最近一直在学习Swoole，刚好有个老项目的一小部分(一个脚本)有用到了Tcp 协议，借此机会重构一下。
 
 
 场景描述：该脚本的作用用一句话就可以概述：将本地数据源推送给另外一台服务器。
-原始的处理方式，不...</p>
+原始的...</p>
               </a>
             
             
