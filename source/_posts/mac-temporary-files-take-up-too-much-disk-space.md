@@ -7,6 +7,8 @@ categories: ["Linux"]
 
 最近使用Mac 时，被告知磁盘空间严重不足了，我心想最近又没有下载什么大文件，怎么会突然满盘了。
 
+<!-- more -->
+
 于是使用DaisyDisk 扫描了一下磁盘空间，发现其中多达 186 G 全是临时文件。
 
 ![](https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/%E7%A3%81%E7%9B%98.jpg)
