@@ -16,12 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>Mac 临时文件占用过多磁盘空间 - Boo</title>
+    <title>Redis 常用数据类型整理 - Boo</title>
   
-    <meta name="keywords" content="Skill,Mac">
+    <meta name="keywords" content="Redis">
   
   
-    <meta name="description" content="最近使用Mac 时，被告知磁盘空间严重不足了，我心想最近又没有下载什么大文件，怎么会突然满盘了。">
+    <meta name="description" content="Redis 的五种数据类型分别是：字符串、哈希、列表、集合、无序集合。">
   
 
   <!-- feed -->
@@ -285,8 +285,8 @@
         
           
   <h1 class="title">
-    <a href="/mac-temporary-files-take-up-too-much-disk-space/">
-      Mac 临时文件占用过多磁盘空间
+    <a href="/redis-common-data-types-sorting/">
+      Redis 常用数据类型整理
     </a>
   </h1>
 
@@ -311,9 +311,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Linux/' rel="nofollow">
+    <a href='/categories/Redis/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Linux</p>
+      <p>Redis</p>
     </a>
   </div>
 
@@ -324,7 +324,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Nov 5, 2020</p>
+    <p>发布于：Nov 7, 2020</p>
   </a>
 </div>
 
@@ -340,7 +340,7 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>276 words</p>
+      <p>298 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
@@ -359,7 +359,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/mac-temporary-files-take-up-too-much-disk-space/" class="leancloud_visitors" data-flag-title="Mac 临时文件占用过多磁盘空间">
+      <span id="/redis-common-data-types-sorting/" class="leancloud_visitors" data-flag-title="Redis 常用数据类型整理">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -382,20 +382,69 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>最近使用Mac 时，被告知磁盘空间严重不足了，我心想最近又没有下载什么大文件，怎么会突然满盘了。</p>
+          <p>Redis 的五种数据类型分别是：字符串、哈希、列表、集合、无序集合。</p>
 <a id="more"></a>
 
-<p>于是使用DaisyDisk 扫描了一下磁盘空间，发现其中多达 186 G 全是临时文件。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/%E7%A3%81%E7%9B%98.jpg" alt=""></p>
-<p>起初以为是系统产生的临时文件。因为并不知道这些文件是如何产生的，所以也不太敢直接删除，只尝试过重启电脑但并没有用。</p>
-<p>后来通过Apple 社区提问才了解到，原来<code>cachegrind.out</code> 这类文件全是 Xdebug 的输出文件！所以是可以直接删除掉的～</p>
-<p>此前从未清理过这类文件，所以才会导致临时文件如此之大…</p>
-<p>可以打开终端，使用如下命令进行清理：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo rm -rf &#x2F;private&#x2F;var&#x2F;tmp&#x2F;cachegrind.out.*</span><br><span class="line"></span><br><span class="line"># 或者</span><br><span class="line">sudo find &#x2F;private&#x2F;var&#x2F;tmp -name &quot;cachegrind*&quot; -exec rm -rf &#123;&#125; \;</span><br></pre></td></tr></table></figure>
+<h2 id="Redis-的五种数据类型"><a href="#Redis-的五种数据类型" class="headerlink" title="Redis 的五种数据类型"></a>Redis 的五种数据类型</h2><h3 id="string"><a href="#string" class="headerlink" title="string"></a>string</h3><p>字符串是Redis 的五种数据类型中，最常见最好理解的。</p>
+<p>它的数据结构最简单，就是一个标准的键值对，一个key 对应一个value：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201107122134.png" alt=""></p>
+<p>key 是string 的键，可以是字符串也可以是数字。<br>value 是string key 所对应的值，可以是字符串也可以是数字。</p>
+<h4 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h4><ul>
+<li><code>incr</code>：计数</li>
+<li><code>set</code> + <code>get</code>：将对象/Json 序列化之后存储作为Cache</li>
+</ul>
+<h3 id="hash"><a href="#hash" class="headerlink" title="hash"></a>hash</h3><p>哈希的数据结构很像一个迷你的关系数据库。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201107123137.png" alt=""></p>
+<h4 id="应用场景-1"><a href="#应用场景-1" class="headerlink" title="应用场景"></a>应用场景</h4><ul>
+<li><code>hset</code> + <code>hget</code>：Cache</li>
+</ul>
+<h3 id="list"><a href="#list" class="headerlink" title="list"></a>list</h3><p>列表的特点是：</p>
+<ol>
+<li>有序</li>
+<li>允许重复</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201107122342.png" alt=""></p>
+<h4 id="应用场景-2"><a href="#应用场景-2" class="headerlink" title="应用场景"></a>应用场景</h4><ul>
+<li><code>lpush</code> + <code>lpop</code>：Stack</li>
+<li><code>lpush</code> + <code>rpop</code>：Queue</li>
+<li><code>lpush</code> + <code>ltrim</code>：Capped Collection</li>
+<li><code>lpush</code> + <code>brpop</code>：Message Queue</li>
+</ul>
+<h3 id="set"><a href="#set" class="headerlink" title="set"></a>set</h3><p>集合特点：</p>
+<ol>
+<li>无序</li>
+<li>不允许重复</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201107122610.png" alt=""></p>
+<h4 id="应用场景-3"><a href="#应用场景-3" class="headerlink" title="应用场景"></a>应用场景</h4><ul>
+<li><code>sadd</code>：Tagging</li>
+<li><code>spop/srandmember</code>：Random item</li>
+<li><code>add</code> + <code>sinter</code>：Social Graph</li>
+</ul>
+<h3 id="sorted-set"><a href="#sorted-set" class="headerlink" title="sorted set"></a>sorted set</h3><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201107123412.png" alt=""></p>
+<h4 id="应用场景-4"><a href="#应用场景-4" class="headerlink" title="应用场景"></a>应用场景</h4><ul>
+<li><code>zscore</code>：timeStamp、saleCount、followCount</li>
+</ul>
+<h3 id="通用命令"><a href="#通用命令" class="headerlink" title="通用命令"></a>通用命令</h3><p>查看所有key：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keys *</span><br></pre></td></tr></table></figure>
 
-<p>因为本地应用的Xdebug 一直都是开启着的，所以请求该应用时，Xdebug 就会将调试信息输出至临时文件了，如图：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201105140351.png" alt=""></p>
+<p>查看加载配置文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">config get *</span><br></pre></td></tr></table></figure>
 
+<p>当前数据库的 key 的数量：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dbsize</span><br></pre></td></tr></table></figure>
+
+<p>判断key 是否存在：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exists key</span><br></pre></td></tr></table></figure>
+
+<p>删除key：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">del key</span><br></pre></td></tr></table></figure>
+
+<p>查看key 的类型：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">type key</span><br></pre></td></tr></table></figure>
+
+<p>查看内存使用情况：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">info memory</span><br></pre></td></tr></table></figure>
           
             <div class='article_footer'>
               
@@ -431,7 +480,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/mac-temporary-files-take-up-too-much-disk-space/>https://www.0x2beace.com/mac-temporary-files-take-up-too-much-disk-space/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/redis-common-data-types-sorting/>https://www.0x2beace.com/redis-common-data-types-sorting/</a></p>
           
         
       </blockquote>
@@ -479,7 +528,7 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-11-07T15:58:37+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-11-07T22:46:04+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：Nov 7, 2020</p>
@@ -491,7 +540,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Skill/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Skill</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Mac/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Mac</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Redis/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Redis</p></a></div>
 
 
         
@@ -509,7 +558,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/mac-temporary-files-take-up-too-much-disk-space/&title=Mac 临时文件占用过多磁盘空间 - Boo&summary=最近使用Mac 时，被告知磁盘空间严重不足了，我心想最近又没有下载什么大文件，怎么会突然满盘了。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/redis-common-data-types-sorting/&title=Redis 常用数据类型整理 - Boo&summary=Redis 的五种数据类型分别是：字符串、哈希、列表、集合、无序集合。"
           
           >
           
@@ -521,7 +570,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/mac-temporary-files-take-up-too-much-disk-space/&title=Mac 临时文件占用过多磁盘空间 - Boo&summary=最近使用Mac 时，被告知磁盘空间严重不足了，我心想最近又没有下载什么大文件，怎么会突然满盘了。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/redis-common-data-types-sorting/&title=Redis 常用数据类型整理 - Boo&summary=Redis 的五种数据类型分别是：字符串、哈希、列表、集合、无序集合。"
           
           >
           
@@ -533,7 +582,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/mac-temporary-files-take-up-too-much-disk-space/&title=Mac 临时文件占用过多磁盘空间 - Boo&summary=最近使用Mac 时，被告知磁盘空间严重不足了，我心想最近又没有下载什么大文件，怎么会突然满盘了。"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/redis-common-data-types-sorting/&title=Redis 常用数据类型整理 - Boo&summary=Redis 的五种数据类型分别是：字符串、哈希、列表、集合、无序集合。"
           
           >
           
@@ -547,7 +596,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADqUlEQVR42u3awXKjQAwEUP//Tyf33UoxaokgO29uNmZAjxw6Eq8vK1ovBODAgQNngQO3BO4Vrn/P/2m/q+//u7GL493z2vWCAwcOHDhw4MAtg0tvsPq5et5VId37K9cLDhw4cODAgQO3FK4beK8KrMJOgY3VCw4cOHDgwIED9yFwpw3MauOz2hitNlTBgQMHDhw4cOD+Otxp0Hy6IQoOHDhw4MCBA/fpcNUBbbVR2G1Udhulayb54MCBAwcOHDhwQ3DVNR1Af/tzXC84cODAgQMHDtwSuKk11QCtDpSngu5xneDAgQMHDhw4cEvgTl/oSwNjFXwKttv4PP7PARw4cODAgQMH7iG4arBMC0gDdXfQHQP95AEOHDhw4MCBA7cELg2s3cBcBUv3qYJd3g84cODAgQMHDtybwE0FzekGZHcQnV4fHDhw4MCBAwduC9xU8JxqWN59fvf34MCBAwcOHDhwW+DSwNptGHZfTBwbMFevCw4cOHDgwIEDtwxuetCcDoK7A+200Xr8e3DgwIEDBw4cuCVw3QbiXUG2CpIG5fKDBQcOHDhw4MCBWwqXgnSPx4F0aN/j64MDBw4cOHDgwC2DO92wO7juPqi0kTn2AMCBAwcOHDhw4N4Mbmqg2wVrNyKnB9LgwIEDBw4cOHAPwaWD3akAW218TkFX6wMHDhw4cODAgdsGd7pB9QKn67SwaiCfGrRfNjLBgQMHDhw4cOAegjtt/KWD6rTgqWBcDrhX9YIDBw4cOHDgwC2BSwe23YZiNfB2Ybv7gQMHDhw4cODAbYW7+0W908BbDdRTL0KWXywEBw4cOHDgwIF7GK77gt50YE4bqGk95eANDhw4cODAgQP3JnCnG3cHyFMD7bTBelwvOHDgwIEDBw7ccri04HjQGzYWU9jTP4RyAAYHDhw4cODAgftluOlA3D2eAl3Vlf7BgAMHDhw4cODAvRtct/C7GqRpI7U7MAcHDhw4cODAgdsC111p4E1B0sboVMMTHDhw4MCBAwduC1w7EDYbhnf9rnp/x7DgwIEDBw4cOHDL4NLAWx0cV6Gng3H3ODhw4MCBAwcO3Fa4buCdguo2OtNAf1kXOHDgwIEDBw7cH4ObboDeFXgvHww4cODAgQMHDtyHwJ2ed9oQre6fBuV0YA0OHDhw4MCBA7cVrjqQroKUG4dD308FbXDgwIEDBw4cuG1w6QC3GlzT76cG3mmwBwcOHDhw4MCB2wZn1RY4cODAgbPAgXt4fQMp8/8mWCMOvwAAAABJRU5ErkJggg==">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADrklEQVR42u3aQXLCMAwFUO5/6XbfDhPpSwHDPO+AxLFfuviV/PgxovFAAA4cOHAGOHCHwD3C8ff+Z5//PfjJPOnvV+tL73+6X3DgwIEDBw4cuMPgygGwCJdurLrR7nrW9gsOHDhw4MCBA3co3FbgnS64Goir+1jbLzhw4MCBAwcO3JfATQuY1e+nv4MDBw4cOHDgwIHrFS63C57bgR0cOHDgwIEDB+5b4LoN2unGpgE5ve7tnXxw4MCBAwcOHLgluO7YOtj3rs/xfsGBAwcOHDhw4A6B2xpb8NPgfRW0x/sEBw4cOHDgwIE7BK5aWOw2ju8KrN3v1xvc4MCBAwcOHDhwh8B1g2baaE4DbhVsq4F9uR5w4MCBAwcOHLjD4LqBthtk0++3CpvdfT7dFzhw4MCBAwcO3CFw00B5V0GzCzL9AxifyAQHDhw4cODAgXsx3DTobgXSKcBWcG7/5wAOHDhw4MCBA/dmuOkBvG7wTQ8qdudNX9BaQxocOHDgwIEDB+5NcGnBMh3VebrP3XqR4MCBAwcOHDhwp8B1J64WBqdBdPrc9LpLD3DgwIEDBw4cuEPgpoDTAmg32KaN627jHBw4cODAgQMH7tPhUrC1hRZBpg328nrBgQMHDhw4cOAOgesutBtg08Z22ii/u/AKDhw4cODAgQN3Gtx4wibcTzimBdPuiwQHDhw4cODAgTsdrht0tw/8TQuWdwXmciETHDhw4MCBAwfuxXBbG0sLm9PCZRrYu/DgwIEDBw4cOHCnwk0D5FYA3SqI3gYLDhw4cODAgQP3oXDdgFy9r1tQTefvvjhw4MCBAwcOHLhT4bYKhNMg2210p0E5bXyDAwcOHDhw4MCdCndXAE4bwFPI7cIoOHDgwIEDBw7cqXBbC0kLkdVgnTaep8EcHDhw4MCBAwfuVLh2QW85sKZBe3uey32AAwcOHDhw4MAdCpce8KsGz2oA3SpYpgcJ2wEYHDhw4MCBAwfuxXDTsQ04LVymDeny88GBAwcOHDhw4A6Be4RjXBAMC59b6+u+eHDgwIEDBw4cuFPh7m5EpwXS6vOq96cBHhw4cODAgQMH7nS4aaBM55kG4LSQ2l4HOHDgwIEDBw7cl8JtbbAKWQ200xcGDhw4cODAgQP3bXDd+7qN5G7hcqvxDQ4cOHDgwIED92lw3YZ09fq0kby1vi7c7Z18cODAgQMHDhy4Jbi0gTsNvF2YcYANgz04cODAgQMHDtxpcEbzRSEABw4cOAMcuPeOX29OARe/3ozOAAAAAElFTkSuQmCC">
           </div>
         </div>
       
@@ -567,22 +616,13 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/how-does-mysql-choose-float-double-decimal/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Mysql 如何选择 Float、Double、Decimal</p>
+            
+              <a class='next' href='/how-does-mysql-choose-float-double-decimal/'>
+                <p class='title'>Mysql 如何选择 Float、Double、Decimal<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
                 <p class='content'>我们知道在Mysql 中存储小数有三种数据类型可做选择，究竟该选择哪一种数据格式，其实并没有统一的答案，得根据实际场景去分析，哪一种更合适。
 
 
 场景重现先来看这样一个例子，假设目前有一张表用来...</p>
-              </a>
-            
-            
-              <a class='next' href='/swoole-basic-knowledge-learning/'>
-                <p class='title'>Swoole 基础知识学习<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>这篇笔记用来记录Swoole 基础知识的学习。
-
-
-Master、Manager、Worker、ReactorMasterMaster 进程是一个多线程进程。
-Manager 进程负责创建 / ...</p>
               </a>
             
           </div>
@@ -627,7 +667,7 @@ Manager 进程负责创建 / ...</p>
 
   <script>
     window.subData = {
-      title: 'Mac 临时文件占用过多磁盘空间',
+      title: 'Redis 常用数据类型整理',
       tools: true
     }
   </script>
@@ -643,6 +683,20 @@ Manager 进程负责创建 / ...</p>
     
 
 
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis-的五种数据类型"><span class="toc-text">Redis 的五种数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#string"><span class="toc-text">string</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#应用场景"><span class="toc-text">应用场景</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hash"><span class="toc-text">hash</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#应用场景-1"><span class="toc-text">应用场景</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#list"><span class="toc-text">list</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#应用场景-2"><span class="toc-text">应用场景</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#set"><span class="toc-text">set</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#应用场景-3"><span class="toc-text">应用场景</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sorted-set"><span class="toc-text">sorted set</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#应用场景-4"><span class="toc-text">应用场景</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#通用命令"><span class="toc-text">通用命令</span></a></li></ol></li></ol>
+    </div>
+  </section>
 
 
   
