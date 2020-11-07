@@ -1,5 +1,5 @@
 ---
-title: 'how does mysql choose float, double, decimal'
+title: Mysql 如何选择 Float、Double、Decimal
 date: 2020-11-06 22:25:45
 tags: ["Mysql"]
 categories: ["Mysql"]
