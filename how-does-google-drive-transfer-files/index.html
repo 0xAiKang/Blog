@@ -16,12 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>PHP 中使用 hash_hmac 加密 - Boo</title>
+    <title>Google Drive 如何转存文件？ - Boo</title>
   
-    <meta name="keywords" content="PHP,Node,Hash">
+    <meta name="keywords" content="Tutorial,Google Drive">
   
   
-    <meta name="description" content="今天做项目时，遇到一个问题，需要将一段哈希值按照某种规则进行加密。源码是用Node写的，需要翻译成PHP 版本的。">
+    <meta name="description" content="对于初次使用Google Drive（以下简称 GD）的同学来说，可能会有以下几点困惑。">
   
 
   <!-- feed -->
@@ -285,8 +285,8 @@
         
           
   <h1 class="title">
-    <a href="/php-uses-hash-hmac-encryption/">
-      PHP 中使用 hash_hmac 加密
+    <a href="/how-does-google-drive-transfer-files/">
+      Google Drive 如何转存文件？
     </a>
   </h1>
 
@@ -311,9 +311,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/PHP/' rel="nofollow">
+    <a href='/categories/Skill/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>PHP</p>
+      <p>Skill</p>
     </a>
   </div>
 
@@ -324,7 +324,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jul 23, 2020</p>
+    <p>发布于：Nov 13, 2020</p>
   </a>
 </div>
 
@@ -340,13 +340,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>421 words</p>
+      <p>687 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>1 min</p>
+      <p>2 min</p>
     </a>
   </div>
 
@@ -359,7 +359,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/php-uses-hash-hmac-encryption/" class="leancloud_visitors" data-flag-title="PHP 中使用 hash_hmac 加密">
+      <span id="/how-does-google-drive-transfer-files/" class="leancloud_visitors" data-flag-title="Google Drive 如何转存文件？">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -382,30 +382,34 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>今天做项目时，遇到一个问题，需要将一段哈希值按照某种规则进行加密。源码是用<code>Node</code>写的，需要翻译成<code>PHP</code> 版本的。</p>
+          <p>对于初次使用<a href="https://www.google.com/drive/" target="_blank" rel="noopener">Google Drive</a>（以下简称 GD）的同学来说，可能会有以下几点困惑。</p>
 <a id="more"></a>
 
-<h3 id="PHP中使用-Hmac-方法生成带有密钥的哈希值"><a href="#PHP中使用-Hmac-方法生成带有密钥的哈希值" class="headerlink" title="PHP中使用 Hmac 方法生成带有密钥的哈希值"></a>PHP中使用 Hmac 方法生成带有密钥的哈希值</h3><p>在Node.js 中，这是一段用于生成“加盐”的哈希值。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var crypto &#x3D; require(&#39;crypto&#39;);</span><br><span class="line"></span><br><span class="line">var secret &#x3D; &quot;122410&quot;</span><br><span class="line">var key &#x3D; &quot;key&quot;</span><br><span class="line">var hash &#x3D; crypto.createHmac(&#39;sha256&#39;, secret).update(key).digest(&#39;hex&#39;)</span><br><span class="line"></span><br><span class="line">console.log(hash);</span><br><span class="line">&#x2F;&#x2F; dcc9ddf4836d4ecb6bd12fccc983207f39cfb84c43c01932eee22357cf0567b4</span><br></pre></td></tr></table></figure>
-
-<p>如果要翻译成PHP版本，其实非常简单，直接使用PHP 的 <code>hash_hmac</code>函数就可以了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$secret &#x3D; &quot;122410&quot;; </span><br><span class="line">$key &#x3D; &quot;key&quot;;</span><br><span class="line">echo hash_hmac(&quot;sha256&quot;, $key, $secret);</span><br><span class="line">&#x2F;&#x2F; dcc9ddf4836d4ecb6bd12fccc983207f39cfb84c43c01932eee22357cf0567b4</span><br></pre></td></tr></table></figure>
-
-<h4 id="将密钥设置成二进制"><a href="#将密钥设置成二进制" class="headerlink" title="将密钥设置成二进制"></a>将密钥设置成二进制</h4><p>如果需要加密的部分，并不是普通的字符串，而是二进制字符串，那么需要使用<code>pack</code>函数。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var_dump(hash_hmac(&quot;sha1&quot;, &quot;office:fred&quot;, &quot;AA381AC5E4298C23B3B3333333333333333333&quot;));</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 5e50e6458b0cdc7ee534967d113a9deffe6740d0</span><br><span class="line">&#x2F;&#x2F; 预期结果：46abe81345b1da2f1a330bba3d6254e110cd9ad8</span><br></pre></td></tr></table></figure>
-
-<p>先将十六进制字符串转换为二进制数据，然后再将其传递给<code>hash_hmac</code>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var_dump(hash_hmac(&quot;sha1&quot;, &quot;office:fred&quot;, pack(&quot;H*&quot;, &quot;AA381AC5E4298C23B3B3333333333333333333&quot;)));</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 46abe81345b1da2f1a330bba3d6254e110cd9ad8</span><br></pre></td></tr></table></figure>
-
-<h3 id="Node中使用crypto进行md5-加密"><a href="#Node中使用crypto进行md5-加密" class="headerlink" title="Node中使用crypto进行md5 加密"></a>Node中使用crypto进行md5 加密</h3><p>在PHP 中，如果需要获取某个字符串的md5 加密之后的哈希值，非常简单，直接使用<code>md5</code> 函数即可。</p>
-<p>但是在<code>node.js</code> 中，并没有为我们直接提供这样的函数，所以需要手动调用<code>crypto</code> 模块去转换：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var pwd &#x3D; &quot;122410&quot;;</span><br><span class="line">var hash &#x3D; crypto.createHash(&#39;md5&#39;).update(pwd).digest(&#39;hex&#39;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 913975c2f972ba6bbf5ba593c68a5dc5</span><br></pre></td></tr></table></figure>
-
+<ol>
+<li>大家常说的转存是什么意思？</li>
+<li>常见的转存方式有哪几种？</li>
+</ol>
+<p>在正式回答上面两个问题之前，先来了解一下GD。</p>
+<p>GD 是Google 在2012 年4 月24 日推出的一个在线同步存储服务，类似百度的百度网盘，不过不同之处在于GD 不会限速。普通用户默认的存储空间是15 GB。</p>
+<p>用户可以将其他用户分享的文件添加到“我的云端硬盘”，这种方式并不会占用用户的存储空间，这个操作相当于是在“我的云端硬盘”中创建了一个<strong>软链接</strong>，可以快速访问该文件，而文件所有者则还是<strong>分享者</strong>，如果原作者删除了，那么你网盘里的也会消失。</p>
+<p>所以为了解决上述问题，转存的概念便诞生了，它存在的意义是将其他用户分享的文件保存至自己的云盘，类似百度网盘的“保存到我的网盘”功能。</p>
+<p>但有所不同的是，如果<strong>分享者</strong>没有开放权限，那么其他用户则无权转存。</p>
+<h3 id="方式一"><a href="#方式一" class="headerlink" title="方式一"></a>方式一</h3><p>在需要转存的文件上，点击右键，制作一个拷贝，拷贝的文件位于“我的云端硬盘”中。</p>
+<p>第一种方式最简单，适用于小文件，不能对文件夹进行 Copy 操作。</p>
+<h3 id="方式二"><a href="#方式二" class="headerlink" title="方式二"></a>方式二</h3><p><a href="https://softgateon.herokuapp.com/urltodrive/" target="_blank" rel="noopener">Copy, URL to Google Drive</a> 是一个云端硬盘插件。</p>
+<p>在目标文件上点击右键，选择打开方式，关联更多应用。</p>
+<p>搜索Copy, URL to Google Drive 进行安装。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201113214943.png" alt=""></p>
+<p>安装完成之后，还需要进行Google 账号授权才能进行转存操作。</p>
+<p>在需要转存的文件夹上 右键-打开方式-Copy, URL to Google Drive，之后点击 Save, Copy to Google Drive，就可以看见正在转存了，如果文件较大时间会比较久。</p>
+<h3 id="方式三"><a href="#方式三" class="headerlink" title="方式三"></a>方式三</h3><p>在Telegram 上有人开发了一个机器人（@GoogleDriveManagerBot），专门用于GD 文件转存。</p>
+<p>该机器人可以实现谷歌网盘资源转存以及网盘内资源批量重命名，普通用户仅可绑定一个 GD 账号。<br>通过简单的命令即可对文件进行转存。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>方式一最简单，门槛最低，即使在没有权限的情况下，也能进行Copy 操作，但是效率很低。</p>
+<p>方式二、三省事，效率高，但前提是得有权限。</p>
 <h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><a href="https://stackoverflow.com/questions/13012239/how-to-set-the-hmacsha1-key-to-hex-in-php" target="_blank" rel="noopener">如何在PHP中将hmac sha1密钥设置为十六进制？</a></li>
-<li><a href="https://caligatio.github.io/jsSHA/" target="_blank" rel="noopener">在线转换工具</a></li>
-<li><a href="https://www.php.net/manual/zh/function.hash-hmac.php" target="_blank" rel="noopener">php hash_hmac 函数</a></li>
-<li><a href="http://nodejs.cn/api/crypto.html" target="_blank" rel="noopener">node.js crypto 模块</a></li>
+<li><a href="https://www.jianshu.com/p/42f323bd15ef" target="_blank" rel="noopener">一个方便转存 Google Drive 分享文件的方法</a></li>
+<li><a href="https://blog.curlc.com/archives/569.html" target="_blank" rel="noopener">转存Google Drive资源到自己的Google Drive</a></li>
+<li><a href="https://blog.frytea.com/archives/31/" target="_blank" rel="noopener">Linux 下使用 rclone 挂载网盘到本地</a></li>
 </ul>
 
           
@@ -443,7 +447,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/php-uses-hash-hmac-encryption/>https://www.0x2beace.com/php-uses-hash-hmac-encryption/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/how-does-google-drive-transfer-files/>https://www.0x2beace.com/how-does-google-drive-transfer-files/</a></p>
           
         
       </blockquote>
@@ -491,10 +495,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-11-12T09:26:42+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-11-13T21:57:07+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Nov 12, 2020</p>
+    <p>更新于：Nov 13, 2020</p>
   </a>
 </div>
 
@@ -503,7 +507,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Node/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Node</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Hash/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Hash</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Tutorial/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Tutorial</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Google-Drive/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Google Drive</p></a></div>
 
 
         
@@ -521,7 +525,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/php-uses-hash-hmac-encryption/&title=PHP 中使用 hash_hmac 加密 - Boo&summary=今天做项目时，遇到一个问题，需要将一段哈希值按照某种规则进行加密。源码是用Node写的，需要翻译成PHP 版本的。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/how-does-google-drive-transfer-files/&title=Google Drive 如何转存文件？ - Boo&summary=对于初次使用Google Drive（以下简称 GD）的同学来说，可能会有以下几点困惑。"
           
           >
           
@@ -533,7 +537,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/php-uses-hash-hmac-encryption/&title=PHP 中使用 hash_hmac 加密 - Boo&summary=今天做项目时，遇到一个问题，需要将一段哈希值按照某种规则进行加密。源码是用Node写的，需要翻译成PHP 版本的。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/how-does-google-drive-transfer-files/&title=Google Drive 如何转存文件？ - Boo&summary=对于初次使用Google Drive（以下简称 GD）的同学来说，可能会有以下几点困惑。"
           
           >
           
@@ -545,7 +549,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/php-uses-hash-hmac-encryption/&title=PHP 中使用 hash_hmac 加密 - Boo&summary=今天做项目时，遇到一个问题，需要将一段哈希值按照某种规则进行加密。源码是用Node写的，需要翻译成PHP 版本的。"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/how-does-google-drive-transfer-files/&title=Google Drive 如何转存文件？ - Boo&summary=对于初次使用Google Drive（以下简称 GD）的同学来说，可能会有以下几点困惑。"
           
           >
           
@@ -559,7 +563,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADn0lEQVR42u3aQXLcMAwEwP3/p5MHpLZEDCALips3bbQK2fJhjPHnjxWtDwJw4MCBs8CBWwL3Cdc/D/zy79+uq5+fXn/b19R5wYEDBw4cOHDgtsEdB8ALuOr16fO6///UecGBAwcOHDhw4LbCXQbAZqCswlX30w3kl/eDAwcOHDhw4MD9Z3DVQWL1gOmLS78PDhw4cODAgQP3W+C6A8ZuMJ56ceDAgQMHDhw4cG+FKxe0QwPDtNhO4R9v8sGBAwcOHDhw4IbgusXy267j84IDBw4cOHDgwC2B667TQNktjqf3E58XHDhw4MCBAwduCVwaEE83PFUgd4Nr93zgwIEDBw4cOHBb4aoDy2pBnAbhNGhP7xscOHDgwIEDB24rXDooPIXpPv+uz08Hr+DAgQMHDhw4cG+FiwNjGJCn7zv9/uXzwIEDBw4cOHDglsClxe9UwduFmNrf8fPAgQMHDhw4cOCWwd0VeK8Auy9sOmhfuoADBw4cOHDgwC2BmwqUpyDd56TFdnd/4MCBAwcOHDhwb4FLN9iFrQ4iu/uqvjBw4MCBAwcOHLgtcNWgORV823/gF0KmwRccOHDgwIEDB24rXFrgHg8Ai8EzvU6Lc3DgwIEDBw4cuLfCVaFOA241SFef2x2UlgMyOHDgwIEDBw7ccrjqQdJB4tT9KXz5FwFw4MCBAwcOHLglcHcF1nQA2g221QFq+YWCAwcOHDhw4MAthUsHiz9VDKeDznR/4MCBAwcOHDhwW+GOB3jNweJTwbh7nssJMDhw4MCBAwcO3MNw0wHy7kBaPvDUABYcOHDgwIEDB24pXDVIpjBTwbtbTFcDNzhw4MCBAwcO3Ba4anA9BesG0DRgTw1M200+OHDgwIEDBw7cw3BpcTs1mOwOUk+D7/EPADhw4MCBAwcO3FK46eK3G6y798XFMzhw4MCBAwcO3MvhqoVuuroHS4vosUIaHDhw4MCBAwfuh+GmD1yF/RTX3UX6cSENDhw4cODAgQP3MNwnXHcF0u4gtTporb54cODAgQMHDhy4bXDTgXd6sNgN1tX7wIEDBw4cOHDg3gaXDhDTgrpaiHeD+21NPjhw4MCBAwcO3Evhqt+vfl4dbE4/Dxw4cODAgQMH7rfBpfd1n5sG7LiQBgcOHDhw4MCBexguHTx2X0BaWKcA8R8mggMHDhw4cODALYPrFrinEGnB3A3c3aIbHDhw4MCBAwduG5xVW+DAgQMHzgIH7uH1Fy6F/yblLiJEAAAAAElFTkSuQmCC">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADr0lEQVR42u3aQXLjMAwEQP//07v33UqRGEA2nGrenDgS2cphCqPXHytaLwTgwIEDZ4EDtwTuFa7/LvjPz7ufjwc47Od0n/S84MCBAwcOHDhw2+CqG749yGnj1fvdXu92P+X7gwMHDhw4cODALYU7BsDiRrpwKUQ1qF+fFxw4cODAgQMH7pfC3f59GkzTQSs4cODAgQMHDhy4WqBNB4+3AFNFOThw4MCBAwcO3LfDpQXxbVE9BV8deK5r8sGBAwcOHDhw4IbgqqsaMLd9js8LDhw4cODAgQO3BK670sHj7UHS4PrUAgcOHDhw4MCB2wKXBsTqgHN6sNi9X/V84MCBAwcOHDhw3wL3dOHcLaBvwdNA/eN9wYEDBw4cOHDglsDd/mF14NgN1ukg8/F9gQMHDhw4cODALYGbhqgODm8BqnAp5PF64MCBAwcOHDhwS+GqG3tqsJh+76kFDhw4cODAgQO3FW66QK4G5He9kPh4kw8OHDhw4MCBA/cmuGrAnSqUu0G4GrDHinVw4MCBAwcOHLglcE8dvLrx7uBz+oGAAwcOHDhw4MB9C1w6AKwefOp+6cC0fR5w4MCBAwcOHLglcFMDxOlBaHdQWS3S40IaHDhw4MCBAwfuQ3DdAeY07FQA7z6o8iATHDhw4MCBAwduKVx3g2kQrQbyLtTxwYEDBw4cOHDgwC2BqxbD6Qa6g8U0kHd/f5wAgwMHDhw4cODAfRguHUxOwb/CNR2cj9cDBw4cOHDgwIFbBpcGze5gMQVNi+vb+x8LaXDgwIEDBw4cuGVw3cDZHSC2DxY+0OtzgQMHDhw4cODALYPrbrgbRNPi+rTP9Hs/fgYHDhw4cODAgVsC1z1At3ju/nyqML+9Ljhw4MCBAwcO3Da4ajGdfr8atN8dgK8LaXDgwIEDBw4cuC+Bq94gDaDVwnoq2F7/I4ADBw4cOHDgwC2FSyGrxXP1cwqbvrBYHmSCAwcOHDhw4MC9Ga672i/qDb14GBfM1QEnOHDgwIEDBw7cErhuYJwqhuOCeDhoH68HDhw4cODAgQO3DK4beG+vc/sgbh/s9PXHmnxw4MCBAwcOHLg3w00FyuqBP1VEjwVgcODAgQMHDhy4L4dLQbtFeHeweh34wYEDBw4cOHDgfhlcWlh3IdIXDtMBLThw4MCBAwcO3Fa4NHhOBdJqwdx9sGMBGBw4cODAgQMH7kNwjxW4zcFntZCeGmxeB2Bw4MCBAwcOHLgPwVnFIhwBOHDgwFngwH12/QWnvX+mnCaNPwAAAABJRU5ErkJggg==">
           </div>
         </div>
       
@@ -579,22 +583,14 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/docker-quick-start/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Docker 快速上手</p>
-                <p class='content'>这篇笔记的主要目的是用来记录学习 Docker 的过程。Docker这个词并不是第一次听说了，印象中好久以前就听说过这个东西了，只是一直没有真正去了解。
-
-
-诞生软件开发最大的麻烦事之一，就是环...</p>
-              </a>
             
-            
-              <a class='next' href='/organize-common-sql-injection-statements/'>
-                <p class='title'>整理常见的 SQL 注入语句<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>这篇笔记的目的是整理各种 SQL 注入使用时的payload。
+              <a class='next' href='/double-eleven-for-internet-people/'>
+                <p class='title'>互联网人的双十一<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>我其实不太会去写这类文章，那为什么要写这篇文章呢？想抓住双十一的尾巴，记录一些想法。
 
 
-
-说明：以下的payloads都基于单引号字符型注入。若是整型注入则把单引号和注释符（–+）去掉，若是双引号注入则把单引号换成...</p>
+今年的双十一我本来也是啥都没买，
+可就在晚上七点左右，线上的某个平台，出了一点问题，订单的盈亏跟用户的余...</p>
               </a>
             
           </div>
@@ -639,7 +635,7 @@
 
   <script>
     window.subData = {
-      title: 'PHP 中使用 hash_hmac 加密',
+      title: 'Google Drive 如何转存文件？',
       tools: true
     }
   </script>
@@ -666,7 +662,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#PHP中使用-Hmac-方法生成带有密钥的哈希值"><span class="toc-text">PHP中使用 Hmac 方法生成带有密钥的哈希值</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#将密钥设置成二进制"><span class="toc-text">将密钥设置成二进制</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Node中使用crypto进行md5-加密"><span class="toc-text">Node中使用crypto进行md5 加密</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#方式一"><span class="toc-text">方式一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方式二"><span class="toc-text">方式二</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方式三"><span class="toc-text">方式三</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
     </div>
   </section>
 
