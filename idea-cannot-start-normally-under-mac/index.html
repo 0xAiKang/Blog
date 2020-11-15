@@ -16,12 +16,10 @@
 
   <!-- 页面元数据 -->
   
-    <title>Google Drive 如何转存文件？ - Boo</title>
+    <title>Mac 下IDEA 无法正常启动 - Boo</title>
   
-    <meta name="keywords" content="Tutorial,Google Drive">
+    <meta name="keywords" content="Skill,Mac">
   
-  
-    <meta name="description" content="对于初次使用Google Drive（以下简称 GD）的同学来说，可能会有以下几点困惑。">
   
 
   <!-- feed -->
@@ -285,8 +283,8 @@
         
           
   <h1 class="title">
-    <a href="/how-does-google-drive-transfer-files/">
-      Google Drive 如何转存文件？
+    <a href="/idea-cannot-start-normally-under-mac/">
+      Mac 下IDEA 无法正常启动
     </a>
   </h1>
 
@@ -311,9 +309,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Skill/' rel="nofollow">
+    <a href='/categories/Mac/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Skill</p>
+      <p>Mac</p>
     </a>
   </div>
 
@@ -324,7 +322,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Nov 13, 2020</p>
+    <p>发布于：Nov 15, 2020</p>
   </a>
 </div>
 
@@ -340,13 +338,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>687 words</p>
+      <p>287 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>2 min</p>
+      <p>1 min</p>
     </a>
   </div>
 
@@ -359,7 +357,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/how-does-google-drive-transfer-files/" class="leancloud_visitors" data-flag-title="Google Drive 如何转存文件？">
+      <span id="/idea-cannot-start-normally-under-mac/" class="leancloud_visitors" data-flag-title="Mac 下IDEA 无法正常启动">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -382,35 +380,20 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>对于初次使用<a href="https://www.google.com/drive/" target="_blank" rel="noopener">Google Drive</a>（以下简称 GD）的同学来说，可能会有以下几点困惑。</p>
-<a id="more"></a>
-
+          <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>今天本来打算使用<code>PHPStorm</code>的，但是突然启动不了了，就是双击应用程序之后，电脑没有任何反应。</p>
+<p>因为使用的<code>PHPStorm</code>是破解的，所以我以为是失效了。<br>就在我一筹莫展准备重装一遍的，突然想起”要不试试通过命令行启动“？</p>
+<p>于是我找到<code>PHPStrom</code>的包文件之后，尝试通过命令行启动，虽然同样失败了，但是命令行输出了一些信息。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/4DDACB7F-B42E-4142-8C20-F7DF8E450D53.png" alt=""></p>
+<p>正是这些信息，才让我想起来，今天上午在整理文件时，不小心把<code>PHPStorm</code>中依赖的一个文件给删除掉了。</p>
+<p>于是，马上找到了那个文件并还原了，之后果然能正常启动了。</p>
+<h3 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h3><p>如果你也遇到了类似的情况，那么可以尝试这种方式，或许能帮助你找到问题所在。</p>
 <ol>
-<li>大家常说的转存是什么意思？</li>
-<li>常见的转存方式有哪几种？</li>
+<li>找到应用程序</li>
+<li>右键显示包文件</li>
+<li>依次进入<code>Contents-&gt;MacOS</code></li>
+<li>双击<code>shell</code>脚本</li>
 </ol>
-<p>在正式回答上面两个问题之前，先来了解一下GD。</p>
-<p>GD 是Google 在2012 年4 月24 日推出的一个在线同步存储服务，类似百度的百度网盘，不过不同之处在于GD 不会限速。普通用户默认的存储空间是15 GB。</p>
-<p>用户可以将其他用户分享的文件添加到“我的云端硬盘”，这种方式并不会占用用户的存储空间，这个操作相当于是在“我的云端硬盘”中创建了一个<strong>软链接</strong>，可以快速访问该文件，而文件所有者则还是<strong>分享者</strong>，如果原作者删除了，那么你网盘里的也会消失。</p>
-<p>所以为了解决上述问题，转存的概念便诞生了，它存在的意义是将其他用户分享的文件保存至自己的云盘，类似百度网盘的“保存到我的网盘”功能。</p>
-<p>但有所不同的是，如果<strong>分享者</strong>没有开放权限，那么其他用户则无权转存。</p>
-<h3 id="方式一"><a href="#方式一" class="headerlink" title="方式一"></a>方式一</h3><p>在需要转存的文件上，点击右键，制作一个拷贝，拷贝的文件位于“我的云端硬盘”中。</p>
-<p>第一种方式最简单，适用于小文件，不能对文件夹进行 Copy 操作。</p>
-<h3 id="方式二"><a href="#方式二" class="headerlink" title="方式二"></a>方式二</h3><p><a href="https://softgateon.herokuapp.com/urltodrive/" target="_blank" rel="noopener">Copy, URL to Google Drive</a> 是一个云端硬盘插件。</p>
-<p>在目标文件上点击右键，选择打开方式，关联更多应用。</p>
-<p>搜索Copy, URL to Google Drive 进行安装。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201113214943.png" alt=""></p>
-<p>安装完成之后，还需要进行Google 账号授权才能进行转存操作。</p>
-<p>在需要转存的文件夹上 右键-打开方式-Copy, URL to Google Drive，之后点击 Save, Copy to Google Drive，就可以看见正在转存了，如果文件较大时间会比较久。</p>
-<h3 id="方式三"><a href="#方式三" class="headerlink" title="方式三"></a>方式三</h3><p>在Telegram 上有人开发了一个机器人（@GoogleDriveManagerBot），专门用于GD 文件转存。</p>
-<p>该机器人可以实现谷歌网盘资源转存以及网盘内资源批量重命名，普通用户仅可绑定一个 GD 账号。<br>通过简单的命令即可对文件进行转存。</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>方式一最简单，门槛最低，即使在没有权限的情况下，也能进行Copy 操作，但是效率很低。</p>
-<p>方式二、三省事，效率高，但前提是得有权限。</p>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><a href="https://www.jianshu.com/p/42f323bd15ef" target="_blank" rel="noopener">一个方便转存 Google Drive 分享文件的方法</a></li>
-<li><a href="https://blog.curlc.com/archives/569.html" target="_blank" rel="noopener">转存Google Drive资源到自己的Google Drive</a></li>
-<li><a href="https://blog.frytea.com/archives/31/" target="_blank" rel="noopener">Linux 下使用 rclone 挂载网盘到本地</a></li>
-</ul>
+<p>接着无论成功或失败都能输出一些内容，然后利用这些内容去查找问题所在。</p>
 
           
             <div class='article_footer'>
@@ -447,7 +430,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/how-does-google-drive-transfer-files/>https://www.0x2beace.com/how-does-google-drive-transfer-files/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/idea-cannot-start-normally-under-mac/>https://www.0x2beace.com/idea-cannot-start-normally-under-mac/</a></p>
           
         
       </blockquote>
@@ -495,10 +478,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-11-13T21:57:07+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-11-15T23:39:24+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Nov 13, 2020</p>
+    <p>更新于：Nov 15, 2020</p>
   </a>
 </div>
 
@@ -507,7 +490,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Tutorial/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Tutorial</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Google-Drive/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Google Drive</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Skill/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Skill</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Mac/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Mac</p></a></div>
 
 
         
@@ -525,7 +508,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/how-does-google-drive-transfer-files/&title=Google Drive 如何转存文件？ - Boo&summary=对于初次使用Google Drive（以下简称 GD）的同学来说，可能会有以下几点困惑。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/idea-cannot-start-normally-under-mac/&title=Mac 下IDEA 无法正常启动 - Boo&summary="
           
           >
           
@@ -537,7 +520,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/how-does-google-drive-transfer-files/&title=Google Drive 如何转存文件？ - Boo&summary=对于初次使用Google Drive（以下简称 GD）的同学来说，可能会有以下几点困惑。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/idea-cannot-start-normally-under-mac/&title=Mac 下IDEA 无法正常启动 - Boo&summary="
           
           >
           
@@ -549,7 +532,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/how-does-google-drive-transfer-files/&title=Google Drive 如何转存文件？ - Boo&summary=对于初次使用Google Drive（以下简称 GD）的同学来说，可能会有以下几点困惑。"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/idea-cannot-start-normally-under-mac/&title=Mac 下IDEA 无法正常启动 - Boo&summary="
           
           >
           
@@ -563,7 +546,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADr0lEQVR42u3aQXLjMAwEQP//07v33UqRGEA2nGrenDgS2cphCqPXHytaLwTgwIEDZ4EDtwTuFa7/LvjPz7ufjwc47Od0n/S84MCBAwcOHDhw2+CqG749yGnj1fvdXu92P+X7gwMHDhw4cODALYU7BsDiRrpwKUQ1qF+fFxw4cODAgQMH7pfC3f59GkzTQSs4cODAgQMHDhy4WqBNB4+3AFNFOThw4MCBAwcO3LfDpQXxbVE9BV8deK5r8sGBAwcOHDhw4IbgqqsaMLd9js8LDhw4cODAgQO3BK670sHj7UHS4PrUAgcOHDhw4MCB2wKXBsTqgHN6sNi9X/V84MCBAwcOHDhw3wL3dOHcLaBvwdNA/eN9wYEDBw4cOHDglsDd/mF14NgN1ukg8/F9gQMHDhw4cODALYGbhqgODm8BqnAp5PF64MCBAwcOHDhwS+GqG3tqsJh+76kFDhw4cODAgQO3FW66QK4G5He9kPh4kw8OHDhw4MCBA/cmuGrAnSqUu0G4GrDHinVw4MCBAwcOHLglcE8dvLrx7uBz+oGAAwcOHDhw4MB9C1w6AKwefOp+6cC0fR5w4MCBAwcOHLglcFMDxOlBaHdQWS3S40IaHDhw4MCBAwfuQ3DdAeY07FQA7z6o8iATHDhw4MCBAwduKVx3g2kQrQbyLtTxwYEDBw4cOHDgwC2BqxbD6Qa6g8U0kHd/f5wAgwMHDhw4cODAfRguHUxOwb/CNR2cj9cDBw4cOHDgwIFbBpcGze5gMQVNi+vb+x8LaXDgwIEDBw4cuGVw3cDZHSC2DxY+0OtzgQMHDhw4cODALYPrbrgbRNPi+rTP9Hs/fgYHDhw4cODAgVsC1z1At3ju/nyqML+9Ljhw4MCBAwcO3Da4ajGdfr8atN8dgK8LaXDgwIEDBw4cuC+Bq94gDaDVwnoq2F7/I4ADBw4cOHDgwC2FSyGrxXP1cwqbvrBYHmSCAwcOHDhw4MC9Ga672i/qDb14GBfM1QEnOHDgwIEDBw7cErhuYJwqhuOCeDhoH68HDhw4cODAgQO3DK4beG+vc/sgbh/s9PXHmnxw4MCBAwcOHLg3w00FyuqBP1VEjwVgcODAgQMHDhy4L4dLQbtFeHeweh34wYEDBw4cOHDgfhlcWlh3IdIXDtMBLThw4MCBAwcO3Fa4NHhOBdJqwdx9sGMBGBw4cODAgQMH7kNwjxW4zcFntZCeGmxeB2Bw4MCBAwcOHLgPwVnFIhwBOHDgwFngwH12/QWnvX+mnCaNPwAAAABJRU5ErkJggg==">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADmElEQVR42u3aQXLjMAwEQP//09n7VrmEASEFdpo3xw4lti5TGL1+rNZ6IQAHDhw4Cxy4JXCv5nq78cXvu/v8//fq9ar3Vz0vOHDgwIEDBw7cNrhyAGxCdP//9EFcwcf3Cw4cOHDgwIEDtxSueqPp5+5+aSCeDtDgwIEDBw4cOHDfDlfdJx2QpvuDAwcOHDhw4MCBywJnFaxbEKcDztsCOjhw4MCBAwcO3FK4tKBNbygF6r6Q2P3+sSYfHDhw4MCBAwduCK57wE/93D4vOHDgwIEDBw7cErjT9VSB3b2fn+EFDhw4cODAgQO3Be54sHcTTLWITh/gccENDhw4cODAgQO3BK66QVoYp0BP/676IMCBAwcOHDhw4LbD3RUspweg3UHmFDw4cODAgQMHDtw2uO4A8ynYKmAcaMOBKjhw4MCBAwcO3Da4NIimRXIXcurAYwU8OHDgwIEDBw7cUrjTA1b3OR4oFh9Q9/PbfcGBAwcOHDhw4D4E7q7fpf93HFyHinZw4MCBAwcOHLitcHcdsAsyHcxPi3Nw4MCBAwcOHLhtcNMDwLEX+cIXGqd/Dw4cOHDgwIEDtx3uasMp6CpwWnzfXWiDAwcOHDhw4MBtg6uCvZqrOijtBu/q9dPB5tvrggMHDhw4cODALYGbCqLVg3UL8PS+0gcGDhw4cODAgQP3LXBpsE0Hjd0BajcInwKCAwcOHDhw4MBtg+sOBLvBMwVIC+k0WMdFNThw4MCBAwcO3DK47gt5U8VxWiCnAGMFOjhw4MCBAwcO3DK4bjE8VTh3B5qn+4MDBw4cOHDgwH073FTh2w2s3Qd2WpiXJ8DgwIEDBw4cOHBL4U5fELy7SO4W1ykoOHDgwIEDBw7cNrhpmKkiempgmgbfuMkHBw4cOHDgwIH7ZbjuAaeA0oCbBvTugwEHDhw4cODAgfs0uDQIdweU6QDz7hUPMsGBAwcOHDhw4B6GO10p4NQDmhpcxkEaHDhw4MCBAwduCdx0QEwHkdXrTMF0gzY4cODAgQMHDtxWuG6xexqQ7wrOU8U2OHDgwIEDBw7cp8ClQfQyMB4OMLvBuRvoL78HBw4cOHDgwIH7UrjqAbuBezpQx4NPcODAgQMHDhy4Pwp318CzO8hM7wccOHDgwIEDB24r3GkhnQ4yp18MvGtwCg4cOHDgwIEDtxVuusDtDi6fgmsHe3DgwIEDBw4cuCVwVvggEYADBw6cBQ7c765/IVlCuTlmYokAAAAASUVORK5CYII=">
           </div>
         </div>
       
@@ -583,20 +566,17 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/idea-cannot-start-normally-under-mac/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Mac 下IDEA 无法正常启动</p>
-                <p class='content'>前言今天本来打算使用PHPStorm的，但是突然启动不了了，就是双击应用程序之后，电脑没有任何反应。
-因为使用的PHPStorm是破解的，所以我以为是失效了。就在我一筹莫展准备重装一遍的，突然想...</p>
-              </a>
             
-            
-              <a class='next' href='/double-eleven-for-internet-people/'>
-                <p class='title'>互联网人的双十一<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>我其实不太会去写这类文章，那为什么要写这篇文章呢？想抓住双十一的尾巴，记录一些想法。
+              <a class='next' href='/how-does-google-drive-transfer-files/'>
+                <p class='title'>Google Drive 如何转存文件？<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>对于初次使用Google Drive（以下简称 GD）的同学来说，可能会有以下几点困惑。
 
 
-今年的双十一我本来也是啥都没买，
-可就在晚上七点左右，线上的某个平台，出了一点问题，订单的盈亏跟用户的余...</p>
+
+大家常说的转存是什么意思？
+常见的转存方式有哪几种？
+
+在正式回答上面两个问题之前，先来了解一下G...</p>
               </a>
             
           </div>
@@ -641,7 +621,7 @@
 
   <script>
     window.subData = {
-      title: 'Google Drive 如何转存文件？',
+      title: 'Mac 下IDEA 无法正常启动',
       tools: true
     }
   </script>
@@ -668,7 +648,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#方式一"><span class="toc-text">方式一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方式二"><span class="toc-text">方式二</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方式三"><span class="toc-text">方式三</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解决办法"><span class="toc-text">解决办法</span></a></li></ol>
     </div>
   </section>
 
