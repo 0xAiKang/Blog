@@ -16,10 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>Mac 下IDEA 无法正常启动 - Boo</title>
+    <title>Linux系统监控命令整理汇总 - Boo</title>
   
-    <meta name="keywords" content="Skill,Mac">
+    <meta name="keywords" content="Linux">
   
+  
+    <meta name="description" content="以下命令以Ubuntu 18.4 LTS 系统为准。">
   
 
   <!-- feed -->
@@ -283,8 +285,8 @@
         
           
   <h1 class="title">
-    <a href="/idea-cannot-start-normally-under-mac/">
-      Mac 下IDEA 无法正常启动
+    <a href="/summary-of-linux-system-monitoring-commands/">
+      Linux系统监控命令整理汇总
     </a>
   </h1>
 
@@ -309,9 +311,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Mac/' rel="nofollow">
+    <a href='/categories/Linux/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Mac</p>
+      <p>Linux</p>
     </a>
   </div>
 
@@ -322,7 +324,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Nov 15, 2020</p>
+    <p>发布于：Nov 17, 2020</p>
   </a>
 </div>
 
@@ -338,13 +340,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>287 words</p>
+      <p>1.8k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>1 min</p>
+      <p>6 min</p>
     </a>
   </div>
 
@@ -357,7 +359,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/idea-cannot-start-normally-under-mac/" class="leancloud_visitors" data-flag-title="Mac 下IDEA 无法正常启动">
+      <span id="/summary-of-linux-system-monitoring-commands/" class="leancloud_visitors" data-flag-title="Linux系统监控命令整理汇总">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -380,20 +382,213 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>今天本来打算使用<code>PHPStorm</code>的，但是突然启动不了了，就是双击应用程序之后，电脑没有任何反应。</p>
-<p>因为使用的<code>PHPStorm</code>是破解的，所以我以为是失效了。<br>就在我一筹莫展准备重装一遍的，突然想起”要不试试通过命令行启动“？</p>
-<p>于是我找到<code>PHPStrom</code>的包文件之后，尝试通过命令行启动，虽然同样失败了，但是命令行输出了一些信息。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/4DDACB7F-B42E-4142-8C20-F7DF8E450D53.png" alt=""></p>
-<p>正是这些信息，才让我想起来，今天上午在整理文件时，不小心把<code>PHPStorm</code>中依赖的一个文件给删除掉了。</p>
-<p>于是，马上找到了那个文件并还原了，之后果然能正常启动了。</p>
-<h3 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h3><p>如果你也遇到了类似的情况，那么可以尝试这种方式，或许能帮助你找到问题所在。</p>
-<ol>
-<li>找到应用程序</li>
-<li>右键显示包文件</li>
-<li>依次进入<code>Contents-&gt;MacOS</code></li>
-<li>双击<code>shell</code>脚本</li>
-</ol>
-<p>接着无论成功或失败都能输出一些内容，然后利用这些内容去查找问题所在。</p>
+          <p>以下命令以Ubuntu 18.4 LTS 系统为准。</p>
+<a id="more"></a>
+
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>功能</th>
+<th>实例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>free</td>
+<td>查看内存使用情况，包括物理内存和虚拟内存</td>
+<td>free -h 或 free -m</td>
+</tr>
+<tr>
+<td>vmstat</td>
+<td>对系统的整体情况进行统计，包括内核进程、虚拟内存、磁盘、陷阱和 CPU 活动的统计信息</td>
+<td>vmstat 2 100</td>
+</tr>
+<tr>
+<td>top</td>
+<td>实时显示系统中各个进程的资源占用状况及总体状况</td>
+<td>top</td>
+</tr>
+<tr>
+<td>mpstat</td>
+<td>实时系统监控工具，它会报告与CPU相关的统计信息</td>
+<td>mpstat</td>
+</tr>
+<tr>
+<td>sar</td>
+<td>收集、报告和保存CPU、内存、输入输出端口使用情况</td>
+<td>sar -n DEV 3 100</td>
+</tr>
+<tr>
+<td>netstat</td>
+<td>检验本机各端口的网络连接情况，用于显示与IP、TCP、UDP和ICMP协议相关的统计数据</td>
+<td>netstat -a</td>
+</tr>
+<tr>
+<td>tcpdump</td>
+<td>用于捕捉或者过滤网络上指定接口上接收或者传输的TCP/IP包</td>
+<td>tcpdump -i eth0 -c 3</td>
+</tr>
+<tr>
+<td>iptraf</td>
+<td>用来生成包括TCP信息、UDP计数、ICMP和OSPF信息、以太网负载信息、节点状态信息、IP校验和错误等等统计数据</td>
+<td>iptraf</td>
+</tr>
+<tr>
+<td>iostat</td>
+<td>收集显示系统存储设备输入和输出状态统计</td>
+<td>iostat -x -k 2 100</td>
+</tr>
+<tr>
+<td>lsof</td>
+<td>查看进程打开的文件的工具，查看监听端口</td>
+<td>lsof -i :3000</td>
+</tr>
+<tr>
+<td>atop</td>
+<td>显示的是各种系统资源（CPU, memory, network, I/O, kernel）的综合，并且在高负载的情况下进行了彩色标注</td>
+<td>atop</td>
+</tr>
+<tr>
+<td>htop</td>
+<td>它和top命令十分相似，高级的交互式的实时linux进程监控工具</td>
+<td>htop</td>
+</tr>
+<tr>
+<td>ps</td>
+<td>最基本同时也是非常强大的进程查看命令</td>
+<td>ps aux</td>
+</tr>
+<tr>
+<td>glances</td>
+<td>监视 CPU，平均负载，内存，网络流量，磁盘 I/O，其他处理器 和 文件系统 空间的利用情况</td>
+<td>glances</td>
+</tr>
+<tr>
+<td>dstat</td>
+<td>全能系统信息统计工具，可用于替换vmstat、iostat、netstat、nfsstat和ifstat这些命令的工具</td>
+<td>dstat</td>
+</tr>
+<tr>
+<td>uptime</td>
+<td>用于查看服务器运行了多长时间以及有多少个用户登录，快速获知服务器的负荷情况</td>
+<td>uptime</td>
+</tr>
+<tr>
+<td>dmesg</td>
+<td>主要用来显示内核信息。使用dmesg可以有效诊断机器硬件故障或者添加硬件出现的问题</td>
+<td>dmesg</td>
+</tr>
+<tr>
+<td>mpstat</td>
+<td>用于报告多路CPU主机的每颗CPU活动情况，以及整个主机的CPU情况</td>
+<td>mpstat 2 3</td>
+</tr>
+<tr>
+<td>nmon</td>
+<td>监控CPU、内存、I/O、文件系统及网络资源。对于内存的使用，它可以实时的显示 总/剩余内存、交换空间等信息</td>
+<td>nmon</td>
+</tr>
+<tr>
+<td>mytop</td>
+<td>用于监控 mysql 的线程和性能。它能让你实时查看数据库以及正在处理哪些查询</td>
+<td>mytop</td>
+</tr>
+<tr>
+<td>iftop</td>
+<td>用来监控网卡的实时流量（可以指定网段）、反向解析IP、显示端口信息等</td>
+<td>iftop</td>
+</tr>
+<tr>
+<td>jnettop</td>
+<td>以相同的方式来监测网络流量但比 iftop 更形象。它还支持自定义的文本输出，并能以友好的交互方式来深度分析日志</td>
+<td>jnettop</td>
+</tr>
+<tr>
+<td>ngrep</td>
+<td>网络层的 grep。它使用 pcap ，允许通过指定扩展正则表达式或十六进制表达式来匹配数据包</td>
+<td>ngrep</td>
+</tr>
+<tr>
+<td>nmap</td>
+<td>可以扫描你服务器开放的端口并且可以检测正在使用哪个操作系统</td>
+<td>nmap localhost</td>
+</tr>
+<tr>
+<td>du</td>
+<td>查看Linux系统中某目录的大小</td>
+<td>du -sh *</td>
+</tr>
+<tr>
+<td>fdisk</td>
+<td>查看硬盘及分区信息</td>
+<td>fdisk -l</td>
+</tr>
+</tbody></table>
+<h2 id="内存监控"><a href="#内存监控" class="headerlink" title="内存监控"></a>内存监控</h2><h3 id="free"><a href="#free" class="headerlink" title="free"></a>free</h3><p><code>free</code>命令可以显示当前系统未使用的和已使用的内存数目，还可以显示被内核使用的内存缓冲区。</p>
+<p>语法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">free (选项)</span><br></pre></td></tr></table></figure>
+
+<p>常用选项：<br><code>-b</code>：以Byte为单位显示内存使用情况；<br><code>-k</code>：以KB为单位显示内存使用情况；<br><code>-m</code>：以MB为单位显示内存使用情况；<br><code>-g</code>：以GB为单位显示内存使用情况;<br><code>-o</code>：不显示缓冲区调节列；<br><code>-t</code>：显示内存总和列；<br><code>-V</code>：显示版本信息。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201117222535.png" alt=""></p>
+<p>字段说明：</p>
+<ul>
+<li>total：内存总数；</li>
+<li>used：已经使用的内存数，包括 cached 和应用程序实际使用的内存；</li>
+<li>free：空闲的内存数；</li>
+<li>shared：当前已经废弃不用；</li>
+<li>buffers：缓存内存数；</li>
+<li>cached：缓存内存数。</li>
+</ul>
+<p>关系：total = used + free</p>
+<h2 id="vmstat"><a href="#vmstat" class="headerlink" title="vmstat"></a>vmstat</h2><p>vmstat命令 的含义为显示虚拟内存状态（“Viryual Memor Statics”），但是它可以报告关于进程、内存、I/O等系统整体运行状态。</p>
+<p>语法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vmstat (选项) (参数)</span><br></pre></td></tr></table></figure>
+
+<p>选项<br><code>-a</code>：显示活动内页；<br><code>-f</code>：显示启动后创建的进程总数；<br><code>-m</code>：显示slab信息；<br><code>-n</code>：头信息仅显示一次；<br><code>-s</code>：以表格方式显示事件计数器和内存状态；<br><code>-d</code>：报告磁盘状态；<br><code>-p</code>：显示指定的硬盘分区状态；<br><code>-S</code>：输出信息的单位。</p>
+<p>参数</p>
+<ul>
+<li>事件间隔：状态信息刷新的时间间隔；</li>
+<li>次数：显示报告的次数。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201117223922.png" alt=""></p>
+<p>字段说明：<br>Procs（进程）</p>
+<ul>
+<li>r: 运行队列中进程数量，这个值也可以判断是否需要增加CPU。（长期大于1）</li>
+<li>b: 等待IO的进程数量。</li>
+</ul>
+<p>Memory（内存）</p>
+<ul>
+<li>swpd: 使用虚拟内存大小，如果swpd的值不为0，但是SI，SO的值长期为0，这种情况不会影响系统性能。</li>
+<li>free: 空闲物理内存大小。</li>
+<li>buff: 用作缓冲的内存大小。</li>
+<li>cache: 用作缓存的内存大小，如果cache的值大的时候，说明cache处的文件数多，如果频繁访问到的文件都能被cache处，那么磁盘的读IO bi会非常小。</li>
+</ul>
+<p>Swap</p>
+<ul>
+<li>si: 每秒从交换区写到内存的大小，由磁盘调入内存。</li>
+<li>so: 每秒写入交换区的内存大小，由内存调入磁盘。</li>
+</ul>
+<p>注意：内存够用的时候，这2个值都是0，如果这2个值长期大于0时，系统性能会受到影响，磁盘IO和CPU资源都会被消耗。有些朋友看到空闲内存（free）很少的或接近于0时，就认为内存不够用了，不能光看这一点，还要结合si和so，如果free很少，但是si和so也很少（大多时候是0），那么不用担心，系统性能这时不会受到影响的。</p>
+<p>IO（现在的Linux版本块的大小为1kb）</p>
+<ul>
+<li>bi: 每秒读取的块数</li>
+<li>bo: 每秒写入的块数</li>
+</ul>
+<p>注意：随机磁盘读写的时候，这2个值越大（如超出1024k)，能看到CPU在IO等待的值也会越大。</p>
+<p>system（系统）</p>
+<ul>
+<li>in: 每秒中断数，包括时钟中断。</li>
+<li>cs: 每秒上下文切换数。<br>注意：上面2个值越大，会看到由内核消耗的CPU时间会越大。</li>
+</ul>
+<p>CPU（以百分比表示）<br>us: 用户进程执行时间百分比(user time)<br>us的值比较高时，说明用户进程消耗的CPU时间多，但是如果长期超50%的使用，那么我们就该考虑优化程序算法或者进行加速。</p>
+<ul>
+<li>sy: 内核系统进程执行时间百分比(system time)<br>sy的值高时，说明系统内核消耗的CPU资源多，这并不是良性表现，我们应该检查原因。</li>
+<li>wa: IO等待时间百分比</li>
+</ul>
+<p>wa的值高时，说明IO等待比较严重，这可能由于磁盘大量作随机访问造成，也有可能磁盘出现瓶颈（块操作）。<br>id: 空闲时间百分比</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://wzfou.com/linux-jiankong/" target="_blank" rel="noopener">Linux系统监控命令整理汇总-掌握CPU,内存,磁盘IO等找出性能瓶颈</a></li>
+</ul>
 
           
             <div class='article_footer'>
@@ -430,7 +625,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/idea-cannot-start-normally-under-mac/>https://www.0x2beace.com/idea-cannot-start-normally-under-mac/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/summary-of-linux-system-monitoring-commands/>https://www.0x2beace.com/summary-of-linux-system-monitoring-commands/</a></p>
           
         
       </blockquote>
@@ -478,10 +673,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-11-15T23:39:24+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-11-17T22:55:50+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Nov 15, 2020</p>
+    <p>更新于：Nov 17, 2020</p>
   </a>
 </div>
 
@@ -490,7 +685,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Skill/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Skill</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Mac/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Mac</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Linux/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Linux</p></a></div>
 
 
         
@@ -508,7 +703,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/idea-cannot-start-normally-under-mac/&title=Mac 下IDEA 无法正常启动 - Boo&summary="
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/summary-of-linux-system-monitoring-commands/&title=Linux系统监控命令整理汇总 - Boo&summary=以下命令以Ubuntu 18.4 LTS 系统为准。"
           
           >
           
@@ -520,7 +715,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/idea-cannot-start-normally-under-mac/&title=Mac 下IDEA 无法正常启动 - Boo&summary="
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/summary-of-linux-system-monitoring-commands/&title=Linux系统监控命令整理汇总 - Boo&summary=以下命令以Ubuntu 18.4 LTS 系统为准。"
           
           >
           
@@ -532,7 +727,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/idea-cannot-start-normally-under-mac/&title=Mac 下IDEA 无法正常启动 - Boo&summary="
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/summary-of-linux-system-monitoring-commands/&title=Linux系统监控命令整理汇总 - Boo&summary=以下命令以Ubuntu 18.4 LTS 系统为准。"
           
           >
           
@@ -546,7 +741,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADmElEQVR42u3aQXLjMAwEQP//09n7VrmEASEFdpo3xw4lti5TGL1+rNZ6IQAHDhw4Cxy4JXCv5nq78cXvu/v8//fq9ar3Vz0vOHDgwIEDBw7cNrhyAGxCdP//9EFcwcf3Cw4cOHDgwIEDtxSueqPp5+5+aSCeDtDgwIEDBw4cOHDfDlfdJx2QpvuDAwcOHDhw4MCBywJnFaxbEKcDztsCOjhw4MCBAwcO3FK4tKBNbygF6r6Q2P3+sSYfHDhw4MCBAwduCK57wE/93D4vOHDgwIEDBw7cErjT9VSB3b2fn+EFDhw4cODAgQO3Be54sHcTTLWITh/gccENDhw4cODAgQO3BK66QVoYp0BP/676IMCBAwcOHDhw4LbD3RUspweg3UHmFDw4cODAgQMHDtw2uO4A8ynYKmAcaMOBKjhw4MCBAwcO3Da4NIimRXIXcurAYwU8OHDgwIEDBw7cUrjTA1b3OR4oFh9Q9/PbfcGBAwcOHDhw4D4E7q7fpf93HFyHinZw4MCBAwcOHLitcHcdsAsyHcxPi3Nw4MCBAwcOHLhtcNMDwLEX+cIXGqd/Dw4cOHDgwIEDtx3uasMp6CpwWnzfXWiDAwcOHDhw4MBtg6uCvZqrOijtBu/q9dPB5tvrggMHDhw4cODALYGbCqLVg3UL8PS+0gcGDhw4cODAgQP3LXBpsE0Hjd0BajcInwKCAwcOHDhw4MBtg+sOBLvBMwVIC+k0WMdFNThw4MCBAwcO3DK47gt5U8VxWiCnAGMFOjhw4MCBAwcO3DK4bjE8VTh3B5qn+4MDBw4cOHDgwH073FTh2w2s3Qd2WpiXJ8DgwIEDBw4cOHBL4U5fELy7SO4W1ykoOHDgwIEDBw7cNrhpmKkiempgmgbfuMkHBw4cOHDgwIH7ZbjuAaeA0oCbBvTugwEHDhw4cODAgfs0uDQIdweU6QDz7hUPMsGBAwcOHDhw4B6GO10p4NQDmhpcxkEaHDhw4MCBAwduCdx0QEwHkdXrTMF0gzY4cODAgQMHDtxWuG6xexqQ7wrOU8U2OHDgwIEDBw7cp8ClQfQyMB4OMLvBuRvoL78HBw4cOHDgwIH7UrjqAbuBezpQx4NPcODAgQMHDhy4Pwp318CzO8hM7wccOHDgwIEDB24r3GkhnQ4yp18MvGtwCg4cOHDgwIEDtxVuusDtDi6fgmsHe3DgwIEDBw4cuCVwVvggEYADBw6cBQ7c765/IVlCuTlmYokAAAAASUVORK5CYII=">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADqklEQVR42u3aS3JiQQwEQO5/6ZkDTBDdKukNws7egd+vEy9EFa8/VrReCMCBAwfOAgduCdwrXP9c8PL4d6+777/d6OH86n7BgQMHDhw4cOC2wV0PgIfj0+tNQZyeo7tfcODAgQMHDhy4rXDdAbZ63lPAt/ctPzc4cODAgQMHDtwPh5uGTu/fPR8cOHDgwIEDB+63wk0NpNWC/OsHYHDgwIEDBw4cuIcL6amAceq40/OsafLBgQMHDhw4cOCG4NKB81tfx/sFBw4cOHDgwIFbAtdd2wvn6QUOHDhw4MCBA7cFLh0Qq0FiNWC8BUo/mLjgBgcOHDhw4MCBWwaXFrnpD/Wqf6/Cps99PA8cOHDgwIEDB24JXDe4HBsswwByvHB+qpAGBw4cOHDgwIEbhuve4HZjt9dJn+cUmFaD1bfngQMHDhw4cODALYGrXrj6YN0BujtoP/7NARw4cODAgQMH7kNw3YG3PEAOw00/R7vJBwcOHDhw4MCB+xBcOnBWg8JqEFrdcBqYHq8DDhw4cODAgQO3BG76B4Xp+91iOy2ay/sCBw4cOHDgwIFbApcOvtMFdTfwnApAj+DgwIEDBw4cOHBL4KaCx+p5abDYDULHCmlw4MCBAwcOHLhlcN0AMQ0mnzq++8EcE2Bw4MCBAwcOHLgPw00VtrcD6xR0NQBNi2tw4MCBAwcOHLitcLcDYzqwVovkdFDt3icupMGBAwcOHDhw4JbApYNpCpH+UHAqAL0epMGBAwcOHDhw4JbBTRW5TxfS3Y1X93WdAIMDBw4cOHDgwH0IbqpA7gaH6aA8dX77mwM4cODAgQMHDtx/hrsdULsPkB7/dCF9/RocOHDgwIEDB24JXHVA7UKnG54upOMAFhw4cODAgQMHbilcesMqdFpcp4N29R/iWEiDAwcOHDhw4MAtg0uL3+lgMh3I0wG8XEiDAwcOHDhw4MAth0tBU5jpwfbVXODAgQMHDhw4cFvhpoLGbjDaLaTT4roc2IIDBw4cOHDgwC2BmxoMb4vktOhOg87p4BQcOHDgwIEDB24b3PTAW93Y9MBbLbCvA11w4MCBAwcOHLilcN2BcjpoTAfrdKAfa/LBgQMHDhw4cOC+BG4qoEwH4rRoLr8GBw4cOHDgwIH7oXApUPrDxG7QWoYHBw4cOHDgwIFbClctpKeL5+mCuR1cggMHDhw4cODALYfrFrhTG+gW0tUPvvyc4MCBAwcOHDhwS+CsYsCJABw4cOAscOA+u/4CqxGDaulDBgsAAAAASUVORK5CYII=">
           </div>
         </div>
       
@@ -566,40 +761,11 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/summary-of-linux-system-monitoring-commands/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Linux系统监控命令整理汇总</p>
-                <p class='content'>以下命令以Ubuntu 18.4 LTS 系统为准。
-
-
-
-
-
-命令
-功能
-实例
-
-
-
-free
-查看内存使用情况，包括物理内存和虚拟内存
-free -h 或 free -m
-
-
-vmstat
-...</p>
-              </a>
             
-            
-              <a class='next' href='/how-does-google-drive-transfer-files/'>
-                <p class='title'>Google Drive 如何转存文件？<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>对于初次使用Google Drive（以下简称 GD）的同学来说，可能会有以下几点困惑。
-
-
-
-大家常说的转存是什么意思？
-常见的转存方式有哪几种？
-
-在正式回答上面两个问题之前，先来了解一下G...</p>
+              <a class='next' href='/idea-cannot-start-normally-under-mac/'>
+                <p class='title'>Mac 下IDEA 无法正常启动<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>前言今天本来打算使用PHPStorm的，但是突然启动不了了，就是双击应用程序之后，电脑没有任何反应。
+因为使用的PHPStorm是破解的，所以我以为是失效了。就在我一筹莫展准备重装一遍的，突然想...</p>
               </a>
             
           </div>
@@ -644,7 +810,7 @@ vmstat
 
   <script>
     window.subData = {
-      title: 'Mac 下IDEA 无法正常启动',
+      title: 'Linux系统监控命令整理汇总',
       tools: true
     }
   </script>
@@ -671,7 +837,7 @@ vmstat
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解决办法"><span class="toc-text">解决办法</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#内存监控"><span class="toc-text">内存监控</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#free"><span class="toc-text">free</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vmstat"><span class="toc-text">vmstat</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
     </div>
   </section>
 
