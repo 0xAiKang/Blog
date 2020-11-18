@@ -340,13 +340,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1.8k words</p>
+      <p>2.7k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>6 min</p>
+      <p>10 min</p>
     </a>
   </div>
 
@@ -540,7 +540,7 @@
 <li>cached：缓存内存数。</li>
 </ul>
 <p>关系：total = used + free</p>
-<h2 id="vmstat"><a href="#vmstat" class="headerlink" title="vmstat"></a>vmstat</h2><p>vmstat命令 的含义为显示虚拟内存状态（“Viryual Memor Statics”），但是它可以报告关于进程、内存、I/O等系统整体运行状态。</p>
+<h3 id="vmstat"><a href="#vmstat" class="headerlink" title="vmstat"></a>vmstat</h3><p>vmstat命令 的含义为显示虚拟内存状态（“Viryual Memor Statics”），但是它可以报告关于进程、内存、I/O等系统整体运行状态。</p>
 <p>语法</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vmstat (选项) (参数)</span><br></pre></td></tr></table></figure>
 
@@ -553,15 +553,15 @@
 <p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201117223922.png" alt=""></p>
 <p>字段说明：<br>Procs（进程）</p>
 <ul>
-<li>r: 运行队列中进程数量，这个值也可以判断是否需要增加CPU。（长期大于1）</li>
-<li>b: 等待IO的进程数量。</li>
+<li>r: 运行和等待CPU时间片的进程数，这个值如果长期大于系统CPU个数，就说明CPU资源不足，可以考虑增加CPU </li>
+<li>b: 等待资源的进程数，比如正在等待I/O或者内存交换等</li>
 </ul>
 <p>Memory（内存）</p>
 <ul>
 <li>swpd: 使用虚拟内存大小，如果swpd的值不为0，但是SI，SO的值长期为0，这种情况不会影响系统性能。</li>
-<li>free: 空闲物理内存大小。</li>
+<li>free: 空闲物理内存大小（以KB为单位）。</li>
 <li>buff: 用作缓冲的内存大小。</li>
-<li>cache: 用作缓存的内存大小，如果cache的值大的时候，说明cache处的文件数多，如果频繁访问到的文件都能被cache处，那么磁盘的读IO bi会非常小。</li>
+<li>cache: 用作缓存的内存大小，如果cache的值大的时候，说明cache处的文件数多。如果此时IO中的bi比较小，就说明文件系统效率比较好。</li>
 </ul>
 <p>Swap</p>
 <ul>
@@ -574,18 +574,100 @@
 <li>bi: 每秒读取的块数</li>
 <li>bo: 每秒写入的块数</li>
 </ul>
-<p>注意：随机磁盘读写的时候，这2个值越大（如超出1024k)，能看到CPU在IO等待的值也会越大。</p>
+<p>注意：随机磁盘读写的时候，这2个值较大（如超出1024k)，而且wa值比较大，则表示系统磁盘IO性能瓶颈。</p>
 <p>system（系统）</p>
 <ul>
 <li>in: 每秒中断数，包括时钟中断。</li>
-<li>cs: 每秒上下文切换数。<br>注意：上面2个值越大，会看到由内核消耗的CPU时间会越大。</li>
+<li>cs: 每秒上下文切换数。</li>
 </ul>
+<p>注意：上面2个值越大，会看到由内核消耗的CPU时间会越大。</p>
 <p>CPU（以百分比表示）<br>us: 用户进程执行时间百分比(user time)<br>us的值比较高时，说明用户进程消耗的CPU时间多，但是如果长期超50%的使用，那么我们就该考虑优化程序算法或者进行加速。</p>
 <ul>
 <li>sy: 内核系统进程执行时间百分比(system time)<br>sy的值高时，说明系统内核消耗的CPU资源多，这并不是良性表现，我们应该检查原因。</li>
-<li>wa: IO等待时间百分比</li>
+<li>id: 空闲时间百分比</li>
+<li>wa: IO等待时间百分比<br>wa的值高时，说明IO等待比较严重，这可能由于磁盘大量作随机访问造成，也有可能磁盘出现瓶颈（块操作）。</li>
+<li>st：一般不关注，虚拟机占用的时间百分比。</li>
 </ul>
-<p>wa的值高时，说明IO等待比较严重，这可能由于磁盘大量作随机访问造成，也有可能磁盘出现瓶颈（块操作）。<br>id: 空闲时间百分比</p>
+<h2 id="CPU-监控"><a href="#CPU-监控" class="headerlink" title="CPU 监控"></a>CPU 监控</h2><h3 id="top"><a href="#top" class="headerlink" title="top"></a>top</h3><p>top命令 可以实时动态地查看系统的整体运行情况。</p>
+<p>语法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top (选项)</span><br></pre></td></tr></table></figure>
+
+<p>选项：<br><code>-b</code>：以批处理模式操作；<br><code>-c</code>：显示完整的治命令；<br><code>-d</code>：屏幕刷新间隔时间；<br><code>-I</code>：忽略失效过程；<br><code>-s</code>：保密模式；<br><code>-S</code>：累积模式；<br><code>-i&lt;时间&gt;</code>：设置间隔时间；<br><code>-u&lt;用户名&gt;</code>：指定用户名；<br><code>-p&lt;进程号&gt;</code>：指定进程；<br><code>-n&lt;次数&gt;</code>：循环显示的次数。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201118231037.png" alt=""></p>
+<p>字段说明：</p>
+<ul>
+<li><code>top</code>：系统当前时间</li>
+<li><code>up xxx days</code>：系统运行时间</li>
+<li><code>1 users</code>：当前登录用户个数</li>
+<li><code>load average</code>：系统负载。即任务队列的平均长度。三个数值分别为最近1分钟、最近5分钟、最近15分钟的平均负载。——超过N（CPU核数）说明系统满负荷运行。</li>
+<li>Tasks<ul>
+<li><code>total</code>：总进程数</li>
+<li><code>running</code>：正在运行的进程数</li>
+<li><code>sleeping</code>：睡眠的进程数</li>
+<li><code>stopped</code>：停止的进程数</li>
+<li><code>zombie</code>：冻结的进程数</li>
+</ul>
+</li>
+<li>%Cpu(s)<ul>
+<li><code>us</code>：用户进程消耗的CPU百分比</li>
+<li><code>sy</code>：内核进程消耗的CPU百分比</li>
+<li><code>ni</code>：改变过优先级的进程占用CPU的百分比</li>
+<li><code>id</code>：空闲CPU的百分比</li>
+<li><code>wa</code>：IO等待消耗的CPU百分比</li>
+</ul>
+</li>
+<li>Mem<ul>
+<li><code>total</code>：物理内存总量</li>
+<li><code>free</code>：空闲物理内存总量</li>
+<li><code>used</code>：已用物理内存总量</li>
+<li><code>buff</code>：用作内核缓存内存总量</li>
+</ul>
+</li>
+<li>Swap<ul>
+<li><code>total</code>：虚拟内存总量</li>
+<li><code>free</code>：空闲虚拟内存总量</li>
+<li><code>used</code>：已用虚拟内存总量</li>
+</ul>
+</li>
+</ul>
+<h3 id="mpstat"><a href="#mpstat" class="headerlink" title="mpstat"></a>mpstat</h3><p>mpstat命令 指令主要用于多CPU环境下，它显示各个可用CPU的状态系你想。</p>
+<p>语法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mpstat (选项) (参数)</span><br></pre></td></tr></table></figure>
+
+<p>选项：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-P：指定CPU编号。</span><br></pre></td></tr></table></figure>
+
+<p>参数：</p>
+<ul>
+<li>间隔时间：每次报告的间隔时间（秒）；</li>
+<li>次数：显示报告的次数。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201118232333.png" alt=""></p>
+<p>ALL表示显示所有CPUs，也可以指定某个CPU；2表示刷新间隔。</p>
+<h2 id="网络监控"><a href="#网络监控" class="headerlink" title="网络监控"></a>网络监控</h2><h3 id="sar"><a href="#sar" class="headerlink" title="sar"></a>sar</h3><p>sar命令 是Linux下系统运行状态统计工具，它将指定的操作系统状态计数器显示到标准输出设备。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201118232850.png" alt=""></p>
+<p>字段说明：</p>
+<ul>
+<li><code>IFACE</code>：网络设备的名称</li>
+<li><code>rxpck/s</code>：每秒钟接收到的包数目</li>
+<li><code>txpck/s</code>：每秒钟发送出去的包数目</li>
+<li><code>rxkB/s</code>：每秒钟接收到的字节数</li>
+<li><code>txkB/s</code>：每秒钟发送出去的字节数</li>
+</ul>
+<h3 id="netstat"><a href="#netstat" class="headerlink" title="netstat"></a>netstat</h3><p>netstat命令一般用于检验本机各端口的网络连接情况，用于显示与IP、TCP、UDP和ICMP协议相关的统计数据。</p>
+<p>常用实例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">netstat -aup        # 输出所有UDP连接状况</span><br><span class="line">netstat -atp        # 输出所有TCP连接状况</span><br><span class="line">netstat -s          # 显示各个协议的网络统计信息</span><br><span class="line">netstat -i          # 显示网卡列表</span><br><span class="line">netstat -r          # 显示路由表信息</span><br><span class="line"></span><br><span class="line">netstat -l        #只显示监听端口</span><br><span class="line">netstat -lt       #只列出所有监听 tcp 端口</span><br><span class="line">netstat -lu       #只列出所有监听 udp 端口</span><br><span class="line">netstat -lx       #只列出所有监听 UNIX 端口</span><br></pre></td></tr></table></figure>
+
+<h2 id="磁盘监控"><a href="#磁盘监控" class="headerlink" title="磁盘监控"></a>磁盘监控</h2><h3 id="df"><a href="#df" class="headerlink" title="df"></a>df</h3><p>df命令 用于显示磁盘分区上的可使用的磁盘空间。如果没有文件名被指定，则显示当前所有被挂载的文件系统，默认以 KB 为单位。</p>
+<p>语法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df (选项) (参数)</span><br></pre></td></tr></table></figure>
+
+<p>选项：<br><code>-a</code>  全部文件系统列表<br><code>-h</code>  以方便阅读的方式显示<br><code>-i</code>  显示inode信息<br><code>-T</code>  显示文件系统类型<br><code>-l</code>  只显示本地文件系统<br><code>-k</code>  以KB为单位<br><code>-m</code>  以MB为单位</p>
+<p>参数：</p>
+<ul>
+<li>文件：指定文件系统上的文件。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201118234529.png" alt=""></p>
 <h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
 <li><a href="https://wzfou.com/linux-jiankong/" target="_blank" rel="noopener">Linux系统监控命令整理汇总-掌握CPU,内存,磁盘IO等找出性能瓶颈</a></li>
 </ul>
@@ -673,10 +755,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-11-17T22:55:50+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-11-18T23:47:04+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Nov 17, 2020</p>
+    <p>更新于：Nov 18, 2020</p>
   </a>
 </div>
 
@@ -765,7 +847,9 @@
               <a class='next' href='/idea-cannot-start-normally-under-mac/'>
                 <p class='title'>Mac 下IDEA 无法正常启动<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
                 <p class='content'>前言今天本来打算使用PHPStorm的，但是突然启动不了了，就是双击应用程序之后，电脑没有任何反应。
-因为使用的PHPStorm是破解的，所以我以为是失效了。就在我一筹莫展准备重装一遍的，突然想...</p>
+
+
+因为使用的PHPStorm是破解的，所以我以为是失效了。就在我一筹莫展准备重装一遍的，突...</p>
               </a>
             
           </div>
@@ -837,7 +921,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#内存监控"><span class="toc-text">内存监控</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#free"><span class="toc-text">free</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vmstat"><span class="toc-text">vmstat</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#内存监控"><span class="toc-text">内存监控</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#free"><span class="toc-text">free</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#vmstat"><span class="toc-text">vmstat</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CPU-监控"><span class="toc-text">CPU 监控</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#top"><span class="toc-text">top</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mpstat"><span class="toc-text">mpstat</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#网络监控"><span class="toc-text">网络监控</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#sar"><span class="toc-text">sar</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#netstat"><span class="toc-text">netstat</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#磁盘监控"><span class="toc-text">磁盘监控</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#df"><span class="toc-text">df</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
     </div>
   </section>
 
