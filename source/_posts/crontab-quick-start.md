@@ -7,9 +7,9 @@ categories: ["Linux"]
 
 [Crontab](https://zh.wikipedia.org/zh-hans/Cron) 是Unix 系统中基于时间的任务管理工具。
 
-这个命令与传统的 Unix 命令不一样，下面会一一介绍其规则及其用法。
-
 <!-- more -->
+
+这个命令与传统的 Unix 命令不一样，下面会一一介绍其规则及其用法。
 
 ## crontab 还是 cron
 [crontab](https://baike.baidu.com/item/crontab) 还是 [cron](https://baike.baidu.com/item/cron)？初次接触 crontab 的同学可能会被这两个词给绕晕。
@@ -106,9 +106,67 @@ $ crontab -e
 $ crontab -r
 ```
 
-### 注意事项
-1. 新创建的cron 任务，不会马上执行，至少要过两分钟才执行。
-2. 如果需要执行的任务，涉及到路径，建立使用绝对路径来表示。
+### 常见问题
+
+#### crontab 没有立即生效
+新创建的cron 任务，不会马上执行，至少要过两分钟才执行。
+
+如果希望能马上执行，可以重启 crontab 。
+
+
+```
+// Ubuntu：
+$ service cron restart    
+
+// Centos
+$ service crond restart
+```
+
+#### crontab 压根没执行
+有时候会遇到直接在命令行中可以执行任务，但是定时任务却怎么都不执行，
+
+这时首先需要确认 cron 服务是否正常：
+```
+// Ubuntu：
+$ service cron status    
+
+// Centos
+$ service crond status
+```
+
+然后确认需要执行的任务是否包含路径，如果包含请使用全局路径。
+
+最后重启 cron 服务，通常到这里就已经可以正常执行了，如果还不行，尝试引入环境变量：
+
+```
+0 * * * * . /etc/profile; /usr/bin/php /var/www/script.php
+```
+
+#### crontab 无权限执行
+需要注意的是crontab 任务的调度，只有 root 和任务所有者拥有权限。
+
+如果想要编辑/查看/删除其他用户的任务，可以使用以下命令：
+
+```
+$ crontab -u <username> <选项>
+```
+
+常用选项：
+`-e`：编辑任务
+`-l`：查看任务
+`-r`：删除任务
+
+#### 查看 crontab 任务执行情况
+
+当定时任务在指定时间执行时，会同步输出类似日志：
+```
+$ tail -f /var/log/syslog
+Nov 19 12:47:01 gigabit CRON[14521]: (root) CMD (/usr/bin/php /var/www/script.php)
+```
+此时就可以肯定任务调度正常。
+
 
 ### 参考链接
 * [crontab用法与实例](https://www.linuxprobe.com/how-to-crontab.html)
+* [19. crontab 定时任务](https://linuxtools-rst.readthedocs.io/zh_CN/latest/tool/crontab.html)
+* [Linux Crontab命令定时任务基本语法与操作教程-VPS/服务器自动化](https://wzfou.com/crontab/#ftoc-heading-2)

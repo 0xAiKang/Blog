@@ -221,16 +221,15 @@ netstat命令一般用于检验本机各端口的网络连接情况，用于显�
 
 常用实例：
 ```
-netstat -aup        # 输出所有UDP连接状况
-netstat -atp        # 输出所有TCP连接状况
-netstat -s          # 显示各个协议的网络统计信息
-netstat -i          # 显示网卡列表
-netstat -r          # 显示路由表信息
-
-netstat -l        #只显示监听端口
-netstat -lt       #只列出所有监听 tcp 端口
-netstat -lu       #只列出所有监听 udp 端口
-netstat -lx       #只列出所有监听 UNIX 端口
+netstat -aup      # 输出所有UDP连接状况
+netstat -atp      # 输出所有TCP连接状况
+netstat -s        # 显示各个协议的网络统计信息
+netstat -i        # 显示网卡列表
+netstat -r        # 显示路由表信息
+netstat -l        # 只显示监听端口
+netstat -lt       # 只列出所有监听 tcp 端口
+netstat -lu       # 只列出所有监听 udp 端口
+netstat -lx       # 只列出所有监听 UNIX 端口
 ```
 
 ## 磁盘监控
@@ -255,6 +254,100 @@ df (选项) (参数)
 * 文件：指定文件系统上的文件。
 
 ![](https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201118234529.png)
+
+### iostat
+iostat命令 被用于监视系统输入输出设备和CPU的使用情况。
+
+语法：
+```
+iostat (选项) (参数)
+```
+
+选项：
+`-c`：仅显示CPU使用情况；
+`-d`：仅显示设备利用率；
+`-k`：显示状态以千字节每秒为单位，而不使用块每秒；
+`-m`：显示状态以兆字节每秒为单位；
+`-p`：仅显示块设备和所有被使用的其他分区的状态；
+`-t`：显示每个报告产生时的时间；
+`-V`：显示版号并退出；
+`-x`：显示扩展状态。
+
+参数：
+* 间隔时间：每次报告的间隔时间（秒）；
+* 次数：显示报告的次数。
+
+![](https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201119221611.png)
+
+字段说明：
+* `r/s`: 每秒完成的读 I/O 设备次数。
+* `w/s`: 每秒完成的写 I/O 设备次数。
+* `rkB/s`: 每秒读K字节数.是 rsect/s 的一半,因为每扇区大小为512字节。
+* `wkB/s`: 每秒写K字节数.是 wsect/s 的一半。
+* `avgrq-sz`: 平均每次设备I/O操作的数据大小 (扇区)。
+* `avgqu-sz`: 平均I/O队列长度。
+* `await`: 平均每次设备I/O操作的等待时间 (毫秒)。
+* `svctm`: 平均每次设备I/O操作的服务时间 (毫秒)。
+* `%util`: 一秒中有百分之多少的时间用于 I/O 操作,或者说一秒中有多少时间 I/O 队列是非空的。
+
+### iotop
+iotop命令 是一个用来监视磁盘I/O使用状况的top类工具。
+
+iotop具有与top相似的UI，其中包括PID、用户、I/O、进程等相关信息。Linux下的IO统计工具如iostat，nmon等大多数是只能统计到per设备的读写情况，如果你想知道每个进程是如何使用IO的就比较麻烦，使用iotop命令可以很方便的查看。
+
+语法：
+```
+iotop (选项)
+```
+
+选项：
+`-o`：只显示有io操作的进程
+`-b`：批量显示，无交互，主要用作记录到文件。
+`-n`： NUM：显示NUM次，主要用于非交互式模式。
+`-d SEC`：间隔SEC秒显示一次。
+`-p PID`：监控的进程pid。
+`-u USER`：监控的进程用户。
+
+iotop常用快捷键：
+* 左右箭头：改变排序方式，默认是按IO排序。
+* r：改变排序顺序。
+* o：只显示有IO输出的进程。
+* p：进程/线程的显示方式的切换。
+* a：显示累积使用量。
+* q：退出。
+
+![](https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201119221830.png)
+
+## 进程
+### ps
+ps（Process Status，进程状态）命令 用于报告当前系统的进程状态。
+
+ps 的用法非常多，这里仅列举一些常用的：
+```
+ps -aux | grep <name>      # 查看name 进程详细信息
+ps -p <pid> -L             # 显示进程<pid> 的所有线程
+ps -o lstart <pid>         # 显示进程的启动时间
+ps -f --forest -C <name>   # 用树的风格显示进程的层次关系
+ps -e -o pid,uname,pcpu,pmem,comm,etime  # 定制显示的列
+ps -o lstart <pid>         # 显示进程的启动时间
+```
+
+## 系统监控全能工具
+### glances
+glances 是一个用来监视 GNU/Linux 和 FreeBSD 操作系统的 GPL 授权的全能工具。
+
+Glances 会用一下几种颜色来代表状态：
+* 绿色：OK（一切正常） 
+* 蓝色：CAREFUL（需要注意） 
+* 紫色：WARNING（警告） 
+* 红色：CRITICAL（严重）。
+
+阀值可以在配置文件中设置，一般阀值被默认设置为（careful=50、warning=70、critical=90）。
+
+### dstat
+dstat命令 是一个用来替换vmstat、iostat、netstat、nfsstat和ifstat这些命令的工具。
+
+直接使用dstat，默认使用的是-cdngy参数，分别显示cpu、disk、net、page、system信息，默认是1s显示一条信息。
 
 ### 参考链接
 * [Linux系统监控命令整理汇总-掌握CPU,内存,磁盘IO等找出性能瓶颈](https://wzfou.com/linux-jiankong/)
