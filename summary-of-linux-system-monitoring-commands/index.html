@@ -340,13 +340,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>2.7k words</p>
+      <p>3.6k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>10 min</p>
+      <p>13 min</p>
     </a>
   </div>
 
@@ -656,7 +656,7 @@
 </ul>
 <h3 id="netstat"><a href="#netstat" class="headerlink" title="netstat"></a>netstat</h3><p>netstat命令一般用于检验本机各端口的网络连接情况，用于显示与IP、TCP、UDP和ICMP协议相关的统计数据。</p>
 <p>常用实例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">netstat -aup        # 输出所有UDP连接状况</span><br><span class="line">netstat -atp        # 输出所有TCP连接状况</span><br><span class="line">netstat -s          # 显示各个协议的网络统计信息</span><br><span class="line">netstat -i          # 显示网卡列表</span><br><span class="line">netstat -r          # 显示路由表信息</span><br><span class="line"></span><br><span class="line">netstat -l        #只显示监听端口</span><br><span class="line">netstat -lt       #只列出所有监听 tcp 端口</span><br><span class="line">netstat -lu       #只列出所有监听 udp 端口</span><br><span class="line">netstat -lx       #只列出所有监听 UNIX 端口</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">netstat -aup      # 输出所有UDP连接状况</span><br><span class="line">netstat -atp      # 输出所有TCP连接状况</span><br><span class="line">netstat -s        # 显示各个协议的网络统计信息</span><br><span class="line">netstat -i        # 显示网卡列表</span><br><span class="line">netstat -r        # 显示路由表信息</span><br><span class="line">netstat -l        # 只显示监听端口</span><br><span class="line">netstat -lt       # 只列出所有监听 tcp 端口</span><br><span class="line">netstat -lu       # 只列出所有监听 udp 端口</span><br><span class="line">netstat -lx       # 只列出所有监听 UNIX 端口</span><br></pre></td></tr></table></figure>
 
 <h2 id="磁盘监控"><a href="#磁盘监控" class="headerlink" title="磁盘监控"></a>磁盘监控</h2><h3 id="df"><a href="#df" class="headerlink" title="df"></a>df</h3><p>df命令 用于显示磁盘分区上的可使用的磁盘空间。如果没有文件名被指定，则显示当前所有被挂载的文件系统，默认以 KB 为单位。</p>
 <p>语法：</p>
@@ -668,6 +668,60 @@
 <li>文件：指定文件系统上的文件。</li>
 </ul>
 <p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201118234529.png" alt=""></p>
+<h3 id="iostat"><a href="#iostat" class="headerlink" title="iostat"></a>iostat</h3><p>iostat命令 被用于监视系统输入输出设备和CPU的使用情况。</p>
+<p>语法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iostat (选项) (参数)</span><br></pre></td></tr></table></figure>
+
+<p>选项：<br><code>-c</code>：仅显示CPU使用情况；<br><code>-d</code>：仅显示设备利用率；<br><code>-k</code>：显示状态以千字节每秒为单位，而不使用块每秒；<br><code>-m</code>：显示状态以兆字节每秒为单位；<br><code>-p</code>：仅显示块设备和所有被使用的其他分区的状态；<br><code>-t</code>：显示每个报告产生时的时间；<br><code>-V</code>：显示版号并退出；<br><code>-x</code>：显示扩展状态。</p>
+<p>参数：</p>
+<ul>
+<li>间隔时间：每次报告的间隔时间（秒）；</li>
+<li>次数：显示报告的次数。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201119221611.png" alt=""></p>
+<p>字段说明：</p>
+<ul>
+<li><code>r/s</code>: 每秒完成的读 I/O 设备次数。</li>
+<li><code>w/s</code>: 每秒完成的写 I/O 设备次数。</li>
+<li><code>rkB/s</code>: 每秒读K字节数.是 rsect/s 的一半,因为每扇区大小为512字节。</li>
+<li><code>wkB/s</code>: 每秒写K字节数.是 wsect/s 的一半。</li>
+<li><code>avgrq-sz</code>: 平均每次设备I/O操作的数据大小 (扇区)。</li>
+<li><code>avgqu-sz</code>: 平均I/O队列长度。</li>
+<li><code>await</code>: 平均每次设备I/O操作的等待时间 (毫秒)。</li>
+<li><code>svctm</code>: 平均每次设备I/O操作的服务时间 (毫秒)。</li>
+<li><code>%util</code>: 一秒中有百分之多少的时间用于 I/O 操作,或者说一秒中有多少时间 I/O 队列是非空的。</li>
+</ul>
+<h3 id="iotop"><a href="#iotop" class="headerlink" title="iotop"></a>iotop</h3><p>iotop命令 是一个用来监视磁盘I/O使用状况的top类工具。</p>
+<p>iotop具有与top相似的UI，其中包括PID、用户、I/O、进程等相关信息。Linux下的IO统计工具如iostat，nmon等大多数是只能统计到per设备的读写情况，如果你想知道每个进程是如何使用IO的就比较麻烦，使用iotop命令可以很方便的查看。</p>
+<p>语法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iotop (选项)</span><br></pre></td></tr></table></figure>
+
+<p>选项：<br><code>-o</code>：只显示有io操作的进程<br><code>-b</code>：批量显示，无交互，主要用作记录到文件。<br><code>-n</code>： NUM：显示NUM次，主要用于非交互式模式。<br><code>-d SEC</code>：间隔SEC秒显示一次。<br><code>-p PID</code>：监控的进程pid。<br><code>-u USER</code>：监控的进程用户。</p>
+<p>iotop常用快捷键：</p>
+<ul>
+<li>左右箭头：改变排序方式，默认是按IO排序。</li>
+<li>r：改变排序顺序。</li>
+<li>o：只显示有IO输出的进程。</li>
+<li>p：进程/线程的显示方式的切换。</li>
+<li>a：显示累积使用量。</li>
+<li>q：退出。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201119221830.png" alt=""></p>
+<h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><h3 id="ps"><a href="#ps" class="headerlink" title="ps"></a>ps</h3><p>ps（Process Status，进程状态）命令 用于报告当前系统的进程状态。</p>
+<p>ps 的用法非常多，这里仅列举一些常用的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ps -aux | grep &lt;name&gt;      # 查看name 进程详细信息</span><br><span class="line">ps -p &lt;pid&gt; -L             # 显示进程&lt;pid&gt; 的所有线程</span><br><span class="line">ps -o lstart &lt;pid&gt;         # 显示进程的启动时间</span><br><span class="line">ps -f --forest -C &lt;name&gt;   # 用树的风格显示进程的层次关系</span><br><span class="line">ps -e -o pid,uname,pcpu,pmem,comm,etime  # 定制显示的列</span><br><span class="line">ps -o lstart &lt;pid&gt;         # 显示进程的启动时间</span><br></pre></td></tr></table></figure>
+
+<h2 id="系统监控全能工具"><a href="#系统监控全能工具" class="headerlink" title="系统监控全能工具"></a>系统监控全能工具</h2><h3 id="glances"><a href="#glances" class="headerlink" title="glances"></a>glances</h3><p>glances 是一个用来监视 GNU/Linux 和 FreeBSD 操作系统的 GPL 授权的全能工具。</p>
+<p>Glances 会用一下几种颜色来代表状态：</p>
+<ul>
+<li>绿色：OK（一切正常） </li>
+<li>蓝色：CAREFUL（需要注意） </li>
+<li>紫色：WARNING（警告） </li>
+<li>红色：CRITICAL（严重）。</li>
+</ul>
+<p>阀值可以在配置文件中设置，一般阀值被默认设置为（careful=50、warning=70、critical=90）。</p>
+<h3 id="dstat"><a href="#dstat" class="headerlink" title="dstat"></a>dstat</h3><p>dstat命令 是一个用来替换vmstat、iostat、netstat、nfsstat和ifstat这些命令的工具。</p>
+<p>直接使用dstat，默认使用的是-cdngy参数，分别显示cpu、disk、net、page、system信息，默认是1s显示一条信息。</p>
 <h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
 <li><a href="https://wzfou.com/linux-jiankong/" target="_blank" rel="noopener">Linux系统监控命令整理汇总-掌握CPU,内存,磁盘IO等找出性能瓶颈</a></li>
 </ul>
@@ -755,10 +809,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-11-18T23:47:04+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-11-19T22:58:58+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Nov 18, 2020</p>
+    <p>更新于：Nov 19, 2020</p>
   </a>
 </div>
 
@@ -921,7 +975,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#内存监控"><span class="toc-text">内存监控</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#free"><span class="toc-text">free</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#vmstat"><span class="toc-text">vmstat</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CPU-监控"><span class="toc-text">CPU 监控</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#top"><span class="toc-text">top</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mpstat"><span class="toc-text">mpstat</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#网络监控"><span class="toc-text">网络监控</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#sar"><span class="toc-text">sar</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#netstat"><span class="toc-text">netstat</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#磁盘监控"><span class="toc-text">磁盘监控</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#df"><span class="toc-text">df</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#内存监控"><span class="toc-text">内存监控</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#free"><span class="toc-text">free</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#vmstat"><span class="toc-text">vmstat</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CPU-监控"><span class="toc-text">CPU 监控</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#top"><span class="toc-text">top</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mpstat"><span class="toc-text">mpstat</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#网络监控"><span class="toc-text">网络监控</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#sar"><span class="toc-text">sar</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#netstat"><span class="toc-text">netstat</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#磁盘监控"><span class="toc-text">磁盘监控</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#df"><span class="toc-text">df</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#iostat"><span class="toc-text">iostat</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#iotop"><span class="toc-text">iotop</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#进程"><span class="toc-text">进程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ps"><span class="toc-text">ps</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#系统监控全能工具"><span class="toc-text">系统监控全能工具</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#glances"><span class="toc-text">glances</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dstat"><span class="toc-text">dstat</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
     </div>
   </section>
 

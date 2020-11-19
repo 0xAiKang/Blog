@@ -21,8 +21,7 @@
     <meta name="keywords" content="Linux,Crontab">
   
   
-    <meta name="description" content="Crontab 是Unix 系统中基于时间的任务管理工具。
-这个命令与传统的 Unix 命令不一样，下面会一一介绍其规则及其用法。">
+    <meta name="description" content="Crontab 是Unix 系统中基于时间的任务管理工具。">
   
 
   <!-- feed -->
@@ -341,13 +340,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>681 words</p>
+      <p>1k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>2 min</p>
+      <p>4 min</p>
     </a>
   </div>
 
@@ -384,9 +383,9 @@
         <div class="article-entry" itemprop="articleBody">
           
           <p><a href="https://zh.wikipedia.org/zh-hans/Cron" target="_blank" rel="noopener">Crontab</a> 是Unix 系统中基于时间的任务管理工具。</p>
-<p>这个命令与传统的 Unix 命令不一样，下面会一一介绍其规则及其用法。</p>
 <a id="more"></a>
 
+<p>这个命令与传统的 Unix 命令不一样，下面会一一介绍其规则及其用法。</p>
 <h2 id="crontab-还是-cron"><a href="#crontab-还是-cron" class="headerlink" title="crontab 还是 cron"></a>crontab 还是 cron</h2><p><a href="https://baike.baidu.com/item/crontab" target="_blank" rel="noopener">crontab</a> 还是 <a href="https://baike.baidu.com/item/cron" target="_blank" rel="noopener">cron</a>？初次接触 crontab 的同学可能会被这两个词给绕晕。</p>
 <p>其实可以这样来理解：<code>crontab</code>就是 <code>cron</code>服务的命令行工具，而<code>cron</code>则是背后处理<code>crontab</code>投递任务的服务。</p>
 <h3 id="文件格式"><a href="#文件格式" class="headerlink" title="文件格式"></a>文件格式</h3><p>crontab 命令是以固定的时间格式来使用的，</p>
@@ -457,12 +456,30 @@
 
 <h4 id="删除cron-服务"><a href="#删除cron-服务" class="headerlink" title="删除cron 服务"></a>删除cron 服务</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ crontab -r</span><br></pre></td></tr></table></figure>
 
-<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ol>
-<li>新创建的cron 任务，不会马上执行，至少要过两分钟才执行。</li>
-<li>如果需要执行的任务，涉及到路径，建立使用绝对路径来表示。</li>
-</ol>
+<h3 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h3><h4 id="crontab-没有立即生效"><a href="#crontab-没有立即生效" class="headerlink" title="crontab 没有立即生效"></a>crontab 没有立即生效</h4><p>新创建的cron 任务，不会马上执行，至少要过两分钟才执行。</p>
+<p>如果希望能马上执行，可以重启 crontab 。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Ubuntu：</span><br><span class="line">$ service cron restart    </span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Centos</span><br><span class="line">$ service crond restart</span><br></pre></td></tr></table></figure>
+
+<h4 id="crontab-压根没执行"><a href="#crontab-压根没执行" class="headerlink" title="crontab 压根没执行"></a>crontab 压根没执行</h4><p>有时候会遇到直接在命令行中可以执行任务，但是定时任务却怎么都不执行，</p>
+<p>这时首先需要确认 cron 服务是否正常：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Ubuntu：</span><br><span class="line">$ service cron status    </span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Centos</span><br><span class="line">$ service crond status</span><br></pre></td></tr></table></figure>
+
+<p>然后确认需要执行的任务是否包含路径，如果包含请使用全局路径。</p>
+<p>最后重启 cron 服务，通常到这里就已经可以正常执行了，如果还不行，尝试引入环境变量：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 * * * * . &#x2F;etc&#x2F;profile; &#x2F;usr&#x2F;bin&#x2F;php &#x2F;var&#x2F;www&#x2F;script.php</span><br></pre></td></tr></table></figure>
+
+<h4 id="crontab-无权限执行"><a href="#crontab-无权限执行" class="headerlink" title="crontab 无权限执行"></a>crontab 无权限执行</h4><p>需要注意的是crontab 任务的调度，只有 root 和任务所有者拥有权限。</p>
+<p>如果想要编辑/查看/删除其他用户的任务，可以使用以下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ crontab -u &lt;username&gt; &lt;选项&gt;</span><br></pre></td></tr></table></figure>
+
+<p>常用选项：<br><code>-e</code>：编辑任务<br><code>-l</code>：查看任务<br><code>-r</code>：删除任务</p>
+<h4 id="查看-crontab-任务执行情况"><a href="#查看-crontab-任务执行情况" class="headerlink" title="查看 crontab 任务执行情况"></a>查看 crontab 任务执行情况</h4><p>当定时任务在指定时间执行时，会同步输出类似日志：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ tail -f &#x2F;var&#x2F;log&#x2F;syslog</span><br><span class="line">Nov 19 12:47:01 gigabit CRON[14521]: (root) CMD (&#x2F;usr&#x2F;bin&#x2F;php &#x2F;var&#x2F;www&#x2F;script.php)</span><br></pre></td></tr></table></figure>
+<p>此时就可以肯定任务调度正常。</p>
 <h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
 <li><a href="https://www.linuxprobe.com/how-to-crontab.html" target="_blank" rel="noopener">crontab用法与实例</a></li>
+<li><a href="https://linuxtools-rst.readthedocs.io/zh_CN/latest/tool/crontab.html" target="_blank" rel="noopener">19. crontab 定时任务</a></li>
+<li><a href="https://wzfou.com/crontab/#ftoc-heading-2" target="_blank" rel="noopener">Linux Crontab命令定时任务基本语法与操作教程-VPS/服务器自动化</a></li>
 </ul>
 
           
@@ -548,10 +565,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-10-27T23:31:45+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-11-19T22:06:36+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Oct 27, 2020</p>
+    <p>更新于：Nov 19, 2020</p>
   </a>
 </div>
 
@@ -578,8 +595,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/crontab-quick-start/&title=Crontab 快速上手 - Boo&summary=Crontab 是Unix 系统中基于时间的任务管理工具。
-这个命令与传统的 Unix 命令不一样，下面会一一介绍其规则及其用法。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/crontab-quick-start/&title=Crontab 快速上手 - Boo&summary=Crontab 是Unix 系统中基于时间的任务管理工具。"
           
           >
           
@@ -591,8 +607,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/crontab-quick-start/&title=Crontab 快速上手 - Boo&summary=Crontab 是Unix 系统中基于时间的任务管理工具。
-这个命令与传统的 Unix 命令不一样，下面会一一介绍其规则及其用法。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/crontab-quick-start/&title=Crontab 快速上手 - Boo&summary=Crontab 是Unix 系统中基于时间的任务管理工具。"
           
           >
           
@@ -604,8 +619,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/crontab-quick-start/&title=Crontab 快速上手 - Boo&summary=Crontab 是Unix 系统中基于时间的任务管理工具。
-这个命令与传统的 Unix 命令不一样，下面会一一介绍其规则及其用法。"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/crontab-quick-start/&title=Crontab 快速上手 - Boo&summary=Crontab 是Unix 系统中基于时间的任务管理工具。"
           
           >
           
@@ -726,7 +740,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#crontab-还是-cron"><span class="toc-text">crontab 还是 cron</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#文件格式"><span class="toc-text">文件格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用实例"><span class="toc-text">常用实例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何使用"><span class="toc-text">如何使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#创建crontab-文件"><span class="toc-text">创建crontab 文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#运行crontab"><span class="toc-text">运行crontab</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#列出cron-服务"><span class="toc-text">列出cron 服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#编辑cron-服务"><span class="toc-text">编辑cron 服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#删除cron-服务"><span class="toc-text">删除cron 服务</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注意事项"><span class="toc-text">注意事项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#crontab-还是-cron"><span class="toc-text">crontab 还是 cron</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#文件格式"><span class="toc-text">文件格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用实例"><span class="toc-text">常用实例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何使用"><span class="toc-text">如何使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#创建crontab-文件"><span class="toc-text">创建crontab 文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#运行crontab"><span class="toc-text">运行crontab</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#列出cron-服务"><span class="toc-text">列出cron 服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#编辑cron-服务"><span class="toc-text">编辑cron 服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#删除cron-服务"><span class="toc-text">删除cron 服务</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常见问题"><span class="toc-text">常见问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#crontab-没有立即生效"><span class="toc-text">crontab 没有立即生效</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#crontab-压根没执行"><span class="toc-text">crontab 压根没执行</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#crontab-无权限执行"><span class="toc-text">crontab 无权限执行</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#查看-crontab-任务执行情况"><span class="toc-text">查看 crontab 任务执行情况</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
     </div>
   </section>
 
