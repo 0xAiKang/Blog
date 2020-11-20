@@ -165,6 +165,14 @@ Nov 19 12:47:01 gigabit CRON[14521]: (root) CMD (/usr/bin/php /var/www/script.ph
 ```
 此时就可以肯定任务调度正常。
 
+上面那种方式确实有效，但是并不方便，那么有没有更好的方式呢？
+
+crontab 默认没有任务的执行记录日志，但是可以通过其他方式手动创建日志文件。
+
+```
+0 * * * * . /etc/profile; /usr/bin/php /var/www/script.php >> /var/log/cron.log 2>&1 
+```
+在`script.php` 脚本最后面增加一次输出，这样每次执行完脚本就会将输出重定向至`cron.log` 日志文件了。
 
 ### 参考链接
 * [crontab用法与实例](https://www.linuxprobe.com/how-to-crontab.html)

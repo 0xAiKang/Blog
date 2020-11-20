@@ -1,11 +1,11 @@
 ---
 title: Linux系统监控命令整理汇总
 date: 2020-11-17 22:55:16
-tags: ["Linux"]
+tags: ["Linux", "Ubuntu"]
 categories: ["Linux"]
 ---
 
-以下命令以Ubuntu 18.4 LTS 系统为准。
+以下命令以Ubuntu 18.04 LTS 系统为准。
 
 <!-- more -->
 
@@ -349,5 +349,5 @@ dstat命令 是一个用来替换vmstat、iostat、netstat、nfsstat和ifstat这
 
 直接使用dstat，默认使用的是-cdngy参数，分别显示cpu、disk、net、page、system信息，默认是1s显示一条信息。
 
-### 参考链接
+## 参考链接
 * [Linux系统监控命令整理汇总-掌握CPU,内存,磁盘IO等找出性能瓶颈](https://wzfou.com/linux-jiankong/)
