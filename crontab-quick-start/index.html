@@ -340,7 +340,7 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1k words</p>
+      <p>1.2k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
@@ -476,6 +476,10 @@
 <h4 id="查看-crontab-任务执行情况"><a href="#查看-crontab-任务执行情况" class="headerlink" title="查看 crontab 任务执行情况"></a>查看 crontab 任务执行情况</h4><p>当定时任务在指定时间执行时，会同步输出类似日志：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ tail -f &#x2F;var&#x2F;log&#x2F;syslog</span><br><span class="line">Nov 19 12:47:01 gigabit CRON[14521]: (root) CMD (&#x2F;usr&#x2F;bin&#x2F;php &#x2F;var&#x2F;www&#x2F;script.php)</span><br></pre></td></tr></table></figure>
 <p>此时就可以肯定任务调度正常。</p>
+<p>上面那种方式确实有效，但是并不方便，那么有没有更好的方式呢？</p>
+<p>crontab 默认没有任务的执行记录日志，但是可以通过其他方式手动创建日志文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 * * * * . &#x2F;etc&#x2F;profile; &#x2F;usr&#x2F;bin&#x2F;php &#x2F;var&#x2F;www&#x2F;script.php &gt;&gt; &#x2F;var&#x2F;log&#x2F;cron.log 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
+<p>在<code>script.php</code> 脚本最后面增加一次输出，这样每次执行完脚本就会将输出重定向至<code>cron.log</code> 日志文件了。</p>
 <h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
 <li><a href="https://www.linuxprobe.com/how-to-crontab.html" target="_blank" rel="noopener">crontab用法与实例</a></li>
 <li><a href="https://linuxtools-rst.readthedocs.io/zh_CN/latest/tool/crontab.html" target="_blank" rel="noopener">19. crontab 定时任务</a></li>
@@ -565,10 +569,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-11-19T22:06:36+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-11-20T23:09:20+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Nov 19, 2020</p>
+    <p>更新于：Nov 20, 2020</p>
   </a>
 </div>
 
