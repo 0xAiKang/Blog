@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>PHP + Swoole 实现异步任务队列 - Boo</title>
+  
+    <meta name="keywords" content="PHP,Swoole">
+  
+  
+    <meta name="description" content="最近接手一个对接短信的需求，这个需求本身并没有什么难度，直接按照服务商的要求请求具体的接口就好了。">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+
+
+  <div class="l_body nocover">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/php-swoole-to-achieve-asynchronous-task-queue/">
+      PHP + Swoole 实现异步任务队列
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/PHP/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>PHP</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Nov 26, 2020</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>1.3k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>6 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/php-swoole-to-achieve-asynchronous-task-queue/" class="leancloud_visitors" data-flag-title="PHP + Swoole 实现异步任务队列">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>最近接手一个对接短信的需求，这个需求本身并没有什么难度，直接按照服务商的要求请求具体的接口就好了。</p>
+<a id="more"></a>
+
+<p>最开始是使用传统的同步阻塞方式实现了一遍，用户体验并不好，发送短信需要等待，等待服务商的接口返回内容，才继续向下执行。</p>
+<p>因为最近在学习<a href="https://swoole.com/" target="_blank" rel="noopener">Swoole</a>，Swoole 中有一个“<a href="https://wiki.swoole.com/#/start/start_task?id=%E6%89%A7%E8%A1%8C%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1task" target="_blank" rel="noopener">异步任务</a>”，就特别适合以下应用场景：</p>
+<ol>
+<li>需要执行耗时操作，会阻塞主进程</li>
+<li>用户不需要等待返回结果</li>
+</ol>
+<p>结合官网手册和<a href="https://learnku.com/blog/pltrue" target="_blank" rel="noopener">Latent</a> 的<a href="https://learnku.com/articles/43752" target="_blank" rel="noopener">基于 swoole 下 异步消息队列 API</a>，最终简单封装了一个处理API 的类：</p>
+<h3 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h3><p>服务端是基于本地Tcp，监听<code>9501</code>端口。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">class taskServer&#123;</span><br><span class="line">	const HOST &#x3D; &quot;127.0.0.1&quot;;</span><br><span class="line">	const PORT &#x3D; 9501;</span><br><span class="line">	public $server &#x3D; null;</span><br><span class="line"></span><br><span class="line">	public function __construct()</span><br><span class="line">	&#123;</span><br><span class="line">		$this-&gt;server &#x3D; new SWoole\Server(self::HOST, self::PORT);</span><br><span class="line">		$this-&gt;server-&gt;set(array(</span><br><span class="line">			&quot;enable_coroutine&quot; &#x3D;&gt; false,     &#x2F;&#x2F; 关闭协程</span><br><span class="line">			&quot;worker_num&quot; &#x3D;&gt; 2,               &#x2F;&#x2F; 开启的进程数 一般为cup核数 1-4 倍</span><br><span class="line">			&quot;task_worker_num&quot; &#x3D;&gt; 2,          &#x2F;&#x2F; task进程的数量</span><br><span class="line">			&#39;daemonize&#39; &#x3D;&gt; true,             &#x2F;&#x2F; 以守护进程的方式启动</span><br><span class="line">		));</span><br><span class="line"></span><br><span class="line">		&#x2F;&#x2F; 注册事件</span><br><span class="line">		$this-&gt;server-&gt;on(&quot;connect&quot;, [$this, &quot;onConnect&quot;]);</span><br><span class="line">		$this-&gt;server-&gt;on(&quot;receive&quot;, [$this, &quot;onReceive&quot;]);</span><br><span class="line">		$this-&gt;server-&gt;on(&quot;close&quot;, [$this, &quot;onClose&quot;]);</span><br><span class="line">		$this-&gt;server-&gt;on(&quot;task&quot;, [$this, &quot;onTask&quot;]);</span><br><span class="line">		$this-&gt;server-&gt;on(&quot;finish&quot;, [$this, &quot;onFinish&quot;]);</span><br><span class="line"></span><br><span class="line">		&#x2F;&#x2F; 启用服务</span><br><span class="line">		$this-&gt;server-&gt;start();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;**</span><br><span class="line">	 * 监听连接事件</span><br><span class="line">	 * @param $server</span><br><span class="line">	 * @param $fd</span><br><span class="line">	 *&#x2F;</span><br><span class="line">	public function onConnect($server, $fd)&#123;</span><br><span class="line">		echo &quot;连接成功&quot;.PHP_EOL;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;**</span><br><span class="line">	 * 监听客户端发送的消息</span><br><span class="line">	 * @param $server       &quot;Server 对象&quot;</span><br><span class="line">	 * @param $fd           &quot;唯一标示&quot;</span><br><span class="line">	 * @param $form_id</span><br><span class="line">	 * @param $data         &quot;客户端发送的数据&quot;</span><br><span class="line">	 *&#x2F;</span><br><span class="line">	public function onReceive($server, $fd, $form_id, $data)&#123;</span><br><span class="line">		&#x2F;&#x2F; 投递任务</span><br><span class="line">		$server-&gt;task($data);</span><br><span class="line">		$server-&gt;send($fd, &quot;这是客户端向服务端发送的信息：&#123;$data&#125;&quot;);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;**</span><br><span class="line">	 * 监听异步任务task事件</span><br><span class="line">	 * @param $server</span><br><span class="line">	 * @param $task_id</span><br><span class="line">	 * @param $worker_id</span><br><span class="line">	 * @param $data</span><br><span class="line">	 * @return string</span><br><span class="line">	 *&#x2F;</span><br><span class="line">	public function onTask($server, $task_id, $worker_id, $data)&#123;</span><br><span class="line">		$data &#x3D; json_decode($data, true);</span><br><span class="line">		echo &quot;开始执行异步任务&quot;.PHP_EOL;</span><br><span class="line">		try &#123;</span><br><span class="line">			&#x2F;&#x2F; 开始执行任务</span><br><span class="line">			$this-&gt;addLog(date(&#39;Y-m-d H:i:s&#39;).&quot;开始执行任务&quot;.PHP_EOL );</span><br><span class="line">			&#x2F;&#x2F; 通知worker（必须 return，否则不会调用 onFinish）</span><br><span class="line">			return $this-&gt;curl($data[&#39;url&#39;], $data[&#39;data&#39;], $data[&#39;type&#39;]);</span><br><span class="line">		&#125; catch (Exception $exception) &#123;</span><br><span class="line">			&#x2F;&#x2F; 执行任务失败</span><br><span class="line">			$this-&gt;addLog(date(&#39;Y-m-d H:i:s&#39;).&quot;执行任务失败&quot;.PHP_EOL);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;**</span><br><span class="line">	 * 监听finish 事件</span><br><span class="line">	 * @param $server</span><br><span class="line">	 * @param $task_id</span><br><span class="line">	 * @param $data</span><br><span class="line">	 *&#x2F;</span><br><span class="line">	public function onFinish($server, $task_id, $data)&#123;</span><br><span class="line">		$this-&gt;addLog(date(&quot;Y-m-d H:i:s&quot;).&quot;异步任务执行完成&quot;.PHP_EOL);</span><br><span class="line">		print_r( &quot;来自服务端的消息：&#123;$data&#125;&quot;);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;**</span><br><span class="line">	 * 监听关闭连接事件</span><br><span class="line">	 * @param $server</span><br><span class="line">	 * @param $fd</span><br><span class="line">	 *&#x2F;</span><br><span class="line">	public function onClose($server, $fd)&#123;</span><br><span class="line">		echo &quot;关闭TCP 连接&quot;.PHP_EOL;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;**</span><br><span class="line">	 * 发起Get 或 Post 请求</span><br><span class="line">	 * @param string $url           请求地址</span><br><span class="line">	 * @param array $request_data   请求参数</span><br><span class="line">	 * @param string $request_type  请求类型</span><br><span class="line">	 * @param array $headers        头信息</span><br><span class="line">	 * @param bool $is_ssl          是否是ssl</span><br><span class="line">	 * @return bool|string</span><br><span class="line">	 *&#x2F;</span><br><span class="line">	public function curl($url &#x3D; &#39;&#39;, $request_data &#x3D; [], $request_type &#x3D; &#39;get&#39;, $headers &#x3D; [], $is_ssl &#x3D; false)</span><br><span class="line">	&#123;</span><br><span class="line">		$curl &#x3D; curl_init (); &#x2F;&#x2F; 初始化</span><br><span class="line">		&#x2F;&#x2F; 设置 URL</span><br><span class="line">		curl_setopt($curl, CURLOPT_URL, $url);</span><br><span class="line">		&#x2F;&#x2F; 不返回 Response 头部信息</span><br><span class="line">		curl_setopt ( $curl, CURLOPT_HEADER, 0 );</span><br><span class="line">		&#x2F;&#x2F; 如果成功只将结果返回，不自动输出任何内容</span><br><span class="line">		curl_setopt ( $curl, CURLOPT_RETURNTRANSFER, 1 );</span><br><span class="line">		&#x2F;&#x2F; 设置请求参数</span><br><span class="line">		curl_setopt ( $curl, CURLOPT_POSTFIELDS, http_build_query($request_data));</span><br><span class="line">		&#x2F;&#x2F; TRUE 时追踪句柄的请求字符串</span><br><span class="line">		curl_setopt($curl, CURLINFO_HEADER_OUT, true);</span><br><span class="line">		&#x2F;&#x2F; Post 类型增加以下处理</span><br><span class="line">		if( $request_type &#x3D;&#x3D; &#39;post&#39;) &#123;</span><br><span class="line">			&#x2F;&#x2F; 设置为POST方式</span><br><span class="line">			curl_setopt ( $curl, CURLOPT_POST, 1 );</span><br><span class="line">			&#x2F;&#x2F; 设置头信息</span><br><span class="line">			curl_setopt($curl, CURLOPT_HTTPHEADER, array(&#39;Content-Type: application&#x2F;json&#39;, &#39;Content-Length:&#39; . strlen(json_encode($request_data))));</span><br><span class="line">			&#x2F;&#x2F; 设置请求参数</span><br><span class="line">			curl_setopt ( $curl, CURLOPT_POSTFIELDS, json_encode($request_data));</span><br><span class="line">			&#x2F;&#x2F; 当POST 数据大于1024 时强制执行</span><br><span class="line">			curl_setopt ( $curl, CURLOPT_HTTPHEADER, array(&quot;Expect:&quot;));</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		&#x2F;&#x2F; 判断是否绕过证书</span><br><span class="line">		if( $is_ssl ) &#123;</span><br><span class="line">			&#x2F;&#x2F;绕过ssl验证</span><br><span class="line">			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);</span><br><span class="line">			curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);</span><br><span class="line">		&#125;</span><br><span class="line">		if(!empty($headers))  curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);</span><br><span class="line">		&#x2F;&#x2F; 执行</span><br><span class="line">		$result &#x3D; curl_exec ( $curl );</span><br><span class="line">		if ( $result &#x3D;&#x3D; FALSE) return false;</span><br><span class="line">		&#x2F;&#x2F; 关闭资源</span><br><span class="line">		curl_close ( $curl );</span><br><span class="line">		return $result;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;**</span><br><span class="line">	 * 写入日志</span><br><span class="line">	 * @param $content</span><br><span class="line">	 *&#x2F;</span><br><span class="line">	public function addLog($content)&#123;</span><br><span class="line">		$path &#x3D; dirname(__FILE__).&quot;&#x2F;logs&#x2F;&quot;;</span><br><span class="line">		if (!is_dir($path))</span><br><span class="line">			mkdir($path,0777,true);</span><br><span class="line"></span><br><span class="line">		$file_name &#x3D; $path.date(&quot;Y_m_d&quot;) . &quot;.log&quot;;</span><br><span class="line">		if (!file_exists($file_name)) &#123;</span><br><span class="line">			touch($file_name);</span><br><span class="line">			chown($file_name, 0777);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		$file_log &#x3D; fopen($file_name, &quot;a&quot;);</span><br><span class="line">		fputs($file_log, $content);</span><br><span class="line">		fclose($file_log);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$server &#x3D; new taskServer();</span><br></pre></td></tr></table></figure>
+
+<h3 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h3><p>这里的客户端可以是 cli 脚本，也可以是对应控制器中的具体方法，只要能连接Swoole 监听的Tcp 就行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">namespace app\admin\controller;</span><br><span class="line"></span><br><span class="line">class Index extends Base</span><br><span class="line">&#123;</span><br><span class="line">    public function index()&#123;</span><br><span class="line">        $client &#x3D; new \Swoole\Client(SWOOLE_SOCK_TCP);</span><br><span class="line">  	    if (!$client-&gt;connect(&#39;0.0.0.0&#39;, 9501)) &#123;</span><br><span class="line">  		    return json(&quot;connect failed. Error: &#123;$client-&gt;errCode&#125;\n&quot;);</span><br><span class="line">  	    &#125;</span><br><span class="line">  	    $data &#x3D; [</span><br><span class="line">  			&quot;url&quot; &#x3D;&gt; &quot;https:&#x2F;&#x2F;api.paasoo.com&#x2F;json&quot;,</span><br><span class="line">  			&quot;data&quot; &#x3D;&gt; [</span><br><span class="line">  				&quot;key&quot; &#x3D;&gt; &quot;key&quot;,</span><br><span class="line">  				&quot;secret&quot; &#x3D;&gt; &quot;secret&quot;,</span><br><span class="line">  				&quot;from&quot; &#x3D;&gt; &quot;sms&quot;,</span><br><span class="line">  				&quot;to&quot; &#x3D;&gt; &quot;mobile_phone&quot;,</span><br><span class="line">  				&quot;text&quot; &#x3D;&gt; &quot;test&quot;,</span><br><span class="line">  			],</span><br><span class="line">  			&quot;type&quot; &#x3D;&gt; &quot;get&quot;</span><br><span class="line">  		];</span><br><span class="line">	    $client-&gt;send(json_encode($data));</span><br><span class="line">	    return json($client-&gt;recv());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://www.phpernote.com/php-function/1450.html" target="_blank" rel="noopener">php使用Swoole来实现实时异步任务队列</a></li>
+<li><a href="https://learnku.com/articles/43752" target="_blank" rel="noopener">基于 swoole 下 异步消息队列 API</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/php-swoole-to-achieve-asynchronous-task-queue/>https://www.0x2beace.com/php-swoole-to-achieve-asynchronous-task-queue/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-11-26T20:35:18+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Nov 26, 2020</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Swoole/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Swoole</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/php-swoole-to-achieve-asynchronous-task-queue/&title=PHP + Swoole 实现异步任务队列 - Boo&summary=最近接手一个对接短信的需求，这个需求本身并没有什么难度，直接按照服务商的要求请求具体的接口就好了。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/php-swoole-to-achieve-asynchronous-task-queue/&title=PHP + Swoole 实现异步任务队列 - Boo&summary=最近接手一个对接短信的需求，这个需求本身并没有什么难度，直接按照服务商的要求请求具体的接口就好了。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/php-swoole-to-achieve-asynchronous-task-queue/&title=PHP + Swoole 实现异步任务队列 - Boo&summary=最近接手一个对接短信的需求，这个需求本身并没有什么难度，直接按照服务商的要求请求具体的接口就好了。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADqklEQVR42u3awXIqMQwEQP7/p/Pur4paaSRYL9W+hcBabucwkXj9WdF6IQAHDhw4Cxy4Q+Be4brc4L/3be/z7vfv9t2qAxw4cODAgQMH7jS4cgC8KPiq0KvXp/tX9033AwcOHDhw4MCBOxXuMgCGBaaBNYVO6798Pzhw4MCBAwcO3I/BbYOkQfcKGBw4cODAgQMHDlwvEE8HwluDa3DgwIEDBw4cuF+Faw9om8EzDaxpsK0OtL8+yQcHDhw4cODAgVuCSwPnU3+OzwsOHDhw4MCBA3cI3HRtNSynQTkNuO3zggMHDhw4cODAHQK3VXg3iHYbpNXXu59vXww4cODAgQMHDtxhcNWNq4PiKtS00TgN6O3PgQMHDhw4cODAHQbXbVxOA3K633Z940k+OHDgwIEDBw7cTXBpwVtQaVDuNlC7Af/t88CBAwcOHDhw4A6D6wbZaeMzDbrVAJs2RtsBGBw4cODAgQMH7nC4KeT2ADodgK8NpMGBAwcOHDhw4A6DSw9ehZy+b6vx2b1QcODAgQMHDhy4U+HSQrure/DqQbcuDhw4cODAgQMH7mlwVw/oDo6rgJ9qnG6BggMHDhw4cODAPQVuG3C70ZledBrE25N8cODAgQMHDhy4L8GtBcPw52qQ7gbuTw22wYEDBw4cOHDgToGbNvy6A+UuxBQ4bXC+fR44cODAgQMHDtzhcNMNthqO3YtJg3s5GIMDBw4cOHDgwB0CN4XqBuH0oroHnA7OwYEDBw4cOHDgngZXDYjTLxp+6/3pc8uTfHDgwIEDBw4cuJvhtgtMA+wrXNNgXR7MgwMHDhw4cODAHQZ3+YFhY7P6/L/mmg6mu3WAAwcOHDhw4MCdBlfdaHug/O3GabVucODAgQMHDhy4p8ClAbhaQPWg6Rf/uhdweyMTHDhw4MCBAwduGW76hb5pgJ4G4K0LAwcOHDhw4MCBexrctDEYNwiHA/C0MdodUIMDBw4cOHDgwJ0CN10pfPdg3YuY/iFcDqTBgQMHDhw4cOBuhpsGxOkgO4WeXlTagAUHDhw4cODAgTsNbhp409eng+qtQXq5DnDgwIEDBw4cuEPh2gPa8IDTxuT2KgdqcODAgQMHDhy4H4WrgnQH093ndusvvw4OHDhw4MCBA/djcFsN0a3GZNqoBQcOHDhw4MCBeypc2nD8FEQ3IH86wIMDBw4cOHDgwJ0GNx3gVqG2YKYBPP4HABw4cODAgQMH7hA4qwmNABw4cOAscODuXf8AkmMD6nj1KywAAAAASUVORK5CYII=">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/php-s-four-ways-to-set-callback-functions/'>
+                <p class='title'>PHP 的四种设置回调函数的方式<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>最近在学习Swoole，顺手整理一下PHP 中的四种设置回调函数的方式。
+
+
+匿名函数1234&lt;?php$server-&gt;on(&quot;request&quot;, functi...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'PHP + Swoole 实现异步任务队列',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#服务端"><span class="toc-text">服务端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#客户端"><span class="toc-text">客户端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+  
+    <meting-js
+      theme='#1BCDFC'
+      autoplay='false'
+      volume='0.7'
+      loop='all'
+      order='list'
+      fixed='false'
+      list-max-height='340px'
+      server='netease'
+      type='playlist'
+      id='3175833810'
+      list-folded='true'>
+    </meting-js>
+  
+
+
+        </div>
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2020 Boo</a></p>
+
+        <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+        
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?fbe826b92f6d49a0ebacf4d848bd3add";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+<script>
+  var now = new Date(); 
+  function createtime() { 
+      var grt= new Date("07/04/2020 14:12:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+  } 
+setInterval("createtime()",250);
+</script>
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "prAyvaUeadxadA2wpcBQqNQn-gzGzoHsz",
+    appKey: "vkyEUTw0BixVjfFpFIzUdhak",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
