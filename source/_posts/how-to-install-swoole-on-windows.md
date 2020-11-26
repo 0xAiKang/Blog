@@ -24,13 +24,13 @@ categories: ["PHP"]
 * php-devel
 * pcre2 
 
-### 安装Swoole
-1. 可以通过以下方式下载 Swoole
+## 安装Swoole
+### 1. 可以通过以下方式下载 Swoole
 * [github](https://github.com/swoole/swoole-src/releases)
 * [pecl](https://pecl.php.net/package/swoole)
 * [gitee](https://gitee.com/swoole/swoole/tags)
 
-2. 从源码编译安装
+### 2. 从源码编译安装
 
 下载源代码包后，将其拷贝至 Cygwin 的home 目录，解压并进入文件夹。
 ```
@@ -47,7 +47,7 @@ make && sudo make install
 
 如果因为某个软件包缺失而导致编译安装失败，则可以重新安装 Cygwin（重新安装不用卸载之间的版本，直接在此安装就好了）。
 
-3. 启用扩展
+### 3. 启用扩展
 
 编译安装到系统成功后，需要在 php.ini 中加入一行 `extension=swoole.so` 来启用 Swoole 扩展。
 
