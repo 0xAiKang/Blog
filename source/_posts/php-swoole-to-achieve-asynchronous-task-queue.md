@@ -14,7 +14,7 @@ categories: ["PHP"]
 1. 需要执行耗时操作，会阻塞主进程
 2. 用户不需要等待返回结果
 
-结合官网手册和[Latent](https://learnku.com/blog/pltrue) 的[基于 swoole 下 异步消息队列 API](https://learnku.com/articles/43752)，最终简单封装了一个处理API 的类：
+结合官网手册和[Latent](https://learnku.com/blog/pltrue) 的[基于 swoole 下 异步消息队列 API](https://learnku.com/articles/43752)，最终简单封装了一个处理API 的类，实现如下：
 
 ### 服务端
 
@@ -172,7 +172,7 @@ class taskServer{
 		$file_name = $path.date("Y_m_d") . ".log";
 		if (!file_exists($file_name)) {
 			touch($file_name);
-			chown($file_name, 0777);
+			chown($file_name, "root");
 		}
 
 		$file_log = fopen($file_name, "a");
