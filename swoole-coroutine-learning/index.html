@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>Swoole 协程学习 - Boo</title>
+  
+    <meta name="keywords" content="PHP,Swoole">
+  
+  
+    <meta name="description" content="第一次接触协程这个概念，是在学习Swoole时，那时看官方文档并不能完全理解协程到底是个什么东西以及该如何正确的使用它。">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+
+
+  <div class="l_body nocover">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/swoole-coroutine-learning/">
+      Swoole 协程学习
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/PHP/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>PHP</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Nov 29, 2020</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>2.4k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>9 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/swoole-coroutine-learning/" class="leancloud_visitors" data-flag-title="Swoole 协程学习">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>第一次接触协程这个概念，是在学习Swoole时，那时看官方文档并不能完全理解协程到底是个什么东西以及该如何正确的使用它。</p>
+<a id="more"></a>
+
+<p>后来逐渐看了一些写的比较通俗的文章，加上自己的一些理解，逐步开始对协程有一些认识了。</p>
+<h2 id="认识协程"><a href="#认识协程" class="headerlink" title="认识协程"></a>认识协程</h2><p><strong>协程不是进程或线程</strong>，其执行过程更类似于子例程，或者说不带返回值的函数调用。</p>
+<p>上面那句话很关键，一句话就把协程是什么，不是什么说清楚了。</p>
+<p>下面这张图可以很清晰的看到协程与多进程的区别：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201129093350.png" alt=""></p>
+<h3 id="执行顺序"><a href="#执行顺序" class="headerlink" title="执行顺序"></a>执行顺序</h3><p>下面这段代码主要做了三件事：写入文件、发送邮件以及插入数据。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">function task1()&#123;</span><br><span class="line">    for ($i&#x3D;0;$i&lt;&#x3D;300;$i++)&#123;</span><br><span class="line">        &#x2F;&#x2F;写入文件,大概要3000微秒</span><br><span class="line">        usleep(3000);</span><br><span class="line">        echo &quot;写入文件&#123;$i&#125;\n&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">function task2()&#123;</span><br><span class="line">    for ($i&#x3D;0;$i&lt;&#x3D;500;$i++)&#123;</span><br><span class="line">        &#x2F;&#x2F;发送邮件给500名会员,大概3000微秒</span><br><span class="line">        usleep(3000);</span><br><span class="line">        echo &quot;发送邮件&#123;$i&#125;\n&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">function task3()&#123;</span><br><span class="line">    for ($i&#x3D;0;$i&lt;&#x3D;100;$i++)&#123;</span><br><span class="line">        &#x2F;&#x2F;模拟插入100条数据,大概3000微秒</span><br><span class="line">        usleep(3000);</span><br><span class="line">        echo &quot;插入数据&#123;$i&#125;\n&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">task1();</span><br><span class="line">task2();</span><br><span class="line">task3();</span><br></pre></td></tr></table></figure>
+
+<p>这段代码和上面不同的是，这三件事情是交叉执行的，每个任务执行完一次之后，切换到另一个任务，如此循环。</p>
+<p>类似于这样的执行顺序，就是协程。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">function task1($i)</span><br><span class="line">&#123;</span><br><span class="line">	&#x2F;&#x2F;使用$i标识 写入文件,大概要3000微秒</span><br><span class="line">	if ($i &gt; 300) &#123;</span><br><span class="line">		return false;&#x2F;&#x2F;超过300不用写了</span><br><span class="line">	&#125;</span><br><span class="line">	echo &quot;写入文件&#123;$i&#125;\n&quot;;</span><br><span class="line">	usleep(3000);</span><br><span class="line">	return true;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function task2($i)</span><br><span class="line">&#123;</span><br><span class="line">	&#x2F;&#x2F;使用$i标识 发送邮件,大概要3000微秒</span><br><span class="line">	if ($i &gt; 500) &#123;</span><br><span class="line">		return false;&#x2F;&#x2F;超过500不用发送了</span><br><span class="line">	&#125;</span><br><span class="line">	echo &quot;发送邮件&#123;$i&#125;\n&quot;;</span><br><span class="line">	usleep(3000);</span><br><span class="line">	return true;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function task3($i)</span><br><span class="line">&#123;</span><br><span class="line">	&#x2F;&#x2F;使用$i标识 插入数据,大概要3000微秒</span><br><span class="line">	if ($i &gt; 100) &#123;</span><br><span class="line">		return false;&#x2F;&#x2F;超过100不用插入</span><br><span class="line">	&#125;</span><br><span class="line">	echo &quot;插入数据&#123;$i&#125;\n&quot;;</span><br><span class="line">	usleep(3000);</span><br><span class="line">	return true;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$i &#x3D; 0;</span><br><span class="line">while (true) &#123;</span><br><span class="line">	$task1Result &#x3D; task1($i);</span><br><span class="line">	$task2Result &#x3D; task2($i);</span><br><span class="line">	$task3Result &#x3D; task3($i);</span><br><span class="line">	if($task1Result&#x3D;&#x3D;&#x3D;false&amp;&amp;$task2Result&#x3D;&#x3D;&#x3D;false&amp;&amp;$task3Result&#x3D;&#x3D;&#x3D;false)&#123;</span><br><span class="line">		break;&#x2F;&#x2F;全部任务完成,退出循环</span><br><span class="line">	&#125;</span><br><span class="line">	$i++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>swoole实现协程代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">function task1()&#123;</span><br><span class="line">    for ($i&#x3D;0;$i&lt;&#x3D;300;$i++)&#123;</span><br><span class="line">        &#x2F;&#x2F;写入文件,大概要3000微秒</span><br><span class="line">        usleep(3000);</span><br><span class="line">        echo &quot;写入文件&#123;$i&#125;\n&quot;;</span><br><span class="line">        Co::sleep(0.001);&#x2F;&#x2F;挂起当前协程,0.001秒后恢复&#x2F;&#x2F;相当于切换协程</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">function task2()&#123;</span><br><span class="line">    for ($i&#x3D;0;$i&lt;&#x3D;500;$i++)&#123;</span><br><span class="line">        &#x2F;&#x2F;发送邮件给500名会员,大概3000微秒</span><br><span class="line">        usleep(3000);</span><br><span class="line">        echo &quot;发送邮件&#123;$i&#125;\n&quot;;</span><br><span class="line">        Co::sleep(0.001);&#x2F;&#x2F;挂起当前协程,0.001秒后恢复&#x2F;&#x2F;相当于切换协程</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">function task3()&#123;</span><br><span class="line">    for ($i&#x3D;0;$i&lt;&#x3D;100;$i++)&#123;</span><br><span class="line">        &#x2F;&#x2F;模拟插入100条数据,大概3000微秒</span><br><span class="line">        usleep(3000);</span><br><span class="line">        echo &quot;插入数据&#123;$i&#125;\n&quot;;</span><br><span class="line">        Co::sleep(0.001);&#x2F;&#x2F;挂起当前协程,0.001秒后恢复&#x2F;&#x2F;相当于切换协程</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">$pid1 &#x3D; go(&#39;task1&#39;);&#x2F;&#x2F;go函数是swoole的开启协程函数，用于开启一个协程</span><br><span class="line">$pid2 &#x3D; go(&#39;task2&#39;);</span><br><span class="line">$pid3 &#x3D; go(&#39;task3&#39;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="协程与多进程"><a href="#协程与多进程" class="headerlink" title="协程与多进程"></a>协程与多进程</h3><p>由上面的代码，可以发现，协程其实只是运行在一个进程中的函数，只是这个函数会被切换到下一个执行。</p>
+<blockquote>
+<p>需要注意的是⚠️：</p>
+</blockquote>
+<p>协程并不是多任务并行处理，它属于多任务串行处理，它俩的本质区别是在某个时刻同时执行一个还是多个任务。</p>
+<h3 id="协程的作用域"><a href="#协程的作用域" class="headerlink" title="协程的作用域"></a>协程的作用域</h3><p>由于协程就是进程中一串任务代码，所以它的全局变量、静态变量等变量都是共享的，包括 PHP 的全局缓冲区。</p>
+<p>所以在开发时特别需要注意作用域相关的问题。</p>
+<h3 id="协程的I-O连接"><a href="#协程的I-O连接" class="headerlink" title="协程的I/O连接"></a>协程的I/O连接</h3><p>在协程中，要特别注意不能共用一个 I/O 连接，否则会造成数据异常。</p>
+<p>由于协程的交叉运行机制，且各个协程的 I/O 连接都必须是相互独立的，这时如果使用传统的直接建立连接方式，会导致每个协程都需要建立连接、闭关连接，从而消耗大量资源。那么该如何解决协程的 I/O 连接问题呢？这个时候就需要用到连接池了。</p>
+<p>连接池存在的意义在于，复用原来的连接，从而节省重复建立连接所带来的开销。</p>
+<h3 id="协程的实际应用场景"><a href="#协程的实际应用场景" class="headerlink" title="协程的实际应用场景"></a>协程的实际应用场景</h3><p>说了这么多，那协程倒底能解决哪些实际业务场景呢？下面通过一个实例来快速上手协程（笔者当时写这篇文章时，对协程的理解还不够深刻，所以这里引用<a href="https://learnku.com/blog/zxr615" target="_blank" rel="noopener">zxr615</a> 的”<a href="https://learnku.com/articles/44836" target="_blank" rel="noopener">做饭</a>“的例子来理解协程）：</p>
+<p>传统同步阻塞实现逻辑：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">function cook()</span><br><span class="line">&#123;</span><br><span class="line">	$startTime &#x3D; time();</span><br><span class="line"></span><br><span class="line">	echo &quot;开始煲汤...&quot; . PHP_EOL;</span><br><span class="line">	sleep(10);</span><br><span class="line">	echo &quot;汤好了...&quot; . PHP_EOL;</span><br><span class="line"></span><br><span class="line">	echo &quot;开始煮饭...&quot; . PHP_EOL;</span><br><span class="line">	sleep(8);</span><br><span class="line">	echo &quot;饭熟了...&quot; . PHP_EOL;</span><br><span class="line"></span><br><span class="line">	echo &quot;放油...&quot; . PHP_EOL;</span><br><span class="line">	sleep(1);</span><br><span class="line">	echo &quot;煎鱼...&quot; . PHP_EOL;</span><br><span class="line">	sleep(3);</span><br><span class="line">	echo &quot;放盐...&quot; . PHP_EOL;</span><br><span class="line">	sleep(1);</span><br><span class="line">	echo &quot;出锅...&quot; . PHP_EOL;</span><br><span class="line"></span><br><span class="line">	var_dump(&#39;总耗时：&#39; . (time() - $startTime) . &#39; 分钟&#39;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">cook();</span><br></pre></td></tr></table></figure>
+
+<p>协程实现逻辑：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">use Swoole\Coroutine;</span><br><span class="line">use Swoole\Coroutine\WaitGroup;</span><br><span class="line">use Swoole;</span><br><span class="line"></span><br><span class="line">class Cook</span><br><span class="line">&#123;</span><br><span class="line">	public function cookByCo()</span><br><span class="line">	&#123;</span><br><span class="line">		$startTime &#x3D; time();</span><br><span class="line"></span><br><span class="line">		&#x2F;&#x2F; 开启一键协程化: https:&#x2F;&#x2F;wiki.swoole.com&#x2F;#&#x2F;runtime?id&#x3D;swoole_hook_all</span><br><span class="line">		Swoole\Runtime::enableCoroutine($flags &#x3D; SWOOLE_HOOK_ALL);</span><br><span class="line"></span><br><span class="line">		&#x2F;&#x2F; 创建一个协程容器: https:&#x2F;&#x2F;wiki.swoole.com&#x2F;#&#x2F;coroutine&#x2F;scheduler</span><br><span class="line">		&#x2F;&#x2F; 相当于进入厨房</span><br><span class="line">		\Co\run(function () &#123;</span><br><span class="line">			&#x2F;&#x2F; 等待结果: https:&#x2F;&#x2F;wiki.swoole.com&#x2F;#&#x2F;coroutine&#x2F;wait_group?id&#x3D;waitgroup</span><br><span class="line">			&#x2F;&#x2F; 记录哪道菜做好了，哪道菜还需要多长时间</span><br><span class="line">			$wg &#x3D; new WaitGroup();</span><br><span class="line">			&#x2F;&#x2F; 保存数据的结果</span><br><span class="line">			&#x2F;&#x2F; 装好的菜</span><br><span class="line">			$result &#x3D; [];</span><br><span class="line"></span><br><span class="line">			&#x2F;&#x2F; 记录一下煲汤(记录一个任务)</span><br><span class="line">			$wg-&gt;add();</span><br><span class="line">			&#x2F;&#x2F; 创建一个煲汤任务(开启一个新的协程)</span><br><span class="line">			Coroutine::create(function () use ($wg, &amp;$result) &#123;</span><br><span class="line">				echo &quot;开始煲汤...&quot; . PHP_EOL;</span><br><span class="line">				&#x2F;&#x2F; 煲汤需要6分钟，所以我们也不用在这里等汤煮好，</span><br><span class="line">				&#x2F;&#x2F; 直接去做下一个任务：炒菜(协程切换)</span><br><span class="line">				sleep(8);</span><br><span class="line">				echo &quot;汤好了...&quot; . PHP_EOL;</span><br><span class="line"></span><br><span class="line">				&#x2F;&#x2F; 装盘</span><br><span class="line">				$result[&#39;soup&#39;] &#x3D; &#39;一锅汤&#39;;</span><br><span class="line">				$wg-&gt;done(); &#x2F;&#x2F; 标记任务完成</span><br><span class="line">			&#125;);</span><br><span class="line"></span><br><span class="line">			&#x2F;&#x2F; 记录一下煮饭(记录一个任务)</span><br><span class="line">			$wg-&gt;add();</span><br><span class="line">			&#x2F;&#x2F; 创建一个煮饭任务(开启一个新的协程)</span><br><span class="line">			Coroutine::create(function () use ($wg, &amp;$result) &#123;</span><br><span class="line">				echo &quot;开始煮饭...&quot; . PHP_EOL;</span><br><span class="line">				&#x2F;&#x2F; 煮饭需要5分钟，所以我们不用在这里等饭煮熟，放在这里一会再来看看好了没有</span><br><span class="line">				&#x2F;&#x2F; 我们先去煲汤(协程切换)</span><br><span class="line">				sleep(10);</span><br><span class="line">				echo &quot;饭熟了...&quot; . PHP_EOL;</span><br><span class="line"></span><br><span class="line">				&#x2F;&#x2F; 装盘</span><br><span class="line">				$result[&#39;rice&#39;] &#x3D; &#39;一锅米饭&#39;;</span><br><span class="line">				$wg-&gt;done(); &#x2F;&#x2F; 标记任务完成</span><br><span class="line">			&#125;);</span><br><span class="line"></span><br><span class="line">			&#x2F;&#x2F; 记录一下炒菜</span><br><span class="line">			$wg-&gt;add();</span><br><span class="line">			&#x2F;&#x2F; 创建一个炒菜任务(再开启一个新的协程)</span><br><span class="line">			Coroutine::create(function () use ($wg, &amp;$result) &#123;</span><br><span class="line">				&#x2F;&#x2F; 煎鱼的过程必须放在一个协程里面执行，如果不是的话可能鱼还没煎好就出锅了</span><br><span class="line">				&#x2F;&#x2F; 因为开启协程后，IO全是异步了，在此demo中每次遇到sleep都会挂起当前协程</span><br><span class="line">				&#x2F;&#x2F; 切换到下一个协程执行。</span><br><span class="line">				&#x2F;&#x2F; 例如把出锅这一步开启一个新协程执行，则在煎鱼的时候鱼，鱼就出锅了。</span><br><span class="line">				echo &quot;放油...&quot; . PHP_EOL;</span><br><span class="line">				sleep(1);</span><br><span class="line">				echo &quot;煎鱼...&quot; . PHP_EOL;</span><br><span class="line">				sleep(3);</span><br><span class="line">				echo &quot;放盐...&quot; . PHP_EOL;</span><br><span class="line">				sleep(1);</span><br><span class="line">				echo &quot;出锅...&quot; . PHP_EOL;</span><br><span class="line"></span><br><span class="line">				&#x2F;&#x2F; 装盘</span><br><span class="line">				$result[&#39;food&#39;] &#x3D; &#39;鱼香肉丝&#39;;</span><br><span class="line">				$wg-&gt;done();</span><br><span class="line">			&#125;);</span><br><span class="line"></span><br><span class="line">			&#x2F;&#x2F; 等待全部任务完成</span><br><span class="line">			$wg-&gt;wait();</span><br><span class="line"></span><br><span class="line">			&#x2F;&#x2F; 返回数据(上菜！)</span><br><span class="line">			var_dump($result);</span><br><span class="line">		&#125;);</span><br><span class="line"></span><br><span class="line">		var_dump(&#39;总耗时：&#39; . (time() - $startTime) . &#39; 分钟&#39;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">$cooker &#x3D; new Cook();</span><br><span class="line">$cooker-&gt;cookByCo();</span><br></pre></td></tr></table></figure>
+
+<p>通过执行代码可以看到协程方式比传统阻塞方式足足快了十三分钟。从协程方式实现的逻辑中可以看到，通过无感知编写”同步代码“，却实现了异步 I/O 的效果和性能。避免了传统异步回调所带来的离散的代码逻辑和陷入多层回调中导致代码无法维护。</p>
+<p>不过需要注意的是传统回调的触发条件是<strong>回调函数</strong>，而协程切换的条件是<strong>遇到 I/O</strong>。</p>
+<h3 id="协程误区"><a href="#协程误区" class="headerlink" title="协程误区"></a>协程误区</h3><p>实际使用协程时，需要注意以下几个误区，否则效果可能会事倍功半。</p>
+<p>理论上来讲，协程解决的是 I/O 复用的问题，对于计算密集的问题无效。</p>
+<ul>
+<li>如果cpu很闲(大部分时间都消耗在网络磁盘上了)，协程就可以提高cpu的利用率</li>
+<li>如果cpu本身就很饱和了 用协程反而会降低cpu利用率（需要花时间来做协程调度）。</li>
+<li>swoole 是单线程</li>
+</ul>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://learnku.com/articles/44836" target="_blank" rel="noopener">swoole 学习笔记-做一顿饭来理解协程</a></li>
+<li><a href="https://www.easyswoole.com/Cn/NoobCourse/coroutine.html" target="_blank" rel="noopener">协程-EasySwoole</a></li>
+<li><a href="https://xiaoxiami.gitbook.io/swoole/swoole-ji-chu/jin-cheng-nei-cun-xie-cheng/swoole-xie-cheng" target="_blank" rel="noopener">swoole 协程-swoole 高手之路</a></li>
+<li><a href="https://segmentfault.com/q/1010000021755294" target="_blank" rel="noopener">swoole一个协程问题？为什么效率变慢了</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/swoole-coroutine-learning/>https://www.0x2beace.com/swoole-coroutine-learning/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-11-29T22:37:50+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Nov 29, 2020</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Swoole/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Swoole</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/swoole-coroutine-learning/&title=Swoole 协程学习 - Boo&summary=第一次接触协程这个概念，是在学习Swoole时，那时看官方文档并不能完全理解协程到底是个什么东西以及该如何正确的使用它。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/swoole-coroutine-learning/&title=Swoole 协程学习 - Boo&summary=第一次接触协程这个概念，是在学习Swoole时，那时看官方文档并不能完全理解协程到底是个什么东西以及该如何正确的使用它。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/swoole-coroutine-learning/&title=Swoole 协程学习 - Boo&summary=第一次接触协程这个概念，是在学习Swoole时，那时看官方文档并不能完全理解协程到底是个什么东西以及该如何正确的使用它。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAAC/ElEQVR42u3aSZLjMAwEQP//0zMf6A6xAMg21MmbN4pMXyoAvP5ZP64XAjBgwIABA2YNzKu4ft34l8+v3p86R3cfMGDAgAEDBsw+mOMAdHjx6sHveu7pvmDAgAEDBgyYvTCXASg8SPp5HMgOXx//HgwYMGDAgAHzZ2HS4FYNiGDAgAEDBgwYMFMwp4WpasC7ez8wYMCAAQMGzH6YahBLC0vV71cbgm/vRIIBAwYMGDBg3gaTrm7h6O7X5fuAAQMGDBgwYNbAdFdaOHpXcCvfBwwYMGDAgAGzBqZbSLoLcOo56fnBgAEDBgwYMHthqgftBr2rfboNurHBITBgwIABAwbM18KkDbZu0DoFP/08bci1ky8YMGDAgAED5uMwVZDp4FcOZoeNvbGJKjBgwIABAwbM18PEGzcv0A2Op0H1uOEGBgwYMGDAgFkDkxaMpgpN3T9grLEHBgwYMGDAgFkLcxqYugWnuwph7cIWGDBgwIABA2YNTFoo6gas0wJSWmhK97ssVIEBAwYMGDBgvh6mClI9wN2DQCnsZaEKDBgwYMCAAfO1MKcHTgtXXZBqAKzeAwwYMGDAgAGzF2aqMTZ18XcFv8sKHhgwYMCAAQNmHUx3YCgNfilIN/iBAQMGDBgwYJ4LkwamasOuC9lt8LULVWDAgAEDBgyYj8GkG1aDWLsRFga88nnBgAEDBgwYMI+Buasw1S1kVb93eT8wYMCAAQMGzGNgTgNTNdilBa0qeNxwAwMGDBgwYMCsg5kqLE0BVhuC5UYcGDBgwIABA2YNTHdNDQJNXazaEAQDBgwYMGDA7IOZDkzpAdPBo+rvj88JBgwYMGDAgFkHUx24mR4EShtm3cIWGDBgwIABA+Y5MOnATxrQ0sCW/jHp88CAAQMGDBgwYKYGiqoXiweErgaHwIABAwYMGDB/FubTgOn+YMCAAQMGDJj9MNWGWRqwphts6T5gwIABAwYMmOfA3F0wSgePTgGmGoNgwIABAwYMmH0wFhgwYMCAAQNm2foPKM3l/3HXqpQAAAAASUVORK5CYII=">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/how-to-use-google-search-engine-efficiently/'>
+                <p class='title'>如何高效的利用谷歌搜索引擎<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>整理这篇笔记的目的是整理那些不太常用但又十分有用的Google 搜索引擎搜索技巧。
+
+
+搜索完全匹配的搜索结果有时候我们会有这样一种需求：我需要查找某个关键字同时出现的内容，该怎么做呢？这个时候...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Swoole 协程学习',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#认识协程"><span class="toc-text">认识协程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#执行顺序"><span class="toc-text">执行顺序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#协程与多进程"><span class="toc-text">协程与多进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#协程的作用域"><span class="toc-text">协程的作用域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#协程的I-O连接"><span class="toc-text">协程的I&#x2F;O连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#协程的实际应用场景"><span class="toc-text">协程的实际应用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#协程误区"><span class="toc-text">协程误区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+  
+    <meting-js
+      theme='#1BCDFC'
+      autoplay='false'
+      volume='0.7'
+      loop='all'
+      order='list'
+      fixed='false'
+      list-max-height='340px'
+      server='netease'
+      type='playlist'
+      id='3175833810'
+      list-folded='true'>
+    </meting-js>
+  
+
+
+        </div>
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2020 Boo</a></p>
+
+        <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+        
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?fbe826b92f6d49a0ebacf4d848bd3add";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+<script>
+  var now = new Date(); 
+  function createtime() { 
+      var grt= new Date("07/04/2020 14:12:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+  } 
+setInterval("createtime()",250);
+</script>
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "prAyvaUeadxadA2wpcBQqNQn-gzGzoHsz",
+    appKey: "vkyEUTw0BixVjfFpFIzUdhak",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
