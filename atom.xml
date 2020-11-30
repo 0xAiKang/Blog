@@ -6,7 +6,7 @@
   <link href="https://www.0x2beace.com/atom.xml" rel="self"/>
   
   <link href="https://www.0x2beace.com/"/>
-  <updated>2020-11-29T14:37:50.672Z</updated>
+  <updated>2020-11-30T15:46:46.022Z</updated>
   <id>https://www.0x2beace.com/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>记一次 LInux 服务器性能调优</title>
+    <link href="https://www.0x2beace.com/remember-a-Linux-server-performance-tuning/"/>
+    <id>https://www.0x2beace.com/remember-a-Linux-server-performance-tuning/</id>
+    <published>2020-11-30T15:45:09.000Z</published>
+    <updated>2020-11-30T15:46:46.022Z</updated>
+    
+    <content type="html"><![CDATA[<p>轮询查 Db 对服务器（数据库）的压力究竟有多大？</p><a id="more"></a><p>前段时间接手一个老系统，其中对于“订单”的处理，非常原始且简单粗暴。</p><p>直接通过一个 PHP 脚本不断轮询查询数据库，直到查找到需要处理的“订单”才去处理，否则一直查找。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">function doSomething()&#123;</span><br><span class="line">    &#x2F;&#x2F; 查询数据库</span><br><span class="line">    if ($exists)&#123;</span><br><span class="line">        &#x2F;&#x2F; todo</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">while(true)&#123;</span><br><span class="line">    doSomething();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>类似的处理还有其他几个脚本。</p><p>因为项目的历史包袱较重，也不好做一些大调整，起初我并没有太在意，就直接部署到服务器上了。</p><p>就在最近，我收到反馈，系统有问题。通过一系列排查最后发现是因为“订单”处理不及时，“订单”堆积过多导致的一系列问题。</p><p>我寻思着，用户量也没有很多，为什么会处理不完呢？使用 glances 命令看了一眼。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201130214211.png" alt=""></p><p>这不看不知道，一看吓一条，CPU 直接警告了。无论多好的机器也经受不住这样折腾，赶紧把轮询查表的方式改成了查队列。</p><p>基于Redis 的List 实现一个简单的消息队列，更新到服务器之后，可以看到CPU 直接降了一半。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201130213713.png" alt=""></p><p>为什么使用Redis 会比Mysql 的效果要好？</p><p>通俗一点解释是因为Redis 存储是基于内存，Mysql 存储是基于磁盘，而内存的读写要比磁盘快不止一个数量级。</p><p>当然，上面的处理方式并不是最优的，这里只是单论如何发现性能瓶颈，以及如何调优这一点来进行说明。</p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;轮询查 Db 对服务器（数据库）的压力究竟有多大？&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="Linux" scheme="https://www.0x2beace.com/categories/Linux/"/>
+    
+    <category term="PHP" scheme="https://www.0x2beace.com/categories/Linux/PHP/"/>
+    
+    
+    <category term="Mysql" scheme="https://www.0x2beace.com/tags/Mysql/"/>
+    
+    <category term="PHP" scheme="https://www.0x2beace.com/tags/PHP/"/>
+    
+    <category term="Linux" scheme="https://www.0x2beace.com/tags/Linux/"/>
+    
+    <category term="Redis" scheme="https://www.0x2beace.com/tags/Redis/"/>
+    
+  </entry>
   
   <entry>
     <title>Swoole 协程学习</title>
