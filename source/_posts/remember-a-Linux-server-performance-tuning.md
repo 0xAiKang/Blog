@@ -1,5 +1,5 @@
 ---
-title: 记一次 LInux 服务器性能调优
+title: 记一次 Linux 服务器性能调优
 date: 2020-11-30 23:45:09
 tags: ["Linux", "PHP", "Mysql", "Redis"]
 categories: ["Linux", "PHP"]
@@ -38,7 +38,7 @@ while(true){
 
 ![](https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201130214211.png)
 
-这不看不知道，一看吓一条，CPU 直接警告了。无论多好的机器也经受不住这样折腾，赶紧把轮询查表的方式改成了查队列。
+这不看不知道，一看吓一跳，CPU 直接警告了。无论多好的机器也经受不住这样折腾，赶紧把轮询查表的方式改成了查队列。
 
 基于Redis 的List 实现一个简单的消息队列，更新到服务器之后，可以看到CPU 直接降了一半。
 
