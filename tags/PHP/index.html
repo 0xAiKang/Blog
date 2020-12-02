@@ -314,8 +314,132 @@
         
           
   <h2 class="title">
+    <a href="/php-8-0-first-experience/">
+      PHP 8.0 初体验
+    </a>
+  </h2>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/PHP/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>PHP</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Dec 1, 2020</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>343 words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>1 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>昨天使用 homebrew 安装软件时，结果把我本地已安装的软件中能更新的全部给更新了一遍。</p>
+<p>这其中就包括 <code>php8.0</code>。在<code>8.0</code> 正式出来之前，有听说过加入了新特性：JIT编译。</p>
+<p>从理论上讲，JIT处理PHP脚本编译的方式能够提高应用程序的速度，但究竟能有多快呢？下面通过一个简单的例子来看看。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$startTime &#x3D; microtime(true);</span><br><span class="line">$mysqli &#x3D; new Mysqli(&quot;127.0.0.1&quot;, &quot;root&quot;, &quot;root&quot;);</span><br><span class="line"></span><br><span class="line">function doSomething($db,$i)</span><br><span class="line">&#123;</span><br><span class="line">	$hash &#x3D; md5($i);</span><br><span class="line">	$db-&gt;query(&quot;INSERT INTO local.test(id, hash) VALUES($i, \&quot;$hash\&quot;)&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$i &#x3D; 1;</span><br><span class="line">while ($i&lt;100000) &#123;</span><br><span class="line">	doSomething($mysqli, $i);</span><br><span class="line">	$i++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$total &#x3D; microtime(true) - $startTime;</span><br><span class="line">var_dump(&quot;总耗时：&#123;$total&#125;秒&quot;);</span><br></pre></td></tr></table></figure>
+<p>这里只是简单的向数据库不重复插入十万条数据。<br>我知道用这个脚本举例子并不好，但它却是离我日常使用最近的。</p>
+<p><code>php7.3</code> 测试结果：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201201000322.png" alt=""></p>
+<p><code>php8.0</code> 未开启 JIT 扩展测试结果：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201201000427.png" alt=""></p>
+<p><code>php8.0</code> 已开启 JIT 扩展测试结果：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201201000725.png" alt=""></p>
+<p>可以看到相比 7.3，足足快了近三分之一！</p>
+<p>当然这个测试结果严格意义上来讲，并不准确，但看到数字从四十多秒缩短到三十秒，还是很惊喜的。</p>
+<p>我的电脑配置：</p>
+<ul>
+<li>3.5 GHz 双核Intel Core i7</li>
+<li>16 GB RAM</li>
+</ul>
+
+      
+    </div>
+    
+      
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow reveal ">
+  
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h2 class="title">
     <a href="/remember-a-Linux-server-performance-tuning/">
-      记一次 LInux 服务器性能调优
+      记一次 Linux 服务器性能调优
     </a>
   </h2>
 
@@ -1309,118 +1433,6 @@
           </div>
         
       
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
-  
-
-
-  <section class='meta'>
-    
-      
-      
-      <div class="meta" id="header-meta">
-        
-          
-  <h2 class="title">
-    <a href="/initial-process-and-thread/">
-      初始进程与线程
-    </a>
-  </h2>
-
-
-        
-        <div class='new-meta-box'>
-          
-            
-          
-            
-              
-<div class='new-meta-item author'>
-  <a href="https://www.0x2BeAce.com" rel="nofollow">
-    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
-    <p>Boo</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/PHP/' rel="nofollow">
-      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>PHP</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Oct 24, 2020</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-  <div class="new-meta-item wordcount">
-    <a class='notlink'>
-      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1.1k words</p>
-    </a>
-  </div>
-  <div class="new-meta-item readtime">
-    <a class='notlink'>
-      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>3 min</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              
-
-            
-          
-        </div>
-        
-          <hr>
-        
-      </div>
-    
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>关于进程和线程，此前已经有很多优秀的文章了，这里只是抛砖引玉，基于自己的理解并整理加深印象。</p>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/initial-process-and-thread/">
-            阅读全文 <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
-
-          </div>
-        
-      
     
   </section>
   
@@ -1637,7 +1649,7 @@
           <li><a class="flat-box"
             title="/categories/PHP/" href="/categories/PHP/"
             id="categoriesPHP"
-            ><div class='name'>PHP</div><div class='badge'>(26)</div></a></li>
+            ><div class='name'>PHP</div><div class='badge'>(27)</div></a></li>
         
           <li><a class="flat-box child"
             title="/categories/PHP/Tutorial/" href="/categories/PHP/Tutorial/"

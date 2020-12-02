@@ -16,12 +16,10 @@
 
   <!-- 页面元数据 -->
   
-    <title>记一次 Linux 服务器性能调优 - Boo</title>
+    <title>PHP 8.0 初体验 - Boo</title>
   
-    <meta name="keywords" content="Mysql,PHP,Linux,Redis">
+    <meta name="keywords" content="PHP">
   
-  
-    <meta name="description" content="轮询查 Db 对服务器（数据库）的压力究竟有多大？">
   
 
   <!-- feed -->
@@ -285,8 +283,8 @@
         
           
   <h1 class="title">
-    <a href="/remember-a-Linux-server-performance-tuning/">
-      记一次 Linux 服务器性能调优
+    <a href="/php-8-0-first-experience/">
+      PHP 8.0 初体验
     </a>
   </h1>
 
@@ -311,9 +309,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Linux/PHP/' rel="nofollow">
+    <a href='/categories/PHP/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Linux/PHP</p>
+      <p>PHP</p>
     </a>
   </div>
 
@@ -324,7 +322,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Nov 30, 2020</p>
+    <p>发布于：Dec 1, 2020</p>
   </a>
 </div>
 
@@ -340,7 +338,7 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>429 words</p>
+      <p>343 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
@@ -359,7 +357,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/remember-a-Linux-server-performance-tuning/" class="leancloud_visitors" data-flag-title="记一次 Linux 服务器性能调优">
+      <span id="/php-8-0-first-experience/" class="leancloud_visitors" data-flag-title="PHP 8.0 初体验">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -382,23 +380,24 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>轮询查 Db 对服务器（数据库）的压力究竟有多大？</p>
-<a id="more"></a>
-
-<p>前段时间接手一个老系统，其中对于“订单”的处理，非常原始且简单粗暴。</p>
-<p>直接通过一个 PHP 脚本不断轮询查询数据库，直到查找到需要处理的“订单”才去处理，否则一直查找。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">function doSomething()&#123;</span><br><span class="line">    &#x2F;&#x2F; 查询数据库</span><br><span class="line">    if ($exists)&#123;</span><br><span class="line">        &#x2F;&#x2F; todo</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">while(true)&#123;</span><br><span class="line">    doSomething();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>类似的处理还有其他几个脚本。</p>
-<p>因为项目的历史包袱较重，也不好做一些大调整，起初我并没有太在意，就直接部署到服务器上了。</p>
-<p>就在最近，我收到反馈，系统有问题。通过一系列排查最后发现是因为“订单”处理不及时，“订单”堆积过多导致的一系列问题。</p>
-<p>我寻思着，用户量也没有很多，为什么会处理不完呢？使用 glances 命令看了一眼。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201130214211.png" alt=""></p>
-<p>这不看不知道，一看吓一跳，CPU 直接警告了。无论多好的机器也经受不住这样折腾，赶紧把轮询查表的方式改成了查队列。</p>
-<p>基于Redis 的List 实现一个简单的消息队列，更新到服务器之后，可以看到CPU 直接降了一半。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201130213713.png" alt=""></p>
-<p>为什么使用Redis 会比Mysql 的效果要好？</p>
-<p>通俗一点解释是因为Redis 存储是基于内存，Mysql 存储是基于磁盘，而内存的读写要比磁盘快不止一个数量级。</p>
-<p>当然，上面的处理方式并不是最优的，这里只是单论如何发现性能瓶颈，以及如何调优这一点来进行说明。</p>
+          <p>昨天使用 homebrew 安装软件时，结果把我本地已安装的软件中能更新的全部给更新了一遍。</p>
+<p>这其中就包括 <code>php8.0</code>。在<code>8.0</code> 正式出来之前，有听说过加入了新特性：JIT编译。</p>
+<p>从理论上讲，JIT处理PHP脚本编译的方式能够提高应用程序的速度，但究竟能有多快呢？下面通过一个简单的例子来看看。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$startTime &#x3D; microtime(true);</span><br><span class="line">$mysqli &#x3D; new Mysqli(&quot;127.0.0.1&quot;, &quot;root&quot;, &quot;root&quot;);</span><br><span class="line"></span><br><span class="line">function doSomething($db,$i)</span><br><span class="line">&#123;</span><br><span class="line">	$hash &#x3D; md5($i);</span><br><span class="line">	$db-&gt;query(&quot;INSERT INTO local.test(id, hash) VALUES($i, \&quot;$hash\&quot;)&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$i &#x3D; 1;</span><br><span class="line">while ($i&lt;100000) &#123;</span><br><span class="line">	doSomething($mysqli, $i);</span><br><span class="line">	$i++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$total &#x3D; microtime(true) - $startTime;</span><br><span class="line">var_dump(&quot;总耗时：&#123;$total&#125;秒&quot;);</span><br></pre></td></tr></table></figure>
+<p>这里只是简单的向数据库不重复插入十万条数据。<br>我知道用这个脚本举例子并不好，但它却是离我日常使用最近的。</p>
+<p><code>php7.3</code> 测试结果：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201201000322.png" alt=""></p>
+<p><code>php8.0</code> 未开启 JIT 扩展测试结果：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201201000427.png" alt=""></p>
+<p><code>php8.0</code> 已开启 JIT 扩展测试结果：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201201000725.png" alt=""></p>
+<p>可以看到相比 7.3，足足快了近三分之一！</p>
+<p>当然这个测试结果严格意义上来讲，并不准确，但看到数字从四十多秒缩短到三十秒，还是很惊喜的。</p>
+<p>我的电脑配置：</p>
+<ul>
+<li>3.5 GHz 双核Intel Core i7</li>
+<li>16 GB RAM</li>
+</ul>
 
           
             <div class='article_footer'>
@@ -435,7 +434,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/remember-a-Linux-server-performance-tuning/>https://www.0x2beace.com/remember-a-Linux-server-performance-tuning/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/php-8-0-first-experience/>https://www.0x2beace.com/php-8-0-first-experience/</a></p>
           
         
       </blockquote>
@@ -483,7 +482,7 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-12-01T10:43:38+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-12-01T21:10:45+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：Dec 1, 2020</p>
@@ -495,7 +494,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Mysql/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Mysql</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Linux/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Linux</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Redis/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Redis</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div>
 
 
         
@@ -513,7 +512,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/remember-a-Linux-server-performance-tuning/&title=记一次 Linux 服务器性能调优 - Boo&summary=轮询查 Db 对服务器（数据库）的压力究竟有多大？"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/php-8-0-first-experience/&title=PHP 8.0 初体验 - Boo&summary="
           
           >
           
@@ -525,7 +524,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/remember-a-Linux-server-performance-tuning/&title=记一次 Linux 服务器性能调优 - Boo&summary=轮询查 Db 对服务器（数据库）的压力究竟有多大？"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/php-8-0-first-experience/&title=PHP 8.0 初体验 - Boo&summary="
           
           >
           
@@ -537,7 +536,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/remember-a-Linux-server-performance-tuning/&title=记一次 Linux 服务器性能调优 - Boo&summary=轮询查 Db 对服务器（数据库）的压力究竟有多大？"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/php-8-0-first-experience/&title=PHP 8.0 初体验 - Boo&summary="
           
           >
           
@@ -551,7 +550,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADrElEQVR42u3awW7jMAwE0P7/T6f3AoE1JJ3QxdOtgFeWnvcwGObnZZXWDwJw4MCBs8CBWwL3U1x///27/brv+bvP1XvePTd2X3DgwIEDBw4cuGVwxwHwAu70gneDn54/vi84cODAgQMHDtxSuDTw3g14GoCr54wDPjhw4MCBAwcO3D+B+3QwrUKDAwcOHDhw4MCBqwF0C9AUZipwgwMHDhw4cODAPQUuDaDdi1YLz+qHXDPJBwcOHDhw4MCBG4KrFpJP/bt8X3DgwIEDBw4cuCVw3TUVdNMPdfXe9DzH5wYHDhw4cODAgVsCd3Ww7qC6u//U+8bOCQ4cOHDgwIEDtwQuDajpoDoNzF246oD7GBgcOHDgwIEDB24JXLWArEKfBs304t3znu4LDhw4cODAgQO3Fa47GO4G525A7g6wwYEDBw4cOHDgngLXHURXB8Kf+mDT0ODAgQMHDhw4cFvgqoEwDbxxYXg6IB4O0Jf7gwMHDhw4cODALYNLg+H0QPo4gDafb8ODAwcOHDhw4MAtgZsuJLs/4KsWnFPnujw3OHDgwIEDBw7cErjqwLgaJKuQUwG8CgkOHDhw4MCBA7cNrhsQqyBX+3UD8el+8b7gwIEDBw4cOHBL4U6Da/rcq7nS/boFKDhw4MCBAwcO3FPgTgfQaYCtXqw7cO4O1t++Hxw4cODAgQMHbilcGnyrAbdaNKaFZAp2+V5w4MCBAwcOHLglcN3Aefcg+C7IaoAHBw4cOHDgwIHbApcWgFPBslo03h3AwYEDBw4cOHDgngJ3WmCeDpbTgBoH0PC80x8GHDhw4MCBAwduC1x1EDxdYFaD6/GFw+fiST44cODAgQMHDtyX4NJAenqwV3FVB9NpsI0DNThw4MCBAwcO3DK4aoBMi8tqMTr1AdofChw4cODAgQMHbgncp4vK6UA7Xchefghw4MCBAwcOHLglcN0g3A3A3R/6farQBAcOHDhw4MCB2w43XRR2g2cKWy0wj//jgAMHDhw4cODALYEbD4g3F45p8K7+DQ4cOHDgwIED9xS4NPCmBWZaMH7qPGOTfHDgwIEDBw4cuC/DpYGze6HTi3UH3tVgfxyAwYEDBw4cOHDgHgZ3+uLuwVO47vnfPg8OHDhw4MCBA/fP4NIicboArRalcfEJDhw4cODAgQO3FC4tKKcKxxSmCtQtasGBAwcOHDhw4LbBdQvHFKb6A7/uYDuFvywywYEDBw4cOHDgvgRnZQscOHDgwFngwH15/QKnJ4CXCQgyfgAAAABJRU5ErkJggg==">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAAC7ElEQVR42u3aQY7jMAwEwPz/0zMf2IXVJJUBjdItQCxZ5UuD5OfH+uf6IAADBgwYMGDWwHyKKz7w8Pmn85726d4HDBgwYMCAAbMPJr3g6cWnoJ/OnboPGDBgwIABA2YvzGnAqoJMQ6bv9/h/MGDAgAEDBgyYw0CWBjUwYMCAAQMGDJhpmGm408baKRwYMGDAgAED5v0wcYMqfJEUcG0nEgwYMGDAgAHzNZh0dQPf7d/l+4ABAwYMGDBg1sB011Mwqz5XHTxq3wcMGDBgwIABswamGpCm4boFp6n3BwMGDBgwYMDsgUkPuAX4BJkWzqoDTGDAgAEDBgyYPTBVgOlAN/2BTgPsY/IFAwYMGDBgwKyBOS0cnTbKug266gBT+jwYMGDAgAEDZh/MdGMsfeFu4Esbh4/7gAEDBgwYMGDWwEwVlLqQ3QLUWMMODBgwYMCAAfMamO6BaQHpVmPudF8wYMCAAQMGzF6YsQGcoQGjqf2OwcCAAQMGDBgwa2Hiwk4x2KUfolvoOi6kgQEDBgwYMGDWwKQNsqkL3ip0xYNCYMCAAQMGDJjXwXQDU3fw588+FBgwYMCAAQNmPczP4UoBqo2x6u94oAgMGDBgwIABsx4mbbDdHvyZhgYDBgwYMGDA7IfpFqbSBlgaxKaC4zE0GDBgwIABA2YdTLfgUx3wuR0M44EkMGDAgAEDBsxamLQgFQ/mhPtOXTxuuIEBAwYMGDBg1sFMDeikgN19ugUyMGDAgAEDBsw+mO46DV7fulgVEgwYMGDAgAGzD+ZTXPFATrNh14U/LqSBAQMGDBgwYNbBVANdN2BVIdKAd1wIAwMGDBgwYMCshUmDWLWwdDs4XutEggEDBgwYMGBeB3MarKoBrPse5YYbGDBgwIABA+b1MGlA6wJPBcavFarAgAEDBgwYMNdh0kJRt2GWQqYNu7hBBwYMGDBgwIBZB9NtXHV/d6HSAaf/PgcGDBgwYMCAWQNjgQEDBgwYMGCWrV/OW+bwwhqU8AAAAABJRU5ErkJggg==">
           </div>
         </div>
       
@@ -571,20 +570,14 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/php-8-0-first-experience/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>PHP 8.0 初体验</p>
-                <p class='content'>昨天使用 homebrew 安装软件时，结果把我本地已安装的软件中能更新的全部给更新了一遍。
-这其中就包括 php8.0。在8.0 正式出来之前，有听说过加入了新特性：JIT编译。
-从理论上讲，...</p>
-              </a>
             
-            
-              <a class='next' href='/swoole-coroutine-learning/'>
-                <p class='title'>Swoole 协程学习<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>第一次接触协程这个概念，是在学习Swoole时，那时看官方文档并不能完全理解协程到底是个什么东西以及该如何正确的使用它。
+              <a class='next' href='/remember-a-Linux-server-performance-tuning/'>
+                <p class='title'>记一次 Linux 服务器性能调优<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>轮询查 Db 对服务器（数据库）的压力究竟有多大？
 
 
-后来逐渐看了一些写的比较通俗的文章，加上自己的一些理解，逐步开始对协...</p>
+前段时间接手一个老系统，其中对于“订单”的处理，非常原始且简单粗暴。
+直接通过一个 PHP 脚本不断轮询查询数据库，直到查找到需要处理的“...</p>
               </a>
             
           </div>
@@ -629,7 +622,7 @@
 
   <script>
     window.subData = {
-      title: '记一次 Linux 服务器性能调优',
+      title: 'PHP 8.0 初体验',
       tools: true
     }
   </script>

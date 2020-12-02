@@ -340,7 +340,7 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1k words</p>
+      <p>1.1k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
@@ -424,6 +424,14 @@
 <p>浮点型数据最终都要被转成二进制进行存储。并且对于float 而言，存储类型只能是32位0和1的组合。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from table1;</span><br><span class="line">+-----------+</span><br><span class="line">| integral  |</span><br><span class="line">+-----------+</span><br><span class="line">| 131072.31 |</span><br><span class="line">+-----------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; alter table table1 modify integral float(10,4);</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line">Records: 0  Duplicates: 0  Warnings: 0</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from table1;</span><br><span class="line">+-------------+</span><br><span class="line">| integral    |</span><br><span class="line">+-------------+</span><br><span class="line">| 131072.3125 |</span><br><span class="line">+-------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
 <p><code>DECIMAL(M,D)</code>中，D 值的是小数部分的位数。可以看到，当修改了D 的值，这个时候可以看到MySQL 真正存储的数值也发生了变化。</p>
+<ol start="3">
+<li>int(3)/int(5) 区别</li>
+</ol>
+<ul>
+<li>正常显示没有区别。</li>
+<li>3 和 5 仅是最小显示宽度而已，并不代表最多存储宽度。</li>
+<li>有 zerofill 等扩展属性时则显示有区别。</li>
+</ul>
 <p>总结：</p>
 <ol>
 <li>若插入的值未指定小数部分或者小数部分不足D 位则会自动补到D 位小数。</li>
@@ -517,10 +525,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-11-18T16:45:35+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-12-01T22:22:22+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Nov 18, 2020</p>
+    <p>更新于：Dec 1, 2020</p>
   </a>
 </div>
 
