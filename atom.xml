@@ -6,7 +6,7 @@
   <link href="https://www.0x2beace.com/atom.xml" rel="self"/>
   
   <link href="https://www.0x2beace.com/"/>
-  <updated>2020-12-01T13:10:45.810Z</updated>
+  <updated>2020-12-02T13:54:07.534Z</updated>
   <id>https://www.0x2beace.com/</id>
   
   <author>
@@ -17,21 +17,39 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>PHP-FPM 进化史</title>
+    <link href="https://www.0x2beace.com/the-evolution-of-php-fpm/"/>
+    <id>https://www.0x2beace.com/the-evolution-of-php-fpm/</id>
+    <published>2020-12-02T13:42:16.000Z</published>
+    <updated>2020-12-02T13:54:07.534Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近有幸读到<a href="http://blog.leanote.com/post/weibo-007/%E4%BB%8ECGI%E5%88%B0FastCGI%E5%88%B0PHP-FPM" target="_blank" rel="noopener">一篇文章</a>，一文将CGI 的进化史讲的特别详细，虽然我自己之前也整理过 <a href="https://www.0x2beace.com/what-is-the-relationship-between-php-fpm-and-nginx/">CGI、FastCGI、PHP-FPM 相关的笔记</a>，但是并没有从原理的角度来认识 CGI。</p><a id="more"></a><h2 id="CGI-的诞生"><a href="#CGI-的诞生" class="headerlink" title="CGI 的诞生"></a>CGI 的诞生</h2><p>早些年的Web 应用很简单，客户端通过浏览器发起请求，服务端直接返回响应。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201202210831.png" alt=""></p><p>随着互联网的发展，简单的Web 应用已经不能满足开发者们了。<br>我们希望Web服务器有更多的功能，飞速发展的同时还能让不同语言的开发者也能加入。</p><p><a href="https://www.ietf.org/rfc/rfc3875" target="_blank" rel="noopener">CGI协议</a>协议的诞生就是 Web服务器和其他领域的开发者在保证遵守协议的基础上，剩下的可以自由发挥，而实现这个协议的脚本叫做CGI 程序。</p><p>CGI协议规定了需要向CGI脚本设置的环境变量和一些其他信息，CGI程序完成某一个功能，可以用PHP，Python，Shell或者C语言编写。</p><p>在没有CGI 之前，其他语言如果需要接入Mysql 或者Memcache，还需要使用C 语言，但有了CGI协议，我们的Web处理流程可以变成下图这样：</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201202211748.png" alt=""></p><h2 id="FastCGI-的诞生"><a href="#FastCGI-的诞生" class="headerlink" title="FastCGI 的诞生"></a>FastCGI 的诞生</h2><p>CGI程序存在致命的缺点：每当客户端发起请求，服务器将请求转发给CGI，WEB 服务器就请求操作系统生成一个新的CGI解释器进程(如php-cgi），CGI进程则处理完一个请求后退出，下一个请求来时再创建新进程。</p><p>我们知道，执行一个PHP程序的必须要先解析<code>php.ini</code>文件，然后模块初始化等等一系列工作，每次都反复这样非常浪费资源。</p><p><a href="http://andylin02.iteye.com/blog/648412" target="_blank" rel="noopener">FastCGI协议</a>在CGI协议的基础上，做出了如下改变：</p><ol><li>FastCGI被设计用来支持常驻（<code>long-lived</code>）应用进程，减少了<code>fork-and-execute</code>带来的开销</li><li>FastCGI进程通过监听的socket，收来自Web服务器的连接，这样FastCGI 进程可以独立部署</li><li>服务器和FastCGI监听的socket 之间按照消息的形式发送环境变量和其他数据</li></ol><p>我们称实现了FastCGI协议的程序为FastCGI程序，FastCGI程序的交互方式如下图所示：</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201202212619.png" alt=""></p><h2 id="PHP-FPM-的诞生"><a href="#PHP-FPM-的诞生" class="headerlink" title="PHP-FPM 的诞生"></a>PHP-FPM 的诞生</h2><p>FastCGI 程序固然已经很好了，但我们的需求总是有点苛刻，它还是存在一些明显缺点的：</p><ol><li>当我们更改配置文件(<code>php.ini</code>)后，<code>php-cgi</code>（FastCGI 程序） 无法平滑重启</li><li>我们fork的进程个数和请求量正比，请求繁忙时 fork 进程多，动态调整 <code>php-cgi</code>还没做到</li></ol><p>上面提及php-cgi 实现的FastCGI问题官方没有解决，幸运的是有第三方帮我们解决了，它就是 <code>php-fpm</code>。</p><p>它可以独立运行，不依赖php-cgi，换句话说，它自己实现了FastCGI协议并且支持进程平滑重启且带进程管理功能。</p><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul><li><a href="http://blog.leanote.com/post/weibo-007/%E4%BB%8ECGI%E5%88%B0FastCGI%E5%88%B0PHP-FPM" target="_blank" rel="noopener">从CGI到FastCGI到PHP-FPM</a></li></ul>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;最近有幸读到&lt;a href=&quot;http://blog.leanote.com/post/weibo-007/%E4%BB%8ECGI%E5%88%B0FastCGI%E5%88%B0PHP-FPM&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;一篇文章&lt;/a&gt;，一文将CGI 的进化史讲的特别详细，虽然我自己之前也整理过 &lt;a href=&quot;https://www.0x2beace.com/what-is-the-relationship-between-php-fpm-and-nginx/&quot;&gt;CGI、FastCGI、PHP-FPM 相关的笔记&lt;/a&gt;，但是并没有从原理的角度来认识 CGI。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="PHP" scheme="https://www.0x2beace.com/categories/PHP/"/>
+    
+    
+    <category term="PHP" scheme="https://www.0x2beace.com/tags/PHP/"/>
+    
+    <category term="PHP-FPM" scheme="https://www.0x2beace.com/tags/PHP-FPM/"/>
+    
+  </entry>
+  
+  <entry>
     <title>PHP 8.0 初体验</title>
     <link href="https://www.0x2beace.com/php-8-0-first-experience/"/>
     <id>https://www.0x2beace.com/php-8-0-first-experience/</id>
     <published>2020-12-01T13:09:15.000Z</published>
-    <updated>2020-12-01T13:10:45.810Z</updated>
+    <updated>2020-12-02T00:03:35.910Z</updated>
     
-    <content type="html"><![CDATA[<p>昨天使用 homebrew 安装软件时，结果把我本地已安装的软件中能更新的全部给更新了一遍。</p><p>这其中就包括 <code>php8.0</code>。在<code>8.0</code> 正式出来之前，有听说过加入了新特性：JIT编译。</p><p>从理论上讲，JIT处理PHP脚本编译的方式能够提高应用程序的速度，但究竟能有多快呢？下面通过一个简单的例子来看看。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$startTime &#x3D; microtime(true);</span><br><span class="line">$mysqli &#x3D; new Mysqli(&quot;127.0.0.1&quot;, &quot;root&quot;, &quot;root&quot;);</span><br><span class="line"></span><br><span class="line">function doSomething($db,$i)</span><br><span class="line">&#123;</span><br><span class="line">$hash &#x3D; md5($i);</span><br><span class="line">$db-&gt;query(&quot;INSERT INTO local.test(id, hash) VALUES($i, \&quot;$hash\&quot;)&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$i &#x3D; 1;</span><br><span class="line">while ($i&lt;100000) &#123;</span><br><span class="line">doSomething($mysqli, $i);</span><br><span class="line">$i++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$total &#x3D; microtime(true) - $startTime;</span><br><span class="line">var_dump(&quot;总耗时：&#123;$total&#125;秒&quot;);</span><br></pre></td></tr></table></figure><p>这里只是简单的向数据库不重复插入十万条数据。<br>我知道用这个脚本举例子并不好，但它却是离我日常使用最近的。</p><p><code>php7.3</code> 测试结果：</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201201000322.png" alt=""></p><p><code>php8.0</code> 未开启 JIT 扩展测试结果：</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201201000427.png" alt=""></p><p><code>php8.0</code> 已开启 JIT 扩展测试结果：</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201201000725.png" alt=""></p><p>可以看到相比 7.3，足足快了近三分之一！</p><p>当然这个测试结果严格意义上来讲，并不准确，但看到数字从四十多秒缩短到三十秒，还是很惊喜的。</p><p>我的电脑配置：</p><ul><li>3.5 GHz 双核Intel Core i7</li><li>16 GB RAM</li></ul>]]></content>
+    <content type="html"><![CDATA[<p>昨天使用 homebrew 安装软件时，结果把我本地已安装的软件中能更新的全部给更新了一遍。</p><a id="more"></a><p>这其中就包括 <code>php8.0</code>。在<code>8.0</code> 正式出来之前，有听说过加入了新特性：JIT编译。</p><p>从理论上讲，JIT处理PHP脚本编译的方式能够提高应用程序的速度，但究竟能有多快呢？下面通过一个简单的例子来看看。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$startTime &#x3D; microtime(true);</span><br><span class="line">$mysqli &#x3D; new Mysqli(&quot;127.0.0.1&quot;, &quot;root&quot;, &quot;root&quot;);</span><br><span class="line"></span><br><span class="line">function doSomething($db,$i)</span><br><span class="line">&#123;</span><br><span class="line">$hash &#x3D; md5($i);</span><br><span class="line">$db-&gt;query(&quot;INSERT INTO local.test(id, hash) VALUES($i, \&quot;$hash\&quot;)&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$i &#x3D; 1;</span><br><span class="line">while ($i&lt;100000) &#123;</span><br><span class="line">doSomething($mysqli, $i);</span><br><span class="line">$i++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$total &#x3D; microtime(true) - $startTime;</span><br><span class="line">var_dump(&quot;总耗时：&#123;$total&#125;秒&quot;);</span><br></pre></td></tr></table></figure><p>这里只是简单的向数据库不重复插入十万条数据。<br>我知道用这个脚本举例子并不好，但它却是离我日常使用最近的。</p><p><code>php7.3</code> 测试结果：</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201201000322.png" alt=""></p><p><code>php8.0</code> 未开启 JIT 扩展测试结果：</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201201000427.png" alt=""></p><p><code>php8.0</code> 已开启 JIT 扩展测试结果：</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201201000725.png" alt=""></p><p>可以看到相比 7.3，足足快了近三分之一！</p><p>当然这个测试结果严格意义上来讲，并不准确，但看到数字从四十多秒缩短到三十秒，还是很惊喜的。</p><p>我的电脑配置：</p><ul><li>3.5 GHz 双核Intel Core i7</li><li>16 GB RAM</li></ul>]]></content>
     
     
-      
-      
-    <summary type="html">&lt;p&gt;昨天使用 homebrew 安装软件时，结果把我本地已安装的软件中能更新的全部给更新了一遍。&lt;/p&gt;
-&lt;p&gt;这其中就包括 &lt;code&gt;php8.0&lt;/code&gt;。在&lt;code&gt;8.0&lt;/code&gt; 正式出来之前，有听说过加入了新特性：JIT编译。&lt;/p&gt;
-&lt;p&gt;从理论上讲，</summary>
-      
+    <summary type="html">&lt;p&gt;昨天使用 homebrew 安装软件时，结果把我本地已安装的软件中能更新的全部给更新了一遍。&lt;/p&gt;</summary>
     
     
     
