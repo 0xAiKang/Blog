@@ -30,7 +30,7 @@ CGI程序存在致命的缺点：每当客户端发起请求，服务器将请�
 
 我们知道，执行一个PHP程序的必须要先解析`php.ini`文件，然后模块初始化等等一系列工作，每次都反复这样非常浪费资源。
 
-FastCGI 在CGI协议的基础上，做出了如下改变：
+[FastCGI协议](http://andylin02.iteye.com/blog/648412)在CGI协议的基础上，做出了如下改变：
 1. FastCGI被设计用来支持常驻（`long-lived`）应用进程，减少了`fork-and-execute`带来的开销
 2. FastCGI进程通过监听的socket，收来自Web服务器的连接，这样FastCGI 进程可以独立部署
 3. 服务器和FastCGI监听的socket 之间按照消息的形式发送环境变量和其他数据
