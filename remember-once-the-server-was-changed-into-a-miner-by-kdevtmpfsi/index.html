@@ -21,7 +21,8 @@
     <meta name="keywords" content="Linux">
   
   
-    <meta name="description" content="昨天有台测试服务器被告知服务异常，进服务器之后才发现是因为docker 异常退出了。">
+    <meta name="description" content="昨天有台测试服务器被告知服务异常，进服务器之后才发现是因为docker 异常退出了。
+">
   
 
   <!-- feed -->
@@ -340,13 +341,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>341 words</p>
+      <p>625 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>1 min</p>
+      <p>2 min</p>
     </a>
   </div>
 
@@ -383,19 +384,21 @@
         <div class="article-entry" itemprop="articleBody">
           
           <p>昨天有台测试服务器被告知服务异常，进服务器之后才发现是因为docker 异常退出了。</p>
-<a id="more"></a>
-
+<p><a id="more"></a></p>
 <p>将docker 运行起来之后，发现有个不认识的进程 <code>kdevtmpfsi</code> 占用CPU 异常的多，Google 一下才知道，好家伙，服务器被当成矿机了。</p>
-<p>通常是因为Redis 对外开放 <code>6379</code>端口，且没设置密码或者密码过于简单导致。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201204164931.png" alt=""></p>
 <p>直接 kill 并不能将其结束掉，它还有守护进程及可能存在的定时任务。</p>
 <h3 id="1-首先查找文件"><a href="#1-首先查找文件" class="headerlink" title="1. 首先查找文件"></a>1. 首先查找文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ find &#x2F; -name kinsing      &#x2F;&#x2F; 守护进程</span><br><span class="line">$ find &#x2F; -name kdevtmpfsi   &#x2F;&#x2F; 挖矿进程</span><br></pre></td></tr></table></figure>
 <p>如果Redis 是运行在本地，上面两个文件通常是在<code>/tmp/</code>目录下。</p>
-<p>如果Redis 是以容器的方式运行，则通常是在<code>/var/lib/docker/overlay2/</code>下。</p>
+<p>如果Redis 是以容器的方式运行，则通常是在<code>/var/lib/docker/overlay2/</code>（容器的 <code>/tmp/</code> 目录）下。</p>
 <h3 id="2-将其删除"><a href="#2-将其删除" class="headerlink" title="2. 将其删除"></a>2. 将其删除</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rm -f kinsing kdevtmpfsi</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-干掉进程"><a href="#3-干掉进程" class="headerlink" title="3. 干掉进程"></a>3. 干掉进程</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ps -aux | grep kinsing kdevtmpfsi</span><br><span class="line">$ kill -9 pid</span><br></pre></td></tr></table></figure>
+<p>这里被感染的容器也不一定是Redis ，比如我的则是PHP，所以需要进入到被感染的容器内才能找到。</p>
+<h3 id="3-干掉进程"><a href="#3-干掉进程" class="headerlink" title="3. 干掉进程"></a>3. 干掉进程</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ ps -aux | grep kinsing</span><br><span class="line">$ ps -aux | grep kdevtmpfsi</span><br><span class="line">$ kill -9 pid</span><br></pre></td></tr></table></figure>
 
 <h3 id="4-查看定时任务"><a href="#4-查看定时任务" class="headerlink" title="4. 查看定时任务"></a>4. 查看定时任务</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ crontab -l</span><br></pre></td></tr></table></figure>
+
+<p>存在定时任务的不一定是当前用户，可以使用以下命令查找其他用户是否存在任务：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ for user in $(cut -f1 -d: &#x2F;etc&#x2F;passwd); do crontab -u $user -l; done</span><br></pre></td></tr></table></figure>
 
 <p>定时任务还可能存在于以下地方：</p>
 <ol>
@@ -403,7 +406,19 @@
 <li><code>/var/spool/cron/</code></li>
 <li><code>/var/spool/cron/crontabs/</code></li>
 </ol>
-<p>通常做完以上操作，机器就恢复正常了。但如果你像我一样不幸，怎么都杀不掉（通常是 Docker + Redis），那么可能需要考虑将容器停掉或者再起一个，病毒藏的太深了，笔者在写这篇笔记时，也没找到。</p>
+<p>至此就完成了病毒的清理，网上千篇一律的全是这种处理方式，但这个方式并不适合我，我尝试了很多次，无论我怎么删除，病毒还是存在。</p>
+<p>因为病毒是依赖于容器生存的，于是我便将容器停止掉，通过<code>docker logs</code> 实时查看容器最后10条日志：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker logs -f -t --tail 10 &lt;容器id&#x2F;容器名称&gt;</span><br></pre></td></tr></table></figure>
+
+<p>十分钟之后，总算让我逮到了：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201204172650.png" alt=""></p>
+<p>虽然目睹了全过程，但这时我依然无能为力，因为我不知道上面那些命令是如何自动启动的。</p>
+<p>尝试了各种方式，但都无解，十分钟之后病毒还是会出来，最终我只能把这个被感染的容器给弃用了，重新起一个新的容器。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p><code>kdevtmpfsi</code>病毒的产生，通常是因为Redis 对外开放 <code>6379</code>端口，且没设置密码或者密码过于简单导致。</p>
+<p>所以服务器一定要设置好防火墙，像<code>3306</code>、<code>6379</code> 这种常用端口，尽量减少对外开放的机会。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://vms.drweb.cn/virus/?i=19722604&lng=cn" target="_blank" rel="noopener">Linux.Packed.753</a></li>
+</ul>
 
           
             <div class='article_footer'>
@@ -488,10 +503,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-12-03T22:04:57+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-12-05T21:59:33+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Dec 3, 2020</p>
+    <p>更新于：Dec 5, 2020</p>
   </a>
 </div>
 
@@ -518,7 +533,8 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/remember-once-the-server-was-changed-into-a-miner-by-kdevtmpfsi/&title=记一次服务器被 kdevtmpfsi 变矿机 - Boo&summary=昨天有台测试服务器被告知服务异常，进服务器之后才发现是因为docker 异常退出了。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/remember-once-the-server-was-changed-into-a-miner-by-kdevtmpfsi/&title=记一次服务器被 kdevtmpfsi 变矿机 - Boo&summary=昨天有台测试服务器被告知服务异常，进服务器之后才发现是因为docker 异常退出了。
+"
           
           >
           
@@ -530,7 +546,8 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/remember-once-the-server-was-changed-into-a-miner-by-kdevtmpfsi/&title=记一次服务器被 kdevtmpfsi 变矿机 - Boo&summary=昨天有台测试服务器被告知服务异常，进服务器之后才发现是因为docker 异常退出了。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/remember-once-the-server-was-changed-into-a-miner-by-kdevtmpfsi/&title=记一次服务器被 kdevtmpfsi 变矿机 - Boo&summary=昨天有台测试服务器被告知服务异常，进服务器之后才发现是因为docker 异常退出了。
+"
           
           >
           
@@ -542,7 +559,8 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/remember-once-the-server-was-changed-into-a-miner-by-kdevtmpfsi/&title=记一次服务器被 kdevtmpfsi 变矿机 - Boo&summary=昨天有台测试服务器被告知服务异常，进服务器之后才发现是因为docker 异常退出了。"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/remember-once-the-server-was-changed-into-a-miner-by-kdevtmpfsi/&title=记一次服务器被 kdevtmpfsi 变矿机 - Boo&summary=昨天有台测试服务器被告知服务异常，进服务器之后才发现是因为docker 异常退出了。
+"
           
           >
           
@@ -654,7 +672,7 @@ CGI 的诞生早...</p>
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-首先查找文件"><span class="toc-text">1. 首先查找文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-将其删除"><span class="toc-text">2. 将其删除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-干掉进程"><span class="toc-text">3. 干掉进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-查看定时任务"><span class="toc-text">4. 查看定时任务</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-首先查找文件"><span class="toc-text">1. 首先查找文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-将其删除"><span class="toc-text">2. 将其删除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-干掉进程"><span class="toc-text">3. 干掉进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-查看定时任务"><span class="toc-text">4. 查看定时任务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
     </div>
   </section>
 
