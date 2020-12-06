@@ -1,7 +1,7 @@
 ---
 title: 记一次服务器被 kdevtmpfsi 变矿机
 date: 2020-12-03 22:04:11
-tags: ["Linux"]
+tags: ["Linux", "运维"]
 categories: ["Linux"]
 ---
 

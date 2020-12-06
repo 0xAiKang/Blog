@@ -1,7 +1,7 @@
 ---
 title: 记一次 Linux 服务器性能调优
 date: 2020-11-30 23:45:09
-tags: ["Linux", "PHP", "Mysql", "Redis"]
+tags: ["Linux", "PHP", "Mysql", "Redis", "运维"]
 categories: ["Linux", "PHP"]
 ---
 
