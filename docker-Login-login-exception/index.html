@@ -16,12 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>记一次 Linux 服务器性能调优 - Boo</title>
+    <title>docker Login login exception - Boo</title>
   
-    <meta name="keywords" content="Mysql,PHP,Linux,Redis,运维">
+    <meta name="keywords" content="Linux,运维">
   
   
-    <meta name="description" content="轮询查 Db 对服务器（数据库）的压力究竟有多大？">
+    <meta name="description" content="今天刚好有空，把前天那个被挖矿病毒感染的容器给换一换。">
   
 
   <!-- feed -->
@@ -285,8 +285,8 @@
         
           
   <h1 class="title">
-    <a href="/remember-a-Linux-server-performance-tuning/">
-      记一次 Linux 服务器性能调优
+    <a href="/docker-Login-login-exception/">
+      docker Login login exception
     </a>
   </h1>
 
@@ -311,9 +311,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Linux/PHP/' rel="nofollow">
+    <a href='/categories/Linux/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Linux/PHP</p>
+      <p>Linux</p>
     </a>
   </div>
 
@@ -324,7 +324,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Nov 30, 2020</p>
+    <p>发布于：Dec 6, 2020</p>
   </a>
 </div>
 
@@ -340,7 +340,7 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>429 words</p>
+      <p>262 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
@@ -359,7 +359,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/remember-a-Linux-server-performance-tuning/" class="leancloud_visitors" data-flag-title="记一次 Linux 服务器性能调优">
+      <span id="/docker-Login-login-exception/" class="leancloud_visitors" data-flag-title="docker Login login exception">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -382,23 +382,27 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>轮询查 Db 对服务器（数据库）的压力究竟有多大？</p>
+          <p>今天刚好有空，把前天那个被挖矿病毒感染的容器给换一换。</p>
 <a id="more"></a>
 
-<p>前段时间接手一个老系统，其中对于“订单”的处理，非常原始且简单粗暴。</p>
-<p>直接通过一个 PHP 脚本不断轮询查询数据库，直到查找到需要处理的“订单”才去处理，否则一直查找。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">function doSomething()&#123;</span><br><span class="line">    &#x2F;&#x2F; 查询数据库</span><br><span class="line">    if ($exists)&#123;</span><br><span class="line">        &#x2F;&#x2F; todo</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">while(true)&#123;</span><br><span class="line">    doSomething();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>类似的处理还有其他几个脚本。</p>
-<p>因为项目的历史包袱较重，也不好做一些大调整，起初我并没有太在意，就直接部署到服务器上了。</p>
-<p>就在最近，我收到反馈，系统有问题。通过一系列排查最后发现是因为“订单”处理不及时，“订单”堆积过多导致的一系列问题。</p>
-<p>我寻思着，用户量也没有很多，为什么会处理不完呢？使用 glances 命令看了一眼。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201130214211.png" alt=""></p>
-<p>这不看不知道，一看吓一跳，CPU 直接警告了。无论多好的机器也经受不住这样折腾，赶紧把轮询查表的方式改成了查队列。</p>
-<p>基于Redis 的List 实现一个简单的消息队列，更新到服务器之后，可以看到CPU 直接降了一半。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201130213713.png" alt=""></p>
-<p>为什么使用Redis 会比Mysql 的效果要好？</p>
-<p>通俗一点解释是因为Redis 存储是基于内存，Mysql 存储是基于磁盘，而内存的读写要比磁盘快不止一个数量级。</p>
-<p>当然，上面的处理方式并不是最优的，这里只是单论如何发现性能瓶颈，以及如何调优这一点来进行说明。</p>
+<h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>使用 <code>docker login</code> 登录时，总是会提示如下信息，可是我明明输入的是正确的账号密码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Error saving credentials: error storing credentials - err: exit status 1, out: Cannot autolaunch D-Bus without X11 $DISPLAY</span><br></pre></td></tr></table></figure>
+
+<p>因为我使用的并不是最新的 <code>docker-ce</code> 版，而是老版本<code>docker.io</code>，所以起初我是怀疑版本出现了不兼容的问题吗？</p>
+<p>其实不是，这是在 Ubuntu 下使用 docker 特有的 bug ，而修复办法不需要特意去卸载 <code>docker-compose</code> ，只要 “pass” 掉验证步骤。</p>
+<h3 id="问题解决"><a href="#问题解决" class="headerlink" title="问题解决"></a>问题解决</h3><p>最终解决步骤如下：</p>
+<h4 id="1-安装-gnupg2-和-pass"><a href="#1-安装-gnupg2-和-pass" class="headerlink" title="1. 安装 gnupg2 和 pass"></a>1. 安装 <code>gnupg2</code> 和 <code>pass</code></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install gnupg2 pass</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-生成密钥"><a href="#2-生成密钥" class="headerlink" title="2. 生成密钥"></a>2. 生成密钥</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gpg2 --full-generate-key</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-查看密钥所在路径"><a href="#3-查看密钥所在路径" class="headerlink" title="3. 查看密钥所在路径"></a>3. 查看密钥所在路径</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gpg2 -k</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-使用-pass-加载验证"><a href="#4-使用-pass-加载验证" class="headerlink" title="4. 使用 pass 加载验证"></a>4. 使用 <code>pass</code> 加载验证</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pass init &quot;your key location path&quot;</span><br></pre></td></tr></table></figure>
+
+<p>至此就已经pass 掉了验证步骤，可以使用 <code>docker login</code> 正常登录了。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://ug.epurs.com/post/docker-login-error-saving-credentials/" target="_blank" rel="noopener">Docker login 报证书存储错误的解决办法</a></li>
+</ul>
 
           
             <div class='article_footer'>
@@ -435,7 +439,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/remember-a-Linux-server-performance-tuning/>https://www.0x2beace.com/remember-a-Linux-server-performance-tuning/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/docker-Login-login-exception/>https://www.0x2beace.com/docker-Login-login-exception/</a></p>
           
         
       </blockquote>
@@ -483,7 +487,7 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-12-06T22:52:17+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-12-06T22:52:59+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：Dec 6, 2020</p>
@@ -495,7 +499,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Mysql/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Mysql</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Linux/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Linux</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Redis/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Redis</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E8%BF%90%E7%BB%B4/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>运维</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Linux/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Linux</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E8%BF%90%E7%BB%B4/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>运维</p></a></div>
 
 
         
@@ -513,7 +517,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/remember-a-Linux-server-performance-tuning/&title=记一次 Linux 服务器性能调优 - Boo&summary=轮询查 Db 对服务器（数据库）的压力究竟有多大？"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/docker-Login-login-exception/&title=docker Login login exception - Boo&summary=今天刚好有空，把前天那个被挖矿病毒感染的容器给换一换。"
           
           >
           
@@ -525,7 +529,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/remember-a-Linux-server-performance-tuning/&title=记一次 Linux 服务器性能调优 - Boo&summary=轮询查 Db 对服务器（数据库）的压力究竟有多大？"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/docker-Login-login-exception/&title=docker Login login exception - Boo&summary=今天刚好有空，把前天那个被挖矿病毒感染的容器给换一换。"
           
           >
           
@@ -537,7 +541,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/remember-a-Linux-server-performance-tuning/&title=记一次 Linux 服务器性能调优 - Boo&summary=轮询查 Db 对服务器（数据库）的压力究竟有多大？"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/docker-Login-login-exception/&title=docker Login login exception - Boo&summary=今天刚好有空，把前天那个被挖矿病毒感染的容器给换一换。"
           
           >
           
@@ -551,7 +555,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADrElEQVR42u3awW7jMAwE0P7/T6f3AoE1JJ3QxdOtgFeWnvcwGObnZZXWDwJw4MCBs8CBWwL3U1x///27/brv+bvP1XvePTd2X3DgwIEDBw4cuGVwxwHwAu70gneDn54/vi84cODAgQMHDtxSuDTw3g14GoCr54wDPjhw4MCBAwcO3D+B+3QwrUKDAwcOHDhw4MCBqwF0C9AUZipwgwMHDhw4cODAPQUuDaDdi1YLz+qHXDPJBwcOHDhw4MCBG4KrFpJP/bt8X3DgwIEDBw4cuCVw3TUVdNMPdfXe9DzH5wYHDhw4cODAgVsCd3Ww7qC6u//U+8bOCQ4cOHDgwIEDtwQuDajpoDoNzF246oD7GBgcOHDgwIEDB24JXLWArEKfBs304t3znu4LDhw4cODAgQO3Fa47GO4G525A7g6wwYEDBw4cOHDgngLXHURXB8Kf+mDT0ODAgQMHDhw4cFvgqoEwDbxxYXg6IB4O0Jf7gwMHDhw4cODALYNLg+H0QPo4gDafb8ODAwcOHDhw4MAtgZsuJLs/4KsWnFPnujw3OHDgwIEDBw7cErjqwLgaJKuQUwG8CgkOHDhw4MCBA7cNrhsQqyBX+3UD8el+8b7gwIEDBw4cOHBL4U6Da/rcq7nS/boFKDhw4MCBAwcO3FPgTgfQaYCtXqw7cO4O1t++Hxw4cODAgQMHbilcGnyrAbdaNKaFZAp2+V5w4MCBAwcOHLglcN3Aefcg+C7IaoAHBw4cOHDgwIHbApcWgFPBslo03h3AwYEDBw4cOHDgngJ3WmCeDpbTgBoH0PC80x8GHDhw4MCBAwduC1x1EDxdYFaD6/GFw+fiST44cODAgQMHDtyX4NJAenqwV3FVB9NpsI0DNThw4MCBAwcO3DK4aoBMi8tqMTr1AdofChw4cODAgQMHbgncp4vK6UA7Xchefghw4MCBAwcOHLglcN0g3A3A3R/6farQBAcOHDhw4MCB2w43XRR2g2cKWy0wj//jgAMHDhw4cODALYEbD4g3F45p8K7+DQ4cOHDgwIED9xS4NPCmBWZaMH7qPGOTfHDgwIEDBw4cuC/DpYGze6HTi3UH3tVgfxyAwYEDBw4cOHDgHgZ3+uLuwVO47vnfPg8OHDhw4MCBA/fP4NIicboArRalcfEJDhw4cODAgQO3FC4tKKcKxxSmCtQtasGBAwcOHDhw4LbBdQvHFKb6A7/uYDuFvywywYEDBw4cOHDgvgRnZQscOHDgwFngwH15/QKnJ4CXCQgyfgAAAABJRU5ErkJggg==">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADnklEQVR42u3aSXLDMAwEQP//08kLVMJGG1I1b05ZC5sXZMafP6u0PgjAgQMHzgIHbgncp7huH3Dx/bu/tzd2c9/ufsGBAwcOHDhw4LbBVV8s+vfoBqIQtxscOiBw4MCBAwcOHLinwEVfKPq5+ve7A7i7Lvv+4e+DAwcOHDhw4MC9DC4bfFYH027gCg4cOHDgwIEDB65XPHcPYOqAwIEDBw4cOHDg3gJX/eFeNGDMFt3fKs6/3uSDAwcOHDhw4MANwVUDwqd+Lu8XHDhw4MCBAwduCVx3ZQfgU4HltxY4cODAgQMHDtwWuG4xHAWKDqinBt+p/YEDBw4cOHDgwG2H6xbU1WK4+8O/qWL68jpw4MCBAwcOHLglcNODaPa67KCcDUqnAldw4MCBAwcOHLhtcN0HRa+vDqDZ+2QDyuwgDA4cOHDgwIEDtwWuOrBmrz89WHdXeDAHBw4cOHDgwIFbAjc+IBYH5emgtPv9y/uAAwcOHDhw4MAthesGjFG4U5DVgjs68IMDBw4cOHDgwG2Bqw6QXcip53aD0vTADg4cOHDgwIED9zC46kaqP/SbKpirQerlfcCBAwcOHDhw4JbCRQPN6MAZDRCrBfHUQYcPABw4cODAgQMHbglcdmOnCuVqAFmFKR88OHDgwIEDBw7cQ+GmAspqgDoGUAxuwYEDBw4cOHDgtsF1C9t20dsEzB5wNcAFBw4cOHDgwIHbApctbn9VUFcD0jBI9ODAgQMHDhw4cOCWwVUL46mB9dRzx4ttcODAgQMHDhy4ZXBjhW2zqJ4uwKMHGj4QcODAgQMHDhy45XBTA201gMwGrd2DioKCAwcOHDhw4MBtgTv1gGgRXS2sp4rqciENDhw4cODAgQO3HC67sW5R3R3Iq4Nx+L3AgQMHDhw4cOCWwlUDwSpYNSjtDtzZ9wUHDhw4cODAgXs6XPTFTw2s1QJ8rEAHBw4cOHDgwIFbAtdd0SA0WyBHB+Xq+1UHeXDgwIEDBw4cuC1w3QGxO5hWYU9/DhfS4MCBAwcOHDhwP4YrF7TFYDNbMJ8abKMBKDhw4MCBAwcO3Ha4dEFbLK6zB3N6hQ8EHDhw4MCBAwfupXBTGzhVNHcHeHDgwIEDBw4cuLfBRTc6DdQNWtPw4MCBAwcOHDhwS+GmNjIVHHYL5rvrxgZgcODAgQMHDhy4H8F1C9zpwHAK5u7+6X8AwIEDBw4cOHDglsBZyYATAThw4MBZ4MD9dv0DGBh74t+gEYUAAAAASUVORK5CYII=">
           </div>
         </div>
       
@@ -571,22 +575,12 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/php-8-0-first-experience/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>PHP 8.0 初体验</p>
-                <p class='content'>昨天使用 homebrew 安装软件时，结果把我本地已安装的软件中能更新的全部给更新了一遍。
-
-
-这其中就包括 php8.0。在8.0 正式出来之前，有听说过加入了新特性：JIT编译。
-从理论上...</p>
-              </a>
             
-            
-              <a class='next' href='/swoole-coroutine-learning/'>
-                <p class='title'>Swoole 协程学习<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>第一次接触协程这个概念，是在学习Swoole时，那时看官方文档并不能完全理解协程到底是个什么东西以及该如何正确的使用它。
-
-
-后来逐渐看了一些写的比较通俗的文章，加上自己的一些理解，逐步开始对协...</p>
+              <a class='next' href='/remember-once-the-server-was-changed-into-a-miner-by-kdevtmpfsi/'>
+                <p class='title'>记一次服务器被 kdevtmpfsi 变矿机<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>昨天有台测试服务器被告知服务异常，进服务器之后才发现是因为docker 异常退出了。
+
+将docker 运行起来之后，发现有个不认识的进程 kdevtmpfsi 占用CPU 异常的多，Goog...</p>
               </a>
             
           </div>
@@ -631,7 +625,7 @@
 
   <script>
     window.subData = {
-      title: '记一次 Linux 服务器性能调优',
+      title: 'docker Login login exception',
       tools: true
     }
   </script>
@@ -647,6 +641,20 @@
     
 
 
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#问题描述"><span class="toc-text">问题描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#问题解决"><span class="toc-text">问题解决</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-安装-gnupg2-和-pass"><span class="toc-text">1. 安装 gnupg2 和 pass</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-生成密钥"><span class="toc-text">2. 生成密钥</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-查看密钥所在路径"><span class="toc-text">3. 查看密钥所在路径</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-使用-pass-加载验证"><span class="toc-text">4. 使用 pass 加载验证</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+  </section>
 
 
   
