@@ -6,7 +6,7 @@
   <link href="https://www.0x2beace.com/atom.xml" rel="self"/>
   
   <link href="https://www.0x2beace.com/"/>
-  <updated>2020-12-06T14:52:59.974Z</updated>
+  <updated>2020-12-08T15:55:12.739Z</updated>
   <id>https://www.0x2beace.com/</id>
   
   <author>
@@ -17,11 +17,37 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>docker Login login exception</title>
+    <title>golang quick start</title>
+    <link href="https://www.0x2beace.com/golang-quick-start/"/>
+    <id>https://www.0x2beace.com/golang-quick-start/</id>
+    <published>2020-12-08T15:53:16.000Z</published>
+    <updated>2020-12-08T15:55:12.739Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近开始学习Go 语言，记录一下学习笔记。</p><h3 id="切片"><a href="#切片" class="headerlink" title="切片"></a>切片</h3><p>slice 的本质是一个数据结构，实现了对数组操作的封装。</p><p>go 提供了一种类似“动态数组”结构的数据类型，这种类型就是切片。</p><p>声明</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 语法</span><br><span class="line">var identifier []type</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 声明一个为 int64 类型的切片 </span><br><span class="line">var slice []int64</span><br></pre></td></tr></table></figure><p>初始化：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 初始化一个 int64 类型的切片</span><br><span class="line">array &#x3D; make ([]int64, 10)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 初始化数组</span><br><span class="line">array &#x3D; [10] int64 &#123;0, 1, 2, 3, 4, 5, 6, 7, 8, 9&#125;</span><br></pre></td></tr></table></figure><h4 id="切片常见操作"><a href="#切片常见操作" class="headerlink" title="切片常见操作"></a>切片常见操作</h4><p>对元素进行添加：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure><p>数组和切片存在一些区别：</p><ul><li>声明数组时，是需要指定长度，而切片不用指定长度。</li><li>初始化操作不一样。</li></ul>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;最近开始学习Go 语言，记录一下学习笔记。&lt;/p&gt;
+&lt;h3 id=&quot;切片&quot;&gt;&lt;a href=&quot;#切片&quot; class=&quot;headerlink&quot; title=&quot;切片&quot;&gt;&lt;/a&gt;切片&lt;/h3&gt;&lt;p&gt;slice 的本质是一个数据结构，实现了对数组操作的封装。&lt;/p&gt;
+&lt;p&gt;go 提</summary>
+      
+    
+    
+    
+    <category term="Golang" scheme="https://www.0x2beace.com/categories/Golang/"/>
+    
+    
+    <category term="Golang" scheme="https://www.0x2beace.com/tags/Golang/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Docker Login 登录异常</title>
     <link href="https://www.0x2beace.com/docker-Login-login-exception/"/>
     <id>https://www.0x2beace.com/docker-Login-login-exception/</id>
     <published>2020-12-06T14:51:20.000Z</published>
-    <updated>2020-12-06T14:52:59.974Z</updated>
+    <updated>2020-12-06T14:58:27.671Z</updated>
     
     <content type="html"><![CDATA[<p>今天刚好有空，把前天那个被挖矿病毒感染的容器给换一换。</p><a id="more"></a><h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>使用 <code>docker login</code> 登录时，总是会提示如下信息，可是我明明输入的是正确的账号密码。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Error saving credentials: error storing credentials - err: exit status 1, out: Cannot autolaunch D-Bus without X11 $DISPLAY</span><br></pre></td></tr></table></figure><p>因为我使用的并不是最新的 <code>docker-ce</code> 版，而是老版本<code>docker.io</code>，所以起初我是怀疑版本出现了不兼容的问题吗？</p><p>其实不是，这是在 Ubuntu 下使用 docker 特有的 bug ，而修复办法不需要特意去卸载 <code>docker-compose</code> ，只要 “pass” 掉验证步骤。</p><h3 id="问题解决"><a href="#问题解决" class="headerlink" title="问题解决"></a>问题解决</h3><p>最终解决步骤如下：</p><h4 id="1-安装-gnupg2-和-pass"><a href="#1-安装-gnupg2-和-pass" class="headerlink" title="1. 安装 gnupg2 和 pass"></a>1. 安装 <code>gnupg2</code> 和 <code>pass</code></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install gnupg2 pass</span><br></pre></td></tr></table></figure><h4 id="2-生成密钥"><a href="#2-生成密钥" class="headerlink" title="2. 生成密钥"></a>2. 生成密钥</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gpg2 --full-generate-key</span><br></pre></td></tr></table></figure><h4 id="3-查看密钥所在路径"><a href="#3-查看密钥所在路径" class="headerlink" title="3. 查看密钥所在路径"></a>3. 查看密钥所在路径</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gpg2 -k</span><br></pre></td></tr></table></figure><h4 id="4-使用-pass-加载验证"><a href="#4-使用-pass-加载验证" class="headerlink" title="4. 使用 pass 加载验证"></a>4. 使用 <code>pass</code> 加载验证</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pass init &quot;your key location path&quot;</span><br></pre></td></tr></table></figure><p>至此就已经pass 掉了验证步骤，可以使用 <code>docker login</code> 正常登录了。</p><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul><li><a href="https://ug.epurs.com/post/docker-login-error-saving-credentials/" target="_blank" rel="noopener">Docker login 报证书存储错误的解决办法</a></li></ul>]]></content>
     
@@ -128,13 +154,13 @@
     
     <category term="Mysql" scheme="https://www.0x2beace.com/tags/Mysql/"/>
     
-    <category term="PHP" scheme="https://www.0x2beace.com/tags/PHP/"/>
-    
     <category term="Linux" scheme="https://www.0x2beace.com/tags/Linux/"/>
     
-    <category term="Redis" scheme="https://www.0x2beace.com/tags/Redis/"/>
-    
     <category term="运维" scheme="https://www.0x2beace.com/tags/%E8%BF%90%E7%BB%B4/"/>
+    
+    <category term="PHP" scheme="https://www.0x2beace.com/tags/PHP/"/>
+    
+    <category term="Redis" scheme="https://www.0x2beace.com/tags/Redis/"/>
     
   </entry>
   
@@ -632,11 +658,11 @@
     <category term="PHP" scheme="https://www.0x2beace.com/categories/PHP/"/>
     
     
+    <category term="Cygwin" scheme="https://www.0x2beace.com/tags/Cygwin/"/>
+    
     <category term="PHP" scheme="https://www.0x2beace.com/tags/PHP/"/>
     
     <category term="Windows" scheme="https://www.0x2beace.com/tags/Windows/"/>
-    
-    <category term="Cygwin" scheme="https://www.0x2beace.com/tags/Cygwin/"/>
     
     <category term="Swoole" scheme="https://www.0x2beace.com/tags/Swoole/"/>
     
@@ -918,9 +944,9 @@
     <category term="Mac" scheme="https://www.0x2beace.com/categories/Linux/Mac/"/>
     
     
-    <category term="Mac" scheme="https://www.0x2beace.com/tags/Mac/"/>
-    
     <category term="Linux" scheme="https://www.0x2beace.com/tags/Linux/"/>
+    
+    <category term="Mac" scheme="https://www.0x2beace.com/tags/Mac/"/>
     
     <category term="Terminal" scheme="https://www.0x2beace.com/tags/Terminal/"/>
     
@@ -962,7 +988,7 @@
     <link href="https://www.0x2beace.com/phpstorm-advanced-skills-finishing/"/>
     <id>https://www.0x2beace.com/phpstorm-advanced-skills-finishing/</id>
     <published>2020-10-01T02:39:34.000Z</published>
-    <updated>2020-10-01T02:40:44.980Z</updated>
+    <updated>2020-10-02T07:25:43.207Z</updated>
     
     <content type="html"><![CDATA[<p>PHPStrom 是我日常使用频率很高的 IDE。</p><p>基础的使用这里就不过多介绍了，这里主要是用来整理一些比较高级的用法。</p><h3 id="调试技巧"><a href="#调试技巧" class="headerlink" title="调试技巧"></a>调试技巧</h3><p>调试是日常开发中，不可缺少的一部分。</p><h4 id="路径映射"><a href="#路径映射" class="headerlink" title="路径映射"></a>路径映射</h4><p>通常都是用来调试本地代码，可如果需要调试虚拟机或者其他应用中时，那该怎么做呢？</p><p>打开偏好设置或者设置，找到一个已经配置好的服务，勾选映射。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200930144728.png" alt=""></p><p>然后找到该服务的入口配置文件，后面的文件路径填绝对路径。</p>]]></content>
     
@@ -1256,9 +1282,9 @@
     
     <category term="SSL" scheme="https://www.0x2beace.com/tags/SSL/"/>
     
-    <category term="Certbot" scheme="https://www.0x2beace.com/tags/Certbot/"/>
-    
     <category term="HTTP" scheme="https://www.0x2beace.com/tags/HTTP/"/>
+    
+    <category term="Certbot" scheme="https://www.0x2beace.com/tags/Certbot/"/>
     
   </entry>
   
@@ -1390,7 +1416,7 @@
     <link href="https://www.0x2beace.com/zabbix-quick-start/"/>
     <id>https://www.0x2beace.com/zabbix-quick-start/</id>
     <published>2020-09-05T00:49:02.000Z</published>
-    <updated>2020-09-09T13:49:09.649Z</updated>
+    <updated>2020-12-06T15:14:35.561Z</updated>
     
     <content type="html"><![CDATA[<p>因为一些特殊原因，部分环境不是搭建在云上面，而是在托管的实体机上面，这就导致原本很多云可以帮我们做的事情，现在只能自己去做了。<br>比如：监控系统。</p><p>本着<strong>不想当运维的前端不是一个好全栈</strong>的思想，我迫切需要自己搭建一套完整的监控系统来解放自己的双手👐️。</p><a id="more"></a><p>我希望这套监控系统是怎样的？</p><ol><li>免费开源</li><li>入门相对容易</li><li>支持多平台分布式监控</li></ol><p>综合以上需求，最后我选择了 <a href="https://www.zabbix.com/" target="_blank" rel="noopener">Zabbix</a> 。</p><p>网上找了一圈，并没有发现合适的入门教程，要么是教程太老了，要么是写的不够详细，学习曲线很陡，光是部署就很费劲，而Zabbix 重要的不是部署，而是学会如何使用。</p><p>所以这篇笔记就是用来记录如何快速部署 Zabbix。</p><h2 id="认识-Zabbix"><a href="#认识-Zabbix" class="headerlink" title="认识 Zabbix"></a>认识 Zabbix</h2><p><a href="https://www.zabbix.com/" target="_blank" rel="noopener">Zabbix</a> 是一个企业级的分布式开源监控方案。</p><p>一个完整的监控系统是由服务机（zabbix server）和客户机（zabbix zgent）组成，运行大概流程是这样的：<br> <code>zabbix agent</code> 需要安装到被监控的主机上，它负责定期收集各项数据，并发送到 <code>zabbix server</code> 端，zabbix server将数据存储到自己的数据库中，<code>zabbix web</code>根据数据在前端进行展现和绘图。这里 agent 收集数据分为主动和被动两种模式：</p><ul><li>主动：agent 请求server 获取主动的监控项列表，并主动将监控项内需要检测的数据提交给 server/proxy 。</li><li>被动：server 向agent请求获取监控项的数据，agent返回数据。</li></ul><p>工作原理：</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200905083643.png" alt=""></p><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>系统环境：</p><ul><li>Ubuntu 18.04 LTS</li><li>Mysql 5.7</li><li>PHP 7.2</li><li>Nginx </li><li>Zabbix 5.0</li></ul><h3 id="1-安装数据库"><a href="#1-安装数据库" class="headerlink" title="1. 安装数据库"></a>1. 安装数据库</h3><p>在正式安装之前，这里推荐先去<a href="https://www.zabbix.com/cn/download" target="_blank" rel="noopener">官网</a>找到符合自己的 Zabbix 服务器平台。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200902093733.png" alt=""></p><p>根据自己的实际环境来找到属于自己的下载链接，比如我是<code>Zabbix 5.0 + Ubuntu 18.04 + Mysql + Nginx</code>，所以我的安装方式应该是：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ wget https:&#x2F;&#x2F;repo.zabbix.com&#x2F;zabbix&#x2F;5.0&#x2F;ubuntu&#x2F;pool&#x2F;main&#x2F;z&#x2F;zabbix-release&#x2F;zabbix-release_5.0-1+bionic_all.deb</span><br><span class="line">$ dpkg -i zabbix-release_5.0-1+bionic_all.deb</span><br><span class="line">$ apt update</span><br></pre></td></tr></table></figure><h3 id="2-安装Zabbix-server，Web前端，agent"><a href="#2-安装Zabbix-server，Web前端，agent" class="headerlink" title="2. 安装Zabbix server，Web前端，agent"></a>2. 安装Zabbix server，Web前端，agent</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apt install zabbix-server-mysql zabbix-frontend-php zabbix-nginx-conf zabbix-agent</span><br></pre></td></tr></table></figure><ul><li>Zabbix Server：用来接收并处理 Zabbix agent 传过来的数据</li><li>Web 前端：Zabbix 的交互界面</li><li>Zabbix agent：需要被监控的主机</li></ul><h3 id="3-初始数据库"><a href="#3-初始数据库" class="headerlink" title="3. 初始数据库"></a>3. 初始数据库</h3><p>安装完数据库之后，并不能直接登录，因为不知道root 用户的密码，所以需要重置root 用户的密码，重置的方式有多种，这里推荐我常使用的的一种。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># vim &#x2F;etc&#x2F;mysql&#x2F;conf.d&#x2F;mysql.conf  </span><br><span class="line"># 也许你编辑的配置文件和我的名称不一样，不过没关系。</span><br><span class="line"></span><br><span class="line"># 添加下面两行配置</span><br><span class="line">[mysqld]</span><br><span class="line">skip-grant-tables</span><br></pre></td></tr></table></figure><p>重启Mysql 服务：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ service mysql restart</span><br></pre></td></tr></table></figure><p>现在的root 用户已经没有密码了，所以下一步要做的就是修改root 用户密码：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ mysql -hlocalhost -uroot -p</span><br><span class="line"></span><br><span class="line">mysql &gt; UPDATE mysql.user SET authentication_string&#x3D;PASSWORD(&#39;password&#39;), plugin&#x3D;&#39;mysql_native_password&#39; WHERE User&#x3D;&#39;root&#39; AND Host&#x3D;&#39;localhost&#39;;</span><br></pre></td></tr></table></figure><p>然后再次修改刚才的配置文件，将下面那行配置给注释掉， 最后重启Mysql 服务就可以了。</p><p>Mysql 默认用户是root，这里不推荐直接使用 root 用户去管理 zabbix 数据库，所以还是使用官方推荐的方式，创建一个新的用户去管理：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ mysql -hlocalhost -uroot -p</span><br><span class="line"></span><br><span class="line">mysql&gt; create database zabbix character set utf8 collate utf8_bin;</span><br><span class="line">mysql&gt; create user zabbix@localhost identified by &#39;password&#39;;</span><br><span class="line">mysql&gt; grant all privileges on zabbix.* to zabbix@localhost;</span><br><span class="line">mysql&gt; flush privileges;</span><br><span class="line">mysql&gt; quit;</span><br></pre></td></tr></table></figure><p>这里默认Mysql 是运行在本地机器上，如果Mysql 运行在容器中，而Zabbix 又运行在本机上，可能会出现一些异常（我遇到了但没能解决）。</p><p>导入初始架构和数据。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ zcat &#x2F;usr&#x2F;share&#x2F;doc&#x2F;zabbix-server-mysql*&#x2F;create.sql.gz | mysql -uzabbix -p zabbix</span><br></pre></td></tr></table></figure><h3 id="4-配置数据库"><a href="#4-配置数据库" class="headerlink" title="4. 配置数据库"></a>4. 配置数据库</h3><p>为Zabbix server配置数据库，</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># vim &#x2F;etc&#x2F;zabbix&#x2F;zabbix_server.conf</span><br><span class="line"></span><br><span class="line">DBPassword&#x3D;password</span><br></pre></td></tr></table></figure><h3 id="5-配置Web"><a href="#5-配置Web" class="headerlink" title="5. 配置Web"></a>5. 配置Web</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># vim &#x2F;etc&#x2F;zabbix&#x2F;nginx.conf</span><br><span class="line"></span><br><span class="line"># 去掉前面的注释，换成你自己的端口或者域名。</span><br><span class="line"># listen 80;</span><br><span class="line"># server_name example.com;</span><br></pre></td></tr></table></figure><h3 id="6-配置时区"><a href="#6-配置时区" class="headerlink" title="6. 配置时区"></a>6. 配置时区</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># vim &#x2F;etc&#x2F;zabbix&#x2F;php-fpm.conf</span><br><span class="line"></span><br><span class="line">php_value[date.timezone] &#x3D; Asia&#x2F;Shanghai</span><br></pre></td></tr></table></figure><h3 id="7-启动服务"><a href="#7-启动服务" class="headerlink" title="7. 启动服务"></a>7. 启动服务</h3><p>启动Zabbix server和agent 进程，并为它们设置开机自启：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ systemctl restart zabbix-server zabbix-agent nginx php7.2-fpm</span><br><span class="line">$ systemctl enable zabbix-server zabbix-agent nginx php7.2-fpm</span><br></pre></td></tr></table></figure><p>一切准备就绪之后，就可以访问了：<code>http://server_ip_or_name</code>，如果你上面配置的不是80 端口，那得记得加上对应的端口。如果你不能正常访问，那可能是因为防火墙没有允许该端口。</p><p>初次进来，需要配置相关参数，确认无误之后，点击 Next step。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200902105706.png" alt=""></p><p>Zabbix 默认的用户名和密码是<code>Admin</code>、<code>zabbix</code>，顺利登录到后台之后，记得修改默认登录密码。</p><h2 id="配置中文语言包"><a href="#配置中文语言包" class="headerlink" title="配置中文语言包"></a>配置中文语言包</h2><p>如果需要设置中文版的环境，需要做一些额外的配置。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim &#x2F;usr&#x2F;share&#x2F;zabbix&#x2F;include&#x2F;locales.inc.php</span><br></pre></td></tr></table></figure><p>将zh_CN 后面参数改为 true。</p><p>如果在选择语言时，发现还是不能选择，并且提示：</p><blockquote><p>You are not able to choose some of the languages, because locales for them are not installed on the web server.</p></blockquote><p>这是因为你系统里没中文环境，查看当前的所有系统语言环境</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ locale -a</span><br></pre></td></tr></table></figure><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200902110702.png" alt=""></p><h3 id="1-安装中文包"><a href="#1-安装中文包" class="headerlink" title="1. 安装中文包"></a>1. 安装中文包</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install language-pack-zh-hant language-pack-zh-hans</span><br></pre></td></tr></table></figure><h3 id="2-配置环境变量"><a href="#2-配置环境变量" class="headerlink" title="2. 配置环境变量"></a>2. 配置环境变量</h3><p>增加语言和编码的设置：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># vim &#x2F;etc&#x2F;environment</span><br><span class="line"></span><br><span class="line">LANG&#x3D;&quot;zh_CN.UTF-8&quot;</span><br><span class="line">LANGUAGE&#x3D;&quot;zh_CN:zh:en_US:en&quot;</span><br></pre></td></tr></table></figure><h3 id="3-替换Zabbix-语言包"><a href="#3-替换Zabbix-语言包" class="headerlink" title="3. 替换Zabbix 语言包"></a>3. 替换Zabbix 语言包</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ cd cd &#x2F;usr&#x2F;share&#x2F;zabbix&#x2F;locale&#x2F;zh_CN&#x2F;LC_MESSAGES</span><br><span class="line">$ wget https:&#x2F;&#x2F;github.com&#x2F;echohn&#x2F;zabbix-zh_CN&#x2F;archive&#x2F;v0.1.0.zip</span><br><span class="line">$ unzip master.zip</span><br><span class="line">$ rm frontend.mo</span><br><span class="line">$ cp zabbix-zh_CN-master&#x2F;frontend.mo frontend.mo</span><br></pre></td></tr></table></figure><h3 id="4-解决乱码问题"><a href="#4-解决乱码问题" class="headerlink" title="4. 解决乱码问题"></a>4. 解决乱码问题</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ wget https:&#x2F;&#x2F;github.com&#x2F;chenqing&#x2F;ng-mini&#x2F;blob&#x2F;master&#x2F;font&#x2F;msyh.ttf</span><br><span class="line">$ vim &#x2F;usr&#x2F;share&#x2F;zabbix&#x2F;include&#x2F;defines.inc.php</span><br><span class="line"></span><br><span class="line"># 找到 define(&#39;ZBX_GRAPH_FONT_NAME&#39;, &#39;graphfont&#39;);</span><br><span class="line"># 将graphfont 替换成 msyh</span><br></pre></td></tr></table></figure><h3 id="5-更新mibs-库"><a href="#5-更新mibs-库" class="headerlink" title="5. 更新mibs 库"></a>5. 更新mibs 库</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apt-get install snmp-mibs-downloader</span><br></pre></td></tr></table></figure><h3 id="6-重启服务"><a href="#6-重启服务" class="headerlink" title="6. 重启服务"></a>6. 重启服务</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ systemctl restart zabbix-server zabbix-agent php7.2-fpm</span><br></pre></td></tr></table></figure><p>至此Zabbix 的完整部署过程就全介绍完了。</p><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul><li><a href="https://www.cnblogs.com/zangdalei/p/5712951.html" target="_blank" rel="noopener">Zabbix 3.0 for Ubuntu 14.04 LTS 安装</a></li><li><a href="https://www.zabbix.com/cn/download?zabbix=5.0&os_distribution=ubuntu&os_version=18.04_bionic&db=mysql&ws=nginx" target="_blank" rel="noopener">下载安装Zabbix——Zabbix 官网</a></li><li><a href="https://yq.aliyun.com/articles/611489" target="_blank" rel="noopener">企业级分布式监控系统–zabbix</a></li></ul>]]></content>
     
@@ -1509,7 +1535,7 @@
     <link href="https://www.0x2beace.com/detailed-explanation-of-linux-compression-decompression-and-packaging/"/>
     <id>https://www.0x2beace.com/detailed-explanation-of-linux-compression-decompression-and-packaging/</id>
     <published>2020-08-31T15:47:15.000Z</published>
-    <updated>2020-08-31T15:51:20.676Z</updated>
+    <updated>2020-09-17T12:51:47.804Z</updated>
     
     <content type="html"><![CDATA[<p>在Linux 中，解压、压缩、打包是日常会很频繁用到的几个操作，但是因为参数很多，没有记忆点，加上压缩文件的类型很多，如果不经常使用，是真的容易忘记。</p><a id="more"></a><p>所以这篇笔记就是用来整理常见的那些解压、压缩、打包的命令。</p><p>在正式学习之前，需要明确的两个概念，打包和压缩不是一回事：</p><ul><li>打包：是指将一大堆文件或目录变成一个总的文件。</li><li>压缩：则是将一个大文件通过压缩算法变成一个小文件。</li></ul><p>为什么要区分这两个概念呢？这源于Linux 中很多压缩程序只能针对一个文件进行压缩，这样当你想要压缩一大堆文件时，你得先将这一大堆文件先打成一个包（tar命令），然后再用压缩程序进行压缩（gzip bzip2命令）。</p><h2 id="tar"><a href="#tar" class="headerlink" title="tar"></a>tar</h2><h3 id="压缩-打包"><a href="#压缩-打包" class="headerlink" title="压缩/打包"></a>压缩/打包</h3><p>仅打包，不压缩。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -cvf foo.tar foo</span><br></pre></td></tr></table></figure><p><code>foo.tar</code>这个文件名是自定义的，只是习惯上我们使用 <code>.tar</code> 作为包文件。</p><p>打包，且压缩。<code>-z</code>参数表示以 <code>.tar.gz</code> 或者 <code>.tgz</code> 后缀名代表 gzip 压缩过的 tar 包。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zcvf foo.tar.gz foo</span><br></pre></td></tr></table></figure><p>打包，且压缩。<code>-j</code> 参数表示以 <code>.tar.bz2</code> 后缀名作为tar包名。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -jcvf foo.tar.gz foo</span><br></pre></td></tr></table></figure><h3 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h3><p>在当前目录下直接解压：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf foo.tar.gz</span><br></pre></td></tr></table></figure><p>注意，如果这个目录下有同名的文件，不会询问，直接覆盖。</p><p>解压至指定文件夹：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf foo.tar.gz -C &lt;dir name&gt;</span><br></pre></td></tr></table></figure><h2 id="gzip"><a href="#gzip" class="headerlink" title="gzip"></a>gzip</h2><p>gzip 命令用来压缩文件。文件经它压缩过后，其名称后面会多处 <code>.gz</code> 扩展名（不带 <code>.tar</code>）。</p><h3 id="压缩"><a href="#压缩" class="headerlink" title="压缩"></a>压缩</h3><p>将当前目录的每个文件压缩成<code>.gz</code>文件：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gzip *</span><br></pre></td></tr></table></figure><p>递归压缩指定目录的所有文件及子目录：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gzip -r &lt;dir name&gt;</span><br></pre></td></tr></table></figure><h3 id="解压-1"><a href="#解压-1" class="headerlink" title="解压"></a>解压</h3><p>解压当前目录下的<code>foo.gz</code> 文件：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gzip -d foo.gz</span><br></pre></td></tr></table></figure><p>解压完成之后，<code>foo.gz</code> 就变成了 <code>foo</code> 文件。</p><p>递归解压目录：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gzip -dr &lt;dir name&gt;</span><br></pre></td></tr></table></figure><p>解压完成之后，<code>&lt;dir name&gt;</code> 目录下的所有 <code>.gz</code> 文件都会变成正常文件。</p><h2 id="zip"><a href="#zip" class="headerlink" title="zip"></a>zip</h2><p><code>zip</code> 可以用来解压缩文件，或者对文件进行打包操作。文件经它压缩后会另外产生具有 <code>.zip</code> 扩展名的压缩文件。</p><h3 id="压缩-1"><a href="#压缩-1" class="headerlink" title="压缩"></a>压缩</h3><p>将当前目录下的指定目录，压缩为 <code>.zip</code>文件：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zip -q -r foo.zip &lt;dir name&gt;</span><br></pre></td></tr></table></figure><p>将指定目录下的所有文件及其文件夹，压缩为<code>.zip</code> 文件：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zip -q -r foo.zip &#x2F;&lt;path to dir&gt;</span><br></pre></td></tr></table></figure><p>注意，产生的压缩文件在执行命令的那个目录下。</p><h3 id="解压-2"><a href="#解压-2" class="headerlink" title="解压"></a>解压</h3><p>unzip 命令用于解压缩由 zip 命令压缩的 <code>.zip</code>压缩包。</p><p>查看压缩包内容：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unzip -v foo.zip</span><br></pre></td></tr></table></figure><p>将压缩文件在指定目录下解压缩，如果已有相同的文件存在，要求 unzip命令不覆盖原先的文件。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unzip -n foo.zip -d &#x2F;&lt;file to dir&gt;</span><br></pre></td></tr></table></figure><p>将压缩文件在当前目下解压，如果已有相同的文件，不询问，直接覆盖。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unzip -o foo.zip</span><br></pre></td></tr></table></figure><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>Linux 下的压缩解压其实并不复杂，只是不常用的情况下，很容器忘记。</p><p>如果你不知道在什么场景下，该使用什么命令，可以参照：</p><ul><li>如果只有一个大文件，可以使用 <code>gzip</code> 或者 <code>zip</code>命令。</li><li>如果是一个完整的目录，里面有很多子目录以及文件，可以使用<code>tar</code>命令。</li></ul>]]></content>
     
@@ -1642,9 +1668,9 @@
     <category term="Tutorial" scheme="https://www.0x2beace.com/categories/Linux/Tutorial/"/>
     
     
-    <category term="Tutorial" scheme="https://www.0x2beace.com/tags/Tutorial/"/>
-    
     <category term="Linux" scheme="https://www.0x2beace.com/tags/Linux/"/>
+    
+    <category term="Tutorial" scheme="https://www.0x2beace.com/tags/Tutorial/"/>
     
     <category term="云" scheme="https://www.0x2beace.com/tags/%E4%BA%91/"/>
     
@@ -1838,9 +1864,9 @@
     <category term="Windows" scheme="https://www.0x2beace.com/categories/Linux/Windows/"/>
     
     
-    <category term="Windows" scheme="https://www.0x2beace.com/tags/Windows/"/>
-    
     <category term="Linux" scheme="https://www.0x2beace.com/tags/Linux/"/>
+    
+    <category term="Windows" scheme="https://www.0x2beace.com/tags/Windows/"/>
     
     <category term="WSL" scheme="https://www.0x2beace.com/tags/WSL/"/>
     
@@ -1893,9 +1919,9 @@
     <category term="Tutorial" scheme="https://www.0x2beace.com/categories/Linux/Tutorial/"/>
     
     
-    <category term="Tutorial" scheme="https://www.0x2beace.com/tags/Tutorial/"/>
-    
     <category term="Linux" scheme="https://www.0x2beace.com/tags/Linux/"/>
+    
+    <category term="Tutorial" scheme="https://www.0x2beace.com/tags/Tutorial/"/>
     
     <category term="云" scheme="https://www.0x2beace.com/tags/%E4%BA%91/"/>
     
@@ -1974,9 +2000,9 @@
     <category term="Tutorial" scheme="https://www.0x2beace.com/categories/Linux/Tutorial/"/>
     
     
-    <category term="Tutorial" scheme="https://www.0x2beace.com/tags/Tutorial/"/>
-    
     <category term="Linux" scheme="https://www.0x2beace.com/tags/Linux/"/>
+    
+    <category term="Tutorial" scheme="https://www.0x2beace.com/tags/Tutorial/"/>
     
     <category term="云" scheme="https://www.0x2beace.com/tags/%E4%BA%91/"/>
     
@@ -2063,13 +2089,13 @@
     <category term="Shell" scheme="https://www.0x2beace.com/categories/Shell/"/>
     
     
+    <category term="Linux" scheme="https://www.0x2beace.com/tags/Linux/"/>
+    
     <category term="Shell" scheme="https://www.0x2beace.com/tags/Shell/"/>
     
     <category term="Windows" scheme="https://www.0x2beace.com/tags/Windows/"/>
     
     <category term="Mac" scheme="https://www.0x2beace.com/tags/Mac/"/>
-    
-    <category term="Linux" scheme="https://www.0x2beace.com/tags/Linux/"/>
     
   </entry>
   
@@ -2750,9 +2776,9 @@
     <category term="学习笔记" scheme="https://www.0x2beace.com/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     
     
-    <category term="Shell" scheme="https://www.0x2beace.com/tags/Shell/"/>
-    
     <category term="Linux" scheme="https://www.0x2beace.com/tags/Linux/"/>
+    
+    <category term="Shell" scheme="https://www.0x2beace.com/tags/Shell/"/>
     
   </entry>
   
@@ -2775,9 +2801,9 @@
     <category term="学习笔记" scheme="https://www.0x2beace.com/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     
     
-    <category term="Shell" scheme="https://www.0x2beace.com/tags/Shell/"/>
-    
     <category term="Linux" scheme="https://www.0x2beace.com/tags/Linux/"/>
+    
+    <category term="Shell" scheme="https://www.0x2beace.com/tags/Shell/"/>
     
   </entry>
   
@@ -2824,9 +2850,9 @@
     <category term="Git" scheme="https://www.0x2beace.com/categories/Git/"/>
     
     
-    <category term="Tutorial" scheme="https://www.0x2beace.com/tags/Tutorial/"/>
-    
     <category term="Git" scheme="https://www.0x2beace.com/tags/Git/"/>
+    
+    <category term="Tutorial" scheme="https://www.0x2beace.com/tags/Tutorial/"/>
     
   </entry>
   
@@ -2898,9 +2924,9 @@
     <category term="学习笔记" scheme="https://www.0x2beace.com/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     
     
-    <category term="Shell" scheme="https://www.0x2beace.com/tags/Shell/"/>
-    
     <category term="Linux" scheme="https://www.0x2beace.com/tags/Linux/"/>
+    
+    <category term="Shell" scheme="https://www.0x2beace.com/tags/Shell/"/>
     
   </entry>
   
@@ -2928,9 +2954,9 @@
     <category term="学习笔记" scheme="https://www.0x2beace.com/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     
     
-    <category term="Shell" scheme="https://www.0x2beace.com/tags/Shell/"/>
-    
     <category term="Linux" scheme="https://www.0x2beace.com/tags/Linux/"/>
+    
+    <category term="Shell" scheme="https://www.0x2beace.com/tags/Shell/"/>
     
   </entry>
   
@@ -2953,9 +2979,9 @@
     <category term="学习笔记" scheme="https://www.0x2beace.com/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     
     
-    <category term="Shell" scheme="https://www.0x2beace.com/tags/Shell/"/>
-    
     <category term="Linux" scheme="https://www.0x2beace.com/tags/Linux/"/>
+    
+    <category term="Shell" scheme="https://www.0x2beace.com/tags/Shell/"/>
     
   </entry>
   
