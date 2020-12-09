@@ -1,11 +1,13 @@
 ---
-title: golang quick start
+title: Go 语言学习笔记
 date: 2020-12-08 23:53:16
 tags: ["Golang"]
 categories: ["Golang"]
 ---
 
-最近开始学习Go 语言，记录一下学习笔记。
+最近开始学习Go 语言，记录一下学习笔记，具体可以访问[Go 语言学习笔记](https://github.com/0xAiKang/go_learning_note)
+
+<!-- more -->
 
 ### 切片
 slice 的本质是一个数据结构，实现了对数组操作的封装。
