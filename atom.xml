@@ -6,7 +6,7 @@
   <link href="https://www.0x2beace.com/atom.xml" rel="self"/>
   
   <link href="https://www.0x2beace.com/"/>
-  <updated>2020-12-08T15:55:12.739Z</updated>
+  <updated>2020-12-09T13:20:19.797Z</updated>
   <id>https://www.0x2beace.com/</id>
   
   <author>
@@ -17,21 +17,41 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>golang quick start</title>
+    <title>Linux iptables 常用规则整理</title>
+    <link href="https://www.0x2beace.com/linux-iptables-common-rules-collation/"/>
+    <id>https://www.0x2beace.com/linux-iptables-common-rules-collation/</id>
+    <published>2020-12-09T13:19:00.000Z</published>
+    <updated>2020-12-09T13:20:19.797Z</updated>
+    
+    <content type="html"><![CDATA[<p>因为手上一直管理着两台实体机（服务器），而实体机的是没有“软防”这个概念的，“硬防”规则只能自己去设定。</p><a id="more"></a><p>而Linux 原始的防火墙工具iptables 过于繁琐，上手曲线较陡，所以这篇笔记就用来整理 Linux 的 iptables 相关知识。</p><h2 id="iptables-是什么"><a href="#iptables-是什么" class="headerlink" title="iptables 是什么"></a>iptables 是什么</h2><p>我们常常会听到这样的说法：“iptables 是一个防火墙”，其实不是，它也不是一个系统服务，所以不能使用如下命令启动/停止/重启。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start&#x2F;stop&#x2F;restart iptables</span><br></pre></td></tr></table></figure><p>iptables 其实只是一个命令行工具，它用来操作 netfilter 内核防火墙，所以真正应用的防火墙应该是<strong>netfilter</strong>。</p><p>当拿到一台Linux 后，iptables就在那里，默认情况下它允许所有流量。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ sudo iptables -L</span><br><span class="line">Chain INPUT (policy ACCEPT)</span><br><span class="line">target     prot opt source               destination         </span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy ACCEPT)</span><br><span class="line">target     prot opt source               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT)</span><br><span class="line">target     prot opt source               destination</span><br></pre></td></tr></table></figure><h2 id="允许特定端口访问"><a href="#允许特定端口访问" class="headerlink" title="允许特定端口访问"></a>允许特定端口访问</h2><p>访问过程如下：</p><ol><li>将此规则附加到输入链（-A INPUT），以便查看传入流量</li><li>检查是否为TCP（-p tcp）</li><li>如果是，检查输入是否进入端口（–dport ssh）</li><li>如果是，接受输入（-j ACCEPT）</li></ol><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p tcp --dport 22 -j ACCEPT    # 允许访问22端口</span><br><span class="line">iptables -A INPUT -p tcp --dport 80 -j ACCEPT    # 允许访问80端口</span><br><span class="line">iptables -A INPUT -p tcp --dport 443 -j ACCEPT   # 允许访问443端口</span><br><span class="line">iptables -A FORWARD -j REJECT                    # 禁止其他未允许的规则访问</span><br></pre></td></tr></table></figure><h2 id="禁止特定端口访问"><a href="#禁止特定端口访问" class="headerlink" title="禁止特定端口访问"></a>禁止特定端口访问</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p tcp --dport 6379 -j DROP    # 禁止6379端口传入流量</span><br></pre></td></tr></table></figure><p>如果想要屏蔽UDP流量而不是TCP流量，只需将上述规则中的 <code>tcp</code> 修改为 <code>udp</code> 即可。</p><h2 id="禁用防火墙"><a href="#禁用防火墙" class="headerlink" title="禁用防火墙"></a>禁用防火墙</h2><p>如果需要临时/永久禁用iptables 防火墙，则可以使用以下命令清除所有规则：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo iptables -P INPUT ACCEPT</span><br><span class="line">sudo iptables -P OUTPUT ACCEPT</span><br><span class="line">sudo iptables -P FORWARD ACCEPT</span><br><span class="line">sudo iptables -F</span><br></pre></td></tr></table></figure><p>设置完成之后，不用重启任何服务，其防火墙规则已经刷新了（允许所有流量）。</p><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul><li><a href="http://www.codebelief.com/article/2017/08/linux-25-useful-iptables-firewall-rules/" target="_blank" rel="noopener">25 个有用的 iptables 防火墙规则</a></li><li><a href="https://ubuntuqa.com/article/10698.html" target="_blank" rel="noopener">如何在Ubuntu上启动/停止iptables？</a></li><li><a href="https://help.ubuntu.com/community/IptablesHowTo#Configuration%20on%20startup" target="_blank" rel="noopener">IptablesHowTo</a></li><li><a href="https://wangchujiang.com/linux-command/c/iptables.html" target="_blank" rel="noopener">iptables - Linux</a></li></ul>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;因为手上一直管理着两台实体机（服务器），而实体机的是没有“软防”这个概念的，“硬防”规则只能自己去设定。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="Linux" scheme="https://www.0x2beace.com/categories/Linux/"/>
+    
+    
+    <category term="Linux" scheme="https://www.0x2beace.com/tags/Linux/"/>
+    
+    <category term="Ubuntu" scheme="https://www.0x2beace.com/tags/Ubuntu/"/>
+    
+    <category term="iptables" scheme="https://www.0x2beace.com/tags/iptables/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Go 语言学习笔记</title>
     <link href="https://www.0x2beace.com/golang-quick-start/"/>
     <id>https://www.0x2beace.com/golang-quick-start/</id>
     <published>2020-12-08T15:53:16.000Z</published>
-    <updated>2020-12-08T15:55:12.739Z</updated>
+    <updated>2020-12-09T00:16:20.213Z</updated>
     
-    <content type="html"><![CDATA[<p>最近开始学习Go 语言，记录一下学习笔记。</p><h3 id="切片"><a href="#切片" class="headerlink" title="切片"></a>切片</h3><p>slice 的本质是一个数据结构，实现了对数组操作的封装。</p><p>go 提供了一种类似“动态数组”结构的数据类型，这种类型就是切片。</p><p>声明</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 语法</span><br><span class="line">var identifier []type</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 声明一个为 int64 类型的切片 </span><br><span class="line">var slice []int64</span><br></pre></td></tr></table></figure><p>初始化：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 初始化一个 int64 类型的切片</span><br><span class="line">array &#x3D; make ([]int64, 10)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 初始化数组</span><br><span class="line">array &#x3D; [10] int64 &#123;0, 1, 2, 3, 4, 5, 6, 7, 8, 9&#125;</span><br></pre></td></tr></table></figure><h4 id="切片常见操作"><a href="#切片常见操作" class="headerlink" title="切片常见操作"></a>切片常见操作</h4><p>对元素进行添加：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure><p>数组和切片存在一些区别：</p><ul><li>声明数组时，是需要指定长度，而切片不用指定长度。</li><li>初始化操作不一样。</li></ul>]]></content>
+    <content type="html"><![CDATA[<p>最近开始学习Go 语言，记录一下学习笔记，具体可以访问<a href="https://github.com/0xAiKang/go_learning_note" target="_blank" rel="noopener">Go 语言学习笔记</a></p><a id="more"></a><h3 id="切片"><a href="#切片" class="headerlink" title="切片"></a>切片</h3><p>slice 的本质是一个数据结构，实现了对数组操作的封装。</p><p>go 提供了一种类似“动态数组”结构的数据类型，这种类型就是切片。</p><p>声明</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 语法</span><br><span class="line">var identifier []type</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 声明一个为 int64 类型的切片 </span><br><span class="line">var slice []int64</span><br></pre></td></tr></table></figure><p>初始化：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 初始化一个 int64 类型的切片</span><br><span class="line">array &#x3D; make ([]int64, 10)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 初始化数组</span><br><span class="line">array &#x3D; [10] int64 &#123;0, 1, 2, 3, 4, 5, 6, 7, 8, 9&#125;</span><br></pre></td></tr></table></figure><h4 id="切片常见操作"><a href="#切片常见操作" class="headerlink" title="切片常见操作"></a>切片常见操作</h4><p>对元素进行添加：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure><p>数组和切片存在一些区别：</p><ul><li>声明数组时，是需要指定长度，而切片不用指定长度。</li><li>初始化操作不一样。</li></ul>]]></content>
     
     
-      
-      
-    <summary type="html">&lt;p&gt;最近开始学习Go 语言，记录一下学习笔记。&lt;/p&gt;
-&lt;h3 id=&quot;切片&quot;&gt;&lt;a href=&quot;#切片&quot; class=&quot;headerlink&quot; title=&quot;切片&quot;&gt;&lt;/a&gt;切片&lt;/h3&gt;&lt;p&gt;slice 的本质是一个数据结构，实现了对数组操作的封装。&lt;/p&gt;
-&lt;p&gt;go 提</summary>
-      
+    <summary type="html">&lt;p&gt;最近开始学习Go 语言，记录一下学习笔记，具体可以访问&lt;a href=&quot;https://github.com/0xAiKang/go_learning_note&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Go 语言学习笔记&lt;/a&gt;&lt;/p&gt;</summary>
     
     
     
