@@ -1,7 +1,7 @@
 ---
 title: Linux iptables 常用规则整理
 date: 2020-12-09 21:19:00
-tags: ["Linux", "Ubuntu", "iptables"]
+tags: ["Linux", "Ubuntu", "iptables", "防火墙"]
 categories: ["Linux"]
 ---
 
