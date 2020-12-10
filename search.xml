@@ -4,6 +4,37 @@
   
     
     <entry>
+      <title>linux ufw quick start</title>
+      <link href="/linux-ufw-quick-start/"/>
+      <url>/linux-ufw-quick-start/</url>
+      
+        <content type="html"><![CDATA[<p>之前已经了解了 iptables 是设置防火墙的命令行工具，但对于初学者而言，它的上手曲线太陡了。</p><a id="more"></a><p><a href="https://help.ubuntu.com/community/UFW" target="_blank" rel="noopener">UFW</a> （即简单防火墙）相较 iptables，对于初学者而言，则易于上手得多。</p><p>UFW 默认安装在Ubuntu上。如果由于某种原因已将其卸载，则可以使用如下命令进行安装：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt install ufw</span><br></pre></td></tr></table></figure><p>开启 <code>IPV6</code></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vim &#x2F;etc&#x2F;default&#x2F;ufw</span><br><span class="line"></span><br><span class="line">IPV6&#x3D;yes</span><br></pre></td></tr></table></figure><h2 id="查看UFW状态"><a href="#查看UFW状态" class="headerlink" title="查看UFW状态"></a>查看UFW状态</h2><p>Ubuntu 默认没有开启 UFW。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo ufw status</span><br></pre></td></tr></table></figure><ul><li><code>inactive</code>：表示防火墙关闭状态 </li><li><code>active</code>：表示防火墙开启状态</li></ul><h2 id="开启UFW"><a href="#开启UFW" class="headerlink" title="开启UFW"></a>开启UFW</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo ufw enable</span><br><span class="line">Command may disrupt existing ssh connections. Proceed with operation (y|n)? y</span><br><span class="line">Firewall is active and enabled on system startup</span><br></pre></td></tr></table></figure><p>初次开启 UFW 没有任何规则（如果之前已经添加过UFW 规则，则还是存在的），如需查看以开启哪些规则，同样使用<code>ufw status</code>命令。</p><h2 id="关闭UFW"><a href="#关闭UFW" class="headerlink" title="关闭UFW"></a>关闭UFW</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo ufw disable</span><br></pre></td></tr></table></figure><h2 id="重置所有规则"><a href="#重置所有规则" class="headerlink" title="重置所有规则"></a>重置所有规则</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo ufw reset</span><br></pre></td></tr></table></figure><h2 id="允许指定端口"><a href="#允许指定端口" class="headerlink" title="允许指定端口"></a>允许指定端口</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo ufw allow http   &#x2F;&#x2F; sudo ufw allow 80</span><br></pre></td></tr></table></figure><h3 id="指定特定-IP"><a href="#指定特定-IP" class="headerlink" title="指定特定 IP"></a>指定特定 IP</h3><p>使用UFW时，还可以指定IP地址。<br>例如，如果要允许来自特定IP地址的连接，则可以使用如下命令：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo ufw allow from &lt;ip_address&gt;</span><br></pre></td></tr></table></figure><p>还可以通过添加<code>to any port</code>端口号来指定允许IP地址连接的特定端口。</p><p>例如，如果要允许 <code>203.0.113.4</code> 连接到端口22（SSH），则可以使用如下命令：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo ufw allow from 203.0.113.4 to any port 22</span><br></pre></td></tr></table></figure><h2 id="禁止指定端口"><a href="#禁止指定端口" class="headerlink" title="禁止指定端口"></a>禁止指定端口</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo ufw deny https   &#x2F;&#x2F; sudo ufw deny 443</span><br></pre></td></tr></table></figure><h2 id="删除指定规则"><a href="#删除指定规则" class="headerlink" title="删除指定规则"></a>删除指定规则</h2><p>正式删除具体规则之前，先使用如下命令查看对应编号：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo ufw status numbered</span><br></pre></td></tr></table></figure><p>删除指定编号对应的规则：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo ufw delete &lt;id&gt;</span><br></pre></td></tr></table></figure><h2 id="检查UFW状态和规则"><a href="#检查UFW状态和规则" class="headerlink" title="检查UFW状态和规则"></a>检查UFW状态和规则</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo ufw status verbose</span><br></pre></td></tr></table></figure><h2 id="重新载入配置"><a href="#重新载入配置" class="headerlink" title="重新载入配置"></a>重新载入配置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo ufw reload</span><br></pre></td></tr></table></figure><p>注意事项⚠️：</p><ol><li>修改了某条规则之后，需要让UFW 重新加载配置，设定规则才会生效。</li><li>谨慎禁用 ssh，否则可能会导致自己也连接不上。</li><li>在启用 UFW 之前，最好检查或者重置一下规则。</li></ol><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul><li><a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-with-ufw-on-ubuntu-18-04" target="_blank" rel="noopener">How To Set Up a Firewall with UFW on Ubuntu 18.04</a></li><li><a href="https://linux.cn/article-8087-1.html" target="_blank" rel="noopener">在 Ubuntu 中用 UFW 配置防火墙</a></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> Linux </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Linux </tag>
+            
+            <tag> 防火墙 </tag>
+            
+            <tag> Ubuntu </tag>
+            
+            <tag> UFW </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Linux iptables 常用规则整理</title>
       <link href="/linux-iptables-common-rules-collation/"/>
       <url>/linux-iptables-common-rules-collation/</url>
@@ -21,6 +52,8 @@
         <tags>
             
             <tag> Linux </tag>
+            
+            <tag> 防火墙 </tag>
             
             <tag> Ubuntu </tag>
             
@@ -2356,7 +2389,7 @@
       <link href="/detailed-explanation-of-git-push-f-command/"/>
       <url>/detailed-explanation-of-git-push-f-command/</url>
       
-        <content type="html"><![CDATA[<p>最近遇到了一个Git Push 相关的问题，同事不小心把一些错误代码提交到仓库了。<br>如果每个人直接更新的话，会导致错误代码也更新到本地了。</p><p>这个时候想要避免这种情况的发生，唯一可以做的就是将那些错误代码直接覆盖掉。</p><a id="more"></a><h3 id="git-push-f"><a href="#git-push-f" class="headerlink" title="git push -f"></a>git push -f</h3><p><code>git push -f</code> 这个命令的作用是将自己本地仓库的代码直接推送至仓库，完全以你的提交为准，之前其他人的提交都会被覆盖。</p><p>那么这么可怕的命令，究竟在什么情况下才适用呢？</p><h4 id="使用时机"><a href="#使用时机" class="headerlink" title="使用时机"></a>使用时机</h4><p>有两种情况下适合使用这个命令：</p><ol><li>确定需要覆覆盖提交，就像上面的那种情况，在明确部分提交会导致异常时，可以使用新的提交去覆盖。</li><li>需要整理历史提交记录时，有时候项目的 Commit Logs 可能比较乱，不能清晰的看出每一次提交的作用，可以使用 <code>rebase</code> 命令来清理历史提交记录。因为改变了历史，所以正常来说是 <code>push</code>不成功的，所以需要使用 <code>force push</code>来解决这个问题。</li></ol><h4 id="默认分支保护"><a href="#默认分支保护" class="headerlink" title="默认分支保护"></a>默认分支保护</h4><p>因为可能会出现不小心使用的情况，<code>Github</code>、<code>Gitlab</code>这类源码托管网站会提供分支保护机制。可以避免某个分支被 <code>force push</code>，默认是 <code>master</code>为保护分支。</p><p>这里以<code>Gitlab</code>为例，<code>设置-&gt;仓库-&gt;Protected Branches</code>：</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200805144123.png" alt=""></p><p>所以如果想强制提交，前提需要取消对该分支的保护。</p><blockquote><p>万一自己的代码被覆盖掉了，还救得回来吗？</p></blockquote><p>其实也是有办法的，那就是换你或是其它有之前提交的同事，再次进行 <code>git push -f</code>，将正确的内容强制提交上去，覆盖上一次<code>git push -f</code>所造成的灾难。</p><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><p><a href="https://gitbook.tw/chapters/github/using-force-push.html" target="_blank" rel="noopener">聽說 git push -f 這個指令很可怕，什麼情況可以使用它呢？</a></p>]]></content>
+        <content type="html"><![CDATA[<p>最近遇到了一个Git Push 相关的问题，同事不小心把一些错误代码提交到仓库了。<br>如果每个人直接更新的话，会导致错误代码也更新到本地了。</p><p>这个时候想要避免这种情况的发生，唯一可以做的就是将那些错误代码直接覆盖掉。</p><a id="more"></a><h2 id="git-push-f"><a href="#git-push-f" class="headerlink" title="git push -f"></a>git push -f</h2><p><code>git push -f</code> 这个命令的作用是将自己本地仓库的代码直接推送至仓库，完全以你的提交为准，之前其他人的提交都会被覆盖。</p><p>那么这么可怕的命令，究竟在什么情况下才适用呢？</p><h3 id="使用时机"><a href="#使用时机" class="headerlink" title="使用时机"></a>使用时机</h3><p>有两种情况下适合使用这个命令：</p><ol><li>确定需要覆覆盖提交，就像上面的那种情况，在明确部分提交会导致异常时，可以使用新的提交去覆盖。</li><li>需要整理历史提交记录时，有时候项目的 Commit Logs 可能比较乱，不能清晰的看出每一次提交的作用，可以使用 <code>rebase</code> 命令来清理历史提交记录。因为改变了历史，所以正常来说是 <code>push</code>不成功的，所以需要使用 <code>force push</code>来解决这个问题。</li></ol><h3 id="默认分支保护"><a href="#默认分支保护" class="headerlink" title="默认分支保护"></a>默认分支保护</h3><p>因为可能会出现不小心使用的情况，<code>Github</code>、<code>Gitlab</code>这类源码托管网站会提供分支保护机制。可以避免某个分支被 <code>force push</code>，默认是 <code>master</code>为保护分支。</p><p>这里以<code>Gitlab</code>为例，<code>设置-&gt;仓库-&gt;Protected Branches</code>：</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200805144123.png" alt=""></p><p>所以如果想强制提交，前提需要取消对该分支的保护。</p><blockquote><p>万一自己的代码被覆盖掉了，还救得回来吗？</p></blockquote><p>其实也是有办法的，那就是换你或是其它有之前提交的同事，再次进行 <code>git push -f</code>，将正确的内容强制提交上去，覆盖上一次<code>git push -f</code>所造成的灾难。</p><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><p><a href="https://gitbook.tw/chapters/github/using-force-push.html" target="_blank" rel="noopener">聽說 git push -f 這個指令很可怕，什麼情況可以使用它呢？</a></p>]]></content>
       
       
       <categories>
