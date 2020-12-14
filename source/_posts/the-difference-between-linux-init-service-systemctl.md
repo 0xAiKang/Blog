@@ -1,5 +1,5 @@
 ---
-title: Linux init、service、systemctl 这三者之间的区别
+title: Linux init、service、systemctl 三者区别
 date: 2020-07-14 23:38:00
 tags: ["Linux"]
 categories: ["Linux", "学习笔记"]
@@ -119,7 +119,12 @@ $ sudo timedatectl set-time YYYY-MM-DD
 $ sudo timedatectl set-time HH:MM:SS
 ```
 
-总结一下，`init` 是最初的进程管理方式，`service` 是`init` 的另一种实现，而 `systemd` 则是一种取代 `initd` 的解决方案，其中 `systemctl` 是 `systemd` 的主命令，用于管理系统以及服务。
+### 总结
+* `init` 是最初的进程管理方式
+* `service` 是`init` 的另一种实现
+* `systemd` 则是一种取代 `initd` 的解决方案
+
+其中 `systemctl` 是 `systemd` 的主命令，用于管理系统以及服务。
 
 ### 参考链接
 * [Linux Init - 维基百科](https://en.wikipedia.org/wiki/Init)
