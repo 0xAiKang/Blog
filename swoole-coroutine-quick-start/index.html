@@ -16,12 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>Hexo 快速上手 - Boo</title>
+    <title>Swoole 协程快速上手 - Boo</title>
   
-    <meta name="keywords" content="Tutorial,Hexo">
+    <meta name="keywords" content="PHP,Swoole">
   
   
-    <meta name="description" content="最近使用Hexo 搭建了一套博客系统，整个过程还算顺利，不过还是遇到了一些问题，整理记录一下。">
+    <meta name="description" content="最近有幸读到 daydaygo 的 swoole 协程初体验，一文从协程的执行的角度窥探 Swoole 的协程调度，并详细说明了为什么协程会快。">
   
 
   <!-- feed -->
@@ -372,8 +372,8 @@
         
           
   <h1 class="title">
-    <a href="/hexo-quick-start/">
-      Hexo 快速上手
+    <a href="/swoole-coroutine-quick-start/">
+      Swoole 协程快速上手
     </a>
   </h1>
 
@@ -398,9 +398,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Tutorial/' rel="nofollow">
+    <a href='/categories/PHP/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Tutorial</p>
+      <p>PHP</p>
     </a>
   </div>
 
@@ -411,7 +411,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jul 5, 2020</p>
+    <p>发布于：Dec 15, 2020</p>
   </a>
 </div>
 
@@ -427,13 +427,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1.2k words</p>
+      <p>1.3k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>4 min</p>
+      <p>5 min</p>
     </a>
   </div>
 
@@ -446,7 +446,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/hexo-quick-start/" class="leancloud_visitors" data-flag-title="Hexo 快速上手">
+      <span id="/swoole-coroutine-quick-start/" class="leancloud_visitors" data-flag-title="Swoole 协程快速上手">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -469,92 +469,83 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>最近使用Hexo 搭建了一套博客系统，整个过程还算顺利，不过还是遇到了一些问题，整理记录一下。</p>
+          <p>最近有幸读到 <a href="https://www.jianshu.com/u/281dc8d93b25" target="_blank" rel="noopener">daydaygo</a> 的 <a href="https://www.jianshu.com/p/745b0b3ffae7" target="_blank" rel="noopener">swoole 协程初体验</a>，一文从协程的执行的角度窥探 Swoole 的协程调度，并详细说明了为什么协程会快。</p>
 <a id="more"></a>
 
-<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><h3 id="init"><a href="#init" class="headerlink" title="init"></a>init</h3><p>新建一个网站。如果没有设置 <code>folder</code>，Hexo 默认在目前的文件夹建立网站。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init [folder]</span><br></pre></td></tr></table></figure>
-
-<h3 id="new"><a href="#new" class="headerlink" title="new"></a>new</h3><p>layout 有三种选择：</p>
-<ul>
-<li>post：新建一片文章</li>
-<li>page：新建一个页面</li>
-<li>draft：新建一篇草稿</li>
-</ul>
-<p>如果没有设置 layout 的话，默认使用 _config.yml 中的 default_layout 参数代替。如果标题包含空格的话，请使用引号括起来。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new [layout] &lt;title&gt;</span><br></pre></td></tr></table></figure>
-
-<h3 id="generate"><a href="#generate" class="headerlink" title="generate"></a>generate</h3><p>生成静态文件。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br><span class="line">&#x2F;&#x2F; 等效于 hexo g</span><br></pre></td></tr></table></figure>
-<p>常用参数：<br>|选项|描述|<br>|-|-|<br>|-d, –deploy|文件生成后立即部署网站|<br>|-w, –watch|监视文件变动|<br>|-b, –bail|生成过程中如果发生任何未处理的异常则抛出异常|</p>
-<h3 id="publish"><a href="#publish" class="headerlink" title="publish"></a>publish</h3><p>发表草稿</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo publish [layout] &lt;filename&gt;</span><br></pre></td></tr></table></figure>
-
-<h3 id="server"><a href="#server" class="headerlink" title="server"></a>server</h3><p>启动服务器。默认情况下，访问网址为： <code>http://localhost:4000/</code>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br><span class="line">&#x2F;&#x2F; 等效于 hexo s</span><br></pre></td></tr></table></figure>
-
-<h3 id="deploy"><a href="#deploy" class="headerlink" title="deploy"></a>deploy</h3><p>部署网站。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br><span class="line">&#x2F;&#x2F; 等效于 hexo d</span><br></pre></td></tr></table></figure>
-
-<p><code>-g</code>，<code>--generate</code>：部署之前预先生成静态文件</p>
-<h3 id="clean"><a href="#clean" class="headerlink" title="clean"></a>clean</h3><p>清除缓存文件 (db.json) 和已生成的静态文件 (public)。</p>
-<p>在某些情况（尤其是更换主题后），如果发现对站点的更改无论如何也不生效，那可能需要运行该命令。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo clean</span><br></pre></td></tr></table></figure>
-
-<h3 id="list"><a href="#list" class="headerlink" title="list"></a>list</h3><p>列出网站资料。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo list</span><br></pre></td></tr></table></figure>
-
-<h3 id="version"><a href="#version" class="headerlink" title="version"></a>version</h3><p>显示 Hexo 版本。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo version</span><br></pre></td></tr></table></figure>
-
-<h3 id="其他模式"><a href="#其他模式" class="headerlink" title="其他模式"></a>其他模式</h3><h4 id="安全模式"><a href="#安全模式" class="headerlink" title="安全模式"></a>安全模式</h4><p>在安全模式下，不会载入插件和脚本。当需要安装新插件遭遇问题时，可以尝试以安全模式重新执行。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo --safe</span><br></pre></td></tr></table></figure>
-
-<h4 id="调试模式"><a href="#调试模式" class="headerlink" title="调试模式"></a>调试模式</h4><p>在终端中显示调试信息并记录到 debug.log。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo --debug</span><br></pre></td></tr></table></figure>
-
-<h4 id="显示草稿"><a href="#显示草稿" class="headerlink" title="显示草稿"></a>显示草稿</h4><p>显示 source/_drafts 文件夹中的草稿文章。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo --draft</span><br></pre></td></tr></table></figure>
-
-<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="CNAME-文件被删除"><a href="#CNAME-文件被删除" class="headerlink" title="CNAME 文件被删除"></a>CNAME 文件被删除</h3><p>GitHub Pages 为我们免费提供了<code>&lt;username&gt;.github.io</code>这样的域名作为 GitHub Page，但如果你觉得这个域名太长了，不满意，那么你也可以绑定自己的域名。</p>
-<p>通常绑定完成之后，会在项目目录下面生成一个叫做<code>CNAME</code>的文件，这个文件的作用就是用来记录GitHub Pages 所绑定的域名。</p>
-<p>这个时候就会产生一个问题：</p>
-<blockquote>
-<p>CNAME文件会在每次 hexo deploy 时消失，然后需要重新手动绑定，这样就很繁琐。</p>
-</blockquote>
-<p>有以下几种方式可以解决这个问题：</p>
+<p>文章通俗易懂，笔者在此基础上增加了一些自己的理解，以此成文。</p>
+<p>主要从以下两个方面来了解协程：</p>
 <ol>
-<li>每次 <code>hexo d</code> 之后，就去 GitHub 仓库根目录新建 CNAME文件。—— 繁琐</li>
-<li>在 <code>hexo g</code> 之后， <code>hexo d</code> 之前，把CNAME文件复制到 <code>public</code> 目录下面，里面写入你要绑定的域名。—— 繁琐</li>
-<li>将需要上传至 GitHub 的内容放在<code>source</code>文件夹，例如CNAME、favicon.ico、images等，这样在 <code>hexo d</code> 之后就不会被删除了。</li>
-<li>通过安装插件实现永久保留。</li>
+<li>协程的执行顺序：协程调度</li>
+<li>协程为什么快：减少IO阻塞带来的性能优势</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-generator-cname --save</span><br></pre></td></tr></table></figure>
+<h2 id="协程执行顺序"><a href="#协程执行顺序" class="headerlink" title="协程执行顺序"></a>协程执行顺序</h2><p>按照惯例，先来看一个最简单的协程代码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">go(function () &#123;</span><br><span class="line">    echo &quot;1&quot;.PHP_EOL;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">echo &quot;2&quot;.PHP_EOL;</span><br><span class="line"></span><br><span class="line">go(function () &#123;</span><br><span class="line">    echo &quot;3&quot;.PHP_EOL;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>在Swoole中 <code>Swoole\Coroutine::create</code> 等价于 <code>go</code> 函数（<code>Swoole\Coroutine</code> 前缀的类名可以映射为 <code>Co</code>），用于创建一个协程。</p>
+<p>该函数接受一个回调函数作为参数，回调函数的内容就是协程需要执行的内容。</p>
+<p>上面的代码执行结果为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td></tr></table></figure>
+<p>从执行结果的角度来看，协程版的代码和传统的同步代码，看起来并无差异。但协程的实际执行过程却是：</p>
+<ol>
+<li>运行上面那段协程代码，生成一个<strong>新进程</strong></li>
+<li>当代码执行到<code>go()</code>部分时，会在当前协程中创建一个协程，输出<code>1</code>，协程退出</li>
+<li>代码继续向下执行，输出 <code>2</code></li>
+<li>再次遇到<code>go()</code>函数，输出<code>3</code></li>
+<li>协程退出，进程退出，执行完成</li>
+</ol>
+<h2 id="协程调度"><a href="#协程调度" class="headerlink" title="协程调度"></a>协程调度</h2><p><code>\Co::sleep()</code> 函数和<code>sleep()</code>函数差不多，但是它模拟的是 IO 等待。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">go(function () &#123;</span><br><span class="line">  &#x2F;&#x2F; 只新增了一行代码</span><br><span class="line">	Co::sleep(1);</span><br><span class="line">	echo &quot;1&quot;.PHP_EOL;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">echo &quot;2&quot;.PHP_EOL;</span><br><span class="line"></span><br><span class="line">go(function () &#123;</span><br><span class="line">	echo &quot;3&quot;.PHP_EOL;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 
-<p>编辑<code>_config.yml</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Plugins:</span><br><span class="line">- hexo-generator-cname</span><br></pre></td></tr></table></figure>
-<p>推荐第三种方式，简单方便。</p>
-<h3 id="配置apex-域"><a href="#配置apex-域" class="headerlink" title="配置apex 域"></a>配置apex 域</h3><p>Github Pages 是支持绑定自己的私有域名的，但默认只能绑定 <code>CNAME</code>的私有子域名，那有没有办法主域名呢？</p>
-<p>答案是有的。</p>
-<p>如果绑定主域名，例如 example.com，建议还设置一个 <code>www</code> 子域，GitHub Pages 将自动在域之间创建重定向，当输入<code>example.com</code>时，会重定向到 <code>www.example.com</code>。</p>
-<p>通常我们绑定好私有子域名之后，回生成一个<code>CNAME</code>的文件，里面记录着我们绑定好的私有子域名。</p>
-<p>此时只需要去DNS 做解析，创建一个ALIAS、ANAME 或 A 记录：</p>
+<p>执行结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">2</span><br><span class="line">3</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+<p>怎么不是顺序执行的了？实际执行过程：</p>
+<ol>
+<li>运行上面那段协程代码，生成一个<strong>新进程</strong></li>
+<li>遇到 <code>go()</code>，在当前进程中创建一个协程</li>
+<li>协程向下执行遇到<strong>IO 阻塞</strong>，协程让出控制，进入协程调度队列</li>
+<li>进程继续向下执行，输出 <code>2</code></li>
+<li>创建第二个协程，输出<code>3</code></li>
+<li>第一个协程准备就绪，输出 <code>1</code></li>
+<li>协程退出，进程退出，执行完成</li>
+</ol>
+<p>到这里，已经可以看到Swoole 中<strong>协程</strong>与<strong>进程</strong>的关系，以及协程调度的过程。</p>
+<p>下面这张图可以很清晰的看到二者区别与联系：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201129093350.png" alt=""></p>
+<h2 id="协程快在哪里？"><a href="#协程快在哪里？" class="headerlink" title="协程快在哪里？"></a>协程快在哪里？</h2><p>大家使用协程，听到最多的原因，可能就是<strong>因为协程快</strong>。那协程相比传统同步代码倒底快在哪里呢？</p>
+<p>首先，我们来了解一下计算机中的两类任务。</p>
+<h3 id="CPU密集型"><a href="#CPU密集型" class="headerlink" title="CPU密集型"></a>CPU密集型</h3><p>CPU 密集型也叫计算密集型， 特点是需要进行大量科学计算，比如计算圆周率、对视频进行高清解码，吃CPU。</p>
+<h3 id="IO-密集型"><a href="#IO-密集型" class="headerlink" title="IO 密集型"></a>IO 密集型</h3><p>涉及到网络、磁盘IO的任务都是IO密集型任务，特点是不吃CPU，任务的大部分时间都在等待IO操作完成，因为IO的速度远远低于CPU和内存的速度。</p>
+<p>其次需要了解两个概念：</p>
 <ul>
-<li>创建ALIAS、ANAME记录：将 apex 域指向站点的默认域。</li>
-<li>创建A 记录：将 apex 域指向 GitHub Pages 的 IP 地址。</li>
+<li>并行：同一时刻，同一CPU只能执行一个任务，要N个任务同时执行，就需要有多个CPU 才行。</li>
+<li>并发：同一时刻执行N 个任务。由于CPU 任务切换速度非常快，已经快到了人类感知极限。</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; GitHub Pages 的 IP 地址</span><br><span class="line">185.199.108.153</span><br><span class="line">185.199.109.153</span><br><span class="line">185.199.110.153</span><br><span class="line">185.199.111.153</span><br></pre></td></tr></table></figure>
+<p>了解了这些基础之后，对协程的能力是不是也更清晰了一些，以及协程为什么会“快”了。</p>
+<p>因为协程仅在 IO阻塞 时才会触发调度，从而减少等待IO 操作完成的时间。</p>
+<h2 id="协程实践"><a href="#协程实践" class="headerlink" title="协程实践"></a>协程实践</h2><p>通过对比下面三种情况，加深对协程的理解：</p>
+<p>同步阻塞版：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$n &#x3D; 4;</span><br><span class="line">for ($i &#x3D; 0; $i &lt; $n; $i++) &#123;</span><br><span class="line">	sleep(1);</span><br><span class="line">	echo $i . PHP_EOL;</span><br><span class="line">&#125;;</span><br><span class="line">echo &quot;ok&quot;;</span><br></pre></td></tr></table></figure>
 
-<p>这里我选择的是创建A 记录，所以我的DNS 解析是这样的：</p>
-<p><img src="https://raw.githubusercontent.com/0xAiKang/CDN/master/blog/images/20200706203008.png" alt="DNS解析A记录"></p>
-<p>配置完DNS 解析之后，可以使用<code>dig</code>命令来检验是否解析成功：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ dig example.com +noall +answer</span><br><span class="line"></span><br><span class="line">; &lt;&lt;&gt;&gt; DiG 9.10.6 &lt;&lt;&gt;&gt; 0x2BeAce.com +noall +answer</span><br><span class="line">;; global options: +cmd</span><br><span class="line">0x2BeAce.com.		4502	IN	A	185.199.111.153</span><br><span class="line">0x2BeAce.com.		4502	IN	A	185.199.110.153</span><br><span class="line">0x2BeAce.com.		4502	IN	A	185.199.108.153</span><br><span class="line">0x2BeAce.com.		4502	IN	A	185.199.109.153</span><br></pre></td></tr></table></figure>
-<p>将example.com 替换成你自己的 apex 域，确认结果与上面 GitHub Pages 的 IP 地址相匹配。</p>
-<p>至此，就完成了apex 域的配置了。</p>
+<p>单个协程版：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$n &#x3D; 4;</span><br><span class="line">Co\Run(function () use ($n) &#123;</span><br><span class="line">	for ($i &#x3D; 0; $i &lt; $n; $i++) &#123;</span><br><span class="line">		Co::sleep(1);</span><br><span class="line">		echo $i . PHP_EOL;</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;);</span><br><span class="line">echo &quot;ok&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>多个协程版1.0（IO 密集型）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$n &#x3D; 4;</span><br><span class="line">for ($i &#x3D; 0; $i &lt; $n; $i++) &#123;</span><br><span class="line">	go(function () use ($i) &#123;</span><br><span class="line">		 Co::sleep(1);</span><br><span class="line">		echo $i . PHP_EOL;</span><br><span class="line">	&#125;);</span><br><span class="line">&#125;;</span><br><span class="line">echo &quot;ok&quot;;</span><br></pre></td></tr></table></figure>
+<p>通过 <code>time</code> 命令分别查看耗时时长，可以得出以下结论：</p>
+<ul>
+<li>传统同步阻塞：遇到 IO阻塞，等待，导致性能损失</li>
+<li>单协程：尽管 IO阻塞引发了协程调度，但有且只有一个协程</li>
+<li>多协程：遇到 IO阻塞 时发生调度，IO就绪时恢复运行</li>
+</ul>
+<p>多个协程版2.0（CPU 密集型）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$n &#x3D; 4;</span><br><span class="line">for ($i &#x3D; 0; $i &lt; $n; $i++) &#123;</span><br><span class="line">	go(function () use ($i) &#123;</span><br><span class="line">		 sleep(1);</span><br><span class="line">		 &#x2F;&#x2F; Co::sleep(1);</span><br><span class="line">		echo $i . PHP_EOL;</span><br><span class="line">	&#125;);</span><br><span class="line">&#125;;</span><br><span class="line">echo &quot;ok&quot;;</span><br></pre></td></tr></table></figure>
+<p>只是将 <code>Co::sleep()</code> 改成了 <code>sleep()</code>，会发现总耗时时长又和传统同步阻塞差不多了，这是因为：</p>
+<ul>
+<li><code>sleep()</code> 可以看做是 CPU密集型任务, 不会引起协程的调度</li>
+<li><code>Co::sleep()</code> 模拟的是 IO密集型任务, 会引发协程的调度</li>
+</ul>
+<p>这也是为什么, 协程适合 IO密集型 的应用，而不适合 CPU 密集型任务。</p>
 <h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><a href="https://www.cnblogs.com/chengxs/p/7496265.html" target="_blank" rel="noopener">github+hexo搭建自己的博客网站（七）注意事项</a></li>
-<li><a href="https://hexo.io/zh-cn/docs/commands" target="_blank" rel="noopener">Hexo | 指令</a></li>
-<li><a href="https://docs.github.com/cn/github/working-with-github-pages/managing-a-custom-domain-for-your-github-pages-site#configuring-an-apex-domain" target="_blank" rel="noopener">管理 GitHub Pages 站点的自定义域</a></li>
+<li><a href="https://www.jianshu.com/p/745b0b3ffae7" target="_blank" rel="noopener">swoole| swoole 协程初体验</a></li>
 </ul>
 
           
@@ -592,7 +583,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/hexo-quick-start/>https://www.0x2beace.com/hexo-quick-start/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/swoole-coroutine-quick-start/>https://www.0x2beace.com/swoole-coroutine-quick-start/</a></p>
           
         
       </blockquote>
@@ -640,10 +631,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-08-15T09:05:05+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-12-15T21:38:38+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Aug 15, 2020</p>
+    <p>更新于：Dec 15, 2020</p>
   </a>
 </div>
 
@@ -652,7 +643,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Tutorial/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Tutorial</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Hexo/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Hexo</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Swoole/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Swoole</p></a></div>
 
 
         
@@ -670,7 +661,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/hexo-quick-start/&title=Hexo 快速上手 - Boo&summary=最近使用Hexo 搭建了一套博客系统，整个过程还算顺利，不过还是遇到了一些问题，整理记录一下。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/swoole-coroutine-quick-start/&title=Swoole 协程快速上手 - Boo&summary=最近有幸读到 daydaygo 的 swoole 协程初体验，一文从协程的执行的角度窥探 Swoole 的协程调度，并详细说明了为什么协程会快。"
           
           >
           
@@ -682,7 +673,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/hexo-quick-start/&title=Hexo 快速上手 - Boo&summary=最近使用Hexo 搭建了一套博客系统，整个过程还算顺利，不过还是遇到了一些问题，整理记录一下。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/swoole-coroutine-quick-start/&title=Swoole 协程快速上手 - Boo&summary=最近有幸读到 daydaygo 的 swoole 协程初体验，一文从协程的执行的角度窥探 Swoole 的协程调度，并详细说明了为什么协程会快。"
           
           >
           
@@ -694,7 +685,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/hexo-quick-start/&title=Hexo 快速上手 - Boo&summary=最近使用Hexo 搭建了一套博客系统，整个过程还算顺利，不过还是遇到了一些问题，整理记录一下。"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/swoole-coroutine-quick-start/&title=Swoole 协程快速上手 - Boo&summary=最近有幸读到 daydaygo 的 swoole 协程初体验，一文从协程的执行的角度窥探 Swoole 的协程调度，并详细说明了为什么协程会快。"
           
           >
           
@@ -708,7 +699,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAAC/0lEQVR42u3aUVLkMAwE0Ln/pdkDwFSslpiNwvMfEBz75adL0uvL+nG9EIABAwYMGDBrYF7h+rbhm99X/z51jnQfMGDAgAEDBsw+mOMAFAKkF333/+/e170PGDBgwIABA2YvzGUAOjxI9bmpYNm+DxgwYMCAAQMGzBBYCgEGDBgwYMCAAZO+eBq0CwcGDBgwYMCAeT5MuUF12DDrNt66gfHjnUgwYMCAAQMGzMdg0sbXXX+O7wMGDBgwYMCAWQPTXd3CVnX/NMgd3wcMGDBgwIABswYmDUhduLQhd1q4Ss8PBgwYMGDAgNkHMz340y1sdQeUqr8HAwYMGDBgwDwHpnvw6sBONXCmQfDqnGDAgAEDBgyYPTBpAysuBDUbblWg6jnBgAEDBgwYMHtgLh8srqlBpCmo0/uBAQMGDBgwYPbBpAWk04LQ9MW6hbLLfcCAAQMGDBgwa2CqEN3BoukP0m0cXhaqwIABAwYMGDC3hUkvUj1QNzhWA2Pa6AMDBgwYMGDA7IP5rcZWCjdd6DousIEBAwYMGDBg1sGkG08VuKoDSVMNOTBgwIABAwbMc2BOG1XVC1afm/pA5cIZGDBgwIABA2YNTLchdhoUq8HsdJ80+IEBAwYMGDBgngczVvAJG3DdwaU0uIIBAwYMGDBgngNTDW5pwaj7gaYbhGDAgAEDBgyYfTDVA6cNtO5FpgeWLgMeGDBgwIABA2YdTLfhlV5kOiBW3wsGDBgwYMCA2QszBdRtxJ1CxQNC1YAHBgwYMGDAgLkdzG8ViD4V1Lof5m3DDQwYMGDAgAFze5ipwNRtgE03AKsBEwwYMGDAgAGzFyYNdKeA1QJXWvCqFrbAgAEDBgwYMM+BmQpQU4WvNPDFwRQMGDBgwIAB8+dgqoWn0/d0A2N1UAkMGDBgwIAB8/dgpgpKacGpCv3fky8YMGDAgAEDZhwmHQiqHqD6/mqQPP3QYMCAAQMGDJj9MFPB6TQYVhtt088dDw6BAQMGDBgwYG4LY4EBAwYMGDBglq1/uV/kHY2qkWoAAAAASUVORK5CYII=">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADoUlEQVR42u3aS5LjQAgFwL7/pWdO4DAPUJt2ZO3kj0xlefEC9PPPaq0fBODAgQNngQN3BO6nuV7euPi57uer93t33d0vOHDgwIEDBw7cNbhuYVWIV997B5duvFtH+SDAgQMHDhw4cOCOwlULSgucBt2tID7eLzhw4MCBAwcO3JfCpUE2DabThis4cODAgQMHDhy4GVw1qD4FBQ4cOHDgwIED921w0wf3pgeQDqzTwfmZST44cODAgQMHDtwSXDdo/tXr9n7BgQMHDhw4cOCOwE1XGlDTxuXWg4lr+wUHDhw4cODAgTsC1w2I3Qbh9IHC7vV0f+DAgQMHDhw4cNfg0mC6VVj6IGBaR1p/uT5w4MCBAwcOHLgjcFsbqBY+hX2qUVq+Dzhw4MCBAwcO3BG4rYFz+iDiVqMxbcR2DwIcOHDgwIEDB+4qXAq0NRje+t7TCxw4cODAgQMH7hpcGiiroNWBcTUAdwfk6cG8rQ8cOHDgwIEDB+4IXHeQmzYi0/e7wXjaKI0H0uDAgQMHDhw4cEfhugE33cB2sE4H6OU/Ejhw4MCBAwcO3FG4rcZkGiy3B8xpPeWADg4cOHDgwIEDdwRu+we3Bs/Twfa0/pce4MCBAwcOHDhwx+C6A9/pwDl9PQ283cZpOQCDAwcOHDhw4MB9CG46WO6CTxujU7D0d8GBAwcOHDhw4K7CbTcwtwJwd2CdHlz5DwIOHDhw4MCBA3cMbjsAbwNv3z+tHxw4cODAgQMH7hpc9cbdxmQaVLsb7w6yq8EYHDhw4MCBAwfuGly3kDTIbr+fDqa7g21w4MCBAwcOHLircClINShuHUgXogv39hocOHDgwIEDB+4YXApSfX0aXJ8eVMeDa3DgwIEDBw4cuGNwXchPNSK7dY0bq+DAgQMHDhw4cEfh0gZkPNCtBs0Quvq73UYpOHDgwIEDBw7cdbitQJsWmjYgp4E2/T44cODAgQMHDtw1uOn6LaDtBxK7gRkcOHDgwIEDB+4K3DQgbgXTpw6ie10eSIMDBw4cOHDgwH0Yrht4y4PcECi9fxqgu4NzcODAgQMHDhy4q3DxgLYZdKsb+a1VbqCCAwcOHDhw4MB9KVy3YfjUIHy90QkOHDhw4MCBA/dlcNXvT4GmA+v0d8GBAwcOHDhw4P4K3PaAeHoQ0wHz28ZkehDgwIEDBw4cOHDH4KYD3GoQ7W6gCzOtExw4cODAgQMH7iqcFTY4EYADBw6cBQ7cZ9d/msp/pv0ltSIAAAAASUVORK5CYII=">
           </div>
         </div>
       
@@ -728,17 +719,16 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/travis-ci-quick-start/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Travis CI 快速上手</p>
-                <p class='content'>最近使用Github Pages 搭建Hexo 时，用到了一项新技术。hmm…也不能说是新技术吧，只是之前一直有听说，但却没有实际用过。
-它就是持续集成，听上去好像是一个高大上的概念，但通俗一点...</p>
-              </a>
             
-            
-              <a class='next' href='/deploy-hexo-using-github-pages-personal-blog/'>
-                <p class='title'>Github Pages 部署 Hexo 个人博客<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>关于个人博客，在很久之前就想自己搭建一套，甚至还为此买了一台服务器，但奈何自己太忙了(tai lan le) =_=，这件事情就一直搁浅了，服务器大部分时间也都是空闲状态。
-这段时间，突然很想把...</p>
+              <a class='next' href='/swoole-common-mistakes-and-problems-summary/'>
+                <p class='title'>Swoole 常见误区及问题总结<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>随着对Swoole 的逐步了解，总结以下可能会碰到的误区：
+
+
+
+Swoole 是单线程
+Swoole 异步回调模块仅可用于 CLI 命令行模式
+Swoole 只有同步阻塞的客户端才可在 php...</p>
               </a>
             
           </div>
@@ -783,7 +773,7 @@
 
   <script>
     window.subData = {
-      title: 'Hexo 快速上手',
+      title: 'Swoole 协程快速上手',
       tools: true
     }
   </script>
@@ -810,7 +800,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#常用命令"><span class="toc-text">常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#init"><span class="toc-text">init</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#new"><span class="toc-text">new</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#generate"><span class="toc-text">generate</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#publish"><span class="toc-text">publish</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#server"><span class="toc-text">server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#deploy"><span class="toc-text">deploy</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#clean"><span class="toc-text">clean</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#list"><span class="toc-text">list</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#version"><span class="toc-text">version</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他模式"><span class="toc-text">其他模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#安全模式"><span class="toc-text">安全模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#调试模式"><span class="toc-text">调试模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#显示草稿"><span class="toc-text">显示草稿</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见问题"><span class="toc-text">常见问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CNAME-文件被删除"><span class="toc-text">CNAME 文件被删除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置apex-域"><span class="toc-text">配置apex 域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#协程执行顺序"><span class="toc-text">协程执行顺序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#协程调度"><span class="toc-text">协程调度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#协程快在哪里？"><span class="toc-text">协程快在哪里？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CPU密集型"><span class="toc-text">CPU密集型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IO-密集型"><span class="toc-text">IO 密集型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#协程实践"><span class="toc-text">协程实践</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
     </div>
   </section>
 
