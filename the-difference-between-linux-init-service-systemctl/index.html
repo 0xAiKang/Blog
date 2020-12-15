@@ -16,7 +16,7 @@
 
   <!-- 页面元数据 -->
   
-    <title>Linux init、service、systemctl 这三者之间的区别 - Boo</title>
+    <title>Linux init、service、systemctl 三者区别 - Boo</title>
   
     <meta name="keywords" content="Linux">
   
@@ -374,7 +374,7 @@
           
   <h1 class="title">
     <a href="/the-difference-between-linux-init-service-systemctl/">
-      Linux init、service、systemctl 这三者之间的区别
+      Linux init、service、systemctl 三者区别
     </a>
   </h1>
 
@@ -428,7 +428,7 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>976 words</p>
+      <p>973 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
@@ -447,7 +447,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/the-difference-between-linux-init-service-systemctl/" class="leancloud_visitors" data-flag-title="Linux init、service、systemctl 这三者之间的区别">
+      <span id="/the-difference-between-linux-init-service-systemctl/" class="leancloud_visitors" data-flag-title="Linux init、service、systemctl 三者区别">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -517,7 +517,12 @@
 <h4 id="timedatectl"><a href="#timedatectl" class="headerlink" title="timedatectl"></a>timedatectl</h4><p>timedatectl命令用于查看当前时区设置。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 查看当前时区设置</span><br><span class="line">$ timedatectl</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 显示所有可用的时区</span><br><span class="line">$ timedatectl list-timezones                                                                                   </span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 设置当前时区</span><br><span class="line">$ sudo timedatectl set-timezone America&#x2F;New_York</span><br><span class="line">$ sudo timedatectl set-time YYYY-MM-DD</span><br><span class="line">$ sudo timedatectl set-time HH:MM:SS</span><br></pre></td></tr></table></figure>
 
-<p>总结一下，<code>init</code> 是最初的进程管理方式，<code>service</code> 是<code>init</code> 的另一种实现，而 <code>systemd</code> 则是一种取代 <code>initd</code> 的解决方案，其中 <code>systemctl</code> 是 <code>systemd</code> 的主命令，用于管理系统以及服务。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li><code>init</code> 是最初的进程管理方式</li>
+<li><code>service</code> 是<code>init</code> 的另一种实现</li>
+<li><code>systemd</code> 则是一种取代 <code>initd</code> 的解决方案</li>
+</ul>
+<p>其中 <code>systemctl</code> 是 <code>systemd</code> 的主命令，用于管理系统以及服务。</p>
 <h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
 <li><a href="https://en.wikipedia.org/wiki/Init" target="_blank" rel="noopener">Linux Init - 维基百科</a></li>
 <li><a href="http://www.ruanyifeng.com/blog/2016/03/systemd-tutorial-commands.html" target="_blank" rel="noopener">Systemd 入门教程 - 阮一峰的网络日志</a></li>
@@ -608,10 +613,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-14T23:39:41+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-12-12T13:46:24+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Jul 14, 2020</p>
+    <p>更新于：Dec 12, 2020</p>
   </a>
 </div>
 
@@ -638,7 +643,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/the-difference-between-linux-init-service-systemctl/&title=Linux init、service、systemctl 这三者之间的区别 - Boo&summary=在接触到Linux 的服务之后，我所知道的管理服务的方式有三种，分别是init、service、systemctl。
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/the-difference-between-linux-init-service-systemctl/&title=Linux init、service、systemctl 三者区别 - Boo&summary=在接触到Linux 的服务之后，我所知道的管理服务的方式有三种，分别是init、service、systemctl。
 至于这三者之间的区别不得而知，所以整理这片笔记的目的就是了解这三者之间的区别。"
           
           >
@@ -651,7 +656,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/the-difference-between-linux-init-service-systemctl/&title=Linux init、service、systemctl 这三者之间的区别 - Boo&summary=在接触到Linux 的服务之后，我所知道的管理服务的方式有三种，分别是init、service、systemctl。
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/the-difference-between-linux-init-service-systemctl/&title=Linux init、service、systemctl 三者区别 - Boo&summary=在接触到Linux 的服务之后，我所知道的管理服务的方式有三种，分别是init、service、systemctl。
 至于这三者之间的区别不得而知，所以整理这片笔记的目的就是了解这三者之间的区别。"
           
           >
@@ -664,7 +669,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/the-difference-between-linux-init-service-systemctl/&title=Linux init、service、systemctl 这三者之间的区别 - Boo&summary=在接触到Linux 的服务之后，我所知道的管理服务的方式有三种，分别是init、service、systemctl。
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/the-difference-between-linux-init-service-systemctl/&title=Linux init、service、systemctl 三者区别 - Boo&summary=在接触到Linux 的服务之后，我所知道的管理服务的方式有三种，分别是init、service、systemctl。
 至于这三者之间的区别不得而知，所以整理这片笔记的目的就是了解这三者之间的区别。"
           
           >
@@ -758,7 +763,7 @@
 
   <script>
     window.subData = {
-      title: 'Linux init、service、systemctl 这三者之间的区别',
+      title: 'Linux init、service、systemctl 三者区别',
       tools: true
     }
   </script>
@@ -785,7 +790,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#init"><span class="toc-text">init</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#service"><span class="toc-text">service</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#systemd"><span class="toc-text">systemd</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#系统管理"><span class="toc-text">系统管理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#systemctl"><span class="toc-text">systemctl</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#hostnamectl"><span class="toc-text">hostnamectl</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#localectl"><span class="toc-text">localectl</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#timedatectl"><span class="toc-text">timedatectl</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#init"><span class="toc-text">init</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#service"><span class="toc-text">service</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#systemd"><span class="toc-text">systemd</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#系统管理"><span class="toc-text">系统管理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#systemctl"><span class="toc-text">systemctl</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#hostnamectl"><span class="toc-text">hostnamectl</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#localectl"><span class="toc-text">localectl</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#timedatectl"><span class="toc-text">timedatectl</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
     </div>
   </section>
 
@@ -820,7 +825,7 @@
     
       
         <div class='copyright'>
-        <span class="post-count">总字数：107k</span>
+        <span class="post-count">总字数：107.2k</span>
         <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2020 Boo</a></p>
 
         <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
