@@ -1,5 +1,5 @@
 ---
-title: linux ufw quick start
+title: Linux ufw 快速上手
 date: 2020-12-10 21:54:58
 tags: ["Linux", "Ubuntu", "UFW", "防火墙"]
 categories: ["Linux"]
