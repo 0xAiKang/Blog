@@ -10,7 +10,7 @@ categories: ["Tutorial"]
 <!-- more -->
 
 ## 准备
-像这类提供免费 SSL 证书的网站非常多，这里我选择的平台是 [FreeSSL.cn](https://freessl.cn/apply?domains=8188.com%252C*.8188.com&product=letsencrypt02&from=) 。
+像这类提供免费 SSL 证书的网站非常多，这里我选择的平台是 [FreeSSL.cn](https://freessl.cn/) 。
 
 在正式开始之前，你得准备一个邮箱，[注册](https://freessl.cn/register) 一个 `FreeSSL.cn` 账号，然后登录。
 

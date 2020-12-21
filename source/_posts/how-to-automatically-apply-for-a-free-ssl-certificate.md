@@ -81,7 +81,9 @@ $ sudo certbot certonly --nginx
 3. 输入需要做授权的域名，多个域名用空格隔开。
 4. 等待验证通过。
 
-如果其中某个域名验证失败，则不会生成密码。
+需要注意的是：
+1. `certbot`会自动检测本地Nginx 的可用域名（没有配置server_name 的域名不会被检测到）
+2. 如果其中某个域名验证失败，则不会生成密钥及证书
 
 一切正常的话，可以看到`/etc/letsencrypt/live/your_sites/`目录下多了四个文件：
 * `cert.pem` ： 公钥，服务器证书
