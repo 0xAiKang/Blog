@@ -427,7 +427,7 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1.1k words</p>
+      <p>1.2k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
@@ -513,7 +513,11 @@
 <li>输入需要做授权的域名，多个域名用空格隔开。</li>
 <li>等待验证通过。</li>
 </ol>
-<p>如果其中某个域名验证失败，则不会生成密码。</p>
+<p>需要注意的是：</p>
+<ol>
+<li><code>certbot</code>会自动检测本地Nginx 的可用域名（没有配置server_name 的域名不会被检测到）</li>
+<li>如果其中某个域名验证失败，则不会生成密钥及证书</li>
+</ol>
 <p>一切正常的话，可以看到<code>/etc/letsencrypt/live/your_sites/</code>目录下多了四个文件：</p>
 <ul>
 <li><code>cert.pem</code> ： 公钥，服务器证书</li>
@@ -616,10 +620,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-09-20T23:40:58+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-12-21T21:39:01+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Sep 20, 2020</p>
+    <p>更新于：Dec 21, 2020</p>
   </a>
 </div>
 
@@ -828,7 +832,7 @@ gitlab 提示我 commit 失败。跟进了一下，并没有找到答案。
     
       
         <div class='copyright'>
-        <span class="post-count">总字数：108.5k</span>
+        <span class="post-count">总字数：108.9k</span>
         <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2020 Boo</a></p>
 
         <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
