@@ -21,6 +21,8 @@
     <meta name="keywords" content="Go">
   
   
+    <meta name="description" content="最近在学习Go 语言时，遇到一个很有意思的问题，记录一下。">
+  
 
   <!-- feed -->
   
@@ -425,7 +427,7 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>793 words</p>
+      <p>790 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
@@ -468,13 +470,15 @@
         <div class="article-entry" itemprop="articleBody">
           
           <p>最近在学习Go 语言时，遇到一个很有意思的问题，记录一下。</p>
-<p>第一次使用<code>redisgo</code> 时，很懵，怎么取出来的数据跟我存的完全不一样？</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">	&quot;github.com&#x2F;gomodule&#x2F;redigo&#x2F;redis&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">  conn, _ :&#x3D; redis.Dial(&quot;tcp&quot;, &quot;127.0.0.1:6379&quot;)</span><br><span class="line">  defer conn.Close()</span><br><span class="line">  </span><br><span class="line">  conn.Send(&quot;SET&quot;, &quot;hello&quot;, &quot;hello&quot;)</span><br><span class="line">  conn.Send(&quot;GET&quot;, &quot;hello&quot;)</span><br><span class="line">  conn.Flush()</span><br><span class="line">  </span><br><span class="line">  v, _ :&#x3D; conn.Receive()</span><br><span class="line">	fmt.Println(v)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+
+<p>第一次使用<code>redisgo</code> 时，有点懵，怎么取出来的数据跟我存的完全不一样？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">	&quot;github.com&#x2F;gomodule&#x2F;redigo&#x2F;redis&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">  conn, _ :&#x3D; redis.Dial(&quot;tcp&quot;, &quot;127.0.0.1:6379&quot;)</span><br><span class="line">  defer conn.Close()</span><br><span class="line">  </span><br><span class="line">  conn.Send(&quot;SET&quot;, &quot;hello&quot;, &quot;hello&quot;)</span><br><span class="line">  conn.Send(&quot;GET&quot;, &quot;hello&quot;)</span><br><span class="line">  conn.Flush()</span><br><span class="line">  </span><br><span class="line">  v, _ :&#x3D; conn.Receive()</span><br><span class="line">  fmt.Println(v)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>打印结果：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[104 101 108 108 111]</span><br></pre></td></tr></table></figure>
 
-<p>当看到这个打印结果时，我是很懵的，我明明存进去的是一个 <code>hello</code>，怎么取出来却成了一个数组？</p>
+<p>当看到这个打印结果时，咦～我明明存进去的是一个 <code>hello</code>，怎么取出来却成了一个数组？</p>
 <p>要回答这个问题，就得了解Go 语言中的字符串这个数据结构了。</p>
 <h3 id="认识字符串"><a href="#认识字符串" class="headerlink" title="认识字符串"></a>认识字符串</h3><p>字符串是Go 语言中最常用的基础数据类型之一，虽然字符串往往是被看作是一个整体，但实际上字符串是一块连续的内存空间，也可以理解成是一个由字符组成的数组。</p>
 <p>字符串虽然在 Go 语言中是基本类型 string（<code>hello</code>），但是它其实就是字符组成的数组（<code>[104 101 108 108 111]</code>）。</p>
@@ -592,10 +596,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-12-30T23:58:29+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-12-31T10:34:36+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Dec 30, 2020</p>
+    <p>更新于：Dec 31, 2020</p>
   </a>
 </div>
 
@@ -622,7 +626,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/understand-strings-and-byte-arrays-in-Go/&title=理解 Go 语言中的字符串和字节数组 - Boo&summary="
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/understand-strings-and-byte-arrays-in-Go/&title=理解 Go 语言中的字符串和字节数组 - Boo&summary=最近在学习Go 语言时，遇到一个很有意思的问题，记录一下。"
           
           >
           
@@ -634,7 +638,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/understand-strings-and-byte-arrays-in-Go/&title=理解 Go 语言中的字符串和字节数组 - Boo&summary="
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/understand-strings-and-byte-arrays-in-Go/&title=理解 Go 语言中的字符串和字节数组 - Boo&summary=最近在学习Go 语言时，遇到一个很有意思的问题，记录一下。"
           
           >
           
@@ -646,7 +650,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/understand-strings-and-byte-arrays-in-Go/&title=理解 Go 语言中的字符串和字节数组 - Boo&summary="
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/understand-strings-and-byte-arrays-in-Go/&title=理解 Go 语言中的字符串和字节数组 - Boo&summary=最近在学习Go 语言时，遇到一个很有意思的问题，记录一下。"
           
           >
           
@@ -679,6 +683,15 @@
         
         
           <div class="prev-next">
+            
+              <a class='prev' href='/2020-year-end-summary/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>2020 year-end summary</p>
+                <p class='content'>回顾整个二零二零年于我而言最大的收获大概是：找到了方向，知道自己该做什么了。
+
+
+在此前，我一直处于“不确定”状态，不确定是否要选择这条路，不确定是否足够热爱，不确定是否能坚持下去。
+而此刻，我...</p>
+              </a>
             
             
               <a class='next' href='/composer-2-0-backward-incompatibility-causes-extension-installation-error/'>
@@ -793,7 +806,7 @@
     
       
         <div class='copyright'>
-        <span class="post-count">总字数：109.7k</span>
+        <span class="post-count">总字数：111.6k</span>
         <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2020 Boo</a></p>
 
         <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>

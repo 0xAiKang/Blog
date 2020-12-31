@@ -632,9 +632,123 @@
         
           
         
+          
+        
       
     
     
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow reveal ">
+  
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h2 class="title">
+    <a href="/2020-year-end-summary/">
+      2020 year-end summary
+    </a>
+  </h2>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>年终总结</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Jan 1, 2021</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>1.9k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>6 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>回顾整个二零二零年于我而言最大的收获大概是：找到了方向，知道自己该做什么了。</p>
+      
+    </div>
+    
+      
+        <div class="button readmore">
+          <a href="/2020-year-end-summary/">
+            阅读全文 <i class="fas fa-chevron-right"></i>
+          </a>
+        </div>
+      
+    
+  </section>
+</article>
+
+          </div>
+        
       
         
           <div class='post-wrapper'>
@@ -700,7 +814,7 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>793 words</p>
+      <p>790 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
@@ -731,50 +845,15 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>最近在学习Go 语言时，遇到一个很有意思的问题，记录一下。</p>
-<p>第一次使用<code>redisgo</code> 时，很懵，怎么取出来的数据跟我存的完全不一样？</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">	&quot;github.com&#x2F;gomodule&#x2F;redigo&#x2F;redis&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">  conn, _ :&#x3D; redis.Dial(&quot;tcp&quot;, &quot;127.0.0.1:6379&quot;)</span><br><span class="line">  defer conn.Close()</span><br><span class="line">  </span><br><span class="line">  conn.Send(&quot;SET&quot;, &quot;hello&quot;, &quot;hello&quot;)</span><br><span class="line">  conn.Send(&quot;GET&quot;, &quot;hello&quot;)</span><br><span class="line">  conn.Flush()</span><br><span class="line">  </span><br><span class="line">  v, _ :&#x3D; conn.Receive()</span><br><span class="line">	fmt.Println(v)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>打印结果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[104 101 108 108 111]</span><br></pre></td></tr></table></figure>
-
-<p>当看到这个打印结果时，我是很懵的，我明明存进去的是一个 <code>hello</code>，怎么取出来却成了一个数组？</p>
-<p>要回答这个问题，就得了解Go 语言中的字符串这个数据结构了。</p>
-<h3 id="认识字符串"><a href="#认识字符串" class="headerlink" title="认识字符串"></a>认识字符串</h3><p>字符串是Go 语言中最常用的基础数据类型之一，虽然字符串往往是被看作是一个整体，但实际上字符串是一块连续的内存空间，也可以理解成是一个由字符组成的数组。</p>
-<p>字符串虽然在 Go 语言中是基本类型 string（<code>hello</code>），但是它其实就是字符组成的数组（<code>[104 101 108 108 111]</code>）。</p>
-<p>作为数组来说，它会占用一片连续的内存空间，这片连续的内存空间就存储了一些<strong>字节</strong>，这些字节共同组成了字符串。</p>
-<p><strong>Go 语言中的字符串是一个只读的字节数组切片</strong>。</p>
-<p>尝试将数组切片转换成字符串：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">func main()  &#123;</span><br><span class="line">  &#x2F;&#x2F; 注意这里的数据类型是 uint8，而不是 int、uint</span><br><span class="line">	sli :&#x3D; []uint8&#123;104, 101, 108, 108, 111&#125;</span><br><span class="line">	fmt.Println(sli)</span><br><span class="line">	fmt.Printf(&quot;%T \n&quot;, sli)</span><br><span class="line">	</span><br><span class="line">	fmt.Println(string(sli))       </span><br><span class="line">	fmt.Printf(&quot;%T \n&quot;, string(sli))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>打印结果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[104 101 108 108 111]</span><br><span class="line">[]uint8 </span><br><span class="line">hello</span><br><span class="line">string</span><br></pre></td></tr></table></figure>
-
-<p>来看看<code>hello</code>这个字符串在内存中的存储方式：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201230160415.png" alt=""></p>
-<p>你可能会问：<code>0x68</code>、<code>0x65</code>、<code>0x6c</code>、<code>0x6c</code>、<code>0x6f</code>这些东西是什么？</p>
-<p>他们是<code>hello</code> 这个字符串的切片数组的每一个数字所对应的十六进制：</p>
-<ul>
-<li>104 =&gt; <code>0x68</code></li>
-<li>101 =&gt; <code>0x65</code></li>
-<li>108 =&gt; <code>0x6c</code></li>
-<li>108 =&gt; <code>0x6c</code></li>
-<li>111 =&gt; <code>0x6f</code></li>
-</ul>
-<h3 id="声明字符串"><a href="#声明字符串" class="headerlink" title="声明字符串"></a>声明字符串</h3><p>在Go 语言中，有两种字面量方式可以声明一个字符串，一种是使用双引号，另一种则是使用反引号：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">str1 :&#x3D; &quot;this is a string&quot;</span><br><span class="line">str2 :&#x3D; &#96;this is another&#96;</span><br></pre></td></tr></table></figure>
-
-<p>使用双引号声明的字符串其实和其他语言中的字符串声明没有太多区别，它只能用于简单、单行的字符串。</p>
-<p>并且如果字符串内部出现双引号时需要使用 <code>\</code> 符号来避免编译器解析错误，而使用反引号则可以很好的摆脱这一限制。</p>
-<p>在遇到需要写 JSON 或者其他数据格式的场景下非常方便，下面两个 JSON 字符串的写法都没问题，但显然第二种方式更简洁、自然、便于阅读。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">str1 :&#x3D; &quot;&#123;\&quot;page\&quot;: 1, \&quot;fruits\&quot;: [\&quot;apple\&quot;, \&quot;pear\&quot;]&#125;&quot;</span><br><span class="line">str2 :&#x3D; &#96;&#123;&quot;page&quot;: 1, &quot;fruits&quot;: [&quot;apple&quot;, &quot;pear&quot;]&#125;&#96;</span><br></pre></td></tr></table></figure>
-
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><a href="https://www.infoq.cn/article/wj08lvwzu6tnkv4sidy6" target="_blank" rel="noopener">谈 Golang 中的字符串和字节数组</a></li>
-</ul>
-
       
     </div>
     
+      
+        <div class="button readmore">
+          <a href="/understand-strings-and-byte-arrays-in-Go/">
+            阅读全文 <i class="fas fa-chevron-right"></i>
+          </a>
+        </div>
       
     
   </section>
@@ -1680,118 +1759,6 @@
           </div>
         
       
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
-  
-
-
-  <section class='meta'>
-    
-      
-      
-      <div class="meta" id="header-meta">
-        
-          
-  <h2 class="title">
-    <a href="/the-evolution-of-php-fpm/">
-      PHP-FPM 进化史
-    </a>
-  </h2>
-
-
-        
-        <div class='new-meta-box'>
-          
-            
-          
-            
-              
-<div class='new-meta-item author'>
-  <a href="https://www.0x2BeAce.com" rel="nofollow">
-    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
-    <p>Boo</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/PHP/' rel="nofollow">
-      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>PHP</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Dec 2, 2020</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-  <div class="new-meta-item wordcount">
-    <a class='notlink'>
-      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>757 words</p>
-    </a>
-  </div>
-  <div class="new-meta-item readtime">
-    <a class='notlink'>
-      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>2 min</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              
-
-            
-          
-        </div>
-        
-          <hr>
-        
-      </div>
-    
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近有幸读到<a href="http://blog.leanote.com/post/weibo-007/%E4%BB%8ECGI%E5%88%B0FastCGI%E5%88%B0PHP-FPM" target="_blank" rel="noopener">一篇文章</a>，一文将CGI 的进化史讲的特别详细，虽然我自己之前也整理过 <a href="https://www.0x2beace.com/what-is-the-relationship-between-php-fpm-and-nginx/">CGI、FastCGI、PHP-FPM 相关的笔记</a>，但是并没有从原理的角度来认识 CGI。</p>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/the-evolution-of-php-fpm/">
-            阅读全文 <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
-
-          </div>
-        
-      
     
   </section>
   
@@ -2099,6 +2066,11 @@
             ><div class='name'>前端</div><div class='badge'>(1)</div></a></li>
         
           <li><a class="flat-box"
+            title="/categories/%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/" href="/categories/%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/"
+            id="categoriesE5B9B4E7BB88E680BBE7BB93"
+            ><div class='name'>年终总结</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
             title="/categories/%E7%A2%8E%E7%A2%8E%E5%BF%B5/" href="/categories/%E7%A2%8E%E7%A2%8E%E5%BF%B5/"
             id="categoriesE7A28EE7A28EE5BFB5"
             ><div class='name'>碎碎念</div><div class='badge'>(2)</div></a></li>
@@ -2130,7 +2102,7 @@
 
 
     <div class='content'>
-      <a href="/tags/Arch-Linux/" style="font-size: 14.91px; color: #939393">Arch Linux</a> <a href="/tags/CI/" style="font-size: 14px; color: #999">CI</a> <a href="/tags/Certbot/" style="font-size: 14px; color: #999">Certbot</a> <a href="/tags/Composer/" style="font-size: 14px; color: #999">Composer</a> <a href="/tags/Crontab/" style="font-size: 14px; color: #999">Crontab</a> <a href="/tags/Cygwin/" style="font-size: 14.91px; color: #939393">Cygwin</a> <a href="/tags/DevOps/" style="font-size: 14px; color: #999">DevOps</a> <a href="/tags/Docker/" style="font-size: 17.64px; color: #808080">Docker</a> <a href="/tags/Docker-Hub/" style="font-size: 14px; color: #999">Docker Hub</a> <a href="/tags/Git/" style="font-size: 19.45px; color: #747474">Git</a> <a href="/tags/Go/" style="font-size: 14px; color: #999">Go</a> <a href="/tags/GoAccess/" style="font-size: 14px; color: #999">GoAccess</a> <a href="/tags/Golang/" style="font-size: 14px; color: #999">Golang</a> <a href="/tags/Google-Drive/" style="font-size: 14px; color: #999">Google Drive</a> <a href="/tags/Google-Search/" style="font-size: 14px; color: #999">Google Search</a> <a href="/tags/HTTP/" style="font-size: 15.82px; color: #8d8d8d">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 15.82px; color: #8d8d8d">HTTPS</a> <a href="/tags/Hash/" style="font-size: 14px; color: #999">Hash</a> <a href="/tags/Hexo/" style="font-size: 15.82px; color: #8d8d8d">Hexo</a> <a href="/tags/JSON/" style="font-size: 14px; color: #999">JSON</a> <a href="/tags/JavaScript/" style="font-size: 14px; color: #999">JavaScript</a> <a href="/tags/K8S/" style="font-size: 14px; color: #999">K8S</a> <a href="/tags/Linux/" style="font-size: 24px; color: #555">Linux</a> <a href="/tags/Linux-Commands/" style="font-size: 14px; color: #999">Linux Commands</a> <a href="/tags/Logs/" style="font-size: 14px; color: #999">Logs</a> <a href="/tags/MQ/" style="font-size: 14px; color: #999">MQ</a> <a href="/tags/Mac/" style="font-size: 19.45px; color: #747474">Mac</a> <a href="/tags/MarkDown/" style="font-size: 14px; color: #999">MarkDown</a> <a href="/tags/Mysql/" style="font-size: 22.18px; color: #616161">Mysql</a> <a href="/tags/Mysqli/" style="font-size: 14px; color: #999">Mysqli</a> <a href="/tags/Nginx/" style="font-size: 18.55px; color: #7a7a7a">Nginx</a> <a href="/tags/Node/" style="font-size: 15.82px; color: #8d8d8d">Node</a> <a href="/tags/PDO/" style="font-size: 14px; color: #999">PDO</a> <a href="/tags/PHP/" style="font-size: 23.09px; color: #5b5b5b">PHP</a> <a href="/tags/PHP-FPM/" style="font-size: 16.73px; color: #868686">PHP-FPM</a> <a href="/tags/PHPStorm/" style="font-size: 14px; color: #999">PHPStorm</a> <a href="/tags/PM2/" style="font-size: 14px; color: #999">PM2</a> <a href="/tags/Postman/" style="font-size: 14px; color: #999">Postman</a> <a href="/tags/Redis/" style="font-size: 16.73px; color: #868686">Redis</a> <a href="/tags/SSH/" style="font-size: 14px; color: #999">SSH</a> <a href="/tags/SSHD/" style="font-size: 14px; color: #999">SSHD</a> <a href="/tags/SSL/" style="font-size: 14.91px; color: #939393">SSL</a> <a href="/tags/Shell/" style="font-size: 19.45px; color: #747474">Shell</a> <a href="/tags/Skill/" style="font-size: 17.64px; color: #808080">Skill</a> <a href="/tags/Socket/" style="font-size: 14px; color: #999">Socket</a> <a href="/tags/Socket-io/" style="font-size: 14.91px; color: #939393">Socket.io</a> <a href="/tags/Supervisor/" style="font-size: 14px; color: #999">Supervisor</a> <a href="/tags/Swoole/" style="font-size: 20.36px; color: #6e6e6e">Swoole</a> <a href="/tags/Terminal/" style="font-size: 14px; color: #999">Terminal</a> <a href="/tags/Tutorial/" style="font-size: 21.27px; color: #686868">Tutorial</a> <a href="/tags/UFW/" style="font-size: 14px; color: #999">UFW</a> <a href="/tags/Ubuntu/" style="font-size: 15.82px; color: #8d8d8d">Ubuntu</a> <a href="/tags/Vim/" style="font-size: 14.91px; color: #939393">Vim</a> <a href="/tags/WSL/" style="font-size: 14px; color: #999">WSL</a> <a href="/tags/Web-%E5%AE%89%E5%85%A8/" style="font-size: 14.91px; color: #939393">Web 安全</a> <a href="/tags/Windows/" style="font-size: 16.73px; color: #868686">Windows</a> <a href="/tags/Xdebug/" style="font-size: 14px; color: #999">Xdebug</a> <a href="/tags/Zabbix/" style="font-size: 16.73px; color: #868686">Zabbix</a> <a href="/tags/iptables/" style="font-size: 14px; color: #999">iptables</a> <a href="/tags/ssh/" style="font-size: 14px; color: #999">ssh</a> <a href="/tags/wss/" style="font-size: 14px; color: #999">wss</a> <a href="/tags/%E4%BA%91/" style="font-size: 15.82px; color: #8d8d8d">云</a> <a href="/tags/%E5%B1%80%E5%9F%9F%E7%BD%91/" style="font-size: 14px; color: #999">局域网</a> <a href="/tags/%E6%8C%81%E4%B9%85%E5%8C%96/" style="font-size: 14px; color: #999">持久化</a> <a href="/tags/%E7%9B%91%E6%8E%A7%E7%B3%BB%E7%BB%9F/" style="font-size: 14px; color: #999">监控系统</a> <a href="/tags/%E7%A2%8E%E7%A2%8E%E5%BF%B5/" style="font-size: 14.91px; color: #939393">碎碎念</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 14px; color: #999">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 14px; color: #999">线程</a> <a href="/tags/%E7%BB%88%E7%AB%AF/" style="font-size: 14px; color: #999">终端</a> <a href="/tags/%E8%BF%90%E7%BB%B4/" style="font-size: 15.82px; color: #8d8d8d">运维</a> <a href="/tags/%E8%BF%9B%E7%A8%8B/" style="font-size: 14px; color: #999">进程</a> <a href="/tags/%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" style="font-size: 14.91px; color: #939393">进程管理</a> <a href="/tags/%E9%98%B2%E7%81%AB%E5%A2%99/" style="font-size: 15.82px; color: #8d8d8d">防火墙</a>
+      <a href="/tags/Arch-Linux/" style="font-size: 14.91px; color: #939393">Arch Linux</a> <a href="/tags/CI/" style="font-size: 14px; color: #999">CI</a> <a href="/tags/Certbot/" style="font-size: 14px; color: #999">Certbot</a> <a href="/tags/Composer/" style="font-size: 14px; color: #999">Composer</a> <a href="/tags/Crontab/" style="font-size: 14px; color: #999">Crontab</a> <a href="/tags/Cygwin/" style="font-size: 14.91px; color: #939393">Cygwin</a> <a href="/tags/DevOps/" style="font-size: 14px; color: #999">DevOps</a> <a href="/tags/Docker/" style="font-size: 17.64px; color: #808080">Docker</a> <a href="/tags/Docker-Hub/" style="font-size: 14px; color: #999">Docker Hub</a> <a href="/tags/Git/" style="font-size: 19.45px; color: #747474">Git</a> <a href="/tags/Go/" style="font-size: 14px; color: #999">Go</a> <a href="/tags/GoAccess/" style="font-size: 14px; color: #999">GoAccess</a> <a href="/tags/Golang/" style="font-size: 14px; color: #999">Golang</a> <a href="/tags/Google-Drive/" style="font-size: 14px; color: #999">Google Drive</a> <a href="/tags/Google-Search/" style="font-size: 14px; color: #999">Google Search</a> <a href="/tags/HTTP/" style="font-size: 15.82px; color: #8d8d8d">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 15.82px; color: #8d8d8d">HTTPS</a> <a href="/tags/Hash/" style="font-size: 14px; color: #999">Hash</a> <a href="/tags/Hexo/" style="font-size: 15.82px; color: #8d8d8d">Hexo</a> <a href="/tags/JSON/" style="font-size: 14px; color: #999">JSON</a> <a href="/tags/JavaScript/" style="font-size: 14px; color: #999">JavaScript</a> <a href="/tags/K8S/" style="font-size: 14px; color: #999">K8S</a> <a href="/tags/Linux/" style="font-size: 24px; color: #555">Linux</a> <a href="/tags/Linux-Commands/" style="font-size: 14px; color: #999">Linux Commands</a> <a href="/tags/Logs/" style="font-size: 14px; color: #999">Logs</a> <a href="/tags/MQ/" style="font-size: 14px; color: #999">MQ</a> <a href="/tags/Mac/" style="font-size: 19.45px; color: #747474">Mac</a> <a href="/tags/MarkDown/" style="font-size: 14px; color: #999">MarkDown</a> <a href="/tags/Mysql/" style="font-size: 22.18px; color: #616161">Mysql</a> <a href="/tags/Mysqli/" style="font-size: 14px; color: #999">Mysqli</a> <a href="/tags/Nginx/" style="font-size: 18.55px; color: #7a7a7a">Nginx</a> <a href="/tags/Node/" style="font-size: 15.82px; color: #8d8d8d">Node</a> <a href="/tags/PDO/" style="font-size: 14px; color: #999">PDO</a> <a href="/tags/PHP/" style="font-size: 23.09px; color: #5b5b5b">PHP</a> <a href="/tags/PHP-FPM/" style="font-size: 16.73px; color: #868686">PHP-FPM</a> <a href="/tags/PHPStorm/" style="font-size: 14px; color: #999">PHPStorm</a> <a href="/tags/PM2/" style="font-size: 14px; color: #999">PM2</a> <a href="/tags/Postman/" style="font-size: 14px; color: #999">Postman</a> <a href="/tags/Redis/" style="font-size: 16.73px; color: #868686">Redis</a> <a href="/tags/SSH/" style="font-size: 14px; color: #999">SSH</a> <a href="/tags/SSHD/" style="font-size: 14px; color: #999">SSHD</a> <a href="/tags/SSL/" style="font-size: 14.91px; color: #939393">SSL</a> <a href="/tags/Shell/" style="font-size: 19.45px; color: #747474">Shell</a> <a href="/tags/Skill/" style="font-size: 17.64px; color: #808080">Skill</a> <a href="/tags/Socket/" style="font-size: 14px; color: #999">Socket</a> <a href="/tags/Socket-io/" style="font-size: 14.91px; color: #939393">Socket.io</a> <a href="/tags/Supervisor/" style="font-size: 14px; color: #999">Supervisor</a> <a href="/tags/Swoole/" style="font-size: 20.36px; color: #6e6e6e">Swoole</a> <a href="/tags/Terminal/" style="font-size: 14px; color: #999">Terminal</a> <a href="/tags/Tutorial/" style="font-size: 21.27px; color: #686868">Tutorial</a> <a href="/tags/UFW/" style="font-size: 14px; color: #999">UFW</a> <a href="/tags/Ubuntu/" style="font-size: 15.82px; color: #8d8d8d">Ubuntu</a> <a href="/tags/Vim/" style="font-size: 14.91px; color: #939393">Vim</a> <a href="/tags/WSL/" style="font-size: 14px; color: #999">WSL</a> <a href="/tags/Web-%E5%AE%89%E5%85%A8/" style="font-size: 14.91px; color: #939393">Web 安全</a> <a href="/tags/Windows/" style="font-size: 16.73px; color: #868686">Windows</a> <a href="/tags/Xdebug/" style="font-size: 14px; color: #999">Xdebug</a> <a href="/tags/Zabbix/" style="font-size: 16.73px; color: #868686">Zabbix</a> <a href="/tags/iptables/" style="font-size: 14px; color: #999">iptables</a> <a href="/tags/ssh/" style="font-size: 14px; color: #999">ssh</a> <a href="/tags/wss/" style="font-size: 14px; color: #999">wss</a> <a href="/tags/%E4%BA%91/" style="font-size: 15.82px; color: #8d8d8d">云</a> <a href="/tags/%E5%B1%80%E5%9F%9F%E7%BD%91/" style="font-size: 14px; color: #999">局域网</a> <a href="/tags/%E5%B9%B4%E7%BB%88%E7%BB%93%E7%AE%97/" style="font-size: 14px; color: #999">年终结算</a> <a href="/tags/%E6%8C%81%E4%B9%85%E5%8C%96/" style="font-size: 14px; color: #999">持久化</a> <a href="/tags/%E7%9B%91%E6%8E%A7%E7%B3%BB%E7%BB%9F/" style="font-size: 14px; color: #999">监控系统</a> <a href="/tags/%E7%A2%8E%E7%A2%8E%E5%BF%B5/" style="font-size: 14.91px; color: #939393">碎碎念</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 14px; color: #999">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 14px; color: #999">线程</a> <a href="/tags/%E7%BB%88%E7%AB%AF/" style="font-size: 14px; color: #999">终端</a> <a href="/tags/%E8%BF%90%E7%BB%B4/" style="font-size: 15.82px; color: #8d8d8d">运维</a> <a href="/tags/%E8%BF%9B%E7%A8%8B/" style="font-size: 14px; color: #999">进程</a> <a href="/tags/%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" style="font-size: 14.91px; color: #939393">进程管理</a> <a href="/tags/%E9%98%B2%E7%81%AB%E5%A2%99/" style="font-size: 15.82px; color: #8d8d8d">防火墙</a>
     </div>
   </section>
 
@@ -2167,7 +2139,7 @@
     
       
         <div class='copyright'>
-        <span class="post-count">总字数：109.7k</span>
+        <span class="post-count">总字数：111.6k</span>
         <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2020 Boo</a></p>
 
         <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
