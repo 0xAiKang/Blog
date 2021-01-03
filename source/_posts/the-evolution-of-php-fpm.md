@@ -48,5 +48,8 @@ FastCGI 程序固然已经很好了，但我们的需求总是有点苛刻，它
 
 它可以独立运行，不依赖php-cgi，换句话说，它自己实现了FastCGI协议并且支持进程平滑重启且带进程管理功能。
 
+进程包含 `master` 进程和 `worker` 进程两类进程。
+
+`master` 进程只有一个，负责监听端口，接收来自Web Server 的请求，而 `worker` 进程则一般有多个（具体数量根据实际需要配置），每个进程内部都嵌入了一个PHP 解释器，是PHP 代码正真执行的地方。
 ### 参考链接
 * [从CGI到FastCGI到PHP-FPM](http://blog.leanote.com/post/weibo-007/%E4%BB%8ECGI%E5%88%B0FastCGI%E5%88%B0PHP-FPM)

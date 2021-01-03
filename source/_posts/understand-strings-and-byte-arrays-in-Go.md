@@ -1,8 +1,8 @@
 ---
 title: 理解 Go 语言中的字符串和字节数组
 date: 2020-12-30 23:57:13
-tags: ["Go"]
-categories: ["Go"]
+tags: ["Golang"]
+categories: ["Golang"]
 ---
 
 最近在学习Go 语言时，遇到一个很有意思的问题，记录一下。
