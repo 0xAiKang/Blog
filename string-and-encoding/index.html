@@ -16,12 +16,10 @@
 
   <!-- 页面元数据 -->
   
-    <title>如何申请免费的SSL 证书 - Boo</title>
+    <title>string and encoding - Boo</title>
   
-    <meta name="keywords" content="HTTPS,SSL,HTTP">
+    <meta name="keywords" content="Golang">
   
-  
-    <meta name="description" content="这篇笔记用来记录如何申请免费的 SSL 证书，通过本文介绍的方式所申请的证书有效期只有三个月，请谨慎选择。">
   
 
   <!-- feed -->
@@ -372,8 +370,8 @@
         
           
   <h1 class="title">
-    <a href="/how-to-apply-for-a-free-ssl-certificate/">
-      如何申请免费的SSL 证书
+    <a href="/string-and-encoding/">
+      string and encoding
     </a>
   </h1>
 
@@ -398,9 +396,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Tutorial/' rel="nofollow">
+    <a href='/categories/Golang/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Tutorial</p>
+      <p>Golang</p>
     </a>
   </div>
 
@@ -411,7 +409,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Aug 14, 2020</p>
+    <p>发布于：Jan 3, 2021</p>
   </a>
 </div>
 
@@ -427,13 +425,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>331 words</p>
+      <p>1.1k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>1 min</p>
+      <p>3 min</p>
     </a>
   </div>
 
@@ -446,7 +444,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/how-to-apply-for-a-free-ssl-certificate/" class="leancloud_visitors" data-flag-title="如何申请免费的SSL 证书">
+      <span id="/string-and-encoding/" class="leancloud_visitors" data-flag-title="string and encoding">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -469,32 +467,42 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>这篇笔记用来记录如何申请免费的 SSL 证书，通过本文介绍的方式所申请的证书有效期只有三个月，请谨慎选择。</p>
-<a id="more"></a>
+          <p>因为计算机只能处理数字，如果需要处理文本，就需要先将文本转换为数字才能处理。最早的计算机在设计时采用<strong>8个比特（bit）作为一个字节（byte）</strong>，所以，一个字节能表示的最大的整数就是255（二进制 11111111=十进制255 ）。</p>
+<p>由于计算机是美国人发明的，因此，最早只有127个字符被编码到计算机里，也就是大小写英文字母、数字和一些符号，这个编码表被称为ASCII编码。</p>
+<p>但是要处理中文显然一个字节是不够的，至少需要两个字节，而且还不能和ASCII编码冲突，所以，中国制定了<code>GB2312</code>编码，用来把中文编进去。</p>
+<p>可以想到的是，全世界有上百种语言，各国有各国的标准，就会不可避免地出现冲突，结果就是编码方式和解码方式不同，就会导致乱码。</p>
+<p>因此，Unicode字符集应运而生。Unicode把所有语言都统一到一套编码里，这样就不会再有乱码问题了。</p>
+<p>不过新的问题因此又出现了：如果统一成 Unicode 编码，乱码问题虽然是从此消失了，但是，如果你写的文本基本上全部是英文的话，用Unicode编码比ASCII编码需要多一倍的存储空间，在存储和传输上就十分不划算。</p>
+<p>所以，本着节约的精神，又出现了把Unicode编码转化为“可变长编码”的UTF-8编码。UTF-8编码把一个Unicode字符根据不同的数字大小编码成1-6个字节，常用的英文字母被编码成1个字节，汉字通常是3个字节，只有很生僻的字符才会被编码成4-6个字节。</p>
+<p>ASCII、Unicode和UTF-8 三者的关系是：</p>
+<ol>
+<li><strong>Unicode 是一种包含所有语言的字符集编码（替代ASCII编码）</strong></li>
+<li><strong>UTF-8 是 Unicode 的实现方式之一</strong></li>
+</ol>
+<h3 id="字符编码在计算机中的工作方式"><a href="#字符编码在计算机中的工作方式" class="headerlink" title="字符编码在计算机中的工作方式"></a>字符编码在计算机中的工作方式</h3><p>在计算机内存中，统一使用Unicode编码，当需要保存到硬盘或者需要传输的时候，就转换为UTF-8编码。</p>
+<p>用记事本编辑的时候，从文件读取的UTF-8字符被转换为Unicode字符到内存里，编辑完成后，保存的时候再把Unicode转换为UTF-8保存到文件：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210103161913.png" alt=""></p>
+<p>浏览网页的时候，服务器会把动态生成的Unicode内容转换为UTF-8再传输到浏览器：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210103161935.png" alt=""></p>
+<p>所以你看到很多网页的源码上会有类似<code>&lt;meta charset=&quot;UTF-8&quot; /&gt;</code>的信息，表示该网页正是用的UTF-8编码。</p>
+<h3 id="Go-语言的字符串"><a href="#Go-语言的字符串" class="headerlink" title="Go 语言的字符串"></a>Go 语言的字符串</h3><p>Go 语言的字符串与其他编程语言的差异：</p>
+<ol>
+<li>string 是数据类型，不是引用或者指针类型（其零值不是空，是一个空字符串）</li>
+<li>string 是只读的 byte slice，<code>len</code>函数获取的是它所包含的 <code>byte</code>数</li>
+<li>string 的 byte 数组可以存放任何数据（二进制）</li>
+</ol>
+<p>通过一个实际例子来理解Go 的string、Unicode、UTF8：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;testing&quot;</span><br><span class="line"></span><br><span class="line">func TestString(t *testing.T)  &#123;</span><br><span class="line">	var s3 &#x3D; &quot;中&quot;</span><br><span class="line">	</span><br><span class="line">	&#x2F;&#x2F; rune 这个数据类型可以取出字符串中的 Unicode 编码</span><br><span class="line">	r :&#x3D; []rune(s3)</span><br><span class="line">	</span><br><span class="line">	&#x2F;&#x2F; byte 这个数据类型可以取出字符串的 UTF8 存储</span><br><span class="line">	b :&#x3D; []byte(s3)</span><br><span class="line">	</span><br><span class="line">	t.Log(b)			&#x2F;&#x2F; [228 184 173]</span><br><span class="line">	t.Logf(&quot;中 的Unicode 编码：%x&quot;, r[0])</span><br><span class="line">	t.Logf(&quot;中 的UTF8 存储：%X&quot;, s3)		&#x2F;&#x2F; [0xE4, 0xB8, 0xAD]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>像这类提供免费 SSL 证书的网站非常多，这里我选择的平台是 <a href="https://freessl.cn/" target="_blank" rel="noopener">FreeSSL.cn</a> 。</p>
-<p>在正式开始之前，你得准备一个邮箱，<a href="https://freessl.cn/register" target="_blank" rel="noopener">注册</a> 一个 <code>FreeSSL.cn</code> 账号，然后登录。</p>
-<p>将需要申请证书的域名填写在输入框中，选择多域名通配符，然后点击创建免费的SSL 证书。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200814172918.png" alt=""></p>
-<p>我这里选择的是泛域名，根据你自己的实际情况，去创建相应子域名的证书：</p>
-<ul>
-<li><code>example.com</code>：主域名</li>
-<li><code>*.example.com</code>：泛域名</li>
+<p>字符 <code>中</code> 字在 Unicode 中的编码是<code>0x4E2D</code>，它的物理存储形式依赖于 UTF8规则，它在内存被存储为了<code>E4B8AD</code>，放在 string 对应的 byte切片中，分别对应三个 byte：<code>[0xE4, 0xB8, 0xAD]</code>。</p>
+<h3 id="其他问题"><a href="#其他问题" class="headerlink" title="其他问题"></a>其他问题</h3><blockquote>
+<p>在我们的日常生活中用到的是十进制，计算机用的是二进制，那么为什么还会出现十六进制呢？</p>
+</blockquote>
+<p>这是因为使用二进制表示数据太长了，可读性十分差，正好十六是二的四次方，所以一位十六进制可以表示四位二进制。</p>
+<h3 id="参考连接"><a href="#参考连接" class="headerlink" title="参考连接"></a>参考连接</h3><ul>
+<li><a href="https://www.liaoxuefeng.com/wiki/1016959663602400/1017075323632896" target="_blank" rel="noopener">字符串和编码——廖雪峰的官方网站</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2007/10/ascii_unicode_and_utf-8.html" target="_blank" rel="noopener">字符编码笔记：ASCII，Unicode 和 UTF-8</a></li>
 </ul>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200814174731.png" alt=""></p>
-<p>选择浏览器生成。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200814175011.png" alt=""></p>
-<p>点击确认创建。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200814174930.png" alt=""></p>
-<h3 id="添加TXT-记录"><a href="#添加TXT-记录" class="headerlink" title="添加TXT 记录"></a>添加TXT 记录</h3><p>打开需要申请 SSL 证书的域名管理后台，找到 DNS 管理。</p>
-<p>添加 TXT 验证，将刚才的记录值与TXT 记录添加到对应的TXT 类型。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200814180141.png" alt=""></p>
-<p>注意⚠️：记录值区分大小写。</p>
-<p>检测是否配置成功。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200814175520.png" alt=""></p>
-<p>在完成验证之前不要离开当前页面，验证成功之后，点击验证。</p>
-<p>如果配置成功没问题，就可以点击验证，下载证书就完成了。</p>
-<p>注意⚠️：使用此方式获取的证书，有效期只有三个月。</p>
 
           
             <div class='article_footer'>
@@ -531,7 +539,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/how-to-apply-for-a-free-ssl-certificate/>https://www.0x2beace.com/how-to-apply-for-a-free-ssl-certificate/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/string-and-encoding/>https://www.0x2beace.com/string-and-encoding/</a></p>
           
         
       </blockquote>
@@ -579,10 +587,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-12-21T11:43:39+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-01-03T23:22:07+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Dec 21, 2020</p>
+    <p>更新于：Jan 3, 2021</p>
   </a>
 </div>
 
@@ -591,7 +599,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/HTTPS/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>HTTPS</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/SSL/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>SSL</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/HTTP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>HTTP</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Golang/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Golang</p></a></div>
 
 
         
@@ -609,7 +617,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/how-to-apply-for-a-free-ssl-certificate/&title=如何申请免费的SSL 证书 - Boo&summary=这篇笔记用来记录如何申请免费的 SSL 证书，通过本文介绍的方式所申请的证书有效期只有三个月，请谨慎选择。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/string-and-encoding/&title=string and encoding - Boo&summary="
           
           >
           
@@ -621,7 +629,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/how-to-apply-for-a-free-ssl-certificate/&title=如何申请免费的SSL 证书 - Boo&summary=这篇笔记用来记录如何申请免费的 SSL 证书，通过本文介绍的方式所申请的证书有效期只有三个月，请谨慎选择。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/string-and-encoding/&title=string and encoding - Boo&summary="
           
           >
           
@@ -633,7 +641,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/how-to-apply-for-a-free-ssl-certificate/&title=如何申请免费的SSL 证书 - Boo&summary=这篇笔记用来记录如何申请免费的 SSL 证书，通过本文介绍的方式所申请的证书有效期只有三个月，请谨慎选择。"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/string-and-encoding/&title=string and encoding - Boo&summary="
           
           >
           
@@ -647,7 +655,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADuUlEQVR42u3aQW7cQAwEQP//08kDgkBkk/LSRs3NwFqaKe2ht6mvP1a0vhCAAwcOnAUO3BG4r3D97///uVHz/6vXe7rPfw8+PS84cODAgQMHDtwxuHIAHB786aDV6z99vvp3+7zgwIEDBw4cOHBH4dKNpoG5e/0u0PqDAQcOHDhw4MCB+yVwaaFZDdbTfYIDBw4cOHDgwIGbFYNv3Wer2AQHDhw4cODAgfvpcF2Arc+lgXtaeH5skg8OHDhw4MCBA7cE113bAfS7/47PCw4cOHDgwIEDdwTuu9fTxqoD7PS64/2DAwcOHDhw4MAdgatuvBuIqweoFpJV2Oo+uwEZHDhw4MCBAwfuGtzWwPntgfB2cO5+IcCBAwcOHDhw4K7BpQPn7gHSA1f3Vf0CTO8DDhw4cODAgQN3BW460E2LxGmATkGnQRscOHDgwIEDB+4K3FYA7gbeaZCtBt20qP22Xw7gwIEDBw4cOHAhXDUQdoNjGnTT4J0Wn+37ggMHDhw4cODAHYHbKg63VlqsvjU4f/zlAA4cOHDgwIED9yG4afHXDZrdAXBacE4DODhw4MCBAwcO3E+B6wbDFC4NwF2I9AE9flHAgQMHDhw4cOCOwE1BpkF1Oxh3C1pw4MCBAwcOHLifCvcUGNMCsRpE0wcVF5HNc5WLTHDgwIEDBw4cuA/BTV8onAbPtJhM75sWm+DAgQMHDhw4cNfgtg++fd0uYDcgl19UBAcOHDhw4MCBOwa3BbS10WkhmRaY7YE0OHDgwIEDBw7cEbjqhqYFZRd0q5hMrwcOHDhw4MCBA3cNbmsDXZB44y8Nosv3AwcOHDhw4MCBOwaXBt9ukJ4G6zQwdwff5QAMDhw4cODAgQP3Ybg0eE4HvV3orWI0ftDgwIEDBw4cOHDH4FLAdNCbPpAubPe6j4EcHDhw4MCBAwfuGFwaENMB7xRmC7JdkIIDBw4cOHDgwB2F676IN93wVgGavkDYPR84cODAgQMHDtwVuLeD5duBejpobg/awYEDBw4cOHDgjsBNg2H3xcJy0BwCpwPxx3OAAwcOHDhw4MAdg9sOvFtF49Y+qtd5enDgwIEDBw4cOHBX4dJAmQbhrcJzK9A/goIDBw4cOHDgwP0yuC3ILsh0gF59EODAgQMHDhw4cL8NLt5AOJhOC8+tohMcOHDgwIEDB+4qXBoguwVjt9jsBtm3Hig4cODAgQMHDtw1uHSA2w2QU7AUolqotgMwOHDgwIEDBw7ch+Cs5gNDAA4cOHAWOHCfXX8BAsR/pqgMwjYAAAAASUVORK5CYII=">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAAC8klEQVR42u3aQXLjMAwEQP//09n7JlsiBpBXiJs3VyJabF+mBnx9WT+uFwIwYMCAAQNmDcwrXN82LP7/389d7fOvv1ff43J/MGDAgAEDBsw6mOMAdHjQ6gHS77/6XN4PDBgwYMCAAbMW5jRgXR3w7oBWhTp+HgwYMGDAgAHzsTDTwS2FAAMGDBgwYMCA6cKkgS0tusCAAQMGDBgwnwvTDWJViGqB1R0Ivm0SCQYMGDBgwIB5G0w3kD3tc3weMGDAgAEDBswamO46HZR1A9kVyNh5wIABAwYMGDBrYNKAdFU0VcGmDp6+PxgwYMCAAQNmL0x3w/Sg7/oB4otDYMCAAQMGDJg1MNUDVgdxaZGVXigqB00wYMCAAQMGzDqY6kGrAe2u4qka7MCAAQMGDBgwnweTFlvdF52COt4fDBgwYMCAAfNrYLpQaYGUBsZq4XY5cAMDBgwYMGDAPB4mDWRpsEoDWBo4jwHBgAEDBgwYMOtg0heauoBUhesO3MpFFRgwYMCAAQPmsTDVgVcXrFtEVYPm8fuCAQMGDBgwYNbBVINY9bmpImyqQAMDBgwYMGDA/B6Y6oukQbC7z93BDwwYMGDAgAGzB6Z6MacKMPXi1QAZB0cwYMCAAQMGzBqY19BKA+P/HuiViyowYMCAAQMGzONgTouftCBKf4juIHBsEgkGDBgwYMCAeTzMVLD7evOqDvCOiyowYMCAAQMGzDqY6hd2C6Wpi0inRVe5qAIDBgwYMGDArIM5PfBTi65yoQUGDBgwYMCAWQMzVRClxdXdxVg1wIIBAwYMGDBg9sBMBaY08E0FuqniDQwYMGDAgAGzD2ZqkDYV9NIBXhsWDBgwYMCAAbMWJg1QacE0VTR1gyAYMGDAgAEDBsx0UEwLqXQgCAYMGDBgwID5PJjuhaDpfeJiCwwYMGDAgAGzFqYazOKLxoffWwVMnwcDBgwYMGDA7IWZHlylF3nuhioP3MCAAQMGDBgwj4WxwIABAwYMGDDL1h+OpeyWat07UgAAAABJRU5ErkJggg==">
           </div>
         </div>
       
@@ -667,23 +675,14 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/how-to-install-arch-linux-on-win10/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Win10 如何安装 Arch Linux</p>
-                <p class='content'>最近主力生产工具可能要拿去送修，所以可能有一段时间要和我的MBP 分开了。但是工作还是要继续，于是把之前闲置的 小米 Pro 15.6 给整起来。
-第一件需要做的事情就是配置开发环境。
-
-
-了解...</p>
-              </a>
             
-            
-              <a class='next' href='/teach-you-how-to-create-and-start-an-azure-instance/'>
-                <p class='title'>手把手教你如何创建启动 Azure 实例<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>这篇笔记用来整理如何创建启用 Azure 实例。因为这方面可以找到的资料比较少，所以整理一下。
-一是方便自己以后回顾，二是给其他人作为参考。
+              <a class='next' href='/2020-year-end-summary/'>
+                <p class='title'>二零二零年终总结<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>回顾整个二零二零年于我而言最大的收获大概是：找到了方向，知道自己该做什么了。
 
 
-准备因为本文是创建微软云，所以首先你得有一个微软...</p>
+在此前，我一直处于“不确定”状态，不确定是否要选择这条路，不确定是否足够热爱，不确定是否能坚持下去。
+而此刻，我...</p>
               </a>
             
           </div>
@@ -728,7 +727,7 @@
 
   <script>
     window.subData = {
-      title: '如何申请免费的SSL 证书',
+      title: 'string and encoding',
       tools: true
     }
   </script>
@@ -755,7 +754,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#准备"><span class="toc-text">准备</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#添加TXT-记录"><span class="toc-text">添加TXT 记录</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#字符编码在计算机中的工作方式"><span class="toc-text">字符编码在计算机中的工作方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Go-语言的字符串"><span class="toc-text">Go 语言的字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他问题"><span class="toc-text">其他问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考连接"><span class="toc-text">参考连接</span></a></li></ol>
     </div>
   </section>
 
