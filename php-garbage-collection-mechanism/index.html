@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>PHP 垃圾回收机制 - Boo</title>
+  
+    <meta name="keywords" content="PHP">
+  
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Boo's Blog</p>
+    
+    
+      <p class="subtitle">Stay foolish, Stay hungry</p>
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/"
+                
+                
+                id="https:www0x2BeAcecom">
+                <i class='fas fa-book fa-fw'></i>博客
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/categories/"
+                
+                
+                id="https:www0x2BeAcecomcategories">
+                <i class='fas fa-rss fa-fw'></i>分类
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/tags/"
+                
+                
+                id="https:www0x2BeAcecomtags">
+                <i class='fas fa-play-circle fa-fw'></i>标签
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/archives/"
+                
+                  rel="external nofollow noopener noreferrer"
+                
+                
+                id="https:www0x2BeAcecomarchives">
+                <i class='fas fa-file-code fa-fw'></i>归档
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/about/"
+                
+                
+                id="https:www0x2BeAcecomabout">
+                <i class='fas fa-handshake fa-fw'></i>关于我
+              </a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/php-garbage-collection-mechanism/">
+      PHP 垃圾回收机制
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/PHP/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>PHP</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Jan 4, 2021</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>1.5k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>6 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/php-garbage-collection-mechanism/" class="leancloud_visitors" data-flag-title="PHP 垃圾回收机制">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>PHP 是一门托管型语言，在PHP 编程时，程序员不需要手动处理内存资源的分配和释放，这就意味着 PHP 本身实现了垃圾回收机制（Garbage Collection）。</p>
+<blockquote>
+<p>垃圾回收机制是什么？</p>
+</blockquote>
+<p>垃圾回收是一种自动的存储器管理机制，当某个程序占用的一部分内存空间不再被这个程序所访问时，这个程序会借助垃圾回收算法自动向操作系统归还这部分的内存空间。</p>
+<h2 id="PHP-引用计数"><a href="#PHP-引用计数" class="headerlink" title="PHP 引用计数"></a>PHP 引用计数</h2><p>定义一个PHP 变量如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$str &#x3D; &quot;boo&quot;;</span><br><span class="line">$str_bak &#x3D; $var;</span><br><span class="line">unset($str);</span><br></pre></td></tr></table></figure>
+<p>上面这几行代码分别做了如下事情：</p>
+<ol>
+<li>第一行代码创建了一个字符串变量，申请了一个大小为 三个字节的内存空间，保存了字符串 <code>boo</code> 和一个 <code>NULL(\0)</code>的结尾。</li>
+<li>第二行代码定义了一个新的字符串变量，并将变量<code>str</code>的值复制给了这个新的变量。</li>
+<li>第三行 <code>unset</code> 掉了变量 <code>str</code></li>
+</ol>
+<p>这样的代码在很常见，如果PHP 对于每一个变量赋值都重新分配内存，copy 数据的话，那么上面的那段代码就需要共申请六个字节的内存空间，而我们也很容易看出来，其实完全没有必要申请两份空间。</p>
+<p>PHP中的变量是用一个存储在 <code>symbol_table</code> 中的符号名，对应一个 <code>zval</code> 变量容器来实现的，比如对于上面的第一行代码，会在 <code>symbol_table</code> 中存储一个值 <code>str</code>, 对应的有一个指针指向一个 <code>zval</code>结构，变量值 <code>boo</code> 保存在这个变量容器中，所以不难想象，对于上面的代码来说，我们完全可以让 <code>str</code> 和 <code>str_bak</code> 对应的指针都指向同一个变量容器就可以了。</p>
+<p>PHP 也是这样做的，这是就需要介绍 <code>zval</code>变量容器的结构了。</p>
+<p>每个变量存在一个叫做<code>zval</code>的变量容器中。一个<code>zval</code>变量容器，除了包含变量的类型和值，还包括两个字节的额外信息：</p>
+<ol>
+<li><code>is_ref</code>：bool 值，用来标示这个变量是否属于引用集合（reference_set）。通过这个字节，PHP 引擎才能把普通变量和引用变量区分开来。</li>
+<li><code>refcount</code>：用以表示指向这个 <code>zval</code> 变量容器的变量个数。</li>
+</ol>
+<h3 id="1-查看内部结构"><a href="#1-查看内部结构" class="headerlink" title="1. 查看内部结构"></a>1. 查看内部结构</h3><p>当一个变量被赋值时，就会生成一个<code>zval</code>变量容器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$str &#x3D; &quot;hello, php&quot;;</span><br><span class="line">xdebug_debug_zval(&#39;str&#39;);</span><br></pre></td></tr></table></figure>
+<p>在 PHP 中可以通过 xdebug 扩展中提供的方法<code>xdebug_debug_zval()</code>来查看变量的计数变化。</p>
+<p>输出结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">str:(refcount&#x3D;1, is_ref&#x3D;0)string &#39;hello, php&#39; (length&#x3D;10)</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-增加引用次数"><a href="#2-增加引用次数" class="headerlink" title="2. 增加引用次数"></a>2. 增加引用次数</h3><p>把一个变量赋值给另一个变量将增加引用次数（refcount + 1）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$str &#x3D; &quot;hello, php&quot;;</span><br><span class="line">$str2 &#x3D; $str</span><br><span class="line">xdebug_debug_zval(&#39;str&#39;);</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">str:(refcount&#x3D;2, is_ref&#x3D;0)string &#39;hello, php&#39; (length&#x3D;10)</span><br></pre></td></tr></table></figure>
+
+<p>这时，引用次数是 <code>2</code>，这是因为同一个变量容器被变量a 和变量b 关联，当任何关联到的某个变量容器离开它的作用域（比如：函数执行结束），或者对变量调用了 <code>unset()</code> 函数，<code>refcount</code>的值就会 <code>-1</code>，当没必要时，PHP 不会再去复制已生成的变量容器，变量容器在<code>refcount</code>的值变为 0 时，就会被销毁。</p>
+<h3 id="3-数组型的变量"><a href="#3-数组型的变量" class="headerlink" title="3. 数组型的变量"></a>3. 数组型的变量</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$arr &#x3D; [&#39;a&#39;&#x3D;&gt;&#39;hello&#39;, &#39;b&#39;&#x3D;&gt;&#39;php&#39;];</span><br><span class="line">xdebug_debug_zval(&#39;arr&#39;);</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">arr:</span><br><span class="line">(refcount&#x3D;2, is_ref&#x3D;0)</span><br><span class="line">array (size&#x3D;2)</span><br><span class="line">  &#39;a&#39; &#x3D;&gt; (refcount&#x3D;1, is_ref&#x3D;0)string &#39;hello&#39; (length&#x3D;5)</span><br><span class="line">  &#39;b&#39; &#x3D;&gt; (refcount&#x3D;1, is_ref&#x3D;0)string &#39;php&#39; (length&#x3D;3)</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-引用赋值"><a href="#4-引用赋值" class="headerlink" title="4. 引用赋值"></a>4. 引用赋值</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$str &#x3D; &quot;hello, php&quot;;</span><br><span class="line">$str_bak &#x3D; &amp;$str;</span><br><span class="line">xdebug_debug_zval(&#39;str&#39;);</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">str:(refcount&#x3D;2, is_ref&#x3D;1)string &#39;hello, php&#39; (length&#x3D;10)</span><br></pre></td></tr></table></figure>
+<p><code>is_ref = 1</code>表示被引用次数为 <code>1</code>。</p>
+<h3 id="5-销毁变量"><a href="#5-销毁变量" class="headerlink" title="5. 销毁变量"></a>5. 销毁变量</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$a &#x3D; &quot;new string&quot;;</span><br><span class="line">$c &#x3D; $b &#x3D; $a;</span><br><span class="line">xdebug_debug_zval( &#39;a&#39; );</span><br><span class="line">unset( $b, $c );</span><br><span class="line">xdebug_debug_zval( &#39;a&#39; );</span><br><span class="line">unset( $a);</span><br><span class="line">xdebug_debug_zval( &#39;a&#39; );</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a:(refcount&#x3D;3, is_ref&#x3D;0)string &#39;new string&#39; (length&#x3D;10)</span><br><span class="line">a:(refcount&#x3D;1, is_ref&#x3D;0)string &#39;new string&#39; (length&#x3D;10)</span><br><span class="line">a: no such symbol</span><br></pre></td></tr></table></figure>
+<p>可以看到当销毁变量a之后，与之包含类型的值和变量容器就会从内存中删除。</p>
+<h2 id="测试垃圾回收机制"><a href="#测试垃圾回收机制" class="headerlink" title="测试垃圾回收机制"></a>测试垃圾回收机制</h2><p>下面用一个比较经典的内存泄露例子来测试垃圾回收机制，通过创建一个对象，这个对象中的一个属性被设置为对象本身，在下一个循环（iteration）中，当脚本中的变量被重新赋值时，就会发生内存泄漏。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">class Foo</span><br><span class="line">&#123;</span><br><span class="line">    public $var &#x3D; &#39;3.1415962654&#39;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">for ( $i &#x3D; 0; $i &lt;&#x3D; 1000000; $i++ )</span><br><span class="line">&#123;</span><br><span class="line">    $a &#x3D; new Foo;</span><br><span class="line">    $a-&gt;self &#x3D; $a;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">echo memory_get_peak_usage(), &quot;\n&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>以我本地的机器为例，分别在打开/关闭垃圾回收机制（通过配置 zend.enable_gc实现）的情况下运行脚本，并记录时间。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ time php -dzend.enable_gc&#x3D;0 -dmemory_limit&#x3D;-1 -n get_memory.php</span><br><span class="line">440776744</span><br><span class="line">php -dzend.enable_gc&#x3D;0 -dmemory_limit&#x3D;-1 -n   0.22s user 0.23s system 39% cpu 1.145 total</span><br><span class="line"></span><br><span class="line">$ time php -dzend.enable_gc&#x3D;1 -dmemory_limit&#x3D;-1 -n get_memory.php</span><br><span class="line">4839240</span><br><span class="line">php -dzend.enable_gc&#x3D;1 -dmemory_limit&#x3D;-1 -n   0.42s user 0.03s system 76% cpu 0.588 total</span><br></pre></td></tr></table></figure>
+
+<p>这个测试并不能代表真实应用程序的情况，但是它的确显示了新的垃圾回收机制在内存占用方面的好处。而且在执行中出现更多的循环引用变量时，内存节省会更多。</p>
+<h2 id="垃圾回收相关配置"><a href="#垃圾回收相关配置" class="headerlink" title="垃圾回收相关配置"></a>垃圾回收相关配置</h2><p>可以通过修改配置文件 <code>php.ini</code> 中的 <code>zend.enable_gc</code> 来打开或关闭 PHP 的垃圾回收机制。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://www.iminho.me/wiki/blog-18.html" target="_blank" rel="noopener">PHP二十一问：PHP的垃圾回收机制</a></li>
+<li><a href="https://www.php.net/manual/zh/features.gc.refcounting-basics.php" target="_blank" rel="noopener">引用计数基本知识解释垃圾回收机制</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/php-garbage-collection-mechanism/>https://www.0x2beace.com/php-garbage-collection-mechanism/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-01-04T22:44:49+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Jan 4, 2021</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/php-garbage-collection-mechanism/&title=PHP 垃圾回收机制 - Boo&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/php-garbage-collection-mechanism/&title=PHP 垃圾回收机制 - Boo&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/php-garbage-collection-mechanism/&title=PHP 垃圾回收机制 - Boo&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADsklEQVR42u3aUXLiQAwEUO5/6d0DpCiPWrIR1Js/JzF43uSjUfP6Z0XrhQAcOHDgLHDglsC9wvXnBQ9/fvU6xxs4vP/q/av7BQcOHDhw4MCB2wY39cDVDb3b2Ol19YC6+wUHDhw4cODAgdsKdxkAwweZ2kB74939ggMHDhw4cODA/Shcd3BYBay+Djhw4MCBAwcOHLizweJpkX1cCDeLcnDgwIEDBw4cuF+Fu2swWN1gd5CZvs9jTT44cODAgQMHDtwQXDpw/NbreL/gwIEDBw4cOHBL4LqrOnCsDjK7X2CcXuDAgQMHDhw4cFvg7hpEVsHSAWr6nNX7wIEDBw4cOHDgtsGlBe4UbHoA3aAbB3Zw4MCBAwcOHLilcNXBZArVLbrvKpwvDwwcOHDgwIEDB24J3F1F8ukBnBbd1YFnev/lwYADBw4cOHDgwC2Bq77AVNF7d+DtBuLjTw7gwIEDBw4cOHAfgkuL3upGpyDS554qtMGBAwcOHDhw4LbApQF4uuhNAdLBZzpwBQcOHDhw4MCB2wJXHThODRrvArwLGBw4cODAgQMH7lvgqsFwaoBYhU8L87jgBgcOHDhw4MCBWwJXHVh2B5/pAVQDcDfAv/09OHDgwIEDBw7cErg00KbBuVuEdweW1aB8/MkBHDhw4MCBAwfuYbi0mK5ePxVku393XEiDAwcOHDhw4MAthesOJtMvKqaFcTeYH3/REBw4cODAgQMHbgncdHE8NThMB5HVf4hykAYHDhw4cODAgVsCl77BFEQajO96vstADg4cOHDgwIEDtwyuWui2g+RwUD59jvR+cODAgQMHDhy4rXDdoFo9iO6BdAehpwdd/uQADhw4cODAgQP3EFw7EBYD72lATYNrN9BfHjQ4cODAgQMHDtwyuOoA8HTD3eI4LazTIHz5d+DAgQMHDhw4cMvh0kB8ClWFnYLs7hMcOHDgwIEDB24rXDewjhW/IWwahNsBGBw4cODAgQMH7mG47qoG2tOB5VQA7w5U3xbS4MCBAwcOHDhwH4brBsKpQeJUUJ66Pv7kAA4cOHDgwIED92G4auBNB4rVYNy9r3vQ4MCBAwcOHDhw3wI3VSxXC+b0YMYL5zQAgwMHDhw4cODAfTlcF7hbhE8d/NtrcODAgQMHDhy4H4XrQt/9PO2DAQcOHDhw4MCBWwpXHTSmAfXu1zstpk8La3DgwIEDBw4cuK1w3QI3ffAu4PRAtFxIgwMHDhw4cODAfQjOKkIjAAcOHDgLHLjPrv8CPQEXCHzw5QAAAABJRU5ErkJggg==">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/string-and-encoding/'>
+                <p class='title'>字符串与编码<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>因为计算机只能处理数字，如果需要处理文本，就需要先将文本转换为数字才能处理。最早的计算机在设计时采用8个比特（bit）作为一个字节（byte），所以，一个字节能表示的最大的整数就是255（二进制...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'PHP 垃圾回收机制',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP-引用计数"><span class="toc-text">PHP 引用计数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-查看内部结构"><span class="toc-text">1. 查看内部结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-增加引用次数"><span class="toc-text">2. 增加引用次数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-数组型的变量"><span class="toc-text">3. 数组型的变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-引用赋值"><span class="toc-text">4. 引用赋值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-销毁变量"><span class="toc-text">5. 销毁变量</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试垃圾回收机制"><span class="toc-text">测试垃圾回收机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#垃圾回收相关配置"><span class="toc-text">垃圾回收相关配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+      
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <span class="post-count">总字数：114.3k</span>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2020 Boo</a></p>
+
+        <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+        
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?fbe826b92f6d49a0ebacf4d848bd3add";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+<script>
+  var now = new Date(); 
+  function createtime() {    
+      var grt= new Date("07/04/2020 14:12:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";     
+  } 
+setInterval("createtime()",250);
+</script>
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "prAyvaUeadxadA2wpcBQqNQn-gzGzoHsz",
+    appKey: "vkyEUTw0BixVjfFpFIzUdhak",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
