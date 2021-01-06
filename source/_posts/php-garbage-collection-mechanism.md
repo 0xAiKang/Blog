@@ -150,6 +150,14 @@ php -dzend.enable_gc=1 -dmemory_limit=-1 -n   0.42s user 0.03s system 76% cpu 0.
 ## 垃圾回收相关配置
 可以通过修改配置文件 `php.ini` 中的 `zend.enable_gc` 来打开或关闭 PHP 的垃圾回收机制。
 
+> 刚好借着PHP 的垃圾回收这个主题解释一个问题：PHP 是否可以常驻内存？
+
+答案是：传统的PHP 无法以常驻内存的方式运行。
+
+这是因为PHP 是一种解释型脚本语言，这种运行机制使得每个PHP 页面解释执行完之后，所有资源都被回收掉了。
+
+不过好在Swoole 的出现为PHP 弥补了这一缺陷（这里用缺陷这个词并不合适，毕竟每一种语言工具应该尽可能扬长避短）。
+
 ### 参考链接
 * [PHP二十一问：PHP的垃圾回收机制](https://www.iminho.me/wiki/blog-18.html)
 * [引用计数基本知识解释垃圾回收机制](https://www.php.net/manual/zh/features.gc.refcounting-basics.php)
