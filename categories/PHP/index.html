@@ -451,7 +451,7 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1.5k words</p>
+      <p>1.6k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
@@ -538,6 +538,12 @@
 
 <p>这个测试并不能代表真实应用程序的情况，但是它的确显示了新的垃圾回收机制在内存占用方面的好处。而且在执行中出现更多的循环引用变量时，内存节省会更多。</p>
 <h2 id="垃圾回收相关配置"><a href="#垃圾回收相关配置" class="headerlink" title="垃圾回收相关配置"></a>垃圾回收相关配置</h2><p>可以通过修改配置文件 <code>php.ini</code> 中的 <code>zend.enable_gc</code> 来打开或关闭 PHP 的垃圾回收机制。</p>
+<blockquote>
+<p>刚好借着PHP 的垃圾回收这个主题解释一个问题：PHP 是否可以常驻内存？</p>
+</blockquote>
+<p>答案是：传统的PHP 无法以常驻内存的方式运行。</p>
+<p>这是因为PHP 是一种解释型脚本语言，这种运行机制使得每个PHP 页面解释执行完之后，所有资源都被回收掉了。</p>
+<p>不过好在Swoole 的出现为PHP 弥补了这一缺陷（这里用缺陷这个词并不合适，毕竟每一种语言工具应该尽可能扬长避短）。</p>
 <h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
 <li><a href="https://www.iminho.me/wiki/blog-18.html" target="_blank" rel="noopener">PHP二十一问：PHP的垃圾回收机制</a></li>
 <li><a href="https://www.php.net/manual/zh/features.gc.refcounting-basics.php" target="_blank" rel="noopener">引用计数基本知识解释垃圾回收机制</a></li>
@@ -1839,7 +1845,7 @@
           <li><a class="flat-box"
             title="/categories/Tutorial/" href="/categories/Tutorial/"
             id="categoriesTutorial"
-            ><div class='name'>Tutorial</div><div class='badge'>(10)</div></a></li>
+            ><div class='name'>Tutorial</div><div class='badge'>(11)</div></a></li>
         
           <li><a class="flat-box child"
             title="/categories/Tutorial/GitHub/" href="/categories/Tutorial/GitHub/"
@@ -1940,7 +1946,7 @@
     
       
         <div class='copyright'>
-        <span class="post-count">总字数：114.3k</span>
+        <span class="post-count">总字数：115.4k</span>
         <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2020 Boo</a></p>
 
         <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
