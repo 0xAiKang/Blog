@@ -1,11 +1,13 @@
 ---
-title: a complete network request process
+title: 一次完整的网络请求过程
 date: 2021-01-06 23:41:25
 tags: ["Tutorial"]
 categories: ["Tutorial"]
 ---
 
 在浏览器中输入 `www.0xbeace.com` 这个域名，然后就能看到精美的页面了，这中间倒底发生了些什么呢？
+
+<!-- more -->
 
 其整个过程大致可以分为以下几个步骤：
 1. DNS 域名解析，寻找对应的IP 地址
