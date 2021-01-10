@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>Mysql 索引设计与优化 - Boo</title>
+  
+    <meta name="keywords" content="Mysql">
+  
+  
+    <meta name="description" content="什么是索引？">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Boo's Blog</p>
+    
+    
+      <p class="subtitle">Stay foolish, Stay hungry</p>
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/"
+                
+                
+                id="https:www0x2BeAcecom">
+                <i class='fas fa-book fa-fw'></i>博客
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/categories/"
+                
+                
+                id="https:www0x2BeAcecomcategories">
+                <i class='fas fa-rss fa-fw'></i>分类
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/tags/"
+                
+                
+                id="https:www0x2BeAcecomtags">
+                <i class='fas fa-play-circle fa-fw'></i>标签
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/archives/"
+                
+                  rel="external nofollow noopener noreferrer"
+                
+                
+                id="https:www0x2BeAcecomarchives">
+                <i class='fas fa-file-code fa-fw'></i>归档
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/about/"
+                
+                
+                id="https:www0x2BeAcecomabout">
+                <i class='fas fa-handshake fa-fw'></i>关于我
+              </a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/mysql-index-design-and-optimization/">
+      Mysql 索引设计与优化
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Mysql/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Mysql</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Jan 10, 2021</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>1.4k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>5 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/mysql-index-design-and-optimization/" class="leancloud_visitors" data-flag-title="Mysql 索引设计与优化">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>什么是索引？</p>
+<a id="more"></a>
+
+<blockquote>
+<p>数据库索引是一种数据结构，它以额外的写入和存储空间为代价来提高数据库表上数据检索操作的速度。通俗来说，索引类似于书的目录，根据其中记录的页码可以快速找到所需的内容。——维基百科</p>
+</blockquote>
+<p>常见索引有哪些？</p>
+<ul>
+<li>普通索引：最基本的索引，没有任何限制</li>
+<li>唯一索引：与”普通索引“类似，不同的就是：索引列的值必须是唯一，但允许有空值</li>
+<li>主键索引：它是一种特殊的索引，不允许有空值</li>
+<li>全文索引：仅可用于 MyISAM 表，针对较大的数据，生成全文索引很耗时占空间</li>
+<li>组合索引：为了提高多条件查询效率，可建立组合索引，遵循”最左前缀匹配原则“</li>
+</ul>
+<p>这里以相对复杂的组合为例，介绍如何优化。</p>
+<h2 id="最左前缀匹配原则"><a href="#最左前缀匹配原则" class="headerlink" title="最左前缀匹配原则"></a>最左前缀匹配原则</h2><p>首先我们要知道什么是最左前缀匹配原则。</p>
+<p>最左前缀匹配原则是指在使用 B+Tree 联合索引进行数据检索时，MySQL 优化器会读取谓词（过滤条件）<strong>并按照联合索引字段创建顺序一直向右匹配直到遇到范围查询或非等值查询后停止匹配</strong>，此字段之后的索引列不会被使用，这时计算 <code>key_len</code> 可以分析出联合索引实际使用了哪些索引列。</p>
+<h3 id="如何计算-key-len"><a href="#如何计算-key-len" class="headerlink" title="如何计算 key_len"></a>如何计算 key_len</h3><p>通过 <code>key_len</code> 计算也帮助我们了解索引的最左前缀匹配原则。</p>
+<p><code>key_len</code> 表示得到结果集所使用的选择索引的长度[字节数]，不包括 <code>order by</code>，也就是说如果 <code>order by</code> 也使用了索引则 <code>key_len</code> 不计算在内。</p>
+<p>在计算 <code>key_len</code> 之前，先来温习一下基本数据类型（以UTF8 编码为例）：<br>|类型|所占空间|不允许为NULL额外占用|<br>|-|-|-|<br>|char|一个字符三个字节|一个字节|<br>|varchar|一个字符三个字节|一个字节|<br>|int|四个字节|一个字节|<br>|tinyint|一个字节|一个字节|</p>
+<p>测试数据表如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE &#96;test_table&#96; (</span><br><span class="line">  &#96;id&#96; int(11) NOT NULL AUTO_INCREMENT,</span><br><span class="line">  &#96;a&#96; int(11) DEFAULT NOT NULL,</span><br><span class="line">  &#96;b&#96; int(11) DEFAULT NOT NULL,</span><br><span class="line">  &#96;c&#96; int(11) DEFAULT NOT NULL,</span><br><span class="line">  PRIMARY KEY (&#96;id&#96;),</span><br><span class="line">  KEY &#96;test_table_a_b_c_index&#96; (&#96;a&#96;,&#96;b&#96;,&#96;c&#96;)</span><br><span class="line">) ENGINE&#x3D;InnoDB DEFAULT CHARSET&#x3D;utf8;</span><br></pre></td></tr></table></figure>
+
+<p>命中索引：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; explain select * from test_table where a &#x3D; 1 and b &#x3D; 2 and c &#x3D; 3;</span><br><span class="line">+----+-------------+------------+------------+------+------------------------+------------------------+---------+-------------------+------+----------+-------------+</span><br><span class="line">| id | select_type | table      | partitions | type | possible_keys          | key                    | key_len | ref               | rows | filtered | Extra       |</span><br><span class="line">+----+-------------+------------+------------+------+------------------------+------------------------+---------+-------------------+------+----------+-------------+</span><br><span class="line">|  1 | SIMPLE      | test_table | NULL       | ref  | test_table_a_b_c_index | test_table_a_b_c_index | 12      | const,const,const |    1 |   100.00 | Using index |</span><br><span class="line">+----+-------------+------------+------------+------+------------------------+------------------------+---------+-------------------+------+----------+-------------+</span><br></pre></td></tr></table></figure>
+<p>可以看到 <code>key_len = 12</code>，这是如何计算的呢？<br>因为字符集是 UTF8，一个字段占用四个字节，三个字段就是 4 * 3 = 12 字节。</p>
+<p>是否允许为 NULL，如果允许为 NULL，则需要用额外的字节来标记该字段，不同的数据类型所需的字节大小不同。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; ALTER TABLE &#96;test_table&#96; CHANGE &#96;a&#96; &#96;a&#96; INT(11)  NULL;</span><br><span class="line">mysql&gt; ALTER TABLE &#96;test_table&#96; CHANGE &#96;c&#96; &#96;c&#96; INT(11)  NULL;</span><br><span class="line">mysql&gt; ALTER TABLE &#96;test_table&#96; CHANGE &#96;b&#96; &#96;b&#96; INT(11)  NULL;</span><br><span class="line">mysql&gt; explain select * from test_table where a &#x3D; 1 and b &#x3D; 2 and c &#x3D; 3;</span><br><span class="line">+----+-------------+------------+------------+------+------------------------+------------------------+---------+-------------------+------+----------+-------------+</span><br><span class="line">| id | select_type | table      | partitions | type | possible_keys          | key                    | key_len | ref               | rows | filtered | Extra       |</span><br><span class="line">+----+-------------+------------+------------+------+------------------------+------------------------+---------+-------------------+------+----------+-------------+</span><br><span class="line">|  1 | SIMPLE      | test_table | NULL       | ref  | test_table_a_b_c_index | test_table_a_b_c_index | 15      | const,const,const |    1 |   100.00 | Using index |</span><br><span class="line">+----+-------------+------------+------------+------+------------------------+------------------------+---------+-------------------+------+----------+-------------+</span><br></pre></td></tr></table></figure>
+<p>可以看到，当字段允许为空时，这时的<code>key_len</code> 变成了15 = 4 * 3 + 1 * 3（INT 类型为空时，额外占用一个字节）。</p>
+<h2 id="索引优化"><a href="#索引优化" class="headerlink" title="索引优化"></a>索引优化</h2><p>有了这些基础知识之后，再来根据实际的SQL 判断索性性能好坏。</p>
+<p>还是以上面那张数据表为例，为 a、b、c 三个字段创建联合索引。<br>|SQL 语句|是否索引|<br>|-|-|<br>|explain select * from test_table where a = 1 and b = 2 and c = 3;|Extra:Using index key_len: 15|<br>|explain select * from test_table where a = 1 and b = 2 and c = 3 order by c;|Extra:Using index key_len: 15|<br>|explain select * from test_table where b = 2 and c = 3;|Extra:Using where; Using index key_len: 15|<br>|explain select * from test_table where a = 1 order by c;|Extra:Using where; Using index; Using filesort key_len: 5|<br>|explain select * from test_table order by a, b, c;|Extra:Using index key_len: 15|<br>|explain select * from test_table order by a, b, c desc;|Extra:Using index; Using filesort key_len:15|<br>|explain select * from test_table where a in (1,2) and b in (1,2,3) and c = 1;|Extra:Using where; Using index key_len: 15|</p>
+<p>通常在查看执行计划时， Extra 列为 Using index 则表示优化器使用了覆盖索引。</p>
+<ul>
+<li>SQL1 可以使用覆盖索引，性能好</li>
+<li>SQL2 可以使用覆盖索引，同时避免排序，性能好</li>
+<li>SQL3 可以使用覆盖索引，但是需要根据 where 字句进行过滤</li>
+<li>SQL4 可以使用部分索引 a，但无法避免排序，性能差</li>
+<li>SQL5 可以完全使用覆盖索引，同时可以避免排序，性能好</li>
+<li>SQL6 可以使用覆盖索引，但无法避免排序，（这是因为 MySQL InnoDB 创建索引时默认asc升序，索引无法自动倒序排序）</li>
+<li>SQL7 可以使用覆盖索引，但是需要根据 where 子句进行过滤（非定值查询）</li>
+</ul>
+<h2 id="创建索引规范"><a href="#创建索引规范" class="headerlink" title="创建索引规范"></a>创建索引规范</h2><ul>
+<li>考虑到索引维护的成本，单张表的索引数量不超过 5 个，单个索引中的字段数不超过 5 个</li>
+<li>不在低基数列上建⽴索引，例如“性别”。 在低基数列上创建的索引查询相比全表扫描不一定有性能优势，特别是当存在回表成本时。</li>
+<li>合理创建联合索引，(a,b,c) 相当于 (a) 、(a,b) 、(a,b,c)。 </li>
+<li>合理使用覆盖索引减少IO，避免排序。</li>
+</ul>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://www.cnblogs.com/xuanzhi201111/p/4554769.html" target="_blank" rel="noopener">Explain之key_len长度计算</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/mysql-index-design-and-optimization/>https://www.0x2beace.com/mysql-index-design-and-optimization/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-01-10T21:13:04+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Jan 10, 2021</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Mysql/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Mysql</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/mysql-index-design-and-optimization/&title=Mysql 索引设计与优化 - Boo&summary=什么是索引？"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/mysql-index-design-and-optimization/&title=Mysql 索引设计与优化 - Boo&summary=什么是索引？"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/mysql-index-design-and-optimization/&title=Mysql 索引设计与优化 - Boo&summary=什么是索引？"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADqklEQVR42u3aQW4jMQwEQP//09n7AkbIJiehg9LNsMaSSj40yHl9GdF4IQAHDhw4Axy4I3CvcPz//LvP363z3bzqOt39xucFBw4cOHDgwIE7BlcOgN/M70JW15uCbp0XHDhw4MCBAwfuKlx3o9MDdINq9QK60OX54MCBAwcOHDhwfwSuGojTwNsNqk9dIDhw4MCBAwcO3F+F68J0v6+uO90/OHDgwIEDBw7cp8K1G7ThC3ppA3o6znTywYEDBw4cOHDgluBSgE/9HJ8XHDhw4MCBAwfuCNxWoKwG162DbDXM2+cFBw4cOHDgwIE7AtdtEHcLjen86QV1ny9fNDhw4MCBAwcO3DG4NGimhcMp1FYjvAoGDhw4cODAgQN3DS4tMFYBqwFzekFp4O6+eAgOHDhw4MCBA3cFrlvI2y4MpvuY/k78PThw4MCBAwcO3BG4aWGyGyynBdCfaoi/3Sc4cODAgQMHDtwRuHRD20G5ul4aYNPAG3fywYEDBw4cOHDgHoarQqQN5vT59Pe2Bjhw4MCBAwcO3HW4bmCcBt44eC4H2/jc4MCBAwcOHDhwx+C2G8Nbje1uUE0DbnkeOHDgwIEDBw7ch8GlATINuNOLeOxiwIEDBw4cOHDgjsA9XvhrNp63YKoX1r5gcODAgQMHDhy4I3DVDW4t3A283YZ2N0i3/0DgwIEDBw4cOHBH4KoQaeBMG8JPQUyDMzhw4MCBAwcO3DW4aWO5W7DsQkxfEOz+EcCBAwcOHDhw4D4FLm0MbzWAt4JxWiCNXywEBw4cOHDgwIE7BtcNxGmjdzuoPl44BQcOHDhw4MCBOwKXBsi0cd0NxlvBOy2Avg3A4MCBAwcOHDhwR+DSA03np8G3W6BMQcGBAwcOHDhw4K7CVYPgU8E4/d1pEI+hwYEDBw4cOHDgPhTuazi6hcotwLXCLThw4MCBAwcO3BG4bjCdBsqn5m0H+bffgwMHDhw4cODAHYH77UC7BVg9+LjRDg4cOHDgwIEDdwTuFY7thnL1IroH7hY6wYEDBw4cOHDgPg1uGnirAbjb4J5eTDUAxw1pcODAgQMHDhy4I3DbgXYaZNNC6TTglzv54MCBAwcOHDhwHwrXDZ7dg3YvIL3oHw/A4MCBAwcOHDhwx+C6Bc3uutOGdhq4wYEDBw4cOHDgrsNNG9LlguBDUNsXCA4cOHDgwIEDdx0ubtAOD54WSJ/aT7shDQ4cOHDgwIED90twRm+AAwcOHDgDHLhfHv8AWNgFzA1FPIkAAAAASUVORK5CYII=">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/a-complete-network-request-process/'>
+                <p class='title'>一次完整的网络请求过程<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>在浏览器中输入 www.0xbeace.com 这个域名，然后就能看到精美的页面了，这中间倒底发生了些什么呢？
+
+
+其整个过程大致可以分为以下几个步骤：
+
+DNS 域名解析，寻找对应的IP 地址...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Mysql 索引设计与优化',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#最左前缀匹配原则"><span class="toc-text">最左前缀匹配原则</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#如何计算-key-len"><span class="toc-text">如何计算 key_len</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#索引优化"><span class="toc-text">索引优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建索引规范"><span class="toc-text">创建索引规范</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+      
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <span class="post-count">总字数：116.8k</span>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2020 Boo</a></p>
+
+        <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+        
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?fbe826b92f6d49a0ebacf4d848bd3add";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+<script>
+  var now = new Date(); 
+  function createtime() {    
+      var grt= new Date("07/04/2020 14:12:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";     
+  } 
+setInterval("createtime()",250);
+</script>
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "prAyvaUeadxadA2wpcBQqNQn-gzGzoHsz",
+    appKey: "vkyEUTw0BixVjfFpFIzUdhak",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>

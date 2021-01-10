@@ -369,6 +369,8 @@
         
           
         
+          
+        
       
     
     
@@ -387,8 +389,120 @@
         
           
   <h2 class="title">
+    <a href="/mysql-index-design-and-optimization/">
+      Mysql 索引设计与优化
+    </a>
+  </h2>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Mysql/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Mysql</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Jan 10, 2021</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>1.4k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>5 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>什么是索引？</p>
+      
+    </div>
+    
+      
+        <div class="button readmore">
+          <a href="/mysql-index-design-and-optimization/">
+            阅读全文 <i class="fas fa-chevron-right"></i>
+          </a>
+        </div>
+      
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow reveal ">
+  
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h2 class="title">
     <a href="/a-complete-network-request-process/">
-      a complete network request process
+      一次完整的网络请求过程
     </a>
   </h2>
 
@@ -468,60 +582,15 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>在浏览器中输入 <code>www.0xbeace.com</code> 这个域名，然后就能看到精美的页面了，这中间倒底发生了些什么呢？</p>
-<p>其整个过程大致可以分为以下几个步骤：</p>
-<ol>
-<li>DNS 域名解析，寻找对应的IP 地址</li>
-<li>根据这个IP 找到对应的服务器，建立TCP 连接（三次握手，四次挥手）</li>
-<li>TCP 建连之后，发起HTTP 请求</li>
-<li>服务器响应 HTTP 请求</li>
-<li>客户端接收数据解析并渲染页面</li>
-<li>服务器关闭TCP 连接</li>
-</ol>
-<h3 id="域名解析"><a href="#域名解析" class="headerlink" title="域名解析"></a>域名解析</h3><p>以<code>0xbeace.com</code>这个域名为例，DNS 域名解析大致可以细分成以下几个小步骤：</p>
-<ol>
-<li>DNS 缓存（这里的缓存分为浏览器和操作系统）</li>
-<li>本地域名服务器（Hosts 文件）</li>
-<li>根域名服务器</li>
-<li>COM 顶级域名服务器</li>
-<li><code>0xbeace.com</code> 域名服务器</li>
-</ol>
-<p>域名解析一般就是按照该过程去查找，这里引用一张图（没找到具体出处），更加通俗易懂地解释了完整地解析过程。</p>
-<div align="center">
-<img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210105110247.png" width=""><br>
-<sup>DNS 域名解析详细过程</sup>
-</div>
-
-<h2 id="TCP-建连"><a href="#TCP-建连" class="headerlink" title="TCP 建连"></a>TCP 建连</h2><h2 id="客户端发起请求"><a href="#客户端发起请求" class="headerlink" title="客户端发起请求"></a>客户端发起请求</h2><p>TCP 连接成功之后，就可以按照固定格式向服务器发起请求了。</p>
-<p>一个完整的 HTTP 请求应该包含以下几部分：</p>
-<ol>
-<li><strong>请求行</strong>：用于描述客户端的请求方式（GET/POST等），请求的资源名称(URL)以及使用的HTTP协议的版本号</li>
-<li><strong>请求头</strong>：用于描述客户端请求哪台主机及其端口，以及客户端的身份信息（User-Agent）等</li>
-<li><strong>请求正文</strong>：客户端需要发送给服务端的数据</li>
-</ol>
-<h2 id="服务端响应请求"><a href="#服务端响应请求" class="headerlink" title="服务端响应请求"></a>服务端响应请求</h2><p>客户端成功发起请求之后，客户端接收请求并处理将结果响应至客户端。</p>
-<p>一个完整的 HTTP 响应应该包含以下几个部分：</p>
-<ol>
-<li><strong>状态行</strong>：如：<code>HTTP/1.1 200 ok</code>，分别表示 http版本 + 状态码 + 状态代码的文本描述</li>
-<li><strong>响应头</strong>：包含服务器相关信息</li>
-<li><strong>响应正文</strong>：服务器返回给客户端的数据</li>
-</ol>
-<h2 id="客户端渲染"><a href="#客户端渲染" class="headerlink" title="客户端渲染"></a>客户端渲染</h2><p>这里以最常见的 .html 文件为例，当客户端接收到响应数据之后，便开始解析 HTML，如果遇到<code>js/css</code>这类静态资源，就会向服务器发起一个HTTP 请求，如果该请求的返回状态码是 <code>304</code>（已经缓存在本地浏览器了），就会直接从缓存中获取，否则就会开启新的线程去向服务器请求下载。</p>
-<p>这时就用到了 <code>keep-alive</code> 这个特性，可以建立一次TCP 连接，发起多次 HTTP 请求。</p>
-<p>然后浏览器再利用自己的内部工作机制，将HTML 与静态资源进行渲染，最后呈现给用户。</p>
-<h2 id="TCP-关闭连接"><a href="#TCP-关闭连接" class="headerlink" title="TCP 关闭连接"></a>TCP 关闭连接</h2><p>一般情况下，服务端向客户端完成一次请求，就会关闭TCP 连接，那么下一次又需要发起 HTTP 请求时，就需要再次建立一次TCP 连接了。</p>
-<p>频繁建立/关闭连接，不仅增加了请求响应时间，还额外增加了网络带宽消耗，所以HTTP 协议为我们提供了一个可以保持TCP 的通用消息头：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Connection:keep-alive</span><br></pre></td></tr></table></figure>
-
-<p>至此一个完整的HTTP 请求就完成了。</p>
-<h2 id="其他问题"><a href="#其他问题" class="headerlink" title="其他问题"></a>其他问题</h2><h3 id="为什么HTTP-协议要基于TCP-来实现"><a href="#为什么HTTP-协议要基于TCP-来实现" class="headerlink" title="为什么HTTP 协议要基于TCP 来实现"></a>为什么HTTP 协议要基于TCP 来实现</h3><p>这是因为TCP 是一个端到端的面向连接的协议，HTTP基于传输层TCP协议不用担心数据传输的各种问题（当发生错误时，会重传）。</p>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><a href="https://cloud.tencent.com/developer/article/1500463" target="_blank" rel="noopener">一次完整的HTTP请求过程</a></li>
-<li><a href="https://www.jianshu.com/p/5c66dec332b3" target="_blank" rel="noopener">一次完整的网络请求是怎么样的？</a></li>
-</ul>
-
       
     </div>
     
+      
+        <div class="button readmore">
+          <a href="/a-complete-network-request-process/">
+            阅读全文 <i class="fas fa-chevron-right"></i>
+          </a>
+        </div>
       
     
   </section>
@@ -1102,7 +1171,7 @@
           <li><a class="flat-box"
             title="/categories/Mysql/" href="/categories/Mysql/"
             id="categoriesMysql"
-            ><div class='name'>Mysql</div><div class='badge'>(20)</div></a></li>
+            ><div class='name'>Mysql</div><div class='badge'>(21)</div></a></li>
         
           <li><a class="flat-box"
             title="/categories/Nginx/" href="/categories/Nginx/"
@@ -1288,7 +1357,7 @@
     
       
         <div class='copyright'>
-        <span class="post-count">总字数：115.4k</span>
+        <span class="post-count">总字数：116.8k</span>
         <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2020 Boo</a></p>
 
         <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
