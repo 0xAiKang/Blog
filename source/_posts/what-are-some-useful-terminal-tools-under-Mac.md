@@ -1,5 +1,5 @@
 ---
-title: what are some useful terminal tools under Mac
+title: Mac 下有哪些好用的终端工具
 date: 2021-01-12 22:33:12
 tags: ["Tutorial", "Mac"]
 categories: ["Tutorial", "Mac"]
