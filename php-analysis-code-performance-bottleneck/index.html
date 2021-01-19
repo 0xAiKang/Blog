@@ -16,13 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>手把手教你如何创建启动 Azure 实例 - Boo</title>
+    <title>PHP + xdebug 分析代码性能瓶颈 - Boo</title>
   
-    <meta name="keywords" content="Linux,Tutorial,云">
+    <meta name="keywords" content="PHP">
   
   
-    <meta name="description" content="这篇笔记用来整理如何创建启用 Azure 实例。因为这方面可以找到的资料比较少，所以整理一下。
-一是方便自己以后回顾，二是给其他人作为参考。">
+    <meta name="description" content="通常启用了xdebug插件，性能测试输出文件会伴随生成，通常是以cachegrind.out.xxxx 文件存在。">
   
 
   <!-- feed -->
@@ -373,8 +372,8 @@
         
           
   <h1 class="title">
-    <a href="/teach-you-how-to-create-and-start-an-azure-instance/">
-      手把手教你如何创建启动 Azure 实例
+    <a href="/php-analysis-code-performance-bottleneck/">
+      PHP + xdebug 分析代码性能瓶颈
     </a>
   </h1>
 
@@ -399,9 +398,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Linux/Tutorial/' rel="nofollow">
+    <a href='/categories/PHP/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Linux/Tutorial</p>
+      <p>PHP</p>
     </a>
   </div>
 
@@ -412,7 +411,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Aug 12, 2020</p>
+    <p>发布于：Jan 19, 2021</p>
   </a>
 </div>
 
@@ -428,13 +427,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>990 words</p>
+      <p>478 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>3 min</p>
+      <p>1 min</p>
     </a>
   </div>
 
@@ -447,7 +446,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/teach-you-how-to-create-and-start-an-azure-instance/" class="leancloud_visitors" data-flag-title="手把手教你如何创建启动 Azure 实例">
+      <span id="/php-analysis-code-performance-bottleneck/" class="leancloud_visitors" data-flag-title="PHP + xdebug 分析代码性能瓶颈">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -470,88 +469,104 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>这篇笔记用来整理如何创建启用 Azure 实例。因为这方面可以找到的资料比较少，所以整理一下。</p>
-<p>一是方便自己以后回顾，二是给其他人作为参考。</p>
+          <p>通常启用了<code>xdebug</code>插件，性能测试输出文件会伴随生成，通常是以<code>cachegrind.out.xxxx</code> 文件存在。</p>
 <a id="more"></a>
 
-<h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>因为本文是创建微软云，所以首先你得有一个微软账号。</p>
-<p>打开 <a href="https://azure.microsoft.com/zh-cn/" target="_blank" rel="noopener">Microsoft Azure</a> 进行登录，登录成功之后，进入<a href="https://portal.azure.com/#home" target="_blank" rel="noopener">云服务管理后台</a>。</p>
-<h2 id="创建实例"><a href="#创建实例" class="headerlink" title="创建实例"></a>创建实例</h2><p>点击创建资源。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812135350.png" alt=""></p>
-<p>可以搜索你想创建的云服务类型，这里我选择的是 <code>Ubuntu Server 18.04 LTS</code>。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812135625.png" alt=""></p>
-<p>点击创建。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812135731.png" alt=""></p>
-<p>放心，这里的创建并不是正真意义上的创建。接下来需要为机器预设配置。</p>
-<p>下面对常见的配置进行简单说明：</p>
-<ul>
-<li><code>资源组</code>：用来分配一些权限以及策略。</li>
-<li><code>虚拟机名称</code>：你希望用什么名称来称呼这台机器（通常是英文）</li>
-<li><code>区域</code>：选择机器所在地区</li>
-<li><code>映像</code>：选择操作系统</li>
-<li><code>大小</code>：选择一个合适的负责类型，可以理解成机器的硬件配置。</li>
-<li><code>身份验证类型</code>：通常有两种：ssh 密钥和密码，强烈建议使用密钥而不使用密码（密哦存在被暴力破解的风险）。</li>
-<li><code>用户名</code>：微软云默认没有给<code>root</code> 用户，这里需要指定用户名称。</li>
-<li><code>公共入站端口</code>：通常是只开启<code>HTTP (80)</code>、<code>HTTPS (443)</code>、<code>SSH (22)</code> 。</li>
+<p>该文件可以通过第三方工具来进行代码性能分析。</p>
+<p>但如果本地有多个项目/网站，所有的profile 都输出到一个文件中了，这样并不方便后面进行性能分析。</p>
+<h3 id="自定义profile-文件名称"><a href="#自定义profile-文件名称" class="headerlink" title="自定义profile 文件名称"></a>自定义profile 文件名称</h3><p>可以通过配置<code>xdebug.profiler_output_name</code> 参数来设置输出文件名称，部分参数如下：</p>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>含义</th>
+<th>配置样例</th>
+<th>样例文件名</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>%c</td>
+<td>当前工作目录的crc32校验值</td>
+<td>cachegrind.out.%c</td>
+<td>cachegrind.out.1258863198</td>
+</tr>
+<tr>
+<td>%p</td>
+<td>当前服务器进程的pid</td>
+<td>cachegrind.out.%p</td>
+<td>cachegrind.out.9685</td>
+</tr>
+<tr>
+<td>%r</td>
+<td>随机数</td>
+<td>cachegrind.out.%r</td>
+<td>cachegrind.out.072db0</td>
+</tr>
+<tr>
+<td>%s</td>
+<td>脚本文件名(注)</td>
+<td>cachegrind.out.%s</td>
+<td>cachegrind.out._home_httpd_html_test_xdebug_test_php</td>
+</tr>
+<tr>
+<td>%t</td>
+<td>Unix时间戳（秒）</td>
+<td>cachegrind.out.%t</td>
+<td>cachegrind.out.1179434742</td>
+</tr>
+<tr>
+<td>%u</td>
+<td>Unix时间戳（微秒）</td>
+<td>cachegrind.out.%u</td>
+<td>cachegrind.out.1179434749_642382</td>
+</tr>
+<tr>
+<td>%H</td>
+<td>$_SERVER[‘HTTP_HOST’]</td>
+<td>cachegrind.out.%H</td>
+<td>cachegrind.out.localhost</td>
+</tr>
+<tr>
+<td>%R</td>
+<td>$_SERVER[‘REQUEST_URI’]</td>
+<td>cachegrind.out.%R</td>
+<td>cachegrind.out._test_xdebug_test_php_var=1_var2</td>
+</tr>
+<tr>
+<td>%S</td>
+<td>session_id (来自$_COOKIE 如果设置了的话)</td>
+<td>cachegrind.out.%S</td>
+<td>cachegrind.out.c70c1ec2375af58f74b390bbdd2a679d</td>
+</tr>
+<tr>
+<td>%%</td>
+<td>%字符</td>
+<td>cachegrind.out.%%</td>
+<td>cachegrind.out.%%</td>
+</tr>
+</tbody></table>
+<p>编辑<code>php.ini</code> 配置文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xdebug.profiler_output_name &#x3D; cachegrind.out.%H</span><br></pre></td></tr></table></figure>
+<p>然后重启 php server。</p>
+<p>在Mac 下，profile 文件存放于<code>/var/tmp/</code>目录中。</p>
+<h3 id="性能分析"><a href="#性能分析" class="headerlink" title="性能分析"></a>性能分析</h3><p>在Mac 下，有MacCallGrind 和 qcachegrind 可以使用，不过前者是收费，直接通过Apple Store下载，后者是免费。需要手动安装。</p>
+<p>安装graphviz，用来Call Graph功能：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ brew install graphviz</span><br></pre></td></tr></table></figure>
+
+<p>安装 qcachegrind：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ brew install qcachegrind</span><br></pre></td></tr></table></figure>
+
+<p>安装完成之后，就可以打开 <code>qcachegrind</code> 应用了，图形界面如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210119150021.png" alt=""></p>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>不过需要注意，开启了<code>profile</code>文件输出之后，如果本地项目多的话，很容易占用磁盘大面积空间，下图是我半年左右没有清理的状态：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/%E7%A3%81%E7%9B%98.jpg" alt=""></p>
+<p>可以使用命令进行清理：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo rm -fr &#x2F;private&#x2F;var&#x2F;tmp&#x2F;cachegrind.out.*</span><br></pre></td></tr></table></figure>
+
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://xenojoshua.com/2011/05/xdebug-php-profile-output/" target="_blank" rel="noopener">使用xdebug对php进行profile的输出</a></li>
+<li><a href="https://segmentfault.com/a/1190000012395875" target="_blank" rel="noopener">php+xdebug+qcachegrind(mac)性能分析</a></li>
 </ul>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812141205.png" alt=""></p>
-<p>完成基本配置之后，点击<code>下一步：磁盘</code>。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812141834.png" alt=""></p>
-<p>Azure 默认只有一个用于短期存储的临时盘，而临时盘通常都很小。</p>
-<p>默认的磁盘很小，如果想扩大有两种方式：</p>
-<ul>
-<li>创建新的磁盘，需要手动挂载。</li>
-<li>更改默认磁盘的大小。</li>
-</ul>
-<p>配置完磁盘之后，点击<code>下一步：网络</code>。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812142034.png" alt=""></p>
-<p>网络配置，公用ip 可以选择无，后面再去新建。</p>
-<p>然后点击<code>下一步：管理</code>。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812142317.png" alt=""></p>
-<p>管理、高级、标记这一块，如果没有特殊需求可以直接使用默认配置。</p>
-<p>最后点击<code>查看+创建</code>，可以看到预设的配置信息，如果符合预期，点击创建。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812142806.png" alt=""></p>
-<p>下载私钥并保存好。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812152220.png" alt=""></p>
-<p>此时，虽然已经创建好虚拟机，但是还不能直接使用，因为没有配置IP。</p>
-<h2 id="关联IP"><a href="#关联IP" class="headerlink" title="关联IP"></a>关联IP</h2><p>Azure 和 AWS 不同，它并没有弹性IP 的概念，如果需要配置IP，需要在搜索栏中搜索<code>公共IP地址</code>，</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812143323.png" alt=""></p>
-<p>点击第一个搜索结果。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812143437.png" alt=""></p>
-<p>点击添加。</p>
-<p>配置IP 基本信息，然后点击创建。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812143641.png" alt=""></p>
-<p>此时，只是创建了内网IP，并没有与外网IP 地址进行关联，</p>
-<p>点击刚才新建的公共 IP 地址，点击配置。</p>
-<p>资源类型选择网络接口，网络接口与对应的实例进行关联。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812153504.png" alt=""></p>
-<p>关联成功之后，就可以进行连接了。</p>
-<h3 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h3><ol>
-<li>打开终端</li>
-<li>请确保你对私钥具有只读访问权限。</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod 400 &lt;私钥&gt;</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>运行以下示例命令以连接到 VM。</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -i &lt;私钥路径&gt; user@ip_address</span><br></pre></td></tr></table></figure>
-<ul>
-<li><code>user</code>：表示VM 用户</li>
-<li><code>ip_address</code>：表示外网IP 地址</li>
-</ul>
-<h3 id="扩大默认磁盘大小"><a href="#扩大默认磁盘大小" class="headerlink" title="扩大默认磁盘大小"></a>扩大默认磁盘大小</h3><p>上面简单提到过，如果想要扩大默认磁盘的大小，有两种方式：</p>
-<ol>
-<li>添加新磁盘。这种方式需要手动挂载，如果对linux 并不熟悉，这种方式不推荐新手用户使用。</li>
-<li>更改默认磁盘大小。</li>
-</ol>
-<p>第二种方式并不能直接更改，需要先将服务器停掉（注意⚠️：不是删除）。</p>
-<p>搜索磁盘，点击第一个搜索结果。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812145110.png" alt=""></p>
-<p>点击需要扩大的磁盘实例，注意：只能扩大，不能缩小。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200812145326.png" alt=""></p>
-<p>然后点击保存即可。</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>至此，就已经完成了Azure 的创建了，这方面需要学习的还有很多，这里只是简单的整理了一下自己遇到的问题。</p>
-<p>有些地方可能没说清楚，但如果能帮到你那真是太好了</p>
 
           
             <div class='article_footer'>
@@ -588,7 +603,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/teach-you-how-to-create-and-start-an-azure-instance/>https://www.0x2beace.com/teach-you-how-to-create-and-start-an-azure-instance/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/php-analysis-code-performance-bottleneck/>https://www.0x2beace.com/php-analysis-code-performance-bottleneck/</a></p>
           
         
       </blockquote>
@@ -636,10 +651,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-08-27T14:26:47+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-01-19T20:16:37+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Aug 27, 2020</p>
+    <p>更新于：Jan 19, 2021</p>
   </a>
 </div>
 
@@ -648,7 +663,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Linux/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Linux</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Tutorial/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Tutorial</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E4%BA%91/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>云</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div>
 
 
         
@@ -666,8 +681,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/teach-you-how-to-create-and-start-an-azure-instance/&title=手把手教你如何创建启动 Azure 实例 - Boo&summary=这篇笔记用来整理如何创建启用 Azure 实例。因为这方面可以找到的资料比较少，所以整理一下。
-一是方便自己以后回顾，二是给其他人作为参考。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/php-analysis-code-performance-bottleneck/&title=PHP + xdebug 分析代码性能瓶颈 - Boo&summary=通常启用了xdebug插件，性能测试输出文件会伴随生成，通常是以cachegrind.out.xxxx 文件存在。"
           
           >
           
@@ -679,8 +693,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/teach-you-how-to-create-and-start-an-azure-instance/&title=手把手教你如何创建启动 Azure 实例 - Boo&summary=这篇笔记用来整理如何创建启用 Azure 实例。因为这方面可以找到的资料比较少，所以整理一下。
-一是方便自己以后回顾，二是给其他人作为参考。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/php-analysis-code-performance-bottleneck/&title=PHP + xdebug 分析代码性能瓶颈 - Boo&summary=通常启用了xdebug插件，性能测试输出文件会伴随生成，通常是以cachegrind.out.xxxx 文件存在。"
           
           >
           
@@ -692,8 +705,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/teach-you-how-to-create-and-start-an-azure-instance/&title=手把手教你如何创建启动 Azure 实例 - Boo&summary=这篇笔记用来整理如何创建启用 Azure 实例。因为这方面可以找到的资料比较少，所以整理一下。
-一是方便自己以后回顾，二是给其他人作为参考。"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/php-analysis-code-performance-bottleneck/&title=PHP + xdebug 分析代码性能瓶颈 - Boo&summary=通常启用了xdebug插件，性能测试输出文件会伴随生成，通常是以cachegrind.out.xxxx 文件存在。"
           
           >
           
@@ -707,7 +719,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVgAAAFYCAAAAAAzB7ucAAAEa0lEQVR42u3aQZKjMAwF0Nz/0jMH6KKwvmRDUs+7dAeMnllIij7/rC3rgwAsWAssWLAW2COwn3D9uWH493Tfu8+XgS/eN34usGDBggULFixYsEdhlxPgm+9XA6weQHpAq/t2PcCCBQsWLFiwYME+A5s+2GrCXb1PWqDcfb8KvRwHWLBgwYIFCxYs2J+AnSo0pkC7BwQWLFiwYMGCBQv2t2C7jeTpAY60gQ4WLFiwYMGCBQv2O2G7gxbVQqFbSOwqMB6fhAELFixYsGDBggW7BDuVmP/K59gDLFiwYMGCBQsW7BHYqQR+enDi1PenChmwYMGCBQsWLFiwZ2HTBLnbYL7br3r/dNBiPH6wYMGCBQsWLFiwR2BXA50anKjuV22wTwHGjXKwYMGCBQsWLFiwR2GnEvluYt5tWK8+XzXu+BcEsGDBggULFixYsFtguwXA1OBG2mjuDoqkjXKwYMGCBQsWLFiw74BNAbuJe7eQ6A5sdAdDwIIFCxYsWLBgwT4Lmyb43cIhTezTBna3ILm9H1iwYMGCBQsWLNgjsGlBkG68ul+3gJguPMqNbrBgwYIFCxYsWLCPwlaB0kR9qsGeNuCr8O0CASxYsGDBggULFuwI7GoBkBYK1QC7IKsFQPpCXP4fLFiwYMGCBQsW7BHY7qDDdCI/3UBPE/64YQ4WLFiwYMGCBQv2lbDTD1g9wOmGexrf5X3AggULFixYsGDBHoVNByjSAYtuIXD6oJcPFCxYsGDBggULFuwR2GpivnswYhdk+mKUrwMLFixYsGDBggV7FDYtBLrXrRYQU4Ml1f3KzwUWLFiwYMGCBQv2CGw6KJw2uqsN73gAuBhXtWAp/4IAFixYsGDBggULdgts2lCeStDTA0ob3d0C6DI+sGDBggULFixYsI/C7ioM0kGP6n7pQVYb6eUCASxYsGDBggULFuwI7PIFxUS83TAePoj0BSo32MGCBQsWLFiwYMEegU0fMC0Upu+THvTUCxBXXmDBggULFixYsGBHYdOAutelMCnUtoMCCxYsWLBgwYIFexT2bqNqI7gaeDXQKtR04325QAALFixYsGDBggX7KGwKlB5Ut/G+u0F+6QAWLFiwYMGCBQv2KOxUI3qqIb2a6E8l+GMHBBYsWLBgwYIFC/ZR2KnGd/UA0kKj+7m6D1iwYMGCBQsWLNh3wr4l4O7ARjXxrzbe241usGDBggULFixYsBFsd1VhTwWYDly0DxIsWLBgwYIFCxbsEdhPuKqQ0wFUn3/1udqDKGDBggULFixYsGCPwqYFQTegp0CqB75ckIAFCxYsWLBgwYJ9BHZXAl0tGKoDIFXQ6QIJLFiwYMGCBQsW7HfDrib4KXx6MNWDil8gsGDBggULFixYsF8J2y0QqgFPD4xU4wcLFixYsGDBggX7DthqYt0dkNh1Xfq8q/tsn4QBCxYsWLBgwYIFuwSbDixUG89pATDdaE8b7uUCASxYsGDBggULFuwWWGt2gQUL1gILFqwFduv6D3owkUV2uqxRAAAAAElFTkSuQmCC">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADqklEQVR42u3aUXLjQAgE0Nz/0rsnSAkabOPUm09bkoenfHRgfv5Z0fpBAA4cOHAWOHBH4H7C9dv95Q38cn3196rPqz6/XC84cODAgQMHDtwxuLTgrUK6hXVfyFq94MCBAwcOHDhwR+G6AbS60TTQPoFNg3K7XnDgwIEDBw4cuD8C121Qbr2gLiw4cODAgQMHDhy4WeNx2ghNgcGBAwcOHDhw4P46XHdAm35fHTBPwbsB/m2TfHDgwIEDBw4cuCW47np1IH134C3XCw4cOHDgwIEDdwRua3U3XC2k+/vp/eXfAQcOHDhw4MCBOwL31BCcBuK0gdiFqn5efeHl/xzAgQMHDhw4cOA+BJcGyq0Dg9XCt77v/mG0/3MABw4cOHDgwIH7ENzWgLq78Sl4GpCrzwEHDhw4cODAgbsGV20wToG6BW6DpYEfHDhw4MCBAwfuOtzWQcDp9Sl8Fyi9Hhw4cODAgQMH7gpct4E4DahpI7O7326DtPy74MCBAwcOHDhwR+CqD9w68DcN2GkjMq2z3QEGBw4cOHDgwIF7M9zWAcJ0ILw1CJ8eVHy6Hxw4cODAgQMH7grcdMPv+jyFTBuzjwEYHDhw4MCBAwfuGFy3gdgtsBt8q0F8az+PsODAgQMHDhw4cEfgpoPh7qA3HQh3G6vdQF1+AeDAgQMHDhw4cEfhusG1WkAKGjcch3WAAwcOHDhw4MB9G1w32G41QNNC04F3vF9w4MCBAwcOHLijcFuFTAPqNLBOB9e/Xg8OHDhw4MCBA3cELj0wuD04nh4w3GqwlhuZ4MCBAwcOHDhwH4ZLB8PdAJrenwKlv/P4PHDgwIEDBw4cuC+B6xbW/bzauOy+oHQf40k+OHDgwIEDBw7cMbjtgXI3GHdB0kYpOHDgwIEDBw7ct8Oljcq0QZkG6+1B+qMLOHDgwIEDBw7cMbhu4E3v7wbl6cHErRcKDhw4cODAgQN3Ha4bcKeBtlvI1nVx4xMcOHDgwIEDB+4I3HSlA+L0+ukLnd4HDhw4cODAgQN3BW4aENMB8nQgPYVJB+/gwIEDBw4cOHDX4LqBt1tQWvC7B97gwIEDBw4cOHDfCtcdJKdA0+C81RAFBw4cOHDgwIEDlw2iX/VC0sD7uC9w4MCBAwcOHLg/AjcdGL/rudMXBg4cOHDgwIEDdx3u1QV2g/U0sE4H6uDAgQMHDhw4cNfh0gFuCvWyg3/D/bQbmeDAgQMHDhw4cB+Cs3oLHDhw4MBZ4MB9eP0HrjYBFzCYjmMAAAAASUVORK5CYII=">
           </div>
         </div>
       
@@ -727,19 +739,14 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/how-to-apply-for-a-free-ssl-certificate/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>如何申请免费的SSL 证书</p>
-                <p class='content'>这篇笔记用来记录如何申请免费的 SSL 证书，通过本文介绍的方式所申请的证书有效期只有三个月，请谨慎选择。
+            
+              <a class='next' href='/what-are-some-useful-terminal-tools-under-Mac/'>
+                <p class='title'>Mac 下有哪些好用的终端工具<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>这篇笔记主要是用来整理自己一直在使用的一些较为好用的终端工具/扩展。
 
 
-准备像这类提供免费 SSL 证书的网站非常多，这里我选择的平台是 FreeSSL....</p>
-              </a>
-            
-            
-              <a class='next' href='/how-do-windows-and-mac-share-files-in-the-local-area-network/'>
-                <p class='title'>Windows 和 Mac 在局域网内如何共享文件？<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>每当手上有两台或多台电脑时，如果想传送一个文件，第一个想到的就是微信、QQ等这类工具。如果碰到了大一点的文件，就得换成网盘或者移动硬盘。
-身为一个做开发者，这种做法比较low，所以找了几篇文章学...</p>
+因为我个人的终端配置是ZSH + iTerm2，所以本文的部分ZSH 扩展可能不适用于其他Shell用户。
+brew经常...</p>
               </a>
             
           </div>
@@ -784,7 +791,7 @@
 
   <script>
     window.subData = {
-      title: '手把手教你如何创建启动 Azure 实例',
+      title: 'PHP + xdebug 分析代码性能瓶颈',
       tools: true
     }
   </script>
@@ -811,7 +818,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#准备"><span class="toc-text">准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建实例"><span class="toc-text">创建实例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关联IP"><span class="toc-text">关联IP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#连接"><span class="toc-text">连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#扩大默认磁盘大小"><span class="toc-text">扩大默认磁盘大小</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#自定义profile-文件名称"><span class="toc-text">自定义profile 文件名称</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#性能分析"><span class="toc-text">性能分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他"><span class="toc-text">其他</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
     </div>
   </section>
 

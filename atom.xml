@@ -6,7 +6,7 @@
   <link href="https://www.0x2beace.com/atom.xml" rel="self"/>
   
   <link href="https://www.0x2beace.com/"/>
-  <updated>2021-01-12T14:34:41.772Z</updated>
+  <updated>2021-01-19T12:16:37.417Z</updated>
   <id>https://www.0x2beace.com/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>PHP + xdebug 分析代码性能瓶颈</title>
+    <link href="https://www.0x2beace.com/php-analysis-code-performance-bottleneck/"/>
+    <id>https://www.0x2beace.com/php-analysis-code-performance-bottleneck/</id>
+    <published>2021-01-19T12:12:54.000Z</published>
+    <updated>2021-01-19T12:16:37.417Z</updated>
+    
+    <content type="html"><![CDATA[<p>通常启用了<code>xdebug</code>插件，性能测试输出文件会伴随生成，通常是以<code>cachegrind.out.xxxx</code> 文件存在。</p><a id="more"></a><p>该文件可以通过第三方工具来进行代码性能分析。</p><p>但如果本地有多个项目/网站，所有的profile 都输出到一个文件中了，这样并不方便后面进行性能分析。</p><h3 id="自定义profile-文件名称"><a href="#自定义profile-文件名称" class="headerlink" title="自定义profile 文件名称"></a>自定义profile 文件名称</h3><p>可以通过配置<code>xdebug.profiler_output_name</code> 参数来设置输出文件名称，部分参数如下：</p><table><thead><tr><th>符号</th><th>含义</th><th>配置样例</th><th>样例文件名</th></tr></thead><tbody><tr><td>%c</td><td>当前工作目录的crc32校验值</td><td>cachegrind.out.%c</td><td>cachegrind.out.1258863198</td></tr><tr><td>%p</td><td>当前服务器进程的pid</td><td>cachegrind.out.%p</td><td>cachegrind.out.9685</td></tr><tr><td>%r</td><td>随机数</td><td>cachegrind.out.%r</td><td>cachegrind.out.072db0</td></tr><tr><td>%s</td><td>脚本文件名(注)</td><td>cachegrind.out.%s</td><td>cachegrind.out._home_httpd_html_test_xdebug_test_php</td></tr><tr><td>%t</td><td>Unix时间戳（秒）</td><td>cachegrind.out.%t</td><td>cachegrind.out.1179434742</td></tr><tr><td>%u</td><td>Unix时间戳（微秒）</td><td>cachegrind.out.%u</td><td>cachegrind.out.1179434749_642382</td></tr><tr><td>%H</td><td>$_SERVER[‘HTTP_HOST’]</td><td>cachegrind.out.%H</td><td>cachegrind.out.localhost</td></tr><tr><td>%R</td><td>$_SERVER[‘REQUEST_URI’]</td><td>cachegrind.out.%R</td><td>cachegrind.out._test_xdebug_test_php_var=1_var2</td></tr><tr><td>%S</td><td>session_id (来自$_COOKIE 如果设置了的话)</td><td>cachegrind.out.%S</td><td>cachegrind.out.c70c1ec2375af58f74b390bbdd2a679d</td></tr><tr><td>%%</td><td>%字符</td><td>cachegrind.out.%%</td><td>cachegrind.out.%%</td></tr></tbody></table><p>编辑<code>php.ini</code> 配置文件：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xdebug.profiler_output_name &#x3D; cachegrind.out.%H</span><br></pre></td></tr></table></figure><p>然后重启 php server。</p><p>在Mac 下，profile 文件存放于<code>/var/tmp/</code>目录中。</p><h3 id="性能分析"><a href="#性能分析" class="headerlink" title="性能分析"></a>性能分析</h3><p>在Mac 下，有MacCallGrind 和 qcachegrind 可以使用，不过前者是收费，直接通过Apple Store下载，后者是免费。需要手动安装。</p><p>安装graphviz，用来Call Graph功能：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ brew install graphviz</span><br></pre></td></tr></table></figure><p>安装 qcachegrind：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ brew install qcachegrind</span><br></pre></td></tr></table></figure><p>安装完成之后，就可以打开 <code>qcachegrind</code> 应用了，图形界面如下：</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210119150021.png" alt=""></p><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>不过需要注意，开启了<code>profile</code>文件输出之后，如果本地项目多的话，很容易占用磁盘大面积空间，下图是我半年左右没有清理的状态：</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/%E7%A3%81%E7%9B%98.jpg" alt=""></p><p>可以使用命令进行清理：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo rm -fr &#x2F;private&#x2F;var&#x2F;tmp&#x2F;cachegrind.out.*</span><br></pre></td></tr></table></figure><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul><li><a href="https://xenojoshua.com/2011/05/xdebug-php-profile-output/" target="_blank" rel="noopener">使用xdebug对php进行profile的输出</a></li><li><a href="https://segmentfault.com/a/1190000012395875" target="_blank" rel="noopener">php+xdebug+qcachegrind(mac)性能分析</a></li></ul>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;通常启用了&lt;code&gt;xdebug&lt;/code&gt;插件，性能测试输出文件会伴随生成，通常是以&lt;code&gt;cachegrind.out.xxxx&lt;/code&gt; 文件存在。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="PHP" scheme="https://www.0x2beace.com/categories/PHP/"/>
+    
+    
+    <category term="PHP" scheme="https://www.0x2beace.com/tags/PHP/"/>
+    
+  </entry>
   
   <entry>
     <title>Mac 下有哪些好用的终端工具</title>
