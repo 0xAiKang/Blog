@@ -6,7 +6,7 @@
   <link href="https://www.0x2beace.com/atom.xml" rel="self"/>
   
   <link href="https://www.0x2beace.com/"/>
-  <updated>2021-01-21T14:03:05.632Z</updated>
+  <updated>2021-01-22T14:58:49.610Z</updated>
   <id>https://www.0x2beace.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>PHP 实践 Redis 发布订阅</title>
+    <link href="https://www.0x2beace.com/php-practice-redis-publish-and-subscribe/"/>
+    <id>https://www.0x2beace.com/php-practice-redis-publish-and-subscribe/</id>
+    <published>2021-01-22T14:57:36.000Z</published>
+    <updated>2021-01-22T14:58:49.610Z</updated>
+    
+    <content type="html"><![CDATA[<p>Redis 集成了Pub/Sub功能（means Publish, Subscribe）即发布及订阅功能。</p><a id="more"></a><p>Redis 有各种语言的客户端，这里仅以PHP 的客户端来了解Redis 的发布订阅。</p><p>发布者：即publish客户端，无需独占链接，你可以在publish消息的同时，使用同一个redis-client链接进行其他操作（例如：INCR等）</p><p>订阅者：即subscribe客户端，需要独占链接，即进行subscribe期间，redis-client无法穿插其他操作，此时client以阻塞的方式等待“publish端”的消息；<br>这一点很好理解，因此subscribe端需要使用单独的链接，甚至需要在额外的线程中使用。</p><h2 id="终端实现"><a href="#终端实现" class="headerlink" title="终端实现"></a>终端实现</h2><p>订阅者订阅频道：<br><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210122165931.png" alt=""></p><p>发布者向频道中发送内容<br><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210122170004.png" alt=""></p><h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><p>subscribe 客户端：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$redis &#x3D; getConnect();</span><br><span class="line">$redis-&gt;setOption(Redis::OPT_READ_TIMEOUT, -1); </span><br><span class="line"></span><br><span class="line">$redis-&gt;subscribe([&quot;channel1&quot;], function ($instance, $chan, $msg) &#123;</span><br><span class="line">echo $msg;</span><br><span class="line">&#x2F;**</span><br><span class="line"> * $instance 是上面创建的Redis 实例对象，因为独占链接的关系，该实例不能执行其他操作。</span><br><span class="line"> * 如果要使用Redis，需新建一个连接</span><br><span class="line"> *&#x2F;</span><br><span class="line">$redis &#x3D; getConnect();</span><br><span class="line">$redis-&gt;get(&quot;name&quot;);</span><br><span class="line">&#x2F;&#x2F; todo 业务逻辑</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">function getConnect()</span><br><span class="line">&#123;</span><br><span class="line">$redis &#x3D; new Redis();</span><br><span class="line">$redis-&gt;connect(&quot;127.0.0.1&quot;, 6379);</span><br><span class="line">$redis-&gt;auth(&quot;&quot;);</span><br><span class="line">return $redis;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>publish 客户端：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$redis &#x3D; new Redis();</span><br><span class="line">$redis-&gt;connect(&quot;127.0.0.1&quot;, 6379);</span><br><span class="line"></span><br><span class="line">$redis-&gt;publish(&#39;channel1&#39;, &#39;hello, redis&#39;);</span><br></pre></td></tr></table></figure><h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p>subscribe 客户端需要手动设置不超时，有两种方式：</p><ol><li><code>ini_set(&#39;default_socket_timeout&#39;, -1)</code></li><li><code>$redis-&gt;setOption(Redis::OPT_READ_TIMEOUT, -1)</code></li></ol><p>如果不设置不超时，60s后会报一个错误：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Fatal error: Uncaught RedisException: read error on connection to 127.0.0.1:6379</span><br></pre></td></tr></table></figure><p>方式一是通过临时修改 <code>php.ini</code> 配置项，<code>default_socket_timeout</code>默认为 60s 。</p><p><code>default_socket_timeout</code> 是socket流的超时参数，即socket流从建立到传输再到关闭整个过程必须要在这个参数设置的时间以内完成，如果不能完成，那么PHP将自动结束这个socket并返回一个警告。</p><p>推荐第二种，因为方式二是通过修改redis的配置项，因此仅对redis连接生效，相对于方式一，不会产生意外的对其他部分的影响。</p><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul><li><a href="https://segmentfault.com/a/1190000020385114" target="_blank" rel="noopener">php实现redis消息发布订阅</a></li></ul>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;Redis 集成了Pub/Sub功能（means Publish, Subscribe）即发布及订阅功能。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="PHP" scheme="https://www.0x2beace.com/categories/PHP/"/>
+    
+    <category term="Redis" scheme="https://www.0x2beace.com/categories/PHP/Redis/"/>
+    
+    
+    <category term="PHP" scheme="https://www.0x2beace.com/tags/PHP/"/>
+    
+    <category term="Redis" scheme="https://www.0x2beace.com/tags/Redis/"/>
+    
+  </entry>
   
   <entry>
     <title>《程序是怎样跑起来的》读书笔记</title>
