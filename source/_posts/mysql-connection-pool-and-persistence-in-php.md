@@ -1,7 +1,8 @@
 ---
-title: mysql connection pool and persistence in php
+title: PHP 中实现 Mysql 连接池与持久化
 date: 2021-02-03 19:42:17
-tags: PHP 中实现 Mysql 连接池与持久化
+tags: ["PHP", "Mysql"]
+categories: ["PHP"]
 ---
 
 Mysql 的连接方式有两种：tcp 和 socket。前者是基于`tcp/ip`协议，后者是基于socket 套接字。
