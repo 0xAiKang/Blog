@@ -427,13 +427,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>2.3k words</p>
+      <p>3.1k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>8 min</p>
+      <p>10 min</p>
     </a>
   </div>
 
@@ -557,6 +557,25 @@
 <li><code>main</code>：可执行文件</li>
 <li><code>a.out</code>：可执行文件（默认名称）</li>
 </ul>
+<p>当程序加载到内存后，除此之外还会额外生成两个组，那就是<strong>堆</strong>和<strong>栈</strong>。</p>
+<p>栈是用来存储函数内部临时使用的变量（局部变量），以及函数调用时所用的参数的内存区域。<br>堆是用来存储程序运行时的任意数据及对象的内存领域。</p>
+<p>无论是 C 语言还是 C++，如果没有在程序中明确释放堆的内存空间，那么即使在处理完毕后，该内存空间仍会一直残留。这个现象称为 内存泄露。</p>
+<p>编译器和解析器的区别？<br>编译器是在程序运行之前对所有源代码进行解释处理。<br>解析器则是在运行时对源代码的内容一行一行地进行解释处理。</p>
+<h2 id="操作系统和应用的关系"><a href="#操作系统和应用的关系" class="headerlink" title="操作系统和应用的关系"></a>操作系统和应用的关系</h2><p>操作系统本身并不是单独的程序，而是多个程序的集合体。</p>
+<p>初期的操作系统 = 监控程序 + 基本的输入输出程序</p>
+<p>在操作系统这个运行环境下，应用并不能直接控制硬件，而是通过操作系统来间接控制硬件。</p>
+<p>应用程序经过 OS 间接地控制硬件：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210203110747.png" alt=""></p>
+<h3 id="高级语言的可移植性和系统调用"><a href="#高级语言的可移植性和系统调用" class="headerlink" title="高级语言的可移植性和系统调用"></a>高级语言的可移植性和系统调用</h3><p>C 语言等高级编程语言并不依存特定的操作系统。这是因为用高级编程语言编写的应用在编译后，就转换成了利用系统调用的本地代码。</p>
+<p>高级语言编写的函数调用在编译之后变成了系统调用：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210203111420.png" alt=""></p>
+<h2 id="通过汇编语言了解程序的实际构成"><a href="#通过汇编语言了解程序的实际构成" class="headerlink" title="通过汇编语言了解程序的实际构成"></a>通过汇编语言了解程序的实际构成</h2><p>前面的章节已经多次提到了，计算机CPU 能直接解释运行的只有本地代码（机器语言）程序。</p>
+<p>用C 语言等高级编程语言编写的源代码，需要通过各自的编译器编译后，转换成本地代码。</p>
+<p>通过调查本地代码的内容，可以了解程序最终是以何种形式来运行的。但是，如果直接打开本地代码来看的话，只能看到数值的罗列。 如果直接使用这些数值来编写程序的话，还真是不太容易理解。因而 就产生了这样一种想法，那就是在各本地代码中，附带上表示其功能的英语单词缩写。</p>
+<p>例如，在加法运算的本地代码中加上 add(addition 的缩写)、在比较运算的本地代码中加上 cmp(compare 的缩写)等。这些缩写称为 <strong>助记符</strong>，使用助记符的编程语言称为 <strong>汇编语言</strong>。</p>
+<p>不过，即使是用汇编语言编写的源代码，最终也必须转换成本地代码才能运行。负责转换工作的程序称为<strong>汇编器</strong>，转换这一处理本身称为<strong>汇编</strong>。</p>
+<p>用汇编语言编写的源代码，和本地代码是一一对应的。因而，本地代码也可以反过来转换成汇编语言的源代码。持有该功能的逆变换程序称为 <strong>反汇编程序</strong>，逆变换这一处理本身称为<strong>反汇编</strong>。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210203160137.png" alt=""></p>
 
           
             <div class='article_footer'>
@@ -641,10 +660,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-01-21T22:03:05+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-02-03T20:47:57+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Jan 21, 2021</p>
+    <p>更新于：Feb 3, 2021</p>
   </a>
 </div>
 
@@ -816,7 +835,7 @@ Redis 有各种语言的客户端，这里仅以PHP 的客户端来了解Redis �
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CPU"><span class="toc-text">CPU</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二进制"><span class="toc-text">二进制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#计算机进行小数运算"><span class="toc-text">计算机进行小数运算</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#二进制和十进制"><span class="toc-text">二进制和十进制</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内存"><span class="toc-text">内存</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#指针"><span class="toc-text">指针</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#栈、队列及环形缓冲区"><span class="toc-text">栈、队列及环形缓冲区</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内存和磁盘"><span class="toc-text">内存和磁盘</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#不读入内存就无法运行"><span class="toc-text">不读入内存就无法运行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#磁盘缓存加速了磁盘访问速度"><span class="toc-text">磁盘缓存加速了磁盘访问速度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#虚拟内存把磁盘作为部分内存来使用"><span class="toc-text">虚拟内存把磁盘作为部分内存来使用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#亲自尝试压缩数据"><span class="toc-text">亲自尝试压缩数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#从源文件到可执行文件"><span class="toc-text">从源文件到可执行文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#编译"><span class="toc-text">编译</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#链接"><span class="toc-text">链接</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CPU"><span class="toc-text">CPU</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二进制"><span class="toc-text">二进制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#计算机进行小数运算"><span class="toc-text">计算机进行小数运算</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#二进制和十进制"><span class="toc-text">二进制和十进制</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内存"><span class="toc-text">内存</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#指针"><span class="toc-text">指针</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#栈、队列及环形缓冲区"><span class="toc-text">栈、队列及环形缓冲区</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内存和磁盘"><span class="toc-text">内存和磁盘</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#不读入内存就无法运行"><span class="toc-text">不读入内存就无法运行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#磁盘缓存加速了磁盘访问速度"><span class="toc-text">磁盘缓存加速了磁盘访问速度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#虚拟内存把磁盘作为部分内存来使用"><span class="toc-text">虚拟内存把磁盘作为部分内存来使用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#亲自尝试压缩数据"><span class="toc-text">亲自尝试压缩数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#从源文件到可执行文件"><span class="toc-text">从源文件到可执行文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#编译"><span class="toc-text">编译</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#链接"><span class="toc-text">链接</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#操作系统和应用的关系"><span class="toc-text">操作系统和应用的关系</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#高级语言的可移植性和系统调用"><span class="toc-text">高级语言的可移植性和系统调用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通过汇编语言了解程序的实际构成"><span class="toc-text">通过汇编语言了解程序的实际构成</span></a></li></ol>
     </div>
   </section>
 
@@ -851,7 +870,7 @@ Redis 有各种语言的客户端，这里仅以PHP 的客户端来了解Redis �
     
       
         <div class='copyright'>
-        <span class="post-count">总字数：122k</span>
+        <span class="post-count">总字数：122.8k</span>
         <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2020 Boo</a></p>
 
         <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
