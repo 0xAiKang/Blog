@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>PHP 常见面试题整理 - Boo</title>
+  
+    <meta name="keywords" content="PHP,面试">
+  
+  
+    <meta name="description" content="年前年后这段时间一直在为面试做准备，本文将从网络、PHP、Mysql、Redis、Linux 这几部分整理一下常见的一些面试简答题。">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Boo's Blog</p>
+    
+    
+      <p class="subtitle">Stay foolish, Stay hungry</p>
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/"
+                
+                
+                id="https:www0x2BeAcecom">
+                <i class='fas fa-book fa-fw'></i>博客
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/categories/"
+                
+                
+                id="https:www0x2BeAcecomcategories">
+                <i class='fas fa-rss fa-fw'></i>分类
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/tags/"
+                
+                
+                id="https:www0x2BeAcecomtags">
+                <i class='fas fa-play-circle fa-fw'></i>标签
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/archives/"
+                
+                  rel="external nofollow noopener noreferrer"
+                
+                
+                id="https:www0x2BeAcecomarchives">
+                <i class='fas fa-file-code fa-fw'></i>归档
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/about/"
+                
+                
+                id="https:www0x2BeAcecomabout">
+                <i class='fas fa-handshake fa-fw'></i>关于我
+              </a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/php-common-interview-questions/">
+      PHP 常见面试题整理
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/PHP/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>PHP</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Feb 25, 2021</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>2.2k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>7 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/php-common-interview-questions/" class="leancloud_visitors" data-flag-title="PHP 常见面试题整理">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>年前年后这段时间一直在为面试做准备，本文将从网络、PHP、Mysql、Redis、Linux 这几部分整理一下常见的一些面试简答题。</p>
+<a id="more"></a>
+
+<h2 id="网络篇"><a href="#网络篇" class="headerlink" title="网络篇"></a>网络篇</h2><h3 id="常见的状态码及其含义"><a href="#常见的状态码及其含义" class="headerlink" title="常见的状态码及其含义"></a>常见的状态码及其含义</h3><table>
+<thead>
+<tr>
+<th>状态码</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>200</td>
+<td>请求成功</td>
+</tr>
+<tr>
+<td>301</td>
+<td>重定向</td>
+</tr>
+<tr>
+<td>304</td>
+<td>资源未被修改可以使用旧资源</td>
+</tr>
+<tr>
+<td>404</td>
+<td>资源找不到</td>
+</tr>
+<tr>
+<td>403</td>
+<td>请求被拒绝</td>
+</tr>
+<tr>
+<td>500</td>
+<td>服务端错误</td>
+</tr>
+<tr>
+<td>502</td>
+<td>网关错误</td>
+</tr>
+<tr>
+<td>504</td>
+<td>网关超时</td>
+</tr>
+</tbody></table>
+<h3 id="表单提交-get-和-post-的区别"><a href="#表单提交-get-和-post-的区别" class="headerlink" title="表单提交 get 和 post 的区别"></a>表单提交 get 和 post 的区别</h3><ol>
+<li>Get 请求是将请求参数放在 url 后面，等同于直接放在了请求头中，Post 请求则是把请求参数放在请求体中。</li>
+<li>Post 更安全，不会作为url的一部分，不会被缓存及保存在浏览器记录中。</li>
+<li>Post 能发送更多的内容及更多的数据类型，get 只能发送 2048 个ASCII 字符</li>
+<li>Post 比Get 慢（原因是因为post 需要在服务器确认之后再发送数据）</li>
+<li>Get 通常用于资源的获取，Post 通常用于资源的更新</li>
+</ol>
+<h3 id="http-和-https-的区别"><a href="#http-和-https-的区别" class="headerlink" title="http 和 https 的区别"></a>http 和 https 的区别</h3><ol>
+<li>首先两者所使用的协议不一样，其端口也不一样。</li>
+<li>这也是https 比 http 要安全的原因，http 是明文传输，数据都是未加密的，而https 则是 ssl + http 协议进行加密传输。</li>
+<li>http 比 https 要快，这是因为http 只需要进行tcp 三次握手连接，只需要交换三个包，而 https 除了进行tcp 连接，还需要 ssl 握手的九个包，一共是十二个包。</li>
+<li>https 是构建在http 之上的协议，理论上，https 相较 http 会更消耗服务器资源。</li>
+</ol>
+<h3 id="session-和-cookie-的区别"><a href="#session-和-cookie-的区别" class="headerlink" title="session 和 cookie 的区别"></a>session 和 cookie 的区别</h3><ol>
+<li>存储方式不同：cookie 是存储在客户端，session 则是存储在服务端。</li>
+<li>隐私策略不同：cookie 因为存储在客户端中，所以对客户端是可见的，而session </li>
+</ol>
+<h3 id="UDP-和TCP-的区别"><a href="#UDP-和TCP-的区别" class="headerlink" title="UDP 和TCP 的区别"></a>UDP 和TCP 的区别</h3><p>UDP 是面向报文的、不可靠的数据报协议，TCP 是面向连接的、可靠的流协议。</p>
+<ol>
+<li>TCP 面向连接; UDP 不需要连接，即发送数据之前不需要建立连接;</li>
+<li>TCP提供可靠的服务。也就是说，通过TCP连接传送的数据，无差错，不丢失，不重复，且按序到达; UDP尽最大努力交付，即不保保证可靠交付</li>
+<li>TCP面向字节流，实际上是TCP把数据看成一连串无结构的字节流; UDP是面向报文的，UDP没有拥塞控制，因此网络出现拥塞不会使源主机的发送速率降低</li>
+<li>每一条TCP连接只能是点到点的;UDP支持一对一，一对多，多对一和多对多的交互通信</li>
+<li>TCP首部开销20字节;UDP的首部开销小，只有8个字节</li>
+<li>TCP的逻辑通信信道是全双工的可靠信道，UDP则是不可靠信道</li>
+</ol>
+<blockquote>
+<p>说一说TCP 的“粘包”问题</p>
+</blockquote>
+<p>结论：TCP 的“粘包”问题其实是一个伪命题。</p>
+<p>服务端建立服务，客户端发起连接，正常情况下，服务端每次send，客户端都能正常recv，但在并发的情况下，服务端的两次send或者多次send，客户端可能只有一次recv了。这就导致了所谓的“粘包”问题的产生。</p>
+<p>TCP 协议的本质是流协议，它只会保证以什么顺序发送字节，接受方就一定能按照这个顺序接收到，所以所谓的粘包问题不应该是传输层面的问题，而是应用层面的问题。</p>
+<h3 id="简述TCP-三次握手"><a href="#简述TCP-三次握手" class="headerlink" title="简述TCP 三次握手"></a>简述TCP 三次握手</h3><p>概念：指在发送数据的准备阶段，服务器和客户端之间需要三次交互。</p>
+<p>第一次握手：客户端向服务端发送一个SYN包，并进入SYN_SENT 状态，等待服务端确认<br>第二次握手：当服务器收到请求之后，此时要给客户端一个确认信息ACK，同时发送SYN报，此时服务器进入 SYN_RECV 状态<br>第三次握手：客户端收到服务器发的ACK + SYN 包后，向服务器发送ACK，发送完毕之后，客户端和服务器进入TCP 连接成功状态，完成三次握手。</p>
+<blockquote>
+<p>为什么握手一定要三次，不能两次吗？</p>
+</blockquote>
+<p>这是为了防止已经失效的连接请求报文突然又传到Tcp 服务器，避免产生错误。</p>
+<h3 id="简述TCP-四次挥手"><a href="#简述TCP-四次挥手" class="headerlink" title="简述TCP 四次挥手"></a>简述TCP 四次挥手</h3><p>概念：所谓四次挥手就是说关闭TCP 连接的过程，当断开一个TCP 连接时，需要客户端和服务器共共发送四个包确认。</p>
+<p>第一次挥手：客户端发送一个FIN，用来关闭客户端到服务器的数据传输，客户端进入 fin_wait 状态<br>第二次挥手：服务器收到fin 后，发送一个ack 给客户端，确认序号为收到序号+1，服务器进入close_wait 状态<br>第三次挥手：服务器发送一个fin 用来关闭服务器到客户端的数据传输，服务器进入 last_ack 状态<br>第四次挥手：客户端收到fin 后，客户端进入time_wait 状态，接着发送一个ack 给服务器，确认序号为收到序号+1，服务器进入 closed 状态，完成四次挥手。</p>
+<h3 id="建立socket-需要哪些步骤"><a href="#建立socket-需要哪些步骤" class="headerlink" title="建立socket 需要哪些步骤"></a>建立socket 需要哪些步骤</h3><ul>
+<li>创建socket</li>
+<li>绑定socket 到指定地址和端口</li>
+<li>开始监听连接</li>
+<li>读取客户端输入</li>
+<li>关闭 socket</li>
+</ul>
+<h3 id="简述从浏览器输入-a-com-回车之后发生了什么"><a href="#简述从浏览器输入-a-com-回车之后发生了什么" class="headerlink" title="简述从浏览器输入 a.com 回车之后发生了什么"></a>简述从浏览器输入 a.com 回车之后发生了什么</h3><ol>
+<li>DNS 域名解析，寻找对应的IP 地址</li>
+<li>根据这个IP 找到对应的服务器，建立TCP 连接（三次握手）</li>
+<li>TCP 建连之后，发起HTTP 请求</li>
+<li>服务器响应 HTTP 请求</li>
+<li>客户端接收数据解析并渲染页面</li>
+<li>服务器关闭TCP 连接（四次挥手）</li>
+</ol>
+<h3 id="从LNMP-的角度简述一次完整的请求"><a href="#从LNMP-的角度简述一次完整的请求" class="headerlink" title="从LNMP 的角度简述一次完整的请求"></a>从LNMP 的角度简述一次完整的请求</h3><p>当客户端发起一个请求到服务端，Web Server 首先会判断该请求是静态还是动态？<br>如果是静态，直接返回对应的静态资源。<br>如果是动态，FastCGI 会将该请求转发给本地 9000 端口（9000 是 PHP—FPM 所监听的端口），PHP-FPM 主进程接收到请求之后，<br>会分配一个空闲的 Worker 进程去处理这个请求，处理完成之后将数据返回给 FastCGI，再由 Nginx 返回给客户端。</p>
+<h2 id="PHP篇"><a href="#PHP篇" class="headerlink" title="PHP篇"></a>PHP篇</h2><h3 id="值传递和引用传递的区别"><a href="#值传递和引用传递的区别" class="headerlink" title="值传递和引用传递的区别"></a>值传递和引用传递的区别</h3><p>值传递：传递的是变量在内存中的副本。<br>引用传递：传递的是变量在内存中的地址。</p>
+<p>unset 并不会真正意义上注销一个变量，而是切断了变量名和实际值之间的关系，其变量只要还被引用就还没有被释放。</p>
+<h3 id="composer-自动加载原理"><a href="#composer-自动加载原理" class="headerlink" title="composer 自动加载原理"></a>composer 自动加载原理</h3><p>composer 的核心加载思想是通过composer 的<code>autoload.php</code>，将类和路径的对应关系加载到内存中，最后将具体的加载实现注册到 <code>spl_autoload_register</code> 函数中。</p>
+<h3 id="常用的请求第三方接口有哪几种方式？"><a href="#常用的请求第三方接口有哪几种方式？" class="headerlink" title="常用的请求第三方接口有哪几种方式？"></a>常用的请求第三方接口有哪几种方式？</h3><ol>
+<li>curl</li>
+<li>file_get_contents</li>
+<li>fopen 函数系列</li>
+</ol>
+<h3 id="抽象类和接口类的区别"><a href="#抽象类和接口类的区别" class="headerlink" title="抽象类和接口类的区别"></a>抽象类和接口类的区别</h3><p>抽象用于描述不同的事物，接口用于描述事物的行为</p>
+<h3 id="进程与线程的区别"><a href="#进程与线程的区别" class="headerlink" title="进程与线程的区别"></a>进程与线程的区别</h3><p>进程是CPU 分配内存的最小单位，线程是CPU 调度的最小单位，一个进程可以有多个线程，一个线程只能有一个进程。</p>
+<h3 id="Swoole-的进程模型"><a href="#Swoole-的进程模型" class="headerlink" title="Swoole 的进程模型"></a>Swoole 的进程模型</h3><p>Swoole 的进程模型采用主进程、管理进程、异步任务/工作进程协作的方式。</p>
+<ul>
+<li>Manager 进程主要负责创建/回收 worker/task 进程</li>
+<li>Reactor 进程主要负责维护客户端 TCP 连接、处理网络 IO、处理协议、收发数据</li>
+<li>Worker/Task 进程主要负责执行PHP 代码。</li>
+</ul>
+<h3 id="同步、异步、阻塞、非阻塞是怎么回事"><a href="#同步、异步、阻塞、非阻塞是怎么回事" class="headerlink" title="同步、异步、阻塞、非阻塞是怎么回事"></a>同步、异步、阻塞、非阻塞是怎么回事</h3><ul>
+<li>同步和异步是一种消息通信机制。</li>
+<li>阻塞和非阻塞是一种业务流程处理方式。</li>
+</ul>
+<h2 id="Mysql篇"><a href="#Mysql篇" class="headerlink" title="Mysql篇"></a>Mysql篇</h2><h2 id="Redis篇"><a href="#Redis篇" class="headerlink" title="Redis篇"></a>Redis篇</h2><h2 id="Linux篇"><a href="#Linux篇" class="headerlink" title="Linux篇"></a>Linux篇</h2><h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><h3 id="说一说你所知道的网站攻击方式及如何防范"><a href="#说一说你所知道的网站攻击方式及如何防范" class="headerlink" title="说一说你所知道的网站攻击方式及如何防范"></a>说一说你所知道的网站攻击方式及如何防范</h3><h3 id="如果你发现你部署的网站打不开了，你会如何排查"><a href="#如果你发现你部署的网站打不开了，你会如何排查" class="headerlink" title="如果你发现你部署的网站打不开了，你会如何排查"></a>如果你发现你部署的网站打不开了，你会如何排查</h3><ol>
+<li>首先检查DNS 解析<br>i. 检查域名解析<br>ii. 排除浏览器缓存</li>
+<li>检查防火墙<br>i. 防火墙是否开启？<br>ii. 端口是否可以正常访问，通常使用telnet 命令检查</li>
+<li>根据网站返回状态码，具体分析<br>i. 404：访问资源不存在<br>ii. 500：服务端错误（代码错误、文件权限）<br>iii. 502：网关错误（webserver 异常导致，Nginx/Apache 发生错误）<br>iiii. 504：网关超时</li>
+<li>查看对应的日志</li>
+</ol>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://github.com/colinlet/PHP-Interview-QA" target="_blank" rel="noopener">PHP面试问答</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/php-common-interview-questions/>https://www.0x2beace.com/php-common-interview-questions/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-02-25T19:53:14+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Feb 25, 2021</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E9%9D%A2%E8%AF%95/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>面试</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/php-common-interview-questions/&title=PHP 常见面试题整理 - Boo&summary=年前年后这段时间一直在为面试做准备，本文将从网络、PHP、Mysql、Redis、Linux 这几部分整理一下常见的一些面试简答题。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/php-common-interview-questions/&title=PHP 常见面试题整理 - Boo&summary=年前年后这段时间一直在为面试做准备，本文将从网络、PHP、Mysql、Redis、Linux 这几部分整理一下常见的一些面试简答题。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/php-common-interview-questions/&title=PHP 常见面试题整理 - Boo&summary=年前年后这段时间一直在为面试做准备，本文将从网络、PHP、Mysql、Redis、Linux 这几部分整理一下常见的一些面试简答题。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADsUlEQVR42u3awXIiMQwEUP7/p5P7bk2NWhLgST3fEmCwny9dal4/Vmu9EIADBw6cBQ7cIXCv5vrvgRf/v3rfv++vfj4+6MX3dM8LDhw4cODAgQN3Glx3IynI9ELKBxxe8OX3gwMHDhw4cODAHQqXbqgKWYWqBuc0cK+dFxw4cODAgQMH7o/BpcG4+vr2hYADBw4cOHDgwIGbFbzb6/EBGBw4cODAgQMHbgi3/UO9NMBuB+Rjm3xw4MCBAwcOHLgluG7gfOrf7fOCAwcOHDhw4MAdAjdd043eBdd0cPnuBQ4cOHDgwIEDdwpcNyCmA8VqgN4Osum+bgtucODAgQMHDhy4h8BVD9iFnQbg24M2i+nLz4EDBw4cOHDgwB0Clz4oPeAWSBqU2wE3LaTBgQMHDhw4cOC+DDctnqsX0A3U3QFqOhi9PTc4cODAgQMHDtxhcGkBXN1wt7DeKpRfSwscOHDgwIEDB+40uHSwt3WQdBDZDdpp4G03+eDAgQMHDhw4cF+GSwPltDDuBvHuRY/PCQ4cOHDgwIEDdwhcN1CmwXH7eelAdTowBQcOHDhw4MCBOxVuWiC/q9ieFsjd/YMDBw4cOHDgwD0Fbmsj3YHjtGBOB59p8AUHDhw4cODAgTsVbjpA7BbIafDeCuxvG2SCAwcOHDhw4MB9CK4dBEPAb72vC3/5PHDgwIEDBw4cuEPgtgNld6CYwqwVzOkAFhw4cODAgQMH7jC4bsE83sjSDwinF1O+OHDgwIEDBw4cuMPgyoVss9hNL2qrkK4OOKsDUHDgwIEDBw4cuFPh3g2wFXy735cW7uDAgQMHDhw4cE+D2x5obkGnQT0N7u0mHxw4cODAgQMH7sNw5SL2QzDTwenWoBMcOHDgwIEDB+7pcN0id70IbgbgLvztIBMcOHDgwIEDB+5wuGlgTIvvNEh3C/Xu/sGBAwcOHDhw4E6HmwbKrR/+VaG2fph4+zc4cODAgQMHDtwhcNOVDkKng9JuQZ4OLG8DMDhw4MCBAwcO3JfhpoGxG2C3gvFWQV5+Hjhw4MCBAwcO3GFw3cA7hZ0G12mwHQdgcODAgQMHDhy4Q+CmgfJuQ1Pg6nOnhXQcgMGBAwcOHDhw4B4K131OGkCnAXg6cAUHDhw4cODAgfurcNXPpQX1VuGcXgw4cODAgQMHDtxT4LrBMx1Mbg9GP1V8gwMHDhw4cODAnQa3VeBWD1x9vRqIt4JuXEiDAwcOHDhw4MB9Cc4KoRGAAwcOnAUO3HfXLy41/FNtGaBoAAAAAElFTkSuQmCC">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/building-a-high-performance-web-site-reading-notes/'>
+                <p class='title'>《构建高性能 Web 站点》读书笔记<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>《构建高性能 Web 站点》读书笔记
+
+
+绪论等待的真相当在浏览器中输入了一个地址，直到浏览器返回页面之前的那段时间里，都发生了一些什么呢？
+大概经历了以下几部分时间：
+
+数据在网络上传输的时间...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'PHP 常见面试题整理',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#网络篇"><span class="toc-text">网络篇</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#常见的状态码及其含义"><span class="toc-text">常见的状态码及其含义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#表单提交-get-和-post-的区别"><span class="toc-text">表单提交 get 和 post 的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#http-和-https-的区别"><span class="toc-text">http 和 https 的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#session-和-cookie-的区别"><span class="toc-text">session 和 cookie 的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UDP-和TCP-的区别"><span class="toc-text">UDP 和TCP 的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#简述TCP-三次握手"><span class="toc-text">简述TCP 三次握手</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#简述TCP-四次挥手"><span class="toc-text">简述TCP 四次挥手</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#建立socket-需要哪些步骤"><span class="toc-text">建立socket 需要哪些步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#简述从浏览器输入-a-com-回车之后发生了什么"><span class="toc-text">简述从浏览器输入 a.com 回车之后发生了什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#从LNMP-的角度简述一次完整的请求"><span class="toc-text">从LNMP 的角度简述一次完整的请求</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP篇"><span class="toc-text">PHP篇</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#值传递和引用传递的区别"><span class="toc-text">值传递和引用传递的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#composer-自动加载原理"><span class="toc-text">composer 自动加载原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用的请求第三方接口有哪几种方式？"><span class="toc-text">常用的请求第三方接口有哪几种方式？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#抽象类和接口类的区别"><span class="toc-text">抽象类和接口类的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进程与线程的区别"><span class="toc-text">进程与线程的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Swoole-的进程模型"><span class="toc-text">Swoole 的进程模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#同步、异步、阻塞、非阻塞是怎么回事"><span class="toc-text">同步、异步、阻塞、非阻塞是怎么回事</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mysql篇"><span class="toc-text">Mysql篇</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis篇"><span class="toc-text">Redis篇</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux篇"><span class="toc-text">Linux篇</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他"><span class="toc-text">其他</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#说一说你所知道的网站攻击方式及如何防范"><span class="toc-text">说一说你所知道的网站攻击方式及如何防范</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如果你发现你部署的网站打不开了，你会如何排查"><span class="toc-text">如果你发现你部署的网站打不开了，你会如何排查</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+      
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <span class="post-count">总字数：128.9k</span>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2020 Boo</a></p>
+
+        <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+        
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?fbe826b92f6d49a0ebacf4d848bd3add";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+<script>
+  var now = new Date(); 
+  function createtime() {    
+      var grt= new Date("07/04/2020 14:12:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";     
+  } 
+setInterval("createtime()",250);
+</script>
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "prAyvaUeadxadA2wpcBQqNQn-gzGzoHsz",
+    appKey: "vkyEUTw0BixVjfFpFIzUdhak",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
