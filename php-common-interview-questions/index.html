@@ -427,13 +427,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>2.2k words</p>
+      <p>2.9k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>7 min</p>
+      <p>10 min</p>
     </a>
   </div>
 
@@ -568,6 +568,13 @@
 <li>服务器关闭TCP 连接（四次挥手）</li>
 </ol>
 <h3 id="从LNMP-的角度简述一次完整的请求"><a href="#从LNMP-的角度简述一次完整的请求" class="headerlink" title="从LNMP 的角度简述一次完整的请求"></a>从LNMP 的角度简述一次完整的请求</h3><p>当客户端发起一个请求到服务端，Web Server 首先会判断该请求是静态还是动态？<br>如果是静态，直接返回对应的静态资源。<br>如果是动态，FastCGI 会将该请求转发给本地 9000 端口（9000 是 PHP—FPM 所监听的端口），PHP-FPM 主进程接收到请求之后，<br>会分配一个空闲的 Worker 进程去处理这个请求，处理完成之后将数据返回给 FastCGI，再由 Nginx 返回给客户端。</p>
+<h3 id="长连接与短连接的区别"><a href="#长连接与短连接的区别" class="headerlink" title="长连接与短连接的区别"></a>长连接与短连接的区别</h3><p>短连接为每一次的数据传输准备了一个传输通道，而长连接则是建立一条通道，并一直保持，每一次传输时都会复用同一条连接通道。</p>
+<h3 id="Websocket"><a href="#Websocket" class="headerlink" title="Websocket"></a>Websocket</h3><p>Websocket 是一种通信协议，连接刚开始还是HTTP 协议，由客户端发起，然后切换成Websocket 协议。</p>
+<p>它的存在，由轮询变成了客户端可以主动向服务端发送消息。</p>
+<blockquote>
+<p>什么是轮询？</p>
+</blockquote>
+<p>轮询是一种获取信息的方式。</p>
 <h2 id="PHP篇"><a href="#PHP篇" class="headerlink" title="PHP篇"></a>PHP篇</h2><h3 id="值传递和引用传递的区别"><a href="#值传递和引用传递的区别" class="headerlink" title="值传递和引用传递的区别"></a>值传递和引用传递的区别</h3><p>值传递：传递的是变量在内存中的副本。<br>引用传递：传递的是变量在内存中的地址。</p>
 <p>unset 并不会真正意义上注销一个变量，而是切断了变量名和实际值之间的关系，其变量只要还被引用就还没有被释放。</p>
 <h3 id="composer-自动加载原理"><a href="#composer-自动加载原理" class="headerlink" title="composer 自动加载原理"></a>composer 自动加载原理</h3><p>composer 的核心加载思想是通过composer 的<code>autoload.php</code>，将类和路径的对应关系加载到内存中，最后将具体的加载实现注册到 <code>spl_autoload_register</code> 函数中。</p>
@@ -584,11 +591,41 @@
 <li>Reactor 进程主要负责维护客户端 TCP 连接、处理网络 IO、处理协议、收发数据</li>
 <li>Worker/Task 进程主要负责执行PHP 代码。</li>
 </ul>
+<h3 id="PHP-的进程模型"><a href="#PHP-的进程模型" class="headerlink" title="PHP 的进程模型"></a>PHP 的进程模型</h3><p>在LNMP 的模式下，PHP 是php-fpm 多进程+阻塞I/O 的进程模型。</p>
 <h3 id="同步、异步、阻塞、非阻塞是怎么回事"><a href="#同步、异步、阻塞、非阻塞是怎么回事" class="headerlink" title="同步、异步、阻塞、非阻塞是怎么回事"></a>同步、异步、阻塞、非阻塞是怎么回事</h3><ul>
 <li>同步和异步是一种消息通信机制。</li>
 <li>阻塞和非阻塞是一种业务流程处理方式。</li>
+<li>IO 多路复用：用一个线程来检查Socket 的就绪状态。</li>
 </ul>
-<h2 id="Mysql篇"><a href="#Mysql篇" class="headerlink" title="Mysql篇"></a>Mysql篇</h2><h2 id="Redis篇"><a href="#Redis篇" class="headerlink" title="Redis篇"></a>Redis篇</h2><h2 id="Linux篇"><a href="#Linux篇" class="headerlink" title="Linux篇"></a>Linux篇</h2><h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><h3 id="说一说你所知道的网站攻击方式及如何防范"><a href="#说一说你所知道的网站攻击方式及如何防范" class="headerlink" title="说一说你所知道的网站攻击方式及如何防范"></a>说一说你所知道的网站攻击方式及如何防范</h3><h3 id="如果你发现你部署的网站打不开了，你会如何排查"><a href="#如果你发现你部署的网站打不开了，你会如何排查" class="headerlink" title="如果你发现你部署的网站打不开了，你会如何排查"></a>如果你发现你部署的网站打不开了，你会如何排查</h3><ol>
+<h3 id="通常如何实现用户登录（API）"><a href="#通常如何实现用户登录（API）" class="headerlink" title="通常如何实现用户登录（API）"></a>通常如何实现用户登录（API）</h3><p>有两种方式：一种是普通的 token 令牌，另一种则是JWT。</p>
+<p>普通Token：<br>用户初次登录会携带用户名和密码等信息，服务端验证通过之后，会给客户端返回一个Token。<br>这个Token 可以是由用户名、密码、登录设备、登录IP 等信息加密之后组成，加密算法可以是<br>以后的客户端每一次请求都会携带这个Token，服务端则会比较Redis 中该用户的信息是否一致。</p>
+<h2 id="Mysql篇"><a href="#Mysql篇" class="headerlink" title="Mysql篇"></a>Mysql篇</h2><p>Mysql 的InnoDb 和MyISAM 引擎有何不同？</p>
+<ul>
+<li>InnoDb 的特点包括：事务、锁</li>
+<li>InnoDb 支持 ACID 的事务 4个特性，MyISAM 不支持事务。</li>
+<li>InnoDB 支持行级别的锁粒度，MyISAM 不支持，只支持表级别的锁粒度。</li>
+</ul>
+<h3 id="什么是ACID（事务的四个特性）？"><a href="#什么是ACID（事务的四个特性）？" class="headerlink" title="什么是ACID（事务的四个特性）？"></a>什么是ACID（事务的四个特性）？</h3><ul>
+<li>原子性（Atomicity）：事务的所有操作，要么全部完成，要么全部不完成，不会结束在某个中间环节。</li>
+<li>一致性（Consistency）：事务开始之前和事务结束之后，数据库的完整性限制未被破坏。</li>
+<li>隔离性（Isolation）：两个或者多个事务的执行是互不干扰的，一个事务不可能看到其他事务运行时，中间某一时刻的数据。</li>
+<li>持久性（Durability）：事务完成之后，事务所做的修改进行持久化保存，不会丢失。</li>
+</ul>
+<h3 id="Mysql-有几种事务隔离级别？"><a href="#Mysql-有几种事务隔离级别？" class="headerlink" title="Mysql 有几种事务隔离级别？"></a>Mysql 有几种事务隔离级别？</h3><p>有四种隔离级别。</p>
+<h2 id="Redis篇"><a href="#Redis篇" class="headerlink" title="Redis篇"></a>Redis篇</h2><h3 id="Redis-的常见数据结构"><a href="#Redis-的常见数据结构" class="headerlink" title="Redis 的常见数据结构"></a>Redis 的常见数据结构</h3><ul>
+<li>字符串</li>
+<li>哈希</li>
+<li>列表</li>
+<li>无序列表</li>
+<li>集合</li>
+</ul>
+<h3 id="Redis-的持久化有几种方案？"><a href="#Redis-的持久化有几种方案？" class="headerlink" title="Redis 的持久化有几种方案？"></a>Redis 的持久化有几种方案？</h3><p>有三种，分别是：RDB、AOF、混合。</p>
+<ol>
+<li>RDB：将某一时刻的数据以二进制形式写入到磁盘里，服务重启时检测到对应文件自动加载进行数据恢复，有手动触发和自动触发两种机制。</li>
+<li>AOF：以文件追加的方式写入客户端执行的写命令，数据恢复时，通过创建伪客户端的方式执行命令，直到恢复完成。</li>
+<li>混合：在写入的时候先把数据以 RDB 的形式写入文件的开头，再将后续的写命令以 AOF 的格式追加到文件中。</li>
+</ol>
+<h2 id="Linux篇"><a href="#Linux篇" class="headerlink" title="Linux篇"></a>Linux篇</h2><h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><h3 id="说一说你所知道的网站攻击方式及如何防范"><a href="#说一说你所知道的网站攻击方式及如何防范" class="headerlink" title="说一说你所知道的网站攻击方式及如何防范"></a>说一说你所知道的网站攻击方式及如何防范</h3><h3 id="如果你发现你部署的网站打不开了，你会如何排查"><a href="#如果你发现你部署的网站打不开了，你会如何排查" class="headerlink" title="如果你发现你部署的网站打不开了，你会如何排查"></a>如果你发现你部署的网站打不开了，你会如何排查</h3><ol>
 <li>首先检查DNS 解析<br>i. 检查域名解析<br>ii. 排除浏览器缓存</li>
 <li>检查防火墙<br>i. 防火墙是否开启？<br>ii. 端口是否可以正常访问，通常使用telnet 命令检查</li>
 <li>根据网站返回状态码，具体分析<br>i. 404：访问资源不存在<br>ii. 500：服务端错误（代码错误、文件权限）<br>iii. 502：网关错误（webserver 异常导致，Nginx/Apache 发生错误）<br>iiii. 504：网关超时</li>
@@ -681,10 +718,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-02-25T19:53:14+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-03-04T23:58:16+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Feb 25, 2021</p>
+    <p>更新于：Mar 4, 2021</p>
   </a>
 </div>
 
@@ -861,7 +898,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#网络篇"><span class="toc-text">网络篇</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#常见的状态码及其含义"><span class="toc-text">常见的状态码及其含义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#表单提交-get-和-post-的区别"><span class="toc-text">表单提交 get 和 post 的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#http-和-https-的区别"><span class="toc-text">http 和 https 的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#session-和-cookie-的区别"><span class="toc-text">session 和 cookie 的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UDP-和TCP-的区别"><span class="toc-text">UDP 和TCP 的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#简述TCP-三次握手"><span class="toc-text">简述TCP 三次握手</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#简述TCP-四次挥手"><span class="toc-text">简述TCP 四次挥手</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#建立socket-需要哪些步骤"><span class="toc-text">建立socket 需要哪些步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#简述从浏览器输入-a-com-回车之后发生了什么"><span class="toc-text">简述从浏览器输入 a.com 回车之后发生了什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#从LNMP-的角度简述一次完整的请求"><span class="toc-text">从LNMP 的角度简述一次完整的请求</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP篇"><span class="toc-text">PHP篇</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#值传递和引用传递的区别"><span class="toc-text">值传递和引用传递的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#composer-自动加载原理"><span class="toc-text">composer 自动加载原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用的请求第三方接口有哪几种方式？"><span class="toc-text">常用的请求第三方接口有哪几种方式？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#抽象类和接口类的区别"><span class="toc-text">抽象类和接口类的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进程与线程的区别"><span class="toc-text">进程与线程的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Swoole-的进程模型"><span class="toc-text">Swoole 的进程模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#同步、异步、阻塞、非阻塞是怎么回事"><span class="toc-text">同步、异步、阻塞、非阻塞是怎么回事</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mysql篇"><span class="toc-text">Mysql篇</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis篇"><span class="toc-text">Redis篇</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux篇"><span class="toc-text">Linux篇</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他"><span class="toc-text">其他</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#说一说你所知道的网站攻击方式及如何防范"><span class="toc-text">说一说你所知道的网站攻击方式及如何防范</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如果你发现你部署的网站打不开了，你会如何排查"><span class="toc-text">如果你发现你部署的网站打不开了，你会如何排查</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#网络篇"><span class="toc-text">网络篇</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#常见的状态码及其含义"><span class="toc-text">常见的状态码及其含义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#表单提交-get-和-post-的区别"><span class="toc-text">表单提交 get 和 post 的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#http-和-https-的区别"><span class="toc-text">http 和 https 的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#session-和-cookie-的区别"><span class="toc-text">session 和 cookie 的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UDP-和TCP-的区别"><span class="toc-text">UDP 和TCP 的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#简述TCP-三次握手"><span class="toc-text">简述TCP 三次握手</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#简述TCP-四次挥手"><span class="toc-text">简述TCP 四次挥手</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#建立socket-需要哪些步骤"><span class="toc-text">建立socket 需要哪些步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#简述从浏览器输入-a-com-回车之后发生了什么"><span class="toc-text">简述从浏览器输入 a.com 回车之后发生了什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#从LNMP-的角度简述一次完整的请求"><span class="toc-text">从LNMP 的角度简述一次完整的请求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#长连接与短连接的区别"><span class="toc-text">长连接与短连接的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Websocket"><span class="toc-text">Websocket</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP篇"><span class="toc-text">PHP篇</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#值传递和引用传递的区别"><span class="toc-text">值传递和引用传递的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#composer-自动加载原理"><span class="toc-text">composer 自动加载原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用的请求第三方接口有哪几种方式？"><span class="toc-text">常用的请求第三方接口有哪几种方式？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#抽象类和接口类的区别"><span class="toc-text">抽象类和接口类的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进程与线程的区别"><span class="toc-text">进程与线程的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Swoole-的进程模型"><span class="toc-text">Swoole 的进程模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PHP-的进程模型"><span class="toc-text">PHP 的进程模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#同步、异步、阻塞、非阻塞是怎么回事"><span class="toc-text">同步、异步、阻塞、非阻塞是怎么回事</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#通常如何实现用户登录（API）"><span class="toc-text">通常如何实现用户登录（API）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mysql篇"><span class="toc-text">Mysql篇</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是ACID（事务的四个特性）？"><span class="toc-text">什么是ACID（事务的四个特性）？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mysql-有几种事务隔离级别？"><span class="toc-text">Mysql 有几种事务隔离级别？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis篇"><span class="toc-text">Redis篇</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis-的常见数据结构"><span class="toc-text">Redis 的常见数据结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis-的持久化有几种方案？"><span class="toc-text">Redis 的持久化有几种方案？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux篇"><span class="toc-text">Linux篇</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他"><span class="toc-text">其他</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#说一说你所知道的网站攻击方式及如何防范"><span class="toc-text">说一说你所知道的网站攻击方式及如何防范</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如果你发现你部署的网站打不开了，你会如何排查"><span class="toc-text">如果你发现你部署的网站打不开了，你会如何排查</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
     </div>
   </section>
 
@@ -896,7 +933,7 @@
     
       
         <div class='copyright'>
-        <span class="post-count">总字数：129.1k</span>
+        <span class="post-count">总字数：129.9k</span>
         <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2020 Boo</a></p>
 
         <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
