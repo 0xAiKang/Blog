@@ -16,12 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>互联网人的双十一 - Boo</title>
+    <title>如何在 PHP 中使用枚举 - Boo</title>
   
-    <meta name="keywords" content="碎碎念">
+    <meta name="keywords" content="PHP">
   
   
-    <meta name="description" content="我其实不太会去写这类文章，那为什么要写这篇文章呢？想抓住双十一的尾巴，记录一些想法。">
+    <meta name="description" content="在编写业务代码时，常常会遇到状态或者类型不一致造成的逻辑分支，这时，最忌讳的是直接在业务代码中对数值进行判断。">
   
 
   <!-- feed -->
@@ -372,8 +372,8 @@
         
           
   <h1 class="title">
-    <a href="/double-eleven-for-internet-people/">
-      互联网人的双十一
+    <a href="/how-do-I-use-enumerations-in-php/">
+      如何在 PHP 中使用枚举
     </a>
   </h1>
 
@@ -398,9 +398,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/%E7%A2%8E%E7%A2%8E%E5%BF%B5/' rel="nofollow">
+    <a href='/categories/PHP/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>碎碎念</p>
+      <p>PHP</p>
     </a>
   </div>
 
@@ -411,7 +411,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Nov 12, 2020</p>
+    <p>发布于：Mar 8, 2021</p>
   </a>
 </div>
 
@@ -427,7 +427,7 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>423 words</p>
+      <p>447 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
@@ -446,7 +446,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/double-eleven-for-internet-people/" class="leancloud_visitors" data-flag-title="互联网人的双十一">
+      <span id="/how-do-I-use-enumerations-in-php/" class="leancloud_visitors" data-flag-title="如何在 PHP 中使用枚举">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -469,19 +469,37 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>我其实不太会去写这类文章，那为什么要写这篇文章呢？<br>想抓住双十一的尾巴，记录一些想法。</p>
+          <p>在编写业务代码时，常常会遇到状态或者类型不一致造成的逻辑分支，这时，最忌讳的是直接在业务代码中对数值进行判断。</p>
 <a id="more"></a>
 
-<p>今年的双十一我本来也是啥都没买，</p>
-<p>可就在晚上七点左右，线上的某个平台，出了一点问题，订单的盈亏跟用户的余额对不上。<br>经过一番排查发现是因为处理订单的那个脚本不知为何特别慢，导致大量订单全部堆积在一起了。</p>
-<p>因为一些历史包袱的原因，在处理方式上我是知道这个脚本存在一些隐患的。<br>同事提议不如这个脚本让他去用Node.js 写吧，尽管很不情愿，但也没办法。</p>
-<p>想在仔细回想，当时那种感觉还是很清晰，我真的不喜欢那种能被替代的感觉，那一瞬间觉得所有的娱乐活动都没有意思了，只有把技术才是唯一的热爱。</p>
-<p>晚上回家之后，第一件事应该是练吉他，但昨天似乎也没啥心思练了。</p>
-<p>今年本来就没少为知识付费，视频课程，电子书籍，纸质书籍各种学习资料。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201112083115.png" alt=""></p>
-<p>然后昨天晚上又在慕课网上买了三门实战课程，真的不想做一个Cruder，这是我最后的倔强了。</p>
-<p>在如今这个互联网高速发展的时代，我想学习以及需要学习的东西真的是太多了，真的是学的越多，才发现自己懂的真的好少。</p>
-<p>最后想说的是，希望自己能保持住这份初心，继续加油。</p>
+<p>那么更好的方式应该是怎样呢？<strong>使用枚举</strong>。</p>
+<p>使用枚举有以下几个好处：</p>
+<ol>
+<li>减少因为直接输入数字而导致的错误</li>
+<li>使代码更易于阅读</li>
+<li>方便维护，后面需要添加新的类型时，不会突兀</li>
+</ol>
+<p>PHP 本身不支持枚举，但是使用类中的常量去定义可以实现等价的效果。</p>
+<h2 id="定义枚举"><a href="#定义枚举" class="headerlink" title="定义枚举"></a>定义枚举</h2><p>下面为用户类型创建一个枚举，用户可以是以下三种类型之一：</p>
+<ol>
+<li>普通用户</li>
+<li>管理员</li>
+<li>超级管理员</li>
+</ol>
+<p>看起来像这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">class UserType extends Enum</span><br><span class="line">&#123;</span><br><span class="line">  const MEMBER &#x3D; 1;</span><br><span class="line">  const ADMIN &#x3D; 2;</span><br><span class="line">  const SUPERADMIN &#x3D; 3;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用枚举"><a href="#使用枚举" class="headerlink" title="使用枚举"></a>使用枚举</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if ($user-&gt;type &#x3D;&#x3D;&#x3D; UserType::MEMBER)&#123;</span><br><span class="line">  &#x2F;&#x2F; todo </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果我们不使用枚举，代码可能就会变成这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">if ($user-&gt;type &#x3D;&#x3D;&#x3D; 1) &#123; &#x2F;&#x2F; 这个1表示什么??</span><br><span class="line">    &#x2F;&#x2F; todo</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if ($user-&gt;type &#x3D;&#x3D;&#x3D; &#39;Member&#39;) &#123; &#x2F;&#x2F; 这他妈咋么又是字符串 😞</span><br><span class="line">    &#x2F;&#x2F; todo </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="定义获取器"><a href="#定义获取器" class="headerlink" title="定义获取器"></a>定义获取器</h2><p>很多时候我们希望能获取到某个类型对应的具体含义，这时可以通过定义获取器来获取。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">class UserType extends Enum</span><br><span class="line">&#123;</span><br><span class="line">  public static $userType &#x3D; [</span><br><span class="line">  	self::MEMBER &#x3D;&gt; &quot;普通会员&quot;,</span><br><span class="line">  	self::ADMIN &#x3D;&gt; &quot;管理员&quot;,</span><br><span class="line">  	self::SUPERADMIN &#x3D;&gt; &quot;超级管理员&quot;</span><br><span class="line">  ];</span><br><span class="line">  </span><br><span class="line">  public static function getUserType($type)</span><br><span class="line">  &#123;</span><br><span class="line">  	return self::$voucherMap[$type];</span><br><span class="line">  &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样当我们在调用<code>getUserType</code> 方法时，只需要传入对应的类型，就能获取到<code>普通会员</code>、<code>管理员</code>、<code>超级管理员</code>了。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://learnku.com/laravel/t/36091" target="_blank" rel="noopener">在 Laravel 中使用枚举</a></li>
+</ul>
 
           
             <div class='article_footer'>
@@ -518,7 +536,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/double-eleven-for-internet-people/>https://www.0x2beace.com/double-eleven-for-internet-people/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/how-do-I-use-enumerations-in-php/>https://www.0x2beace.com/how-do-I-use-enumerations-in-php/</a></p>
           
         
       </blockquote>
@@ -566,10 +584,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-11-12T08:34:35+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-03-08T20:59:13+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Nov 12, 2020</p>
+    <p>更新于：Mar 8, 2021</p>
   </a>
 </div>
 
@@ -578,7 +596,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E7%A2%8E%E7%A2%8E%E5%BF%B5/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>碎碎念</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div>
 
 
         
@@ -596,7 +614,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/double-eleven-for-internet-people/&title=互联网人的双十一 - Boo&summary=我其实不太会去写这类文章，那为什么要写这篇文章呢？想抓住双十一的尾巴，记录一些想法。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/how-do-I-use-enumerations-in-php/&title=如何在 PHP 中使用枚举 - Boo&summary=在编写业务代码时，常常会遇到状态或者类型不一致造成的逻辑分支，这时，最忌讳的是直接在业务代码中对数值进行判断。"
           
           >
           
@@ -608,7 +626,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/double-eleven-for-internet-people/&title=互联网人的双十一 - Boo&summary=我其实不太会去写这类文章，那为什么要写这篇文章呢？想抓住双十一的尾巴，记录一些想法。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/how-do-I-use-enumerations-in-php/&title=如何在 PHP 中使用枚举 - Boo&summary=在编写业务代码时，常常会遇到状态或者类型不一致造成的逻辑分支，这时，最忌讳的是直接在业务代码中对数值进行判断。"
           
           >
           
@@ -620,7 +638,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/double-eleven-for-internet-people/&title=互联网人的双十一 - Boo&summary=我其实不太会去写这类文章，那为什么要写这篇文章呢？想抓住双十一的尾巴，记录一些想法。"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/how-do-I-use-enumerations-in-php/&title=如何在 PHP 中使用枚举 - Boo&summary=在编写业务代码时，常常会遇到状态或者类型不一致造成的逻辑分支，这时，最忌讳的是直接在业务代码中对数值进行判断。"
           
           >
           
@@ -634,7 +652,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADvElEQVR42u3aQXLjMAwEQP//09kHbG0JA0ArymneHMcy2bxMDfz5sVrrgwAcOHDgLHDgDoH7NNf089Xn/bXxi7//63lr5wUHDhw4cODAgTsMrhwALza2/fkqdPd1vF9w4MCBAwcOHLhD4bobrQbTKlT1+SnQ+LzgwIEDBw4cOHBfAlctErtBNb2YFBQcOHDgwIEDB+63wk2DZnUQfHfRCQ4cOHDgwIED93a4dECbBt0qwPRijp/kgwMHDhw4cODALcF1g+lbX7fPCw4cOHDgwIEDdwjc1qoG1ennuoPntXOCAwcOHDhw4MAdAlctJqeD43QAnP5gsLrvtBCNG2Bw4MCBAwcOHLj/DFcd8KYD4er75YHw8vfEg3Bw4MCBAwcOHLhD4LrF43QwPP3eaUBOAzk4cODAgQMHDtxb4NINbgXorSJ0GqzjHxaCAwcOHDhw4MA9BFf+YPH1dIBd/f9pMRoDgwMHDhw4cODAHQLXDajd4FkNst3AHA+Y0wsFBw4cOHDgwIE7BK5bFKaD3e7FTJ+XFrHrDTA4cODAgQMHDtxNcN3CclpcpgPsdmANC1pw4MCBAwcOHLi3wU2D6jS4bgXY6aD78n1w4MCBAwcOHLjD4NJA2i06p8VpCtQtPsuTfHDgwIEDBw4cuIfg0kKyuvEUKAXo7je9mMtJPjhw4MCBAwcO3MNw3cHwVqGZBtdqwE4v4PKc4MCBAwcOHDhwh8DdVTh2A2s3UHcH3PHFggMHDhw4cODAvRRuCjwtKLcKyfRc4MCBAwcOHDhwp8FVN9ItKNMNbxWZt8GCAwcOHDhw4MAdBtcdUE8LzK0Ctbr/tNAEBw4cOHDgwIE7Fe7pwnCruOwWpT/hAgcOHDhw4MCBewtcF7BabN4VrKfFKDhw4MCBAwcO3Fvh0o20A2WzwNwO3OWADw4cOHDgwIEDdxhcGlSnsN3APIUbw4IDBw4cOHDgwB0Kt1VodgPx9AK7hWf5+8CBAwcOHDhw4A6B2z5YuvG0wEyDcxqgL/cHDhw4cODAgQN3CNx0IJ0OdtMDbQ/Kqxdx+yQfHDhw4MCBAwduCW5aLHaLzGlArv69G+AvAzA4cODAgQMHDtwhcNOBbRpA0wvbGkC3i05w4MCBAwcOHLgvg9suPLuD8GngvTwvOHDgwIEDBw7cl8BtgVcLyzRIdwMzOHDgwIEDBw7c2+CmwTMtPtOicQo6/n5w4MCBAwcOHLjD4LoD3OoBus+7+6Lic4ADBw4cOHDgwB0CZ2ULHDhw4MBZ4MA9vP4AH5QBF7inc1IAAAAASUVORK5CYII=">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADqklEQVR42u3aSW4jQQwEQP3/0577AEYzScqmjKibll4q2od0Uq8vq7VeCMCBAwfOAgfuCNyrub498X+fPx339P5356t+/+l76X7BgQMHDhw4cOCuwZUDYBHm8QaK160+uOr74/2CAwcOHDhw4MAdhUs3vA1QPX76oNv7BQcOHDhw4MCB+2NwKei0oKzeJzhw4MCBAwcOHLisMNwqQrcLTnDgwIEDBw4cuL8Kl248DarbG0/XmUk+OHDgwIEDBw7cEly60oB57XV7v+DAgQMHDhw4cEfgpqtbeFaD8tb9rO0XHDhw4MCBAwfuCNy42AuDcnfA3Q2yVdBysQoOHDhw4MCBA3cErnqC9Id+0wfR3ljze2VgcODAgQMHDhy4o3DvLi7TjXWDcjUwx/sEBw4cOHDgwIE7Dpf+oHB7MLwVqNMi9PE4cODAgQMHDhy4o3DrxV94vq3j0/fLRSs4cODAgQMHDtwRuGkwnIK1C8U3v/72fsCBAwcOHDhw4I7AbQfhaYHY3eD0gZQH2+DAgQMHDhw4cEfgqhubQn0N1/QHiV2o8X8O4MCBAwcOHDhwb4LbvvBWYK6udGA+LjzBgQMHDhw4cOCOwHWDZffz9iA4PK4aaOPCFBw4cODAgQMH7gjcdPDbDZrVwJ0Wm+8O6uDAgQMHDhw4cNfgtoJtWoSmA+u0eJwGeHDgwIEDBw4cuKtw04C4dcNp4dgdVKefPzbA4MCBAwcOHDhwvwT3U0E1LTCnD+pdRSo4cODAgQMHDtwVuO4AeLs47Abv9mA5DMbgwIEDBw4cOHCfArcVgKsgW8Vk9/7AgQMHDhw4cOA+DW4KuDVwngKnx3ULWXDgwIEDBw4cuCtw5eC3tLFpwTktXscFLDhw4MCBAwcO3FG4boDcGvimG+sOoLuDcHDgwIEDBw4cuKtw0xtOA2k7iC5ft/w9cODAgQMHDhy4o3BpQbk1GE4Hx68fXuDAgQMHDhw4cNfgpisNkl3A7mB7K0iDAwcOHDhw4MBdg9sOulsD6m6w7t5X+Q8DHDhw4MCBAwfuGFw38HYHv9Mg24Ua7wccOHDgwIEDB+4o3LsLxG5g/bGB89P9gQMHDhw4cODA/TG46eA3LSyrA+f0Ou0iExw4cODAgQMH7kPhprDVQL1dlMbXAwcOHDhw4MCBOwq3FSCnhWf1+ts/UGwHYHDgwIEDBw4cuF+Cmw5w0yCZHj+FfDovOHDgwIEDBw7cp8FZYbGKABw4cOAscOB+d/0DDFE6QDKxl+gAAAAASUVORK5CYII=">
           </div>
         </div>
       
@@ -654,29 +672,16 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/how-does-google-drive-transfer-files/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Google Drive 如何转存文件？</p>
-                <p class='content'>对于初次使用Google Drive（以下简称 GD）的同学来说，可能会有以下几点困惑。
-
-
-
-大家常说的转存是什么意思？
-常见的转存方式有哪几种？
-
-在正式回答上面两个问题之前，先来了解一下G...</p>
-              </a>
             
-            
-              <a class='next' href='/linux-view-system-and-hardware-information/'>
-                <p class='title'>Linux 查看系统、硬件信息<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>以下命令都是基于Ubuntu。
+              <a class='next' href='/good-habit-of-writing-code/'>
+                <p class='title'>写代码的好习惯<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>前段时间看到一篇比较火的文章，结合自己的一些经验，整理以下“好习惯”。
 
 
-系统相关查看内核/操作系统/CPU信息1$ uname -a
 
-查看操作系统版本1$ head -n 1 &#x2F;etc&#x2F;issue
-
-查看机器...</p>
+修改完代码，一定要记得自测一下，即使只是改了一个变量。
+方法入参尽量都做校验。
+添加新接口时，需要注意老接口的兼容性...</p>
               </a>
             
           </div>
@@ -721,7 +726,7 @@
 
   <script>
     window.subData = {
-      title: '互联网人的双十一',
+      title: '如何在 PHP 中使用枚举',
       tools: true
     }
   </script>
@@ -737,6 +742,20 @@
     
 
 
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#定义枚举"><span class="toc-text">定义枚举</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用枚举"><span class="toc-text">使用枚举</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#定义获取器"><span class="toc-text">定义获取器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+  </section>
 
 
   

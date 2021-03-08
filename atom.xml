@@ -6,7 +6,7 @@
   <link href="https://www.0x2beace.com/atom.xml" rel="self"/>
   
   <link href="https://www.0x2beace.com/"/>
-  <updated>2021-03-02T14:22:49.618Z</updated>
+  <updated>2021-03-08T12:59:13.169Z</updated>
   <id>https://www.0x2beace.com/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>如何在 PHP 中使用枚举</title>
+    <link href="https://www.0x2beace.com/how-do-I-use-enumerations-in-php/"/>
+    <id>https://www.0x2beace.com/how-do-I-use-enumerations-in-php/</id>
+    <published>2021-03-08T12:57:51.000Z</published>
+    <updated>2021-03-08T12:59:13.169Z</updated>
+    
+    <content type="html"><![CDATA[<p>在编写业务代码时，常常会遇到状态或者类型不一致造成的逻辑分支，这时，最忌讳的是直接在业务代码中对数值进行判断。</p><a id="more"></a><p>那么更好的方式应该是怎样呢？<strong>使用枚举</strong>。</p><p>使用枚举有以下几个好处：</p><ol><li>减少因为直接输入数字而导致的错误</li><li>使代码更易于阅读</li><li>方便维护，后面需要添加新的类型时，不会突兀</li></ol><p>PHP 本身不支持枚举，但是使用类中的常量去定义可以实现等价的效果。</p><h2 id="定义枚举"><a href="#定义枚举" class="headerlink" title="定义枚举"></a>定义枚举</h2><p>下面为用户类型创建一个枚举，用户可以是以下三种类型之一：</p><ol><li>普通用户</li><li>管理员</li><li>超级管理员</li></ol><p>看起来像这样：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">class UserType extends Enum</span><br><span class="line">&#123;</span><br><span class="line">  const MEMBER &#x3D; 1;</span><br><span class="line">  const ADMIN &#x3D; 2;</span><br><span class="line">  const SUPERADMIN &#x3D; 3;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h3 id="使用枚举"><a href="#使用枚举" class="headerlink" title="使用枚举"></a>使用枚举</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if ($user-&gt;type &#x3D;&#x3D;&#x3D; UserType::MEMBER)&#123;</span><br><span class="line">  &#x2F;&#x2F; todo </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>如果我们不使用枚举，代码可能就会变成这样：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">if ($user-&gt;type &#x3D;&#x3D;&#x3D; 1) &#123; &#x2F;&#x2F; 这个1表示什么??</span><br><span class="line">    &#x2F;&#x2F; todo</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if ($user-&gt;type &#x3D;&#x3D;&#x3D; &#39;Member&#39;) &#123; &#x2F;&#x2F; 这他妈咋么又是字符串 😞</span><br><span class="line">    &#x2F;&#x2F; todo </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="定义获取器"><a href="#定义获取器" class="headerlink" title="定义获取器"></a>定义获取器</h2><p>很多时候我们希望能获取到某个类型对应的具体含义，这时可以通过定义获取器来获取。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">class UserType extends Enum</span><br><span class="line">&#123;</span><br><span class="line">  public static $userType &#x3D; [</span><br><span class="line">  self::MEMBER &#x3D;&gt; &quot;普通会员&quot;,</span><br><span class="line">  self::ADMIN &#x3D;&gt; &quot;管理员&quot;,</span><br><span class="line">  self::SUPERADMIN &#x3D;&gt; &quot;超级管理员&quot;</span><br><span class="line">  ];</span><br><span class="line">  </span><br><span class="line">  public static function getUserType($type)</span><br><span class="line">  &#123;</span><br><span class="line">  return self::$voucherMap[$type];</span><br><span class="line">  &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>这样当我们在调用<code>getUserType</code> 方法时，只需要传入对应的类型，就能获取到<code>普通会员</code>、<code>管理员</code>、<code>超级管理员</code>了。</p><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul><li><a href="https://learnku.com/laravel/t/36091" target="_blank" rel="noopener">在 Laravel 中使用枚举</a></li></ul>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;在编写业务代码时，常常会遇到状态或者类型不一致造成的逻辑分支，这时，最忌讳的是直接在业务代码中对数值进行判断。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="PHP" scheme="https://www.0x2beace.com/categories/PHP/"/>
+    
+    
+    <category term="PHP" scheme="https://www.0x2beace.com/tags/PHP/"/>
+    
+  </entry>
   
   <entry>
     <title>写代码的好习惯</title>
