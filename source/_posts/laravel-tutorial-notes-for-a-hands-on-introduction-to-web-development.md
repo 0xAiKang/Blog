@@ -103,7 +103,7 @@ Laravel 的前端工作流是通过 Sass、NPM、Yarn、Laravel Mix 构成一套
 * `Sass` 是一种可用于编写CSS 的语言。
 * `Yarn` 是一个用于代替NPM 客户端的新的包管理器。
 * `Laravel Mix` 是一个前端任务自动化管理工具。`Laravel Mix` 可以自动编译`resources`下面的文件。
-* `{{ }}` 是在Html 中内嵌PHP 的Blade 语法，表示包含在该区域内的代码使用PHP 来编译执行。
+* `双括号` 是在Html 中内嵌PHP 的Blade 语法，表示包含在该区域内的代码使用PHP 来编译执行。
 
 ### 第二章学到了什么
 1. Laravel 的前端工作流
