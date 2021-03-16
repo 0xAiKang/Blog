@@ -6,7 +6,7 @@
   <link href="https://www.0x2beace.com/atom.xml" rel="self"/>
   
   <link href="https://www.0x2beace.com/"/>
-  <updated>2021-03-15T14:11:06.804Z</updated>
+  <updated>2021-03-16T14:32:36.808Z</updated>
   <id>https://www.0x2beace.com/</id>
   
   <author>
@@ -15,6 +15,37 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Jenkins + Gitlab 持续集成</title>
+    <link href="https://www.0x2beace.com/jenkins-gitlab-continuous-integration/"/>
+    <id>https://www.0x2beace.com/jenkins-gitlab-continuous-integration/</id>
+    <published>2021-03-16T14:27:42.000Z</published>
+    <updated>2021-03-16T14:32:36.808Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>Jenkins 是什么？</p></blockquote><a id="more"></a><p>Jenkins是一个开源的、提供友好操作界面的持续集成(CI)工具。</p><blockquote><p>Jenkins 如何与Gitlab 进行关联？</p></blockquote><p>可以通过生成密钥（Webhooks 的钩子），然后到Gitlab 需要集成的项目中，设置集成功能，增加Web 钩子。</p><p>这样当进行Push 动作时，就会触发Jenkins 进行构建，然后执行相应的流水线。</p><p>对于小公司而言，开发服务器常用的架构是内网服务器（本地机器）+外网服务器内网穿透，Jenkins + 私有Gitlab 持续集成。</p><p>背景：Jenkins 和Gitlab 部署在外网服务器上，通过内网穿透对内网服务器（开发服务器）进行访问。<br>需求描述：每次进行Push 时，触发Jenkins 流水线，进行构建，将最新的版本同步到开发服务器上。</p><p>Jenkins的功能很强大，这里并不打算深入拓展，而是介绍一种相较简单粗暴的方式去完成持续集成。</p><h2 id="创建任务"><a href="#创建任务" class="headerlink" title="创建任务"></a>创建任务</h2><p>首先需要在Jenkins 上新建任务，因为需求并不复杂，这里直接选择流水线的方式</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210316144137.png" alt=""></p><p>如果需要关联TAPD，这里需要「关联TAPD」填上对应TAPD 的ID。</p><p>核心的配置在构建触发器这一块，根据Push 事件，触发执行流水线。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210316144851.png" alt=""></p><p>有以下几个点需要注意：</p><ol><li>因为是开发服务器，并没有开启合并请求。</li><li>Gitlab webhook URL 需要记住，后面会用到。</li><li>默认允许所有分支，如果有特殊需求，可以指定分支名进行过滤。</li><li>点击右下角的Generate 按钮生成Secret token，后面会用到。</li></ol><p>配置流水线：</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210316220105.png" alt=""></p><p>上半部分是连接内网服务器（开发服务器）的基础信息，下半的配置信息是需要执行的构建脚本。</p><p>构建脚本的作用其实就是去执行<code>git pull</code> 这个动作，大概长这样：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;bash</span><br><span class="line"></span><br><span class="line">pull() &#123;</span><br><span class="line">    cd &#x2F;var&#x2F;www&#x2F;project &amp;&amp; git pull</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">pull</span><br></pre></td></tr></table></figure><details><summary>流水线配置，点击查看详情信息</summary><pre>def bdService() {    def remote = [:]    remote.name = 'hostname'    remote.host = 'localhost'    remote.port = 22    remote.user = 'username'    remote.password = 'password'    remote.allowAnyHosts = true    return remote}pipeline {    agent any    stages {        stage('代码集成') {            steps {                script {                    def  remote = bdService();                    sshCommand remote: remote, command: "/bin/bash /opt/shell/build.sh"                }            }        }    }}</details><p>配置完成之后，点击保存。</p><p>返回工作态，找到对应任务，点击立即构建。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210316220845.png" alt=""></p><p>通过构建历史，查看<code>Console Output</code>，能看到类似输出则表示构建成功。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210316220912.png" alt=""></p><p>构建成功之后，就可以与Gitlab 进行关联了，点击项目=&gt;设置=&gt;集成。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210316220941.png" alt=""></p><p>链接（URL）是之前的 Webhook url，安全令牌则是上面生成的 Secret token，SSL 证书验证视情况选择是否开启，然后点击增加Web 钩子。</p><p>至此所有的配置就基本完成了，这时可以去测试Push，看看是否会执行自动构建。</p>]]></content>
+    
+    
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;Jenkins 是什么？&lt;/p&gt;
+&lt;/blockquote&gt;</summary>
+    
+    
+    
+    <category term="运维" scheme="https://www.0x2beace.com/categories/%E8%BF%90%E7%BB%B4/"/>
+    
+    <category term="Jenkins" scheme="https://www.0x2beace.com/categories/%E8%BF%90%E7%BB%B4/Jenkins/"/>
+    
+    
+    <category term="运维" scheme="https://www.0x2beace.com/tags/%E8%BF%90%E7%BB%B4/"/>
+    
+    <category term="CI" scheme="https://www.0x2beace.com/tags/CI/"/>
+    
+    <category term="Jenkins" scheme="https://www.0x2beace.com/tags/Jenkins/"/>
+    
+    <category term="CD" scheme="https://www.0x2beace.com/tags/CD/"/>
+    
+  </entry>
   
   <entry>
     <title>什么是 N+1 问题，以及如何解决</title>
