@@ -7,9 +7,9 @@ categories: ["运维", "Jenkins"]
 
 > Jenkins 是什么？
 
-<!-- more -->
-
 Jenkins是一个开源的、提供友好操作界面的持续集成(CI)工具。
+
+<!-- more -->
 
 > Jenkins 如何与Gitlab 进行关联？
 

@@ -5,13 +5,13 @@ tags: ["PHP", "Laravel", "ThinkPHP"]
 categories: ["PHP"]
 ---
 
-`N+1` 是ORM（对象关系映射）世界中的一个问题。
+`N+1` 是ORM（对象关系映射）关联数据读取中存在的一个问题。
 
 <!-- more -->
 
 在介绍什么是`N+1`问题之前，首先思考一个问题：
 
-假设现在有一个用户表和一个余额表，这两个表通过`user_id`进行关联。现在有一个需求是**查询年龄大于18岁的用户，以及用户各自的余额**。
+假设现在有一个用户表（User）和一个余额表（Balance），这两个表通过`user_id`进行关联。现在有一个需求是**查询年龄大于18岁的用户，以及用户各自的余额**。
 
 这个问题并不难，但对于新手而言，可能常常会犯的一个错误就是在循环中进行查询。
 
@@ -32,12 +32,11 @@ foreach($users as $user){
 
 其实，如果稍微了解一点SQL，根本不用这么麻烦，直接使用`JOIN` 一次就搞定了。
 
-有时候是不是觉得ORM 也挺碍事的。
+对于这类问题，ORM 其实为我们提供了相应的方案，那就是使用『预加载功能』。
 
-对于这类问题，ORM 其实为我们提供了相应的方案，那就是使用`with`。
+### 预加载功能
 
-### with
-
+使用`with()`方法指定想要预加载的关联：
 ```
 $users = User::where("age", ">", 18)
 		->with("hasBalance")
@@ -52,6 +51,7 @@ class User extends Model
 {
     //  ...
     
+    // User模型与Balance 模型进行一对一关联
     public function hasBalance()
     {
     	  return $this->hasOne(Balance::class, "user_id", "user_id");
