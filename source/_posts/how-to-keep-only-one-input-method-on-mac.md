@@ -1,7 +1,7 @@
 ---
-title: how to keep only one input method on mac
+title: Mac 如何只保留一个输入法
 date: 2021-03-20 09:27:00
-tags: [“Mac”, "Skill"]
+tags: ["Mac", "Skill"]
 categories: ["Mac", "Skill"]
 ---
 
