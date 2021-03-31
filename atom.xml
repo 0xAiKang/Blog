@@ -6,7 +6,7 @@
   <link href="https://www.0x2beace.com/atom.xml" rel="self"/>
   
   <link href="https://www.0x2beace.com/"/>
-  <updated>2021-03-25T14:42:08.365Z</updated>
+  <updated>2021-03-31T15:28:44.081Z</updated>
   <id>https://www.0x2beace.com/</id>
   
   <author>
@@ -15,6 +15,53 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>记一次升级 PHP 引发的一些思考</title>
+    <link href="https://www.0x2beace.com/some-thoughts-caused-by-upgrading-php-at-a-time/"/>
+    <id>https://www.0x2beace.com/some-thoughts-caused-by-upgrading-php-at-a-time/</id>
+    <published>2021-03-31T15:27:38.000Z</published>
+    <updated>2021-03-31T15:28:44.081Z</updated>
+    
+    <content type="html"><![CDATA[<p>因为工作原因，今天将本地开发环境的PHP 升级到7.4 了，此前一直使用7.3。</p><p>中间遇到了一些小问题，总体还算顺利，在此记录一下。</p><a id="more"></a><h3 id="背景说明"><a href="#背景说明" class="headerlink" title="背景说明"></a>背景说明</h3><p>我并没有使用集成的开发环境，而是单独安装所需的<code>5.6</code>、<code>7.0</code>、<code>7.1</code>、<code>7.2</code>、<code>7.3</code> 版本，所以升级<code>7.4</code> 也很简单，直接使用<code>brew</code> 安装即可：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ brew install php@7.4</span><br></pre></td></tr></table></figure><p>但是这会带来一个新的问题：之前通过源码编译安装过的扩展，还需要再安装一次。</p><p>你可能会问，为什么还需要再安装一次呢？直接把<code>php.ini</code> 中的开启扩展配拷贝过去不就可以了吗？</p><p>我们来试试这样做会发生什么？</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210331215353.png" alt=""></p><p>可以看到 PHP 并没有正常加载该扩展，这是为啥呢？</p><p>要回答这个问题，首先我们需要搞清楚，源码编译安装是怎么回事。</p><p>当我们执行<code>phpize</code> 命令后，会根据当前系统信息（PHP 版本）生成对应版本的扩展文件。</p><p>所以PHP7.3 编译生成的扩展自然就不能直接拿到PHP 7.4 中去使用了。</p><h3 id="xdebug"><a href="#xdebug" class="headerlink" title="xdebug"></a>xdebug</h3><p>另外想说一下Xdebug ，它是我一直在使用的一个调试扩展，非常强大。</p><p>在PHP 升起到7.4 之后，我一并安装了最新版的Xdebug（3.x），此前我一直使用 2.x 版本的，因为版本跨度比较大，刚开始问题挺多的，断点总是进不去。</p><p>起初我认为是新旧配置不兼容，挺多参数名称发生了变化，（具体可以看<a href="https://xdebug.org/docs/upgrade_guide/en" target="_blank" rel="noopener">这里</a>），当我把配置全部切换成适应新版本，还是进不去。</p><p>后来阴差阳错升级了PHPStorm，结果就能调试了…（升级之前的版本是 2020.1）</p><p>适应<code>xdebug 3.x</code>的配置如下：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[XDebug]</span><br><span class="line">zend_extension&#x3D;&#x2F;usr&#x2F;local&#x2F;lib&#x2F;php&#x2F;pecl&#x2F;20190902&#x2F;xdebug.so</span><br><span class="line">xdebug.mode &#x3D; debug</span><br><span class="line">xdebug.client_host &#x3D; 127.0.0.1</span><br><span class="line">xdebug.client_port &#x3D; 9003</span><br><span class="line">xdebug.idekey&#x3D;PHPSTORM</span><br></pre></td></tr></table></figure><p>只是到最后我也没整明白到底是啥原因导致。</p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;因为工作原因，今天将本地开发环境的PHP 升级到7.4 了，此前一直使用7.3。&lt;/p&gt;
+&lt;p&gt;中间遇到了一些小问题，总体还算顺利，在此记录一下。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="PHP" scheme="https://www.0x2beace.com/categories/PHP/"/>
+    
+    
+    <category term="PHP" scheme="https://www.0x2beace.com/tags/PHP/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>『转载』Laravel 中大型项目架构</title>
+    <link href="https://www.0x2beace.com/laravel-medium-and-large-project-architecture/"/>
+    <id>https://www.0x2beace.com/laravel-medium-and-large-project-architecture/</id>
+    <published>2021-03-30T15:59:36.000Z</published>
+    <updated>2021-03-30T16:00:43.872Z</updated>
+    
+    <content type="html"><![CDATA[<p>初学者学习 Laravel 时分两种，一种是乖乖的将程式填入 MVC 架构內，导致 controller 与 model 异常的肥大，日后一样很难维护；一种是常常不知道程式改写在哪一个 class 內而犹豫不決，毕竟传统 PHP 都是一个页面一个档案。本文整理出适合 Laravel 的中大型项目架构，兼具容易维护、容易扩充与容易重复使用的特点，并且容易测试。</p><a id="more"></a><p>一个项目只有 MVC 是不够的，我们需要更完整的项目架构。</p><h2 id="Controller-过于臃肿"><a href="#Controller-过于臃肿" class="headerlink" title="Controller 过于臃肿"></a>Controller 过于臃肿</h2><p>受RoR的影响，初学者常认为 MVC 架构就是 model ,view,controller :</p><ul><li>Model 就是资料库。</li><li>Controller 负责与 HTTP 交互，调用 model 与 view。</li><li>View 就是 HTML。</li></ul><p>假如依照这个定义，以下这些需求改写在哪里呢？</p><ol><li>发送 Email，使用外部 API。</li><li>使用 PHP 写的逻辑。</li><li>依需求将显示格式作转换。</li><li>依需求是否显示某些资料。</li><li>依需求显示不同资料。</li></ol><p>其中 1, 2 属于商业逻辑，而 3, 4, 5 属于显示逻辑，若依照一般人对 MVC 的定义，model 是资料库，而 view 又是 HTML，以上这些需求都不能写在 model 与 view，只能勉强写在 controller。</p><p>因此初学者开始将大量程式写在 controller，造成 controller 的肥大难以维护。</p><h2 id="Model-过于臃肿"><a href="#Model-过于臃肿" class="headerlink" title="Model 过于臃肿"></a>Model 过于臃肿</h2><p>既然逻辑写在 controller 不方便维护，那我将逻辑都写在 model 就好了？</p><p>当你将逻辑从 controller 搬到 model 后，虽然 controller 变瘦了，但却肥了 model，model 从原本代表资料库，現在变成还要负责商业逻辑与显示逻辑，结果更慘。</p><p>Model 代表资料库吗？把它想成是 Eloquent class就好，资料库逻辑应该写在 repository 里，这也是为什么 Laravel 5 已经沒有 models目录，Eloquent class 仅仅是放在 app 根目录下而已。</p><h2 id="中大型项目架构"><a href="#中大型项目架构" class="headerlink" title="中大型项目架构"></a>中大型项目架构</h2><p>那我们改怎么写呢？別将我们的思维局限在 MVC 內 :</p><ol><li>Model : 仅当成 Eloquent class。</li><li>Repository : 辅助 model，处理资料库逻辑，然后注入到 service。</li><li>Service : 辅助 controller，处理业务逻辑，然后注入到 controller。</li><li>Controller : 接收 HTTP request，调用其他 service。</li><li>Presenter : 处理显示逻辑，然后注入到 view。</li><li>View : 使用 blade 将资料 绑定 到 HTML。</li></ol><p>上面架构我们可以发现 MVC 架构还在，由与 SOLID 的单一职责原則与依赖反转原则:</p><p>我们将资料库逻辑从 model 分离出来，由 repository 辅助 model，将 model 依赖注入进 repository。<br>我们将商业逻辑从 controller 分离出来，由 service 辅助 controller，将 service 依赖注入进 controller。<br>我們将显示逻辑从 view 分离出來，由 presenter 辅助 view，将 presenter 依赖注入进 view。</p><h2 id="建立目录"><a href="#建立目录" class="headerlink" title="建立目录"></a>建立目录</h2><p>在 app 目录下建立 Repositories，Services 与 Presenters 目录。</p><p> 別害怕建立目录！！</p><p>別害怕在 Laravel 预设目录以外建立的其他目录，根据 SOLID 的单一职责原则，class 功能越多，责任也越多，因此越违反单一职责原则，所以你应该将你的程式分割成更小的部分，每个部分都有它专属的功能，而不是一个 class 功能包山包海，也就是所谓的万能类别，所以整个方案不应该只有 MVC 三个部分，放手根据你的需求建立适当的目录，并将适当的 class 放到该目录下，只要我们的 class 有 namespace 帮我们分类即可。</p><h2 id="Repository"><a href="#Repository" class="headerlink" title="Repository"></a>Repository</h2><p>由于篇幅的关系，将 repository 独立成专文讨论，请参考如何使用 Repository 模式?</p><h2 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h2><p>由于篇幅的关系，将 service 独立成专文讨论，请参考如何使用 Service 模式?</p><h2 id="Presenter"><a href="#Presenter" class="headerlink" title="Presenter"></a>Presenter</h2><p>由于篇幅的关系，将 presenter 独立成专文讨论，请参考如何使用 Presenter 模式?</p><h2 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h2><p>由于现在 model、view、controller 的相依物件都已经拆开，也都使用依赖注入，因此每个部分都可以单独的做单元测试，如要测试 service，就将 repository 加以 mock，也可以将其他 service 加以 mock。</p><p>Presenter 也可以单独跑单元测试，将其他 service 加以 mock，不一定要跑验收测试才能测试显示逻辑。</p><h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>本文谈到的架构只是开始开始，你可以依照实际需求增加更多的目录与 class，当你发现你的 MVC 违反 SOLID 原则时，就大胆的将 class 从 MVC 拆开重构，然后依照以下手法 :</p><ol><li>建立新的 class 或 interface。</li><li>将相依物件依赖注入到 class。</li><li>在 class 內处理他的职责。</li><li>将 class 或 interface 注入到 controller 或 view。</li></ol><p>————————————————<br>版权声明：本文为CSDN博主「华尔街之猫」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。<br>原文链接：<a href="https://blog.csdn.net/qq_24935119/article/details/89656569" target="_blank" rel="noopener">https://blog.csdn.net/qq_24935119/article/details/89656569</a></p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;初学者学习 Laravel 时分两种，一种是乖乖的将程式填入 MVC 架构內，导致 controller 与 model 异常的肥大，日后一样很难维护；一种是常常不知道程式改写在哪一个 class 內而犹豫不決，毕竟传统 PHP 都是一个页面一个档案。本文整理出适合 Laravel 的中大型项目架构，兼具容易维护、容易扩充与容易重复使用的特点，并且容易测试。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="PHP" scheme="https://www.0x2beace.com/categories/PHP/"/>
+    
+    <category term="Laravel" scheme="https://www.0x2beace.com/categories/PHP/Laravel/"/>
+    
+    
+    <category term="PHP" scheme="https://www.0x2beace.com/tags/PHP/"/>
+    
+    <category term="Laravel" scheme="https://www.0x2beace.com/tags/Laravel/"/>
+    
+  </entry>
   
   <entry>
     <title>Linux 如何挂载新硬盘</title>
