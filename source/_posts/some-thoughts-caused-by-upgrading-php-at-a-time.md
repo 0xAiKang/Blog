@@ -1,8 +1,8 @@
 ---
 title: 记一次升级 PHP 引发的一些思考
 date: 2021-03-31 23:27:38
-tags: ["PHP"]
-categories: ["PHP"]
+tags: ["PHP", "一些思考"]
+categories: ["PHP", "一些思考"]
 ---
 
 因为工作原因，今天将本地开发环境的PHP 升级到7.4 了，此前一直使用7.3。
