@@ -22,13 +22,14 @@ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/
 ```
 
 常用命令如下：
-命令 | 描述
---- | ---
-brew search package | 搜索软件包
-brew install package | 安装软件包
-brew uninstall package | 卸载软件包
-brew list | 列出已安装清单
-brew help | 获取帮助
+常用命令如下：
+| 命令 | 描述 |
+|--- | --- |
+|brew search package | 搜索软件包|
+|brew install package | 安装软件包|
+|brew uninstall package | 卸载软件包|
+|brew list | 列出已安装清单|
+|brew help | 获取帮助|
 
 ## OSX 扩展
 `osx` 扩展是`zsh` 提供的一个控制终端和访达（功能之一）的扩展工具。

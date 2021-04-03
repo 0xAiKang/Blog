@@ -7,6 +7,8 @@ categories: ["PHP", "Laravel", "一些思考"]
 
 这篇笔记用来记录一下使用Laravel 开发的一些感想。
 
+<!-- more -->
+
 笔者最早接触的第一个PHP 框架是`ThinkPHP 3.2`，写过接口，做过网站。
 
 后来发现了[Laravel](http://laravel.com) 这个框架，那时最新的版本是5.x，当时就觉得这个框架可真高级，好多从未了解到的概念。
