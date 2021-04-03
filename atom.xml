@@ -6,7 +6,7 @@
   <link href="https://www.0x2beace.com/atom.xml" rel="self"/>
   
   <link href="https://www.0x2beace.com/"/>
-  <updated>2021-03-31T15:28:44.081Z</updated>
+  <updated>2021-04-03T04:39:58.428Z</updated>
   <id>https://www.0x2beace.com/</id>
   
   <author>
@@ -17,11 +17,45 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>谈谈第一次使用 Laravel 开发的感想</title>
+    <link href="https://www.0x2beace.com/talk-about-the-feelings-of-using-laravel-development-for-the-first-time/"/>
+    <id>https://www.0x2beace.com/talk-about-the-feelings-of-using-laravel-development-for-the-first-time/</id>
+    <published>2021-04-03T04:36:54.000Z</published>
+    <updated>2021-04-03T04:39:58.428Z</updated>
+    
+    <content type="html"><![CDATA[<p>这篇笔记用来记录一下使用Laravel 开发的一些感想。</p><p>笔者最早接触的第一个PHP 框架是<code>ThinkPHP 3.2</code>，写过接口，做过网站。</p><p>后来发现了<a href="http://laravel.com" target="_blank" rel="noopener">Laravel</a> 这个框架，那时最新的版本是5.x，当时就觉得这个框架可真高级，好多从未了解到的概念。</p><p>也正是从那个时候开始了解Laravel，通过<a href="https://learnku.com/" target="_blank" rel="noopener">learnku</a> 上的系列课程进行学习，</p><p>前前后后也是花了不少时间在上面，始终没机会进入项目实战，一直停留在学习层面。</p><p>今年的第一个项目有幸使用Laravel 从零开发，当我再次捡起之前看过的课程，感觉几乎白看了，好多点完全都没印象了。</p><p>有幸遇到一位不错的项目组长，项目开发初期给了一些时间去做准备。</p><p>这一周是新项目正式开始的第一周，项目进展挺顺利的（没有拖后腿 😀），不得不说使用Laravel 开发的效率真的很高，丰富的第三方扩展包可以满足日常开发的绝大多数应用场景。</p><p>这不禁让我引发思考，为什么之前花更多的时间和精力去学习，却还没有这短短半个月的收获大呢？</p><hr><p>原因很简单：<strong>编程是技能，不是知识，技能只有在不断练习下才会有进步</strong> 。</p><p>借用一句老话来讲就是：<strong>纸上得来终觉浅，绝知此事要躬行。</strong></p><p>现在再回头看看<code>learnku.com</code> 的站长，在介绍<a href="https://learnku.com/courses/laravel-essential-training/8.x/reading-guide/9794" target="_blank" rel="noopener">如何正确阅读本书</a>时，说的一段话，真的特别好，强调“刻意练习”的重要性。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210403123344.png" alt=""></p><p>所以不能总是停留在学习阶段，有一定基础之后，就去做，遇到问题解决问题，不用太在意结果如何，动手去做就好了。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;这篇笔记用来记录一下使用Laravel 开发的一些感想。&lt;/p&gt;
+&lt;p&gt;笔者最早接触的第一个PHP 框架是&lt;code&gt;ThinkPHP 3.2&lt;/code&gt;，写过接口，做过网站。&lt;/p&gt;
+&lt;p&gt;后来发现了&lt;a href=&quot;http://laravel.com&quot; target</summary>
+      
+    
+    
+    
+    <category term="PHP" scheme="https://www.0x2beace.com/categories/PHP/"/>
+    
+    <category term="Laravel" scheme="https://www.0x2beace.com/categories/PHP/Laravel/"/>
+    
+    <category term="一些思考" scheme="https://www.0x2beace.com/categories/PHP/Laravel/%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/"/>
+    
+    
+    <category term="PHP" scheme="https://www.0x2beace.com/tags/PHP/"/>
+    
+    <category term="Laravel" scheme="https://www.0x2beace.com/tags/Laravel/"/>
+    
+    <category term="一些思考" scheme="https://www.0x2beace.com/tags/%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/"/>
+    
+  </entry>
+  
+  <entry>
     <title>记一次升级 PHP 引发的一些思考</title>
     <link href="https://www.0x2beace.com/some-thoughts-caused-by-upgrading-php-at-a-time/"/>
     <id>https://www.0x2beace.com/some-thoughts-caused-by-upgrading-php-at-a-time/</id>
     <published>2021-03-31T15:27:38.000Z</published>
-    <updated>2021-03-31T15:28:44.081Z</updated>
+    <updated>2021-04-03T04:39:35.526Z</updated>
     
     <content type="html"><![CDATA[<p>因为工作原因，今天将本地开发环境的PHP 升级到7.4 了，此前一直使用7.3。</p><p>中间遇到了一些小问题，总体还算顺利，在此记录一下。</p><a id="more"></a><h3 id="背景说明"><a href="#背景说明" class="headerlink" title="背景说明"></a>背景说明</h3><p>我并没有使用集成的开发环境，而是单独安装所需的<code>5.6</code>、<code>7.0</code>、<code>7.1</code>、<code>7.2</code>、<code>7.3</code> 版本，所以升级<code>7.4</code> 也很简单，直接使用<code>brew</code> 安装即可：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ brew install php@7.4</span><br></pre></td></tr></table></figure><p>但是这会带来一个新的问题：之前通过源码编译安装过的扩展，还需要再安装一次。</p><p>你可能会问，为什么还需要再安装一次呢？直接把<code>php.ini</code> 中的开启扩展配拷贝过去不就可以了吗？</p><p>我们来试试这样做会发生什么？</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210331215353.png" alt=""></p><p>可以看到 PHP 并没有正常加载该扩展，这是为啥呢？</p><p>要回答这个问题，首先我们需要搞清楚，源码编译安装是怎么回事。</p><p>当我们执行<code>phpize</code> 命令后，会根据当前系统信息（PHP 版本）生成对应版本的扩展文件。</p><p>所以PHP7.3 编译生成的扩展自然就不能直接拿到PHP 7.4 中去使用了。</p><h3 id="xdebug"><a href="#xdebug" class="headerlink" title="xdebug"></a>xdebug</h3><p>另外想说一下Xdebug ，它是我一直在使用的一个调试扩展，非常强大。</p><p>在PHP 升起到7.4 之后，我一并安装了最新版的Xdebug（3.x），此前我一直使用 2.x 版本的，因为版本跨度比较大，刚开始问题挺多的，断点总是进不去。</p><p>起初我认为是新旧配置不兼容，挺多参数名称发生了变化，（具体可以看<a href="https://xdebug.org/docs/upgrade_guide/en" target="_blank" rel="noopener">这里</a>），当我把配置全部切换成适应新版本，还是进不去。</p><p>后来阴差阳错升级了PHPStorm，结果就能调试了…（升级之前的版本是 2020.1）</p><p>适应<code>xdebug 3.x</code>的配置如下：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[XDebug]</span><br><span class="line">zend_extension&#x3D;&#x2F;usr&#x2F;local&#x2F;lib&#x2F;php&#x2F;pecl&#x2F;20190902&#x2F;xdebug.so</span><br><span class="line">xdebug.mode &#x3D; debug</span><br><span class="line">xdebug.client_host &#x3D; 127.0.0.1</span><br><span class="line">xdebug.client_port &#x3D; 9003</span><br><span class="line">xdebug.idekey&#x3D;PHPSTORM</span><br></pre></td></tr></table></figure><p>只是到最后我也没整明白到底是啥原因导致。</p>]]></content>
     
@@ -33,8 +67,12 @@
     
     <category term="PHP" scheme="https://www.0x2beace.com/categories/PHP/"/>
     
+    <category term="一些思考" scheme="https://www.0x2beace.com/categories/PHP/%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/"/>
+    
     
     <category term="PHP" scheme="https://www.0x2beace.com/tags/PHP/"/>
+    
+    <category term="一些思考" scheme="https://www.0x2beace.com/tags/%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/"/>
     
   </entry>
   
