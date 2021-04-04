@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>Laravel Eloquent ORM 常用操作整理 - Boo</title>
+  
+    <meta name="keywords" content="PHP,Laravel">
+  
+  
+    <meta name="description" content="Laravel 支持原生的 SQL 查询、流畅的查询构造器 和 Eloquent ORM 三种查询方式：">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Boo's Blog</p>
+    
+    
+      <p class="subtitle">Stay foolish, Stay hungry</p>
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/"
+                
+                
+                id="https:www0x2BeAcecom">
+                <i class='fas fa-book fa-fw'></i>博客
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/categories/"
+                
+                
+                id="https:www0x2BeAcecomcategories">
+                <i class='fas fa-rss fa-fw'></i>分类
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/tags/"
+                
+                
+                id="https:www0x2BeAcecomtags">
+                <i class='fas fa-play-circle fa-fw'></i>标签
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/archives/"
+                
+                  rel="external nofollow noopener noreferrer"
+                
+                
+                id="https:www0x2BeAcecomarchives">
+                <i class='fas fa-file-code fa-fw'></i>归档
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/about/"
+                
+                
+                id="https:www0x2BeAcecomabout">
+                <i class='fas fa-handshake fa-fw'></i>关于我
+              </a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/laravel-eloquent-orm-common-operations-finishing/">
+      Laravel Eloquent ORM 常用操作整理
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/PHP/Laravel/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>PHP/Laravel</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Apr 4, 2021</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>2.2k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>10 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/laravel-eloquent-orm-common-operations-finishing/" class="leancloud_visitors" data-flag-title="Laravel Eloquent ORM 常用操作整理">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>Laravel 支持原生的 SQL 查询、流畅的查询构造器 和 Eloquent ORM 三种查询方式：</p>
+<a id="more"></a>
+
+<ul>
+<li>流畅的查询构造器（简称DB），它是为创建和运行数据库查询提供的一个接口，支持大部分数据库操作，和手写SQL 的本质是一样的。</li>
+<li>Eloquent ORM（简称ORM），是一个对象关系映射(Object Relational Mapper)工具，通过建立模型与数据表进行交互，它会把数据库中的数据映射成对象和集合对象，无需接触底层数据，可以直接调用映射出来的对象进行开发。</li>
+</ul>
+<p>这篇笔记主要来整理下常用的ORM 操作。</p>
+<h2 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h2><p><code>artisan tinker</code> 是 Laravel 框架自带的命令，用以调出 Laravel 的交互式运行时，Eloquent ORM 的代码可以直接在该环境中运行。</p>
+<h3 id="查询列表"><a href="#查询列表" class="headerlink" title="查询列表"></a>查询列表</h3><p>获取所有数据：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">use App\Models\User;</span><br><span class="line">$users &#x3D; User::all();</span><br></pre></td></tr></table></figure>
+
+<p>如果只需要部分字段，有两种方式进行限定：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$users &#x3D; User::all([&quot;id&quot;, &quot;name&quot;]);</span><br><span class="line"></span><br><span class="line">$users &#x3D; User::select(&quot;id&quot;, &quot;name&quot;)-&gt;get();</span><br></pre></td></tr></table></figure>
+
+<p>获取单列：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$name &#x3D; User::pluck(&#39;name&#39;);</span><br><span class="line">&#x2F;&#x2F; [&quot;boo&quot;, &quot;mac&quot;, &quot;yumi&quot;]</span><br></pre></td></tr></table></figure>
+
+<p>还可以在返回的集合中指定字段的自定义键名，注意：该自定义键必须是该表的其它字段列名，否则会报错：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$name &#x3D; User::pluck(&#39;email&#39;,&#39;name&#39;);</span><br><span class="line">&#x2F;&#x2F; [&quot;boo&quot; &#x3D;&gt; &quot;boo@example.com&quot;, &quot;yumi&quot; &#x3D;&gt; &quot;yumi@example.com&quot;]</span><br></pre></td></tr></table></figure>
+
+<h3 id="查询单条数据"><a href="#查询单条数据" class="headerlink" title="查询单条数据"></a>查询单条数据</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 通过主键获取模型</span><br><span class="line">$user &#x3D; User:;find(1);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 获取匹配查询条件的第一个模型</span><br><span class="line">$user &#x3D; User::where(&#39;is_enable&#39;, 1)-&gt;first();</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 获取第一条数据的指定列值</span><br><span class="line">$user &#x3D; User::value(&quot;name&quot;);  </span><br><span class="line">&#x2F;&#x2F; 返回结果是字符串：boo</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 传递主键数组来调用 find 方法，返回匹配记录集合</span><br><span class="line">$user &#x3D; User::find([1,2,3]);  </span><br><span class="line">&#x2F;&#x2F; 等同于 </span><br><span class="line">$user &#x3D; User::whereIn(&quot;id&quot;, [1,2,3])-&gt;get();</span><br></pre></td></tr></table></figure>
+
+<h3 id="处理返回结果集"><a href="#处理返回结果集" class="headerlink" title="处理返回结果集"></a>处理返回结果集</h3><p>Eloquent ORM 查询返回值是 <code>Illuminate\Database\EloquentCollection</code> 的一个实例，所以除了可以使用传统的数组方式进行遍历，还可以使用集合方式进行遍历。</p>
+<h4 id="chunk"><a href="#chunk" class="headerlink" title="chunk"></a>chunk</h4><p><code>chunk</code>方法可以把大的结果集分成小块查询，例如，我们可以将全部User 表数据切割成一次处理 <code>5</code> 条记录的一小块：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$result &#x3D; User::chunk(5, function ($users) &#123;</span><br><span class="line">    foreach ($users as $user) &#123;</span><br><span class="line">        echo $user-&gt;name.PHP_EOL;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line">&#x2F;&#x2F; result 为 boolean</span><br></pre></td></tr></table></figure>
+
+<p>在User表中一共有<code>14</code>条数据，通过查看查询日志，可以看到<code>chunk</code> 分了三次查询 ：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210403172906.png" alt=""></p>
+<h4 id="each"><a href="#each" class="headerlink" title="each"></a>each</h4><p>如果想对一个集合中的每一项都进行一些操作，但不修改集合本身，则可以使用<code>each</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$users &#x3D; User::all();</span><br><span class="line">$users &#x3D; $users-&gt;each(function ($user , $key) &#123;</span><br><span class="line">    $user-&gt;password &#x3D; bcrypt(122410);</span><br><span class="line">&#125;);</span><br><span class="line">&#x2F;&#x2F; 返回结果包含完整的User模型，其中password 字段的值被修改</span><br></pre></td></tr></table></figure>
+
+<h4 id="map"><a href="#map" class="headerlink" title="map"></a>map</h4><p>如果想对集合中的所有元素进行迭代，对它们进行修改，并返回包含修改的新集合，那么需要使用<code>map</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$users &#x3D; User::all();</span><br><span class="line">$users &#x3D; $users-&gt;map(function ($user, $key) &#123;</span><br><span class="line">    return [</span><br><span class="line">        &quot;name&quot; &#x3D;&gt; $user-&gt;name,</span><br><span class="line">        &quot;password&quot; &#x3D;&gt; bcrypt(122410),</span><br><span class="line">    ];</span><br><span class="line">&#125;);</span><br><span class="line">&#x2F;&#x2F; 返回结果仅包含name 和password 字段，其中password 字段的值被修改</span><br></pre></td></tr></table></figure>
+
+<h3 id="聚合方法"><a href="#聚合方法" class="headerlink" title="聚合方法"></a>聚合方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 统计总数</span><br><span class="line">$count &#x3D; User::count();</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 统计分组</span><br><span class="line">$count &#x3D; User::select(User::raw(&quot;count(id) as aggregate&quot;))-&gt;groupBy(&quot;is_enable&quot;)-&gt;get();</span><br><span class="line">&#x2F;&#x2F; 注意不能这样写：User::select(&#39;count(id) as aggregate&#39;)-&gt;groupBy(&quot;is_enable&quot;)-&gt;get();</span><br></pre></td></tr></table></figure>
+
+<h3 id="条件查询"><a href="#条件查询" class="headerlink" title="条件查询"></a>条件查询</h3><p>构建复杂查询：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 组合查询方式一</span><br><span class="line">$where &#x3D; [];</span><br><span class="line">$where[] &#x3D; [&quot;is_enable&quot;, 1];</span><br><span class="line">$where[] &#x3D; [</span><br><span class="line">  function($query)&#123;</span><br><span class="line">  $query-&gt;where(&quot;id&quot;, &quot;&gt;&quot;, 10)</span><br><span class="line">    -&gt;orWhere(&quot;name&quot;, &quot;like&quot;, &quot;%admin%&quot;);</span><br><span class="line">&#125;];</span><br><span class="line">User::select(&quot;id&quot;, &quot;name as username&quot;, &quot;email&quot;)-&gt;where($where)-&gt;get(); </span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 组合查询方式二</span><br><span class="line">$builder &#x3D; User::select(&quot;id&quot;, &quot;name as username&quot;, &quot;email&quot;);</span><br><span class="line">$builder-&gt;where(&quot;is_enable&quot;, 1);</span><br><span class="line">$builder-&gt;where(function ($query)&#123;</span><br><span class="line">  $query-&gt;where(&quot;id&quot;, &quot;&gt;&quot;, 10)</span><br><span class="line">    -&gt;orWhere(&quot;name&quot;, &quot;like&quot;, &quot;%admin%&quot;);</span><br><span class="line">&#125;);</span><br><span class="line">$users &#x3D; $builder-&gt;get();</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 两种方式的查询SQL 是一样的： select &#96;id&#96;, &#96;name&#96; as &#96;username&#96;, &#96;email&#96; from &#96;users&#96; where (&#96;is_enable&#96; &#x3D; &#39;1&#39; and (&#96;id&#96; &gt; &#39;10&#39; or &#96;name&#96; like &#39;%admin%&#39;))</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Where Exists</span><br><span class="line">$builder &#x3D; User::select(&quot;id&quot;, &quot;name&quot;, &quot;email&quot;);</span><br><span class="line">$builder-&gt;whereExists(function ($query)&#123;</span><br><span class="line">    $query-&gt;select(User::raw(&quot;title&quot;))</span><br><span class="line">        -&gt;from(&quot;topics&quot;)</span><br><span class="line">        -&gt;whereRaw(&quot;topics.user_id &#x3D; users.id&quot;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 用户id 倒序</span><br><span class="line">$user &#x3D; User::orderBy(&quot;id&quot;, &quot;desc&quot;)-&gt;get();</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 获取created_at 最大的一条记录</span><br><span class="line">$user &#x3D; User::latest()-&gt;first();</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 获取created_at 最小的一条记录</span><br><span class="line">$user &#x3D; User::oldest()-&gt;first();</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 随机一条记录</span><br><span class="line">$users &#x3D; User::inRandomOrder()-&gt;first();</span><br></pre></td></tr></table></figure>
+
+<h3 id="限定"><a href="#限定" class="headerlink" title="限定"></a>限定</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 跳过前两条记录，取三条记录</span><br><span class="line">$users &#x3D; User::skip(2)-&gt;take(3)-&gt;get();</span><br><span class="line">&#x2F;&#x2F; 输出SQL：select * from &#96;users&#96; limit 3 offset 2  </span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 同上</span><br><span class="line">$users &#x3D; User::offset(2)-&gt;limit(3)-&gt;get();</span><br></pre></td></tr></table></figure>
+
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 使用别名</span><br><span class="line">$user &#x3D; User::select(&quot;name as username&quot;, &quot;id&quot;)-&gt;first();</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 创建一个查询构建器</span><br><span class="line">$builder &#x3D; User::select(&quot;name&quot;);</span><br><span class="line">&#x2F;&#x2F; 添加一个查询列到已存在的 select 子句</span><br><span class="line">$user &#x3D; $builder-&gt;addSelect(&quot;id&quot;)-&gt;first();</span><br></pre></td></tr></table></figure>
+
+<h3 id="分页"><a href="#分页" class="headerlink" title="分页"></a>分页</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$users &#x3D; User::paginate(10);</span><br><span class="line">$users &#x3D; User::simplePaginate(10);</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><code>paginate</code> 方法，返回<code>Illuminate\Pagination\LengthAwarePaginator</code>实例</li>
+<li><code>simplePaginate</code> 方法，返回<code>Illuminate\Pagination\Paginator</code>实例</li>
+</ol>
+<p>每个分页器实例都可以通过以下方法提供更多分页信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$result-&gt;count()            &#x2F;&#x2F; 当前页条数    </span><br><span class="line">$result-&gt;currentPage()      &#x2F;&#x2F; 当前页码</span><br><span class="line">$result-&gt;perPage()          &#x2F;&#x2F; 每页多少条</span><br><span class="line">$result-&gt;total()            &#x2F;&#x2F; 总数(使用simplePaginate 时无效)</span><br><span class="line">$result-&gt;hasMorePages()     &#x2F;&#x2F; 是否有更多</span><br><span class="line">$result-&gt;firstItem()      </span><br><span class="line">$result-&gt;lastItem()</span><br><span class="line">$result-&gt;lastPage() (使用simplePaginate 时无效)</span><br><span class="line">$result-&gt;nextPageUrl()</span><br><span class="line">$result-&gt;previousPageUrl()</span><br><span class="line">$result-&gt;url($page)</span><br></pre></td></tr></table></figure>
+
+<h2 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">$user &#x3D; new User();</span><br><span class="line">$user-&gt;name &#x3D; &quot;yumi&quot;;</span><br><span class="line">$user-&gt;fill([&quot;email&quot; &#x3D;&gt; &quot;yumi@example.com&quot;]);</span><br><span class="line">$user-&gt;save();</span><br><span class="line">&#x2F;&#x2F; 返回模型对象</span><br><span class="line"></span><br><span class="line">$result &#x3D; User::create(</span><br><span class="line">    [&quot;name&quot;&#x3D;&gt;&quot;boo&quot;, &#39;email&#39; &#x3D;&gt; &#39;boo@example.com&#39;]</span><br><span class="line">);</span><br><span class="line">&#x2F;&#x2F; 返回模型对象</span><br><span class="line"></span><br><span class="line">$result &#x3D; User::insert(</span><br><span class="line">    [&quot;name&quot;&#x3D;&gt;&quot;boo&quot;, &#39;email&#39; &#x3D;&gt; &#39;boo@example.com&#39;]</span><br><span class="line">);</span><br><span class="line">&#x2F;&#x2F; 返回Boolean</span><br><span class="line"></span><br><span class="line">$result &#x3D; User::insertGetId(</span><br><span class="line">    [&quot;name&quot;&#x3D;&gt;&quot;boo&quot;, &#39;email&#39; &#x3D;&gt; &#39;boo@example.com&#39;]</span><br><span class="line">);</span><br><span class="line">&#x2F;&#x2F; 返回插入记录对应ID</span><br></pre></td></tr></table></figure>
+
+<h2 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h2><p>单个更新</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$user &#x3D; User::find(1);</span><br><span class="line">$user-&gt;name &#x3D; &#39;yumi&#39;;</span><br><span class="line">$user-&gt;save();</span><br><span class="line">&#x2F;&#x2F; 返回Boolean</span><br><span class="line"></span><br><span class="line">$user &#x3D; User::where(&quot;id&quot;, 1)-&gt;update([&#39;password&#39; &#x3D;&gt; bcrypt(122410)]);</span><br><span class="line">&#x2F;&#x2F; 返回受影响行数</span><br></pre></td></tr></table></figure>
+
+<p>批量更新：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$user &#x3D; User::whereIn(&quot;id&quot;, [1,2,3])-&gt;update([&#39;password&#39; &#x3D;&gt; bcrypt(122410)]); </span><br><span class="line">&#x2F;&#x2F; 返回受影响行数</span><br></pre></td></tr></table></figure>
+
+<h2 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h2><p>单个删除</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 通过主键查询，删除模型</span><br><span class="line">$user &#x3D; User::find(1);</span><br><span class="line">$user-&gt;delete();</span><br><span class="line">&#x2F;&#x2F; 返回Boolean</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 直接通过主键删除</span><br><span class="line">User::destroy(1);</span><br><span class="line">&#x2F;&#x2F; 返回受影响行数</span><br><span class="line"></span><br><span class="line">User::where(&#39;id&#39;, 1)-&gt;delete();</span><br></pre></td></tr></table></figure>
+
+<p>批量删除：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">User::destroy([1, 2, 3]);</span><br><span class="line"></span><br><span class="line">User::destroy(1, 2, 3);</span><br><span class="line">&#x2F;&#x2F; 注：通过 Eloquent 批量删除时，deleting 和 deleted事件不会被触发，因为在进行模型删除时不会获取模型。</span><br><span class="line"></span><br><span class="line">User::whereIn(&#39;id&#39;, [1, 2, 3])-&gt;delete();</span><br><span class="line">&#x2F;&#x2F; 均返回受影响行数</span><br></pre></td></tr></table></figure>
+
+<h3 id="软删除"><a href="#软删除" class="headerlink" title="软删除"></a>软删除</h3><p>除了真实删除数据库记录，Eloquent 也可以「软删除」模型。软删除的模型并不是真的从数据库中删除了。 事实上，是在模型上设置了 <code>deleted_at</code> 属性并将其值写入数据库。如果 <code>deleted_at</code> 值非空，代表这个模型已被软删除。</p>
+<p>如果要开启模型软删除功能，需要在模型上使用 <code>Illuminate\Database\Eloquent\SoftDeletes trait</code>，同时需要添加 <code>$dates</code> 属性：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">namespace App\Models;</span><br><span class="line"></span><br><span class="line">use Illuminate\Database\Eloquent\Model;</span><br><span class="line">use Illuminate\Database\Eloquent\SoftDeletes;</span><br><span class="line"></span><br><span class="line">class User extends Model</span><br><span class="line">&#123;</span><br><span class="line">    use SoftDeletes;</span><br><span class="line">    </span><br><span class="line">    protected $dates &#x3D; [&#39;deleted_at&#39;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>现在，当在模型实例上使用 <code>delete</code> 方法，当前日期时间会写入 <code>deleted_at</code> 字段。同时，查询出来的结果也会自动排除已被软删除的记录。</p>
+<h3 id="软删除常见操作"><a href="#软删除常见操作" class="headerlink" title="软删除常见操作"></a>软删除常见操作</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 验证给定的模型实例是否已被软删除</span><br><span class="line">if ($user-&gt;trashed()) &#123;</span><br><span class="line">    &#x2F;&#x2F;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 包括已软删除的模型</span><br><span class="line">$users &#x3D; User::withTrashed()-&gt;get();</span><br><span class="line">            </span><br><span class="line">&#x2F;&#x2F; 只检索软删除模型           </span><br><span class="line">$users &#x3D; User::onlyTrashed()-&gt;get();</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 永久删除</span><br><span class="line">$user-&gt;forceDelete();</span><br></pre></td></tr></table></figure>
+
+<p>注意⚠️：</p>
+<ol>
+<li>通过 Eloquent 批量删除时，deleting 和 deleted 事件不会被触发，因为在进行模型删除时不会获取模型。</li>
+<li>通过 Eloquent 批量更新时，更新的模型不会触发 saving, saved, updating 和 updated 模型事件。这是因为在批量更新时实际上从未检索模型。</li>
+</ol>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://learnku.com/docs/laravel/8.x/eloquent/9406#soft-deleting" target="_blank" rel="noopener">Eloquent 快速入门</a></li>
+<li><a href="https://segmentfault.com/a/1190000014916636" target="_blank" rel="noopener">Laravel 中Eloquent ORM 相关操作</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/laravel-eloquent-orm-common-operations-finishing/>https://www.0x2beace.com/laravel-eloquent-orm-common-operations-finishing/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-04-04T09:23:43+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Apr 4, 2021</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Laravel/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Laravel</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/laravel-eloquent-orm-common-operations-finishing/&title=Laravel Eloquent ORM 常用操作整理 - Boo&summary=Laravel 支持原生的 SQL 查询、流畅的查询构造器 和 Eloquent ORM 三种查询方式："
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/laravel-eloquent-orm-common-operations-finishing/&title=Laravel Eloquent ORM 常用操作整理 - Boo&summary=Laravel 支持原生的 SQL 查询、流畅的查询构造器 和 Eloquent ORM 三种查询方式："
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/laravel-eloquent-orm-common-operations-finishing/&title=Laravel Eloquent ORM 常用操作整理 - Boo&summary=Laravel 支持原生的 SQL 查询、流畅的查询构造器 和 Eloquent ORM 三种查询方式："
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADuElEQVR42u3awXIiMQwEUP7/p7P3bFEjtQRjyPONVMCeRw6dlh8/VrQeCMCBAwfOAgfuELhHuLrvf/b7/x3s4v2/f+/q5+l5n54fHDhw4MCBAwfuMLhyALw4WBfgCnT6hVTPW35ecODAgQMHDhy4Q+GqB+xu2A2oW19MGojBgQMHDhw4cOC+HW6rqJyCTSHBgQMHDhw4cOD+GlwKMw3G3f3BgQMHDhw4cOC+HS4tKNOguRXAP26SDw4cOHDgwIEDtwSXFoSf+jp+XnDgwIEDBw4cuEPgpis92DRYVwP0z/ICBw4cOHDgwIE7Ba66cTqonhaX3UIyLTLLDuDAgQMHDhw4cIfBTQNrN9huDazTAXr1i74MwODAgQMHDhw4cDfDTQPw+EBFkOo50gL27UUmOHDgwIEDBw7cElz6wVOQ7eC6dTESHDhw4MCBAwfudLhXDZS3Bskp0NYCBw4cOHDgwIE7Da5baFYLz2oRme7fHWRvDb7BgQMHDhw4cOA+Da4LlQbd9oMsBfjy54EDBw4cOHDgwB0Clw6a2xfybgq43SA+vlgIDhw4cODAgQP3Zrg0AE8Pkg6c0wDf3RccOHDgwIEDB+5UuHTjKWS3qLyrYF0bSIMDBw4cOHDgwL0JLi0AtwPqdL9ukAYHDhw4cODAgft0uGnA7AbcaWE5HYSXnw8cOHDgwIEDB+4QuO4AOQ6OS8Voer7ufk/fBw4cOHDgwIEDdwhcNximoGkgTQPsGKj7nwM4cODAgQMHDtzNcPEHLl/s6w7Gtwbql+8HBw4cOHDgwIE7HK5bPHYLzq1CNP351blefrEQHDhw4MCBAwduCPcIVzoQflXhmA6829DgwIEDBw4cOHCHwG0PjKvFZPqgU8jqH0L5Pwdw4MCBAwcOHLib4boBcQrfDczV820H6/JAGhw4cODAgQMH7s1wWxunB+3CpfuvBWxw4MCBAwcOHLhD4KYFZPfA1QfvAqZBuh2owYEDBw4cOHDgDoXrruqDTC/+bQ2UuwVmOQCDAwcOHDhw4MC9GW56ES8Nlt2iMi0809eXFwvBgQMHDhw4cOAOgTulaEyDdfV1t7h9WmSCAwcOHDhw4MAdBjce2IbF4jTIdp8nLlbBgQMHDhw4cOC+BG5cDA6L0VedHxw4cODAgQMH7q/CpQVpN+h2A/V4MA4OHDhw4MCBA3coXHcgvQX2qsJyWmiCAwcOHDhw4MCdDjcd3G5fPEyLz+kX3i4ywYEDBw4cOHDgboKzegscOHDgwFngwN28/gHI1wL5XUJ/oAAAAABJRU5ErkJggg==">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/talk-about-the-feelings-of-using-laravel-development-for-the-first-time/'>
+                <p class='title'>谈谈第一次使用 Laravel 开发的感想<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>这篇笔记用来记录一下使用Laravel 开发的一些感想。
+
+
+笔者最早接触的第一个PHP 框架是ThinkPHP 3.2，写过接口，做过网站。
+后来发现了Laravel 这个框架，那时最新的版本...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Laravel Eloquent ORM 常用操作整理',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#查询"><span class="toc-text">查询</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#查询列表"><span class="toc-text">查询列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查询单条数据"><span class="toc-text">查询单条数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#处理返回结果集"><span class="toc-text">处理返回结果集</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#chunk"><span class="toc-text">chunk</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#each"><span class="toc-text">each</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#map"><span class="toc-text">map</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#聚合方法"><span class="toc-text">聚合方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条件查询"><span class="toc-text">条件查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#排序"><span class="toc-text">排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#限定"><span class="toc-text">限定</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他"><span class="toc-text">其他</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分页"><span class="toc-text">分页</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#插入"><span class="toc-text">插入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#更新"><span class="toc-text">更新</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#删除"><span class="toc-text">删除</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#软删除"><span class="toc-text">软删除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#软删除常见操作"><span class="toc-text">软删除常见操作</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+      
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <span class="post-count">总字数：141.6k</span>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2020 Boo</a></p>
+
+        <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+        
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?fbe826b92f6d49a0ebacf4d848bd3add";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+<script>
+  var now = new Date(); 
+  function createtime() {    
+      var grt= new Date("07/04/2020 14:12:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";     
+  } 
+setInterval("createtime()",250);
+</script>
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "Ki6kd5TUWoQyYKSErxehnRpc-MdYXbMMI",
+    appKey: "7pRBOKMw58Yo7EsUjHziIEY1",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
