@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>Valine 如何开启评论邮件通知 - Boo</title>
+  
+    <meta name="keywords" content="Hexo">
+  
+  
+    <meta name="description" content="事情是这样的，昨天无意在博客上看到一条留言，留言时间是两天之前，我才意识到目前的评论系统缺少通知 =_=!。">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Boo's Blog</p>
+    
+    
+      <p class="subtitle">Stay foolish, Stay hungry</p>
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/"
+                
+                
+                id="https:www0x2BeAcecom">
+                <i class='fas fa-book fa-fw'></i>博客
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/categories/"
+                
+                
+                id="https:www0x2BeAcecomcategories">
+                <i class='fas fa-rss fa-fw'></i>分类
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/tags/"
+                
+                
+                id="https:www0x2BeAcecomtags">
+                <i class='fas fa-play-circle fa-fw'></i>标签
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/archives/"
+                
+                  rel="external nofollow noopener noreferrer"
+                
+                
+                id="https:www0x2BeAcecomarchives">
+                <i class='fas fa-file-code fa-fw'></i>归档
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/about/"
+                
+                
+                id="https:www0x2BeAcecomabout">
+                <i class='fas fa-handshake fa-fw'></i>关于我
+              </a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/how-does-valine-turn-on-comment-email-notifications/">
+      Valine 如何开启评论邮件通知
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Hexo/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Hexo</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Apr 5, 2021</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>1.9k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>7 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/how-does-valine-turn-on-comment-email-notifications/" class="leancloud_visitors" data-flag-title="Valine 如何开启评论邮件通知">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>事情是这样的，昨天无意在博客上看到一条留言，留言时间是两天之前，我才意识到目前的评论系统缺少通知 =_=!。</p>
+<a id="more"></a>
+
+<p>没有通知这怎么能行呢？因为我用的是一款叫做<a href="https://valine.js.org/" target="_blank" rel="noopener">Valine</a> 的评论系统，马上Google 了一下，于是有了这篇笔记。</p>
+<p>所以这篇笔记的内容，可能不适用其他评论系统。</p>
+<hr>
+<p><code>Valine Admin</code> 是 Valine 评论系统的后端功能补充和增强，主要实现评论邮件通知、评论管理、垃圾评论过滤等功能。支持完全自定义的邮件通知模板，基于Akismet API实现准确的垃圾评论过滤。</p>
+<p>在正式开始之前，首先得注册一个<a href="https://leancloud.cn/" target="_blank" rel="noopener">LeanCloud</a> 账号。</p>
+<blockquote>
+<p>LeanCloud 是什么？</p>
+</blockquote>
+<p>它是一站式后端云服务提供商，到时候我们的评论系统就是要部署在这个云服务上。</p>
+<h2 id="创建云引擎"><a href="#创建云引擎" class="headerlink" title="创建云引擎"></a>创建云引擎</h2><p>注册成功之后，进入控制台，新建一个应用：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210404104053.png" alt=""></p>
+<p>选择开发板就好。</p>
+<p>然后进入刚创建好的应用，依次点击设置=&gt; 应用Key，可以看到<code>AppID</code> 和<code>AppKey</code>，这两个东西很重要，</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210404104646.png" alt=""></p>
+<p>打开博客主题的配置文件，在对应的位置分别填上<code>appId</code>和<code>appKey</code>：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210404105011.png" alt=""></p>
+<p>下一步需要绑定域名，这里需要绑定的域名，就是你的博客的域名，国内版可能有多个域名绑定供选，这里选择云引擎就好。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210404105507.png" alt=""></p>
+<p>到时候这个域名就是进入我们的评论系统的入口。</p>
+<p>需要先完成CNAME 域名解析，绑定才会生效。</p>
+<p>进入你的域名管理后台，添加一条<code>CNAME</code> 记录，主机名称就是刚才绑定的子域名。</p>
+<p>域名解析没那么快，等待的时间可以开始配置云引擎。</p>
+<p>进入云引擎=&gt;设置，添加云引擎环境变量：</p>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th>示例</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SITE_NAME</td>
+<td>Boo’s Blog</td>
+<td>[必填]博客名称</td>
+</tr>
+<tr>
+<td>SITE_URL</td>
+<td><a href="https://0x2beace.com" target="_blank" rel="noopener">https://0x2beace.com</a></td>
+<td>[必填]首页地址</td>
+</tr>
+<tr>
+<td>SMTP_SERVICE</td>
+<td>QQ</td>
+<td>[新版支持]邮件服务提供商，支持 QQ、163、126、Gmail 以及 更多</td>
+</tr>
+<tr>
+<td>SMTP_USER</td>
+<td><a href="mailto:xxxxxx@qq.com">xxxxxx@qq.com</a></td>
+<td>[必填]SMTP登录用户</td>
+</tr>
+<tr>
+<td>SMTP_PASS</td>
+<td>ccxxxxxxxxch</td>
+<td>[必填]SMTP登录密码</td>
+</tr>
+<tr>
+<td>SENDER_NAME</td>
+<td>Boo</td>
+<td>[必填]发件人</td>
+</tr>
+<tr>
+<td>SENDER_EMAIL</td>
+<td><a href="mailto:xxxxxx@qq.com">xxxxxx@qq.com</a></td>
+<td>[必填]发件邮箱</td>
+</tr>
+<tr>
+<td>ADMIN_URL</td>
+<td><a href="https://xxx.0x2beace.com/" target="_blank" rel="noopener">https://xxx.0x2beace.com/</a></td>
+<td>[建议]Web主机二级域名（云引擎域名），用于自动唤醒</td>
+</tr>
+<tr>
+<td>BLOGGER_EMAIL</td>
+<td><a href="mailto:xxxxx@gmail.com">xxxxx@gmail.com</a></td>
+<td>[可选]博主通知收件地址，默认使用SENDER_EMAIL</td>
+</tr>
+<tr>
+<td>AKISMET_KEY</td>
+<td>xxxxxxxx</td>
+<td>[可选]Akismet Key 用于垃圾评论检测，设为MANUAL_REVIEW开启人工审核，留空不使用反垃圾</td>
+</tr>
+</tbody></table>
+<p>点击保存之后，切换到云引擎=&gt;部署，部署模式选择部署项目-Git部署，分支master，手动部署目标环境为生产环境，Git 仓库填入：<code>https://github.com/DesertsP/Valine-Admin.git</code>，点击部署即可。</p>
+<h2 id="评论管理"><a href="#评论管理" class="headerlink" title="评论管理"></a>评论管理</h2><h3 id="注册管理员"><a href="#注册管理员" class="headerlink" title="注册管理员"></a>注册管理员</h3><p>如果这时域名解析已经完成，那么访问：<code>https://云引擎域名/</code>，应该可以看到如下界面：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210404111837.png" alt=""></p>
+<p>这是还没有管理员账号，需要先通过<code>https://云引擎域名/sign-up/</code>注册一个。</p>
+<p>至此就已经可以管理我们的评论了，但是目前还没有邮件通知。</p>
+<h2 id="设置定时任务"><a href="#设置定时任务" class="headerlink" title="设置定时任务"></a>设置定时任务</h2><p>这里设置定时任务的目的就是，每天定时检查是否存在漏发的邮件。</p>
+<p>进入云引擎=&gt; 定时任务，创建两个定时任务：</p>
+<ol>
+<li>选择self-wake云函数，Cron表达式为<code>0 */30 0-16 * * ?</code>，表示每天早0点到晚16点每隔30分钟访问云引擎。</li>
+<li>选择resend-mails云函数，Cron表达式为<code>0 0 0 * * ?</code>，表示每天0点检查过去24小时内漏发的通知邮件并补发。</li>
+</ol>
+<h2 id="邮件通知模版-可选配置"><a href="#邮件通知模版-可选配置" class="headerlink" title="邮件通知模版(可选配置)"></a>邮件通知模版(可选配置)</h2><p>邮件通知模板在云引擎环境变量中设定，可自定义通知邮件标题及内容模板。</p>
+<table>
+<thead>
+<tr>
+<th>环境变量</th>
+<th>示例</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MAIL_SUBJECT</td>
+<td><code>${PARENT_NICK}</code>，您在${SITE_NAME}上的评论收到了回复</td>
+<td>[可选]@通知邮件主题（标题）模板</td>
+</tr>
+<tr>
+<td>MAIL_TEMPLATE</td>
+<td>见下文</td>
+<td>[可选]@通知邮件内容模板</td>
+</tr>
+<tr>
+<td>MAIL_SUBJECT_ADMIN</td>
+<td>${SITE_NAME}上有新评论了</td>
+<td>[可选]博主邮件通知主题模板</td>
+</tr>
+<tr>
+<td>MAIL_TEMPLATE_ADMIN</td>
+<td>见下文</td>
+<td>[可选]博主邮件通知内容模板</td>
+</tr>
+</tbody></table>
+<p>邮件通知包含两种，分别是被@通知和博主通知，这两种模板都可以完全自定义。默认使用经典的蓝色风格模板（样式来源未知）。</p>
+<p>默认被@通知邮件内容模板如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div style&#x3D;&quot;border-top:2px solid #12ADDB;box-shadow:0 1px 3px #AAAAAA;line-height:180%;padding:0 15px 12px;margin:50px auto;font-size:12px;&quot;&gt;&lt;h2 style&#x3D;&quot;border-bottom:1px solid #DDD;font-size:14px;font-weight:normal;padding:13px 0 10px 8px;&quot;&gt;您在&lt;a style&#x3D;&quot;text-decoration:none;color: #12ADDB;&quot; href&#x3D;&quot;$&#123;SITE_URL&#125;&quot; target&#x3D;&quot;_blank&quot;&gt;            $&#123;SITE_NAME&#125;&lt;&#x2F;a&gt;上的评论有了新的回复&lt;&#x2F;h2&gt; $&#123;PARENT_NICK&#125; 同学，您曾发表评论：&lt;div style&#x3D;&quot;padding:0 12px 0 12px;margin-top:18px&quot;&gt;&lt;div style&#x3D;&quot;background-color: #f5f5f5;padding: 10px 15px;margin:18px 0;word-wrap:break-word;&quot;&gt;            $&#123;PARENT_COMMENT&#125;&lt;&#x2F;div&gt;&lt;p&gt;&lt;strong&gt;$&#123;NICK&#125;&lt;&#x2F;strong&gt;回复说：&lt;&#x2F;p&gt;&lt;div style&#x3D;&quot;background-color: #f5f5f5;padding: 10px 15px;margin:18px 0;word-wrap:break-word;&quot;&gt; $&#123;COMMENT&#125;&lt;&#x2F;div&gt;&lt;p&gt;您可以点击&lt;a style&#x3D;&quot;text-decoration:none; color:#12addb&quot; href&#x3D;&quot;$&#123;POST_URL&#125;&quot; target&#x3D;&quot;_blank&quot;&gt;查看回复的完整內容&lt;&#x2F;a&gt;，欢迎再次光临&lt;a style&#x3D;&quot;text-decoration:none; color:#12addb&quot; href&#x3D;&quot;$&#123;SITE_URL&#125;&quot; target&#x3D;&quot;_blank&quot;&gt;$&#123;SITE_NAME&#125;&lt;&#x2F;a&gt;。&lt;br&gt;&lt;&#x2F;p&gt;&lt;&#x2F;div&gt;&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
+
+<p>默认博主通知邮件内容模板如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div style&#x3D;&quot;border-top:2px solid #12ADDB;box-shadow:0 1px 3px #AAAAAA;line-height:180%;padding:0 15px 12px;margin:50px auto;font-size:12px;&quot;&gt;&lt;h2 style&#x3D;&quot;border-bottom:1px solid #DDD;font-size:14px;font-weight:normal;padding:13px 0 10px 8px;&quot;&gt;您在&lt;a style&#x3D;&quot;text-decoration:none;color: #12ADDB;&quot; href&#x3D;&quot;$&#123;SITE_URL&#125;&quot; target&#x3D;&quot;_blank&quot;&gt;$&#123;SITE_NAME&#125;&lt;&#x2F;a&gt;上的文章有了新的评论&lt;&#x2F;h2&gt;&lt;p&gt;&lt;strong&gt;$&#123;NICK&#125;&lt;&#x2F;strong&gt;回复说：&lt;&#x2F;p&gt;&lt;div style&#x3D;&quot;background-color: #f5f5f5;padding: 10px 15px;margin:18px 0;word-wrap:break-word;&quot;&gt; $&#123;COMMENT&#125;&lt;&#x2F;div&gt;&lt;p&gt;您可以点击&lt;a style&#x3D;&quot;text-decoration:none; color:#12addb&quot; href&#x3D;&quot;$&#123;POST_URL&#125;&quot; target&#x3D;&quot;_blank&quot;&gt;查看回复的完整內容&lt;&#x2F;a&gt;&lt;br&gt;&lt;&#x2F;p&gt;&lt;&#x2F;div&gt;&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
+<p>这里有个问题就是部分变量不再可用，如果使用了未定义的变量，发送邮件时会抛出异常：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210404113532.png" alt=""></p>
+<p>我选择去掉了部分变量，这就导致了邮件部分内容是缺失的：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210404113944.png" alt=""></p>
+<p>这里没继续往下深究了，能用就行，至此就完成了所有配置。如果你遇到一些奇怪的问题，可以看看以下建议对你是否有用：</p>
+<blockquote>
+<p>常见问题</p>
+</blockquote>
+<ol>
+<li>LeanCloud 分国内版和国际版，如果你和我一样不喜欢域名备案，使用的是国际域名服务商提供的域名，那么注册LeanCloud 时，请选选择国际版。</li>
+<li>域名解析如果长时间未生效，请检查添加<code>CNAME</code> 纪录，<code>ttl</code> 不要选择一小时，选择六百秒。</li>
+<li><code>SMTP_PASS</code> 不是QQ 邮箱的密码，而是<code>SMTP服务</code>的密钥，如果不知道如何获取，可以看<a href="https://service.mail.qq.com/cgi-bin/help?subtype=1&&id=28&&no=331" target="_blank" rel="noopener">这里</a>。</li>
+<li>修改完变量，需要重启应用，否者不会生效。</li>
+</ol>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://github.com/DesertsP/Valine-Admin" target="_blank" rel="noopener">Valine Admin</a></li>
+<li><a href="https://deserts.io/valine-admin-document/" target="_blank" rel="noopener">Valine Admin 配置手册</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/how-does-valine-turn-on-comment-email-notifications/>https://www.0x2beace.com/how-does-valine-turn-on-comment-email-notifications/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-04-05T20:23:45+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Apr 5, 2021</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Hexo/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Hexo</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/how-does-valine-turn-on-comment-email-notifications/&title=Valine 如何开启评论邮件通知 - Boo&summary=事情是这样的，昨天无意在博客上看到一条留言，留言时间是两天之前，我才意识到目前的评论系统缺少通知 =_=!。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/how-does-valine-turn-on-comment-email-notifications/&title=Valine 如何开启评论邮件通知 - Boo&summary=事情是这样的，昨天无意在博客上看到一条留言，留言时间是两天之前，我才意识到目前的评论系统缺少通知 =_=!。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/how-does-valine-turn-on-comment-email-notifications/&title=Valine 如何开启评论邮件通知 - Boo&summary=事情是这样的，昨天无意在博客上看到一条留言，留言时间是两天之前，我才意识到目前的评论系统缺少通知 =_=!。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVgAAAFYCAAAAAAzB7ucAAAEe0lEQVR42u3aS44bMQwFQN//0skBAsN6j2x5Jijt4knrU9KCJPj6YzwyXgjAgjXAggVrgL0C+yrH6ff/LPzh93Td03nfrdPu4+2+wIIFCxYsWLBgwV6FPQ6AD2E/fZ/Cn+5jut7YAyxYsGDBggULFuxXYNPAPF14Gzr9e5t4HP9/sGDBggULFixYsL8CNi10TxORaYDfJgxgwYIFCxYsWLBg/y/YTxufzpP+njaWgAULFixYsGDBgv0/YKeF62mg/joc0/WmDSNgwYIFCxYsWLBgfwZsOk4Lzb/137UHWLBgwYIFCxYs2Cuw0/FUI8X2RW43lLw9B1iwYMGCBQsWLNgrsJ82khaK03m3AvvTB9A2khw7gQULFixYsGDBgr0CmwbW7UafbtBoodYL+2DBggULFixYsGCvwLaB/+mG0wC/LYi3Bfk04fh4frBgwYIFCxYsWLBXYKeALch2QfupBo94PbBgwYIFCxYsWLBXYNvGijYwbxtE0oJ825jRPjSwYMGCBQsWLFiwd2G3AuUUZHqg9ILT9eoEBCxYsGDBggULFuyPhN06yLTxY9rwcbqvuJEaLFiwYMGCBQsW7BXY00betnG4BUgPPAXcSjzAggULFixYsGDB3oFtA/ZpY0d6MVsQWxf09newYMGCBQsWLFiwV2DbxuD0YOmB0os9PUeaKMQPBixYsGDBggULFuwV2LRQPS14TwvqaSIwLbin64MFCxYsWLBgwYK9Czs9UJpotGMK3CYIx/sCCxYsWLBgwYIFexV2q+CcFrjbwH3aADItoMeFbrBgwYIFCxYsWLCrsGnheXrQFHx6Ie289d/BggULFixYsGDBfhU2nXiaKGwVptOCfLu/OkEACxYsWLBgwYIFuwKbNi6kDR2nG55ewHQ/7QMDCxYsWLBgwYIF+x3YVzmeauhIC+zbMOMCPliwYMGCBQsWLNivwKYLtIH2NAE4bchoL6J9AGDBggULFixYsGDvwKYbTDe2dfAtqPQhxD5gwYIFCxYsWLBgr8BuLdzCnBaUn5qnTVDefgcWLFiwYMGCBQv2CmzbINEeYDugf+ri6/nBggULFixYsGDBXoVNA+G0kWErkD/dz9a50gcIFixYsGDBggUL9g5sGxi3cG2DRHthWw/kOIECCxYsWLBgwYIFewU2XagN4NOA/HTd9iLbxODjOcGCBQsWLFiwYMFehU0bJ6YX8liAHs7zGg6wYMGCBQsWLFiw34VtRxtQTw/SFsa3G1L++R0sWLBgwYIFCxbsFdjtA04Lzm3BeyvxmCZKYMGCBQsWLFiwYO/CtgnBdkE7nadNXKYJwtv5wIIFCxYsWLBgwX4Ftk0I0kA+3nDYsJE+jDQhOi50gwULFixYsGDBgv2RsOn3aSLS7qct3I8TGrBgwYIFCxYsWLC/CnYLcqug/lTjyPUEASxYsGDBggULFuwjDRttYP/U91PwxxIEsGDBggULFixYsI/AtoXhNiGYArcJxTRxAAsWLFiwYMGCBfszYI3lB4EALFgDLFiwBtgnx1/ztVCU31cbjgAAAABJRU5ErkJggg==">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/laravel-eloquent-orm-common-operations-finishing/'>
+                <p class='title'>Laravel Eloquent ORM 常用操作整理<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>Laravel 支持原生的 SQL 查询、流畅的查询构造器 和 Eloquent ORM 三种查询方式：
+
+
+
+流畅的查询构造器（简称DB），它是为创建和运行数据库查询提供的一个接口，支持大部分...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Valine 如何开启评论邮件通知',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建云引擎"><span class="toc-text">创建云引擎</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#评论管理"><span class="toc-text">评论管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#注册管理员"><span class="toc-text">注册管理员</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置定时任务"><span class="toc-text">设置定时任务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#邮件通知模版-可选配置"><span class="toc-text">邮件通知模版(可选配置)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+      
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <span class="post-count">总字数：143.5k</span>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2020 Boo</a></p>
+
+        <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+        
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?fbe826b92f6d49a0ebacf4d848bd3add";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+<script>
+  var now = new Date(); 
+  function createtime() {    
+      var grt= new Date("07/04/2020 14:12:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";     
+  } 
+setInterval("createtime()",250);
+</script>
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "Ki6kd5TUWoQyYKSErxehnRpc-MdYXbMMI",
+    appKey: "7pRBOKMw58Yo7EsUjHziIEY1",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
