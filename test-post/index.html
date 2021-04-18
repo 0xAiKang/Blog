@@ -16,12 +16,10 @@
 
   <!-- 页面元数据 -->
   
-    <title>Windows/Mac/Linux 如何将内容输出到剪贴板 - Boo</title>
-  
-    <meta name="keywords" content="Linux,Shell,Windows,Mac">
+    <title>测试文章 - Boo</title>
   
   
-    <meta name="description" content="如何将输出直接复制至剪切板？在不同的系统中，所使用的命令是不同的。">
+    <meta name="description" content="刚拿到一台服务器时，通常会禁用root 用户登录，而使用其他普通用户，这时就需要创建一个新用户。">
   
 
   <!-- feed -->
@@ -372,8 +370,8 @@
         
           
   <h1 class="title">
-    <a href="/how-to-output-content-to-clipboard-on-windows-mac-linux/">
-      Windows/Mac/Linux 如何将内容输出到剪贴板
+    <a href="/test-post/">
+      测试文章
     </a>
   </h1>
 
@@ -396,14 +394,6 @@
           
             
               
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/Shell/' rel="nofollow">
-      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Shell</p>
-    </a>
-  </div>
-
 
             
           
@@ -411,7 +401,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Aug 5, 2020</p>
+    <p>发布于：Apr 18, 2021</p>
   </a>
 </div>
 
@@ -427,7 +417,7 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>323 words</p>
+      <p>438 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
@@ -446,7 +436,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/how-to-output-content-to-clipboard-on-windows-mac-linux/" class="leancloud_visitors" data-flag-title="Windows/Mac/Linux 如何将内容输出到剪贴板">
+      <span id="/test-post/" class="leancloud_visitors" data-flag-title="测试文章">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -469,21 +459,59 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>如何将输出直接复制至剪切板？在不同的系统中，所使用的命令是不同的。</p>
+          <p>刚拿到一台服务器时，通常会禁用root 用户登录，而使用其他普通用户，这时就需要创建一个新用户。</p>
 <a id="more"></a>
 
-<h3 id="Mac"><a href="#Mac" class="headerlink" title="Mac"></a>Mac</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 将输出复制至剪贴板</span><br><span class="line">$ echo &quot;hello mac&quot; | pbcopy</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 将文件中的内容全部复制至剪贴板</span><br><span class="line">$ pbcopy &lt; remade.md</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 将剪切板中的内容粘贴至文件</span><br><span class="line">$ pbpaste &gt; remade.md</span><br></pre></td></tr></table></figure>
+<h2 id="添加用户"><a href="#添加用户" class="headerlink" title="添加用户"></a>添加用户</h2><p>创建一个新用户：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ useradd boo</span><br></pre></td></tr></table></figure>
 
-<h3 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h3><p>Linux 用户需要先安装 <code>xclip</code>，它建立了终端和剪切板之间的通道。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 查看剪切板中的内容</span><br><span class="line">$ xclip -o</span><br><span class="line">$ xclip -selection c -o</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 将输出复制至剪贴板</span><br><span class="line">$ echo &quot;hello xclip&quot; | xclip-selection c</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 将文件中的内容全部复制至剪贴板</span><br><span class="line">$ xclip -selection c remade.md</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 将剪切板中的内容粘贴至文件</span><br><span class="line">$ xclip -selection c -o &gt; remade.md</span><br></pre></td></tr></table></figure>
+<p>设置密码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ passwd boo</span><br></pre></td></tr></table></figure>
+<h2 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h2><p>此时此用户已经可以正常使用了，但是还没有提权，所以很多事情做不了，这时可以把该用户加入<code>sudo</code> 用户组，通过<code>sudo</code>命令来进行提权。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ usermod -G sudo boo</span><br></pre></td></tr></table></figure>
 
-<p>或者直接使用<code>xsel</code>命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 将输出复制至剪贴板</span><br><span class="line">$ echo &quot;hello linux&quot; | xsel</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 将文件中的内容全部复制至剪贴板</span><br><span class="line">$ xsel &lt; remade.md</span><br></pre></td></tr></table></figure>
+<p>一般直接就加入成功了，但是有些发行版本默认并没有<code>sudo</code>用户组，所以这时需要先添加用户组。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ groupadd sudo</span><br></pre></td></tr></table></figure>
 
-<p>需要注意的是：xsel、xclip 命令是在 X 环境下使用的，所以远程连接服务器时使用会报异常：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xclip error can&#39;t open display (null)</span><br></pre></td></tr></table></figure>
+<p>手动添加完用户组之后，还需要修改<code>sudoers</code>配置文件，这里有几种方式，根据实际情况进行选择：</p>
+<ol>
+<li>允许<code>sudo</code> 组的成员执行任何命令</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ sudo visudo &#x2F;&#x2F; 或者 sudo vim &#x2F;etc&#x2F;sudoers</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 添加以下内容</span><br><span class="line"># the &#39;sudo&#39; group has all the sudo privileges</span><br><span class="line">%sudo ALL&#x3D;(ALL:ALL) ALL</span><br></pre></td></tr></table></figure>
 
-<h3 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 将输出复制至剪贴板</span><br><span class="line">$ echo &quot;hello windows&quot; | clip</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 将文件中的内容全部复制至剪贴板</span><br><span class="line">$ clip &lt; remade.txt</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>直接允许该用户执行任何命令<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ sudo visudo </span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 添加以下内容，注意：没有% </span><br><span class="line"># Allow boo to run any commands anywhere</span><br><span class="line">boo ALL&#x3D;(ALL:ALL) ALL</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>通常还是建议将用户添加至<code>sudo</code> 用户组，然后赋予<code>sudo</code> 组成员权限，而不是直接对具体某个用户进行提权。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>查看所有用户的列表：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cat &#x2F;etc&#x2F;passwd</span><br></pre></td></tr></table></figure>
+
+<p>查看所有用户组：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cat &#x2F;etc&#x2F;group</span><br></pre></td></tr></table></figure>
+
+<p>查看当前登入用户的组：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ groups</span><br></pre></td></tr></table></figure>
+
+<p>查看指定用户所在的组：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ groups usernmae</span><br></pre></td></tr></table></figure>
+
+<p>添加用户：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ useradd username</span><br></pre></td></tr></table></figure>
+<p>设置(重置)密码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ passwd username</span><br></pre></td></tr></table></figure>
+<p>添加用户组：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ groupadd group_name</span><br></pre></td></tr></table></figure>
+
+<p>将某个用户添加到某个组：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ usermod -G group_name username</span><br></pre></td></tr></table></figure>
+
+<p>编辑sudoers 配置文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo visudo</span><br></pre></td></tr></table></figure>
+
+
+
           
             <div class='article_footer'>
               
@@ -519,7 +547,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/how-to-output-content-to-clipboard-on-windows-mac-linux/>https://www.0x2beace.com/how-to-output-content-to-clipboard-on-windows-mac-linux/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/test-post/>https://www.0x2beace.com/test-post/</a></p>
           
         
       </blockquote>
@@ -567,10 +595,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-09-27T09:22:11+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-04-18T13:19:15+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Sep 27, 2020</p>
+    <p>更新于：Apr 18, 2021</p>
   </a>
 </div>
 
@@ -578,9 +606,6 @@
       
         
           
-  
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Linux/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Linux</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Shell/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Shell</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Windows/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Windows</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Mac/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Mac</p></a></div>
-
 
         
       
@@ -597,7 +622,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/how-to-output-content-to-clipboard-on-windows-mac-linux/&title=Windows/Mac/Linux 如何将内容输出到剪贴板 - Boo&summary=如何将输出直接复制至剪切板？在不同的系统中，所使用的命令是不同的。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/test-post/&title=测试文章 - Boo&summary=刚拿到一台服务器时，通常会禁用root 用户登录，而使用其他普通用户，这时就需要创建一个新用户。"
           
           >
           
@@ -609,7 +634,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/how-to-output-content-to-clipboard-on-windows-mac-linux/&title=Windows/Mac/Linux 如何将内容输出到剪贴板 - Boo&summary=如何将输出直接复制至剪切板？在不同的系统中，所使用的命令是不同的。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/test-post/&title=测试文章 - Boo&summary=刚拿到一台服务器时，通常会禁用root 用户登录，而使用其他普通用户，这时就需要创建一个新用户。"
           
           >
           
@@ -621,7 +646,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/how-to-output-content-to-clipboard-on-windows-mac-linux/&title=Windows/Mac/Linux 如何将内容输出到剪贴板 - Boo&summary=如何将输出直接复制至剪切板？在不同的系统中，所使用的命令是不同的。"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/test-post/&title=测试文章 - Boo&summary=刚拿到一台服务器时，通常会禁用root 用户登录，而使用其他普通用户，这时就需要创建一个新用户。"
           
           >
           
@@ -635,7 +660,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVgAAAFYCAAAAAAzB7ucAAAEYUlEQVR42u3aQXIjMQgFUN//0jP7qXJZfBAdZx67xO2W9OQFULz+iCvxQgAWrAALFqwAuwL7CuPf739ccCjerftuH++e+/R8vC+wYMGCBQsWLFiwq7DHCXARdvuiTp9Pz/PRAyxYsGDBggULFuwjsOnBqwesHvj0feXG9CH08cWABQsWLFiwYMGC/QrY6venD9wtBMCCBQsWLFiwYMH+n7BVqFP4dACj21AHCxYsWLBgwYIF+52wU43l6YOkF1EtXH7MJAxYsGDBggULFizYI9ipRPu3/B17gAULFixYsGDBgl2B7UaayFe/l8J8+v90gAULFixYsGDBgt2BTTdWHeSYalR3G9K3BjnAggULFixYsGDB7sJOFwjdQY5ug70KlTb2wYIFCxYsWLBgwf4s2OpGug3v2431bgFSbZiDBQsWLFiwYMGC3YGtbjBtfHcT/+rFpw34tNABCxYsWLBgwYIF+yzsdMLcHZxIYabeX3YCCxYsWLBgwYIFuwLbTZzjhnA3EW82vMuDGGDBggULFixYsGB/JGy1oZwCdaG6F5bu4/hzsGDBggULFixYsCuwU4MT6YbSgYxqwXIa1UJjbGADLFiwYMGCBQsWbAQ7liCHBUS6n26hkgK+fR4sWLBgwYIFCxbsI7DdBdLBjirsaaSDJekPBixYsGDBggULFuwObLXhW20kp8/fuuDqAEq14AELFixYsGDBggW7C5sOOKQw1QtLn08HReKBE7BgwYIFCxYsWLCPwqaFwXTC3V1nagDleHAELFiwYMGCBQsW7Crsp4OmAxDdA1cv5NYAyPH5wIIFCxYsWLBgwa7AdhfqFgblgYjhBnb3Qt4WCGDBggULFixYsGCvwqYDE2lh0W1gV/d9ejHdhj5YsGDBggULFizYZ2GrCXk62NAFvQ1V9QALFixYsGDBggW7C9tN7NMDdRvnty6+ul+wYMGCBQsWLFiwz8CmDe20EdxN+KsXEA9epIMeYMGCBQsWLFiwYFdgpxa+PYBRbZx3G9bVwgAsWLBgwYIFCxbsLmyauHcLgmpifhq3QNuVF1iwYMGCBQsWLNirsFMHnipAuoMjUw3s4x8YWLBgwYIFCxYs2BXY04ZymohXL7BbcHT3022wgwULFixYsGDBgt2Bndrw1IGmCodqY3ysQQ4WLFiwYMGCBQt2FXZq4fRgT4FODYKABQsWLFiwYMGCfQY2jeqgxulFdkGq7xm7KLBgwYIFCxYsWLArsK8w0oIhfa5b0KTnKZ8bLFiwYMGCBQsW7CpstSCoNqCn31u9gK3PwYIFCxYsWLBgwT4DO9UYrhYGWwXG9GAJWLBgwYIFCxYs2O+E3W6AT+3ntLAZa3SDBQsWLFiwYMGC/SrY08+7if8pzNTFPl4ggAULFixYsGDBgm0NbKSN6uoB031W39sugMCCBQsWLFiwYMGuwlbjNAE/TdhPAdJBku4+Tn9gYMGCBQsWLFiwYHdgxWyABQtWgAULVoC9Gn8B0g9RhaSLzrQAAAAASUVORK5CYII=">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAADCklEQVR42u3aQZLbMAwEQP//08l9E5cwAGyL6+bNKksiW5cpAI8/1n/XAwEYMGDAgAFzDMyjuZ7d//P61Xv+2djF9er97fOAAQMGDBgwYI6DKQeg4oGqgClA+js9DxgwYMCAAQPmXJh0Y/GLi0ExDWZb5wEDBgwYMGDAfA9MN3B13wMGDBgwYMCAAbMNUy1EbRe+wIABAwYMGDBgtgpP6cBROoDUhX57JxIMGDBgwIAB8zaY7QN++nf7PGDAgAEDBgyYY2Cmq9sAqzbg0oONzwMGDBgwYMCAOQbm6sHTAZ7u4FBawOoCtit4YMCAAQMGDJiPw3SBUog00E0bet39gQEDBgwYMGDOg+luvBrE2oFr+L/4uWDAgAEDBgyY42DSF20FsOmBuo238uAQGDBgwIABA+b2MNVG2HYhqXu9uz8wYMCAAQMGzPfCbDXMtgpjaTBsN9zAgAEDBgwYMLeD2Qpw2427aWBLgyAYMGDAgAED5lyY9AHbgW8aANOCVDnggQEDBgwYMGBuD7N18ClU9/50ACpOvmDAgAEDBgyY28GkD6weKIXeun/6fzBgwIABAwbMOTDT4JUWvOIG2FJhatxwAwMGDBgwYMDcDqYb9LrXXwVXvX4JCAYMGDBgwIA5Bmba8Hp1QWmr8DWeqAIDBgwYMGDA3B6mGpimAazbeNsaIIoreGDAgAEDBgyY28FsB67uBtMPNP1QYMCAAQMGDJjfC9MNftsNuenAUPUDggEDBgwYMGDOg+kGq7TAVA2CaQBMAV/WcAMDBgwYMGDAvB1muqYNs2nDr1s4G1fwwIABAwYMGDAfh9kqEHUbb93G2fZ7wIABAwYMGDDnwqSBLh7IaRa0ps8ZV/DAgAEDBgwYMMfApIFuK4ClH6AbUC+DHxgwYMCAAQPma2C2IboNuOr+24UqMGDAgAEDBszXwUyDXTogVIV5eaEKDBgwYMCAAfN2mG7DLQ1800C3BQEGDBgwYMCAOR9m2riaBsZpI21tEAkMGDBgwIABcwyM9STgWWDAgAEDBsxd119xJqVO+CBvnAAAAABJRU5ErkJggg==">
           </div>
         </div>
       
@@ -655,17 +680,13 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/detailed-explanation-of-git-push-f-command/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Git Push -f 命令详解</p>
-                <p class='content'>最近遇到了一个Git Push 相关的问题，同事不小心把一些错误代码提交到仓库了。如果每个人直接更新的话，会导致错误代码也更新到本地了。
-这个时候想要避免这种情况的发生，唯一可以做的就是将那些错...</p>
-              </a>
             
-            
-              <a class='next' href='/how-to-check-the-linux-default-time-zone/'>
-                <p class='title'>如何查看 Linux 默认时区<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>最近遇到一个跟服务器时区相关的问题，没准备充分，当问题真正来临时，很懵。
-特别是在生产环境中，系统时区是特别重要的存在，很多应用在默认情况下，都是取的系统时区，如果时区处理不得当的话，可能会造成...</p>
+              <a class='next' href='/laravel-eloquent-common-attributes-sorting/'>
+                <p class='title'>Laravel Eloquent 常用属性整理<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>Eloquent 提供了很多属性，通过对模型进行约定，可以实现很多很方便的功能。
+
+
+connection123456/** * 为模型指定一个连接名称 * * @var string */pr...</p>
               </a>
             
           </div>
@@ -710,7 +731,7 @@
 
   <script>
     window.subData = {
-      title: 'Windows/Mac/Linux 如何将内容输出到剪贴板',
+      title: '测试文章',
       tools: true
     }
   </script>
@@ -737,7 +758,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Mac"><span class="toc-text">Mac</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux"><span class="toc-text">Linux</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Windows"><span class="toc-text">Windows</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#添加用户"><span class="toc-text">添加用户</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#提权"><span class="toc-text">提权</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
     </div>
   </section>
 
