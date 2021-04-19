@@ -149,6 +149,7 @@ protected $fillable = ["username"];
 ```
 
 ### casts
+`casts` 属性很有用，可以使得从数据库中获取的数据，可以自动转换成我们期望的类型。
 ```php
  /**
   * 字段转换为对应的类型
@@ -162,6 +163,18 @@ protected $fillable = ["username"];
     'is_admin' => 'boolean',
  ];
 ```
+可能的属性转换列类型：
+|类型|描述|
+|-|-|
+|int`|`integer|通过 PHP 转换（int）|
+|real`|`float`|`double|通过 PHP 转换（float）|
+|string|通过 PHP 转换（string）|
+|bool`|`boolean|通过 PHP 转换（bool）|
+|object|作为一个stdClass 对象，从JSON 解析或被解析为JSON|
+|array|作为一个数组，从JSON 解析或被解析为JSON|
+|collection|作为一个集合，从JSON 解析或被解析为JSON|
+|date`|`datetime|从数据库DATATIME 解析为Carbon 类型，然后返回|
+|timestamp|数数据库TIMESTAMP 解析为Carbon 类型，然后返回|
 
 ### dates
 ```php
