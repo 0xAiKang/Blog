@@ -427,13 +427,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>662 words</p>
+      <p>827 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>2 min</p>
+      <p>3 min</p>
     </a>
   </div>
 
@@ -503,8 +503,9 @@
 
 <h3 id="guarded"><a href="#guarded" class="headerlink" title="guarded"></a>guarded</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 设定不可被批量赋值的属性，当 $guarded 为空数组时则所有属性都可以被批量赋值。</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@var</span> array</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">protected</span> $guarded = [<span class="string">'price'</span>];</span><br></pre></td></tr></table></figure>
 
-<h3 id="casts"><a href="#casts" class="headerlink" title="casts"></a>casts</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 字段转换为对应的类型</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@var</span> array</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">protected</span> $casts = [</span><br><span class="line">   <span class="string">"settings"</span> =&gt; <span class="string">"array"</span>,</span><br><span class="line">   <span class="string">'created_at'</span> =&gt; <span class="string">'datetime:Y-m-d H:i:s'</span>,</span><br><span class="line">   <span class="string">'updated_at'</span> =&gt; <span class="string">'datetime:Y-m-d H:i:s'</span>,</span><br><span class="line">   <span class="string">'is_admin'</span> =&gt; <span class="string">'boolean'</span>,</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
-
+<h3 id="casts"><a href="#casts" class="headerlink" title="casts"></a>casts</h3><p><code>casts</code> 属性很有用，可以使得从数据库中获取的数据，可以自动转换成我们期望的类型。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 字段转换为对应的类型</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@var</span> array</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">protected</span> $casts = [</span><br><span class="line">   <span class="string">"settings"</span> =&gt; <span class="string">"array"</span>,</span><br><span class="line">   <span class="string">'created_at'</span> =&gt; <span class="string">'datetime:Y-m-d H:i:s'</span>,</span><br><span class="line">   <span class="string">'updated_at'</span> =&gt; <span class="string">'datetime:Y-m-d H:i:s'</span>,</span><br><span class="line">   <span class="string">'is_admin'</span> =&gt; <span class="string">'boolean'</span>,</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+<p>可能的属性转换列类型：<br>|类型|描述|<br>|-|-|<br>|int<code>|</code>integer|通过 PHP 转换（int）|<br>|real<code>|</code>float<code>|</code>double|通过 PHP 转换（float）|<br>|string|通过 PHP 转换（string）|<br>|bool<code>|</code>boolean|通过 PHP 转换（bool）|<br>|object|作为一个stdClass 对象，从JSON 解析或被解析为JSON|<br>|array|作为一个数组，从JSON 解析或被解析为JSON|<br>|collection|作为一个集合，从JSON 解析或被解析为JSON|<br>|date<code>|</code>datetime|从数据库DATATIME 解析为Carbon 类型，然后返回|<br>|timestamp|数数据库TIMESTAMP 解析为Carbon 类型，然后返回|</p>
 <h3 id="dates"><a href="#dates" class="headerlink" title="dates"></a>dates</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 需要转换成日期的属性。</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@var</span> array</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">protected</span> $dates = [<span class="string">'deleted_at'</span>];</span><br></pre></td></tr></table></figure>
 
 <h3 id="perPage"><a href="#perPage" class="headerlink" title="perPage"></a>perPage</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * 默认分页数量</span><br><span class="line"> *</span><br><span class="line"> * @var int</span><br><span class="line"> *&#x2F;</span><br><span class="line">protected $perPage &#x3D; 50;</span><br></pre></td></tr></table></figure>
@@ -603,10 +604,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-04-14T23:12:58+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-04-19T08:13:27+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Apr 14, 2021</p>
+    <p>更新于：Apr 19, 2021</p>
   </a>
 </div>
 
@@ -690,18 +691,6 @@
         
         
           <div class="prev-next">
-            
-              <a class='prev' href='/test-post/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>测试文章</p>
-                <p class='content'>刚拿到一台服务器时，通常会禁用root 用户登录，而使用其他普通用户，这时就需要创建一个新用户。
-
-
-添加用户创建一个新用户：
-1$ useradd boo
-
-设置密码：
-1$ passwd b...</p>
-              </a>
             
             
               <a class='next' href='/how-to-use-service-mode/'>
@@ -813,7 +802,7 @@
     
       
         <div class='copyright'>
-        <span class="post-count">总字数：150.7k</span>
+        <span class="post-count">总字数：150.4k</span>
         <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
 
         <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
