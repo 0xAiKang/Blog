@@ -427,7 +427,7 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1.5k words</p>
+      <p>1.6k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
@@ -541,10 +541,17 @@
 </ul>
 <h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>实际开发时，可以一开始 1 个 Repository 对应 1 个 Model，但是也不必太过执着于 1 个 Repository，一定要对应 1 个 Model，可将 Repository 视为逻辑上的数据库逻辑类别即可，可以横跨多个Model处理，也可以 1 个 Model 拆成多个 Repository，视情况而定。<br>Repository 使得数据库逻辑从 Controller 或 Model 中解放，不仅更容易维护、更容易拓展、更容易重复使用，也更容易测试。</p>
 <hr>
-<p>结合自己最近的一些项目经验来看，确实是如此，Model 中只存放能表示数据表相关的配置，Repository 则是用来封装一些较常用的查询或者数据库操作，始终牢记单一职责原则。</p>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
-<li><a href="https://www.kancloud.cn/curder/laravel/408484" target="_blank" rel="noopener">如何使用 Repository 模式</a></li>
+<h2 id="是否需要使用-Repository-？"><a href="#是否需要使用-Repository-？" class="headerlink" title="是否需要使用 Repository ？"></a>是否需要使用 Repository ？</h2><p>倒底该不该用Repository，对于这个问题，从未停止过讨论。我认为没有绝对的用或者不用，需要根据项目实际情况而定。</p>
+<p>结合自己的一些项目经验，我的理解是：对于小项目而言，复杂查询并不多，直接使用ORM效率更高，前期快速开发才是关键，过早使用Repository 反而会造成过度设计; 而对于起步本身就是中大型项目，则可以考虑使用Repository 将复杂的查询和业务逻辑分开。</p>
+<p>单一职责原则：</p>
+<ul>
+<li>Request 负责表单验证</li>
+<li>Model 负责维护ORM</li>
+<li>Controller 负责获取请求参数</li>
+<li>Service 负责处理业务逻辑</li>
+<li>Repository 负责从数据库里取数据</li>
 </ul>
+<p>这里有两个讨论很精彩：<a href="https://learnku.com/laravel/t/16338" target="_blank" rel="noopener">绝不 使用 Repository??</a>、<a href="https://learnku.com/laravel/t/10323/never-use-repository" target="_blank" rel="noopener">绝不 使用 Repository?</a></p>
 
           
             <div class='article_footer'>
@@ -629,10 +636,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-04-20T21:02:48+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-04-22T23:22:30+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Apr 20, 2021</p>
+    <p>更新于：Apr 22, 2021</p>
   </a>
 </div>
 
@@ -795,7 +802,7 @@ connection123456/** * 为模型指定一个连接名称 * * @var string */pr...<
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库逻辑"><span class="toc-text">数据库逻辑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Model"><span class="toc-text">Model</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Repository"><span class="toc-text">Repository</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他问题"><span class="toc-text">其他问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#是否该建立-Repository-Interface？"><span class="toc-text">是否该建立 Repository Interface？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#是否该使用-Query-Scope"><span class="toc-text">是否该使用 Query Scope?</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最后"><span class="toc-text">最后</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库逻辑"><span class="toc-text">数据库逻辑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Model"><span class="toc-text">Model</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Repository"><span class="toc-text">Repository</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他问题"><span class="toc-text">其他问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#是否该建立-Repository-Interface？"><span class="toc-text">是否该建立 Repository Interface？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#是否该使用-Query-Scope"><span class="toc-text">是否该使用 Query Scope?</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最后"><span class="toc-text">最后</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#是否需要使用-Repository-？"><span class="toc-text">是否需要使用 Repository ？</span></a></li></ol>
     </div>
   </section>
 
@@ -830,7 +837,7 @@ connection123456/** * 为模型指定一个连接名称 * * @var string */pr...<
     
       
         <div class='copyright'>
-        <span class="post-count">总字数：151.9k</span>
+        <span class="post-count">总字数：152k</span>
         <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
 
         <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
