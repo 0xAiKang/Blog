@@ -264,7 +264,16 @@ Repository 使得数据库逻辑从 Controller 或 Model 中解放，不仅更�
 
 ----- 
 
-结合自己最近的一些项目经验来看，确实是如此，Model 中只存放能表示数据表相关的配置，Repository 则是用来封装一些较常用的查询或者数据库操作，始终牢记单一职责原则。
+## 是否需要使用 Repository ？
+倒底该不该用Repository，对于这个问题，从未停止过讨论。我认为没有绝对的用或者不用，需要根据项目实际情况而定。
 
-## 参考链接
-* [如何使用 Repository 模式](https://www.kancloud.cn/curder/laravel/408484)
+结合自己的一些项目经验，我的理解是：对于小项目而言，复杂查询并不多，直接使用ORM效率更高，前期快速开发才是关键，过早使用Repository 反而会造成过度设计; 而对于起步本身就是中大型项目，则可以考虑使用Repository 将复杂的查询和业务逻辑分开。
+
+单一职责原则：
+* Request 负责表单验证
+* Model 负责维护ORM
+* Controller 负责获取请求参数
+* Service 负责处理业务逻辑
+* Repository 负责从数据库里取数据
+
+这里有两个讨论很精彩：[绝不 使用 Repository??](https://learnku.com/laravel/t/16338)、[绝不 使用 Repository?](https://learnku.com/laravel/t/10323/never-use-repository)
