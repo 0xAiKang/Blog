@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>Laravel 中的 Collection 基本使用 - Boo</title>
+  
+    <meta name="keywords" content="PHP,Laravel">
+  
+  
+    <meta name="description" content="集合是Laravel 中提供的最强大的功能之一，集合本质上是由功能强大的数组组成。">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Boo's Blog</p>
+    
+    
+      <p class="subtitle">Stay foolish, Stay hungry</p>
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/"
+                
+                
+                id="https:www0x2BeAcecom">
+                <i class='fas fa-book fa-fw'></i>博客
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/categories/"
+                
+                
+                id="https:www0x2BeAcecomcategories">
+                <i class='fas fa-rss fa-fw'></i>分类
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/tags/"
+                
+                
+                id="https:www0x2BeAcecomtags">
+                <i class='fas fa-play-circle fa-fw'></i>标签
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/archives/"
+                
+                  rel="external nofollow noopener noreferrer"
+                
+                
+                id="https:www0x2BeAcecomarchives">
+                <i class='fas fa-file-code fa-fw'></i>归档
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/about/"
+                
+                
+                id="https:www0x2BeAcecomabout">
+                <i class='fas fa-handshake fa-fw'></i>关于我
+              </a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/basic-use-of-collection-in-laravel/">
+      Laravel 中的 Collection 基本使用
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/PHP/Laravel/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>PHP/Laravel</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Apr 25, 2021</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>2.8k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>11 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/basic-use-of-collection-in-laravel/" class="leancloud_visitors" data-flag-title="Laravel 中的 Collection 基本使用">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>集合是Laravel 中提供的最强大的功能之一，集合本质上是由功能强大的数组组成。</p>
+<a id="more"></a>
+
+<p>把类似数组的对象应用到方法中是很有用的，通过链式编程，用极短的代码，就可以达到预期的效果。</p>
+<p>需要注意的是集合并不是Laravel 中独有的，许多语言都可以在数组中使用集合式编程，但非常遗憾，原生的PHP 是不支持集合式编程的，不过幸运的是，一些勤劳的人已经为我们完成了艰苦的工作，并编写了一个非常方便的包——<a href="https://github.com/illuminate/support" target="_blank" rel="noopener">illuminate/support</a>、<a href="https://github.com/tighten/collect" target="_blank" rel="noopener">Tightenco/Collect</a> 。</p>
+<p>一般来说，集合是不可改变的，这意味着每个 Collection 方法都会返回一个全新的 Collection 实例。</p>
+<h2 id="创建集合"><a href="#创建集合" class="headerlink" title="创建集合"></a>创建集合</h2><p>为了创建一个集合，可以将一个数组传入集合的构造器中，也可以创建一个空的集合，然后把条目写到集合中。Laravel 也有<code>collect()</code>助手，这是最简单的，新建集合的方法。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$collection = collect([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>默认情况下， Eloquent 查询的结果返回的内容都是 <code>Illuminate\Support\Collection</code> 实例，如果希望对结果进行序列化，可以使用<code>toArray()</code>、<code>toJson()</code> 方法。</p>
+</blockquote>
+<p>记住，所有方法都可以使用链式编程的方式优雅的操纵数组。而且，几乎所有的方法都会返回<strong>新的</strong> <code>Collection</code> 实例，</p>
+<h2 id="all"><a href="#all" class="headerlink" title="all"></a>all</h2><p>返回该集合表示的底层数组。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">collect([<span class="string">"boo"</span>, <span class="string">"yumi"</span>, <span class="string">"mac"</span>])-&gt;all();</span><br><span class="line"><span class="comment">// [“boo”, "yumi", "mac"]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="avg"><a href="#avg" class="headerlink" title="avg"></a>avg</h2><p>获取数组的平均值：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">collect([<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>])-&gt;avg(); <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
+
+<p>获取二维数组的平均值：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">collect([[<span class="string">'foo'</span> =&gt; <span class="number">10</span>], [<span class="string">'foo'</span> =&gt; <span class="number">10</span>], [<span class="string">'foo'</span> =&gt; <span class="number">20</span>], [<span class="string">'foo'</span> =&gt; <span class="number">40</span>]])-&gt;avg(<span class="string">'foo'</span>); <span class="comment">// 20</span></span><br></pre></td></tr></table></figure>
+<p><code>avg()</code>是<code>average()</code> 的别名，两者的效果是一样的。</p>
+<h2 id="chunk"><a href="#chunk" class="headerlink" title="chunk"></a>chunk</h2><p>将大集合按指定大小拆分成小集合。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$collection = collect([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>]);</span><br><span class="line">$chunks = $collection-&gt;chunk(<span class="number">4</span>);</span><br><span class="line">$chunks-&gt;toArray();</span><br><span class="line"><span class="comment">// [[1, 2, 3, 4], [5, 6, 7]]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="collapse"><a href="#collapse" class="headerlink" title="collapse"></a>collapse</h2><p>将多个数组合并成一个集合。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$collection = collect([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>], [<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]]);</span><br><span class="line"><span class="comment">// 注意这里返回了一个新的集合</span></span><br><span class="line">$collapsed = $collection-&gt;collapse();</span><br><span class="line">$collapsed-&gt;all();</span><br><span class="line"><span class="comment">// [1, 2, 3, 4, 5, 6, 7, 8, 9]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="combine"><a href="#combine" class="headerlink" title="combine"></a>combine</h2><p>将一个集合的值作为「键」，再将另一个数组或者集合的值作为「值」合并成一个集合。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$collection = collect([<span class="string">'name'</span>, <span class="string">'age'</span>]);</span><br><span class="line">$combined = $collection-&gt;combine([<span class="string">'boo'</span>, <span class="number">25</span>]);</span><br><span class="line">$combined-&gt;all();</span><br><span class="line"><span class="comment">// ['name' =&gt; 'boo', 'age' =&gt; 25]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="contains"><a href="#contains" class="headerlink" title="contains"></a>contains</h2><p>判断集合是否包含给定的项目。</p>
+<p>基本用法：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$collection = collect([<span class="string">'name'</span> =&gt; <span class="string">'boo'</span>, <span class="string">'age'</span> =&gt; <span class="number">25</span>]);</span><br><span class="line">$collection-&gt;contains(<span class="string">'boo'</span>); <span class="comment">// true</span></span><br><span class="line">$collection-&gt;contains(<span class="string">'yumi'</span>); <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+
+<p>也可以用 contains 方法匹配一对键/值，即判断给定的配对是否存在于集合中：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$collection = collect([</span><br><span class="line">    [<span class="string">'name'</span> =&gt; <span class="string">'boo'</span>, <span class="string">'age'</span> =&gt; <span class="number">25</span>],</span><br><span class="line">    [<span class="string">'name'</span> =&gt; <span class="string">'yumi'</span>, <span class="string">'age'</span> =&gt; <span class="number">23</span>],</span><br><span class="line">]);</span><br><span class="line"></span><br><span class="line">$collection-&gt;contains(<span class="string">"name"</span>, <span class="string">"mac"</span>);  <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+
+<p>也可以传递一个回调到 contains 方法来执行自己的真实测试：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$collection = collect([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]);</span><br><span class="line"></span><br><span class="line"><span class="comment">// $value: 1 $key: 0</span></span><br><span class="line">$collection-&gt;contains(<span class="function"><span class="keyword">function</span> <span class="params">($value, $key)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> $value &gt; <span class="number">5</span>;</span><br><span class="line">&#125;); <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<p>contains 方法在检查项目值时使用「宽松」比较，意味着具有整数值的字符串将被视为等于相同值的整数。 相反 containsStrict 方法则是使用「严格」比较进行过滤。</p>
+<h2 id="containsStrict"><a href="#containsStrict" class="headerlink" title="containsStrict"></a>containsStrict</h2><p>使用「严格模式」判断集合是否包含给定的项目：</p>
+<p>基本使用：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$collection = collect([</span><br><span class="line">    [<span class="string">'name'</span> =&gt; <span class="string">'boo'</span>, <span class="string">'age'</span> =&gt; <span class="number">25</span>],</span><br><span class="line">    [<span class="string">'name'</span> =&gt; <span class="string">'yumi'</span>, <span class="string">'age'</span> =&gt; <span class="number">23</span>],</span><br><span class="line">]);</span><br><span class="line"></span><br><span class="line">$collection-&gt;containsStrict(<span class="string">"age"</span>, <span class="string">"25"</span>);  <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<p>如上例所示，数组值存在，但是值类型不一致也返回false。</p>
+<h2 id="count"><a href="#count" class="headerlink" title="count"></a>count</h2><p>返回该集合内的项目总数。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">collect([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])-&gt;count();  <span class="comment">// 4</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="diff"><a href="#diff" class="headerlink" title="diff"></a>diff</h2><p>与给定的集合或者数组进行比较，基于值求差集。</p>
+<p>将集合与其它集合或纯 PHP 数组进行值的比较，然后返回原集合中存在而给定集合中不存在的值：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$collection = collect([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]);</span><br><span class="line">$collection-&gt;diff([<span class="number">2</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">8</span>])-&gt;all();   <span class="comment">// [1, 3, 5]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="diffAssoc"><a href="#diffAssoc" class="headerlink" title="diffAssoc"></a>diffAssoc</h2><p>与给定的集合或者数组进行比较，基于键值对求差集。</p>
+<p>返回原集合不存在于给定集合中的键值对：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$collection = collect([</span><br><span class="line">    <span class="string">'color'</span> =&gt; <span class="string">'orange'</span>,</span><br><span class="line">    <span class="string">'type'</span> =&gt; <span class="string">'fruit'</span>,</span><br><span class="line">    <span class="string">'remain'</span> =&gt; <span class="number">6</span></span><br><span class="line">]);</span><br><span class="line"></span><br><span class="line">$diff = $collection-&gt;diffAssoc([</span><br><span class="line">    <span class="string">'color'</span> =&gt; <span class="string">'yellow'</span>,</span><br><span class="line">    <span class="string">'type'</span> =&gt; <span class="string">'fruit'</span>,</span><br><span class="line">    <span class="string">'remain'</span> =&gt; <span class="number">3</span>,</span><br><span class="line">    <span class="string">'used'</span> =&gt; <span class="number">6</span></span><br><span class="line">]);</span><br><span class="line"></span><br><span class="line">$diff-&gt;all(); <span class="comment">// ['color' =&gt; 'orange', 'remain' =&gt; 6]</span></span><br></pre></td></tr></table></figure>
+
+<p>##diffKeys<br>与给定的集合或者数组进行比较，基于键求差集。</p>
+<p>返回原集合中存在而给定的集合中不存在「键」所对应的键值对：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$collection = collect([</span><br><span class="line">    <span class="string">'one'</span> =&gt; <span class="number">10</span>,</span><br><span class="line">    <span class="string">'two'</span> =&gt; <span class="number">20</span>,</span><br><span class="line">    <span class="string">'three'</span> =&gt; <span class="number">30</span>,</span><br><span class="line">    <span class="string">'four'</span> =&gt; <span class="number">40</span>,</span><br><span class="line">    <span class="string">'five'</span> =&gt; <span class="number">50</span>,</span><br><span class="line">]);</span><br><span class="line"></span><br><span class="line">$diff = $collection-&gt;diffKeys([</span><br><span class="line">    <span class="string">'two'</span> =&gt; <span class="number">2</span>,</span><br><span class="line">    <span class="string">'four'</span> =&gt; <span class="number">4</span>,</span><br><span class="line">    <span class="string">'six'</span> =&gt; <span class="number">6</span>,</span><br><span class="line">    <span class="string">'eight'</span> =&gt; <span class="number">8</span>,</span><br><span class="line">]);</span><br><span class="line"></span><br><span class="line">$diff-&gt;all(); <span class="comment">// ['one' =&gt; 10, 'three' =&gt; 30, 'five' =&gt; 50]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="each"><a href="#each" class="headerlink" title="each"></a>each</h2><p>迭代集合中的内容并将其传递到回调函数中。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$collection = $collection-&gt;each(<span class="function"><span class="keyword">function</span> <span class="params">($item, $key)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 如果要中断对内容的迭代，那就从回调中返回 false</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="comment">/* some condition */</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="except"><a href="#except" class="headerlink" title="except"></a>except</h2><p>返回集合中除了指定键以外的所有项目。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$collection = collect([<span class="string">'product_id'</span> =&gt; <span class="number">1</span>, <span class="string">'price'</span> =&gt; <span class="number">100</span>, <span class="string">'discount'</span> =&gt; <span class="keyword">false</span>]);</span><br><span class="line">$filtered = $collection-&gt;except([<span class="string">'price'</span>, <span class="string">'discount'</span>]);</span><br><span class="line">$filtered-&gt;all(); <span class="comment">// ['product_id' =&gt; 1]</span></span><br></pre></td></tr></table></figure>
+<p>与之相反的方法是 <code>only()</code>。</p>
+<h2 id="filter"><a href="#filter" class="headerlink" title="filter"></a>filter</h2><p>使用给定的回调函数过滤集合的内容，只留下那些通过给定真实测试的内容。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$collection = collect([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]);</span><br><span class="line">$filtered = $collection-&gt;filter(<span class="function"><span class="keyword">function</span> <span class="params">($value, $key)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 当闭包返回true 时，保留一个条目</span></span><br><span class="line">    <span class="keyword">return</span> $value &gt; <span class="number">2</span>;</span><br><span class="line">&#125;);</span><br><span class="line">$filtered-&gt;all(); <span class="comment">// [3, 4]</span></span><br></pre></td></tr></table></figure>
+
+<p>如果没有提供回调函数，集合中所有返回false的元素都会被移除：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$collection = collect([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="keyword">null</span>, <span class="keyword">false</span>, <span class="string">''</span>, <span class="number">0</span>, []]);</span><br><span class="line">$collection-&gt;filter()-&gt;all(); <span class="comment">// [1, 2, 3]</span></span><br></pre></td></tr></table></figure>
+
+<p>与之相反的方法是 <code>reject()</code>。</p>
+<h2 id="first"><a href="#first" class="headerlink" title="first"></a>first</h2><p>返回集合中的第一个元素。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">collect([1, 2, 3, 4])-&gt;first();  &#x2F;&#x2F; 1</span><br></pre></td></tr></table></figure>
+
+<p>还可以传入一个闭包作为第二个函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">collect([1, 2, 3, 4])-&gt;first(function ($value, $key) &#123;</span><br><span class="line">    &#x2F;&#x2F; 当闭包返回true 时，保留一个条目</span><br><span class="line">    return $value &gt; 2;</span><br><span class="line">&#125;); &#x2F;&#x2F; 3</span><br></pre></td></tr></table></figure>
+
+<p>如果需要返回最后一个元素可以使用<code>last()</code> 方法。</p>
+<h2 id="firstMap"><a href="#firstMap" class="headerlink" title="firstMap"></a>firstMap</h2><p>遍历集合并将其中的每个值传递到给定的回调。</p>
+<p>可以通过回调修改每个值的内容再返回出来，从而形成一个新的被修改过内容的集合：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$collection = collect([</span><br><span class="line">    [<span class="string">'name'</span> =&gt; <span class="string">'Sally'</span>],</span><br><span class="line">    [<span class="string">'school'</span> =&gt; <span class="string">'Arkansas'</span>],</span><br><span class="line">    [<span class="string">'age'</span> =&gt; <span class="number">28</span>]</span><br><span class="line">]);</span><br><span class="line">$flattened = $collection-&gt;flatMap(<span class="function"><span class="keyword">function</span> <span class="params">($values)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> array_map(<span class="string">'strtoupper'</span>, $values);</span><br><span class="line">&#125;);</span><br><span class="line">$flattened-&gt;all();</span><br><span class="line"><span class="comment">// ['name' =&gt; 'SALLY', 'school' =&gt; 'ARKANSAS', 'age' =&gt; '28'];</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="flatten"><a href="#flatten" class="headerlink" title="flatten"></a>flatten</h2><p>将多维集合转为一维。</p>
+<p>基本用法：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$collection = collect([<span class="string">'name'</span> =&gt; <span class="string">'taylor'</span>, <span class="string">'languages'</span> =&gt; [<span class="string">'php'</span>, <span class="string">'javascript'</span>]]);</span><br><span class="line"></span><br><span class="line">$collection-&gt;flatten()-&gt;all();  <span class="comment">// ['taylor', 'php', 'javascript'];</span></span><br></pre></td></tr></table></figure>
+
+<p>还可以选择性地传入「深度」参数：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">$collection = collect([</span><br><span class="line">    <span class="string">'Apple'</span> =&gt; [</span><br><span class="line">        [<span class="string">'name'</span> =&gt; <span class="string">'iPhone 6S'</span>, <span class="string">'brand'</span> =&gt; <span class="string">'Apple'</span>],</span><br><span class="line">    ],</span><br><span class="line">    <span class="string">'Samsung'</span> =&gt; [</span><br><span class="line">        [<span class="string">'name'</span> =&gt; <span class="string">'Galaxy S7'</span>, <span class="string">'brand'</span> =&gt; <span class="string">'Samsung'</span>]</span><br><span class="line">    ],</span><br><span class="line">]);</span><br><span class="line"></span><br><span class="line">$products = $collection-&gt;flatten(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">$products-&gt;values()-&gt;all();</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">[</span></span><br><span class="line"><span class="comment">    ['name' =&gt; 'iPhone 6S', 'brand' =&gt; 'Apple'],</span></span><br><span class="line"><span class="comment">    ['name' =&gt; 'Galaxy S7', 'brand' =&gt; 'Samsung'],</span></span><br><span class="line"><span class="comment">]</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<p>在这个例子里，调用 flatten 方法时不传入深度参数的话也会将嵌套数组转成一维的，然后返回 <code>[&#39;iPhone 6S&#39;, &#39;Apple&#39;, &#39;Galaxy S7&#39;, &#39;Samsung&#39;]</code>，传入深度参数能限制设置返回数组的层数。</p>
+<h2 id="flip"><a href="#flip" class="headerlink" title="flip"></a>flip</h2><p>键值反转。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$collection = collect([<span class="string">"name"</span> =&gt; <span class="string">"boo"</span>, <span class="string">"age"</span> =&gt; <span class="number">25</span>]);</span><br><span class="line">$collection-&gt;flip()-&gt;all();  <span class="comment">// ["boo" =&gt; "name", 25 =&gt; "age"]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="forget"><a href="#forget" class="headerlink" title="forget"></a>forget</h2><p>通过给定的键来移除掉集合中对应的内容。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$collection = collect([<span class="string">'name'</span> =&gt; <span class="string">'taylor'</span>, <span class="string">'framework'</span> =&gt; <span class="string">'laravel'</span>]);</span><br><span class="line">$collection-&gt;forget(<span class="string">'name'</span>);</span><br><span class="line">$collection-&gt;all(); </span><br><span class="line"><span class="comment">// ['framework' =&gt; 'laravel']</span></span><br></pre></td></tr></table></figure>
+
+<p>与大多数集合的方法不同，<code>forget()</code> 不会返回修改过后的新集合；它会直接修改原来的集合。</p>
+<h2 id="get"><a href="#get" class="headerlink" title="get"></a>get</h2><p>返回给定键的项目。</p>
+<p>基本用法，如果该键不存在，则返回 null：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$collection = collect([<span class="string">'name'</span> =&gt; <span class="string">'taylor'</span>, <span class="string">'framework'</span> =&gt; <span class="string">'laravel'</span>]);</span><br><span class="line">$value = $collection-&gt;get(<span class="string">'name'</span>); <span class="comment">// taylor</span></span><br></pre></td></tr></table></figure>
+
+<p>可以传递第二个参数作为默认值：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$collection = collect([<span class="string">'name'</span> =&gt; <span class="string">'taylor'</span>, <span class="string">'framework'</span> =&gt; <span class="string">'laravel'</span>]);</span><br><span class="line">$value = $collection-&gt;get(<span class="string">'foo'</span>, <span class="string">'boo'</span>); <span class="comment">// boo</span></span><br></pre></td></tr></table></figure>
+
+<p>甚至可以将回调函数当作默认值。如果指定的键不存在，就会返回回调的结果：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$collection = collect([<span class="string">'name'</span> =&gt; <span class="string">'taylor'</span>, <span class="string">'framework'</span> =&gt; <span class="string">'laravel'</span>]);</span><br><span class="line"></span><br><span class="line">$collection-&gt;get(<span class="string">'email'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'boo'</span>;</span><br><span class="line">&#125;); <span class="comment">// boo</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="groupBy"><a href="#groupBy" class="headerlink" title="groupBy"></a>groupBy</h2><p>根据给定的键对集合内的项目进行分组。</p>
+<h2 id="has"><a href="#has" class="headerlink" title="has"></a>has</h2><p>判断集合中是否存在给定的键。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$collection = collect([<span class="string">"name"</span> =&gt; <span class="string">"boo"</span>, <span class="string">"age"</span> =&gt; <span class="number">25</span>]);</span><br><span class="line">$collection-&gt;has(<span class="string">"name"</span>);  <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="implode"><a href="#implode" class="headerlink" title="implode"></a>implode</h2><p>合并集合中的项目。</p>
+<h2 id="intersect"><a href="#intersect" class="headerlink" title="intersect"></a>intersect</h2><p>从原集合中删除不在给定数组或集合中的任何值。</p>
+<h2 id="intersectKey"><a href="#intersectKey" class="headerlink" title="intersectKey"></a>intersectKey</h2><p>删除原集合中不存在于给定数组或集合中的任何键。</p>
+<h2 id="isEmpty"><a href="#isEmpty" class="headerlink" title="isEmpty"></a>isEmpty</h2><p>判断集合是否为空。</p>
+<h2 id="isNotEmpty"><a href="#isNotEmpty" class="headerlink" title="isNotEmpty"></a>isNotEmpty</h2><p>判断集合是否不为空。</p>
+<h2 id="keyBy"><a href="#keyBy" class="headerlink" title="keyBy"></a>keyBy</h2><p>以给定的键作为集合的键。</p>
+<h2 id="keys"><a href="#keys" class="headerlink" title="keys"></a>keys</h2><p>返回集合的所有键。</p>
+<h2 id="last"><a href="#last" class="headerlink" title="last"></a>last</h2><p>返回集合中通过给定真实测试的最后一个元素。</p>
+<h2 id="map"><a href="#map" class="headerlink" title="map"></a>map</h2><p>遍历集合并将每一个值传入给定的回调。</p>
+<h2 id="mapWithKeys"><a href="#mapWithKeys" class="headerlink" title="mapWithKeys"></a>mapWithKeys</h2><p>遍历集合并将每个值传入给定的回调。</p>
+<h2 id="max"><a href="#max" class="headerlink" title="max"></a>max</h2><p>返回指定键的最大值。</p>
+<h2 id="median"><a href="#median" class="headerlink" title="median"></a>median</h2><p>返回指定键的中间值。</p>
+<h2 id="merge"><a href="#merge" class="headerlink" title="merge"></a>merge</h2><p>将给定数组或集合合并到原集合。</p>
+<h2 id="min"><a href="#min" class="headerlink" title="min"></a>min</h2><p>返回指定键的最小值。</p>
+<h2 id="mode"><a href="#mode" class="headerlink" title="mode"></a>mode</h2><p>返回指定键的众数值。</p>
+<h2 id="nth"><a href="#nth" class="headerlink" title="nth"></a>nth</h2><p>创建由每隔n个元素组成一个新的集合。</p>
+<h2 id="only"><a href="#only" class="headerlink" title="only"></a>only</h2><p>返回集合中给定键的所有项目。</p>
+<h2 id="partition"><a href="#partition" class="headerlink" title="partition"></a>partition</h2><p>配合list()方法区分回调函数满足和不满足的数据。</p>
+<h2 id="pipe"><a href="#pipe" class="headerlink" title="pipe"></a>pipe</h2><p>将集合传给给定的回调并返回结果。</p>
+<h2 id="pluck"><a href="#pluck" class="headerlink" title="pluck"></a>pluck</h2><p>获取集合中给定键对应的所有值。</p>
+<h2 id="pop"><a href="#pop" class="headerlink" title="pop"></a>pop</h2><p>移除并返回集合中的最后一个项目。</p>
+<h2 id="prepend"><a href="#prepend" class="headerlink" title="prepend"></a>prepend</h2><p>将给定的值添加到集合的开头。</p>
+<h2 id="pull"><a href="#pull" class="headerlink" title="pull"></a>pull</h2><p>把给定键对应的值从集合中移除并返回。</p>
+<h2 id="push"><a href="#push" class="headerlink" title="push"></a>push</h2><p>把给定值添加到集合的末尾。</p>
+<h2 id="put"><a href="#put" class="headerlink" title="put"></a>put</h2><p>在集合内设置给定的键值对。</p>
+<h2 id="random"><a href="#random" class="headerlink" title="random"></a>random</h2><p>从集合中返回一个随机项。</p>
+<h2 id="reduce"><a href="#reduce" class="headerlink" title="reduce"></a>reduce</h2><p>将每次迭代的结果传递给下一次迭代直到集合减少为单个值。</p>
+<h2 id="reject"><a href="#reject" class="headerlink" title="reject"></a>reject</h2><p>使用指定的回调过滤集合。</p>
+<h2 id="reverse"><a href="#reverse" class="headerlink" title="reverse"></a>reverse</h2><p>倒转集合中项目的顺序。</p>
+<h2 id="search"><a href="#search" class="headerlink" title="search"></a>search</h2><p>搜索给定的值并返回它的键。</p>
+<h2 id="shift"><a href="#shift" class="headerlink" title="shift"></a>shift</h2><p>移除并返回集合的第一个项目。</p>
+<h2 id="shuffle"><a href="#shuffle" class="headerlink" title="shuffle"></a>shuffle</h2><p>随机排序集合中的项目。</p>
+<h2 id="slice"><a href="#slice" class="headerlink" title="slice"></a>slice</h2><p>返回集合中给定值后面的部分。</p>
+<h2 id="sort"><a href="#sort" class="headerlink" title="sort"></a>sort</h2><p>保留原数组的键，对集合进行排序。</p>
+<h2 id="sortBy"><a href="#sortBy" class="headerlink" title="sortBy"></a>sortBy</h2><p>以给定的键对集合进行排序。</p>
+<h2 id="sortByDesc"><a href="#sortByDesc" class="headerlink" title="sortByDesc"></a>sortByDesc</h2><p>与sortBy一样，以相反的顺序来对集合进行排序。</p>
+<h2 id="splice"><a href="#splice" class="headerlink" title="splice"></a>splice</h2><p>删除并返回从给定值后的内容，原集合也会受到影响。</p>
+<h2 id="split"><a href="#split" class="headerlink" title="split"></a>split</h2><p>将集合按给定的值拆分。</p>
+<h2 id="sum"><a href="#sum" class="headerlink" title="sum"></a>sum</h2><p>返回集合内所有项目的总和。</p>
+<h2 id="take"><a href="#take" class="headerlink" title="take"></a>take</h2><p>返回给定数量项目的新集合。</p>
+<h2 id="tap"><a href="#tap" class="headerlink" title="tap"></a>tap</h2><p>将集合传递给回调，在特定点「tap」集合。</p>
+<h2 id="times"><a href="#times" class="headerlink" title="times"></a>times</h2><p>通过回调在给定次数内创建一个新的集合。</p>
+<h2 id="toArray"><a href="#toArray" class="headerlink" title="toArray"></a>toArray</h2><p>将集合转换成 PHP 数组。</p>
+<h2 id="toJson"><a href="#toJson" class="headerlink" title="toJson"></a>toJson</h2><p>将集合转换成 JSON 字符串。</p>
+<h2 id="transform"><a href="#transform" class="headerlink" title="transform"></a>transform</h2><p>迭代集合并对集合内的每个项目调用给定的回调。</p>
+<h2 id="union"><a href="#union" class="headerlink" title="union"></a>union</h2><p>将给定的数组添加到集合中。</p>
+<h2 id="unique"><a href="#unique" class="headerlink" title="unique"></a>unique</h2><p>返回集合中所有唯一的项目。</p>
+<h2 id="uniqueStrict"><a href="#uniqueStrict" class="headerlink" title="uniqueStrict"></a>uniqueStrict</h2><p>使用严格模式返回集合中所有唯一的项目。</p>
+<h2 id="values"><a href="#values" class="headerlink" title="values"></a>values</h2><p>返回键被重置为连续编号的新集合。</p>
+<h2 id="when"><a href="#when" class="headerlink" title="when"></a>when</h2><p>当传入的第一个参数为 true 的时，将执行给定的回调。</p>
+<h2 id="where"><a href="#where" class="headerlink" title="where"></a>where</h2><p>通过给定的键值过滤集合。</p>
+<h2 id="whereStrict"><a href="#whereStrict" class="headerlink" title="whereStrict"></a>whereStrict</h2><p>使用严格模式通过给定的键值过滤集合。</p>
+<h2 id="whereIn"><a href="#whereIn" class="headerlink" title="whereIn"></a>whereIn</h2><p>通过给定的键值数组来过滤集合。</p>
+<h2 id="whereInStrict"><a href="#whereInStrict" class="headerlink" title="whereInStrict"></a>whereInStrict</h2><p>使用严格模式通过给定的键值数组来过滤集合。</p>
+<h2 id="whereNotIn"><a href="#whereNotIn" class="headerlink" title="whereNotIn"></a>whereNotIn</h2><p>集合中不包含的给定键值对进行匹配。</p>
+<h2 id="whereNotInStrict"><a href="#whereNotInStrict" class="headerlink" title="whereNotInStrict"></a>whereNotInStrict</h2><p>使用严格模式通过集合中不包含的给定键值对进行匹配。</p>
+<h2 id="zip"><a href="#zip" class="headerlink" title="zip"></a>zip</h2><p>将给定数组的值与相应索引处的原集合的值合并在一起。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://curder.gitbooks.io/laravel_study/content/collections/" target="_blank" rel="noopener">Laravel 的集合 Collection</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/basic-use-of-collection-in-laravel/>https://www.0x2beace.com/basic-use-of-collection-in-laravel/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-04-25T23:17:47+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Apr 25, 2021</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Laravel/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Laravel</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/basic-use-of-collection-in-laravel/&title=Laravel 中的 Collection 基本使用 - Boo&summary=集合是Laravel 中提供的最强大的功能之一，集合本质上是由功能强大的数组组成。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/basic-use-of-collection-in-laravel/&title=Laravel 中的 Collection 基本使用 - Boo&summary=集合是Laravel 中提供的最强大的功能之一，集合本质上是由功能强大的数组组成。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/basic-use-of-collection-in-laravel/&title=Laravel 中的 Collection 基本使用 - Boo&summary=集合是Laravel 中提供的最强大的功能之一，集合本质上是由功能强大的数组组成。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADnElEQVR42u3aMZLjMAwEQP//03v5JSQGkA27mplVsiy2NpjF6PVnReuFABw4cOAscOCWwL3CdfyBw/nV66Xf+/+87n7BgQMHDhw4cOC2wVVvvHq8+r3Txk/XPx1P9wsOHDhw4MCBA7cV7hgAw43cXr8afKsPrL1fcODAgQMHDhy4H4Obgr4NxOnAFRw4cODAgQMHDlxtEJkC3g4qq1DgwIEDBw4cOHC/Bpe+qJfCVgeS6YNa1+SDAwcOHDhw4MANwaUDwm/9HO8XHDhw4MCBAwduCVx3VQeNUw/oUwscOHDgwIEDB24LXLcYrha71cHk7e/cQqf7AwcOHDhw4MCB2w53W+ymBfQt7O3xtOiOC3Jw4MCBAwcOHLhlcCfAtPCtBuUuzPSDuW7ywYEDBw4cOHDg3gyXBuHp4JwORqchj9cDBw4cOHDgwIFbAjdVSKfX6274XQscOHDgwIEDB24bXDdApgPNKvRUEZ6eDw4cOHDgwIEDtxVuajDYHXR2IdOA/VghDQ4cOHDgwIED9zDc1I12B5XV36kW6GnABgcOHDhw4MCB2wZXDoCXG5564bBbmKcP9PrFQnDgwIEDBw4cuA/BVQNkClTdcDpQnRrQtv9zAAcOHDhw4MCBexNcF6ZaTFc3WB44Dj2ouMkHBw4cOHDgwIF7E1w30KYF91SwTgN8OXiDAwcOHDhw4MB9GdxTRfXUwLG6qgNMcODAgQMHDhy4bXBPF8/TRXUacNPiGhw4cODAgQMHbivc7QaqgbE74EwD6u0fRPyAwIEDBw4cOHDglsBVA+lfuFKYqePdBwYOHDhw4MCBA7cVLgWsfu4W0Wmgrt4/OHDgwIEDBw7ct8BVN1ItqLtg3eK8exwcOHDgwIEDB2473G0Ani6iU5ipArodgMGBAwcOHDhw4JbBpQFzuqC+Lca7wfp43+DAgQMHDhw4cMvhusVvdyPd700vcODAgQMHDhy4bXDdNf3iYRp0p4v0YwAGBw4cOHDgwIH7MFw3EKaQT0E/fj1w4MCBAwcOHLhlcGmRfBtEp4vuqWBbHpyCAwcOHDhw4MAthZsKlNXrrCmcT5DgwIEDBw4cOHA/DpduPA3it8G2/RkcOHDgwIEDB+5H4W6vk764OD1YLQd3cODAgQMHDhy4pXBp8OzecBdwKqC/rckHBw4cOHDgwIEbgpsqcNPgm55XBe3ePzhw4MCBAwcO3BY4qzhYRQAOHDhwFjhwn13/AKzcgJfxU23eAAAAAElFTkSuQmCC">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/how-to-use-repository-mode/'>
+                <p class='title'>『转载』如何使用Repository 模式<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>若将数据库逻辑都写在 Model 里，会造成 model 代码的臃肿难以维护，基于 SOLID 原则，我们应该使用 Repository 模式辅助 Model，将相关的数据库逻辑封装在不同的 R...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Laravel 中的 Collection 基本使用',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建集合"><span class="toc-text">创建集合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#all"><span class="toc-text">all</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#avg"><span class="toc-text">avg</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#chunk"><span class="toc-text">chunk</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#collapse"><span class="toc-text">collapse</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#combine"><span class="toc-text">combine</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#contains"><span class="toc-text">contains</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#containsStrict"><span class="toc-text">containsStrict</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#count"><span class="toc-text">count</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#diff"><span class="toc-text">diff</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#diffAssoc"><span class="toc-text">diffAssoc</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#each"><span class="toc-text">each</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#except"><span class="toc-text">except</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#filter"><span class="toc-text">filter</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#first"><span class="toc-text">first</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#firstMap"><span class="toc-text">firstMap</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#flatten"><span class="toc-text">flatten</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#flip"><span class="toc-text">flip</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#forget"><span class="toc-text">forget</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#get"><span class="toc-text">get</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#groupBy"><span class="toc-text">groupBy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#has"><span class="toc-text">has</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#implode"><span class="toc-text">implode</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#intersect"><span class="toc-text">intersect</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#intersectKey"><span class="toc-text">intersectKey</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#isEmpty"><span class="toc-text">isEmpty</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#isNotEmpty"><span class="toc-text">isNotEmpty</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#keyBy"><span class="toc-text">keyBy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#keys"><span class="toc-text">keys</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#last"><span class="toc-text">last</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#map"><span class="toc-text">map</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mapWithKeys"><span class="toc-text">mapWithKeys</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#max"><span class="toc-text">max</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#median"><span class="toc-text">median</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#merge"><span class="toc-text">merge</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#min"><span class="toc-text">min</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mode"><span class="toc-text">mode</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nth"><span class="toc-text">nth</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#only"><span class="toc-text">only</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#partition"><span class="toc-text">partition</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pipe"><span class="toc-text">pipe</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pluck"><span class="toc-text">pluck</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pop"><span class="toc-text">pop</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#prepend"><span class="toc-text">prepend</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pull"><span class="toc-text">pull</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#push"><span class="toc-text">push</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#put"><span class="toc-text">put</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#random"><span class="toc-text">random</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#reduce"><span class="toc-text">reduce</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#reject"><span class="toc-text">reject</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#reverse"><span class="toc-text">reverse</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#search"><span class="toc-text">search</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#shift"><span class="toc-text">shift</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#shuffle"><span class="toc-text">shuffle</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#slice"><span class="toc-text">slice</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sort"><span class="toc-text">sort</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sortBy"><span class="toc-text">sortBy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sortByDesc"><span class="toc-text">sortByDesc</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#splice"><span class="toc-text">splice</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#split"><span class="toc-text">split</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sum"><span class="toc-text">sum</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#take"><span class="toc-text">take</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tap"><span class="toc-text">tap</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#times"><span class="toc-text">times</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#toArray"><span class="toc-text">toArray</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#toJson"><span class="toc-text">toJson</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#transform"><span class="toc-text">transform</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#union"><span class="toc-text">union</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#unique"><span class="toc-text">unique</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#uniqueStrict"><span class="toc-text">uniqueStrict</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#values"><span class="toc-text">values</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#when"><span class="toc-text">when</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#where"><span class="toc-text">where</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#whereStrict"><span class="toc-text">whereStrict</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#whereIn"><span class="toc-text">whereIn</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#whereInStrict"><span class="toc-text">whereInStrict</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#whereNotIn"><span class="toc-text">whereNotIn</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#whereNotInStrict"><span class="toc-text">whereNotInStrict</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#zip"><span class="toc-text">zip</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+      
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <span class="post-count">总字数：154.8k</span>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
+
+        <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+        
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?fbe826b92f6d49a0ebacf4d848bd3add";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+<script>
+  var now = new Date(); 
+  function createtime() {    
+      var grt= new Date("07/04/2020 14:12:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";     
+  } 
+setInterval("createtime()",250);
+</script>
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "Ki6kd5TUWoQyYKSErxehnRpc-MdYXbMMI",
+    appKey: "7pRBOKMw58Yo7EsUjHziIEY1",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
