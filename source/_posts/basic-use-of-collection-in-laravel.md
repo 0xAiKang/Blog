@@ -13,11 +13,11 @@ categories: ["PHP", "Laravel"]
 
 需要注意的是集合并不是Laravel 中独有的，许多语言都可以在数组中使用集合式编程，但非常遗憾，原生的PHP 是不支持集合式编程的，不过幸运的是，一些勤劳的人已经为我们完成了艰苦的工作，并编写了一个非常方便的包——[illuminate/support](https://github.com/illuminate/support)、[Tightenco/Collect](https://github.com/tighten/collect) 。
 
-一般来说，集合是不可改变的，这意味着每个 Collection 方法都会返回一个全新的 Collection 实例。
+一般来说，集合是不可改变的，这意味着大部分 Collection 方法都会返回一个全新的 Collection 实例。
 
 ## 创建集合
 
-为了创建一个集合，可以将一个数组传入集合的构造器中，也可以创建一个空的集合，然后把条目写到集合中。Laravel 也有`collect()`助手，这是最简单的，新建集合的方法。
+为了创建一个集合，可以将一个数组传入集合的构造器中，也可以创建一个空的集合，然后把元素写到集合中。Laravel 有`collect()`助手，这是最简单的，新建集合的方法。
 
 ```php
 $collection = collect([1, 2, 3]);
@@ -26,11 +26,14 @@ $collection = collect([1, 2, 3]);
 > 默认情况下， Eloquent 查询的结果返回的内容都是 `Illuminate\Support\Collection` 实例，如果希望对结果进行序列化，可以使用`toArray()`、`toJson()` 方法。
 
 在非Laravel 项目中使用集合：
-```shell
-// 安装
-composer require illuminate/support
 
-// 使用
+安装：
+```php
+composer require illuminate/support
+```
+
+使用：
+```php
 <?php
 // 引入package
 require __DIR__ . '/vendor/autoload.php';
@@ -933,142 +936,373 @@ $plucked->all();    // [1 => 'Desk', 2 => 'Chair']
 ## pop 
 移除并返回集合中的最后一个项目。
 
+```php
+$collection = collect([1, 2, 3, 4, 5]);
+
+$collection->pop();     // 5
+$collection->all();     // [1, 2, 3, 4]
+```
 
 ## prepend 
 将给定的值添加到集合的开头。
+```php
+$collection = collect([1, 2, 3, 4, 5]);
 
+$collection->prepend(99);
+$collection->all();     // [99, 1, 2, 3, 4, 5]
+```
+
+如果是关联数组，也可以传入第二个参数作为键值：
+```php
+$collection = collect(['one' => 1, 'two' => 2]);
+
+$collection->prepend(0, 'zero');
+$collection->all();       // ['zero' => 0, 'one' => 1, 'two' => 2]
+```
 
 ## pull 
 把给定键对应的值从集合中移除并返回。
 
+```php
+$collection = collect(['product_id' => 'prod-100', 'name' => 'Desk']);
+
+$collection->pull('name');    // 'Desk'
+$collection->all();           // ['product_id' => 'prod-100']
+```
 
 ## push 
 把给定值添加到集合的末尾。
 
+```php
+$collection = collect([1, 2, 3, 4]);
+
+$collection->push(5);
+$collection->all();       // [1, 2, 3, 4, 5]
+```
 
 ## put 
 在集合内设置给定的键值对。
+```php
+$collection = collect(['product_id' => 1, 'name' => 'Desk']);
 
+$collection->put('price', 100);
+$collection->all();       // ['product_id' => 1, 'name' => 'Desk', 'price' => 100]
+```
 
 ## random 
 从集合中返回一个随机项。
 
-## reduce 
-将每次迭代的结果传递给下一次迭代直到集合减少为单个值。
+```php
+$collection = collect([1, 2, 3, 4, 5]);
+$collection->random();      // 4 - (retrieved randomly)
+```
 
+也可以传入一个整数用来指定需要需要获取的随机项个数：
+```php
+$collection->random();    // 2, 3, 5
+```
 
 ## reject 
 使用指定的回调过滤集合。
 
+```php
+$collection = collect([1, 2, 3, 4]);
+
+$filtered = $collection->reject(function ($value, $key) {
+    return $value > 2;
+});
+$filtered->all();     // [1, 2]
+```
 
 ## reverse 
-倒转集合中项目的顺序。
+倒转集合中项目的顺序，并保留原始的键值：
 
+```php
+$collection = collect(['a', 'b', 'c', 'd', 'e']);
+
+$reversed = $collection->reverse();
+$reversed->all();
+/*
+    [
+        4 => 'e',
+        3 => 'd',
+        2 => 'c',
+        1 => 'b',
+        0 => 'a',
+    ]
+*/
+```
 
 ## search
-搜索给定的值并返回它的键。
+搜索给定的值并返回它的键，如果没有找到返回 false
 
+```php
+$collection = collect([2, 4, 6, 8]);
+
+$collection->search(4);   // 1
+```
 
 ## shift 
-移除并返回集合的第一个项目。
+移除并返回集合的第一个元素。
+
+```php
+$collection = collect([1, 2, 3, 4, 5]);
+
+$collection->shift();   // 1
+$collection->all();     // [2, 3, 4, 5]
+```
 
 ## shuffle
 随机排序集合中的项目。
 
+```php
+$collection = collect([1, 2, 3, 4, 5]);
+
+$shuffled = $collection->shuffle();
+$shuffled->all();       // [3, 2, 5, 1, 4] - (generated randomly)
+```
 
 ## slice 
 返回集合中给定值后面的部分。
 
+```php
+$collection = collect([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+
+$slice = $collection->slice(4);
+$slice->all();      // [5, 6, 7, 8, 9, 10]
+```
+与`skip()` 方法类似。
 
 ## sort 
 保留原数组的键，对集合进行排序。
 
-## sortBy 	
-以给定的键对集合进行排序。
+```php
+$collection = collect([5, 3, 1, 2, 4]);
 
-## sortByDesc 
-与sortBy一样，以相反的顺序来对集合进行排序。
+$sorted = $collection->sort();
+// 重置索引
+$sorted->values()->all();       // [1, 2, 3, 4, 5]
+```
 
 ## splice 
 删除并返回从给定值后的内容，原集合也会受到影响。
 
+```php
+$collection = collect([1, 2, 3, 4, 5]);
+
+$chunk = $collection->splice(2);
+$chunk->all();            // [3, 4, 5]
+$collection->all();       // [1, 2]
+```
+
 ## split 
 将集合按给定的值拆分。
 
+```php
+$collection = collect([1, 2, 3, 4, 5]);
+
+$groups = $collection->split(3);
+$groups->all();     // [[1, 2], [3, 4], [5]]
+```
 
 ## sum 
 返回集合内所有项目的总和。
 
+```php
+collect([1, 2, 3, 4, 5])->sum();    // 15
+```
 
 ## take
 返回给定数量项目的新集合。
 
+```php
+$collection = collect([0, 1, 2, 3, 4, 5]);
 
-## tap
-将集合传递给回调，在特定点「tap」集合。
-
+$chunk = $collection->take(3);
+$chunk->all();      // [0, 1, 2]
+```
 
 ## times 
-通过回调在给定次数内创建一个新的集合。
+静态`times()` 方法通过调用给定次数的回调函数来创建新集合：
 
-
-## toArray
-将集合转换成 PHP 数组。
-
-## toJson 
-将集合转换成 JSON 字符串。
-
+```php
+$collection = Collection::times(10, function ($number) {
+    return $number * 9;
+});
+$collection->all();     // [9, 18, 27, 36, 45, 54, 63, 72, 81, 90]
+```
 
 ## transform 
 迭代集合并对集合内的每个项目调用给定的回调。
 
+```php
+$collection = collect([1, 2, 3, 4, 5]);
+
+$multiplied = $collection->map(function ($item, $key) {
+    return $item * 2;
+});
+$multiplied->all();     // [2, 4, 6, 8, 10]
+```
+注意：each 只是遍历集合，map 则会返回一个新的集合实例；它不会修改原集合。如果你想修改原集合，请使用 transform 方法。
 
 ## union 
-将给定的数组添加到集合中。
+将给定的数组添加到集合中。如果给定的数组含有与原集合一样的键，则首选原始集合的值。
 
+```php
+$collection = collect([1 => ['a'], 2 => ['b']]);
+
+$union = $collection->union([3 => ['c'], 1 => ['b']]);
+$union->all();      // [1 => ['a'], 2 => ['b'], 3 => ['c']]
+```
 
 ## unique 
 返回集合中所有唯一的项目。
 
+基本用法：
+```php
+$collection = collect([1, 1, 2, 2, 3, 4, 2]);
 
-## uniqueStrict
-使用严格模式返回集合中所有唯一的项目。
+$unique = $collection->unique();
+// 使用value 重置索引
+$unique->values()->all();     // [1, 2, 3, 4]
+```
 
+当处理嵌套数组或对象时，你可以指定用于确定唯一性的键：
+```php
+$collection = collect([
+    ['name' => 'iPhone 6', 'brand' => 'Apple', 'type' => 'phone'],
+    ['name' => 'iPhone 5', 'brand' => 'Apple', 'type' => 'phone'],
+    ['name' => 'Apple Watch', 'brand' => 'Apple', 'type' => 'watch'],
+    ['name' => 'Galaxy S6', 'brand' => 'Samsung', 'type' => 'phone'],
+    ['name' => 'Galaxy Gear', 'brand' => 'Samsung', 'type' => 'watch'],
+]);
+
+$unique = $collection->unique('brand');
+$unique->values()->all();
+/*
+    [
+        ['name' => 'iPhone 6', 'brand' => 'Apple', 'type' => 'phone'],
+        ['name' => 'Galaxy S6', 'brand' => 'Samsung', 'type' => 'phone'],
+    ]
+*/
+```
 
 ## values
 返回键被重置为连续编号的新集合。
 
+```php
+$collection = collect([5, 3, 1, 2, 4]);
+$sorted->values()->all();   // [1, 2, 3, 4, 5]
+```
 
 ## when 
 当传入的第一个参数为 true 的时，将执行给定的回调。
 
+```php
+$collection = collect([1, 2, 3]);
+
+$collection->when(true, function ($collection) {
+    return $collection->push(4);
+});
+$collection->all();     // [1, 2, 3, 4]
+
+// 当传入的第一个参数不为 true 的时候，将执行给定的回调函数
+$collection->unless(false, function ($collection) {
+    return $collection->push(5);
+});
+```
 
 ## where 
 通过给定的键值过滤集合。
 
+```php
+$collection = collect([
+    ['product' => 'Desk', 'price' => 200],
+    ['product' => 'Chair', 'price' => 100],
+    ['product' => 'Bookcase', 'price' => 150],
+    ['product' => 'Door', 'price' => 100],
+]);
 
-## whereStrict
-使用严格模式通过给定的键值过滤集合。
+$filtered = $collection->where('price', 100);
+$filtered->all();
+/*
+    [
+        ['product' => 'Chair', 'price' => 100],
+        ['product' => 'Door', 'price' => 100],
+    ]
+*/
+```
+`whereStrict`方法使用严格模式通过给定的键值过滤集合。
 
+
+## whenEmpty
+当集合为空时，将执行给定的回调函数。
+
+```php
+$collection = collect(['michael', 'tom']);
+
+$collection->whenEmpty(function ($collection) {
+    return $collection->push('adam');
+});
+$collection->all();     // ['michael', 'tom']
+```
+反之`whenNotEmpty()` 方法当集合不为空时，将执行给定的回调函数。
 
 ## whereIn 
 通过给定的键值数组来过滤集合。
 
+```php
+$collection = collect([
+    ['product' => 'Desk', 'price' => 200],
+    ['product' => 'Chair', 'price' => 100],
+    ['product' => 'Bookcase', 'price' => 150],
+    ['product' => 'Door', 'price' => 100],
+]);
 
-## whereInStrict 
-使用严格模式通过给定的键值数组来过滤集合。
+$filtered = $collection->whereIn('price', [150, 200]);
+$filtered->all();
+/*
+    [
+        ['product' => 'Desk', 'price' => 200],
+        ['product' => 'Bookcase', 'price' => 150],
+    ]
+*/
+```
 
+类似方法还有`whereNotIn`、`whereBetween`、`whereNotInStrict`。
 
-## whereNotIn 
-集合中不包含的给定键值对进行匹配。
+## whereBetween
+筛选指定范围内的集合。
 
+```php
+$collection = collect([
+    ['product' => 'Desk', 'price' => 200],
+    ['product' => 'Chair', 'price' => 80],
+    ['product' => 'Bookcase', 'price' => 150],
+    ['product' => 'Pencil', 'price' => 30],
+    ['product' => 'Door', 'price' => 100],
+]);
 
-## whereNotInStrict 
-使用严格模式通过集合中不包含的给定键值对进行匹配。
-
+$filtered = $collection->whereBetween('price', [100, 200]);
+$filtered->all();
+/*
+    [
+        ['product' => 'Desk', 'price' => 200],
+        ['product' => 'Bookcase', 'price' => 150],
+        ['product' => 'Door', 'price' => 100],
+    ]
+*/
+```
 
 ## zip 
 将给定数组的值与相应索引处的原集合的值合并在一起。
+
+```php
+$collection = collect(['Chair', 'Desk']);
+
+$zipped = $collection->zip([100, 200]);
+$zipped->all();     // [['Chair', 100], ['Desk', 200]]
+```
 
 
 ## 参考链接
