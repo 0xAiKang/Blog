@@ -380,3 +380,6 @@ reduce：将每次迭代的结果传递给下一次迭代直到集合减少为�
 ```php
 $emails = collect($employees)->pluck('name', 'email');
 ```
+
+## 参考链接
+* [collection在实际开发中的使用](https://curder.gitbooks.io/laravel_study/content/collections_demo/)
