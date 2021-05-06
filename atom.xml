@@ -6,7 +6,7 @@
   <link href="https://www.0x2beace.com/atom.xml" rel="self"/>
   
   <link href="https://www.0x2beace.com/"/>
-  <updated>2021-05-04T00:36:59.709Z</updated>
+  <updated>2021-05-06T13:10:02.763Z</updated>
   <id>https://www.0x2beace.com/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>如何利用Jenkins 实现标签或者分支选择性构建</title>
+    <link href="https://www.0x2beace.com/how-to-use-jenkins-to-implement-tag-or-branch-selective-construction/"/>
+    <id>https://www.0x2beace.com/how-to-use-jenkins-to-implement-tag-or-branch-selective-construction/</id>
+    <published>2021-05-06T13:08:51.000Z</published>
+    <updated>2021-05-06T13:10:02.763Z</updated>
+    
+    <content type="html"><![CDATA[<p>如题。</p><a id="more"></a><p>需求可以简单描述为：在Jenkins 中通过手动的方式自主选择标签或者分支进行构建。而不是通过 Push 事件进行自动触发。</p><p>在正式开始之前，需要先安装 <code>Git Parameter</code> 插件。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210506205636.png" alt=""></p><p>在可选插件中搜索<code>Git Parameter</code>，进行安装。</p><p>正常安装完成，可以看到如下：</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210506205903.png" alt=""></p><p>创建一个自由风格的软件项目：</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210506205922.png" alt=""></p><p>选择参数化构建过程，参数类型选择分支或标签：</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210506210012.png" alt=""></p><p>源码管理选择Git，填上项目地址，如果是私有项目，需要添加 Credential：</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210506210049.png" alt=""></p><p>最后点击保存即可。</p><p>点击<code>Build with Parameters</code>，可以看到所有标签和分支，手动选择不同的分支和标签即可进行构建。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210506210303.png" alt=""></p><p>可以看到核心的步骤其实只有两步，如果还有其他需求，比如构建完成之后，执行某个脚本，也是可以实现的，</p><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul><li><a href="https://www.huaweicloud.com/articles/0591d64c9060a6484280fe1d55d251dc.html" target="_blank" rel="noopener">Jenkins教程（三）添加凭据与流水线拉取Git代码</a></li><li><a href="https://www.jianshu.com/p/927a1599f7a0" target="_blank" rel="noopener">Jenkins参数化构建-插件:Git Parameter</a></li><li><a href="http://www.mydlq.club/article/45/" target="_blank" rel="noopener">Jenkins 中使用 Git Parameter 插件动态获取 Git 的分支</a></li><li><a href="https://www.cnblogs.com/zt007/p/9472524.html" target="_blank" rel="noopener">Jenkins：使用Git Parameter插件实现tag或分支的选择性构建</a></li><li><a href="https://testerhome.com/articles/17383" target="_blank" rel="noopener">利用 jenkins 达到提 tag 自动打包</a></li><li><a href="https://www.cnblogs.com/tugenhua0707/p/11949644.html" target="_blank" rel="noopener">Jenkins 实现前端自动打包,自动部署代码及邮件提醒功能</a></li></ul>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;如题。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="Jenkins" scheme="https://www.0x2beace.com/categories/Jenkins/"/>
+    
+    
+    <category term="Jenkins" scheme="https://www.0x2beace.com/tags/Jenkins/"/>
+    
+  </entry>
   
   <entry>
     <title>Laravel 中 Collection 的实际使用</title>
