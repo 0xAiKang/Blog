@@ -6,7 +6,7 @@
   <link href="https://www.0x2beace.com/atom.xml" rel="self"/>
   
   <link href="https://www.0x2beace.com/"/>
-  <updated>2021-05-07T14:06:55.620Z</updated>
+  <updated>2021-05-09T00:48:56.131Z</updated>
   <id>https://www.0x2beace.com/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>如何配置一个简洁高效的 Zsh</title>
+    <link href="https://www.0x2beace.com/how-to-configure-a-simple-and-efficient-zsh/"/>
+    <id>https://www.0x2beace.com/how-to-configure-a-simple-and-efficient-zsh/</id>
+    <published>2021-05-09T00:48:19.000Z</published>
+    <updated>2021-05-09T00:48:56.131Z</updated>
+    
+    <content type="html"><![CDATA[<p>Shell 是类 Unix 系统中超级好用的工具，而 Zsh 是 Shell 中的佼佼者，但是现在网上一搜索 Zsh 的配置方案，遍地都是的互相复制粘贴的<code>oh-my-zsh</code> 配置方案。事实上 <code>oh-my-zsh</code> 并不好用，严重拖慢了 Zsh 的速度，下面分享一个简洁高效的Zsh 配置方案。</p><a id="more"></a><h3 id="安装Zsh"><a href="#安装Zsh" class="headerlink" title="安装Zsh"></a>安装Zsh</h3><p>这里直接从发行版的源中进行安装，简单、高效：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install zsh</span><br></pre></td></tr></table></figure><h3 id="安装插件及主题"><a href="#安装插件及主题" class="headerlink" title="安装插件及主题"></a>安装插件及主题</h3><p>两个插件一个主题：</p><ul><li><code>zsh-autosuggestions</code>：这个是自动建议插件，能够自动提示你需要的命令。</li><li><code>zsh-syntax-highlighting</code>：这个是代码高亮插件，能够使你的命令行各个命令清晰明了。</li><li><code>zsh-theme-powerlevel10k</code> 这个主题提供漂亮的提示符，可以显示当前路径、时间、命令执行成功与否，还能够支持 git 分支显示等等。</li></ul><p>一键安装：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install zsh-autosuggestions zsh-syntax-highlighting zsh-theme-powerlevel9k</span><br></pre></td></tr></table></figure><p>不出意外的话，会提示：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">E: Unable to locate package zsh-autosuggestions</span><br></pre></td></tr></table></figure><p>这是因为软件源中并没有<code>zsh-autosuggestions</code> 这个package，所以需要手动添加软件包。</p><p>这里可以直接进入<a href="https://software.opensuse.org/" target="_blank" rel="noopener">opensuse</a> 进行搜索，需要的软件包。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210509084534.png" alt=""></p><p>找到对应的发行版，点击Export Download：</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210509084558.png" alt=""></p><p>这里提供两种方式供我们选择：</p><ol><li>添加软件源并手动安装</li><li>直接抓取二进制软件包</li></ol><p>直接给结论，第二种方式更简单些，直接下载.deb文件之后，就可以安装了。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210509084624.png" alt=""></p><p>选择对应的操作系统以及版本，右键拷贝链接地址：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">  wget https://download.opensuse.org/repositories/shells:/zsh-users:/zsh-autosuggestions/xUbuntu_18.04/amd64/zsh-autosuggestions_0.5.0+1.1_amd64.deb</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo dpkg -i zsh-autosuggestions_0.5.0+1.1_amd64.deb</span></span><br></pre></td></tr></table></figure><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210509084643.png" alt=""></p><p>再次执行命令：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install zsh-autosuggestions zsh-syntax-highlighting zsh-theme-powerlevel9k</span><br></pre></td></tr></table></figure><p>至此，插件和主题就安装完成了。</p><h3 id="更改默认Shell"><a href="#更改默认Shell" class="headerlink" title="更改默认Shell"></a>更改默认Shell</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ chsh -s &#x2F;usr&#x2F;bin&#x2F;zsh</span><br></pre></td></tr></table></figure><p>注销并重新登录，再次登录成功时，默认启用了zsh。</p><h3 id="配置插件和主题"><a href="#配置插件和主题" class="headerlink" title="配置插件和主题"></a>配置插件和主题</h3><p>第一次进入 Zsh 会自动出现一个配置界面，这个界面可以根据需要自定义 Zsh。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210509084659.png" alt=""></p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210509084717.png" alt=""></p><p>配置界面中各个菜单代表的意思分别是：</p><p>1：设置命令历史记录相关的选项<br>2：设置命令补全系统<br>3：设置热建<br>4：选择各种常见的选项，只需要选择“On”或者“Off”<br>0：退出，并使用空白（默认）配置<br>a：终止设置并退出<br>q：退出</p><h3 id="启用插件和主题"><a href="#启用插件和主题" class="headerlink" title="启用插件和主题"></a>启用插件和主题</h3><p>Zsh 的配置文件是 <code>~/.zshrc</code> 文件，这个文件在你的用户目录下 <code>~/</code>。删掉了这个文件，再次进入 Zsh时，会再次进入 Zsh 的配置界面。</p><p>将以下代码加入到 <code>~/.zshrc</code> 文件中，以启用插件和主题：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">source &#x2F;usr&#x2F;share&#x2F;powerlevel9k&#x2F;powerlevel9k.zsh-theme</span><br><span class="line">source &#x2F;usr&#x2F;share&#x2F;zsh-autosuggestions&#x2F;zsh-autosuggestions.zsh</span><br><span class="line">source &#x2F;usr&#x2F;share&#x2F;zsh-syntax-highlighting&#x2F;zsh-syntax-highlighting.zsh</span><br></pre></td></tr></table></figure><p>再次注销并登录，即可看到新的终端界面：<br><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210509084734.png" alt=""></p><h3 id="原文地址"><a href="#原文地址" class="headerlink" title="原文地址"></a>原文地址</h3><ul><li><a href="https://linux.cn/article-13030-1.html" target="_blank" rel="noopener">配置一个简洁高效的 Zsh</a></li></ul>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;Shell 是类 Unix 系统中超级好用的工具，而 Zsh 是 Shell 中的佼佼者，但是现在网上一搜索 Zsh 的配置方案，遍地都是的互相复制粘贴的&lt;code&gt;oh-my-zsh&lt;/code&gt; 配置方案。事实上 &lt;code&gt;oh-my-zsh&lt;/code&gt; 并不好用，严重拖慢了 Zsh 的速度，下面分享一个简洁高效的Zsh 配置方案。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="Linux" scheme="https://www.0x2beace.com/categories/Linux/"/>
+    
+    
+    <category term="Linux" scheme="https://www.0x2beace.com/tags/Linux/"/>
+    
+  </entry>
   
   <entry>
     <title>Centos 7 设置静态 IP</title>
