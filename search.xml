@@ -4,6 +4,35 @@
   
     
     <entry>
+      <title>小程序开发经验总结</title>
+      <link href="/summary-of-mini-program-development-experience/"/>
+      <url>/summary-of-mini-program-development-experience/</url>
+      
+        <content type="html"><![CDATA[<p>通常对接小程序，为了加快开发速度，会直接使用 <a href="https://github.com/overtrue/wechat" target="_blank" rel="noopener">EasyWeChat</a> 这个扩展包进行开发，EasyWeChat 已经封装好了微信相关的接口，使用起来非常方便。</p><a id="more"></a><h2 id="小程序登录流程"><a href="#小程序登录流程" class="headerlink" title="小程序登录流程"></a>小程序登录流程</h2><p>下图是微信官方提供的时序图：</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210511161052.png" alt=""></p><p>整理成流程，大概就是：</p><ol><li>小程序调用 <code>wx.login()</code> 接口获取<strong>临时登录凭证（code）</strong>，这一步用户是无感知的，无需用户授权；</li><li>小程序提交 <code>code</code> 到 开发者服务器；</li><li>开发者服务器通过 <code>appid</code>、<code>appsecret</code> 和 <code>code</code> 请求微信接口，换取用户的 <code>session_key</code> 和 <code>openid</code>；</li><li>开发者服务器根据 <code>openid</code> 查找到对应的用户，存入 <code>session_key</code>，然后为该用户生成 access_token （JWT）返回给小程序。</li><li>有了 <code>access_token</code> 小程序就可以调用任意接口了。</li></ol><p>注意这里的 <code>session_key</code> 是一个比较特殊的设计，是用户的 会话密钥，需要存储在服务器中，调用获取用户信息、获取微信用户绑定的手机号等微信接口时，需要用这个 会话密钥 才能解密获取相关数据。每次调用 <code>wx.login()</code> 之后，微信都会自动生成新的 <code>session_key</code> ，导致之前的 <code>session_key</code> 失效，所以在必要的时候再去调用 <code>wx.login()</code>，而且还要及时保存 <code>session_key</code> 到服务器，以备后续使用。</p><p>此段流程整理来自Laravel 社区的<a href="https://learnku.com/courses/laravel-weapp/2.0/small-program-login-detailed-solution/4933#0dfb2b" target="_blank" rel="noopener">《L04 Laravel教程-微信小程序从零到发布》</a>。</p><h2 id="获取OpenID"><a href="#获取OpenID" class="headerlink" title="获取OpenID"></a>获取OpenID</h2><p>清楚了小程序的登录流程之后，可以动手来获取<code>code</code>了。</p><h3 id="创建小程序"><a href="#创建小程序" class="headerlink" title="创建小程序"></a>创建小程序</h3><p>这里建议使用最新版本的微信开发者工具，以免出现一些不必要的问题。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210511163706.png" alt=""></p><p>填入AppID，点击新建。</p><p>初始化的小程序无需做任何更改，只需要在<code>wx.login()</code> 下面增加一行<code>console.log(res)</code> 将结果打印在控制台中，然后重新编译，即可看到控制台中输出了 <code>code</code>。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210512211535.png" alt=""></p><p>拿到<code>code</code> 之后，就可以获取<code>OpenID</code>了。</p><h3 id="代码调试"><a href="#代码调试" class="headerlink" title="代码调试"></a>代码调试</h3><p>为了方便调试，这里直接在 Laravel 的Tinker 中进行测试，以下代码逐行粘贴在 tinker 中：</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> <span class="title">EasyWeChat</span>\<span class="title">Factory</span>;</span><br><span class="line">$config = [</span><br><span class="line">    <span class="string">'app_id'</span> =&gt; <span class="string">'wx2b41f13e5e*****'</span>,</span><br><span class="line">    <span class="string">'secret'</span> =&gt; <span class="string">'92474ce5be69c4fb25392d6cfb******'</span>,</span><br><span class="line">    <span class="string">'response_type'</span> =&gt; <span class="string">'array'</span>,</span><br><span class="line">    <span class="string">'log'</span> =&gt; [</span><br><span class="line">        <span class="string">'level'</span> =&gt; <span class="string">'debug'</span>,</span><br><span class="line">    ],</span><br><span class="line">];</span><br><span class="line">$app = Factory::miniProgram($config);</span><br><span class="line">$app-&gt;auth-&gt;session(<span class="string">'CODE'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 正常输出如下：</span></span><br><span class="line">[</span><br><span class="line">     <span class="string">"session_key"</span> =&gt; <span class="string">"nFpZ0gfHKOtYQ878enM*****"</span>,</span><br><span class="line">     <span class="string">"openid"</span> =&gt; <span class="string">"oN7jq1ejz5KQX5JtEiBsL*****"</span>,</span><br><span class="line">]</span><br></pre></td></tr></table></figure><p>其中<code>app_id</code> 和<code>secret</code> 需要开发者通过微信开发平台自行获取：</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210510234405.png" alt=""></p><p>不填或者填入错误的<code>app_id</code> 和 <code>secret</code> 都会导致获取OpenID异常。</p><p>如果遇到异常，可以对照微信官方文档——<a href="https://developers.weixin.qq.com/doc/offiaccount/Getting_Started/Global_Return_Code.html" target="_blank" rel="noopener">全局返回码</a>进行排查分析。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> PHP </category>
+          
+          <category> Laravel </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> PHP </tag>
+            
+            <tag> Laravel </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>如何配置一个简洁高效的 Zsh</title>
       <link href="/how-to-configure-a-simple-and-efficient-zsh/"/>
       <url>/how-to-configure-a-simple-and-efficient-zsh/</url>
@@ -81,7 +110,7 @@
     
     
     <entry>
-      <title>Laravel 中 Collection 的实际使用</title>
+      <title>Laravel Collection 实际使用</title>
       <link href="/the-actual-use-of-collection-in-laravel/"/>
       <url>/the-actual-use-of-collection-in-laravel/</url>
       
@@ -135,7 +164,7 @@
     
     
     <entry>
-      <title>Laravel 中的 Collection 基本使用</title>
+      <title>Laravel Collection 基本使用</title>
       <link href="/basic-use-of-collection-in-laravel/"/>
       <url>/basic-use-of-collection-in-laravel/</url>
       
