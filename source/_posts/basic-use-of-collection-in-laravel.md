@@ -1,5 +1,5 @@
 ---
-title: Laravel 中的 Collection 基本使用
+title: Laravel Collection 基本使用
 date: 2021-04-25 23:17:05
 tags: ["PHP", "Laravel"]
 categories: ["PHP", "Laravel"]
