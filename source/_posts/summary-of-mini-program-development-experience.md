@@ -25,7 +25,7 @@ categories: ["PHP", "Laravel"]
 
 此段流程整理来自Laravel 社区的[《L04 Laravel教程-微信小程序从零到发布》](https://learnku.com/courses/laravel-weapp/2.0/small-program-login-detailed-solution/4933#0dfb2b)。
 
-## 获取OpenID 
+## 获取OpenID和SessionKey
 清楚了小程序的登录流程之后，可以动手来获取`code`了。
 
 ### 创建小程序
@@ -39,7 +39,7 @@ categories: ["PHP", "Laravel"]
 
 ![](https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210512211535.png)
 
-拿到`code` 之后，就可以获取`OpenID`了。
+拿到`code` 之后，就可以获取`OpenID`、`SessionKey`了。
 
 ### 代码调试
 
@@ -71,3 +71,58 @@ $app->auth->session('CODE');
 不填或者填入错误的`app_id` 和 `secret` 都会导致获取OpenID异常。
 
 如果遇到异常，可以对照微信官方文档——[全局返回码](https://developers.weixin.qq.com/doc/offiaccount/Getting_Started/Global_Return_Code.html)进行排查分析。
+
+### 登录凭证校验
+拿到OpenID及 SessionKey 之后，下一步就可以进行解密了，这一步也是通过`EasyWeCaht` 来完成。
+
+根据前面的时序图，可以得知，登录凭证校验需要用到以下参数：
+* appid：iv
+* appsecret：encryptedData
+* code：上面拿到的SessionKey
+
+最后一个都好理解，可是前面两个分别是什么鬼？
+
+不着急，先打开微信开发者工具，在`app.js` 中，加入以下代码：
+```javascript
+// app.js
+App({
+  onLaunch() {
+    // ...
+
+    // 获取用户信息
+    wx.getSetting({
+      success: res => {
+        if (res.authSetting['scope.userInfo']) {
+          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
+          wx.getUserInfo({
+            success: res => {
+              console.log(res)  
+            }
+          })
+        }
+      }
+    })
+  },
+  globalData: {
+    userInfo: null
+  }
+})
+```
+
+保存之后，再次编译，查看控制台输出：
+
+![](https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210513151643.png)
+
+这两个就是我们需要的数据了，拿到之后，再次打开`Tinker`：
+
+```
+$app->encryptor->decryptData("SessionKey", "iv", "encryptedData")
+```
+
+![](https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210513151926.png)
+
+正常情况下，返回结果会包含当前登录用户的个人信息，我这里用的是测试号，因此并没有譬如手机号这类字段。
+
+至此，小程序登录与微信接口服务的交互就告一段落了，获取到用户身份之后的逻辑就不用多说了。
+
+上面小程序端的代码只是演示如何拿到需要的参数，实际开发并不建议用此方式直接写在`app.js` 中。
