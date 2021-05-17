@@ -525,7 +525,7 @@
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> <span class="title">App</span>\<span class="title">Services</span>\<span class="title">user</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OrderController</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">   <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">actionA</span><span class="params">(OrderRequest $request)</span></span></span><br><span class="line"><span class="function">   </span>&#123;</span><br><span class="line">      $param = $request-&gt;only([<span class="string">'order_id'</span>]);</span><br><span class="line">   </span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">          (<span class="keyword">new</span> OrderAction(<span class="string">"worker"</span>, $param[<span class="string">'order_id'</span>]))-&gt;actionA($param);</span><br><span class="line">      &#125; <span class="keyword">catch</span> (OrderException $exception) &#123;</span><br><span class="line">          <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;failed($exception-&gt;getMessage());</span><br><span class="line">      &#125;</span><br><span class="line">      </span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;success();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>至此，该业务的核心流程已经通过职责连模式和反射实现。</p>
-<p>回头再看看这些代码，其实也不会有什么难度，只是自己在这方便的锻炼太少了，每每遇到问题，总是很难将需求抽象，或者知道用什么设计模式，导致写不出来。</p>
+<p>回头再看看这些代码，其实也不会有什么难度，只是自己在这方便的锻炼太少了，每每遇到问题，总是很难将需求抽象，或者尽管知道用什么设计模式，但最终导致写不出来。</p>
 
           
             <div class='article_footer'>
@@ -610,7 +610,7 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-05-15T22:20:57+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-05-15T22:29:49+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：May 15, 2021</p>
@@ -697,6 +697,11 @@
         
         
           <div class="prev-next">
+            
+              <a class='prev' href='/understand-dependency-injection-and-inversion-of-control/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>理解依赖注入和控制反转</p>
+                <p class='content'>经常会听到『依赖注入』(DependencyInjection)和『控制反转』(Inversion of Control)这两个名词，初学者往往会被其给吓住，误以为是什么特别高深的技术，其实了解...</p>
+              </a>
             
             
               <a class='next' href='/summary-of-mini-program-development-experience/'>
@@ -811,7 +816,7 @@
     
       
         <div class='copyright'>
-        <span class="post-count">总字数：164.2k</span>
+        <span class="post-count">总字数：164.9k</span>
         <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
 
         <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>

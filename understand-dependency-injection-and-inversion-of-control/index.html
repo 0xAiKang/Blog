@@ -16,12 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>mysql5.7用户管理：添加用户、授权、撤权、修改密码 - Boo</title>
+    <title>理解依赖注入和控制反转 - Boo</title>
   
-    <meta name="keywords" content="Mysql">
+    <meta name="keywords" content="PHP">
   
   
-    <meta name="description" content="因为Mysql 5.7 是目前使用最多的数据库，而5.7 在某些地方又和其他版本有所不同，所以记录一下。">
+    <meta name="description" content="经常会听到『依赖注入』(DependencyInjection)和『控制反转』(Inversion of Control)这两个名词，初学者往往会被其给吓住，误以为是什么特别高深的技术，其实了解了来龙去脉之后，就会发现仅仅只是名字听上去高大上而已。">
   
 
   <!-- feed -->
@@ -372,8 +372,8 @@
         
           
   <h1 class="title">
-    <a href="/mysql5-7-user-management-add-users-authorize-revoke-rights-modify-passwords/">
-      mysql5.7用户管理：添加用户、授权、撤权、修改密码
+    <a href="/understand-dependency-injection-and-inversion-of-control/">
+      理解依赖注入和控制反转
     </a>
   </h1>
 
@@ -396,14 +396,6 @@
           
             
               
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/Mysql/' rel="nofollow">
-      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Mysql</p>
-    </a>
-  </div>
-
 
             
           
@@ -411,7 +403,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Sep 20, 2020</p>
+    <p>发布于：May 17, 2021</p>
   </a>
 </div>
 
@@ -427,7 +419,7 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>609 words</p>
+      <p>674 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
@@ -446,7 +438,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/mysql5-7-user-management-add-users-authorize-revoke-rights-modify-passwords/" class="leancloud_visitors" data-flag-title="mysql5.7用户管理：添加用户、授权、撤权、修改密码">
+      <span id="/understand-dependency-injection-and-inversion-of-control/" class="leancloud_visitors" data-flag-title="理解依赖注入和控制反转">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -469,47 +461,48 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>因为Mysql 5.7 是目前使用最多的数据库，而5.7 在某些地方又和其他版本有所不同，所以记录一下。</p>
+          <p>经常会听到『依赖注入』(DependencyInjection)和『控制反转』(Inversion of Control)这两个名词，初学者往往会被其给吓住，误以为是什么特别高深的技术，其实了解了来龙去脉之后，就会发现仅仅只是名字听上去高大上而已。</p>
 <a id="more"></a>
 
-<h2 id="创建用户"><a href="#创建用户" class="headerlink" title="创建用户"></a>创建用户</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 语法：CREATE USER &#39;username&#39;@&#39;host&#39; IDENTIFIED BY &#39;password&#39;;</span><br><span class="line"></span><br><span class="line">mysql&gt;  CREATE USER &#39;boo&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;122410&#39;;</span><br></pre></td></tr></table></figure>
-<p>host 参数说明：</p>
-<ul>
-<li><code>%</code>：匹配所有主机</li>
-<li><code>localhost</code>：当前主机，localhost 不会被解析成IP地址，而是通过UNIXsocket 连接</li>
-<li><code>127.0.0.1</code>：当前主机，通过TCP/IP 协议连接</li>
-<li><code>::1</code>：当前主机，兼容支持ipv6</li>
-</ul>
-<p>此时还没有授权，只能登陆，无法做其余操作</p>
-<h2 id="用户授权"><a href="#用户授权" class="headerlink" title="用户授权"></a>用户授权</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># 创建完成之后授权</span><br><span class="line">mysql&gt; grant all privileges ON &#96;dbName&#96;.* TO &#39;username&#39;@&#39;host&#39;;</span><br><span class="line"></span><br><span class="line"># 创建用户同时授权</span><br><span class="line">mysql&gt; grant all privileges on dbName.* to &#39;username&#39;@&#39;host&#39; identified by &#39;password&#39;;</span><br><span class="line"></span><br><span class="line"># 刷新权限</span><br><span class="line">mysql&gt;  flush privileges;</span><br><span class="line"></span><br><span class="line"># 查看用户所有权限</span><br><span class="line">mysql&gt; show grants for dev@&#39;%&#39;;</span><br><span class="line"></span><br><span class="line"># 撤消用户授权，撤消要求各参数与授权时使用的一致，可以先查看授权再撤消</span><br><span class="line">mysql&gt; revoke privileges ON dbName.* FROM &#39;username&#39;@&#39;host&#39;;</span><br></pre></td></tr></table></figure>
-<p>privileges 参数说明：</p>
-<ul>
-<li><code>all privileges</code>: 所有权限；</li>
-<li><code>select</code>: 查询；</li>
-<li><code>insert</code>: 新增记录;</li>
-<li><code>update</code>: 更新记录；</li>
-<li><code>delete</code>: 删除记录；</li>
-<li><code>create</code>: 创建表；</li>
-<li><code>drop</code>: 删除表；</li>
-<li><code>alter</code>: 修改表结构；</li>
-<li><code>index</code>: 索引相关权限；</li>
-<li><code>execute</code>: 执行存储过程与call函数</li>
-<li><code>references</code>： 外键相关；</li>
-<li><code>create temporary tables</code>：创建临时表；</li>
-<li><code>lock tables</code>：锁表；</li>
-<li><code>create view</code>：创建视图；</li>
-<li><code>show view</code>：查看视图结构；</li>
-<li><code>trigger</code>: 触发器；</li>
-</ul>
-<p>dbName 可以是某个库（<code>database</code>），也可以是具体到某张表（<code>database.table</code>），也可以是所整个数据库（<code>*</code>）。</p>
-<h2 id="修改密码"><a href="#修改密码" class="headerlink" title="修改密码"></a>修改密码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># 修改自己的密码</span><br><span class="line">mysql&gt; set password&#x3D;password(&#39;newpassword&#39;);</span><br><span class="line"></span><br><span class="line"># 修改别人密码——方法1</span><br><span class="line">mysql&gt; set password for &#39;username&#39;@&#39;host&#39; &#x3D; password(&#39;newpassword&#39;);</span><br><span class="line"></span><br><span class="line"># 修改别人密码——方法2: 适用mysql5.7以前的版本，5.7以后的版本中mysql.user表没有了password字段</span><br><span class="line">mysql&gt; update mysq.user set password&#x3D;password(&#39;newpassword&#39;) where user&#x3D;&#39;user&#39; and host&#x3D;&#39;host&#39;;</span><br><span class="line"></span><br><span class="line"># 修改别人密码——方法3：适用mysql5.7</span><br><span class="line">mysql&gt; update mysql.user set authentication_string&#x3D;password(&#39;newpassword&#39;) where user&#x3D;&#39;root&#39;;</span><br><span class="line"></span><br><span class="line"># 修改别人密码——方法4</span><br><span class="line">mysql&gt; alter user &#39;test&#39;@&#39;%&#39; identified by &#39;newpassword&#39;;</span><br></pre></td></tr></table></figure>
+<p>依赖和注入其实说的是同一个东西，它们只是一种编程的思想，其主要作用是用于减少程序间的耦合。以及有效分离对象和它所需的外部资源。</p>
+<p>下面先来看一个简单的小例子来体会下什么是『依赖注入』：</p>
+<p><code>car.php</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">di</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Car</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">pay</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"199"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="删除用户"><a href="#删除用户" class="headerlink" title="删除用户"></a>删除用户</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; DROP USER &#39;username&#39;@&#39;host&#39;;</span><br></pre></td></tr></table></figure>
+<p><code>person.php</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">di</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">buy</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $bwm = <span class="keyword">new</span> Car();</span><br><span class="line">        <span class="keyword">return</span> $bwm-&gt;pay();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>不建议直接通过修改<code>mysql.user</code>表去操作用户。</p>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><a href="https://blog.csdn.net/yu12377/article/details/78214336" target="_blank" rel="noopener">mysql5.7用户管理：添加用户、授权、撤权、修改密码</a></li>
-</ul>
+<p><code>index.php</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$boo = <span class="keyword">new</span> \di\Person();</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> $boo-&gt;buy();  <span class="comment">// 199</span></span><br></pre></td></tr></table></figure>
+
+<p>在上面这个例子（主要看Person 这个类），需要明确几个概念：</p>
+<ol>
+<li>依赖：谁依赖了谁？</li>
+<li>注入：谁又注入了谁？</li>
+</ol>
+<p>通过观察可以发现：</p>
+<ol>
+<li>Car 类在Person 类中实例化（Person 类『依赖』于Car 类）</li>
+<li>但此时并没有发现谁『注入』谁</li>
+</ol>
+<p>观察<code>buy()</code> 这个方法，假如需求发生变化，需要买的不是一辆车，而是一栋房，那么还得更改 Person 类的源码，由实例化一辆车改为实例化一栋房。更好的做法应该是，把所需的实例，通过函数参数的方式传入进来。</p>
+<p><code>Person.php</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">di</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">buy</span><span class="params">($obj)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> $obj-&gt;pay();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>index.php</code>：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$boo = <span class="keyword">new</span> \di\Person();</span><br><span class="line"></span><br><span class="line">$car = <span class="keyword">new</span> \di\Car();</span><br><span class="line"><span class="keyword">echo</span> $boo-&gt;buy($car);  <span class="comment">// 199</span></span><br></pre></td></tr></table></figure>
+
+<p>现在可以清晰的看到，<code>Car类</code>通过函数参数的方式『注入』到了<code>Person 类</code>中。</p>
+<p>『依赖注入』有多种，这里只是用一个最简单的例子来解释『依赖注入』的思想以及可以有效地解决什么问题：</p>
+<ol>
+<li>减少程序间的耦合</li>
+<li>分离对象和它所需的外部资源</li>
+</ol>
+<p>那么啥是控制反转呢？</p>
+<p>再次观察最开始的代码，可以发现，Car 类在Person 类中是<strong>被动实例化</strong>，Person 类<strong>正向控制</strong>了Car 类，其实例化顺序是先有了Person 类才有Car 类：<code>Person -&gt; Car</code>。</p>
+<p>改成后面的注入方式之后，则可以发现，Car 类是<strong>主动实例化</strong>，Person 类失去了对Car 类的控制权，其实例化顺序是先有Car 类才有Person 类：<code>Car -&gt; Person</code>。</p>
+<p>这就是『控制反转』。</p>
+<p>其实很多时候，我们在不经意间都有使用到这种思想，只是自己没有意识到。下一篇笔记中，通过一个小案例来理解什么是<code>IoC</code> 容器。</p>
 
           
             <div class='article_footer'>
@@ -546,7 +539,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/mysql5-7-user-management-add-users-authorize-revoke-rights-modify-passwords/>https://www.0x2beace.com/mysql5-7-user-management-add-users-authorize-revoke-rights-modify-passwords/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/understand-dependency-injection-and-inversion-of-control/>https://www.0x2beace.com/understand-dependency-injection-and-inversion-of-control/</a></p>
           
         
       </blockquote>
@@ -594,10 +587,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-09-20T23:43:47+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-05-17T21:11:19+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Sep 20, 2020</p>
+    <p>更新于：May 17, 2021</p>
   </a>
 </div>
 
@@ -606,7 +599,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Mysql/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Mysql</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div>
 
 
         
@@ -624,7 +617,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/mysql5-7-user-management-add-users-authorize-revoke-rights-modify-passwords/&title=mysql5.7用户管理：添加用户、授权、撤权、修改密码 - Boo&summary=因为Mysql 5.7 是目前使用最多的数据库，而5.7 在某些地方又和其他版本有所不同，所以记录一下。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/understand-dependency-injection-and-inversion-of-control/&title=理解依赖注入和控制反转 - Boo&summary=经常会听到『依赖注入』(DependencyInjection)和『控制反转』(Inversion of Control)这两个名词，初学者往往会被其给吓住，误以为是什么特别高深的技术，其实了解了来龙去脉之后，就会发现仅仅只是名字听上去高大上而已。"
           
           >
           
@@ -636,7 +629,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/mysql5-7-user-management-add-users-authorize-revoke-rights-modify-passwords/&title=mysql5.7用户管理：添加用户、授权、撤权、修改密码 - Boo&summary=因为Mysql 5.7 是目前使用最多的数据库，而5.7 在某些地方又和其他版本有所不同，所以记录一下。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/understand-dependency-injection-and-inversion-of-control/&title=理解依赖注入和控制反转 - Boo&summary=经常会听到『依赖注入』(DependencyInjection)和『控制反转』(Inversion of Control)这两个名词，初学者往往会被其给吓住，误以为是什么特别高深的技术，其实了解了来龙去脉之后，就会发现仅仅只是名字听上去高大上而已。"
           
           >
           
@@ -648,7 +641,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/mysql5-7-user-management-add-users-authorize-revoke-rights-modify-passwords/&title=mysql5.7用户管理：添加用户、授权、撤权、修改密码 - Boo&summary=因为Mysql 5.7 是目前使用最多的数据库，而5.7 在某些地方又和其他版本有所不同，所以记录一下。"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/understand-dependency-injection-and-inversion-of-control/&title=理解依赖注入和控制反转 - Boo&summary=经常会听到『依赖注入』(DependencyInjection)和『控制反转』(Inversion of Control)这两个名词，初学者往往会被其给吓住，误以为是什么特别高深的技术，其实了解了来龙去脉之后，就会发现仅仅只是名字听上去高大上而已。"
           
           >
           
@@ -662,7 +655,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXgAAAF4CAAAAAB79r16AAAFJklEQVR42u3bQZLbMAwEQP//08k9qZQIzFBxbTVvu5EpsuHLLJDPL+u/rA8C8OAt8OAt8OCtAvxnuf78/F8v+Mfz/3ru6fNP+zztd3rfp/1iL/DgwYMHDx48ePDgi/DHAeDwgOmFb733CTR932PhwIMHDx48ePDgwYO/AJ8GpunP7cJvC5re87jA4MGDBw8ePHjw4MF/AfxpI6G9bxqEWgUBDx48ePDgwYMHD/4nw29hpgND03ulA1zgwYMHDx48ePDgwX8D/HhAJww+04vcKkzaiHl9kgw8ePDgwYMHDx48+AuB4qf/vPYCDx48ePDgwYMHD74An65246QdxFqBsOYFHjx48ODBgwcPHnwB/vRiW+jp77eBZdpgOd2/3XABDx48ePDgwYMHD/4G/HTjt4Fbhdl+wWIf8ODBgwcPHjx48OAvwKfBYlqI6cFbYNuGyTY4gQcPHjx48ODBgwd/E77V4Ng2UraNi+2g0/T88XPgwYMHDx48ePDgwRfgp0FlG3TShkca2Nr32hYUPHjw4MGDBw8ePPgGfNrISC+UFnLbeJkGvW2jBTx48ODBgwcPHjz4N+GnjYTtoNBpwEobF+3BpmmgAg8ePHjw4MGDBw++CZ/+oX86+DRteKQB6HS/9It2XCDw4MGDBw8ePHjw4Avw2wZAWoAWwGlAmn7Btg2VRxfw4MGDBw8ePHjw4F+E3x68tf80eG3XthF03KgBDx48ePDgwYMHD74In15k+/x08GgcWJaNl9b9wYMHDx48ePDgwYO/Cb8NLLfWFKgFuX1ffaAJPHjw4MGDBw8ePPiD/5jwKa9po+DW+6YBKz3XY6MIPHjw4MGDBw8ePPgi/DQITA++HaBqNU6m8Gnj5jhAgQcPHjx48ODBgwe/gE8DUPtCrfdPYabnnxYIPHjw4MGDBw8ePPgmfDrIND1Yq7HRGlA6PW9r8Ao8ePDgwYMHDx48+CZ8a8Boum970CkNeumKB5rAgwcPHjx48ODBgz+AbweY6eduDVC1GjDbwj4GKPDgwYMHDx48ePDgA/j0YunB0vdtwdKGyXrACjx48ODBgwcPHjz4AnyrwZEGo+lz6aBSa4BpGtjAgwcPHjx48ODBg2/Cbwec0ufSRsXt96afewxQ4MGDBw8ePHjw4MEH8K0BpFZDJB1MSoPOtjHy6AUePHjw4MGDBw8efAF+C5sWqj1YFIMs33M60AUePHjw4MGDBw8e/E346QGOGwCH+6cNlm2Qa4EfN0LAgwcPHjx48ODBg38RfhqAtgVsNURSwNYXBTx48ODBgwcPHjz4G/BT2NOCbAPO9HPTQqUBa11w8ODBgwcPHjx48OAvwG8vmj4/HgwawtwepDouDHjw4MGDBw8ePHjwRfjWwbZBqt3Y2H6xpvtPzwsePHjw4MGDBw8efAN+G1CmQeMzXK3Pte6Tnhs8ePDgwYMHDx48+CZ8ulKwNOBsA9oWbhsAwYMHDx48ePDgwYNvwn+WK4WZBq32oNG2obEtEHjw4MGDBw8ePHjwN+DTAaBtQ6Q1EJWeZ1vYsR948ODBgwcPHjx48Bfg3wowpwDbhkoarNJgCR48ePDgwYMHDx78N8NvYaeBLR1ESoNZzQk8ePDgwYMHDx48+C+EPy3EtAGyDXStway0wQIePHjw4MGDBw8e/E347UBT+99PA1kbMm34rBsh4MGDBw8ePHjw4MEv4LeDO9sGwxa4tV8rcI3fBx48ePDgwYMHDx58Ad56d4EHD94CD94CD94K1m8Ly6tdCpw7SgAAAABJRU5ErkJggg==">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVgAAAFYCAAAAAAzB7ucAAAEbElEQVR42u3aQZIjIQwEQP//07Mv6ACVBG3HJjd7p4FOfEC1+vwZR8YHAViwBliwYA2wV2A/4XicOHxuNc/Tv1fnWe2r6wEWLFiwYMGCBQv2Lmz1hXdfYPX86vMU6NT6y/cBCxYsWLBgwYIF+wrs7gU6fT49qOpz6cG0PcCCBQsWLFiwYMH+FGz3uer3KVD1YMCCBQsWLFiwYMH+X7DdC//0QaUFBliwYMGCBQsWLNjfgC03KAw1fEyPakHxdZ0wYMGCBQsWLFiwYLdgqyMNlH/lc+wBFixYsGDBggUL9grs1EW8u/E0cE6D9VMFC1iwYMGCBQsWLNg7sOkFuRo0T4PtrjN9gMuDAgsWLFiwYMGCBfuVsLuNEdUXmQZJ4XeD/e3/QQALFixYsGDBggV7BLYa+FYbOKrBczewTguZ6rqP34MFCxYsWLBgwYK9Clu9yE8dTBWqepDdgyivCxYsWLBgwYIFC/YK7HSwPRYYNwuJ3UC9+sNazgsWLFiwYMGCBQv2Cmwa+E43QFRfaHd/02O5LliwYMGCBQsWLNirsN2ANw2Y00aKv+JIC4LyOmDBggULFixYsGCvwKYQ3aA4vdhXQboB++4PASxYsGDBggULFuw7sGkwnY6pdeJAOmzoWK4HFixYsGDBggUL9gpsepHuXvyr33chqoVP3MgBFixYsGDBggUL9ipsGnxPNUJUAbr7Ova+YMGCBQsWLFiwYK/Cdhsf0qA7vZhXgdL3KBc2YMGCBQsWLFiwYK/Cphf8NJDuFhbTDRpjHmDBggULFixYsGCvwKYvmgbUpxolThUiccMGWLBgwYIFCxYs2CuwKVi3IEgbMk4VBO19ggULFixYsGDBgr0CW7047260CtHdT7WBo/u+jwcAFixYsGDBggUL9hXYdCO7BUT1ALow6fxjnTBgwYIFCxYsWLBgj8B2A+E0GE7BuzDdRo7lDwIsWLBgwYIFCxbsV8BWC4BT83ULjlMNGo9BN1iwYMGCBQsWLNgrsNXGiqkAe3f++EXDg4r3CRYsWLBgwYIFC/YK7OkGiDQwniow0kB/O9gGCxYsWLBgwYIF+wpsFepUQNwd6UFXf2Dlhg2wYMGCBQsWLFiwR2GrF/C0MSItPE4VMFPBPliwYMGCBQsWLNh3YU8XCFPzdoP1aoPJ9jxgwYIFCxYsWLBgX4Htfk4bNaYLjSpYWniABQsWLFiwYMGCfQd2qlGievHvglfXnQrAl/OBBQsWLFiwYMGCvQI7fUFOD+Z0gVINtqvrgQULFixYsGDBgn0Htgux26BRDbRPNXZ01wELFixYsGDBggX7XbDVYDgNnLsX/moBkM47ViCABQsWLFiwYMGC/UrYdMO7jRvVAiHdb/XvwIIFCxYsWLBgwf42bFooTDdoTL9HtVEFLFiwYMGCBQsW7DuwaSNFt8GiO/9usF79u2rgDRYsWLBgwYIFC/Yu7FQgnV74pwuB6UImDrrBggULFixYsGDBHoE1ZgdYsGANsGDBGmCPjn9bRBWJXBLLyQAAAABJRU5ErkJggg==">
           </div>
         </div>
       
@@ -682,24 +675,13 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/how-to-access-the-project-address-and-connect-to-mysql-in-the-same-local-area-network/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>同一局域网内如何访问项目地址、连接 Mysql</p>
-                <p class='content'>如标题所示，在团队项目开发中这是两个很常见的问题，记录一下。
-
-
-局域网内共享项目地址有时候会有这样一种需求，自己在本地项目做开发，还没放到服务器上，但是其他人希望能在他的电脑上访问项目。
-这个...</p>
-              </a>
             
-            
-              <a class='next' href='/postman-tips/'>
-                <p class='title'>Postman 使用技巧整理<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>Postman 作为http 请求工具，无论是开发还是测试所使用的频率还是挺高的，这篇笔记用来整理一下常用的使用技巧。
+              <a class='next' href='/use-chain-of-responsibility-pattern-and-reflection-to-solve-pipeline-problems/'>
+                <p class='title'>使用职责链模式和反射解决流水线问题<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>设计模式是区分程序员能力大小的一个重要因素——Boo。
 
 
-发送表单提交这里的表单提交就是指传统的表单提交。
-核心请求头信息：
-1...</p>
+需求分析原来的业务可以看成是一条流水线，这条流水线上有各个模块有各自的职责，相互依赖但并不耦合，操作A 完成之后，才能执行操作B，操作...</p>
               </a>
             
           </div>
@@ -744,7 +726,7 @@
 
   <script>
     window.subData = {
-      title: 'mysql5.7用户管理：添加用户、授权、撤权、修改密码',
+      title: '理解依赖注入和控制反转',
       tools: true
     }
   </script>
@@ -760,20 +742,6 @@
     
 
 
-
-  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
-    
-  <header>
-    
-      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
-    
-  </header>
-
-
-    <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建用户"><span class="toc-text">创建用户</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户授权"><span class="toc-text">用户授权</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改密码"><span class="toc-text">修改密码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#删除用户"><span class="toc-text">删除用户</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
-    </div>
-  </section>
 
 
   
