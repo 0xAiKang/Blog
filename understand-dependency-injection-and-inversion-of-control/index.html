@@ -16,7 +16,7 @@
 
   <!-- 页面元数据 -->
   
-    <title>理解依赖注入和控制反转 - Boo</title>
+    <title>用一个 IoC 容器来理解什么是依赖注入/控制反转 - Boo</title>
   
     <meta name="keywords" content="PHP">
   
@@ -373,7 +373,7 @@
           
   <h1 class="title">
     <a href="/understand-dependency-injection-and-inversion-of-control/">
-      理解依赖注入和控制反转
+      用一个 IoC 容器来理解什么是依赖注入/控制反转
     </a>
   </h1>
 
@@ -419,13 +419,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>674 words</p>
+      <p>1.2k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>2 min</p>
+      <p>4 min</p>
     </a>
   </div>
 
@@ -438,7 +438,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/understand-dependency-injection-and-inversion-of-control/" class="leancloud_visitors" data-flag-title="理解依赖注入和控制反转">
+      <span id="/understand-dependency-injection-and-inversion-of-control/" class="leancloud_visitors" data-flag-title="用一个 IoC 容器来理解什么是依赖注入/控制反转">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -464,7 +464,7 @@
           <p>经常会听到『依赖注入』(DependencyInjection)和『控制反转』(Inversion of Control)这两个名词，初学者往往会被其给吓住，误以为是什么特别高深的技术，其实了解了来龙去脉之后，就会发现仅仅只是名字听上去高大上而已。</p>
 <a id="more"></a>
 
-<p>依赖和注入其实说的是同一个东西，它们只是一种编程的思想，其主要作用是用于减少程序间的耦合。以及有效分离对象和它所需的外部资源。</p>
+<h2 id="依赖注入"><a href="#依赖注入" class="headerlink" title="依赖注入"></a>依赖注入</h2><p>依赖和注入其实说的是同一个东西，它们只是一种编程的思想，其主要作用是用于减少程序间的耦合。以及有效分离对象和它所需的外部资源。</p>
 <p>下面先来看一个简单的小例子来体会下什么是『依赖注入』：</p>
 <p><code>car.php</code></p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">di</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Car</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">pay</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"199"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -498,11 +498,31 @@
 <li>减少程序间的耦合</li>
 <li>分离对象和它所需的外部资源</li>
 </ol>
-<p>那么啥是控制反转呢？</p>
+<h2 id="控制反转"><a href="#控制反转" class="headerlink" title="控制反转"></a>控制反转</h2><p>那么啥是控制反转呢？</p>
 <p>再次观察最开始的代码，可以发现，Car 类在Person 类中是<strong>被动实例化</strong>，Person 类<strong>正向控制</strong>了Car 类，其实例化顺序是先有了Person 类才有Car 类：<code>Person -&gt; Car</code>。</p>
 <p>改成后面的注入方式之后，则可以发现，Car 类是<strong>主动实例化</strong>，Person 类失去了对Car 类的控制权，其实例化顺序是先有Car 类才有Person 类：<code>Car -&gt; Person</code>。</p>
 <p>这就是『控制反转』。</p>
-<p>其实很多时候，我们在不经意间都有使用到这种思想，只是自己没有意识到。下一篇笔记中，通过一个小案例来理解什么是<code>IoC</code> 容器。</p>
+<p>其实很多时候，我们在不经意间都有使用到这种思想，只是自己没有意识到。</p>
+<h2 id="IoC-容器"><a href="#IoC-容器" class="headerlink" title="IoC 容器"></a>IoC 容器</h2><p>Ioc容器（Inversion of Control）常常伴随着依赖注入、控制反转一起出现，那么它倒底是个什么东西呢？</p>
+<p>在回答这个问题之前，先来看看上面的那段代码，虽然最后使用依赖注入的方式解耦了<code>Person类</code> 和<code>Car 类</code>，但此时又会面临一个新的问题：依赖仍然需要手动创建，此时只有两个类相互依赖还好，一旦类的依赖关系，嵌套过深，手动创建就会变成一件麻烦事：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$boo = <span class="keyword">new</span> \di\Person();</span><br><span class="line"><span class="keyword">echo</span> $boo-&gt;buy(<span class="keyword">new</span> \di\Car());  <span class="comment">// 199</span></span><br></pre></td></tr></table></figure>
+
+<p>这时候，就需要IoC 容器登场了。</p>
+<p>IoC 容器的核心是通过PHP 的 <a href="https://www.php.net/manual/en/book.reflection.php" target="_blank" rel="noopener">反射 (Reflection)</a> 来实现的。</p>
+<p><code>IoC.php</code>：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">di</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">IoC</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">maket</span><span class="params">($className)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $reflect = <span class="keyword">new</span> \ReflectionClass($className);</span><br><span class="line">        $construct = $reflect-&gt;getConstructor();</span><br><span class="line">        <span class="keyword">if</span> (!$construct) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> $className;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        $params = $construct-&gt;getParameters();</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">empty</span>($params)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> $className;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        $args = [];</span><br><span class="line">        <span class="keyword">foreach</span> ($params <span class="keyword">as</span> $param) &#123;</span><br><span class="line">            $class = $param-&gt;getClass();</span><br><span class="line">            <span class="keyword">if</span> ($class) &#123;</span><br><span class="line">                $args[] = <span class="keyword">static</span>::make($class-&gt;name);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> $reflect-&gt;newInstanceArgs($args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>person.php</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">di</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">person</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> $obj;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 需要注意：要想反射能够识别，此处必须给参数声明类型。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(car $obj)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;obj = $obj;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">buy</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;obj-&gt;pay();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>index.php</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$boo = \di\IoC::make(<span class="string">"\di\person"</span>);</span><br><span class="line"><span class="keyword">echo</span> $boo-&gt;buy(); <span class="comment">// 199</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到，即使没有手动创建Car 类，也不会影响Person 类的调用，这就是IoC 容器所解决的问题：把对象与对象之间的依赖关系隐藏到容器（存储实例化对象）中，通过自动创建的方式解决依赖关系。</p>
+<p>这里仅仅只是抛砖引玉，用一个简单的IoC 容器例子来理解什么是依赖注入/控制反转，更多相关知识可以通过查看主流框架源码或者<a href="https://php-di.org" target="_blank" rel="noopener">PHP-DI</a> 进行学习。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://learnku.com/articles/56111" target="_blank" rel="noopener">写一个简单的IoC容器案例，理解什么是依赖注入和控制反转</a></li>
+</ul>
 
           
             <div class='article_footer'>
@@ -587,10 +607,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-05-17T21:11:19+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-05-18T21:49:13+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：May 17, 2021</p>
+    <p>更新于：May 18, 2021</p>
   </a>
 </div>
 
@@ -617,7 +637,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/understand-dependency-injection-and-inversion-of-control/&title=理解依赖注入和控制反转 - Boo&summary=经常会听到『依赖注入』(DependencyInjection)和『控制反转』(Inversion of Control)这两个名词，初学者往往会被其给吓住，误以为是什么特别高深的技术，其实了解了来龙去脉之后，就会发现仅仅只是名字听上去高大上而已。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/understand-dependency-injection-and-inversion-of-control/&title=用一个 IoC 容器来理解什么是依赖注入/控制反转 - Boo&summary=经常会听到『依赖注入』(DependencyInjection)和『控制反转』(Inversion of Control)这两个名词，初学者往往会被其给吓住，误以为是什么特别高深的技术，其实了解了来龙去脉之后，就会发现仅仅只是名字听上去高大上而已。"
           
           >
           
@@ -629,7 +649,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/understand-dependency-injection-and-inversion-of-control/&title=理解依赖注入和控制反转 - Boo&summary=经常会听到『依赖注入』(DependencyInjection)和『控制反转』(Inversion of Control)这两个名词，初学者往往会被其给吓住，误以为是什么特别高深的技术，其实了解了来龙去脉之后，就会发现仅仅只是名字听上去高大上而已。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/understand-dependency-injection-and-inversion-of-control/&title=用一个 IoC 容器来理解什么是依赖注入/控制反转 - Boo&summary=经常会听到『依赖注入』(DependencyInjection)和『控制反转』(Inversion of Control)这两个名词，初学者往往会被其给吓住，误以为是什么特别高深的技术，其实了解了来龙去脉之后，就会发现仅仅只是名字听上去高大上而已。"
           
           >
           
@@ -641,7 +661,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/understand-dependency-injection-and-inversion-of-control/&title=理解依赖注入和控制反转 - Boo&summary=经常会听到『依赖注入』(DependencyInjection)和『控制反转』(Inversion of Control)这两个名词，初学者往往会被其给吓住，误以为是什么特别高深的技术，其实了解了来龙去脉之后，就会发现仅仅只是名字听上去高大上而已。"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/understand-dependency-injection-and-inversion-of-control/&title=用一个 IoC 容器来理解什么是依赖注入/控制反转 - Boo&summary=经常会听到『依赖注入』(DependencyInjection)和『控制反转』(Inversion of Control)这两个名词，初学者往往会被其给吓住，误以为是什么特别高深的技术，其实了解了来龙去脉之后，就会发现仅仅只是名字听上去高大上而已。"
           
           >
           
@@ -726,7 +746,7 @@
 
   <script>
     window.subData = {
-      title: '理解依赖注入和控制反转',
+      title: '用一个 IoC 容器来理解什么是依赖注入/控制反转',
       tools: true
     }
   </script>
@@ -742,6 +762,20 @@
     
 
 
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#依赖注入"><span class="toc-text">依赖注入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#控制反转"><span class="toc-text">控制反转</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IoC-容器"><span class="toc-text">IoC 容器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+  </section>
 
 
   
@@ -774,7 +808,7 @@
     
       
         <div class='copyright'>
-        <span class="post-count">总字数：164.9k</span>
+        <span class="post-count">总字数：165.4k</span>
         <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
 
         <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
