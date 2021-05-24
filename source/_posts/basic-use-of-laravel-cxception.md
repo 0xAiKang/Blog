@@ -2,7 +2,7 @@
 title: Laravel Exception 基本使用
 date: 2021-05-22 20:46:20
 tags: ["PHP", "Laravel"]
-category: ["PHP", "Laravel"]
+categories: ["PHP", "Laravel"]
 ---
 
 在Laravel 中，所有异常都是由 `App\Exceptions\Handler` 类处理，同时也会记录在日志信息中。
