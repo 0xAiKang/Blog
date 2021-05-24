@@ -16,12 +16,10 @@
 
   <!-- 页面元数据 -->
   
-    <title>Laravel Exception 基本使用 - Boo</title>
+    <title>Laravel Request 常见表单验证整理 - Boo</title>
   
     <meta name="keywords" content="PHP,Laravel">
   
-  
-    <meta name="description" content="在Laravel 中，所有异常都是由 App\Exceptions\Handler 类处理，同时也会记录在日志信息中。">
   
 
   <!-- feed -->
@@ -372,8 +370,8 @@
         
           
   <h1 class="title">
-    <a href="/basic-use-of-laravel-cxception/">
-      Laravel Exception 基本使用
+    <a href="/laravel-request-common-form-validation-finishing/">
+      Laravel Request 常见表单验证整理
     </a>
   </h1>
 
@@ -411,7 +409,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：May 22, 2021</p>
+    <p>发布于：May 24, 2021</p>
   </a>
 </div>
 
@@ -427,13 +425,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>832 words</p>
+      <p>0 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>3 min</p>
+      <p>1 min</p>
     </a>
   </div>
 
@@ -446,7 +444,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/basic-use-of-laravel-cxception/" class="leancloud_visitors" data-flag-title="Laravel Exception 基本使用">
+      <span id="/laravel-request-common-form-validation-finishing/" class="leancloud_visitors" data-flag-title="Laravel Request 常见表单验证整理">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -469,42 +467,7 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>在Laravel 中，所有异常都是由 <code>App\Exceptions\Handler</code> 类处理，同时也会记录在日志信息中。</p>
-<a id="more"></a>
-
-<p>通常可能会直接使用 <code>throw new \Exception</code> 来抛出一个异常终止流程，但是由于系统可能会有各式各样的异常，业务代码处处抛出 <code>\Exception</code> 和捕获 <code>\Exception</code>，导致如果遇到系统错误，无法及时通知。</p>
-<p>异常可以大致分为两类： 用户异常 和 系统异常。</p>
-<h3 id="用户错误行为触发的异常"><a href="#用户错误行为触发的异常" class="headerlink" title="用户错误行为触发的异常"></a>用户错误行为触发的异常</h3><p>比如访问一个不存在的资源，对于此类异常我们需要把触发异常的原因告知用户。</p>
-<p>可以把这类异常命名为 <code>InvalidRequestException</code>，在Laravel 中，可以通过 <code>make:exception</code> 命令来创建异常：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php artisan make:exception InvalidRequestException</span><br></pre></td></tr></table></figure>
-
-<p><code>app/Exceptions/InvalidRequestException.php</code>：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">App</span>\<span class="title">Exceptions</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">Exception</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Illuminate</span>\<span class="title">Http</span>\<span class="title">Request</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">InvalidRequestException</span> <span class="keyword">extends</span> <span class="title">Exception</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(string $message = <span class="string">""</span>, int $code = <span class="number">400</span>)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">parent</span>::__construct($message, $code);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">render</span><span class="params">(Request $request)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> ($request-&gt;expectsJson()) &#123;</span><br><span class="line">            <span class="keyword">return</span> response()-&gt;json([<span class="string">'msg'</span> =&gt; <span class="keyword">$this</span>-&gt;message], <span class="keyword">$this</span>-&gt;code);</span><br><span class="line">        &#125;</span><br><span class="line">      </span><br><span class="line">        <span class="keyword">return</span> view(<span class="string">'pages.error'</span>, [<span class="string">'msg'</span> =&gt; <span class="keyword">$this</span>-&gt;message]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>注意这里重写了<code>Illuminate\Foundation\Exceptions\Handler</code> 父类的<code>render()</code> 方法，异常被触发时系统会调用 <code>render()</code> 方法来输出，可以在<code>render()</code> 里判断如果是 AJAX 请求则返回 JSON 格式的数据，否则就返回一个错误页面。</p>
-<p>当异常触发时 Laravel 默认会把异常的信息和调用栈打印到日志（<code>storage/logs/laravel.log</code>）里，比如：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210522110729.png" alt=""></p>
-<p>比如用户异常并不是因为系统本身的问题导致的，不会影响系统的运行，如果大量此类日志打印到日志文件里反而会影响我们去分析真正有问题的异常，因此需要屏蔽这个行为。</p>
-<p>在<code>app/Exceptions/Handler.php</code>类中，将需要屏蔽的类加入到<code>dontReport</code> 属性中：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> $dontReport = [</span><br><span class="line">      InvalidRequestException::class,</span><br><span class="line">  ];</span><br></pre></td></tr></table></figure>
-
-<h3 id="系统内部异常"><a href="#系统内部异常" class="headerlink" title="系统内部异常"></a>系统内部异常</h3><p>比如连接数据库失败，或者某SQL 执行异常，对于此类异常需要有限度地告知用户发生了什么，因此，可以传入两条信息，一条是给用户看的，另一条是打印到日志中给开发人员看的。</p>
-<p>新建一个 <code>InternalException</code> 类：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ php artisan make:exception InternalException</span><br></pre></td></tr></table></figure>
-
-<p><code>app/Exceptions/InternalException.php</code>：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">App</span>\<span class="title">Exceptions</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">Exception</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Illuminate</span>\<span class="title">Http</span>\<span class="title">Request</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">InternalException</span> <span class="keyword">extends</span> <span class="title">Exception</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> $msgForUser;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(string $message, string $msgForUser = <span class="string">'系统内部错误'</span>, int $code = <span class="number">500</span>)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">parent</span>::__construct($message, $code);</span><br><span class="line">        <span class="keyword">$this</span>-&gt;msgForUser = $msgForUser;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">render</span><span class="params">(Request $request)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> ($request-&gt;expectsJson()) &#123;</span><br><span class="line">            <span class="keyword">return</span> response()-&gt;json([<span class="string">'msg'</span> =&gt; <span class="keyword">$this</span>-&gt;msgForUser], <span class="keyword">$this</span>-&gt;code);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> view(<span class="string">'pages.error'</span>, [<span class="string">'msg'</span> =&gt; <span class="keyword">$this</span>-&gt;msgForUser]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在该类中，只需要传入真正的异常，记录到日志中，而最终返回给用户的只有『系统内部错误』这些信息。</p>
-<h3 id="实际应用"><a href="#实际应用" class="headerlink" title="实际应用"></a>实际应用</h3><p>假设在控制器中，需要调用一个封装好的API 类，在该类中，使用<code>\Exception</code> 抛出异常，那么在控制器中，可以使用我们自定义的<code>InternalException</code> 类进行接管异常。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">App</span>\<span class="title">Http</span>\<span class="title">Controllers</span>\<span class="title">Api</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">App</span>\<span class="title">Services</span>\<span class="title">Api</span>\<span class="title">UserApiService</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UsersController</span> <span class="keyword">extends</span> <span class="title">Controller</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">store</span><span class="params">(UserRequest $request)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">         <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// ...</span></span><br><span class="line">            </span><br><span class="line">            UserApiService::doSomething();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (\<span class="keyword">Exception</span> $exception) &#123;   <span class="comment">// 接管 \Exception 异常</span></span><br><span class="line">            <span class="comment">// 抛出自定义异常</span></span><br><span class="line">            <span class="comment">// $exception-&gt;getMessage() 为 UserApiService 抛出的具体异常信息</span></span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> InternalException($exception-&gt;getMessage());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>客户端触发异常：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"code"</span>: <span class="number">500</span>,</span><br><span class="line">    <span class="attr">"msg"</span>: <span class="string">"系统内部异常"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><a href="https://learnku.com/courses/laravel-shop/8.x/exceptions/10097#0c45e2" target="_blank" rel="noopener">Laravel 优雅地处理异常</a></li>
-</ul>
-
+          
           
             <div class='article_footer'>
               
@@ -540,7 +503,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/basic-use-of-laravel-cxception/>https://www.0x2beace.com/basic-use-of-laravel-cxception/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/laravel-request-common-form-validation-finishing/>https://www.0x2beace.com/laravel-request-common-form-validation-finishing/</a></p>
           
         
       </blockquote>
@@ -588,7 +551,7 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-05-24T21:12:05+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-05-24T21:11:58+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：May 24, 2021</p>
@@ -618,7 +581,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/basic-use-of-laravel-cxception/&title=Laravel Exception 基本使用 - Boo&summary=在Laravel 中，所有异常都是由 App\Exceptions\Handler 类处理，同时也会记录在日志信息中。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/laravel-request-common-form-validation-finishing/&title=Laravel Request 常见表单验证整理 - Boo&summary="
           
           >
           
@@ -630,7 +593,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/basic-use-of-laravel-cxception/&title=Laravel Exception 基本使用 - Boo&summary=在Laravel 中，所有异常都是由 App\Exceptions\Handler 类处理，同时也会记录在日志信息中。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/laravel-request-common-form-validation-finishing/&title=Laravel Request 常见表单验证整理 - Boo&summary="
           
           >
           
@@ -642,7 +605,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/basic-use-of-laravel-cxception/&title=Laravel Exception 基本使用 - Boo&summary=在Laravel 中，所有异常都是由 App\Exceptions\Handler 类处理，同时也会记录在日志信息中。"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/laravel-request-common-form-validation-finishing/&title=Laravel Request 常见表单验证整理 - Boo&summary="
           
           >
           
@@ -656,7 +619,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADsElEQVR42u3aS3IbMQwFQN3/0s4+KdfwAaAFOc2dbA8/TS8gvHl9GaXxQgAOHDhwBjhwS+BexfH386fz/bORh3m7P39aLz4vOHDgwIEDBw7cMrjjArC44ad50nVOLzJd93Ef4MCBAwcOHDhwS+GqBe9UgZmuk4K0zwsOHDhw4MCBA/dL4E4bht31pp8DBw4cOHDgwIH73+G6AXAVfKpQBgcOHDhw4MCB+y1w1SA5bUzeCsCnGp7gwIEDBw4cOHCfAlcNkD/1c/m84MCBAwcOHDhwS+Cmx1OBOhVgnzZMx88HDhw4cODAgQO3BC7dSHdMNTDTFw7TxufxNwdw4MCBAwcOHLg3w3UP/PR36UGnA+sY6DtocODAgQMHDhy4JXCnANMFaPr7tGFaBXy8GHDgwIEDBw4cuCVw6UHT4Lk6Txf0tDBPg21w4MCBAwcOHLhtcN2NxQ3BYuMybaCmBX5cAIMDBw4cOHDgwL0Jrhvw3mpwdgvpWxcIDhw4cODAgQO3BW56gdtBddqA7F5o/M0BHDhw4MCBAwduGdxYoDsMkzYu2xcLDhw4cODAgQO3DK7bKOwGyadBePpcWsg/OoADBw4cOHDgwC2Du924/Boa3f10C39w4MCBAwcOHLgtcFPBcrXxmBaiU/sqfwYHDhw4cODAgVsCVy4EiwVuFX4autzYBAcOHDhw4MCBWwpXDY6rBeetgPr0wuJAGxw4cODAgQMHbincFED3BcHuhU6fCxw4cODAgQMHbjtcN6ieBpq6uOqLheVGJjhw4MCBAwcO3GW47sTpwj+1blooHwfY4MCBAwcOHDhwy+CqDcfTBuZUQXvasLy2T3DgwIEDBw4cuCVwaYHYLWRP57kdaJcbueDAgQMHDhw4cMvgxl68Gw6EbxXO5WAbHDhw4MCBAwduGVy3AD6FnCqUbwP/2DcHcODAgQMHDhy4Ibg0CK4WttWDxC8CTgfa4MCBAwcOHDhwS+C6Iz1YecPFhms3SP+2AAYHDhw4cODAgXsz3Ks4qgF1dZ3TwDiFiZ8HBw4cOHDgwIFbBnc76D2d73Se04K3un65AwwOHDhw4MCBA/cmuGrg3G1QpoHzVJA+VgCDAwcOHDhw4MB9OFxa4HYhqgV1ueAHBw4cOHDgwIH7JXDVeboHngqu04sABw4cOHDgwIHbClctVNPgOg2Oq0F1Os/jPw44cODAgQMHDtwyuGqA2z1AtTDtXkj578CBAwcOHDhw4JbAGdkABw4cOHAGOHBvHn8AgVV800pVxyAAAAAASUVORK5CYII=">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADoklEQVR42u3aQW4jMQwEQP//07svCIZs0jFjlG5BJhqpnEOD7dc/K1ovBODAgQNngQN3BO4Vrh83fnj+aZ/q+57O8dNz0/uCAwcOHDhw4MBdgysHwCbcFmgV4umc0/uCAwcOHDhw4MBdhateMD1gF3AriK/dFxw4cODAgQMH7svgpoPObrBNYcGBAwcOHDhw4MBlP08D8tbgExw4cODAgQMH7tvg0i/qdWGmBXdanJ9p8sGBAwcOHDhw4Jbg0gHhX/05vi84cODAgQMHDtwRuOnqBtp0v3Rwub3AgQMHDhw4cOCuwKUBMR0gpkE6DbDp34MDBw4cOHDgwF2H2yp+qyBbwNPCO/3CIjhw4MCBAwcO3BW4KlQ3AKcX7+43DbhdQHDgwIEDBw4cuCtw0wHf1gCyW1RXB7HTohocOHDgwIEDB+4q3LSQnha87yqk0wL7cT9w4MCBAwcOHLhjcN3BY1r8vvvvph/M4z7gwIEDBw4cOHDH4d41OEwDcheoCt/+hwEHDhw4cODAgTsKVw2I1RdN4dIBaXegWf4AwIEDBw4cOHDgjsB1L9YNltuDxmkBngZfcODAgQMHDhy4a3BpQdwtdtN904C+9V5w4MCBAwcOHLircN1Cd20gGBbHKUz13I+/BwcOHDhw4MCBOwI3DZhbF9gaWKZA5QErOHDgwIEDBw7cEbjpRacXmA5Ux4G2W2iDAwcOHDhw4MAdgXs117SQTkHSwJ4GXXDgwIEDBw4cuL8C965AuR1w08Hq2j3AgQMHDhw4cOCOwXUL6e4AsBpMt4JwFaob7MGBAwcOHDhw4K7BdQeO28V0OnCc7t++Pzhw4MCBAwcO3HG4tOidPj8dhG6dMy6kwYEDBw4cOHDgPgRXDZZpodwdfKbPpcH48Xlw4MCBAwcOHLijcNPCdgtwCt0N0OV/BHDgwIEDBw4cuKNwVYDpRbdgfmuBAwcOHDhw4MBdg5uu6oBwCjH9QLvnfyykwYEDBw4cOHDgPgw3DYTpoDANzN0gvX0ucODAgQMHDhy4a3DdwNsuct80qNweqD7eCxw4cODAgQMH7ihcGiir+3QhfquQLgdkcODAgQMHDhy4L4frFsJVmO57f22QCQ4cOHDgwIED90fh0oOlA9T0/eMvTIIDBw4cOHDgwB2F27rAFG67kO4Wz+1BJjhw4MCBAwcO3IfgtgrcaXE9LbqnQbc9yAQHDhw4cODAgfsQnNWERgAOHDhwFjhwn13/AUu1hUyp50szAAAAAElFTkSuQmCC">
           </div>
         </div>
       
@@ -676,15 +639,13 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/laravel-request-common-form-validation-finishing/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Laravel Request 常见表单验证整理</p>
-                <p class='content'></p>
-              </a>
             
-            
-              <a class='next' href='/understand-dependency-injection-and-inversion-of-control/'>
-                <p class='title'>用一个 IoC 容器来理解什么是依赖注入/控制反转<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>经常会听到『依赖注入』(DependencyInjection)和『控制反转』(Inversion of Control)这两个名词，初学者往往会被其给吓住，误以为是什么特别高深的技术，其实了解...</p>
+              <a class='next' href='/basic-use-of-laravel-cxception/'>
+                <p class='title'>Laravel Exception 基本使用<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>在Laravel 中，所有异常都是由 App\Exceptions\Handler 类处理，同时也会记录在日志信息中。
+
+
+通常可能会直接使用 throw new \Exception 来抛出一...</p>
               </a>
             
           </div>
@@ -729,7 +690,7 @@
 
   <script>
     window.subData = {
-      title: 'Laravel Exception 基本使用',
+      title: 'Laravel Request 常见表单验证整理',
       tools: true
     }
   </script>
@@ -745,20 +706,6 @@
     
 
 
-
-  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
-    
-  <header>
-    
-      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
-    
-  </header>
-
-
-    <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#用户错误行为触发的异常"><span class="toc-text">用户错误行为触发的异常</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#系统内部异常"><span class="toc-text">系统内部异常</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实际应用"><span class="toc-text">实际应用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
-    </div>
-  </section>
 
 
   
