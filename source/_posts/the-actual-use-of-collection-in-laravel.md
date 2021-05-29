@@ -381,5 +381,132 @@ reduce：将每次迭代的结果传递给下一次迭代直到集合减少为�
 $emails = collect($employees)->pluck('name', 'email');
 ```
 
+### 返回一维数组
+需求：将下面的二维数组，转换为一维数组。
+
+```php
+$nums = [
+    [
+        188
+    ],
+    [
+        238,
+        383,
+        123,
+        348,
+    ],
+    [
+        23,
+        87,
+        348,
+        98,
+    ]
+];
+```
+1. 传统foreach 方式：
+
+```php
+$result = [];
+foreach ($nums as $value) {
+    foreach ($value as $num) {
+        $result[] = $num;
+    }
+}
+```
+
+2. 使用集合的flatten、map：
+```php
+$result = collect($nums)->flatten(1)->map(function ($num){
+    return $num;
+});
+```
+
+### 求和
+```php
+$orders = [
+    [
+        "id" => "1000",
+        "price" => 80,
+    ],
+    [
+        "id" => "1001",
+        "price" => 120,
+    ],
+    [
+        "id" => "1002",
+        "price" => 30,
+    ],
+];
+```
+1. 传统foreach方式：
+
+```php
+$total_price = 0;
+foreach ($orders as $order) {
+    $total_price += $order["price"];
+}
+```
+
+2. array 函数：
+```php
+$total_price = array_sum(array_column($orders, "price"));
+```
+
+3. 使用集合：
+```php
+// 方式一：
+$total_price = collect($orders)->map(function ($order){
+    return $order['price'];
+})->sum();
+
+// 方式二：
+$total_price = collect($orders)->pluck("price")->sum();
+```
+
+### 分组
+```php
+$products = [
+    [
+        "id" => 1,
+        "brand" => "iPhone",
+        "name" => "iPhone 12"
+    ],
+    [
+        "id" => 2,
+        "brand" => "OPPO",
+        "name" => "OPPO R11",
+    ],
+    [
+        "id" => 3,
+        "brand" => "小米",
+        "name" => "小米 11",
+    ],
+    [
+        "id" => 2,
+        "brand" => "OPPO",
+        "name" => "OPPO R12",
+    ],
+    [
+        "id" => 3,
+        "brand" => "小米",
+        "name" => "小米 10",
+    ],
+];
+```
+
+使用集合：
+```php
+$product = collect($products)->pluck("brand");
+
+$grouped = collect($products)->groupBy("id");
+
+$result = $product->map(function ($value, $key) use ($grouped){
+    return [
+        "brand" => $value,
+        "child" => $grouped[$key],
+    ];
+})->values();
+```
+
 ## 参考链接
 * [collection在实际开发中的使用](https://curder.gitbooks.io/laravel_study/content/collections_demo/)
