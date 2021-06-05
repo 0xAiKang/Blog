@@ -381,7 +381,7 @@ reduce：将每次迭代的结果传递给下一次迭代直到集合减少为�
 $emails = collect($employees)->pluck('name', 'email');
 ```
 
-### 返回一维数组
+## 返回一维数组
 需求：将下面的二维数组，转换为一维数组。
 
 ```php
@@ -421,7 +421,7 @@ $result = collect($nums)->flatten(1)->map(function ($num){
 });
 ```
 
-### 求和
+## 求和
 ```php
 $orders = [
     [
@@ -463,7 +463,7 @@ $total_price = collect($orders)->map(function ($order){
 $total_price = collect($orders)->pluck("price")->sum();
 ```
 
-### 分组
+## 分组
 ```php
 $products = [
     [
