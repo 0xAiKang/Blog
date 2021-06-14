@@ -7,11 +7,7 @@ categories: ["Mysql"]
 
 最近很频繁的遇到一个Mysql 异常，错误信息如下：
 
-```
-Expression #5 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'cis.q1.query_date' 
-which is not functionally dependent on columns in GROUP BY clause; 
-this is incompatible with sql_mode=only_full_group_by
-```
+> Expression #5 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'cis.q1.query_date' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
 
 通过错误信息可以看到，是因为 `sql_mode` 引起的。
 
