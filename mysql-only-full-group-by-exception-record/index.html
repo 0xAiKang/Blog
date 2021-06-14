@@ -425,7 +425,7 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>905 words</p>
+      <p>902 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
@@ -468,8 +468,9 @@
         <div class="article-entry" itemprop="articleBody">
           
           <p>最近很频繁的遇到一个Mysql 异常，错误信息如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Expression #5 of SELECT list is not in GROUP BY clause and contains nonaggregated column &#39;cis.q1.query_date&#39; </span><br><span class="line">which is not functionally dependent on columns in GROUP BY clause; </span><br><span class="line">this is incompatible with sql_mode&#x3D;only_full_group_by</span><br></pre></td></tr></table></figure>
-
+<blockquote>
+<p>Expression #5 of SELECT list is not in GROUP BY clause and contains nonaggregated column ‘cis.q1.query_date’ which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by</p>
+</blockquote>
 <p>通过错误信息可以看到，是因为 <code>sql_mode</code> 引起的。</p>
 <p>查看Mysql 当前所使用的 <code>sql_mode</code>：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">select @@sql_mode</span><br><span class="line"></span><br><span class="line">+-------------------------+</span><br><span class="line">|       @@sql_mode        |</span><br><span class="line">+-------------------------+</span><br><span class="line">|   ONLY_FULL_GROUP_BY    |</span><br><span class="line">+-------------------------+</span><br></pre></td></tr></table></figure>
@@ -590,10 +591,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-06-09T21:29:55+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-06-14T16:18:25+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Jun 9, 2021</p>
+    <p>更新于：Jun 14, 2021</p>
   </a>
 </div>
 
@@ -798,7 +799,7 @@ Supervisor 只适用于类Unix 系统，不适用于Window。
     
       
         <div class='copyright'>
-        <span class="post-count">总字数：171k</span>
+        <span class="post-count">总字数：172.2k</span>
         <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
 
         <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
