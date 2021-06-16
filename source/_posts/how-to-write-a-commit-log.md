@@ -5,11 +5,9 @@ tags: ["Tutorial", "Git"]
 categories: Git
 ---
 
-其实关于这个问题，老早都想整理了，只是一直没有腾出空来。最近刚好有空，索性整理了下。
+其实关于这个问题，老早都想整理了，只是一直没有腾出空来，最近刚好有空，索性整理了下。
 
 这里就不过多介绍什么是`Git`了，本文的重点是`Commit Log`，如果还不清楚`Git`是什么，可以看一下我的`Git`系列的其他笔记。
-
-<!-- more -->
 
 ## 为什么要关注提交信息
 1. 加快`Reviewing Code`的过程
@@ -54,8 +52,8 @@ Body 部分是对本次 commit 的详细描述，可以分成多行。
 ### Footer
 Footer 部分只用于不兼容变动和关闭 Issue。
 
-### 总结
-本来我自己一直使用的方式就是：`git commit -am "fix login bug`，虽然并没有绝对的对错，但这显然不是最好的方式。
+## 总结
+本来我自己一直使用的方式就是：`git commit -am "fix login bug"`，虽然并没有绝对的对错，但这显然不是最好的方式。
 
 这种东西并没有强制性的规定，只要团队之间约定好，然后按照这个约定协作就好了。
 
@@ -68,7 +66,7 @@ Footer 部分只用于不兼容变动和关闭 Issue。
 * 一个小改动对应一次`commit`，不建议一大堆改动，一次`commit`。
 * 如果添加的代码会使项目发生极大的变化，那么需要及时更新`remade`文件以向他人说明此次更改。
 
-#### 最佳实践
+## 最佳实践
 
 ```
 docs: add FAQ in readme file
@@ -76,5 +74,5 @@ feat: increase user login function
 fix: fix user login bug
 ```
 
-### 参考链接
+## 参考链接
 * [Git 如何写好 Commit Log？](https://ruby-china.org/topics/15737)
