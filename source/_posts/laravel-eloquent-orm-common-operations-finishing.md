@@ -20,32 +20,32 @@ Laravel 支持原生的 SQL 查询、流畅的查询构造器 和 Eloquent ORM �
 ### 查询列表
 
 获取所有数据：
-```
+```php
 use App\Models\User;
 $users = User::all();
 ```
 
 如果只需要部分字段，有两种方式进行限定：
-```
+```php
 $users = User::all(["id", "name"]);
 
 $users = User::select("id", "name")->get();
 ```
 
 获取单列：
-```
+```php
 $name = User::pluck('name');
 // ["boo", "mac", "yumi"]
 ```
 
 还可以在返回的集合中指定字段的自定义键名，注意：该自定义键必须是该表的其它字段列名，否则会报错：
-```
+```php
 $name = User::pluck('email','name');
 // ["boo" => "boo@example.com", "yumi" => "yumi@example.com"]
 ```
 
 ### 查询单条数据
-```
+```php
 // 通过主键获取模型
 $user = User:;find(1);
 
@@ -67,7 +67,7 @@ Eloquent ORM 查询返回值是 `Illuminate\Database\EloquentCollection` 的一�
 
 #### chunk
 `chunk`方法可以把大的结果集分成小块查询，例如，我们可以将全部User 表数据切割成一次处理 `5` 条记录的一小块：
-```
+```php
 $result = User::chunk(5, function ($users) {
     foreach ($users as $user) {
         echo $user->name.PHP_EOL;
@@ -82,7 +82,7 @@ $result = User::chunk(5, function ($users) {
 
 #### each
 如果想对一个集合中的每一项都进行一些操作，但不修改集合本身，则可以使用`each`：
-```
+```php
 $users = User::all();
 $users = $users->each(function ($user , $key) {
     $user->password = bcrypt(122410);
@@ -93,7 +93,7 @@ $users = $users->each(function ($user , $key) {
 #### map
 
 如果想对集合中的所有元素进行迭代，对它们进行修改，并返回包含修改的新集合，那么需要使用`map`：
-```
+```php
 $users = User::all();
 $users = $users->map(function ($user, $key) {
     return [
@@ -106,19 +106,19 @@ $users = $users->map(function ($user, $key) {
 
 ### 聚合方法
 
-```
+```php
 // 统计总数
 $count = User::count();
 
 // 统计分组
-$count = User::select(User::raw("count(id) as aggregate"))->groupBy("is_enable")->get();
+$count = User::groupBy("is_enable")->selectRaw("count(id) as aggregate")->get();
 // 注意不能这样写：User::select('count(id) as aggregate')->groupBy("is_enable")->get();
 ```
 
 ### 条件查询
 
 构建复杂查询：
-```
+```php
 // 组合查询方式一
 $where = [];
 $where[] = ["is_enable", 1];
@@ -143,14 +143,15 @@ $users = $builder->get();
 // Where Exists
 $builder = User::select("id", "name", "email");
 $builder->whereExists(function ($query){
-    $query->select(User::raw("title"))
+    $query->select(User::raw(1))
         ->from("topics")
         ->whereRaw("topics.user_id = users.id");
 });
+// 查询发过文章的用户
 ```
 
 ### 排序
-```
+```php
 // 用户id 倒序
 $user = User::orderBy("id", "desc")->get();
 
@@ -165,7 +166,7 @@ $users = User::inRandomOrder()->first();
 ```
 
 ### 限定
-```
+```php
 // 跳过前两条记录，取三条记录
 $users = User::skip(2)->take(3)->get();
 // 输出SQL：select * from `users` limit 3 offset 2  
@@ -175,7 +176,7 @@ $users = User::offset(2)->limit(3)->get();
 ```
 
 ### 其他
-```
+```php
 // 使用别名
 $user = User::select("name as username", "id")->first();
 
@@ -210,50 +211,69 @@ $result->url($page)
 ```
 
 ## 插入
-```
+
+单条插入：
+```php
 $user = new User();
 $user->name = "yumi";
 $user->fill(["email" => "yumi@example.com"]);
 $user->save();
 // 返回模型对象
 
+$user = new User(
+    ["name"=>"boo", 'email' => 'boo@example.com']
+);
+$user->save();
+
 $result = User::create(
     ["name"=>"boo", 'email' => 'boo@example.com']
 );
 // 返回模型对象
 
-$result = User::insert(
-    ["name"=>"boo", 'email' => 'boo@example.com']
-);
-// 返回Boolean
-
+// 单条插入，并返回对应 ID
 $result = User::insertGetId(
     ["name"=>"boo", 'email' => 'boo@example.com']
 );
 // 返回插入记录对应ID
 ```
 
-## 更新
-单个更新
+批量插入：
+```php
+$result = User::insert([
+    ["name"=>"boo", 'email' => 'boo@example.com']
+    ["name"=>"yumi", 'email' => 'yumi@example.com']
+]);
+// 返回Boolean
 ```
+注意⚠️：此时不会触发saving、saved 模型事件
+
+## 更新
+
+单条更新
+```php
 $user = User::find(1);
 $user->name = 'yumi';
 $user->save();
 // 返回Boolean
+
+$user = User::find(1);
+$user->update($data);
+// 返回受影响行数
 
 $user = User::where("id", 1)->update(['password' => bcrypt(122410)]);
 // 返回受影响行数
 ```
 
 批量更新：
-```
+```php
 $user = User::whereIn("id", [1,2,3])->update(['password' => bcrypt(122410)]); 
 // 返回受影响行数
 ```
 
 ## 删除
+
 单个删除
-```
+```php
 // 通过主键查询，删除模型
 $user = User::find(1);
 $user->delete();
@@ -267,7 +287,7 @@ User::where('id', 1)->delete();
 ```
 
 批量删除：
-```
+```php
 User::destroy([1, 2, 3]);
 
 User::destroy(1, 2, 3);
@@ -280,9 +300,12 @@ User::whereIn('id', [1, 2, 3])->delete();
 ### 软删除
 除了真实删除数据库记录，Eloquent 也可以「软删除」模型。软删除的模型并不是真的从数据库中删除了。 事实上，是在模型上设置了 `deleted_at` 属性并将其值写入数据库。如果 `deleted_at` 值非空，代表这个模型已被软删除。
 
-如果要开启模型软删除功能，需要在模型上使用 `Illuminate\Database\Eloquent\SoftDeletes trait`，同时需要添加 `$dates` 属性：
+如果要开启模型软删除功能，需要做好三件事情：
+1. 数据库增加`deleted_at` 字段
+2. 在模型上导入 `Illuminate\Database\Eloquent\SoftDeletes`特征
+3. 同时将`deleted_at` 列添加到 `$dates` 属性
 
-```
+```php
 <?php
 
 namespace App\Models;
@@ -301,7 +324,7 @@ class User extends Model
 现在，当在模型实例上使用 `delete` 方法，当前日期时间会写入 `deleted_at` 字段。同时，查询出来的结果也会自动排除已被软删除的记录。
 
 ### 软删除常见操作
-```
+```php
 // 验证给定的模型实例是否已被软删除
 if ($user->trashed()) {
     //
