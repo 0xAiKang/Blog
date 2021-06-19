@@ -45,7 +45,7 @@ postCalendar: true
 
 这里会根据主题配置文件中的`postCalendar`的值，来判断是否需要渲染。
 
-3. 点击下载日历样式文件 `post-calendar.ejs`，放置于`themes/volantis/layout/_widget`目录下。
+3. 点击下载日历样式文件 [post-calendar.ejs](https://github.com/0xAiKang/CDN/blob/master/blog/js/post-calendar.ejs)，放置于`themes/volantis/layout/_widget`目录下。
 
 将其中的第 16 行，替换成以下内容：
 
