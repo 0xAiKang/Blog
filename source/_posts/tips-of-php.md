@@ -5,7 +5,7 @@ tags: ["PHP"]
 categories: ["PHP"]
 ---
 
-Tips of PHP.
+Awesome tips for PHP.
 
 <!-- more -->
 
