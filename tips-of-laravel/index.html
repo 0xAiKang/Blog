@@ -16,12 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>Linux iptables 常用规则整理 - Boo</title>
+    <title>Tips of Laravel - Boo</title>
   
-    <meta name="keywords" content="Linux,防火墙,Ubuntu,iptables">
+    <meta name="keywords" content="PHP,Laravel">
   
   
-    <meta name="description" content="因为手上一直管理着两台实体机（服务器），而实体机的是没有“软防”这个概念的，“硬防”规则只能自己去设定。">
+    <meta name="description" content="Awesome tips for Laravel.">
   
 
   <!-- feed -->
@@ -372,8 +372,8 @@
         
           
   <h1 class="title">
-    <a href="/linux-iptables-common-rules-collation/">
-      Linux iptables 常用规则整理
+    <a href="/tips-of-laravel/">
+      Tips of Laravel
     </a>
   </h1>
 
@@ -398,9 +398,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Linux/' rel="nofollow">
+    <a href='/categories/PHP/Laravel/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Linux</p>
+      <p>PHP/Laravel</p>
     </a>
   </div>
 
@@ -411,7 +411,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Dec 9, 2020</p>
+    <p>发布于：Jun 20, 2021</p>
   </a>
 </div>
 
@@ -427,13 +427,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>525 words</p>
+      <p>801 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>2 min</p>
+      <p>3 min</p>
     </a>
   </div>
 
@@ -446,7 +446,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/linux-iptables-common-rules-collation/" class="leancloud_visitors" data-flag-title="Linux iptables 常用规则整理">
+      <span id="/tips-of-laravel/" class="leancloud_visitors" data-flag-title="Tips of Laravel">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -469,38 +469,58 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>因为手上一直管理着两台实体机（服务器），而实体机的是没有“软防”这个概念的，“硬防”规则只能自己去设定。</p>
+          <p>Awesome tips for Laravel.</p>
 <a id="more"></a>
 
-<p>而Linux 原始的防火墙工具iptables 过于繁琐，上手曲线较陡，所以这篇笔记就用来整理 Linux 的 iptables 相关知识。</p>
-<h2 id="iptables-是什么"><a href="#iptables-是什么" class="headerlink" title="iptables 是什么"></a>iptables 是什么</h2><p>我们常常会听到这样的说法：“iptables 是一个防火墙”，其实不是，它也不是一个系统服务，所以不能使用如下命令启动/停止/重启。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start&#x2F;stop&#x2F;restart iptables</span><br></pre></td></tr></table></figure>
+<h2 id="善用集合"><a href="#善用集合" class="headerlink" title="善用集合"></a>善用集合</h2><p>Collections 是 Laravel 提供的一个巨大特性，它允许我们轻松地操作数组，可以为我们节省大量时间。</p>
+<p>比如想要对下面这组数据进行求和：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$orders = [</span><br><span class="line">    [</span><br><span class="line">        <span class="string">"id"</span> =&gt; <span class="number">1000</span>,</span><br><span class="line">        <span class="string">"price"</span> =&gt; <span class="number">80</span>,</span><br><span class="line">    ],</span><br><span class="line">    [</span><br><span class="line">        <span class="string">"id"</span> =&gt; <span class="number">1001</span>,</span><br><span class="line">        <span class="string">"price"</span> =&gt; <span class="number">120</span>,</span><br><span class="line">    ],</span><br><span class="line">    [</span><br><span class="line">        <span class="string">"id"</span> =&gt; <span class="number">1002</span>,</span><br><span class="line">        <span class="string">"price"</span> =&gt; <span class="number">30</span>,</span><br><span class="line">    ],</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
 
-<p>iptables 其实只是一个命令行工具，它用来操作 netfilter 内核防火墙，所以真正应用的防火墙应该是<strong>netfilter</strong>。</p>
-<p>当拿到一台Linux 后，iptables就在那里，默认情况下它允许所有流量。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ sudo iptables -L</span><br><span class="line">Chain INPUT (policy ACCEPT)</span><br><span class="line">target     prot opt source               destination         </span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy ACCEPT)</span><br><span class="line">target     prot opt source               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT)</span><br><span class="line">target     prot opt source               destination</span><br></pre></td></tr></table></figure>
+<p>使用传统的 <code>foreach</code> 方式：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$total_price = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">foreach</span> ($orders <span class="keyword">as</span> $order) &#123;</span><br><span class="line">    $total_price += $order[<span class="string">"price"</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="允许特定端口访问"><a href="#允许特定端口访问" class="headerlink" title="允许特定端口访问"></a>允许特定端口访问</h2><p>访问过程如下：</p>
-<ol>
-<li>将此规则附加到输入链（-A INPUT），以便查看传入流量</li>
-<li>检查是否为TCP（-p tcp）</li>
-<li>如果是，检查输入是否进入端口（–dport ssh）</li>
-<li>如果是，接受输入（-j ACCEPT）</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p tcp --dport 22 -j ACCEPT    # 允许访问22端口</span><br><span class="line">iptables -A INPUT -p tcp --dport 80 -j ACCEPT    # 允许访问80端口</span><br><span class="line">iptables -A INPUT -p tcp --dport 443 -j ACCEPT   # 允许访问443端口</span><br><span class="line">iptables -A FORWARD -j REJECT                    # 禁止其他未允许的规则访问</span><br></pre></td></tr></table></figure>
+<p>试试使用集合：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$total_price = collect($orders)-&gt;pluck(<span class="string">"price"</span>)-&gt;sum();</span><br></pre></td></tr></table></figure>
 
-<h2 id="禁止特定端口访问"><a href="#禁止特定端口访问" class="headerlink" title="禁止特定端口访问"></a>禁止特定端口访问</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p tcp --dport 6379 -j DROP    # 禁止6379端口传入流量</span><br></pre></td></tr></table></figure>
-<p>如果想要屏蔽UDP流量而不是TCP流量，只需将上述规则中的 <code>tcp</code> 修改为 <code>udp</code> 即可。</p>
-<h2 id="禁用防火墙"><a href="#禁用防火墙" class="headerlink" title="禁用防火墙"></a>禁用防火墙</h2><p>如果需要临时/永久禁用iptables 防火墙，则可以使用以下命令清除所有规则：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo iptables -P INPUT ACCEPT</span><br><span class="line">sudo iptables -P OUTPUT ACCEPT</span><br><span class="line">sudo iptables -P FORWARD ACCEPT</span><br><span class="line">sudo iptables -F</span><br></pre></td></tr></table></figure>
-<p>设置完成之后，不用重启任何服务，其防火墙规则已经刷新了（允许所有流量）。</p>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><a href="http://www.codebelief.com/article/2017/08/linux-25-useful-iptables-firewall-rules/" target="_blank" rel="noopener">25 个有用的 iptables 防火墙规则</a></li>
-<li><a href="https://ubuntuqa.com/article/10698.html" target="_blank" rel="noopener">如何在Ubuntu上启动/停止iptables？</a></li>
-<li><a href="https://help.ubuntu.com/community/IptablesHowTo#Configuration%20on%20startup" target="_blank" rel="noopener">IptablesHowTo</a></li>
-<li><a href="https://wangchujiang.com/linux-command/c/iptables.html" target="_blank" rel="noopener">iptables - Linux</a></li>
+<p>虽然两种方式都可以实现，但显然使用集合更容易一些，更多集合的最佳实践可以查看我的另一篇笔记——<a href="https://www.0x2beace.com/the-actual-use-of-collection-in-laravel">Laravel Collection 实际使用</a>。</p>
+<p>善用集合，可以帮我们减少很多重复的代码。</p>
+<h2 id="查询作用域"><a href="#查询作用域" class="headerlink" title="查询作用域"></a>查询作用域</h2><p>通常，在Laravel Eloquent ORM 查询时，需要匹配某些条件时，一般会这样写：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$admin = Admin::where(<span class="string">"is_enable"</span>, <span class="keyword">true</span>)</span><br><span class="line">    -&gt;where(<span class="string">"is_admin"</span>, <span class="keyword">true</span>)</span><br><span class="line">    -&gt;get();</span><br></pre></td></tr></table></figure>
+
+<p>这样写并没有什么问题，但为了使我们的代码更具可读性，而不是重复性，可以使用 <code>query scope</code>，在对应模型中创建查询作用域：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">scopeEnable</span><span class="params">($query)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> $query-&gt;where(<span class="string">'is_enable'</span>, <span class="keyword">true</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">scopeAdmin</span><span class="params">($query)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> $query-&gt;where(<span class="string">'is_admin'</span>, <span class="keyword">true</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>现在，可以通过如下方式进行查询：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$admin = User::enable()</span><br><span class="line">    -&gt;admin()</span><br><span class="line">    -&gt;get();</span><br></pre></td></tr></table></figure>
+
+<h2 id="Eloqunt-Query"><a href="#Eloqunt-Query" class="headerlink" title="Eloqunt Query"></a>Eloqunt Query</h2><p>实际开发中，因为需求的复杂性，我们往往需要写出各种各样的SQL 来满足查询。</p>
+<p><code>selectRaw()</code>、<code>whereRaw()</code>、<code>havingRaw()</code> 允许我们在查询构造器中，加入原始SQL 查询，例如，统计分组数量：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$count = User::groupBy(<span class="string">"is_enable"</span>)</span><br><span class="line">    -&gt;selectRaw(<span class="string">"count(id) as aggregate"</span>)</span><br><span class="line">    -&gt;get();</span><br></pre></td></tr></table></figure>
+
+<h2 id="Log-and-Debug"><a href="#Log-and-Debug" class="headerlink" title="Log and Debug"></a>Log and Debug</h2><p>Laravel 为我们提供了便捷的调试代码方式——<code>dd()</code>，但某些场景下并不适合使用 <code>dd()</code>，比如测试回调是否正常。</p>
+<p>这时可以使用 <code>Log</code> 助手函数进行调试，生成的日志在<code>storage/logs</code> 目录下。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\Log::debug(<span class="string">'Test Message'</span>, $result]);</span><br></pre></td></tr></table></figure>
+
+<p><code>dd()</code> 作为现代开发者的调试利器，日常开发基本上离不开它，也许你一直都是这么用的：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$users = User::where(<span class="string">'name'</span>, <span class="string">'Taylor'</span>)-&gt;get();</span><br><span class="line">dd($users);</span><br></pre></td></tr></table></figure>
+
+<p>其实有一种更简单的方式：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$users = User::where(<span class="string">'name'</span>, <span class="string">'Taylor'</span>)-&gt;get()-&gt;dd();</span><br></pre></td></tr></table></figure>
+<p>它可以作为一个链式方法，直接放在 Eloquent Query 或者集合的后面进行调用。</p>
+<h2 id="Tinker"><a href="#Tinker" class="headerlink" title="Tinker"></a>Tinker</h2><p>Laravel 的另一大特性就是提供了交互式的命令行——Tinker，在这里你可以执行各种代码，而无需考虑环境，在某些时候，进行调试时是极为方便的。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php artisan tinker</span><br></pre></td></tr></table></figure>
+
+<p>我通常会使用 <code>Tinker</code> 做以下事情：</p>
+<ul>
+<li>检测某段代码是否符合预期</li>
+<li>Eloquent Query 测试</li>
+<li>SDK 测试</li>
 </ul>
+<h2 id="分页求和"><a href="#分页求和" class="headerlink" title="分页求和"></a>分页求和</h2><p>在有分页的情况下，如何统计某个字段所有记录的总和？</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建一个查询构造器</span></span><br><span class="line">$query = Post::query();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在查询分页之前求和</span></span><br><span class="line">$sum = $query-&gt;sum(<span class="string">'post_views'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 查询分页</span></span><br><span class="line">$posts = $query-&gt;paginate(<span class="number">10</span>);</span><br></pre></td></tr></table></figure>
 
+<h2 id="Data-Get-Function"><a href="#Data-Get-Function" class="headerlink" title="Data Get Function"></a>Data Get Function</h2><p>如果有一个复杂的数组对象数据结构，可以使用 <code>data_get</code> 助手函数使用<code>.</code> 表示法和 <code>*</code> 通配符从嵌套数组或对象中检索值：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$data = [</span><br><span class="line">    <span class="number">0</span> =&gt; [<span class="string">'user_id'</span> =&gt;<span class="string">'1'</span>,  <span class="string">'post'</span> =&gt; [<span class="string">"id"</span> =&gt; <span class="number">1000</span>],],</span><br><span class="line">    <span class="number">1</span> =&gt; [<span class="string">'user_id'</span> =&gt;<span class="string">'2'</span>,  <span class="string">'post'</span> =&gt; [<span class="string">"id"</span> =&gt; <span class="number">1001</span>], ],</span><br><span class="line">    <span class="number">2</span> =&gt; [<span class="string">'user_id'</span> =&gt;<span class="string">'3'</span>,  <span class="string">'post'</span> =&gt; [<span class="string">"id"</span> =&gt; <span class="number">1002</span>], ],</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line">$ids = data_get($data, <span class="string">"*.post.id"</span>);</span><br><span class="line"><span class="comment">// [1000, 1001, 1002]</span></span><br></pre></td></tr></table></figure>
           
             <div class='article_footer'>
               
@@ -536,7 +556,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/linux-iptables-common-rules-collation/>https://www.0x2beace.com/linux-iptables-common-rules-collation/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/tips-of-laravel/>https://www.0x2beace.com/tips-of-laravel/</a></p>
           
         
       </blockquote>
@@ -584,10 +604,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-12-10T21:56:03+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-06-20T15:00:49+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Dec 10, 2020</p>
+    <p>更新于：Jun 20, 2021</p>
   </a>
 </div>
 
@@ -596,7 +616,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Linux/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Linux</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E9%98%B2%E7%81%AB%E5%A2%99/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>防火墙</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Ubuntu/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Ubuntu</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/iptables/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>iptables</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Laravel/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Laravel</p></a></div>
 
 
         
@@ -614,7 +634,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/linux-iptables-common-rules-collation/&title=Linux iptables 常用规则整理 - Boo&summary=因为手上一直管理着两台实体机（服务器），而实体机的是没有“软防”这个概念的，“硬防”规则只能自己去设定。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/tips-of-laravel/&title=Tips of Laravel - Boo&summary=Awesome tips for Laravel."
           
           >
           
@@ -626,7 +646,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/linux-iptables-common-rules-collation/&title=Linux iptables 常用规则整理 - Boo&summary=因为手上一直管理着两台实体机（服务器），而实体机的是没有“软防”这个概念的，“硬防”规则只能自己去设定。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/tips-of-laravel/&title=Tips of Laravel - Boo&summary=Awesome tips for Laravel."
           
           >
           
@@ -638,7 +658,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/linux-iptables-common-rules-collation/&title=Linux iptables 常用规则整理 - Boo&summary=因为手上一直管理着两台实体机（服务器），而实体机的是没有“软防”这个概念的，“硬防”规则只能自己去设定。"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/tips-of-laravel/&title=Tips of Laravel - Boo&summary=Awesome tips for Laravel."
           
           >
           
@@ -652,7 +672,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADpElEQVR42u3aQXLjMAwEQP//0859UykRA9iGvI2bY0Yim5cJkMdTRfVAAA4cOHAKHLglcI+w/v39Xy8o/v7VussDHa5vnxccOHDgwIEDB24ZXLrBFOIUqAp6ur/4vODAgQMHDhw4cEvhqoG3GmxPg3MKfLqv+LzgwIEDBw4cOHBfAtcNrN3gevUecODAgQMHDhw4cL3GZTrAngYHBw4cOHDgwIH7VrjqRtMgPDWgvu0kHxw4cODAgQMHbgiuWtMB9N2f4/OCAwcOHDhw4MAtgZuqtPGYBt2pRmj5nODAgQMHDhw4cEvgqgPiamBMG41Xgbv6fbXxefyXAzhw4MCBAwcO3BK404ZlF7oarKsQUxd0HIDBgQMHDhw4cODeDHcaTNOG4VTjshtsU7DLgTQ4cODAgQMHDtwSuFc1AtPAmQJXB+PH+wQHDhw4cODAgVsClwbadF01aHf3UQ3Gl8DgwIEDBw4cOHBL4NIqD3KbA+v0Pen6P88NDhw4cODAgQO3DC79h7wuWPU9aWOy23gFBw4cOHDgwIHbBjcVQNPP7wId2w84cODAgQMHDtwyuKlAWT3I1XOnIKvrLhuZ4MCBAwcOHDhwH4ZLX9QFOw3gpwF9OrCDAwcOHDhw4MDdDS4d2Kb1rvdXA/if+wEHDhw4cODAgVsCV31QGiDT4JoOmNMBNjhw4MCBAwcO3F3hpgfS3UD8KsC4QQoOHDhw4MCBA7cEbnrAXB00v2twXW2cggMHDhw4cODAbYc7DbrdAXH1OdUDdhur8UAaHDhw4MCBAwfuQ3DdhuHp9+kgugt2uu/jhi44cODAgQMHDtxSuCmQ6samGp7VC38WCxw4cODAgQMHbgtcCnXagDwNtFNBtbqv8npw4MCBAwcOHLilcK8GSwfB5aA6HNzBgQMHDhw4cOC2wlUPPDWwroKlz0kDNjhw4MCBAwcO3N3guj8/PWA3MFcvtjtwBwcOHDhw4MCB2wLXrTTgpht/VeMSHDhw4MCBAwfubnCPsLpBtz0YbsLEjVNw4MCBAwcOHLhlcN2gOd2QPG1QpkE8btiCAwcOHDhw4MAthZsKvNONytPnp8EeHDhw4MCBAwfuf4WbboRWL6QbeI8bn+DAgQMHDhw4cF8Clwbf0yB6uq/poAwOHDhw4MCBA3c3uOpAOh1ATwXa6oC5e6HgwIEDBw4cOHDb4LqNyHT9s1ndgXn5+eDAgQMHDhw4cEvgVPGiEIADBw6cAgfus/UDeb7/Jj37wrkAAAAASUVORK5CYII=">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAAC8ElEQVR42u3aQXLjMAwEQP//09kHJFXiAGDWcJo3J5RENi9TAF9fxo/jhQAMGDBgwIBZA/Mqjm8vPJz3uLBL6zh9DxgwYMCAAQNmH0y68HRjT/Oe3n86v7sfMGDAgAEDBsxemMcANPy7GvTS7x0/DwYMGDBgwID5czCnf68Gue5BgAEDBgwYMGDAnM6vzjuFSOHAgAEDBgwYMJ8PEzeoLjXU0uferhMJBgwYMGDAgPk1mHTcasBN/S7vBwwYMGDAgAGzBqY7qoWmbuC7NcCAAQMGDBgwe2CqAakKmF486n4nbvCBAQMGDBgwYNbDTAe4NMh1G3PVAwADBgwYMGDA7IWJX3QI170Y1P3/8XwwYMCAAQMGzDqYKaB0gWPBbCpAggEDBgwYMGDWwXSD0emFolsNvNPG4SM4GDBgwIABA2YNzOmGpi4I3QqIUwcNBgwYMGDAgNkH0y0QVS8Y3Qp6abADAwYMGDBgwOyFSQtP3QtAacFrKiA+HiAYMGDAgAEDZi1MWjBKQdKGWBro2sETDBgwYMCAAbMGZqpAdKvxVgUqF97AgAEDBgwYMGthuo2x0+e7cN3g91ioAgMGDBgwYMC8PUxaULrdGOsCdaHAgAEDBgwYMHtg0gJPd0PpBaXu++OGHhgwYMCAAQNmHUy1MJQGqqkDSS8wHe8XDBgwYMCAAfMxMNUNVQNcdX533WDAgAEDBgyYz4H5LYBqoam63sd5YMCAAQMGDJiPgzmdfys4nm4wLZi1Ax4YMGDAgAED5r/BdEcVKt1oGvyqDUUwYMCAAQMGzB6YqaCUFqaqcN1gGTfcwIABAwYMGDBvDzMd6NKNpfBpwGs33MCAAQMGDBgwbw9Tbbh1G2NTB3MMAAYMGDBgwIABE354aoPpAR3vDwwYMGDAgAHzZ2GqjbepglM1OIIBAwYMGDBg9sOkhaKpBloXMG3sgQEDBgwYMGA+B2a6cVWFrEJVAyMYMGDAgAEDZi+MAQYMGDBgwIBZNv4BGxlljphLL9cAAAAASUVORK5CYII=">
           </div>
         </div>
       
@@ -672,23 +692,14 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/linux-ufw-quick-start/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Linux ufw 快速上手</p>
-                <p class='content'>之前已经了解了 iptables 是设置防火墙的命令行工具，但对于初学者而言，它的上手曲线太陡了。
-
-
-UFW （即简单防火墙）相较 iptables，对于初学者而言，则易于上手得多。
-UFW ...</p>
-              </a>
             
-            
-              <a class='next' href='/golang-quick-start/'>
-                <p class='title'>Go 语言学习笔记<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>最近开始学习Go 语言，记录一下学习笔记，具体可以访问Go 语言学习笔记
+              <a class='next' href='/laravel-commonly-used-extension-package-finishing/'>
+                <p class='title'>Laravel 常用扩展包整理<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>Laravel 开发如此高效，除了其框架本身易用之外，同时也离不开各种丰富的扩展包的支持。
 
 
-切片slice 的本质是一个数据结构，实现了对数组操作的封装。
-go 提供了一种类似“动态数组”结构的数据类型，这种...</p>
+辅助类laravel-cors所有问题，跨域先行。跨域问题没有解决，一切处理都是纸老虎。
+lara...</p>
               </a>
             
           </div>
@@ -733,7 +744,7 @@ go 提供了一种类似“动态数组”结构的数据类型，这种...</p>
 
   <script>
     window.subData = {
-      title: 'Linux iptables 常用规则整理',
+      title: 'Tips of Laravel',
       tools: true
     }
   </script>
@@ -760,7 +771,7 @@ go 提供了一种类似“动态数组”结构的数据类型，这种...</p>
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#iptables-是什么"><span class="toc-text">iptables 是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#允许特定端口访问"><span class="toc-text">允许特定端口访问</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#禁止特定端口访问"><span class="toc-text">禁止特定端口访问</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#禁用防火墙"><span class="toc-text">禁用防火墙</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#善用集合"><span class="toc-text">善用集合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查询作用域"><span class="toc-text">查询作用域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Eloqunt-Query"><span class="toc-text">Eloqunt Query</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Log-and-Debug"><span class="toc-text">Log and Debug</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tinker"><span class="toc-text">Tinker</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分页求和"><span class="toc-text">分页求和</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Data-Get-Function"><span class="toc-text">Data Get Function</span></a></li></ol>
     </div>
   </section>
 
