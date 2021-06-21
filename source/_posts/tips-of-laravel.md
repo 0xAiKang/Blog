@@ -89,6 +89,18 @@ $count = User::groupBy("is_enable")
     ->get();
 ```
 
+-------
+
+如果某个查询条件频繁使用到了，可以在模型中添加全局查询作用域，这样可以默认加上该查询条件：
+```php
+protected static function booted()
+{
+    static::addGlobalScope("is_deleted", function (Builder $builder) {
+        $builder->where("is_deleted", false);
+    });
+}
+```
+
 ## Log and Debug
 Laravel 为我们提供了便捷的调试代码方式——`dd()`，但某些场景下并不适合使用 `dd()`，比如测试回调是否正常。
 
