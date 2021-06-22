@@ -1083,6 +1083,58 @@ $sorted = $collection->sort();
 // 重置索引
 $sorted->values()->all();       // [1, 2, 3, 4, 5]
 ```
+如果有更高级的排序需求，可以通过自己的算法将回调函数传递到 `sort()` 方法。
+
+如果你需要对嵌套数组或对象进行排序，请参照 `sortBy()` 和 `sortByDesc()` 方法。
+
+## sortBy
+`sortBy` 方法将根据指定键对集合进行排序。
+
+```php
+$collection = collect([
+    ['name' => 'Desk', 'price' => 200],
+    ['name' => 'Chair', 'price' => 100],
+    ['name' => 'Bookcase', 'price' => 150],
+]);
+
+$sorted = $collection->sortBy('price');
+
+$sorted->values()->all();
+/*
+    [
+        ['name' => 'Chair', 'price' => 100],
+        ['name' => 'Bookcase', 'price' => 150],
+        ['name' => 'Desk', 'price' => 200],
+    ]
+*/
+```
+可以传递第二个参数作为[排序标志](https://www.php.net/manual/en/function.sort.php)，或者，你可以通过你自己的回调函数来决定如何排序集合的值。
+
+## sortByDesc
+该方法与 `sortBy` 方法一样，但是会以相反的顺序来对集合进行排序：
+
+## sortKeys
+`sortKeys` 使用关联数组的键来对集合进行排序：
+
+```php
+$collection = collect([
+    'id' => 22345,
+    'first' => 'John',
+    'last' => 'Doe',
+]);
+
+$sorted = $collection->sortKeys();
+$sorted->all();
+/*
+    [
+        'first' => 'John',
+        'id' => 22345,
+        'last' => 'Doe',
+    ]
+*/
+```
+## sortKeysDesc
+该方法与 `sortKeys` 方法一样，但是会以相反的顺序来对集合进行排序。
 
 ## splice 
 删除并返回从给定值后的内容，原集合也会受到影响。
