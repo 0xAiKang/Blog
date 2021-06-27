@@ -427,13 +427,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>862 words</p>
+      <p>1k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>3 min</p>
+      <p>4 min</p>
     </a>
   </div>
 
@@ -493,13 +493,18 @@
 <p>现在，可以通过如下方式进行查询：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$admin = User::enable()</span><br><span class="line">    -&gt;admin()</span><br><span class="line">    -&gt;get();</span><br></pre></td></tr></table></figure>
 
-<h2 id="Eloqunt-Query"><a href="#Eloqunt-Query" class="headerlink" title="Eloqunt Query"></a>Eloqunt Query</h2><p>实际开发中，因为需求的复杂性，我们往往需要写出各种各样的SQL 来满足查询。</p>
-<p><code>selectRaw()</code>、<code>whereRaw()</code>、<code>havingRaw()</code> 允许我们在查询构造器中，加入原始SQL 查询，例如，统计分组数量：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$count = User::groupBy(<span class="string">"is_enable"</span>)</span><br><span class="line">    -&gt;selectRaw(<span class="string">"count(id) as aggregate"</span>)</span><br><span class="line">    -&gt;get();</span><br></pre></td></tr></table></figure>
-
 <hr>
 <p>如果某个查询条件频繁使用到了，可以在模型中添加全局查询作用域，这样可以默认加上该查询条件：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">booted</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">static</span>::addGlobalScope(<span class="string">"is_deleted"</span>, <span class="function"><span class="keyword">function</span> <span class="params">(Builder $builder)</span> </span>&#123;</span><br><span class="line">        $builder-&gt;where(<span class="string">"is_deleted"</span>, <span class="keyword">false</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>取消全局查询作用域？</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 指定类</span></span><br><span class="line">User::withoutGlobalScope(EmailVerifiedAtScope::class)-&gt;get();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 指定字段</span></span><br><span class="line">User::withoutGlobalScope(<span class="string">'is_deleted'</span>)-&gt;get();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 移除所有全局作用域</span></span><br><span class="line">User::withoutGlobalScopes()-&gt;get();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 移除多个类/匿名函数</span></span><br><span class="line">User::withoutGlobalScopes([FirstScope::class, SecondScope::class])-&gt;get();</span><br></pre></td></tr></table></figure>
+
+<h2 id="Eloqunt-Query"><a href="#Eloqunt-Query" class="headerlink" title="Eloqunt Query"></a>Eloqunt Query</h2><p>实际开发中，因为需求的复杂性，我们往往需要写出各种各样的SQL 来满足查询。</p>
+<p><code>selectRaw()</code>、<code>whereRaw()</code>、<code>havingRaw()</code> 允许我们在查询构造器中，加入原始SQL 查询，例如，统计分组数量：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$count = User::groupBy(<span class="string">"is_enable"</span>)</span><br><span class="line">    -&gt;selectRaw(<span class="string">"count(id) as aggregate"</span>)</span><br><span class="line">    -&gt;get();</span><br></pre></td></tr></table></figure>
 
 <h2 id="Log-and-Debug"><a href="#Log-and-Debug" class="headerlink" title="Log and Debug"></a>Log and Debug</h2><p>Laravel 为我们提供了便捷的调试代码方式——<code>dd()</code>，但某些场景下并不适合使用 <code>dd()</code>，比如测试回调是否正常。</p>
 <p>这时可以使用 <code>Log</code> 助手函数进行调试，生成的日志在<code>storage/logs</code> 目录下。</p>
@@ -525,6 +530,9 @@
 
 <h2 id="Data-Get-Function"><a href="#Data-Get-Function" class="headerlink" title="Data Get Function"></a>Data Get Function</h2><p>如果有一个复杂的数组对象数据结构，可以使用 <code>data_get</code> 助手函数使用<code>.</code> 表示法和 <code>*</code> 通配符从嵌套数组或对象中检索值：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$data = [</span><br><span class="line">    <span class="number">0</span> =&gt; [<span class="string">'user_id'</span> =&gt;<span class="string">'1'</span>,  <span class="string">'post'</span> =&gt; [<span class="string">"id"</span> =&gt; <span class="number">1000</span>],],</span><br><span class="line">    <span class="number">1</span> =&gt; [<span class="string">'user_id'</span> =&gt;<span class="string">'2'</span>,  <span class="string">'post'</span> =&gt; [<span class="string">"id"</span> =&gt; <span class="number">1001</span>], ],</span><br><span class="line">    <span class="number">2</span> =&gt; [<span class="string">'user_id'</span> =&gt;<span class="string">'3'</span>,  <span class="string">'post'</span> =&gt; [<span class="string">"id"</span> =&gt; <span class="number">1002</span>], ],</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line">$ids = data_get($data, <span class="string">"*.post.id"</span>);</span><br><span class="line"><span class="comment">// [1000, 1001, 1002]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="optional"><a href="#optional" class="headerlink" title="optional"></a>optional</h2><p><code>optional()</code> 方法允许你获取对象的属性时调用该方法。如果该对象为 null，那么属性或者方法也会返回 null 而不是引起一个错误：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// User 2 exists, without account</span></span><br><span class="line">$user2 = User::find(<span class="number">2</span>);</span><br><span class="line">$accountId = $user2-&gt;account-&gt;id; <span class="comment">// PHP Error: Trying to get property of non-object</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Fix without optional()</span></span><br><span class="line">$accountId = $user2-&gt;account ? $user2-&gt;account-&gt;id : <span class="keyword">null</span>; <span class="comment">// null</span></span><br><span class="line">$accountId = $user2-&gt;account-&gt;id ?? <span class="keyword">null</span>; <span class="comment">// null</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Fix with optional()</span></span><br><span class="line">$accountId = optional($user2-&gt;account)-&gt;id; <span class="comment">// null</span></span><br></pre></td></tr></table></figure>
           
             <div class='article_footer'>
               
@@ -608,10 +616,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-06-21T21:21:41+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-06-27T14:33:15+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Jun 21, 2021</p>
+    <p>更新于：Jun 27, 2021</p>
   </a>
 </div>
 
@@ -775,7 +783,7 @@ lara...</p>
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#善用集合"><span class="toc-text">善用集合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查询作用域"><span class="toc-text">查询作用域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Eloqunt-Query"><span class="toc-text">Eloqunt Query</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Log-and-Debug"><span class="toc-text">Log and Debug</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tinker"><span class="toc-text">Tinker</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分页求和"><span class="toc-text">分页求和</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Data-Get-Function"><span class="toc-text">Data Get Function</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#善用集合"><span class="toc-text">善用集合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查询作用域"><span class="toc-text">查询作用域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Eloqunt-Query"><span class="toc-text">Eloqunt Query</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Log-and-Debug"><span class="toc-text">Log and Debug</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tinker"><span class="toc-text">Tinker</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分页求和"><span class="toc-text">分页求和</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Data-Get-Function"><span class="toc-text">Data Get Function</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#optional"><span class="toc-text">optional</span></a></li></ol>
     </div>
   </section>
 
@@ -810,7 +818,7 @@ lara...</p>
     
       
         <div class='copyright'>
-        <span class="post-count">总字数：174k</span>
+        <span class="post-count">总字数：174.2k</span>
         <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
 
         <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>

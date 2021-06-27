@@ -483,14 +483,15 @@
 <a id="more"></a>
 
 <h2 id="困境"><a href="#困境" class="headerlink" title="困境"></a>困境</h2><p>该应用因为一些历史原因使用 Mysql 的数据表作为消息队列。</p>
-<p>整个系统中有多个生产者会向该数据表中插入记录，同时有一个脚本会作为消费者去数据库中查找记录并进行处理。</p>
-<p>但是这样做是存在一些问题的：</p>
+<p>整个系统中有多个生产者会向该数据表中插入记录，同时有一个脚本会作为消费者去数据库中查找记录并消费。</p>
+<p>但是这样做是存在很多问题：</p>
 <ol>
 <li>长时间与数据库保持连接进行查询操作，消耗服务器资源。</li>
 <li>在数据量较大或者延时较高的情况下，不能及时处理完，会影响其他业务。</li>
+<li>…</li>
 </ol>
 <p>所以更好的方式应该是使用消息队列来解决。</p>
-<h3 id="什么是消息队列？"><a href="#什么是消息队列？" class="headerlink" title="什么是消息队列？"></a>什么是消息队列？</h3><p>消息队列（Message Queue），是分布式系统中重要的组件，其通用的使用场景可以简单地描述为：</p>
+<h2 id="什么是消息队列？"><a href="#什么是消息队列？" class="headerlink" title="什么是消息队列？"></a>什么是消息队列？</h2><p>消息队列（Message Queue），是分布式系统中重要的组件，其通用的使用场景可以简单地描述为：</p>
 <blockquote>
 <p>当不需要立即获得结果，但是并发量又需要进行控制的时候，差不多就是需要使用消息队列的时候。</p>
 </blockquote>
@@ -551,14 +552,14 @@
 <li>发布者和订阅者之间存在依赖关系，必须先订阅频道，发布者发布的消息才会被订阅者所接收。</li>
 <li>因为发布的消息是无状态的，所以订阅者需要订阅频道且在线。</li>
 </ol>
-<h3 id="常用消息队列"><a href="#常用消息队列" class="headerlink" title="常用消息队列"></a>常用消息队列</h3><ul>
+<h3 id="常见消息队列"><a href="#常见消息队列" class="headerlink" title="常见消息队列"></a>常见消息队列</h3><ul>
 <li>RabbitMQ</li>
 <li>ActiveMQ</li>
 <li>RocketMQ</li>
 <li>Kafka</li>
 <li>Redis</li>
 </ul>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
 <li><a href="https://www.cnblogs.com/centos2017/p/10451411.html" target="_blank" rel="noopener">为什么会需要消息队列(MQ)？</a></li>
 <li><a href="https://www.cnblogs.com/wt645631686/p/8243438.html" target="_blank" rel="noopener">PHP(Mysql/Redis)消息队列的介绍及应用场景案例</a></li>
 <li><a href="https://cloud.tencent.com/developer/article/1006035" target="_blank" rel="noopener">消息队列及常见消息队列介绍</a></li>
@@ -648,10 +649,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-10-14T07:54:23+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-06-27T15:28:43+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Oct 14, 2020</p>
+    <p>更新于：Jun 27, 2021</p>
   </a>
 </div>
 
@@ -840,7 +841,7 @@ PHP 数据对象 （PDO） 扩展为PHP访问数据库定义了一个轻量级�
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#困境"><span class="toc-text">困境</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是消息队列？"><span class="toc-text">什么是消息队列？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常见应用场景"><span class="toc-text">常见应用场景</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-异步处理"><span class="toc-text">1. 异步处理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-应用解耦"><span class="toc-text">2. 应用解耦</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#消息队列模式"><span class="toc-text">消息队列模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#点对点模式"><span class="toc-text">点对点模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#发布-订阅模式"><span class="toc-text">发布&#x2F;订阅模式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用消息队列"><span class="toc-text">常用消息队列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#困境"><span class="toc-text">困境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是消息队列？"><span class="toc-text">什么是消息队列？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#常见应用场景"><span class="toc-text">常见应用场景</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-异步处理"><span class="toc-text">1. 异步处理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-应用解耦"><span class="toc-text">2. 应用解耦</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#消息队列模式"><span class="toc-text">消息队列模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#点对点模式"><span class="toc-text">点对点模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#发布-订阅模式"><span class="toc-text">发布&#x2F;订阅模式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常见消息队列"><span class="toc-text">常见消息队列</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
     </div>
   </section>
 
@@ -875,7 +876,7 @@ PHP 数据对象 （PDO） 扩展为PHP访问数据库定义了一个轻量级�
     
       
         <div class='copyright'>
-        <span class="post-count">总字数：174k</span>
+        <span class="post-count">总字数：174.2k</span>
         <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
 
         <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
