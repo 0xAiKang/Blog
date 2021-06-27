@@ -78,17 +78,6 @@ $admin = User::enable()
     ->get();
 ```
 
-## Eloqunt Query
-实际开发中，因为需求的复杂性，我们往往需要写出各种各样的SQL 来满足查询。
-
-`selectRaw()`、`whereRaw()`、`havingRaw()` 允许我们在查询构造器中，加入原始SQL 查询，例如，统计分组数量：
-
-```php
-$count = User::groupBy("is_enable")
-    ->selectRaw("count(id) as aggregate")
-    ->get();
-```
-
 -------
 
 如果某个查询条件频繁使用到了，可以在模型中添加全局查询作用域，这样可以默认加上该查询条件：
@@ -99,6 +88,33 @@ protected static function booted()
         $builder->where("is_deleted", false);
     });
 }
+```
+
+> 取消全局查询作用域？
+
+```php
+// 指定类
+User::withoutGlobalScope(EmailVerifiedAtScope::class)->get();
+
+// 指定字段
+User::withoutGlobalScope('is_deleted')->get();
+
+// 移除所有全局作用域
+User::withoutGlobalScopes()->get();
+
+// 移除多个类/匿名函数
+User::withoutGlobalScopes([FirstScope::class, SecondScope::class])->get();
+```
+
+## Eloqunt Query
+实际开发中，因为需求的复杂性，我们往往需要写出各种各样的SQL 来满足查询。
+
+`selectRaw()`、`whereRaw()`、`havingRaw()` 允许我们在查询构造器中，加入原始SQL 查询，例如，统计分组数量：
+
+```php
+$count = User::groupBy("is_enable")
+    ->selectRaw("count(id) as aggregate")
+    ->get();
 ```
 
 ## Log and Debug
@@ -161,4 +177,20 @@ $data = [
 
 $ids = data_get($data, "*.post.id");
 // [1000, 1001, 1002]
+```
+
+## optional
+`optional()` 方法允许你获取对象的属性时调用该方法。如果该对象为 null，那么属性或者方法也会返回 null 而不是引起一个错误：
+
+```php
+// User 2 exists, without account
+$user2 = User::find(2);
+$accountId = $user2->account->id; // PHP Error: Trying to get property of non-object
+
+// Fix without optional()
+$accountId = $user2->account ? $user2->account->id : null; // null
+$accountId = $user2->account->id ?? null; // null
+
+// Fix with optional()
+$accountId = optional($user2->account)->id; // null
 ```
