@@ -194,3 +194,63 @@ $accountId = $user2->account->id ?? null; // null
 // Fix with optional()
 $accountId = optional($user2->account)->id; // null
 ```
+
+## 封装SDK
+通常在安装了一个 SDK 之后，我们可以做一些简单的封装，这样使用起来会更方便。
+
+```bash
+php artisan make:provider JpushServiceProvider
+```
+
+这里以极光推送 这个第三方推送服务商为例：
+```php
+<?php
+
+namespace App\Providers;
+
+use JPush\Client;
+use Illuminate\Support\ServiceProvider;
+
+class JpushServiceProvider extends ServiceProvider
+{
+    public function boot()
+    {
+        //
+    }
+
+    public function register()
+    {
+        $this->app->singleton(Client::class, function ($app) {
+            return new Client(config('jpush.key'), config('jpush.secret'));
+        });
+
+        $this->app->alias(Client::class, 'jpush');
+    }
+}
+```
+
+加入到 `config/app.php`：
+```php
+'providers' => [
+  App\Providers\JpushServiceProvider::class,
+]
+```
+
+创建配置文件：
+```php
+<?php
+
+return [
+    'key' => env('JPUSH_KEY'),
+    'secret' => env('JPUSH_SECRET'),
+];
+```
+
+在 env 文件中填写 Jpush 的 key 和 secret：
+```
+# jpush
+JPUSH_KEY=9c6f53edad67db7ec24bfe32
+JPUSH_SECRET=deeb2a04669ab79******
+```
+
+这样我们可以直接依赖注入 `JPush\Client` 或者 `app('jpush')` 来使用 Jpush 的 SDK。

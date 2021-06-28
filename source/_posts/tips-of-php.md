@@ -305,5 +305,16 @@ $instance = new One(function () {
 $instance->doSomething();
 ```
 
+## isset 语法糖
+`isset` 语法糖：
+
+```php
+$name = isset($params["name"]) ? isset($params["name"]) : "";
+
+$name = isset($params["name"]) ?: "";
+
+$name = $params["name"] ?? "";
+```
+
 ## 原文地址
 * [easy-tips/php](https://github.com/TIGERB/easy-tips/blob/master/php/artisan.md)
