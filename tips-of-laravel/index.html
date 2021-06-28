@@ -427,13 +427,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1k words</p>
+      <p>1.2k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>4 min</p>
+      <p>5 min</p>
     </a>
   </div>
 
@@ -533,6 +533,24 @@
 
 <h2 id="optional"><a href="#optional" class="headerlink" title="optional"></a>optional</h2><p><code>optional()</code> 方法允许你获取对象的属性时调用该方法。如果该对象为 null，那么属性或者方法也会返回 null 而不是引起一个错误：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// User 2 exists, without account</span></span><br><span class="line">$user2 = User::find(<span class="number">2</span>);</span><br><span class="line">$accountId = $user2-&gt;account-&gt;id; <span class="comment">// PHP Error: Trying to get property of non-object</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Fix without optional()</span></span><br><span class="line">$accountId = $user2-&gt;account ? $user2-&gt;account-&gt;id : <span class="keyword">null</span>; <span class="comment">// null</span></span><br><span class="line">$accountId = $user2-&gt;account-&gt;id ?? <span class="keyword">null</span>; <span class="comment">// null</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Fix with optional()</span></span><br><span class="line">$accountId = optional($user2-&gt;account)-&gt;id; <span class="comment">// null</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="封装SDK"><a href="#封装SDK" class="headerlink" title="封装SDK"></a>封装SDK</h2><p>通常在安装了一个 SDK 之后，我们可以做一些简单的封装，这样使用起来会更方便。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php artisan make:provider JpushServiceProvider</span><br></pre></td></tr></table></figure>
+
+<p>这里以极光推送 这个第三方推送服务商为例：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">App</span>\<span class="title">Providers</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">JPush</span>\<span class="title">Client</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Illuminate</span>\<span class="title">Support</span>\<span class="title">ServiceProvider</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">JpushServiceProvider</span> <span class="keyword">extends</span> <span class="title">ServiceProvider</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">boot</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">//</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">register</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;app-&gt;singleton(Client::class, <span class="function"><span class="keyword">function</span> <span class="params">($app)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Client(config(<span class="string">'jpush.key'</span>), config(<span class="string">'jpush.secret'</span>));</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">$this</span>-&gt;app-&gt;alias(Client::class, <span class="string">'jpush'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>加入到 <code>config/app.php</code>：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'providers'</span> =&gt; [</span><br><span class="line">  App\Providers\JpushServiceProvider::class,</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>创建配置文件：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> [</span><br><span class="line">    <span class="string">'key'</span> =&gt; env(<span class="string">'JPUSH_KEY'</span>),</span><br><span class="line">    <span class="string">'secret'</span> =&gt; env(<span class="string">'JPUSH_SECRET'</span>),</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<p>在 env 文件中填写 Jpush 的 key 和 secret：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># jpush</span><br><span class="line">JPUSH_KEY&#x3D;9c6f53edad67db7ec24bfe32</span><br><span class="line">JPUSH_SECRET&#x3D;deeb2a04669ab79******</span><br></pre></td></tr></table></figure>
+
+<p>这样我们可以直接依赖注入 <code>JPush\Client</code> 或者 <code>app(&#39;jpush&#39;)</code> 来使用 Jpush 的 SDK。</p>
+
           
             <div class='article_footer'>
               
@@ -616,10 +634,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-06-27T14:33:15+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-06-28T22:29:23+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Jun 27, 2021</p>
+    <p>更新于：Jun 28, 2021</p>
   </a>
 </div>
 
@@ -791,7 +809,7 @@ lara...</p>
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#善用集合"><span class="toc-text">善用集合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查询作用域"><span class="toc-text">查询作用域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Eloqunt-Query"><span class="toc-text">Eloqunt Query</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Log-and-Debug"><span class="toc-text">Log and Debug</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tinker"><span class="toc-text">Tinker</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分页求和"><span class="toc-text">分页求和</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Data-Get-Function"><span class="toc-text">Data Get Function</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#optional"><span class="toc-text">optional</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#善用集合"><span class="toc-text">善用集合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查询作用域"><span class="toc-text">查询作用域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Eloqunt-Query"><span class="toc-text">Eloqunt Query</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Log-and-Debug"><span class="toc-text">Log and Debug</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tinker"><span class="toc-text">Tinker</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分页求和"><span class="toc-text">分页求和</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Data-Get-Function"><span class="toc-text">Data Get Function</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#optional"><span class="toc-text">optional</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#封装SDK"><span class="toc-text">封装SDK</span></a></li></ol>
     </div>
   </section>
 
@@ -826,7 +844,7 @@ lara...</p>
     
       
         <div class='copyright'>
-        <span class="post-count">总字数：175.4k</span>
+        <span class="post-count">总字数：176.1k</span>
         <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
 
         <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>

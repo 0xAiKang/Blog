@@ -427,7 +427,7 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>897 words</p>
+      <p>920 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
@@ -513,6 +513,9 @@
 </ol>
 <p>使用依赖注入重写此类：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">One</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> $closure;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(Closure $closure)</span></span></span><br><span class="line"><span class="function">    </span>&#123;  </span><br><span class="line">        <span class="keyword">$this</span>-&gt;closure = $closure;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">doSomething</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (...) &#123;</span><br><span class="line">            <span class="comment">// 用的时候再实例化</span></span><br><span class="line">            <span class="comment">// 实现懒加载</span></span><br><span class="line">            $instance = <span class="keyword">$this</span>-&gt;closure();</span><br><span class="line">            $instance-&gt;do(...)</span><br><span class="line">        &#125;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">$instance = <span class="keyword">new</span> One(<span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 从外部注入Two 类</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Two();</span><br><span class="line">&#125;);</span><br><span class="line">$instance-&gt;doSomething();</span><br></pre></td></tr></table></figure>
+
+<h2 id="isset-语法糖"><a href="#isset-语法糖" class="headerlink" title="isset 语法糖"></a>isset 语法糖</h2><p><code>isset</code> 语法糖：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$name = <span class="keyword">isset</span>($params[<span class="string">"name"</span>]) ? <span class="keyword">isset</span>($params[<span class="string">"name"</span>]) : <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">$name = <span class="keyword">isset</span>($params[<span class="string">"name"</span>]) ?: <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">$name = $params[<span class="string">"name"</span>] ?? <span class="string">""</span>;</span><br></pre></td></tr></table></figure>
 
 <h2 id="原文地址"><a href="#原文地址" class="headerlink" title="原文地址"></a>原文地址</h2><ul>
 <li><a href="https://github.com/TIGERB/easy-tips/blob/master/php/artisan.md" target="_blank" rel="noopener">easy-tips/php</a></li>
@@ -601,10 +604,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-06-20T15:01:13+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-06-28T22:40:35+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Jun 20, 2021</p>
+    <p>更新于：Jun 28, 2021</p>
   </a>
 </div>
 
@@ -779,7 +782,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#减少if…else-的使用"><span class="toc-text">减少if…else 的使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用try…catch"><span class="toc-text">使用try…catch</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用匿名函数"><span class="toc-text">使用匿名函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#简单的策略模式"><span class="toc-text">简单的策略模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#依赖注入"><span class="toc-text">依赖注入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#原文地址"><span class="toc-text">原文地址</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#减少if…else-的使用"><span class="toc-text">减少if…else 的使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用try…catch"><span class="toc-text">使用try…catch</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用匿名函数"><span class="toc-text">使用匿名函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#简单的策略模式"><span class="toc-text">简单的策略模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#依赖注入"><span class="toc-text">依赖注入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#isset-语法糖"><span class="toc-text">isset 语法糖</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#原文地址"><span class="toc-text">原文地址</span></a></li></ol>
     </div>
   </section>
 
@@ -814,7 +817,7 @@
     
       
         <div class='copyright'>
-        <span class="post-count">总字数：175.4k</span>
+        <span class="post-count">总字数：176.1k</span>
         <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
 
         <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
