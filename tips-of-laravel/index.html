@@ -427,13 +427,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1.2k words</p>
+      <p>1.5k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>5 min</p>
+      <p>6 min</p>
     </a>
   </div>
 
@@ -550,7 +550,20 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># jpush</span><br><span class="line">JPUSH_KEY&#x3D;9c6f53edad67db7ec24bfe32</span><br><span class="line">JPUSH_SECRET&#x3D;deeb2a04669ab79******</span><br></pre></td></tr></table></figure>
 
 <p>这样我们可以直接依赖注入 <code>JPush\Client</code> 或者 <code>app(&#39;jpush&#39;)</code> 来使用 Jpush 的 SDK。</p>
+<h2 id="密码"><a href="#密码" class="headerlink" title="密码"></a>密码</h2><p>在Laravel 中，流行两种加密方式，一种是 OpenSSL 所提供的 AES-256 和 AES-128 加密，另外一种是 Bcrypt 和 Argon2 的哈希加密方式。</p>
+<h3 id="加密解密"><a href="#加密解密" class="headerlink" title="加密解密"></a>加密解密</h3><p>使用 <code>Crypt</code> 门面提供的 <code>encryptString</code> 来加密一个值，或者使用 <code>encrypt</code> 助手函数：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">encrypt(<span class="number">122410</span>);</span><br><span class="line">eyJpdiI6IlJhd3h6amtXTFh5cit2bU9ySldNU2c9PSIsInZhbHVlIjoiZlRTdWx6Wk5oTVhjSnZyR0pMdkJ0dz09IiwibWFjIjoiYWVmMTE2NWUyZjkwMWZmNWI0N2I5Y2EwNzgxMjU5ZGI4NDE0OTU2MzJhY2I1ZWFkNzJmOWMyNjMwNzIxMTBjMiJ9</span><br></pre></td></tr></table></figure>
 
+<p>使用 <code>Crypt</code> 门面提供的 <code>decryptString</code> 来进行解密，或者使用<code>decrypt</code> 助手函数：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">decrypt(<span class="string">"eyJpdiI6IlJhd3h6amtXTFh5cit2bU9ySldNU2c9PSIsInZhbHVlIjoiZlRTdWx6Wk5oTVhjSnZyR0pMdkJ0dz09IiwibWFjIjoiYWVmMTE2NWUyZjkwMWZmNWI0N2I5Y2EwNzgxMjU5ZGI4NDE0OTU2MzJhY2I1ZWFkNzJmOWMyNjMwNzIxMTBjMiJ9"</span>)</span><br><span class="line"><span class="number">122410</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="哈希"><a href="#哈希" class="headerlink" title="哈希"></a>哈希</h3><p>Bcrypt 是哈希密码的理想选择，因为它的「加密系数」可以任意调整，这意味着生成哈希所需的时间可以随着硬件功率的增加而增加。</p>
+<p>使用 <code>Hash</code> 门面提供的 <code>make</code> 方法来进行加密，或者使用<code>bcrypt</code> 助手函数。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Hash::make(<span class="number">122410</span>);</span><br><span class="line">$<span class="number">2</span>y$<span class="number">10</span>$DsKye7lBalaUkvBOEk6cvOrLGvgPD2EKkV/QtWuChbJ8It5JiVoM2</span><br></pre></td></tr></table></figure>
+
+<p>哈希加密无法解密，只能通过验证的方式来判断加密前后密码是否一致。</p>
+<p>使用<code>Hash</code> 门面提供的<code>check</code> 方法进行哈希验证，或者使用<code>password_verify</code> 助手函数。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Hash::check(<span class="number">122410</span>, <span class="string">'$2y$10$DsKye7lBalaUkvBOEk6cvOrLGvgPD2EKkV/QtWuChbJ8It5JiVoM2'</span>);</span><br><span class="line"><span class="keyword">true</span></span><br></pre></td></tr></table></figure>
           
             <div class='article_footer'>
               
@@ -634,10 +647,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-06-28T22:29:23+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-07-01T22:52:54+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Jun 28, 2021</p>
+    <p>更新于：Jul 1, 2021</p>
   </a>
 </div>
 
@@ -809,7 +822,7 @@ lara...</p>
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#善用集合"><span class="toc-text">善用集合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查询作用域"><span class="toc-text">查询作用域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Eloqunt-Query"><span class="toc-text">Eloqunt Query</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Log-and-Debug"><span class="toc-text">Log and Debug</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tinker"><span class="toc-text">Tinker</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分页求和"><span class="toc-text">分页求和</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Data-Get-Function"><span class="toc-text">Data Get Function</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#optional"><span class="toc-text">optional</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#封装SDK"><span class="toc-text">封装SDK</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#善用集合"><span class="toc-text">善用集合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查询作用域"><span class="toc-text">查询作用域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Eloqunt-Query"><span class="toc-text">Eloqunt Query</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Log-and-Debug"><span class="toc-text">Log and Debug</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tinker"><span class="toc-text">Tinker</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分页求和"><span class="toc-text">分页求和</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Data-Get-Function"><span class="toc-text">Data Get Function</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#optional"><span class="toc-text">optional</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#封装SDK"><span class="toc-text">封装SDK</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#密码"><span class="toc-text">密码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#加密解密"><span class="toc-text">加密解密</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#哈希"><span class="toc-text">哈希</span></a></li></ol></li></ol>
     </div>
   </section>
 
@@ -844,7 +857,7 @@ lara...</p>
     
       
         <div class='copyright'>
-        <span class="post-count">总字数：176.1k</span>
+        <span class="post-count">总字数：176.6k</span>
         <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
 
         <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
