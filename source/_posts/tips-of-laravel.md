@@ -254,3 +254,36 @@ JPUSH_SECRET=deeb2a04669ab79******
 ```
 
 这样我们可以直接依赖注入 `JPush\Client` 或者 `app('jpush')` 来使用 Jpush 的 SDK。
+
+## 密码
+在Laravel 中，流行两种加密方式，一种是 OpenSSL 所提供的 AES-256 和 AES-128 加密，另外一种是 Bcrypt 和 Argon2 的哈希加密方式。
+
+### 加密解密
+使用 `Crypt` 门面提供的 `encryptString` 来加密一个值，或者使用 `encrypt` 助手函数：
+```php
+encrypt(122410);
+eyJpdiI6IlJhd3h6amtXTFh5cit2bU9ySldNU2c9PSIsInZhbHVlIjoiZlRTdWx6Wk5oTVhjSnZyR0pMdkJ0dz09IiwibWFjIjoiYWVmMTE2NWUyZjkwMWZmNWI0N2I5Y2EwNzgxMjU5ZGI4NDE0OTU2MzJhY2I1ZWFkNzJmOWMyNjMwNzIxMTBjMiJ9
+```
+
+使用 `Crypt` 门面提供的 `decryptString` 来进行解密，或者使用`decrypt` 助手函数：
+```php
+decrypt("eyJpdiI6IlJhd3h6amtXTFh5cit2bU9ySldNU2c9PSIsInZhbHVlIjoiZlRTdWx6Wk5oTVhjSnZyR0pMdkJ0dz09IiwibWFjIjoiYWVmMTE2NWUyZjkwMWZmNWI0N2I5Y2EwNzgxMjU5ZGI4NDE0OTU2MzJhY2I1ZWFkNzJmOWMyNjMwNzIxMTBjMiJ9")
+122410
+```
+
+### 哈希
+Bcrypt 是哈希密码的理想选择，因为它的「加密系数」可以任意调整，这意味着生成哈希所需的时间可以随着硬件功率的增加而增加。
+
+使用 `Hash` 门面提供的 `make` 方法来进行加密，或者使用`bcrypt` 助手函数。
+```php
+Hash::make(122410);
+$2y$10$DsKye7lBalaUkvBOEk6cvOrLGvgPD2EKkV/QtWuChbJ8It5JiVoM2
+```
+
+哈希加密无法解密，只能通过验证的方式来判断加密前后密码是否一致。
+
+使用`Hash` 门面提供的`check` 方法进行哈希验证，或者使用`password_verify` 助手函数。
+```php
+Hash::check(122410, '$2y$10$DsKye7lBalaUkvBOEk6cvOrLGvgPD2EKkV/QtWuChbJ8It5JiVoM2');
+true
+```

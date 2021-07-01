@@ -155,6 +155,30 @@ composer require overtrue/laravel-query-logger --dev
 tail -f ./storage/logs/laravel.log
 ```
 
+### Logging for PHP
+[Monolog](https://github.com/Seldaek/monolog) 是一个可以将日志保存至各种位置的扩展包。
+
+通常在测试回调时，会用得比较多。
+```bash
+composer require monolog/monolog
+```
+
+基础用法：
+```php
+<?php
+
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+
+// create a log channel
+$log = new Logger('name');
+$log->pushHandler(new StreamHandler('path/to/your.log', Logger::WARNING));
+
+// add records to the log
+$log->warning('Foo');
+$log->error('Bar');
+```
+
 ## 开发类
 
 ### jwt-auth
