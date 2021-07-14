@@ -587,6 +587,15 @@
 
 <p>修改节点名称：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl rename_cluster_node oldnode1 newnode1</span><br></pre></td></tr></table></figure>
+
+<h4 id="插件管理"><a href="#插件管理" class="headerlink" title="插件管理"></a>插件管理</h4><p>查看插件列表：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmq-plugins list</span><br></pre></td></tr></table></figure>
+
+<p>启用某个插件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmq-plugins <span class="built_in">enable</span> &lt;plugin-name&gt;</span><br></pre></td></tr></table></figure>
+
+<p>禁用某个插件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmq-plugins <span class="built_in">disable</span> &lt;plugin-name&gt;</span><br></pre></td></tr></table></figure>
           
             <div class='article_footer'>
               
@@ -670,10 +679,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-06-27T18:37:16+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-07-14T23:31:53+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Jun 27, 2021</p>
+    <p>更新于：Jul 14, 2021</p>
   </a>
 </div>
 
@@ -847,7 +856,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Rabbit-是什么？"><span class="toc-text">Rabbit 是什么？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#成熟的消息队列那么多，为什么要选择RabbitMQ？"><span class="toc-text">成熟的消息队列那么多，为什么要选择RabbitMQ？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是AMQP-高级协议？"><span class="toc-text">什么是AMQP 高级协议？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AMQP-核心概念"><span class="toc-text">AMQP 核心概念</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RabbitMQ-整体架构"><span class="toc-text">RabbitMQ 整体架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RabbitMQ-快速上手"><span class="toc-text">RabbitMQ 快速上手</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#常见概念"><span class="toc-text">常见概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用命令"><span class="toc-text">常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#服务器管理"><span class="toc-text">服务器管理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#用户管理"><span class="toc-text">用户管理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#虚拟主机管理"><span class="toc-text">虚拟主机管理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#队列管理"><span class="toc-text">队列管理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#节点管理"><span class="toc-text">节点管理</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Rabbit-是什么？"><span class="toc-text">Rabbit 是什么？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#成熟的消息队列那么多，为什么要选择RabbitMQ？"><span class="toc-text">成熟的消息队列那么多，为什么要选择RabbitMQ？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是AMQP-高级协议？"><span class="toc-text">什么是AMQP 高级协议？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AMQP-核心概念"><span class="toc-text">AMQP 核心概念</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RabbitMQ-整体架构"><span class="toc-text">RabbitMQ 整体架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RabbitMQ-快速上手"><span class="toc-text">RabbitMQ 快速上手</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#常见概念"><span class="toc-text">常见概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用命令"><span class="toc-text">常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#服务器管理"><span class="toc-text">服务器管理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#用户管理"><span class="toc-text">用户管理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#虚拟主机管理"><span class="toc-text">虚拟主机管理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#队列管理"><span class="toc-text">队列管理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#节点管理"><span class="toc-text">节点管理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#插件管理"><span class="toc-text">插件管理</span></a></li></ol></li></ol></li></ol>
     </div>
   </section>
 
@@ -882,7 +891,7 @@
     
       
         <div class='copyright'>
-        <span class="post-count">总字数：178.6k</span>
+        <span class="post-count">总字数：178.8k</span>
         <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
 
         <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
