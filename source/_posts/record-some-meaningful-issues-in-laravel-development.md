@@ -84,3 +84,24 @@ $apiKey = config('api.key');
 > 你可能会疑惑，为什么要这么做呢？最后不还是要从 `.env` 中获取数据。 
 
 这是因为尽量不要修改业务代码，如遇变化要么修改`config`，要么修改`.env`，而`config` 的代码是纳入评审的，修改起来更方便，所以应该用`config` 代理`.env`, 能减少对`.env` 的修改。
+
+## 问题五
+Laravel 好像自从`7.x` 版本开始，为了格式化日期以进行序列化，框架使用了新的日期序列化格式——Carbon 的 `toJSON` 方法。
+
+使用新格式序列化的日期将显示为：`2021-07-11 20:01:002019-12-02T20:01:00.283041Z`，眼熟不，这个格式。
+
+如果还想使用正常的`年-月-日 时:分:秒` 格式，则可以在模型上覆盖 `serializeDate` 方法即可：
+```php
+use DateTimeInterface;
+
+/**
+ * Prepare a date for array / JSON serialization.
+ *
+ * @param  \DateTimeInterface  $date
+ * @return string
+ */
+protected function serializeDate(DateTimeInterface $date)
+{
+    return $date->format('Y-m-d H:i:s');
+}
+```

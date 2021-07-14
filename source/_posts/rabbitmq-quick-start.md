@@ -192,3 +192,19 @@ rabbitmqctl forget_cluster_node [--offline]
 ```bash
 rabbitmqctl rename_cluster_node oldnode1 newnode1
 ```
+
+#### 插件管理
+查看插件列表：
+```bash
+rabbitmq-plugins list
+```
+
+启用某个插件：
+```bash
+rabbitmq-plugins enable <plugin-name>
+```
+
+禁用某个插件：
+```bash
+rabbitmq-plugins disable <plugin-name>
+```
