@@ -179,6 +179,19 @@ $log->warning('Foo');
 $log->error('Bar');
 ```
 
+### Faker
+[fzaninotto/Faker](https://github.com/fzaninotto/Faker) 是一个生成假数据的 PHP 库，支持非常多的语言。
+
+```bash
+composer require fzaninotto/faker
+```
+
+[Poppy Faker](https://github.com/imvkmark/poppy-faker) 是基于 [fzaninotto/Faker](https://github.com/fzaninotto/Faker) 的中文轻量级 Fake 数据生成类。
+
+```bash
+composer require poppy/faker
+```
+
 ## 开发类
 
 ### jwt-auth
