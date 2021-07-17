@@ -105,3 +105,34 @@ protected function serializeDate(DateTimeInterface $date)
     return $date->format('Y-m-d H:i:s');
 }
 ```
+
+## 问题六
+
+在Laravel Model 中，将某个属性设置为`array casting`：
+```php
+protected $casts = [
+    'options' => 'array',
+];
+```
+
+这时如果再想对其值进行修改，就会引发异常：
+```php
+$data->options["key"] = "value";
+
+// production.ERROR: Indirect modification of overloaded property
+```
+
+可见，`casting` 并不支持一些针对特定类型的操作，例如无法作为指定类型的函数的参数。
+
+按照官方文档的做法，应该是先赋值给一个中间变量，进行操作，然后再赋值回去。
+
+```php
+$user = App\User::find(1);
+$options = $user->options;
+$options['key'] = 'value';
+$user->options = $options;
+$user->save();
+```
+
+## 参考链接
+* [Laravel attribute casting 导致的 Indirect modification of overloaded property](https://www.cnblogs.com/sgm4231/p/10194746.html)
