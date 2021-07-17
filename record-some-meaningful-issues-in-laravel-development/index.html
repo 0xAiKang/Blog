@@ -427,13 +427,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>698 words</p>
+      <p>854 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>2 min</p>
+      <p>3 min</p>
     </a>
   </div>
 
@@ -507,6 +507,21 @@
 <p>使用新格式序列化的日期将显示为：<code>2021-07-11 20:01:002019-12-02T20:01:00.283041Z</code>，眼熟不，这个格式。</p>
 <p>如果还想使用正常的<code>年-月-日 时:分:秒</code> 格式，则可以在模型上覆盖 <code>serializeDate</code> 方法即可：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> <span class="title">DateTimeInterface</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Prepare a date for array / JSON serialization.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span>  \DateTimeInterface  $date</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> string</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">serializeDate</span><span class="params">(DateTimeInterface $date)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> $date-&gt;format(<span class="string">'Y-m-d H:i:s'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="问题六"><a href="#问题六" class="headerlink" title="问题六"></a>问题六</h2><p>在Laravel Model 中，将某个属性设置为<code>array casting</code>：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> $casts = [</span><br><span class="line">    <span class="string">'options'</span> =&gt; <span class="string">'array'</span>,</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<p>这时如果再想对其值进行修改，就会引发异常：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$data-&gt;options[<span class="string">"key"</span>] = <span class="string">"value"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// production.ERROR: Indirect modification of overloaded property</span></span><br></pre></td></tr></table></figure>
+
+<p>可见，<code>casting</code> 并不支持一些针对特定类型的操作，例如无法作为指定类型的函数的参数。</p>
+<p>按照官方文档的做法，应该是先赋值给一个中间变量，进行操作，然后再赋值回去。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$user = App\User::find(<span class="number">1</span>);</span><br><span class="line">$options = $user-&gt;options;</span><br><span class="line">$options[<span class="string">'key'</span>] = <span class="string">'value'</span>;</span><br><span class="line">$user-&gt;options = $options;</span><br><span class="line">$user-&gt;save();</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://www.cnblogs.com/sgm4231/p/10194746.html" target="_blank" rel="noopener">Laravel attribute casting 导致的 Indirect modification of overloaded property</a></li>
+</ul>
+
           
             <div class='article_footer'>
               
@@ -590,10 +605,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-07-11T17:56:52+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-07-17T22:39:04+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Jul 11, 2021</p>
+    <p>更新于：Jul 17, 2021</p>
   </a>
 </div>
 
@@ -762,7 +777,7 @@ Rabbit 是什么？它是一个开源的消息代理和队列服务器，用来�
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#问题一"><span class="toc-text">问题一</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题二"><span class="toc-text">问题二</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题三"><span class="toc-text">问题三</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题四"><span class="toc-text">问题四</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题五"><span class="toc-text">问题五</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#问题一"><span class="toc-text">问题一</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题二"><span class="toc-text">问题二</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题三"><span class="toc-text">问题三</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题四"><span class="toc-text">问题四</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题五"><span class="toc-text">问题五</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题六"><span class="toc-text">问题六</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
     </div>
   </section>
 
@@ -797,7 +812,7 @@ Rabbit 是什么？它是一个开源的消息代理和队列服务器，用来�
     
       
         <div class='copyright'>
-        <span class="post-count">总字数：178.9k</span>
+        <span class="post-count">总字数：179.9k</span>
         <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
 
         <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
