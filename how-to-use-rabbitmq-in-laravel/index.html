@@ -16,12 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>如何把 Console.log 的标准输出记录到文件 - Boo</title>
+    <title>如何在 Laravel 中使用 RabbitMQ - Boo</title>
   
-    <meta name="keywords" content="Node">
+    <meta name="keywords" content="PHP,Laravel,RabbitMQ">
   
   
-    <meta name="description" content="最近遇到了这样一个需求，在不改动之前的任何一行代码的前提下，如何把console.log的标准输出全部记录到文件中呢？">
+    <meta name="description" content="这篇笔记用来记录如何在Laravel 中使用RabbitMQ。">
   
 
   <!-- feed -->
@@ -372,8 +372,8 @@
         
           
   <h1 class="title">
-    <a href="/how-to-put-console-log-the-standard-output-of-is-recorded-to-a-file/">
-      如何把 Console.log 的标准输出记录到文件
+    <a href="/how-to-use-rabbitmq-in-laravel/">
+      如何在 Laravel 中使用 RabbitMQ
     </a>
   </h1>
 
@@ -398,9 +398,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C/' rel="nofollow">
+    <a href='/categories/PHP/Laravel/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>一些经验</p>
+      <p>PHP/Laravel</p>
     </a>
   </div>
 
@@ -411,7 +411,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jul 18, 2020</p>
+    <p>发布于：Jul 19, 2021</p>
   </a>
 </div>
 
@@ -427,13 +427,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>212 words</p>
+      <p>960 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>1 min</p>
+      <p>3 min</p>
     </a>
   </div>
 
@@ -446,7 +446,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/how-to-put-console-log-the-standard-output-of-is-recorded-to-a-file/" class="leancloud_visitors" data-flag-title="如何把 Console.log 的标准输出记录到文件">
+      <span id="/how-to-use-rabbitmq-in-laravel/" class="leancloud_visitors" data-flag-title="如何在 Laravel 中使用 RabbitMQ">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -469,20 +469,67 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>最近遇到了这样一个需求，在不改动之前的任何一行代码的前提下，如何把<code>console.log</code>的标准输出全部记录到文件中呢？</p>
+          <p>这篇笔记用来记录如何在Laravel 中使用RabbitMQ。</p>
 <a id="more"></a>
 
-<p>我是没有选择那些大名鼎鼎的日志模块，如：</p>
-<ul>
-<li><a href="https://github.com/winstonjs/winston" target="_blank" rel="noopener">winston</a> - A logger for just about everything.</li>
-<li><a href="https://github.com/log4js-node/log4js-node" target="_blank" rel="noopener">log4js</a> - A port of log4js to node.js</li>
-</ul>
-<p>因为我的需求够简单，只需要能把日志记录到文件就行，所以使用了下面这种最简单的方式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">var log_file &#x3D; fs.createWriteStream(path.resolve(__dirname, &quot;.pm2&quot;) + &#39;&#x2F;debug.log&#39;, &#123;flags : &#39;w&#39;&#125;);</span><br><span class="line">var log_stdout &#x3D; process.stdout;</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> * 重载console.log 函数</span><br><span class="line"> *&#x2F;</span><br><span class="line">console.log &#x3D; function() &#123;</span><br><span class="line">    var res &#x3D; &quot;&quot;,</span><br><span class="line">    len &#x3D; arguments.length;</span><br><span class="line">    for(var i&#x3D;0; i&lt;len; i++)&#123;</span><br><span class="line">        res +&#x3D; arguments[i];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    log_file.write(util.format(res) + &#39;\n&#39;);</span><br><span class="line">    log_stdout.write(util.format(res) + &#39;\n&#39;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>Laravel 自带了那么多队列，为什么还要使用其他队列？</p>
+<p>这是因为Laravel 的队列，通常是基于Redis、Database的Driver，使用起来有一定的局限性。</p>
+<p>使用专业的队列，有如下优点：</p>
+<ol>
+<li>性能更好</li>
+<li>提供可靠性消息投递模式、返回模式</li>
+<li>保证数据不丢失的前提下做到高可靠性、可用性</li>
+</ol>
+<p>如果还不知道Rabbit MQ 是什么，可以看一下我的另一篇笔记——<a href="https://www.0x2beace.com/rabbitmq-quick-start/">RabbitMQ 快速上手</a></p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>Laravel 并没有默认为我们提供 RabbitsMQ Driver，所幸一些勤劳的人，帮我们完成了一些艰苦的工作——<a href="https://github.com/vyuldashev/laravel-queue-rabbitmq" target="_blank" rel="noopener">RabbitMQ Queue driver for Laravel</a>。</p>
+<p>引入依赖：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer require vladimir-yuldashev/laravel-queue-rabbitmq</span><br></pre></td></tr></table></figure>
 
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><a href="https://stackoverflow.com/questions/8393636/node-log-in-a-file-instead-of-the-console" target="_blank" rel="noopener">Node: log in a file instead of the console</a></li>
-</ul>
+<p>编辑<code>config/queue.php</code>，加入一个新的连接：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'connections'</span> =&gt; [</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">    <span class="string">'rabbitmq'</span> =&gt; [</span><br><span class="line">    </span><br><span class="line">       <span class="string">'driver'</span> =&gt; <span class="string">'rabbitmq'</span>,</span><br><span class="line">       <span class="string">'queue'</span> =&gt; env(<span class="string">'RABBITMQ_QUEUE'</span>, <span class="string">'default'</span>),</span><br><span class="line">       <span class="string">'connection'</span> =&gt; PhpAmqpLib\Connection\AMQPLazyConnection::class,</span><br><span class="line">   </span><br><span class="line">       <span class="string">'hosts'</span> =&gt; [</span><br><span class="line">           [</span><br><span class="line">               <span class="string">'host'</span> =&gt; env(<span class="string">'RABBITMQ_HOST'</span>, <span class="string">'127.0.0.1'</span>),</span><br><span class="line">               <span class="string">'port'</span> =&gt; env(<span class="string">'RABBITMQ_PORT'</span>, <span class="number">5672</span>),</span><br><span class="line">               <span class="string">'user'</span> =&gt; env(<span class="string">'RABBITMQ_USER'</span>, <span class="string">'guest'</span>),</span><br><span class="line">               <span class="string">'password'</span> =&gt; env(<span class="string">'RABBITMQ_PASSWORD'</span>, <span class="string">'guest'</span>),</span><br><span class="line">               <span class="string">'vhost'</span> =&gt; env(<span class="string">'RABBITMQ_VHOST'</span>, <span class="string">'/'</span>),</span><br><span class="line">           ],</span><br><span class="line">       ],</span><br><span class="line">   </span><br><span class="line">       <span class="string">'options'</span> =&gt; [</span><br><span class="line">           <span class="string">'ssl_options'</span> =&gt; [</span><br><span class="line">               <span class="string">'cafile'</span> =&gt; env(<span class="string">'RABBITMQ_SSL_CAFILE'</span>, <span class="keyword">null</span>),</span><br><span class="line">               <span class="string">'local_cert'</span> =&gt; env(<span class="string">'RABBITMQ_SSL_LOCALCERT'</span>, <span class="keyword">null</span>),</span><br><span class="line">               <span class="string">'local_key'</span> =&gt; env(<span class="string">'RABBITMQ_SSL_LOCALKEY'</span>, <span class="keyword">null</span>),</span><br><span class="line">               <span class="string">'verify_peer'</span> =&gt; env(<span class="string">'RABBITMQ_SSL_VERIFY_PEER'</span>, <span class="keyword">true</span>),</span><br><span class="line">               <span class="string">'passphrase'</span> =&gt; env(<span class="string">'RABBITMQ_SSL_PASSPHRASE'</span>, <span class="keyword">null</span>),</span><br><span class="line">           ],</span><br><span class="line">           <span class="string">'queue'</span> =&gt; [</span><br><span class="line">               <span class="string">'job'</span> =&gt; VladimirYuldashev\LaravelQueueRabbitMQ\Queue\Jobs\RabbitMQJob::class,</span><br><span class="line">           ],</span><br><span class="line">       ],</span><br><span class="line">   </span><br><span class="line">       <span class="comment">/*</span></span><br><span class="line"><span class="comment">        * Set to "horizon" if you wish to use Laravel Horizon.</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">       <span class="string">'worker'</span> =&gt; env(<span class="string">'RABBITMQ_WORKER'</span>, <span class="string">'default'</span>),</span><br><span class="line">        </span><br><span class="line">    ],</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ...    </span></span><br><span class="line">],</span><br></pre></td></tr></table></figure>
+
+<p>最后编辑<code>.env</code>，将<code>QUEUE_CONNECTION</code> 改成 <code>rabbitmq</code>，同时加入以下内容：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">RABBITMQ_HOST=<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span></span><br><span class="line">RABBITMQ_PORT=<span class="number">5672</span></span><br><span class="line">RABBITMQ_USER=guest</span><br><span class="line">RABBITMQ_PASSWORD=guest</span><br></pre></td></tr></table></figure>
+
+<p>至此，基本的配置工作就完成了，如果需要查看更多配置选项，可以查看<a href="https://github.com/vyuldashev/laravel-queue-rabbitmq#optional-config" target="_blank" rel="noopener">文档</a>。</p>
+<p>RabbitMQ Queue 的使用是遵守Laravel 队列API的，也就是说，只需要将Driver 设置为 rabbitmq，我们根本无需关心底层的连接是如何实现的，就像正常使用Laravel 队列那样就好。</p>
+<p>如果你不知道如何使用Laravel 队列API，请查阅<a href="http://laravel.com/docs/queues" target="_blank" rel="noopener">官方文档</a>。</p>
+<h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><p>首先创建一个Job，来感受一下RabbitMQ：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php artisan make:job RabbitMQJob</span><br></pre></td></tr></table></figure>
+
+<p>入队：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Route::get(<span class="string">"rabbitmq"</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">    dispatch(<span class="keyword">new</span> \App\Jobs\RabbitMQJob())-&gt;onQueue(<span class="string">"rabbitmq-job"</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="string">"ok"</span>;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>请求一下 <code>127.0.0.1:8000/rabbitmq</code>，<strong>生产/投递</strong>一个<strong>任务/消息</strong>到<code>rabbitmq-job</code> 队列中。</p>
+<p>然后打开RabbitMQ 管控台——<code>http://localhost:15672</code>，可以看到多出了一个名为<code>rabbitmq-job</code> 的队列：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210718220527.png" alt=""></p>
+<p>可以看到Ready 的数量是 1，表示该队列中等待消费的消息数量是 1，如果再次请求接口，就会发现Ready 的数量变成了 2。</p>
+<p>此时如果没有消费者去主动消费，那么消息则一直存在于队列中。</p>
+<p>尝试指定队列开始消费：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php artisan queue:work --queue rabbitmq-job</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210718220539.png" alt=""></p>
+<p>这个就是消费者进行消费的过程。</p>
+<p>再次查看管控台，可以发现Ready 的数量变成了 0。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210718220547.png" alt=""></p>
+<p>这个就是RabbitMQ 在Laravel 中的基本使用，还是很容易上手的。</p>
+<h2 id="延时队列"><a href="#延时队列" class="headerlink" title="延时队列"></a>延时队列</h2><p>队列的另一个常见的使用场景就是——延时队列。</p>
+<p>在使用Redis 作为Driver 时，可以很轻松使用<code>delay</code> API 实现延迟任务。</p>
+<p>但是对于RabbitMQ而言，如果只是调用<code>delay</code> API，就会发现消息不会被消费。</p>
+<p>于是去查阅官方文档，看看是不是哪里的配置没有启用。但遗憾的发现，文档中并没有说明延时队列的使用方式。</p>
+<p>最后抱着一丝侥幸在这个<a href="https://github.com/vyuldashev/laravel-queue-rabbitmq/issues/342#issuecomment-659209409" target="_blank" rel="noopener">Issues</a> 下找到了答案。</p>
+<p>可以发现，决定因素就是下面这行代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Artisan::call(<span class="string">'rabbitmq:queue-declare'</span>, [<span class="string">'name'</span> =&gt; <span class="keyword">$this</span>-&gt;queue]);</span><br></pre></td></tr></table></figure>
+
+<p>这行代码的意思就是，调用一个Artisan 命令，而这个命令则会生成一个队列。</p>
+<blockquote>
+<p>这个命令是哪里来的？</p>
+</blockquote>
+<p>这是RabbitMQ Queue 扩展包封装的。</p>
+<p>类似命令还有以下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">rabbitmq:consume              Consume messages</span><br><span class="line">rabbitmq:exchange-<span class="keyword">declare</span>     <span class="keyword">Declare</span> exchange</span><br><span class="line">rabbitmq:exchange-delete      Delete exchange</span><br><span class="line">rabbitmq:queue-bind           Bind queue to exchange</span><br><span class="line">rabbitmq:queue-<span class="keyword">declare</span>        <span class="keyword">Declare</span> queue</span><br><span class="line">rabbitmq:queue-delete         Delete queue</span><br><span class="line">rabbitmq:queue-purge          Purge all messages in queue</span><br></pre></td></tr></table></figure>
+
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>使用RabbitMQ 作为Laravel 队列驱动，使得Laravel 队列的可扩展性更高了。</p>
 
           
             <div class='article_footer'>
@@ -519,7 +566,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/how-to-put-console-log-the-standard-output-of-is-recorded-to-a-file/>https://www.0x2beace.com/how-to-put-console-log-the-standard-output-of-is-recorded-to-a-file/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/how-to-use-rabbitmq-in-laravel/>https://www.0x2beace.com/how-to-use-rabbitmq-in-laravel/</a></p>
           
         
       </blockquote>
@@ -567,10 +614,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-18T16:47:27+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-07-19T22:43:26+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Jul 18, 2020</p>
+    <p>更新于：Jul 19, 2021</p>
   </a>
 </div>
 
@@ -579,7 +626,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Node/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Node</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Laravel/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Laravel</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/RabbitMQ/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>RabbitMQ</p></a></div>
 
 
         
@@ -597,7 +644,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/how-to-put-console-log-the-standard-output-of-is-recorded-to-a-file/&title=如何把 Console.log 的标准输出记录到文件 - Boo&summary=最近遇到了这样一个需求，在不改动之前的任何一行代码的前提下，如何把console.log的标准输出全部记录到文件中呢？"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/how-to-use-rabbitmq-in-laravel/&title=如何在 Laravel 中使用 RabbitMQ - Boo&summary=这篇笔记用来记录如何在Laravel 中使用RabbitMQ。"
           
           >
           
@@ -609,7 +656,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/how-to-put-console-log-the-standard-output-of-is-recorded-to-a-file/&title=如何把 Console.log 的标准输出记录到文件 - Boo&summary=最近遇到了这样一个需求，在不改动之前的任何一行代码的前提下，如何把console.log的标准输出全部记录到文件中呢？"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/how-to-use-rabbitmq-in-laravel/&title=如何在 Laravel 中使用 RabbitMQ - Boo&summary=这篇笔记用来记录如何在Laravel 中使用RabbitMQ。"
           
           >
           
@@ -621,7 +668,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/how-to-put-console-log-the-standard-output-of-is-recorded-to-a-file/&title=如何把 Console.log 的标准输出记录到文件 - Boo&summary=最近遇到了这样一个需求，在不改动之前的任何一行代码的前提下，如何把console.log的标准输出全部记录到文件中呢？"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/how-to-use-rabbitmq-in-laravel/&title=如何在 Laravel 中使用 RabbitMQ - Boo&summary=这篇笔记用来记录如何在Laravel 中使用RabbitMQ。"
           
           >
           
@@ -635,7 +682,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVgAAAFYCAAAAAAzB7ucAAAEW0lEQVR42u3aW5LjIAwAwNz/0jMHmEpZL0Sy2/zFsTE0/pBUev0YR8YLAViwBliwYA2wK7Cv4vgz4Zvr797z9P+7+5+uhwGC82c9wIIFCxYsWLBgwe7CZhcUXXAW8ul90fVGn5s6ILBgwYIFCxYsWLB3YaMBenUh1QPJwmQTgDEPsGDBggULFixYsF8JGw38pw9g6oMACxYsWLBgwYIF+3/DRjdwGwosWLBgwYIFCxbsvwF7qhGi2gBSfb6aqHxMJwxYsGDBggULFizYEOypQP1bf5c9wIIFCxYsWLBgwa7ATjVQVBODU/d3E4zyfGDBggULFixYsGBXYKsBcrewXW1YziYuUw0a0YMFCxYsWLBgwYIFuwO7FcBnC+VdkKnr6f/BggULFixYsGDBrsBWE4FuY8R0IT0byHcPNpx5gQULFixYsGDBgl2F7S6o2xiRLWhnE5vp+cCCBQsWLFiwYMHuwlYD7+5BVAP8bIPFVAJTbtgACxYsWLBgwYIFuwpbXUi30aML2j2IdsMHWLBgwYIFCxYs2Cuw2Ym6jRe35x0voIMFCxYsWLBgwYJdhZ1+Uff/7IF3C9jVdYEFCxYsWLBgwYK9CxtNDKoQ2XlPvWeqkF/OvMCCBQsWLFiwYMGOwmYLylML7yYY3fVNfUhgwYIFCxYsWLBgd2GzC48uZKqAfCoxmfoA3iYIYMGCBQsWLFiwYFdgoyObGFQbNar3TzVelBMVsGDBggULFixYsCuw24XhakG9+iF0E5ZsgR0sWLBgwYIFCxbsDmy00SFbEM5urDtftXA+XbgHCxYsWLBgwYIFuwNbDcCnE4fxgnOwAJ+dN9ywARYsWLBgwYIFC3YFtrvw7cL2duE8nICABQsWLFiwYMGCXYHNBtblF04H4ocbM8oHBRYsWLBgwYIFC/YK7NSLsoXlaoG9ezDjBX6wYMGCBQsWLFiwK7DTAXk1gM8CRNcZvT52YGDBggULFixYsGCvwFYD5O593UJ5NYHJfhiP84IFCxYsWLBgwYL9CNhqw0V34d0EpptoZOcHCxYsWLBgwYIFuwubBegG9Nn5pqG6DSOPhXGwYMGCBQsWLFiwq7DdholuIpDdcLVAXy1ohw8OLFiwYMGCBQsW7BXYbkNE9iCiz09DZQ8mnKiABQsWLFiwYMGCvQpbDbiziUcVoFugrj7/OB9YsGDBggULFizYFdju6DZKnNpgtfGjmziABQsWLFiwYMGC3YEdC4yXNxhNGKbmC68TLFiwYMGCBQsW7Cpst0HjVABe3mCyUN49ALBgwYIFCxYsWLB3Yac2OL2x7Hqz68zOEy50gwULFixYsGDBgv1o2GiBuQtULWh3D7zcsAEWLFiwYMGCBQv2q2C7icQUzNQ+wh8MWLBgwYIFCxYs2Cuw2cC+el8V6Cc5sgXuj+mEAQsWLFiwYMGCBRuCzY7oxqsbmEoETic+YMGCBQsWLFiwYO/AGrMDLFiwBliwYA2wR8cvuEORRQ60TBAAAAAASUVORK5CYII=">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADn0lEQVR42u3aQW7kMAwEwPn/p5MHBIHFJg3Tg9LNiFeRypdedj4/VrQ+CMCBAwfOAgduCdwnXH82vHjv6t/ddtF/zpHeFxw4cODAgQMHbhtcepD0/asLpRef/lDgwIEDBw4cOHBvgaseqPtcvcBVED/9QPF9wYEDBw4cOHDgvgyuG0jToFwFBQcOHDhw4MCBA9crotOC+BT8tQEYHDhw4MCBAwcuhEsHg2nB3A3I3UD9WJMPDhw4cODAgQM3BNcNom97ju8LDhw4cODAgQO3BK67qoPLbpCuBtjpBQ4cOHDgwIEDtwVu6g/3pgJ0Cj19TnDgwIEDBw4cuLfCdQveNMh2B5Xp+Y7vCw4cOHDgwIEDtwwuHSymwF3AqWBcBQQHDhw4cODAgdsKd9fA8RSsW0R3z395H3DgwIEDBw4cuCVw1UB6erDToJwG1un3j/cDBw4cOHDgwIFbAleFmBo4ThfX3WB+vA84cODAgQMHDtwSuNNflEJ1C+LqhdMgf3xfcODAgQMHDhy4JXBTg8upYJt+wO4A9XgfcODAgQMHDhy4JXBpgKwW0WmA7RbIVbjLZ3DgwIEDBw4cuOVwaaCdLp6nz9kuwsGBAwcOHDhw4JbATW1416oOUKtBuvofAXDgwIEDBw4cuC1wKdBYwRtCpEV4+8OBAwcOHDhw4MAtg6sWxun7U+9VC+b05+0JMDhw4MCBAwcO3M1w3WJ4OtimANPBGRw4cODAgQMH7i1wpwfpBuDpi1cHmtVgDA4cOHDgwIEDtw0uDYjThfCnudKBbLlABwcOHDhw4MCBWwI3DdMNnlMB+TjQFj80OHDgwIEDBw7cFrjqRdOiujso7Z4nHbCCAwcOHDhw4MC9Be40ME4NEKeCcTvYnhbV4MCBAwcOHDhwS+GmC+Q0gHb3TQesl8EZHDhw4MCBAwduOVw6mKy+Vz3H9LmqA1dw4MCBAwcOHLgtcN3VHgyGwTQtuE8HtpcBGBw4cODAgQMH7mG4bkBMC+zuRasBuPp8XEiDAwcOHDhw4MA9DJcG3nTgOBWwu7+vHLTBgQMHDhw4cOCWwk0NHqv7pPt3g/xYAAYHDhw4cODAgXs5XDqAnCrCqwPU8jM4cODAgQMHDtyXwU0B3X2e6ocBBw4cOHDgwIF7C9xU8Ezfnwq03YHq7U0+OHDgwIEDBw7cENxUsXxaNJ/+PC2oq/DH9wUHDhw4cODAgVsCZxUHnAjAgQMHzgIH7tn1C/zffcTE1i8LAAAAAElFTkSuQmCC">
           </div>
         </div>
       
@@ -655,23 +702,15 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/mysql-view-deadlock-and-release-deadlock/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Mysql 查看死锁和解除死锁</p>
-                <p class='content'>前段时间遇到了一个Mysql 死锁相关的问题，整理一下。
-
-
-
-问题描述：Mysql 的修改语句似乎都没有生效，同时使用Mysql GUI 工具编辑字段的值时会弹出异常。
-
-
-什么是死锁在解决M...</p>
-              </a>
             
-            
-              <a class='next' href='/resolve-firefox-has-blocked-loading-of-mixed-active-content/'>
-                <p class='title'>解决Firefox “已阻止载入混合活动内容”<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>最近需要将项目迁移至一台新的服务器，其中涉及到多个站点的http与https之间的转换。
-网站起初不能正常访问时，我没在意，以为是网络延迟（因为服务器放在国外），直到我打开控制台发现了如下异常：...</p>
+              <a class='next' href='/talking-about-mysql-transaction-and-lock/'>
+                <p class='title'>浅谈 Mysql 事务与锁<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>事务是Mysql InnoDB 引擎的一个重要特点，具有ACID 四个特性。
+
+
+
+原子性（Atomicity）：事务的所有操作，要么全部完成，要么全部不完成，不会结束在某个中间环节。
+一致性（...</p>
               </a>
             
           </div>
@@ -716,7 +755,7 @@
 
   <script>
     window.subData = {
-      title: '如何把 Console.log 的标准输出记录到文件',
+      title: '如何在 Laravel 中使用 RabbitMQ',
       tools: true
     }
   </script>
@@ -743,7 +782,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基本使用"><span class="toc-text">基本使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#延时队列"><span class="toc-text">延时队列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结语"><span class="toc-text">结语</span></a></li></ol>
     </div>
   </section>
 
