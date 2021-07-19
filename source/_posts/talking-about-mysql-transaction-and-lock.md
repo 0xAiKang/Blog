@@ -1,5 +1,5 @@
 ---
-title: talking about mysql transaction and lock
+title: 浅谈 Mysql 事务与锁
 date: 2021-07-18 11:12:26
 tags: ["Mysql"]
 categories: ["Mysql"]
