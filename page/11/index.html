@@ -376,6 +376,188 @@
         
           
   <h2 class="title">
+    <a href="/tmux-quick-start/">
+      Tmux 快速上手
+    </a>
+  </h2>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Linux/Mac/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Linux/Mac</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Oct 4, 2020</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>920 words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>3 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本来之前就知道有 <code>tmux</code> 这样一个窗口分隔工具，只不过一直使用着<code>iTerm2</code>，本身就自带有标签页功能，所以就一直没去学习这个工具。</p>
+<p>这段时间需要经常访问<code>Linux</code>服务器，所以在服务器上安装了这个工具。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>Mac：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install tmux</span><br></pre></td></tr></table></figure>
+
+<p>Linux:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install tmux</span><br></pre></td></tr></table></figure>
+
+<p>一般情况下 <code>tmux</code> 中所有的快捷键都需要和前缀快捷键 <code>⌃b</code> 来组合使用（注：⌃ 为 Mac 的 control 键），以下是常用的窗格（<code>pane</code>）快捷键列表。</p>
+<h3 id="会话"><a href="#会话" class="headerlink" title="会话"></a>会话</h3><p>第一次使用<code>tmux</code> 可能会被<code>Session</code>、<code>窗口</code>、<code>窗格</code> 这些陌生的概念，弄得摸不着头脑。</p>
+<p>这里总结成一句话就是：<br><strong>一个完整的会话（Session）是由数个窗口组成，而一个窗口又可以分成若各个窗格。</strong></p>
+<p>使用<code>tmux</code> 命令会默认新建一个<code>tmux</code> 会话：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 默认新建一个Session 名称为 0 的窗口。</span><br><span class="line">tmux</span><br></pre></td></tr></table></figure>
+
+<p>常用<code>Session</code>操作：</p>
+<ul>
+<li>$ 重命名当前会话</li>
+<li>s 选择会话列表</li>
+<li>d 退出当前会话（不是删除），运行后将会退出 tmux 进程，返回至 shell 主进程。</li>
+</ul>
+<h3 id="窗口"><a href="#窗口" class="headerlink" title="窗口"></a>窗口</h3><p>窗口的概念不同于窗格，窗口互不影响，窗格相互分隔。</p>
+<p>常用窗口操作：</p>
+<ul>
+<li>c 新建窗口，此时当前窗口会切换至新窗口，不影响原有窗口的状态</li>
+<li>p 切换至上一窗口</li>
+<li>n 切换至下一窗口</li>
+<li>w 窗口列表选择，注意 macOS 下使用 ⌃p 和 ⌃n 进行上下选择</li>
+<li>&amp; 关闭当前窗口</li>
+<li>, 重命名窗口，可以使用中文，重命名后能在 tmux 状态栏更快速的识别窗口 id</li>
+<li>0 切换至 0 号窗口，使用其他数字 id 切换至对应窗口</li>
+<li>f 根据窗口名搜索选择窗口，可模糊匹配</li>
+</ul>
+<h3 id="窗格"><a href="#窗格" class="headerlink" title="窗格"></a>窗格</h3><p>窗格是在窗口下的概念，若干个窗格组成一个窗口。</p>
+<p>常用窗格操作：</p>
+<ul>
+<li>% 左右平分出两个窗格</li>
+<li>“ 上下平分出两个窗格</li>
+<li>x 关闭当前窗格</li>
+<li>{ 当前窗格前移</li>
+<li>} 当前窗格后移</li>
+<li>; 选择上次使用的窗格</li>
+<li>o 选择下一个窗格，也可以使用上下左右方向键来选择</li>
+<li>space 切换窗格布局，tmux 内置了五种窗格布局，也可以通过 ⌥1 至 ⌥5来切换</li>
+<li>z 最大化当前窗格，再次执行可恢复原来大小</li>
+<li>q 显示所有窗格的序号，在序号出现期间按下对应的数字，即可跳转至对应的窗格</li>
+</ul>
+<h3 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h3><p>上面那些命令都是配合<code>⌃ + b</code>快捷键使用的，下面的这些命令都是在<code>Shell</code>进程中直接执行的。</p>
+<p>新建名称为 foo 的会话</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tmux new -s foo</span><br></pre></td></tr></table></figure>
+
+<p>列出所有 tmux 会话</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tmux ls</span><br></pre></td></tr></table></figure>
+
+<p>恢复上一次会话</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tmux a</span><br></pre></td></tr></table></figure>
+
+<p>恢复名为 foo 的会话</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tmux a -t foo</span><br></pre></td></tr></table></figure>
+
+<p>删除名为 foo 的会话</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tmux kill -session -t foo</span><br></pre></td></tr></table></figure>
+
+<p>删除所有会话</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tmux kill -server</span><br></pre></td></tr></table></figure>
+
+<h3 id="tmux-or-iterm2"><a href="#tmux-or-iterm2" class="headerlink" title="tmux or iterm2"></a>tmux or iterm2</h3><p><code>tmux</code> 和<code>iTerm2</code> 都有窗口管理方面的功能，只是前者相比后者的优势在于：</p>
+<ul>
+<li><code>iTerm2</code> 的窗格切换快捷键（<code>⌘⌥→</code>）容易与其他软件全局快捷键冲突（例如 <code>Spectacle</code> 的窗口分割快捷键），<code>tmux</code> 由于存在前缀快捷键，所以不存在快捷键冲突问题；</li>
+<li><code>tmux</code> 可以在终端软件重启后通过命令行恢复上次的 <code>session</code> ，而终端软件则不行；</li>
+<li><code>tmux</code> 简洁优雅、订制性强，学会之后也能在 <code>Linux</code> 上使用，有助于逼格提升。</li>
+</ul>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://gist.github.com/ryerh/14b7c24dfd623ef8edc7" target="_blank" rel="noopener">Tmux 快捷键&amp;速查表&amp;简明教程</a></li>
+<li><a href="https://www.cnblogs.com/kaiye/p/6275207.html" target="_blank" rel="noopener">十分钟学会 Tmux</a></li>
+<li>[Tmux 快捷键和备忘录](</li>
+</ul>
+
+      
+    </div>
+    
+      
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow reveal ">
+  
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h2 class="title">
     <a href="/mysqlidb-is-quick-to-get-started/">
       MysqliDb 快速上手
     </a>
@@ -1405,118 +1587,6 @@
           </div>
         
       
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
-  
-
-
-  <section class='meta'>
-    
-      
-      
-      <div class="meta" id="header-meta">
-        
-          
-  <h2 class="title">
-    <a href="/mysql-common-exception-analysis/">
-      Mysql 常见异常分析
-    </a>
-  </h2>
-
-
-        
-        <div class='new-meta-box'>
-          
-            
-          
-            
-              
-<div class='new-meta-item author'>
-  <a href="https://www.0x2BeAce.com" rel="nofollow">
-    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
-    <p>Boo</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/Mysql/' rel="nofollow">
-      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Mysql</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Sep 17, 2020</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-  <div class="new-meta-item wordcount">
-    <a class='notlink'>
-      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>542 words</p>
-    </a>
-  </div>
-  <div class="new-meta-item readtime">
-    <a class='notlink'>
-      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>2 min</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              
-
-            
-          
-        </div>
-        
-          <hr>
-        
-      </div>
-    
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本文用来整理 Mysql 使用过程中遇到的一些问题。</p>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/mysql-common-exception-analysis/">
-            阅读全文 <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
-
-          </div>
-        
-      
     
   </section>
   
@@ -1919,6 +1989,11 @@
             id="categoriesE8BF90E7BBB4Jenkins"
             ><div class='name'>Jenkins</div><div class='badge'>(1)</div></a></li>
         
+          <li><a class="flat-box"
+            title="/categories/%E9%98%B2%E7%81%AB%E5%A2%99/" href="/categories/%E9%98%B2%E7%81%AB%E5%A2%99/"
+            id="categoriesE998B2E781ABE5A299"
+            ><div class='name'>防火墙</div><div class='badge'>(1)</div></a></li>
+        
       </ul>
     </div>
   </section>
@@ -1941,7 +2016,7 @@
 
 
     <div class='content'>
-      <a href="/tags/Arch-Linux/" style="font-size: 14.83px; color: #939393">Arch Linux</a> <a href="/tags/CD/" style="font-size: 14px; color: #999">CD</a> <a href="/tags/CI/" style="font-size: 14.83px; color: #939393">CI</a> <a href="/tags/Centos/" style="font-size: 14px; color: #999">Centos</a> <a href="/tags/Certbot/" style="font-size: 14px; color: #999">Certbot</a> <a href="/tags/Composer/" style="font-size: 14px; color: #999">Composer</a> <a href="/tags/Crontab/" style="font-size: 14px; color: #999">Crontab</a> <a href="/tags/Cygwin/" style="font-size: 14.83px; color: #939393">Cygwin</a> <a href="/tags/DevOps/" style="font-size: 14px; color: #999">DevOps</a> <a href="/tags/Docker/" style="font-size: 17.33px; color: #828282">Docker</a> <a href="/tags/Docker-Hub/" style="font-size: 14px; color: #999">Docker Hub</a> <a href="/tags/Git/" style="font-size: 19px; color: #777">Git</a> <a href="/tags/GoAccess/" style="font-size: 14px; color: #999">GoAccess</a> <a href="/tags/Golang/" style="font-size: 15.67px; color: #8e8e8e">Golang</a> <a href="/tags/Google-Drive/" style="font-size: 14px; color: #999">Google Drive</a> <a href="/tags/Google-Search/" style="font-size: 14px; color: #999">Google Search</a> <a href="/tags/HTTP/" style="font-size: 15.67px; color: #8e8e8e">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 15.67px; color: #8e8e8e">HTTPS</a> <a href="/tags/Hash/" style="font-size: 14px; color: #999">Hash</a> <a href="/tags/Hexo/" style="font-size: 16.5px; color: #888">Hexo</a> <a href="/tags/JSON/" style="font-size: 14px; color: #999">JSON</a> <a href="/tags/JavaScript/" style="font-size: 14px; color: #999">JavaScript</a> <a href="/tags/Jenkins/" style="font-size: 14.83px; color: #939393">Jenkins</a> <a href="/tags/K8S/" style="font-size: 14px; color: #999">K8S</a> <a href="/tags/Laravel/" style="font-size: 22.33px; color: #606060">Laravel</a> <a href="/tags/Linux/" style="font-size: 23.17px; color: #5b5b5b">Linux</a> <a href="/tags/Linux-Commands/" style="font-size: 14px; color: #999">Linux Commands</a> <a href="/tags/Logs/" style="font-size: 14px; color: #999">Logs</a> <a href="/tags/MQ/" style="font-size: 15.67px; color: #8e8e8e">MQ</a> <a href="/tags/Mac/" style="font-size: 19.83px; color: #717171">Mac</a> <a href="/tags/MarkDown/" style="font-size: 14px; color: #999">MarkDown</a> <a href="/tags/Mysql/" style="font-size: 21.5px; color: #666">Mysql</a> <a href="/tags/Mysqli/" style="font-size: 14px; color: #999">Mysqli</a> <a href="/tags/Nginx/" style="font-size: 18.17px; color: #7d7d7d">Nginx</a> <a href="/tags/Node/" style="font-size: 15.67px; color: #8e8e8e">Node</a> <a href="/tags/PDO/" style="font-size: 14px; color: #999">PDO</a> <a href="/tags/PHP/" style="font-size: 24px; color: #555">PHP</a> <a href="/tags/PHP-FPM/" style="font-size: 16.5px; color: #888">PHP-FPM</a> <a href="/tags/PHPStorm/" style="font-size: 14.83px; color: #939393">PHPStorm</a> <a href="/tags/PM2/" style="font-size: 14px; color: #999">PM2</a> <a href="/tags/Postman/" style="font-size: 14px; color: #999">Postman</a> <a href="/tags/RabbitMQ/" style="font-size: 14.83px; color: #939393">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 17.33px; color: #828282">Redis</a> <a href="/tags/SSH/" style="font-size: 14px; color: #999">SSH</a> <a href="/tags/SSHD/" style="font-size: 14px; color: #999">SSHD</a> <a href="/tags/SSL/" style="font-size: 14.83px; color: #939393">SSL</a> <a href="/tags/Shell/" style="font-size: 19px; color: #777">Shell</a> <a href="/tags/Skill/" style="font-size: 18.17px; color: #7d7d7d">Skill</a> <a href="/tags/Socket/" style="font-size: 14px; color: #999">Socket</a> <a href="/tags/Socket-io/" style="font-size: 14.83px; color: #939393">Socket.io</a> <a href="/tags/Supervisor/" style="font-size: 14px; color: #999">Supervisor</a> <a href="/tags/Swoole/" style="font-size: 19.83px; color: #717171">Swoole</a> <a href="/tags/Terminal/" style="font-size: 14px; color: #999">Terminal</a> <a href="/tags/ThinkPHP/" style="font-size: 14px; color: #999">ThinkPHP</a> <a href="/tags/Tutorial/" style="font-size: 20.67px; color: #6c6c6c">Tutorial</a> <a href="/tags/UFW/" style="font-size: 14px; color: #999">UFW</a> <a href="/tags/Ubuntu/" style="font-size: 16.5px; color: #888">Ubuntu</a> <a href="/tags/Vim/" style="font-size: 14.83px; color: #939393">Vim</a> <a href="/tags/WSL/" style="font-size: 14px; color: #999">WSL</a> <a href="/tags/Web-%E5%AE%89%E5%85%A8/" style="font-size: 14.83px; color: #939393">Web 安全</a> <a href="/tags/Windows/" style="font-size: 16.5px; color: #888">Windows</a> <a href="/tags/Xdebug/" style="font-size: 14px; color: #999">Xdebug</a> <a href="/tags/Zabbix/" style="font-size: 16.5px; color: #888">Zabbix</a> <a href="/tags/iptables/" style="font-size: 14px; color: #999">iptables</a> <a href="/tags/ssh/" style="font-size: 14px; color: #999">ssh</a> <a href="/tags/wss/" style="font-size: 14px; color: #999">wss</a> <a href="/tags/%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/" style="font-size: 14.83px; color: #939393">一些思考</a> <a href="/tags/%E4%BA%91/" style="font-size: 15.67px; color: #8e8e8e">云</a> <a href="/tags/%E5%9F%9F%E5%90%8D/" style="font-size: 14px; color: #999">域名</a> <a href="/tags/%E5%B1%80%E5%9F%9F%E7%BD%91/" style="font-size: 14px; color: #999">局域网</a> <a href="/tags/%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/" style="font-size: 14px; color: #999">年终总结</a> <a href="/tags/%E6%8C%81%E4%B9%85%E5%8C%96/" style="font-size: 14px; color: #999">持久化</a> <a href="/tags/%E7%9B%91%E6%8E%A7%E7%B3%BB%E7%BB%9F/" style="font-size: 14px; color: #999">监控系统</a> <a href="/tags/%E7%A2%8E%E7%A2%8E%E5%BF%B5/" style="font-size: 15.67px; color: #8e8e8e">碎碎念</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 14px; color: #999">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 14px; color: #999">线程</a> <a href="/tags/%E7%BB%88%E7%AB%AF/" style="font-size: 14px; color: #999">终端</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">设计模式</a> <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 14.83px; color: #939393">读书笔记</a> <a href="/tags/%E8%BF%90%E7%BB%B4/" style="font-size: 16.5px; color: #888">运维</a> <a href="/tags/%E8%BF%9B%E7%A8%8B/" style="font-size: 14px; color: #999">进程</a> <a href="/tags/%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" style="font-size: 14.83px; color: #939393">进程管理</a> <a href="/tags/%E9%98%B2%E7%81%AB%E5%A2%99/" style="font-size: 15.67px; color: #8e8e8e">防火墙</a> <a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 14px; color: #999">面试</a>
+      <a href="/tags/Arch-Linux/" style="font-size: 14.83px; color: #939393">Arch Linux</a> <a href="/tags/CD/" style="font-size: 14px; color: #999">CD</a> <a href="/tags/CI/" style="font-size: 14.83px; color: #939393">CI</a> <a href="/tags/Centos/" style="font-size: 14px; color: #999">Centos</a> <a href="/tags/Certbot/" style="font-size: 14px; color: #999">Certbot</a> <a href="/tags/Composer/" style="font-size: 14px; color: #999">Composer</a> <a href="/tags/Crontab/" style="font-size: 14px; color: #999">Crontab</a> <a href="/tags/Cygwin/" style="font-size: 14.83px; color: #939393">Cygwin</a> <a href="/tags/DevOps/" style="font-size: 14px; color: #999">DevOps</a> <a href="/tags/Docker/" style="font-size: 17.33px; color: #828282">Docker</a> <a href="/tags/Docker-Hub/" style="font-size: 14px; color: #999">Docker Hub</a> <a href="/tags/Git/" style="font-size: 19px; color: #777">Git</a> <a href="/tags/GoAccess/" style="font-size: 14px; color: #999">GoAccess</a> <a href="/tags/Golang/" style="font-size: 15.67px; color: #8e8e8e">Golang</a> <a href="/tags/Google-Drive/" style="font-size: 14px; color: #999">Google Drive</a> <a href="/tags/Google-Search/" style="font-size: 14px; color: #999">Google Search</a> <a href="/tags/HTTP/" style="font-size: 15.67px; color: #8e8e8e">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 15.67px; color: #8e8e8e">HTTPS</a> <a href="/tags/Hash/" style="font-size: 14px; color: #999">Hash</a> <a href="/tags/Hexo/" style="font-size: 16.5px; color: #888">Hexo</a> <a href="/tags/JSON/" style="font-size: 14px; color: #999">JSON</a> <a href="/tags/JavaScript/" style="font-size: 14px; color: #999">JavaScript</a> <a href="/tags/Jenkins/" style="font-size: 14.83px; color: #939393">Jenkins</a> <a href="/tags/K8S/" style="font-size: 14px; color: #999">K8S</a> <a href="/tags/Laravel/" style="font-size: 22.33px; color: #606060">Laravel</a> <a href="/tags/Linux/" style="font-size: 23.17px; color: #5b5b5b">Linux</a> <a href="/tags/Linux-Commands/" style="font-size: 14px; color: #999">Linux Commands</a> <a href="/tags/Logs/" style="font-size: 14px; color: #999">Logs</a> <a href="/tags/MQ/" style="font-size: 15.67px; color: #8e8e8e">MQ</a> <a href="/tags/Mac/" style="font-size: 19.83px; color: #717171">Mac</a> <a href="/tags/MarkDown/" style="font-size: 14px; color: #999">MarkDown</a> <a href="/tags/Mysql/" style="font-size: 21.5px; color: #666">Mysql</a> <a href="/tags/Mysqli/" style="font-size: 14px; color: #999">Mysqli</a> <a href="/tags/Nginx/" style="font-size: 18.17px; color: #7d7d7d">Nginx</a> <a href="/tags/Node/" style="font-size: 15.67px; color: #8e8e8e">Node</a> <a href="/tags/PDO/" style="font-size: 14px; color: #999">PDO</a> <a href="/tags/PHP/" style="font-size: 24px; color: #555">PHP</a> <a href="/tags/PHP-FPM/" style="font-size: 16.5px; color: #888">PHP-FPM</a> <a href="/tags/PHPStorm/" style="font-size: 14.83px; color: #939393">PHPStorm</a> <a href="/tags/PM2/" style="font-size: 14px; color: #999">PM2</a> <a href="/tags/Postman/" style="font-size: 14px; color: #999">Postman</a> <a href="/tags/RabbitMQ/" style="font-size: 14.83px; color: #939393">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 17.33px; color: #828282">Redis</a> <a href="/tags/SSH/" style="font-size: 14px; color: #999">SSH</a> <a href="/tags/SSHD/" style="font-size: 14px; color: #999">SSHD</a> <a href="/tags/SSL/" style="font-size: 14.83px; color: #939393">SSL</a> <a href="/tags/Shell/" style="font-size: 19px; color: #777">Shell</a> <a href="/tags/Skill/" style="font-size: 18.17px; color: #7d7d7d">Skill</a> <a href="/tags/Socket/" style="font-size: 14px; color: #999">Socket</a> <a href="/tags/Socket-io/" style="font-size: 14.83px; color: #939393">Socket.io</a> <a href="/tags/Supervisor/" style="font-size: 14px; color: #999">Supervisor</a> <a href="/tags/Swoole/" style="font-size: 19.83px; color: #717171">Swoole</a> <a href="/tags/Terminal/" style="font-size: 14px; color: #999">Terminal</a> <a href="/tags/ThinkPHP/" style="font-size: 14px; color: #999">ThinkPHP</a> <a href="/tags/Tutorial/" style="font-size: 20.67px; color: #6c6c6c">Tutorial</a> <a href="/tags/UFW/" style="font-size: 14px; color: #999">UFW</a> <a href="/tags/Ubuntu/" style="font-size: 16.5px; color: #888">Ubuntu</a> <a href="/tags/Vim/" style="font-size: 14.83px; color: #939393">Vim</a> <a href="/tags/WSL/" style="font-size: 14px; color: #999">WSL</a> <a href="/tags/Web-%E5%AE%89%E5%85%A8/" style="font-size: 14.83px; color: #939393">Web 安全</a> <a href="/tags/Windows/" style="font-size: 16.5px; color: #888">Windows</a> <a href="/tags/Xdebug/" style="font-size: 14px; color: #999">Xdebug</a> <a href="/tags/Zabbix/" style="font-size: 16.5px; color: #888">Zabbix</a> <a href="/tags/iptables/" style="font-size: 14px; color: #999">iptables</a> <a href="/tags/ssh/" style="font-size: 14px; color: #999">ssh</a> <a href="/tags/wss/" style="font-size: 14px; color: #999">wss</a> <a href="/tags/%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/" style="font-size: 14.83px; color: #939393">一些思考</a> <a href="/tags/%E4%BA%91/" style="font-size: 15.67px; color: #8e8e8e">云</a> <a href="/tags/%E5%9F%9F%E5%90%8D/" style="font-size: 14px; color: #999">域名</a> <a href="/tags/%E5%B1%80%E5%9F%9F%E7%BD%91/" style="font-size: 14px; color: #999">局域网</a> <a href="/tags/%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/" style="font-size: 14px; color: #999">年终总结</a> <a href="/tags/%E6%8C%81%E4%B9%85%E5%8C%96/" style="font-size: 14px; color: #999">持久化</a> <a href="/tags/%E7%9B%91%E6%8E%A7%E7%B3%BB%E7%BB%9F/" style="font-size: 14px; color: #999">监控系统</a> <a href="/tags/%E7%A2%8E%E7%A2%8E%E5%BF%B5/" style="font-size: 15.67px; color: #8e8e8e">碎碎念</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 14px; color: #999">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 14px; color: #999">线程</a> <a href="/tags/%E7%BB%88%E7%AB%AF/" style="font-size: 14px; color: #999">终端</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">设计模式</a> <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 14.83px; color: #939393">读书笔记</a> <a href="/tags/%E8%BF%90%E7%BB%B4/" style="font-size: 16.5px; color: #888">运维</a> <a href="/tags/%E8%BF%9B%E7%A8%8B/" style="font-size: 14px; color: #999">进程</a> <a href="/tags/%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" style="font-size: 14.83px; color: #939393">进程管理</a> <a href="/tags/%E9%98%B2%E7%81%AB%E5%A2%99/" style="font-size: 16.5px; color: #888">防火墙</a> <a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 14px; color: #999">面试</a>
     </div>
   </section>
 
@@ -1978,7 +2053,7 @@
     
       
         <div class='copyright'>
-        <span class="post-count">总字数：181.8k</span>
+        <span class="post-count">总字数：182.3k</span>
         <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
 
         <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
