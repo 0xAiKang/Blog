@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>Mysql 如何自定义排序</title>
+      <link href="/how-to-customize-sorting-in-mysql/"/>
+      <url>/how-to-customize-sorting-in-mysql/</url>
+      
+        <content type="html"><![CDATA[<p>在Mysql 中，想要对结果进行排序，通常会使用<code>Order By</code> 子句，使用时，应注意以下几点：</p><ul><li>在Order By 子句中，使用 ASC 或 DESC 关键字来设置查询结果是按升序或降序排列; 默认按升序（ASC）排列</li><li>Order By 子句可以指定多个排序键</li><li>存在多个排序键时，优先使用左侧的键，如果该列存在相同值的话，则按右侧的键进行排列</li><li>如果排序键的值包含NULL，则会在开头或者结尾进行汇总（按最小值对待）</li></ul><a id="more"></a><blockquote><p>存在多个排序键时需要注意，第一列必须有相同的值，才会对第二个列进行排序; 如果第一个列的所有值都是唯一的，那么Mysql 将不再对第二个列进行排序。</p></blockquote><p>这篇笔记的重点是记录如何在Mysql中 使用自定义排序。</p><p>为什么会有这样的需求呢？</p><p>在回答这个问题之前，先来看这样一个场景。</p><p>假设现在有一张审核记录表：</p><table><thead><tr><th>字段名称</th><th>字段类型</th><th>字段默认值</th><th>是否允许为空</th><th>索引</th><th>示例值</th><th>字段描述</th></tr></thead><tbody><tr><td>id</td><td>Bigint(16)</td><td>Unsigned 自增</td><td>否</td><td>主键</td><td>1</td><td>主键 ID</td></tr><tr><td>uid</td><td>Bigint(16)</td><td>0</td><td>否</td><td>普通索引</td><td>1</td><td>用户 ID</td></tr><tr><td>status</td><td>Tinyint(1)</td><td>0</td><td>否</td><td>-</td><td>0</td><td>审核状态（1. 等待审核 2. 审核通过 3. 审核拒绝）</td></tr><tr><td>created_at</td><td>Timestamp</td><td></td><td>否</td><td>-</td><td>2021-06-03 21:54:53</td><td>创建时间</td></tr><tr><td>updated_at</td><td>Timestamp</td><td></td><td>是</td><td>-</td><td>2021-06-03 21:54:57</td><td>更新时间</td></tr></tbody></table><p>原本是按照这样的顺序进行排序的：<code>待审核=&gt; 审核通过=&gt; 审核拒绝</code></p><p>对应SQL 应该是：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM table</span><br><span class="line">ORDER BY status</span><br></pre></td></tr></table></figure><p>假如有一天需求发生了变化，需要优先将审核通过的排在前面，其次是等待审核，最后才是审核拒绝。</p><p>此时，你肯定不想将已经写好的代码再“重构”一次，手动将<code>待审核</code> 与 <code>审核通过</code> 的顺序进行调换。一来是，可能会将现有完整的功能，改出问题，二来是，如果后面排序需求再次发生变化，就得再次面临相同的问题。</p><blockquote><p>如果Mysql 能自定义排序，那该多好啊。</p></blockquote><p>不禁会这样去想。</p><p>可以使用Mysql 的字符串函数——<a href="https://dev.mysql.com/doc/refman/8.0/en/string-functions.html#function_field" target="_blank" rel="noopener">FIELD</a>，在不改变现有逻辑的基础上，仅仅只改变排序顺序。</p><p>对应SQL 如下：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM table</span><br><span class="line">ORDER BY FIELD(status, 2, 1, 3)</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> Mysql </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Mysql </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>记一次服务端防火墙引起的 444 错误</title>
       <link href="/444-errors-caused-by-a-server-firewall/"/>
       <url>/444-errors-caused-by-a-server-firewall/</url>
