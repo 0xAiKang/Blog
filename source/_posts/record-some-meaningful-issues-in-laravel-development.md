@@ -134,5 +134,13 @@ $user->options = $options;
 $user->save();
 ```
 
+## 问题七
+
+`queue:listen` 与 `queue:work` 有什么区别？
+
+这是一个关于队列的问题，前者与后者的区别在于，当上下文环境发生变化，前者会自动重新加载新的上下文，而后者则不会。
+
+自Laravel `5.x` 版本以来，官方文档中已不再介绍`queue:listen` 指令怎么使用了，所以开发阶段建议使用 `queue:listen` 进行调试，其余情况建议全部使用 `queue:work`，因为效率更高。
+
 ## 参考链接
 * [Laravel attribute casting 导致的 Indirect modification of overloaded property](https://www.cnblogs.com/sgm4231/p/10194746.html)

@@ -156,7 +156,7 @@ tail -f ./storage/logs/laravel.log
 ```
 
 ### Logging for PHP
-[Monolog](https://github.com/Seldaek/monolog) 是一个可以将日志保存至各种位置的扩展包。
+[Logging for PHP](https://github.com/Seldaek/monolog) 是一个可以将日志保存至各种位置的扩展包。
 
 通常在测试回调时，会用得比较多。
 ```bash
@@ -177,6 +177,29 @@ $log->pushHandler(new StreamHandler('path/to/your.log', Logger::WARNING));
 // add records to the log
 $log->warning('Foo');
 $log->error('Bar');
+```
+
+### Laravel Debugbar
+Laravel Debugbar 是一个很棒的扩展包。在很多应用程序方面，你可以使用它来收集数据。比如查询，视图，时间等等；
+
+```php
+composer require barryvdh/laravel-debugbar --dev
+```
+
+### Laravel Telescope
+Laravel Telescope 是一个非常酷的工具，对 Laravel 应用，有“优雅的调试助手”的美称。
+
+你可以用它来监控很多东西：
+* 请求
+* 命令
+* 异常
+* 日志
+* 查询
+* 事件
+* ...
+
+```php
+composer require laravel/telescope --dev
 ```
 
 ### Faker
