@@ -427,7 +427,7 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1k words</p>
+      <p>1.2k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
@@ -540,12 +540,28 @@
 <p>使用：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail -f ./storage/logs/laravel.log</span><br></pre></td></tr></table></figure>
 
-<h3 id="Logging-for-PHP"><a href="#Logging-for-PHP" class="headerlink" title="Logging for PHP"></a>Logging for PHP</h3><p><a href="https://github.com/Seldaek/monolog" target="_blank" rel="noopener">Monolog</a> 是一个可以将日志保存至各种位置的扩展包。</p>
+<h3 id="Logging-for-PHP"><a href="#Logging-for-PHP" class="headerlink" title="Logging for PHP"></a>Logging for PHP</h3><p><a href="https://github.com/Seldaek/monolog" target="_blank" rel="noopener">Logging for PHP</a> 是一个可以将日志保存至各种位置的扩展包。</p>
 <p>通常在测试回调时，会用得比较多。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer require monolog/monolog</span><br></pre></td></tr></table></figure>
 
 <p>基础用法：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">Monolog</span>\<span class="title">Logger</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Monolog</span>\<span class="title">Handler</span>\<span class="title">StreamHandler</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// create a log channel</span></span><br><span class="line">$log = <span class="keyword">new</span> Logger(<span class="string">'name'</span>);</span><br><span class="line">$log-&gt;pushHandler(<span class="keyword">new</span> StreamHandler(<span class="string">'path/to/your.log'</span>, Logger::WARNING));</span><br><span class="line"></span><br><span class="line"><span class="comment">// add records to the log</span></span><br><span class="line">$log-&gt;warning(<span class="string">'Foo'</span>);</span><br><span class="line">$log-&gt;error(<span class="string">'Bar'</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="Laravel-Debugbar"><a href="#Laravel-Debugbar" class="headerlink" title="Laravel Debugbar"></a>Laravel Debugbar</h3><p>Laravel Debugbar 是一个很棒的扩展包。在很多应用程序方面，你可以使用它来收集数据。比如查询，视图，时间等等；</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer <span class="keyword">require</span> barryvdh/laravel-debugbar --dev</span><br></pre></td></tr></table></figure>
+
+<h3 id="Laravel-Telescope"><a href="#Laravel-Telescope" class="headerlink" title="Laravel Telescope"></a>Laravel Telescope</h3><p>Laravel Telescope 是一个非常酷的工具，对 Laravel 应用，有“优雅的调试助手”的美称。</p>
+<p>你可以用它来监控很多东西：</p>
+<ul>
+<li>请求</li>
+<li>命令</li>
+<li>异常</li>
+<li>日志</li>
+<li>查询</li>
+<li>事件</li>
+<li>…</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer <span class="keyword">require</span> laravel/telescope --dev</span><br></pre></td></tr></table></figure>
 
 <h3 id="Faker"><a href="#Faker" class="headerlink" title="Faker"></a>Faker</h3><p><a href="https://github.com/fzaninotto/Faker" target="_blank" rel="noopener">fzaninotto/Faker</a> 是一个生成假数据的 PHP 库，支持非常多的语言。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer require fzaninotto/faker</span><br></pre></td></tr></table></figure>
@@ -649,10 +665,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-07-15T23:36:32+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-08-02T21:15:04+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Jul 15, 2021</p>
+    <p>更新于：Aug 2, 2021</p>
   </a>
 </div>
 
@@ -828,7 +844,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#辅助类"><span class="toc-text">辅助类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#laravel-cors"><span class="toc-text">laravel-cors</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Laravel-lang"><span class="toc-text">Laravel-lang</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Captcha-for-Laravel"><span class="toc-text">Captcha for Laravel</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Carbon"><span class="toc-text">Carbon</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Eloquent-Model-Generator"><span class="toc-text">Eloquent Model Generator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IDE-Helper"><span class="toc-text">IDE Helper</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#为-Facades-生成注释"><span class="toc-text">为 Facades 生成注释</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#为模型生成注解"><span class="toc-text">为模型生成注解</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#自动为链式操作注释"><span class="toc-text">自动为链式操作注释</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Laravel-Query-Logger"><span class="toc-text">Laravel Query Logger</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Logging-for-PHP"><span class="toc-text">Logging for PHP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Faker"><span class="toc-text">Faker</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开发类"><span class="toc-text">开发类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#jwt-auth"><span class="toc-text">jwt-auth</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#laravel-enum"><span class="toc-text">laravel-enum</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Intervention-image"><span class="toc-text">Intervention&#x2F;image</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#laravel-wechat"><span class="toc-text">laravel-wechat</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#easy-sms"><span class="toc-text">easy-sms</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#辅助类"><span class="toc-text">辅助类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#laravel-cors"><span class="toc-text">laravel-cors</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Laravel-lang"><span class="toc-text">Laravel-lang</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Captcha-for-Laravel"><span class="toc-text">Captcha for Laravel</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Carbon"><span class="toc-text">Carbon</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Eloquent-Model-Generator"><span class="toc-text">Eloquent Model Generator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IDE-Helper"><span class="toc-text">IDE Helper</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#为-Facades-生成注释"><span class="toc-text">为 Facades 生成注释</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#为模型生成注解"><span class="toc-text">为模型生成注解</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#自动为链式操作注释"><span class="toc-text">自动为链式操作注释</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Laravel-Query-Logger"><span class="toc-text">Laravel Query Logger</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Logging-for-PHP"><span class="toc-text">Logging for PHP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Laravel-Debugbar"><span class="toc-text">Laravel Debugbar</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Laravel-Telescope"><span class="toc-text">Laravel Telescope</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Faker"><span class="toc-text">Faker</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开发类"><span class="toc-text">开发类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#jwt-auth"><span class="toc-text">jwt-auth</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#laravel-enum"><span class="toc-text">laravel-enum</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Intervention-image"><span class="toc-text">Intervention&#x2F;image</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#laravel-wechat"><span class="toc-text">laravel-wechat</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#easy-sms"><span class="toc-text">easy-sms</span></a></li></ol></li></ol>
     </div>
   </section>
 
@@ -863,7 +879,7 @@
     
       
         <div class='copyright'>
-        <span class="post-count">总字数：183.6k</span>
+        <span class="post-count">总字数：184.6k</span>
         <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
 
         <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
