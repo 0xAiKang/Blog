@@ -287,3 +287,43 @@ $2y$10$DsKye7lBalaUkvBOEk6cvOrLGvgPD2EKkV/QtWuChbJ8It5JiVoM2
 Hash::check(122410, '$2y$10$DsKye7lBalaUkvBOEk6cvOrLGvgPD2EKkV/QtWuChbJ8It5JiVoM2');
 true
 ```
+
+## 统计
+
+开发中，我们常会遇到这样的需求：
+* 统计今天的注册量
+* 统计昨天的注册量
+* 统计每个月第一天的注册量
+* 统计这个月的注册量
+
+多数时候，我们会这样写：
+```php
+UserModel::whereBetween("created_at", [$startTime, $endTime])->count();
+```
+
+其实使用Carbon 配合Laravel 查询构造器可以很好地解决这类问题：
+```php
+// 统计今天的注册量
+UserModel::whereDate('created_at', today())->count();
+
+// 对应SQL
+select count(*) as aggregate from `user` where date(`created_at`) = '2021-08-12'
+
+// 统计昨天的注册量
+UserModel::whereDate('created_at', Carbon::yesterday())->count();
+
+// 对应SQL
+select count(*) as aggregate from `user` where date(`created_at`) = '2021-08-11'
+
+// 统计每个月第一天的注册量
+UserModel::whereDay('created_at', "01")->count()
+
+// 对应SQL
+select count(*) as aggregate from `user` where day(`created_at`) = '01';
+
+// 统计这个月的注册量
+UserModel::whereMonth('created_at', now()->format("m"))->count()
+
+// 对应SQL
+select count(*) as aggregate from `user` where month(`created_at`) = '08';
+```
