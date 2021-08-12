@@ -428,13 +428,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1.3k words</p>
+      <p>1.5k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>5 min</p>
+      <p>6 min</p>
     </a>
   </div>
 
@@ -551,6 +551,23 @@
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">\Carbon\Carbon::setLocale(<span class="string">'zh'</span>);</span><br><span class="line"></span><br><span class="line">$dt = Carbon::now();</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> $dt-&gt;subDays(<span class="number">10</span>)-&gt;diffForHumans();   <span class="comment">// 1周前</span></span><br><span class="line"><span class="keyword">echo</span> $dt-&gt;addHours(<span class="number">12</span>)-&gt;diffForHumans();  <span class="comment">// 1周前</span></span><br><span class="line"><span class="keyword">echo</span> $dt-&gt;subMonth()-&gt;diffForHumans();    <span class="comment">// 1个月前</span></span><br></pre></td></tr></table></figure>
 
 <p>Carbon 能做的远远不止这些，这里只是列举了一些个人常用的方法，关于更多Carbon 的用法，请查看<a href="https://carbon.nesbot.com" target="_blank" rel="noopener">官方文档</a>。</p>
+<h2 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h2><p>下面整理一些常见的使用场景。</p>
+<p>获取某个时刻的起始时间和结束时间：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取一天的开始时间和结束时间</span></span><br><span class="line">now()-&gt;startOfDay();      <span class="comment">// 2021-08-12 00:00:00</span></span><br><span class="line">now()-&gt;endOfDay();        <span class="comment">// 2021-08-12 23:59:59</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取这周的开始时间和结束时间</span></span><br><span class="line">now()-&gt;startOfWeek();     <span class="comment">// 2021-08-09 00:00:00</span></span><br><span class="line">now()-&gt;endOfWeek();       <span class="comment">// 2021-08-15 23:59:59</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取这个月的起始时间和结束时间</span></span><br><span class="line">now()-&gt;startOfMonth();    <span class="comment">// 2021-08-01 00:00:00</span></span><br><span class="line">now()-&gt;endOfMonth();      <span class="comment">// 2021-08-31 23:59:59</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取今年的起始时间和结束时间</span></span><br><span class="line">now()-&gt;startOfYear();     <span class="comment">// 2021-01-01 00:00:00</span></span><br><span class="line">now()-&gt;endOfYear();       <span class="comment">// 2021-12-31 23:59:59</span></span><br></pre></td></tr></table></figure>
+
+<p>获取指定日期范围内的日期：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$startTime = now();</span><br><span class="line">$endTime = Carbon::parse(<span class="string">"2021-09-12"</span>);</span><br><span class="line">$dates = $startTime-&gt;daysUntil($endTime);</span><br></pre></td></tr></table></figure>
+
+<p>格式化日期为指定格式：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">now()-&gt;format(<span class="string">"Y/m/d"</span>);   <span class="comment">// 2021/08/12</span></span><br><span class="line">now()-&gt;format(<span class="string">"Y.m.d"</span>);   <span class="comment">// 2021.08.12</span></span><br></pre></td></tr></table></figure>
+
+<p>判断日期是否为指定格式：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Carbon::hasFormat(<span class="string">"2021/08/12"</span>, <span class="string">"Y-m-d"</span>)  <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://www.heibaiketang.com/forum/show/141.html" target="_blank" rel="noopener">Laravel 中日期时间 Carbon 包的的使用详解</a></li>
+<li><a href="https://carbon.nesbot.com/docs/" target="_blank" rel="noopener">Carbon Api Doc</a></li>
+</ul>
 
           
             <div class='article_footer'>
@@ -635,10 +652,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-07-03T20:41:26+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-08-12T22:34:15+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Jul 3, 2021</p>
+    <p>更新于：Aug 12, 2021</p>
   </a>
 </div>
 
@@ -815,7 +832,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Carbon"><span class="toc-text">Carbon</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#获取特定日期-时间"><span class="toc-text">获取特定日期&#x2F;时间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#日期格式化"><span class="toc-text">日期格式化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#日期解析"><span class="toc-text">日期解析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#日期-时间操作"><span class="toc-text">日期&#x2F;时间操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#日期比较"><span class="toc-text">日期比较</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#语义化"><span class="toc-text">语义化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#本地化"><span class="toc-text">本地化</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Carbon"><span class="toc-text">Carbon</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#获取特定日期-时间"><span class="toc-text">获取特定日期&#x2F;时间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#日期格式化"><span class="toc-text">日期格式化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#日期解析"><span class="toc-text">日期解析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#日期-时间操作"><span class="toc-text">日期&#x2F;时间操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#日期比较"><span class="toc-text">日期比较</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#语义化"><span class="toc-text">语义化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#本地化"><span class="toc-text">本地化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最佳实践"><span class="toc-text">最佳实践</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
     </div>
   </section>
 
@@ -850,7 +867,7 @@
     
       
         <div class='copyright'>
-        <span class="post-count">总字数：184.6k</span>
+        <span class="post-count">总字数：185.1k</span>
         <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
 
         <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>

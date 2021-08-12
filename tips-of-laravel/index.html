@@ -427,13 +427,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1.5k words</p>
+      <p>1.7k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>6 min</p>
+      <p>7 min</p>
     </a>
   </div>
 
@@ -564,6 +564,19 @@
 <p>哈希加密无法解密，只能通过验证的方式来判断加密前后密码是否一致。</p>
 <p>使用<code>Hash</code> 门面提供的<code>check</code> 方法进行哈希验证，或者使用<code>password_verify</code> 助手函数。</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Hash::check(<span class="number">122410</span>, <span class="string">'$2y$10$DsKye7lBalaUkvBOEk6cvOrLGvgPD2EKkV/QtWuChbJ8It5JiVoM2'</span>);</span><br><span class="line"><span class="keyword">true</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="统计"><a href="#统计" class="headerlink" title="统计"></a>统计</h2><p>开发中，我们常会遇到这样的需求：</p>
+<ul>
+<li>统计今天的注册量</li>
+<li>统计昨天的注册量</li>
+<li>统计每个月第一天的注册量</li>
+<li>统计这个月的注册量</li>
+</ul>
+<p>多数时候，我们会这样写：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UserModel::whereBetween(<span class="string">"created_at"</span>, [$startTime, $endTime])-&gt;count();</span><br></pre></td></tr></table></figure>
+
+<p>其实使用Carbon 配合Laravel 查询构造器可以很好地解决这类问题：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 统计今天的注册量</span></span><br><span class="line">UserModel::whereDate(<span class="string">'created_at'</span>, today())-&gt;count();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 对应SQL</span></span><br><span class="line">select count(*) <span class="keyword">as</span> aggregate from `user` where date(`created_at`) = <span class="string">'2021-08-12'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 统计昨天的注册量</span></span><br><span class="line">UserModel::whereDate(<span class="string">'created_at'</span>, Carbon::yesterday())-&gt;count();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 对应SQL</span></span><br><span class="line">select count(*) <span class="keyword">as</span> aggregate from `user` where date(`created_at`) = <span class="string">'2021-08-11'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 统计每个月第一天的注册量</span></span><br><span class="line">UserModel::whereDay(<span class="string">'created_at'</span>, <span class="string">"01"</span>)-&gt;count()</span><br><span class="line"></span><br><span class="line"><span class="comment">// 对应SQL</span></span><br><span class="line">select count(*) <span class="keyword">as</span> aggregate from `user` where day(`created_at`) = <span class="string">'01'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 统计这个月的注册量</span></span><br><span class="line">UserModel::whereMonth(<span class="string">'created_at'</span>, now()-&gt;format(<span class="string">"m"</span>))-&gt;count()</span><br><span class="line"></span><br><span class="line"><span class="comment">// 对应SQL</span></span><br><span class="line">select count(*) <span class="keyword">as</span> aggregate from `user` where month(`created_at`) = <span class="string">'08'</span>;</span><br></pre></td></tr></table></figure>
           
             <div class='article_footer'>
               
@@ -647,10 +660,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-07-01T22:52:54+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-08-12T23:00:53+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Jul 1, 2021</p>
+    <p>更新于：Aug 12, 2021</p>
   </a>
 </div>
 
@@ -822,7 +835,7 @@ lara...</p>
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#善用集合"><span class="toc-text">善用集合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查询作用域"><span class="toc-text">查询作用域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Eloqunt-Query"><span class="toc-text">Eloqunt Query</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Log-and-Debug"><span class="toc-text">Log and Debug</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tinker"><span class="toc-text">Tinker</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分页求和"><span class="toc-text">分页求和</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Data-Get-Function"><span class="toc-text">Data Get Function</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#optional"><span class="toc-text">optional</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#封装SDK"><span class="toc-text">封装SDK</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#密码"><span class="toc-text">密码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#加密解密"><span class="toc-text">加密解密</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#哈希"><span class="toc-text">哈希</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#善用集合"><span class="toc-text">善用集合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查询作用域"><span class="toc-text">查询作用域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Eloqunt-Query"><span class="toc-text">Eloqunt Query</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Log-and-Debug"><span class="toc-text">Log and Debug</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tinker"><span class="toc-text">Tinker</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分页求和"><span class="toc-text">分页求和</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Data-Get-Function"><span class="toc-text">Data Get Function</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#optional"><span class="toc-text">optional</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#封装SDK"><span class="toc-text">封装SDK</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#密码"><span class="toc-text">密码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#加密解密"><span class="toc-text">加密解密</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#哈希"><span class="toc-text">哈希</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#统计"><span class="toc-text">统计</span></a></li></ol>
     </div>
   </section>
 
@@ -857,7 +870,7 @@ lara...</p>
     
       
         <div class='copyright'>
-        <span class="post-count">总字数：184.6k</span>
+        <span class="post-count">总字数：185.1k</span>
         <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
 
         <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
