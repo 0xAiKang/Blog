@@ -182,3 +182,47 @@ echo $dt->subMonth()->diffForHumans();    // 1个月前
 ```
 
 Carbon 能做的远远不止这些，这里只是列举了一些个人常用的方法，关于更多Carbon 的用法，请查看[官方文档](https://carbon.nesbot.com)。
+
+## 最佳实践
+下面整理一些常见的使用场景。
+
+获取某个时刻的起始时间和结束时间：
+```php
+// 获取一天的开始时间和结束时间
+now()->startOfDay();      // 2021-08-12 00:00:00
+now()->endOfDay();        // 2021-08-12 23:59:59
+
+// 获取这周的开始时间和结束时间
+now()->startOfWeek();     // 2021-08-09 00:00:00
+now()->endOfWeek();       // 2021-08-15 23:59:59
+
+// 获取这个月的起始时间和结束时间
+now()->startOfMonth();    // 2021-08-01 00:00:00
+now()->endOfMonth();      // 2021-08-31 23:59:59
+
+// 获取今年的起始时间和结束时间
+now()->startOfYear();     // 2021-01-01 00:00:00
+now()->endOfYear();       // 2021-12-31 23:59:59
+```
+
+获取指定日期范围内的日期：
+```php
+$startTime = now();
+$endTime = Carbon::parse("2021-09-12");
+$dates = $startTime->daysUntil($endTime);
+```
+
+格式化日期为指定格式：
+```php
+now()->format("Y/m/d");   // 2021/08/12
+now()->format("Y.m.d");   // 2021.08.12
+```
+
+判断日期是否为指定格式：
+```php
+Carbon::hasFormat("2021/08/12", "Y-m-d")  // false
+```
+
+## 参考链接
+* [Laravel 中日期时间 Carbon 包的的使用详解](https://www.heibaiketang.com/forum/show/141.html)
+* [Carbon Api Doc](https://carbon.nesbot.com/docs/)
