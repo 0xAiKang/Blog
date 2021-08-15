@@ -16,12 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>Linux 中的Shell 种类 - Boo</title>
+    <title>Laravel Group By 异常记录 - Boo</title>
   
-    <meta name="keywords" content="Linux,Shell">
+    <meta name="keywords" content="PHP,Laravel">
   
   
-    <meta name="description" content="什么是Shell？">
+    <meta name="description" content="前段时间用Laravel 做项目，使用Group By时，总是会遇到的一个错误，具体异常信息如下：">
   
 
   <!-- feed -->
@@ -372,8 +372,8 @@
         
           
   <h1 class="title">
-    <a href="/shell-types-in-linux/">
-      Linux 中的Shell 种类
+    <a href="/laravel-uses-group-by-exception-logging/">
+      Laravel Group By 异常记录
     </a>
   </h1>
 
@@ -398,9 +398,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/' rel="nofollow">
+    <a href='/categories/PHP/Laravel/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Linux/学习笔记</p>
+      <p>PHP/Laravel</p>
     </a>
   </div>
 
@@ -411,7 +411,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jul 11, 2020</p>
+    <p>发布于：Aug 14, 2021</p>
   </a>
 </div>
 
@@ -427,13 +427,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>625 words</p>
+      <p>718 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>2 min</p>
+      <p>3 min</p>
     </a>
   </div>
 
@@ -446,7 +446,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/shell-types-in-linux/" class="leancloud_visitors" data-flag-title="Linux 中的Shell 种类">
+      <span id="/laravel-uses-group-by-exception-logging/" class="leancloud_visitors" data-flag-title="Laravel Group By 异常记录">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -469,38 +469,43 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>什么是Shell？</p>
+          <p>前段时间用Laravel 做项目，使用Group By时，总是会遇到的一个错误，具体异常信息如下：</p>
 <a id="more"></a>
 
-<p>Shell 是一个程序，其作用是将用户输入的命令发送到OS（系统内核）。</p>
-<p>据说它起源于作为存在于OS 内部和用户之间的外壳的依附着。所以为形象的称作为 壳（Shell）。</p>
-<h2 id="Shell-的种类"><a href="#Shell-的种类" class="headerlink" title="Shell 的种类"></a>Shell 的种类</h2><p>Linux Shell 的种类很多，目前流行的Shell 包括ash、bash、ksh、csh、zsh等，种类多了，也就有了标准化的要求，这就是POSIX的由来。</p>
-<p>POSIX 表示可移植操作系统接口（UNIX的可移植操作系统接口，缩写为POSIX），POSIX标准定义了操作系统应该为应用程序提供的接口标准。</p>
-<p>通过以下命令来查看文件中的内容来查看自己主机中当前有哪些种类的Shell：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">$ cat &#x2F;etc&#x2F;shells</span><br><span class="line">&#x2F;bin&#x2F;sh</span><br><span class="line">&#x2F;bin&#x2F;bash</span><br><span class="line">&#x2F;bin&#x2F;ksh</span><br><span class="line">&#x2F;bin&#x2F;pdksh</span><br><span class="line">&#x2F;bin&#x2F;tcsh</span><br><span class="line">&#x2F;bin&#x2F;zsh</span><br><span class="line">&#x2F;bin&#x2F;dash</span><br><span class="line">&#x2F;bin&#x2F;posh</span><br><span class="line">&#x2F;usr&#x2F;bin&#x2F;sh</span><br><span class="line">&#x2F;usr&#x2F;bin&#x2F;bash</span><br><span class="line">&#x2F;usr&#x2F;bin&#x2F;ksh</span><br><span class="line">&#x2F;usr&#x2F;bin&#x2F;pdksh</span><br><span class="line">&#x2F;usr&#x2F;bin&#x2F;tcsh</span><br><span class="line">&#x2F;usr&#x2F;bin&#x2F;zsh</span><br><span class="line">&#x2F;usr&#x2F;bin&#x2F;dash</span><br><span class="line">&#x2F;usr&#x2F;bin&#x2F;posh</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Illuminate\Database\QueryException: SQLSTATE[42000]: Syntax error or access violation: 1140 In aggregated query without GROUP BY, expression #2 of SELECT list contains nonaggregated column ‘database.table.id’; this is incompatible with sql_mode=only_full_group_by </p>
+</blockquote>
+<p>这个错误很眼熟，其原因是对于聚合操作（如：sum、max、min等），如果在SELECT 中的列，没有在GROUP BY中出现，那么这个SQL是不合法的，因为列不在GROUP BY从句中。</p>
+<p>简而言之，就是SELECT 后面接的列必须被GROUP BY 后面接的列所包含。</p>
+<p>可是同样的SQL，在数据库中是可以正常执行的，为什么在Laravel 下却总是会报错呢？</p>
+<p>当时也是因为项目紧急，没具体深究其原因。</p>
+<p>今天无意间看到一篇文章——<a href="http://www.manongjc.com/detail/24-naczktadrzjmysh.html" target="_blank" rel="noopener">Laravel使用group by报错的问题</a>，正好把这个问题给讲明白了。</p>
+<p>原来是因为开发者在Laravel <code>5.3</code> 版本后增加一个数据库的<code>strict</code> 模式，其中一个开发者对于增加这个模式的看法很有意思：</p>
+<blockquote>
+<p>Adam14Four ：<br>To be completely honest, I don’t remember exactly what the details were, but it was some sort of data-loss problem.<br>说真的，我也忘了具体的细节了，可能是因为数据丢失排序的问题。</p>
+</blockquote>
+<p>Laravel <code>8.x</code> 版本，默认会启用该模式，启用时，会造成以下影响：</p>
+<blockquote>
+<p>fernandobandeira：<br>1 - Add all columns to group by.<br>group by需要所有的列。<br>2 - Won’t be able to use date’s such as 0000-00-00 00:00:00.<br>时间不能使用0000-00-00 00:00:00的数据。<br>3 - Fields like boolean will throw fatal if you pass something that isn’t a boolean value, like 1, before it would convert it to true and save, with strict it fails.<br>字段如果是boolean类型，但是传入一个非boolean如「1」将会抛出一个致命错误。在非strict模式下会自动转换成true并保存。<br>4 - You’ll get an error if you divide a field by 0 (or another field that has 0 as value).<br>如果一个字段除以0将会得到一个错误（或者其他有0值的字段）</p>
+</blockquote>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p><strong>1. 最简单的方案，关闭该模式即可：</strong></p>
+<p>编辑<code>/config/database.php</code>：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'connections'</span> =&gt; [</span><br><span class="line">    <span class="string">'mysql'</span> =&gt; [</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">        <span class="string">'strict'</span> =&gt; <span class="keyword">false</span>,</span><br><span class="line">    ],</span><br><span class="line">],</span><br></pre></td></tr></table></figure>
 
-<p>如何查看当前正在使用的Shell 类型：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ echo $SHELL</span><br><span class="line">&#x2F;bin&#x2F;bash</span><br></pre></td></tr></table></figure>
-<p><code>$SHELL</code>是一个环境变量，它记录了Linux 当前用户所使用的Shell类型。</p>
-<p>用户可以通过直接输入各种Shell的二进制文件名（因为这些二进制文件本身是可以被执行的），来进入到该Shell下，比如进入<code>zsh</code>可以直接输入：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ &#x2F;bin&#x2F;zsh</span><br></pre></td></tr></table></figure>
+<p><strong>2. 配置modes</strong></p>
+<p>编辑<code>/config/database.php</code>：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'connections'</span> =&gt; [</span><br><span class="line">    <span class="string">'mysql'</span> =&gt; [</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">        <span class="string">'modes'</span> =&gt; [</span><br><span class="line">            <span class="string">'ONLY_FULL_GROUP_BY'</span>,</span><br><span class="line">            <span class="string">'STRICT_TRANS_TABLES'</span>,</span><br><span class="line">            <span class="string">'NO_ZERO_IN_DATE'</span>,</span><br><span class="line">            <span class="string">'NO_ZERO_DATE'</span>,</span><br><span class="line">            <span class="string">'ERROR_FOR_DIVISION_BY_ZERO'</span>,</span><br><span class="line">            <span class="string">'NO_AUTO_CREATE_USER'</span>,</span><br><span class="line">            <span class="string">'NO_ENGINE_SUBSTITUTION'</span>,</span><br><span class="line">        ],</span><br><span class="line">    ],</span><br><span class="line">],</span><br></pre></td></tr></table></figure>
 
-<p>这个命令为用户又启动了一个Shell，这个Shell在最初登录的那个Shell之后，称为下级的Shell或子Shell。</p>
-<h2 id="最标准的Shell"><a href="#最标准的Shell" class="headerlink" title="最标准的Shell"></a>最标准的Shell</h2><h3 id="Bash"><a href="#Bash" class="headerlink" title="Bash"></a>Bash</h3><p><code>sh</code>是Unix 上最古老的Shell，在<code>sh</code>的基础上添加了各种扩展功能的是<code>bash</code>，它成为Linux标准Shell。有如下的特点：</p>
-<ul>
-<li>使用上下键快速查看历史命令</li>
-<li>Tab 键自动补全</li>
-</ul>
-<h2 id="其他Shell"><a href="#其他Shell" class="headerlink" title="其他Shell"></a>其他Shell</h2><h3 id="ash"><a href="#ash" class="headerlink" title="ash"></a>ash</h3><p><code>ash</code>是Linux 中占用系统资源最少的一个小Shell，它只包含24个内部命令，因而使用起来很不方便。</p>
-<h3 id="csh"><a href="#csh" class="headerlink" title="csh"></a>csh</h3><p><code>csh</code>是Linux 比较大的内核，共有52个内部命令。该Shell其实是指向/bin/tcsh这样的一个Shell，也就是说，csh其实就是tcsh。</p>
-<h3 id="zsh"><a href="#zsh" class="headerlink" title="zsh"></a>zsh</h3><p>zch是Linux 最大的Shell之一，共有84 个内部命令。 zsh具有如下特性：</p>
-<ul>
-<li>更好的自动补全、更高效</li>
-<li>更好的文件名展开（通配符展开）</li>
-<li>可定制性高</li>
-</ul>
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
-<li><a href="https://academy.gmocloud.com/keywords/20170324/4010" target="_blank" rel="noopener">什么是Shell以及常见Shell种类</a></li>
+<p>不知为何，验证此方案时总是未生效。</p>
+<p><strong>3. full group by</strong><br>如果不想关闭该模式，那就只有两种选择了：</p>
+<ol>
+<li>Full Group By：SELECT 查询的字段包含所有的Group By 的字段中</li>
+<li>ANY_VALUE：这是一个Mysql 的函数，使用它可以临时跳过一些错误</li>
+</ol>
+<p>但需要注意的是，这种方案并不会“一劳永逸”，以后的每一次Group By 还是会面临相同的问题。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="http://www.manongjc.com/detail/24-naczktadrzjmysh.html" target="_blank" rel="noopener">Laravel使用group by报错的问题</a></li>
+<li><a href="https://github.com/laravel/framework/issues/14997" target="_blank" rel="noopener">query that worked in Laravel 5.2 gives me error in Laravel 5.3</a></li>
 </ul>
 
           
@@ -538,7 +543,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/shell-types-in-linux/>https://www.0x2beace.com/shell-types-in-linux/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/laravel-uses-group-by-exception-logging/>https://www.0x2beace.com/laravel-uses-group-by-exception-logging/</a></p>
           
         
       </blockquote>
@@ -586,10 +591,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-11T20:41:49+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-08-14T16:17:30+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Jul 11, 2020</p>
+    <p>更新于：Aug 14, 2021</p>
   </a>
 </div>
 
@@ -598,7 +603,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Linux/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Linux</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Shell/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Shell</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Laravel/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Laravel</p></a></div>
 
 
         
@@ -616,7 +621,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/shell-types-in-linux/&title=Linux 中的Shell 种类 - Boo&summary=什么是Shell？"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/laravel-uses-group-by-exception-logging/&title=Laravel Group By 异常记录 - Boo&summary=前段时间用Laravel 做项目，使用Group By时，总是会遇到的一个错误，具体异常信息如下："
           
           >
           
@@ -628,7 +633,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/shell-types-in-linux/&title=Linux 中的Shell 种类 - Boo&summary=什么是Shell？"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/laravel-uses-group-by-exception-logging/&title=Laravel Group By 异常记录 - Boo&summary=前段时间用Laravel 做项目，使用Group By时，总是会遇到的一个错误，具体异常信息如下："
           
           >
           
@@ -640,7 +645,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/shell-types-in-linux/&title=Linux 中的Shell 种类 - Boo&summary=什么是Shell？"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/laravel-uses-group-by-exception-logging/&title=Laravel Group By 异常记录 - Boo&summary=前段时间用Laravel 做项目，使用Group By时，总是会遇到的一个错误，具体异常信息如下："
           
           >
           
@@ -654,7 +659,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAAC6klEQVR42u3aQW7DMAwEwPz/0+0HGshL0kXojG4tYkscXRakXz/Wn+uFAAwYMGDAgFkD8yqu4wYXn0v3m3rf2/eDAQMGDBgwYNbBXA5Ah9+fCrlaWPX/3XrAgAEDBgwYMHthrgasapA7BbUuZLseMGDAgAEDBszXwsSB6uI+5cAGBgwYMGDAgAHTbAylz001tMCAAQMGDBgw3wMzHdDSRlQKUf0dGDBgwIABA+Y5MOlKB17//Xe5HjBgwIABAwbMGpjummoond5bHcDF9YABAwYMGDBg1sBMN5LuCoLVi0qBwYABAwYMGDB7YKqDqTSodQd46QWkFw4GDBgwYMCAeQ5MuuF0g6s7YCvDgwEDBgwYMGDWwKSBqhqkpgpJB3zx82DAgAEDBgyYNTBpQyo9UDW4TQXD+NxgwIABAwYMmHUw1YCXDuRe4eruFw/swIABAwYMGDDrYaYaTNXAVx3cpTDHRhUYMGDAgAED5mNhqgO3qeCVNqimgyMYMGDAgAED5ntguht3B3BpYyse/IEBAwYMGDBg1sCkB44HWEPBrHphMSgYMGDAgAEDZg3MVIC7u0FVvaA0+IEBAwYMGDBg9sJUPwRKB3JxA6kYJMcHbmDAgAEDBgyYj4GZDkzxQcLgeBU6hQQDBgwYMGDA7INJXzgN2h2gpY2x4znAgAEDBgwYMGthqg2mamFpw+quD5zAgAEDBgwYMM+DuQsiLTg9R3VfMGDAgAEDBsxemGowqzaiqoGvuo5BFgwYMGDAgAGzBqa7ukGtW1Da6DpeEBgwYMCAAQNmDcxUULqtcVQMiuXBIRgwYMCAAQNmHUw10HWhrgbGuxpbYMCAAQMGDJjnwHQDVPU9KXQ1oB4bZ2DAgAEDBgwYMMUPidLCusEQDBgwYMCAAQMmbUhVg90U5Nt9wIABAwYMGDBrYaoFpIVND+y6QRAMGDBgwIABsxdmOjh1C5qCii8YDBgwYMCAAbMGxgIDBgwYMGDALFu/ULvl/9/2nt0AAAAASUVORK5CYII=">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADpUlEQVR42u3aSXLDMAwEQP//08k9VS5xACiCk+bNi7g0L1OAXl9GabwQgAMHDpwBDtwSuFdxxAv+eO7dfFefr75P103PCw4cOHDgwIEDtw2uCpBCXP0/BauuW75wcODAgQMHDhy4pXCXAbAZKE8P0A3i3f2DAwcOHDhw4MD9N7h0ntPfp0HBgQMHDhw4cODAzR5kCv60wQ0OHDhw4MCBA/dX4Kov6p02mqcLjV3Ixzr54MCBAwcOHDhwQ3BTjeVP+Vw+Lzhw4MCBAwcO3BK47kiDZjWAnj6Xzh+fFxw4cODAgQMHbgncVIP5t6CqwbV7PnDgwIEDBw4cuG1w3cB5uqG0cTwVdKcKsODAgQMHDhw4cFvhqgtMBczu792AXG5IgwMHDhw4cODALYGbLix2C51pAbW7n8v5wYEDBw4cOHDglsClYGkB8jRQp9BTwTYttIIDBw4cOHDgwG2B6zZoq43ibmCtrlN9Hhw4cODAgQMHbjtcNbB2g+9UQXO68DreyQcHDhw4cODAgRuCSw/Q3XD6/OlB7wYGBw4cOHDgwIHbCjdVaKw2mLvQZYgw4IMDBw4cOHDgwG2FSxvP1QZyF2a6IX18AeDAgQMHDhw4cEvgThc6DZLd79PCZAo1VsgEBw4cOHDgwIF7GC4tVE43oqtB+3Te9IIu5wMHDhw4cODAgVsOVy10pgH4rkJner5jYHDgwIEDBw4cuCVwaSBMC47dgFwNtFMBGBw4cODAgQMHbitcNwBPBeKpQmQadOP9gAMHDhw4cODALYdLN9oN0FPB+nRf1WAMDhw4cODAgQP3aXDp/6qF0m4BtQp9/BkcOHDgwIEDB24ZXPVAr3BMBdVuo7l6ceDAgQMHDhw4cFvhqsG1WvBM/1dtfKfzv70wcODAgQMHDhy4pXDVAuXdLyZWg3q1cf72e3DgwIEDBw4cuKVw1QNUgdov+jUb6fH64MCBAwcOHDhwS+C64xSs29BO170tYIMDBw4cOHDgwC2BmwqI1SBdbRSnMNWLvmxIgwMHDhw4cODAPQzXDbwpQPXi7iqMHhdowYEDBw4cOHDglsKlG04D8V0N6O5oB2Bw4MCBAwcOHLgPhUs3UgWZbjTHFwcOHDhw4MCBA/fH4dLn0gJqteFcLbCCAwcOHDhw4MBth6se4BRkunE9XSgtB2Bw4MCBAwcOHLiH4KYbuGkwPQ3Ip+t1C5vHARgcOHDgwIEDB+4hOCMscCIABw4cOAMcuGfHNxsegJd70gLNAAAAAElFTkSuQmCC">
           </div>
         </div>
       
@@ -674,20 +679,13 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/the-difference-between-eval-and-backquotes-in-linux-and/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Linux 中的eval、反引号、$()的区别</p>
-                <p class='content'>之前在搭建 SSH 环境时，遇到了这样一个问题：
-
-使用命令：eval$(ssh-agent)去创建一个代理进程，但是会提示：No Such file or directory 。
-
-就很纳闷，...</p>
-              </a>
             
-            
-              <a class='next' href='/free-cdn-jsdelivr-github/'>
-                <p class='title'>免费 CDN：JsDelivr + Github<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>不知道大家通常是如何访问图床的，我之前一直使用的方式是：GitHub 图床 + raw.githubusercontent。
-图片相关的资源全部放在GitHub上，然后使用GitHub 提供的素...</p>
+              <a class='next' href='/note-a-problem-caused-by-insufficient-nginx-fastcgi_temp-permission/'>
+                <p class='title'>记一次由 Nginx fastcgi_temp 权限不足引起的问题<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>今天在正式环境收到同事反馈的一个问题：主页可以打开，但是部分列表始终无法访问。
+
+
+一开始，我以为是接口抛出异常了，但是打开浏览器控制台看到响应 状态为“200 OK”，同时可以看到Consol...</p>
               </a>
             
           </div>
@@ -732,7 +730,7 @@
 
   <script>
     window.subData = {
-      title: 'Linux 中的Shell 种类',
+      title: 'Laravel Group By 异常记录',
       tools: true
     }
   </script>
@@ -759,7 +757,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Shell-的种类"><span class="toc-text">Shell 的种类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最标准的Shell"><span class="toc-text">最标准的Shell</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Bash"><span class="toc-text">Bash</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他Shell"><span class="toc-text">其他Shell</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ash"><span class="toc-text">ash</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#csh"><span class="toc-text">csh</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#zsh"><span class="toc-text">zsh</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#解决方案"><span class="toc-text">解决方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
     </div>
   </section>
 

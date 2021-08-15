@@ -4,6 +4,35 @@
   
     
     <entry>
+      <title>Laravel Group By 异常记录</title>
+      <link href="/laravel-uses-group-by-exception-logging/"/>
+      <url>/laravel-uses-group-by-exception-logging/</url>
+      
+        <content type="html"><![CDATA[<p>前段时间用Laravel 做项目，使用Group By时，总是会遇到的一个错误，具体异常信息如下：</p><a id="more"></a><blockquote><p>Illuminate\Database\QueryException: SQLSTATE[42000]: Syntax error or access violation: 1140 In aggregated query without GROUP BY, expression #2 of SELECT list contains nonaggregated column ‘database.table.id’; this is incompatible with sql_mode=only_full_group_by </p></blockquote><p>这个错误很眼熟，其原因是对于聚合操作（如：sum、max、min等），如果在SELECT 中的列，没有在GROUP BY中出现，那么这个SQL是不合法的，因为列不在GROUP BY从句中。</p><p>简而言之，就是SELECT 后面接的列必须被GROUP BY 后面接的列所包含。</p><p>可是同样的SQL，在数据库中是可以正常执行的，为什么在Laravel 下却总是会报错呢？</p><p>当时也是因为项目紧急，没具体深究其原因。</p><p>今天无意间看到一篇文章——<a href="http://www.manongjc.com/detail/24-naczktadrzjmysh.html" target="_blank" rel="noopener">Laravel使用group by报错的问题</a>，正好把这个问题给讲明白了。</p><p>原来是因为开发者在Laravel <code>5.3</code> 版本后增加一个数据库的<code>strict</code> 模式，其中一个开发者对于增加这个模式的看法很有意思：</p><blockquote><p>Adam14Four ：<br>To be completely honest, I don’t remember exactly what the details were, but it was some sort of data-loss problem.<br>说真的，我也忘了具体的细节了，可能是因为数据丢失排序的问题。</p></blockquote><p>Laravel <code>8.x</code> 版本，默认会启用该模式，启用时，会造成以下影响：</p><blockquote><p>fernandobandeira：<br>1 - Add all columns to group by.<br>group by需要所有的列。<br>2 - Won’t be able to use date’s such as 0000-00-00 00:00:00.<br>时间不能使用0000-00-00 00:00:00的数据。<br>3 - Fields like boolean will throw fatal if you pass something that isn’t a boolean value, like 1, before it would convert it to true and save, with strict it fails.<br>字段如果是boolean类型，但是传入一个非boolean如「1」将会抛出一个致命错误。在非strict模式下会自动转换成true并保存。<br>4 - You’ll get an error if you divide a field by 0 (or another field that has 0 as value).<br>如果一个字段除以0将会得到一个错误（或者其他有0值的字段）</p></blockquote><h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p><strong>1. 最简单的方案，关闭该模式即可：</strong></p><p>编辑<code>/config/database.php</code>：</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'connections'</span> =&gt; [</span><br><span class="line">    <span class="string">'mysql'</span> =&gt; [</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">        <span class="string">'strict'</span> =&gt; <span class="keyword">false</span>,</span><br><span class="line">    ],</span><br><span class="line">],</span><br></pre></td></tr></table></figure><p><strong>2. 配置modes</strong></p><p>编辑<code>/config/database.php</code>：</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'connections'</span> =&gt; [</span><br><span class="line">    <span class="string">'mysql'</span> =&gt; [</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">        <span class="string">'modes'</span> =&gt; [</span><br><span class="line">            <span class="string">'ONLY_FULL_GROUP_BY'</span>,</span><br><span class="line">            <span class="string">'STRICT_TRANS_TABLES'</span>,</span><br><span class="line">            <span class="string">'NO_ZERO_IN_DATE'</span>,</span><br><span class="line">            <span class="string">'NO_ZERO_DATE'</span>,</span><br><span class="line">            <span class="string">'ERROR_FOR_DIVISION_BY_ZERO'</span>,</span><br><span class="line">            <span class="string">'NO_AUTO_CREATE_USER'</span>,</span><br><span class="line">            <span class="string">'NO_ENGINE_SUBSTITUTION'</span>,</span><br><span class="line">        ],</span><br><span class="line">    ],</span><br><span class="line">],</span><br></pre></td></tr></table></figure><p>不知为何，验证此方案时总是未生效。</p><p><strong>3. full group by</strong><br>如果不想关闭该模式，那就只有两种选择了：</p><ol><li>Full Group By：SELECT 查询的字段包含所有的Group By 的字段中</li><li>ANY_VALUE：这是一个Mysql 的函数，使用它可以临时跳过一些错误</li></ol><p>但需要注意的是，这种方案并不会“一劳永逸”，以后的每一次Group By 还是会面临相同的问题。</p><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul><li><a href="http://www.manongjc.com/detail/24-naczktadrzjmysh.html" target="_blank" rel="noopener">Laravel使用group by报错的问题</a></li><li><a href="https://github.com/laravel/framework/issues/14997" target="_blank" rel="noopener">query that worked in Laravel 5.2 gives me error in Laravel 5.3</a></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> PHP </category>
+          
+          <category> Laravel </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> PHP </tag>
+            
+            <tag> Laravel </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>记一次由 Nginx fastcgi_temp 权限不足引起的问题</title>
       <link href="/note-a-problem-caused-by-insufficient-nginx-fastcgi_temp-permission/"/>
       <url>/note-a-problem-caused-by-insufficient-nginx-fastcgi_temp-permission/</url>
