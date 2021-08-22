@@ -142,5 +142,45 @@ $user->save();
 
 自Laravel `5.x` 版本以来，官方文档中已不再介绍`queue:listen` 指令怎么使用了，所以开发阶段建议使用 `queue:listen` 进行调试，其余情况建议全部使用 `queue:work`，因为效率更高。
 
+## 问题八
+Laravel 如何在关联模型中排序？
+
+答案是：对于跨表排序这种需求，模型关联默认是没有实现的，因为模型关联的原理是将SQL 拆分成两条，模型关联的结果集是基于前面一条SQL 返回的id 集。
+
+通常有两种方式解决以上需求：
+1. 冗余字段
+2. 使用 join
+
+这里顺带介绍一个 Builder marco，也可以解决以上问题：
+```php
+// 基于关联关系排序实现
+Builder::macro('orderByWith', 
+    function ($relation, $column, $direction = 'asc'): Builder{
+            /** @var Builder $this */
+            if (is_string($relation)) {
+                $relation = $this->getRelationWithoutConstraints($relation);
+            }
+
+            return $this->orderBy(
+                $relation->getRelationExistenceQuery(
+                    $relation->getRelated()->newQueryWithoutRelationships(),
+                    $this,
+                    $column
+                ),
+                $direction
+            );
+        });
+```
+
+调用方式如下：
+```php
+// 基于当前分类关联
+$products = Product::has('cates')
+    // 根据分类关联中的sort字段进行排序
+    ->orderByWith('cates', 'sort', 'desc')
+    ->paginate($limit);
+```
+
 ## 参考链接
 * [Laravel attribute casting 导致的 Indirect modification of overloaded property](https://www.cnblogs.com/sgm4231/p/10194746.html)
+* [Laravel 怎么通过关联字段排序？](https://learnku.com/laravel/t/9290/how-can-laravel-be-sorted-by-associated-fields)
