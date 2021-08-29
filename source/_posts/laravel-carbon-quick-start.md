@@ -210,6 +210,7 @@ now()->endOfYear();       // 2021-12-31 23:59:59
 $startTime = now();
 $endTime = Carbon::parse("2021-09-12");
 $dates = $startTime->daysUntil($endTime);
+// 返回结果包含每一天的日期的对象
 ```
 
 格式化日期为指定格式：
@@ -221,6 +222,12 @@ now()->format("Y.m.d");   // 2021.08.12
 判断日期是否为指定格式：
 ```php
 Carbon::hasFormat("2021/08/12", "Y-m-d")  // false
+```
+
+语义化：
+```php
+Carbon::parse("2021-08-29 14:57:32")->diffForHumans(now());
+// 一分钟前
 ```
 
 ## 参考链接

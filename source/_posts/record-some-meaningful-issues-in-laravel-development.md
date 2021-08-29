@@ -181,6 +181,15 @@ $products = Product::has('cates')
     ->paginate($limit);
 ```
 
+## 问题九
+Observer 还是 Listener？
+
+Observer 可以监听 Eloquent 模型的 `creating`、`created`、`saving`、`saved` 等事件，而这些Listener 其实也可以做到，那么对于两者该如何选择呢？
+
+其实通过观察Observer的逻辑就会发现，它只是在帮助你添加了 listen 的逻辑，帮助你简化了事件 Listener 的注册。
+
+所以我通常是这么选择的：如果对应场景是 Eloquent 模型的相关事件，则会直接选择 Observer; 如果对应场景是业务事件触发，则会选择Listener。
+
 ## 参考链接
 * [Laravel attribute casting 导致的 Indirect modification of overloaded property](https://www.cnblogs.com/sgm4231/p/10194746.html)
 * [Laravel 怎么通过关联字段排序？](https://learnku.com/laravel/t/9290/how-can-laravel-be-sorted-by-associated-fields)
