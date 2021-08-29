@@ -427,13 +427,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1.2k words</p>
+      <p>1.3k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>4 min</p>
+      <p>5 min</p>
     </a>
   </div>
 
@@ -534,6 +534,10 @@
 <p>调用方式如下：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 基于当前分类关联</span></span><br><span class="line">$products = Product::has(<span class="string">'cates'</span>)</span><br><span class="line">    <span class="comment">// 根据分类关联中的sort字段进行排序</span></span><br><span class="line">    -&gt;orderByWith(<span class="string">'cates'</span>, <span class="string">'sort'</span>, <span class="string">'desc'</span>)</span><br><span class="line">    -&gt;paginate($limit);</span><br></pre></td></tr></table></figure>
 
+<h2 id="问题九"><a href="#问题九" class="headerlink" title="问题九"></a>问题九</h2><p>Observer 还是 Listener？</p>
+<p>Observer 可以监听 Eloquent 模型的 <code>creating</code>、<code>created</code>、<code>saving</code>、<code>saved</code> 等事件，而这些Listener 其实也可以做到，那么对于两者该如何选择呢？</p>
+<p>其实通过观察Observer的逻辑就会发现，它只是在帮助你添加了 listen 的逻辑，帮助你简化了事件 Listener 的注册。</p>
+<p>所以我通常是这么选择的：如果对应场景是 Eloquent 模型的相关事件，则会直接选择 Observer; 如果对应场景是业务事件触发，则会选择Listener。</p>
 <h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
 <li><a href="https://www.cnblogs.com/sgm4231/p/10194746.html" target="_blank" rel="noopener">Laravel attribute casting 导致的 Indirect modification of overloaded property</a></li>
 <li><a href="https://learnku.com/laravel/t/9290/how-can-laravel-be-sorted-by-associated-fields" target="_blank" rel="noopener">Laravel 怎么通过关联字段排序？</a></li>
@@ -622,10 +626,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-08-22T15:02:50+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-08-29T16:19:47+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Aug 22, 2021</p>
+    <p>更新于：Aug 29, 2021</p>
   </a>
 </div>
 
@@ -794,7 +798,7 @@ Rabbit 是什么？它是一个开源的消息代理和队列服务器，用来�
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#问题一"><span class="toc-text">问题一</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题二"><span class="toc-text">问题二</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题三"><span class="toc-text">问题三</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题四"><span class="toc-text">问题四</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题五"><span class="toc-text">问题五</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题六"><span class="toc-text">问题六</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题七"><span class="toc-text">问题七</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题八"><span class="toc-text">问题八</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#问题一"><span class="toc-text">问题一</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题二"><span class="toc-text">问题二</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题三"><span class="toc-text">问题三</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题四"><span class="toc-text">问题四</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题五"><span class="toc-text">问题五</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题六"><span class="toc-text">问题六</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题七"><span class="toc-text">问题七</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题八"><span class="toc-text">问题八</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题九"><span class="toc-text">问题九</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
     </div>
   </section>
 
@@ -829,7 +833,7 @@ Rabbit 是什么？它是一个开源的消息代理和队列服务器，用来�
     
       
         <div class='copyright'>
-        <span class="post-count">总字数：186.5k</span>
+        <span class="post-count">总字数：187.2k</span>
         <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
 
         <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>

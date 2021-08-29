@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>Laravel 完善 Error/Exception 的捕获与处理 - Boo</title>
+  
+    <meta name="keywords" content="PHP,Laravel">
+  
+  
+    <meta name="description" content="前端时间，线上的管理后台的某个功能突然被告知无法正常使用。">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Boo's Blog</p>
+    
+    
+      <p class="subtitle">Stay foolish, Stay hungry</p>
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/"
+                
+                
+                id="https:www0x2BeAcecom">
+                <i class='fas fa-book fa-fw'></i>博客
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/categories/"
+                
+                
+                id="https:www0x2BeAcecomcategories">
+                <i class='fas fa-rss fa-fw'></i>分类
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/tags/"
+                
+                
+                id="https:www0x2BeAcecomtags">
+                <i class='fas fa-play-circle fa-fw'></i>标签
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/archives/"
+                
+                  rel="external nofollow noopener noreferrer"
+                
+                
+                id="https:www0x2BeAcecomarchives">
+                <i class='fas fa-file-code fa-fw'></i>归档
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/about/"
+                
+                
+                id="https:www0x2BeAcecomabout">
+                <i class='fas fa-handshake fa-fw'></i>关于我
+              </a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/laravel-improves-error-exception-capture-and-handling/">
+      Laravel 完善 Error/Exception 的捕获与处理
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/PHP/Laravel/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>PHP/Laravel</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Aug 29, 2021</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>587 words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>2 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/laravel-improves-error-exception-capture-and-handling/" class="leancloud_visitors" data-flag-title="Laravel 完善 Error/Exception 的捕获与处理">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>前端时间，线上的管理后台的某个功能突然被告知无法正常使用。</p>
+<a id="more"></a>
+
+<p>抛出的异常如下：</p>
+<blockquote>
+<p>Trying to access array offset on value of type null</p>
+</blockquote>
+<p>初步判定就是因为某个数组或者对象的值为<code>null</code>，但是不确定具体是哪一行代码所导致。</p>
+<p>于是马上打开<code>laravel.log</code> 系统日志文件，想从这里站牌找到异常原因。</p>
+<p>找遍整个文件都没有发现相关字眼，这时我才意识到，本来Laravel 对于运行时错误，是会进行记录的，但是我将异常捕获到之后，并没有写入日志文件，而是直接返回给客户端了…</p>
+<p>显然这对于后面排查问题相当不方便，所以必须做点什么，将异常信息给保存起来。</p>
+<hr>
+<p>PHP 系统级用户代码的错误类型有两种，可由 <code>try ... catch ...</code> 进行捕获。</p>
+<ul>
+<li><code>E_PARSE</code>：解析时错误（语法解析错误）通常因为少个分号、多个逗号之类的问题导致的致命错误</li>
+<li><code>E_ERROR</code>：运行时错误，通常是因为调用了未定义的函数或方法而引发的致命错误。</li>
+</ul>
+<p>像文章开头的那个异常，就属于：<strong>运行时错误</strong>。这类异常正是我们需要捕获并记录的。</p>
+<p>因为目前的代码已经实现了，捕获系统异常并返回给客户端等相关功能，所以剩下需要完成的就只是写入日志文件。</p>
+<p>由于并不是所有异常都需要记录，比如由用户行为而造成的异常，就无需额外记录，所以最终实现如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">App</span>\<span class="title">Exceptions</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">App</span>\<span class="title">Traits</span>\<span class="title">ApiResponse</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Exception</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 系统内部异常</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * Class InternalException</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@package</span> App\Exceptions</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">InternalException</span> <span class="keyword">extends</span> <span class="title">Exception</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">array</span> $doReport = [</span><br><span class="line">        \<span class="keyword">Exception</span>::class,       <span class="comment">// 所有异常的基类</span></span><br><span class="line">        \ErrorException::class,  <span class="comment">// 错误异常</span></span><br><span class="line">    ];</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * InternalException constructor.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> string $message</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> int    $code</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($message = <span class="string">"系统内部错误"</span>, $exception = null, $code = <span class="number">500</span>)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> ($exception) &#123;</span><br><span class="line">            <span class="keyword">if</span> (in_array(get_class($exception), <span class="keyword">$this</span>-&gt;doReport)) &#123;</span><br><span class="line">                \Log::error(<span class="string">"系统内部异常"</span>, [<span class="string">"exception"</span> =&gt; $exception]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">parent</span>::__construct($message, $code);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>调用如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">say</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// do something</span></span><br><span class="line">    &#125; <span class="keyword">catch</span> (\<span class="keyword">Exception</span> $exception) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> InternalException($exception-&gt;getMessage(), $exception);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样，如果后面如果再次遇到类似的问题，就可以直接去<code>laravel.log</code> 文件中找到具体的异常信息了。</p>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/laravel-improves-error-exception-capture-and-handling/>https://www.0x2beace.com/laravel-improves-error-exception-capture-and-handling/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-08-29T16:21:24+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Aug 29, 2021</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Laravel/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Laravel</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/laravel-improves-error-exception-capture-and-handling/&title=Laravel 完善 Error/Exception 的捕获与处理 - Boo&summary=前端时间，线上的管理后台的某个功能突然被告知无法正常使用。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/laravel-improves-error-exception-capture-and-handling/&title=Laravel 完善 Error/Exception 的捕获与处理 - Boo&summary=前端时间，线上的管理后台的某个功能突然被告知无法正常使用。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/laravel-improves-error-exception-capture-and-handling/&title=Laravel 完善 Error/Exception 的捕获与处理 - Boo&summary=前端时间，线上的管理后台的某个功能突然被告知无法正常使用。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVgAAAFYCAAAAAAzB7ucAAAEdklEQVR42u3aQXbbMAwFwNz/0um+fXkCPkDaToc7OZJIDrUAEHx9G0fGFwKwYA2wYMEaYK/AfoXjnxf+9fvTdTr/9P3d39vrAgsWLFiwYMGCBXsVthwAP9xf3UD17915qx9COs/jfsGCBQsWLFiwYMG+BDYNzLvPrQXk4Xzd67IHWLBgwYIFCxYs2I+CnQbyXYBb6wcLFixYsGDBggX7f8BWC8Nb4xY8WLBgwYIFCxYs2PeGbTcohAXp7rzdBovtROR6JwxYsGDBggULFizYEuxWYP5brmMPsGDBggULFixYsFdgtwL00wlCdZ6f7u8mGLEHWLBgwYIFCxYs2CuwaYDc3cj2PE/zdg96ui6wYMGCBQsWLFiwr4VNC8RpAJ4mEtMGjGlhv/wfBLBgwYIFCxYsWLBXYLsL6d6XBvLboNODjTMvsGDBggULFixYsKuwaePC9sbTRpBuwT1NDB4L5WDBggULFixYsGCvwqZw042ljRhbDRvdD+hxPWDBggULFixYsGCvwm41VlQ3Ok0cTicg8QcCFixYsGDBggUL9ipst2EjvX+rQD6F6SYY5QMDCxYsWLBgwYIFexX2FFx34dPGkG4hu3twjy5gwYIFCxYsWLBgr8BOJ9wK3NOAPoWYflCPCQJYsGDBggULFizYo7DbDRDTQLvbMFH9QLqF7LTBBCxYsGDBggULFuxd2CnMdgKQXncPqPuBPD4PFixYsGDBggUL9gpsd6JpgJ0ueCsx6SYcYMGCBQsWLFiwYN8bthtobzVsTN/zvTSmhXOwYMGCBQsWLFiwr4HtNnCcCujTxoluYXxaoP/xd7BgwYIFCxYsWLBXYdPC9FYgnzZeVOHTQnb3gwILFixYsGDBggV7B7a60C50GmB3C+3V57caVMCCBQsWLFiwYMF+Jmy3QDxtgOg+v72+dsICFixYsGDBggUL9irsKeAp9LSQXU0E1hs2wIIFCxYsWLBgwb4UtrqgbiBdBUnBUqA0cQALFixYsGDBggX7HrBduO/lMS2cVxOB7QQELFiwYMGCBQsW7F3YbsA+DfjXA/PmuqaJR9wJAxYsWLBgwYIFC/YIbDfQngb43caQaQJTTQyqBw4WLFiwYMGCBQv2PWCnYN2Av1toThs8Th3geqEbLFiwYMGCBQsW7Ah2q/GhWjCe3rf1IaQNHWDBggULFixYsGBfC9udMC2Yp4X004lDCg0WLFiwYMGCBQv2Lux0pAlBGqinBfppQ0Z5XWDBggULFixYsGCvwK4FxmFBehrgbx1gtxBebtgACxYsWLBgwYIFexQ2TQimhe/qe7oHN/0Q4v2BBQsWLFiwYMGCfQnsNICeNmBUn+82YHT3m+4LLFiwYMGCBQsW7GfCVgPv6ca6758eXHk+sGDBggULFixYsB8FmxaSpwBrjRZhowpYsGDBggULFizY94BNAaagWwlBut61hhSwYMGCBQsWLFiwV2G7I4V5gqr+vZsIbCcM5QQBLFiwYMGCBQsW7BFYY3eABQvWAAsWrAH26PgDO4MYXJ3InmwAAAAASUVORK5CYII=">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/laravel-connects-to-multiple-mysql-databases/'>
+                <p class='title'>Laravel 连接多个 Mysql 数据库<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>在Laravel 项目里面，如果需要使用多个数据库，其实是很简单的事情。
+
+
+第一步，首先需要在 .env 文件中定义第二个数据库连接：
+123456789101112DB_CONNECTION...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Laravel 完善 Error/Exception 的捕获与处理',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+      
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <span class="post-count">总字数：187.2k</span>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
+
+        <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+        
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?fbe826b92f6d49a0ebacf4d848bd3add";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+<script>
+  var now = new Date(); 
+  function createtime() {    
+      var grt= new Date("07/04/2020 14:12:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";     
+  } 
+setInterval("createtime()",250);
+</script>
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "Ki6kd5TUWoQyYKSErxehnRpc-MdYXbMMI",
+    appKey: "7pRBOKMw58Yo7EsUjHziIEY1",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
