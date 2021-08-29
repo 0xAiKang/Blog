@@ -12,7 +12,7 @@ categories: ["PHP", "Laravel"]
 抛出的异常如下：
 > Trying to access array offset on value of type null
 
-初步判定就是因为某个数组或者对象的值为`null`，所导致。
+初步判定就是因为某个数组或者对象的值为`null`，但是不确定具体是哪一行代码所导致。
 
 于是马上打开`laravel.log` 系统日志文件，想从这里站牌找到异常原因。
 
