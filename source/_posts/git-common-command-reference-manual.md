@@ -283,6 +283,9 @@ $ git remote rename [old-name] [new-name]
 
 # 移除远程仓库
 $ git remote remove [origin-name]
+
+# 修改源
+$ git remote set-url origin [NEW_URL]
 ```
 
 ### Push
