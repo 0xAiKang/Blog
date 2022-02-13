@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>Laravel Request 常见表单验证整理 - Boo</title>
+  
+    <meta name="keywords" content="PHP,Laravel">
+  
+  
+    <meta name="description" content="Laravel 的表单验证非常强大，结合单一职责原则，在Request 类中就能满足日常开发绝大多数验证场景。">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Boo's Blog</p>
+    
+    
+      <p class="subtitle">Stay foolish, Stay hungry</p>
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/"
+                
+                
+                id="https:www0x2BeAcecom">
+                <i class='fas fa-book fa-fw'></i>博客
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/categories/"
+                
+                
+                id="https:www0x2BeAcecomcategories">
+                <i class='fas fa-rss fa-fw'></i>分类
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/tags/"
+                
+                
+                id="https:www0x2BeAcecomtags">
+                <i class='fas fa-play-circle fa-fw'></i>标签
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/archives/"
+                
+                  rel="external nofollow noopener noreferrer"
+                
+                
+                id="https:www0x2BeAcecomarchives">
+                <i class='fas fa-file-code fa-fw'></i>归档
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/about/"
+                
+                
+                id="https:www0x2BeAcecomabout">
+                <i class='fas fa-handshake fa-fw'></i>关于我
+              </a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/laravel-request-common-form-validation-finishing/">
+      Laravel Request 常见表单验证整理
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/PHP/Laravel/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>PHP/Laravel</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：May 24, 2021</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>791 words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>3 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/laravel-request-common-form-validation-finishing/" class="leancloud_visitors" data-flag-title="Laravel Request 常见表单验证整理">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>Laravel 的表单验证非常强大，结合单一职责原则，在Request 类中就能满足日常开发绝大多数验证场景。</p>
+<a id="more"></a>
+
+<p>下面整理了常用的一些表单验证规则，大致可以分为以下几类：</p>
+<ol>
+<li>常规验证</li>
+<li>自定义规则验证</li>
+<li>数据库验证</li>
+</ol>
+<h2 id="常规验证"><a href="#常规验证" class="headerlink" title="常规验证"></a>常规验证</h2><p>所谓的常规验证就是直接使用Laravel 表单验证为我们提供的验证规则。</p>
+<h3 id="boolean"><a href="#boolean" class="headerlink" title="boolean"></a>boolean</h3><p>验证的字段必须可以转换为 Boolean 类型。 可接受的输入为 <code>true</code> ， <code>false</code> ， <code>1</code> ，<code>0</code> ， <code>&quot;1&quot;</code> 和 <code>&quot;0&quot;</code> 。</p>
+<h3 id="alpha"><a href="#alpha" class="headerlink" title="alpha"></a>alpha</h3><p>待验证字段只能由字母组成。</p>
+<h3 id="alpha-num"><a href="#alpha-num" class="headerlink" title="alpha_num"></a>alpha_num</h3><p>待验证字段只能由字母和数字组成。</p>
+<h3 id="array"><a href="#array" class="headerlink" title="array"></a>array</h3><p>待验证字段必须是有效的 PHP 数组。</p>
+<h3 id="url"><a href="#url" class="headerlink" title="url"></a>url</h3><p>验证的字段必须是有效的 URL。</p>
+<h3 id="integer"><a href="#integer" class="headerlink" title="integer"></a>integer</h3><p>验证的字段必须是整数。</p>
+<h3 id="numeric"><a href="#numeric" class="headerlink" title="numeric"></a>numeric</h3><p>验证字段必须为数值。</p>
+<p>注意数值和整数的区别。</p>
+<h3 id="json"><a href="#json" class="headerlink" title="json"></a>json</h3><p>验证的字段必须是有效的 JSON 字符串。</p>
+<h3 id="max-min"><a href="#max-min" class="headerlink" title="max/min"></a>max/min</h3><p>验证字段必须在最小值与最大值之间。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> [</span><br><span class="line">    <span class="string">"value"</span> =&gt; <span class="string">"max:99|min:1"</span>    </span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<h3 id="in"><a href="#in" class="headerlink" title="in"></a>in</h3><p>验证字段必须包含在给定的值列表中：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> [</span><br><span class="line">    <span class="string">"value"</span> =&gt; <span class="string">"in:0,1,2,3"</span>    </span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<h3 id="digits-between"><a href="#digits-between" class="headerlink" title="digits_between"></a>digits_between</h3><p>验证中的字段必须为 numeric，并且长度必须在给定的 min 和 max 之间。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> [</span><br><span class="line">    <span class="string">"mobile"</span> =&gt; <span class="string">"digits_between:8,11"</span>    </span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<h3 id="dimensions"><a href="#dimensions" class="headerlink" title="dimensions"></a>dimensions</h3><p>验证的文件必须是图片并且图片比例必须符合规则:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> [</span><br><span class="line">    <span class="string">'avatar'</span> =&gt; <span class="string">'dimensions:min_width=100,min_height=200'</span></span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+<p>对于图片的验证，使用 <code>dimensions</code> 尤其有用。</p>
+<h3 id="image"><a href="#image" class="headerlink" title="image"></a>image</h3><p>验证的文件必须是图片 (jpeg, png, bmp, gif, svg, or webp)。</p>
+<h3 id="required"><a href="#required" class="headerlink" title="required"></a>required</h3><p>验证的字段必须存在于输入数据中，而不是空。如果满足以下条件之一，则字段被视为「空」：</p>
+<ul>
+<li>值为 null。</li>
+<li>值为空字符串。</li>
+<li>值为空数组或空 Countable 对象。</li>
+<li>值为无路径的上传文件。</li>
+</ul>
+<h3 id="filled"><a href="#filled" class="headerlink" title="filled"></a>filled</h3><p>验证的字段在存在时不能为空。</p>
+<h3 id="exclude-if"><a href="#exclude-if" class="headerlink" title="exclude_if"></a>exclude_if</h3><p>可以指定当验证字段的值为 value 时，其他验证规则可以排除。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> [</span><br><span class="line">    <span class="string">"id"</span> =&gt; <span class="string">"required|exclude_if:id,0|integer|exists:admin,id"</span>,</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+<p>当 <code>id</code> 为零时，不会验证<code>exists</code> 规则。</p>
+<h2 id="自定义规则验证"><a href="#自定义规则验证" class="headerlink" title="自定义规则验证"></a>自定义规则验证</h2><p>如果某个规则仅仅只使用一次，那么使用闭包来创建自定义规则再适合不过，闭包函数接收属性的方法，属性的值以及在校验失败时的回调函数 <code>$fail</code>：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> [</span><br><span class="line">    <span class="string">"age"</span> =&gt; <span class="function"><span class="keyword">function</span> <span class="params">($attribute, $value, $fail)</span> </span>&#123;</span><br><span class="line">          <span class="keyword">if</span> ($value &gt; <span class="number">18</span>) &#123;</span><br><span class="line">              <span class="keyword">return</span> $fail(<span class="string">"年龄不符"</span>);</span><br><span class="line">          &#125; </span><br><span class="line">     &#125;;</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<h2 id="数据库验证"><a href="#数据库验证" class="headerlink" title="数据库验证"></a>数据库验证</h2><h3 id="exists"><a href="#exists" class="headerlink" title="exists"></a>exists</h3><p>验证的字段必须存在于给定的数据库表中。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> [</span><br><span class="line">    <span class="string">'email'</span> =&gt; <span class="string">'exists:users,email_address'</span></span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<h3 id="unique"><a href="#unique" class="headerlink" title="unique"></a>unique</h3><p>验证字段在给定的数据库表中必须是唯一的。</p>
+<p>语法：<code>unique:table,column,except,idColumn</code>。</p>
+<p>基本用法，指定自定义的列表：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> [</span><br><span class="line">    <span class="string">'email'</span> =&gt; <span class="string">'unique:users,email_address'</span></span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<p>在做<code>update</code> 操作时，如果提交了 <code>email</code>，那么上面的那个验证仍然会生效，这时可以通过定义  <code>except</code> 当前用户。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> [</span><br><span class="line">    <span class="string">'email'</span> =&gt; <span class="string">'unique:users,email_address,$this-&gt;uid,uid'</span></span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<p>生成的SQL：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select count(*) <span class="keyword">as</span> aggregate from users where email_address = <span class="string">"geeek001@qq.com"</span> <span class="keyword">and</span> uid &lt;&gt; <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+<p>同样可以使用<code>Rule</code> 助手函数来完成数据库验证：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> [</span><br><span class="line">    <span class="string">"email"</span> =&gt; [</span><br><span class="line">          Rule::unique(<span class="string">"users"</span>, <span class="string">"email_address"</span>),</span><br><span class="line">      ],    </span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://learnku.com/docs/laravel/8.x/validation/9374#6cc7dc" target="_blank" rel="noopener">Laravel 表单验证</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/laravel-request-common-form-validation-finishing/>https://www.0x2beace.com/laravel-request-common-form-validation-finishing/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-02-13T17:12:57+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Feb 13, 2022</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Laravel/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Laravel</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/laravel-request-common-form-validation-finishing/&title=Laravel Request 常见表单验证整理 - Boo&summary=Laravel 的表单验证非常强大，结合单一职责原则，在Request 类中就能满足日常开发绝大多数验证场景。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/laravel-request-common-form-validation-finishing/&title=Laravel Request 常见表单验证整理 - Boo&summary=Laravel 的表单验证非常强大，结合单一职责原则，在Request 类中就能满足日常开发绝大多数验证场景。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/laravel-request-common-form-validation-finishing/&title=Laravel Request 常见表单验证整理 - Boo&summary=Laravel 的表单验证非常强大，结合单一职责原则，在Request 类中就能满足日常开发绝大多数验证场景。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADoklEQVR42u3aQW4jMQwEQP//07svCIZs0jFjlG5BJhqpnEOD7dc/K1ovBODAgQNngQN3BO4Vrh83fnj+aZ/q+57O8dNz0/uCAwcOHDhw4MBdgysHwCbcFmgV4umc0/uCAwcOHDhw4MBdhateMD1gF3AriK/dFxw4cODAgQMH7svgpoPObrBNYcGBAwcOHDhw4MBlP08D8tbgExw4cODAgQMH7tvg0i/qdWGmBXdanJ9p8sGBAwcOHDhw4Jbg0gHhX/05vi84cODAgQMHDtwRuOnqBtp0v3Rwub3AgQMHDhw4cOCuwKUBMR0gpkE6DbDp34MDBw4cOHDgwF2H2yp+qyBbwNPCO/3CIjhw4MCBAwcO3BW4KlQ3AKcX7+43DbhdQHDgwIEDBw4cuCtw0wHf1gCyW1RXB7HTohocOHDgwIEDB+4q3LSQnha87yqk0wL7cT9w4MCBAwcOHLhjcN3BY1r8vvvvph/M4z7gwIEDBw4cOHDH4d41OEwDcheoCt/+hwEHDhw4cODAgTsKVw2I1RdN4dIBaXegWf4AwIEDBw4cOHDgjsB1L9YNltuDxmkBngZfcODAgQMHDhy4a3BpQdwtdtN904C+9V5w4MCBAwcOHLircN1Cd20gGBbHKUz13I+/BwcOHDhw4MCBOwI3DZhbF9gaWKZA5QErOHDgwIEDBw7cEbjpRacXmA5Ux4G2W2iDAwcOHDhw4MAdgXs117SQTkHSwJ4GXXDgwIEDBw4cuL8C965AuR1w08Hq2j3AgQMHDhw4cOCOwXUL6e4AsBpMt4JwFaob7MGBAwcOHDhw4K7BdQeO28V0OnCc7t++Pzhw4MCBAwcO3HG4tOidPj8dhG6dMy6kwYEDBw4cOHDgPgRXDZZpodwdfKbPpcH48Xlw4MCBAwcOHLijcNPCdgtwCt0N0OV/BHDgwIEDBw4cuKNwVYDpRbdgfmuBAwcOHDhw4MBdg5uu6oBwCjH9QLvnfyykwYEDBw4cOHDgPgw3DYTpoDANzN0gvX0ucODAgQMHDhy4a3DdwNsuct80qNweqD7eCxw4cODAgQMH7ihcGiir+3QhfquQLgdkcODAgQMHDhy4L4frFsJVmO57f22QCQ4cOHDgwIED90fh0oOlA9T0/eMvTIIDBw4cOHDgwB2F27rAFG67kO4Wz+1BJjhw4MCBAwcO3IfgtgrcaXE9LbqnQbc9yAQHDhw4cODAgfsQnNWERgAOHDhwFjhwn13/AUu1hUyp50szAAAAAElFTkSuQmCC">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/laravel-artisan-custom-commands/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Laravel Artisan 自定义命令</p>
+                <p class='content'>Laravel 主要提供了三种实现命令行交互的工具：
+
+Artisan：内置一套命令行操作，并可以自定义进行扩展
+Tinker：为应用提供了 REPL 或者交互的 shell
+安装器：通常在项目...</p>
+              </a>
+            
+            
+              <a class='next' href='/basic-use-of-laravel-cxception/'>
+                <p class='title'>Laravel Exception 基本使用<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>在Laravel 中，所有异常都是由 App\Exceptions\Handler 类处理，同时也会记录在日志信息中。
+
+
+通常可能会直接使用 throw new \Exception 来抛出一...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Laravel Request 常见表单验证整理',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+  <section class="widget toc-wrapper shadow desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#常规验证"><span class="toc-text">常规验证</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#boolean"><span class="toc-text">boolean</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#alpha"><span class="toc-text">alpha</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#alpha-num"><span class="toc-text">alpha_num</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#array"><span class="toc-text">array</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#url"><span class="toc-text">url</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#integer"><span class="toc-text">integer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#numeric"><span class="toc-text">numeric</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#json"><span class="toc-text">json</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#max-min"><span class="toc-text">max&#x2F;min</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#in"><span class="toc-text">in</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#digits-between"><span class="toc-text">digits_between</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dimensions"><span class="toc-text">dimensions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#image"><span class="toc-text">image</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#required"><span class="toc-text">required</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#filled"><span class="toc-text">filled</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#exclude-if"><span class="toc-text">exclude_if</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自定义规则验证"><span class="toc-text">自定义规则验证</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库验证"><span class="toc-text">数据库验证</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#exists"><span class="toc-text">exists</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#unique"><span class="toc-text">unique</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+  
+    <meting-js
+      theme='#1BCDFC'
+      autoplay='false'
+      volume='0.7'
+      loop='all'
+      order='list'
+      fixed='false'
+      list-max-height='340px'
+      server='netease'
+      type='playlist'
+      id='3175833810'
+      list-folded='true'>
+    </meting-js>
+  
+
+
+        </div>
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "Ki6kd5TUWoQyYKSErxehnRpc-MdYXbMMI",
+    appKey: "7pRBOKMw58Yo7EsUjHziIEY1",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>

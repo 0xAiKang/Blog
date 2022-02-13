@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>Linux系统监控命令整理汇总 - Boo</title>
+  
+    <meta name="keywords" content="Linux,Ubuntu">
+  
+  
+    <meta name="description" content="以下命令以Ubuntu 18.04 LTS 系统为准。">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Boo's Blog</p>
+    
+    
+      <p class="subtitle">Stay foolish, Stay hungry</p>
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/"
+                
+                
+                id="https:www0x2BeAcecom">
+                <i class='fas fa-book fa-fw'></i>博客
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/categories/"
+                
+                
+                id="https:www0x2BeAcecomcategories">
+                <i class='fas fa-rss fa-fw'></i>分类
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/tags/"
+                
+                
+                id="https:www0x2BeAcecomtags">
+                <i class='fas fa-play-circle fa-fw'></i>标签
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/archives/"
+                
+                  rel="external nofollow noopener noreferrer"
+                
+                
+                id="https:www0x2BeAcecomarchives">
+                <i class='fas fa-file-code fa-fw'></i>归档
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/about/"
+                
+                
+                id="https:www0x2BeAcecomabout">
+                <i class='fas fa-handshake fa-fw'></i>关于我
+              </a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/summary-of-linux-system-monitoring-commands/">
+      Linux系统监控命令整理汇总
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Linux/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Linux</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Nov 17, 2020</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>3.6k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>13 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/summary-of-linux-system-monitoring-commands/" class="leancloud_visitors" data-flag-title="Linux系统监控命令整理汇总">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>以下命令以Ubuntu 18.04 LTS 系统为准。</p>
+<a id="more"></a>
+
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>功能</th>
+<th>实例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>free</td>
+<td>查看内存使用情况，包括物理内存和虚拟内存</td>
+<td>free -h 或 free -m</td>
+</tr>
+<tr>
+<td>vmstat</td>
+<td>对系统的整体情况进行统计，包括内核进程、虚拟内存、磁盘、陷阱和 CPU 活动的统计信息</td>
+<td>vmstat 2 100</td>
+</tr>
+<tr>
+<td>top</td>
+<td>实时显示系统中各个进程的资源占用状况及总体状况</td>
+<td>top</td>
+</tr>
+<tr>
+<td>mpstat</td>
+<td>实时系统监控工具，它会报告与CPU相关的统计信息</td>
+<td>mpstat</td>
+</tr>
+<tr>
+<td>sar</td>
+<td>收集、报告和保存CPU、内存、输入输出端口使用情况</td>
+<td>sar -n DEV 3 100</td>
+</tr>
+<tr>
+<td>netstat</td>
+<td>检验本机各端口的网络连接情况，用于显示与IP、TCP、UDP和ICMP协议相关的统计数据</td>
+<td>netstat -a</td>
+</tr>
+<tr>
+<td>tcpdump</td>
+<td>用于捕捉或者过滤网络上指定接口上接收或者传输的TCP/IP包</td>
+<td>tcpdump -i eth0 -c 3</td>
+</tr>
+<tr>
+<td>iptraf</td>
+<td>用来生成包括TCP信息、UDP计数、ICMP和OSPF信息、以太网负载信息、节点状态信息、IP校验和错误等等统计数据</td>
+<td>iptraf</td>
+</tr>
+<tr>
+<td>iostat</td>
+<td>收集显示系统存储设备输入和输出状态统计</td>
+<td>iostat -x -k 2 100</td>
+</tr>
+<tr>
+<td>lsof</td>
+<td>查看进程打开的文件的工具，查看监听端口</td>
+<td>lsof -i :3000</td>
+</tr>
+<tr>
+<td>atop</td>
+<td>显示的是各种系统资源（CPU, memory, network, I/O, kernel）的综合，并且在高负载的情况下进行了彩色标注</td>
+<td>atop</td>
+</tr>
+<tr>
+<td>htop</td>
+<td>它和top命令十分相似，高级的交互式的实时linux进程监控工具</td>
+<td>htop</td>
+</tr>
+<tr>
+<td>ps</td>
+<td>最基本同时也是非常强大的进程查看命令</td>
+<td>ps aux</td>
+</tr>
+<tr>
+<td>glances</td>
+<td>监视 CPU，平均负载，内存，网络流量，磁盘 I/O，其他处理器 和 文件系统 空间的利用情况</td>
+<td>glances</td>
+</tr>
+<tr>
+<td>dstat</td>
+<td>全能系统信息统计工具，可用于替换vmstat、iostat、netstat、nfsstat和ifstat这些命令的工具</td>
+<td>dstat</td>
+</tr>
+<tr>
+<td>uptime</td>
+<td>用于查看服务器运行了多长时间以及有多少个用户登录，快速获知服务器的负荷情况</td>
+<td>uptime</td>
+</tr>
+<tr>
+<td>dmesg</td>
+<td>主要用来显示内核信息。使用dmesg可以有效诊断机器硬件故障或者添加硬件出现的问题</td>
+<td>dmesg</td>
+</tr>
+<tr>
+<td>mpstat</td>
+<td>用于报告多路CPU主机的每颗CPU活动情况，以及整个主机的CPU情况</td>
+<td>mpstat 2 3</td>
+</tr>
+<tr>
+<td>nmon</td>
+<td>监控CPU、内存、I/O、文件系统及网络资源。对于内存的使用，它可以实时的显示 总/剩余内存、交换空间等信息</td>
+<td>nmon</td>
+</tr>
+<tr>
+<td>mytop</td>
+<td>用于监控 mysql 的线程和性能。它能让你实时查看数据库以及正在处理哪些查询</td>
+<td>mytop</td>
+</tr>
+<tr>
+<td>iftop</td>
+<td>用来监控网卡的实时流量（可以指定网段）、反向解析IP、显示端口信息等</td>
+<td>iftop</td>
+</tr>
+<tr>
+<td>jnettop</td>
+<td>以相同的方式来监测网络流量但比 iftop 更形象。它还支持自定义的文本输出，并能以友好的交互方式来深度分析日志</td>
+<td>jnettop</td>
+</tr>
+<tr>
+<td>ngrep</td>
+<td>网络层的 grep。它使用 pcap ，允许通过指定扩展正则表达式或十六进制表达式来匹配数据包</td>
+<td>ngrep</td>
+</tr>
+<tr>
+<td>nmap</td>
+<td>可以扫描你服务器开放的端口并且可以检测正在使用哪个操作系统</td>
+<td>nmap localhost</td>
+</tr>
+<tr>
+<td>du</td>
+<td>查看Linux系统中某目录的大小</td>
+<td>du -sh *</td>
+</tr>
+<tr>
+<td>fdisk</td>
+<td>查看硬盘及分区信息</td>
+<td>fdisk -l</td>
+</tr>
+</tbody></table>
+<h2 id="内存监控"><a href="#内存监控" class="headerlink" title="内存监控"></a>内存监控</h2><h3 id="free"><a href="#free" class="headerlink" title="free"></a>free</h3><p><code>free</code>命令可以显示当前系统未使用的和已使用的内存数目，还可以显示被内核使用的内存缓冲区。</p>
+<p>语法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">free (选项)</span><br></pre></td></tr></table></figure>
+
+<p>常用选项：<br><code>-b</code>：以Byte为单位显示内存使用情况；<br><code>-k</code>：以KB为单位显示内存使用情况；<br><code>-m</code>：以MB为单位显示内存使用情况；<br><code>-g</code>：以GB为单位显示内存使用情况;<br><code>-o</code>：不显示缓冲区调节列；<br><code>-t</code>：显示内存总和列；<br><code>-V</code>：显示版本信息。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201117222535.png" alt=""></p>
+<p>字段说明：</p>
+<ul>
+<li>total：内存总数；</li>
+<li>used：已经使用的内存数，包括 cached 和应用程序实际使用的内存；</li>
+<li>free：空闲的内存数；</li>
+<li>shared：当前已经废弃不用；</li>
+<li>buffers：缓存内存数；</li>
+<li>cached：缓存内存数。</li>
+</ul>
+<p>关系：total = used + free</p>
+<h3 id="vmstat"><a href="#vmstat" class="headerlink" title="vmstat"></a>vmstat</h3><p>vmstat命令 的含义为显示虚拟内存状态（“Viryual Memor Statics”），但是它可以报告关于进程、内存、I/O等系统整体运行状态。</p>
+<p>语法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vmstat (选项) (参数)</span><br></pre></td></tr></table></figure>
+
+<p>选项<br><code>-a</code>：显示活动内页；<br><code>-f</code>：显示启动后创建的进程总数；<br><code>-m</code>：显示slab信息；<br><code>-n</code>：头信息仅显示一次；<br><code>-s</code>：以表格方式显示事件计数器和内存状态；<br><code>-d</code>：报告磁盘状态；<br><code>-p</code>：显示指定的硬盘分区状态；<br><code>-S</code>：输出信息的单位。</p>
+<p>参数</p>
+<ul>
+<li>事件间隔：状态信息刷新的时间间隔；</li>
+<li>次数：显示报告的次数。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201117223922.png" alt=""></p>
+<p>字段说明：<br>Procs（进程）</p>
+<ul>
+<li>r: 运行和等待CPU时间片的进程数，这个值如果长期大于系统CPU个数，就说明CPU资源不足，可以考虑增加CPU </li>
+<li>b: 等待资源的进程数，比如正在等待I/O或者内存交换等</li>
+</ul>
+<p>Memory（内存）</p>
+<ul>
+<li>swpd: 使用虚拟内存大小，如果swpd的值不为0，但是SI，SO的值长期为0，这种情况不会影响系统性能。</li>
+<li>free: 空闲物理内存大小（以KB为单位）。</li>
+<li>buff: 用作缓冲的内存大小。</li>
+<li>cache: 用作缓存的内存大小，如果cache的值大的时候，说明cache处的文件数多。如果此时IO中的bi比较小，就说明文件系统效率比较好。</li>
+</ul>
+<p>Swap</p>
+<ul>
+<li>si: 每秒从交换区写到内存的大小，由磁盘调入内存。</li>
+<li>so: 每秒写入交换区的内存大小，由内存调入磁盘。</li>
+</ul>
+<p>注意：内存够用的时候，这2个值都是0，如果这2个值长期大于0时，系统性能会受到影响，磁盘IO和CPU资源都会被消耗。有些朋友看到空闲内存（free）很少的或接近于0时，就认为内存不够用了，不能光看这一点，还要结合si和so，如果free很少，但是si和so也很少（大多时候是0），那么不用担心，系统性能这时不会受到影响的。</p>
+<p>IO（现在的Linux版本块的大小为1kb）</p>
+<ul>
+<li>bi: 每秒读取的块数</li>
+<li>bo: 每秒写入的块数</li>
+</ul>
+<p>注意：随机磁盘读写的时候，这2个值较大（如超出1024k)，而且wa值比较大，则表示系统磁盘IO性能瓶颈。</p>
+<p>system（系统）</p>
+<ul>
+<li>in: 每秒中断数，包括时钟中断。</li>
+<li>cs: 每秒上下文切换数。</li>
+</ul>
+<p>注意：上面2个值越大，会看到由内核消耗的CPU时间会越大。</p>
+<p>CPU（以百分比表示）<br>us: 用户进程执行时间百分比(user time)<br>us的值比较高时，说明用户进程消耗的CPU时间多，但是如果长期超50%的使用，那么我们就该考虑优化程序算法或者进行加速。</p>
+<ul>
+<li>sy: 内核系统进程执行时间百分比(system time)<br>sy的值高时，说明系统内核消耗的CPU资源多，这并不是良性表现，我们应该检查原因。</li>
+<li>id: 空闲时间百分比</li>
+<li>wa: IO等待时间百分比<br>wa的值高时，说明IO等待比较严重，这可能由于磁盘大量作随机访问造成，也有可能磁盘出现瓶颈（块操作）。</li>
+<li>st：一般不关注，虚拟机占用的时间百分比。</li>
+</ul>
+<h2 id="CPU-监控"><a href="#CPU-监控" class="headerlink" title="CPU 监控"></a>CPU 监控</h2><h3 id="top"><a href="#top" class="headerlink" title="top"></a>top</h3><p>top命令 可以实时动态地查看系统的整体运行情况。</p>
+<p>语法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top (选项)</span><br></pre></td></tr></table></figure>
+
+<p>选项：<br><code>-b</code>：以批处理模式操作；<br><code>-c</code>：显示完整的治命令；<br><code>-d</code>：屏幕刷新间隔时间；<br><code>-I</code>：忽略失效过程；<br><code>-s</code>：保密模式；<br><code>-S</code>：累积模式；<br><code>-i&lt;时间&gt;</code>：设置间隔时间；<br><code>-u&lt;用户名&gt;</code>：指定用户名；<br><code>-p&lt;进程号&gt;</code>：指定进程；<br><code>-n&lt;次数&gt;</code>：循环显示的次数。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201118231037.png" alt=""></p>
+<p>字段说明：</p>
+<ul>
+<li><code>top</code>：系统当前时间</li>
+<li><code>up xxx days</code>：系统运行时间</li>
+<li><code>1 users</code>：当前登录用户个数</li>
+<li><code>load average</code>：系统负载。即任务队列的平均长度。三个数值分别为最近1分钟、最近5分钟、最近15分钟的平均负载。——超过N（CPU核数）说明系统满负荷运行。</li>
+<li>Tasks<ul>
+<li><code>total</code>：总进程数</li>
+<li><code>running</code>：正在运行的进程数</li>
+<li><code>sleeping</code>：睡眠的进程数</li>
+<li><code>stopped</code>：停止的进程数</li>
+<li><code>zombie</code>：冻结的进程数</li>
+</ul>
+</li>
+<li>%Cpu(s)<ul>
+<li><code>us</code>：用户进程消耗的CPU百分比</li>
+<li><code>sy</code>：内核进程消耗的CPU百分比</li>
+<li><code>ni</code>：改变过优先级的进程占用CPU的百分比</li>
+<li><code>id</code>：空闲CPU的百分比</li>
+<li><code>wa</code>：IO等待消耗的CPU百分比</li>
+</ul>
+</li>
+<li>Mem<ul>
+<li><code>total</code>：物理内存总量</li>
+<li><code>free</code>：空闲物理内存总量</li>
+<li><code>used</code>：已用物理内存总量</li>
+<li><code>buff</code>：用作内核缓存内存总量</li>
+</ul>
+</li>
+<li>Swap<ul>
+<li><code>total</code>：虚拟内存总量</li>
+<li><code>free</code>：空闲虚拟内存总量</li>
+<li><code>used</code>：已用虚拟内存总量</li>
+</ul>
+</li>
+</ul>
+<h3 id="mpstat"><a href="#mpstat" class="headerlink" title="mpstat"></a>mpstat</h3><p>mpstat命令 指令主要用于多CPU环境下，它显示各个可用CPU的状态系你想。</p>
+<p>语法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mpstat (选项) (参数)</span><br></pre></td></tr></table></figure>
+
+<p>选项：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-P：指定CPU编号。</span><br></pre></td></tr></table></figure>
+
+<p>参数：</p>
+<ul>
+<li>间隔时间：每次报告的间隔时间（秒）；</li>
+<li>次数：显示报告的次数。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201118232333.png" alt=""></p>
+<p>ALL表示显示所有CPUs，也可以指定某个CPU；2表示刷新间隔。</p>
+<h2 id="网络监控"><a href="#网络监控" class="headerlink" title="网络监控"></a>网络监控</h2><h3 id="sar"><a href="#sar" class="headerlink" title="sar"></a>sar</h3><p>sar命令 是Linux下系统运行状态统计工具，它将指定的操作系统状态计数器显示到标准输出设备。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201118232850.png" alt=""></p>
+<p>字段说明：</p>
+<ul>
+<li><code>IFACE</code>：网络设备的名称</li>
+<li><code>rxpck/s</code>：每秒钟接收到的包数目</li>
+<li><code>txpck/s</code>：每秒钟发送出去的包数目</li>
+<li><code>rxkB/s</code>：每秒钟接收到的字节数</li>
+<li><code>txkB/s</code>：每秒钟发送出去的字节数</li>
+</ul>
+<h3 id="netstat"><a href="#netstat" class="headerlink" title="netstat"></a>netstat</h3><p>netstat命令一般用于检验本机各端口的网络连接情况，用于显示与IP、TCP、UDP和ICMP协议相关的统计数据。</p>
+<p>常用实例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">netstat -aup      # 输出所有UDP连接状况</span><br><span class="line">netstat -atp      # 输出所有TCP连接状况</span><br><span class="line">netstat -s        # 显示各个协议的网络统计信息</span><br><span class="line">netstat -i        # 显示网卡列表</span><br><span class="line">netstat -r        # 显示路由表信息</span><br><span class="line">netstat -l        # 只显示监听端口</span><br><span class="line">netstat -lt       # 只列出所有监听 tcp 端口</span><br><span class="line">netstat -lu       # 只列出所有监听 udp 端口</span><br><span class="line">netstat -lx       # 只列出所有监听 UNIX 端口</span><br></pre></td></tr></table></figure>
+
+<h2 id="磁盘监控"><a href="#磁盘监控" class="headerlink" title="磁盘监控"></a>磁盘监控</h2><h3 id="df"><a href="#df" class="headerlink" title="df"></a>df</h3><p>df命令 用于显示磁盘分区上的可使用的磁盘空间。如果没有文件名被指定，则显示当前所有被挂载的文件系统，默认以 KB 为单位。</p>
+<p>语法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df (选项) (参数)</span><br></pre></td></tr></table></figure>
+
+<p>选项：<br><code>-a</code>  全部文件系统列表<br><code>-h</code>  以方便阅读的方式显示<br><code>-i</code>  显示inode信息<br><code>-T</code>  显示文件系统类型<br><code>-l</code>  只显示本地文件系统<br><code>-k</code>  以KB为单位<br><code>-m</code>  以MB为单位</p>
+<p>参数：</p>
+<ul>
+<li>文件：指定文件系统上的文件。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201118234529.png" alt=""></p>
+<h3 id="iostat"><a href="#iostat" class="headerlink" title="iostat"></a>iostat</h3><p>iostat命令 被用于监视系统输入输出设备和CPU的使用情况。</p>
+<p>语法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iostat (选项) (参数)</span><br></pre></td></tr></table></figure>
+
+<p>选项：<br><code>-c</code>：仅显示CPU使用情况；<br><code>-d</code>：仅显示设备利用率；<br><code>-k</code>：显示状态以千字节每秒为单位，而不使用块每秒；<br><code>-m</code>：显示状态以兆字节每秒为单位；<br><code>-p</code>：仅显示块设备和所有被使用的其他分区的状态；<br><code>-t</code>：显示每个报告产生时的时间；<br><code>-V</code>：显示版号并退出；<br><code>-x</code>：显示扩展状态。</p>
+<p>参数：</p>
+<ul>
+<li>间隔时间：每次报告的间隔时间（秒）；</li>
+<li>次数：显示报告的次数。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201119221611.png" alt=""></p>
+<p>字段说明：</p>
+<ul>
+<li><code>r/s</code>: 每秒完成的读 I/O 设备次数。</li>
+<li><code>w/s</code>: 每秒完成的写 I/O 设备次数。</li>
+<li><code>rkB/s</code>: 每秒读K字节数.是 rsect/s 的一半,因为每扇区大小为512字节。</li>
+<li><code>wkB/s</code>: 每秒写K字节数.是 wsect/s 的一半。</li>
+<li><code>avgrq-sz</code>: 平均每次设备I/O操作的数据大小 (扇区)。</li>
+<li><code>avgqu-sz</code>: 平均I/O队列长度。</li>
+<li><code>await</code>: 平均每次设备I/O操作的等待时间 (毫秒)。</li>
+<li><code>svctm</code>: 平均每次设备I/O操作的服务时间 (毫秒)。</li>
+<li><code>%util</code>: 一秒中有百分之多少的时间用于 I/O 操作,或者说一秒中有多少时间 I/O 队列是非空的。</li>
+</ul>
+<h3 id="iotop"><a href="#iotop" class="headerlink" title="iotop"></a>iotop</h3><p>iotop命令 是一个用来监视磁盘I/O使用状况的top类工具。</p>
+<p>iotop具有与top相似的UI，其中包括PID、用户、I/O、进程等相关信息。Linux下的IO统计工具如iostat，nmon等大多数是只能统计到per设备的读写情况，如果你想知道每个进程是如何使用IO的就比较麻烦，使用iotop命令可以很方便的查看。</p>
+<p>语法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iotop (选项)</span><br></pre></td></tr></table></figure>
+
+<p>选项：<br><code>-o</code>：只显示有io操作的进程<br><code>-b</code>：批量显示，无交互，主要用作记录到文件。<br><code>-n</code>： NUM：显示NUM次，主要用于非交互式模式。<br><code>-d SEC</code>：间隔SEC秒显示一次。<br><code>-p PID</code>：监控的进程pid。<br><code>-u USER</code>：监控的进程用户。</p>
+<p>iotop常用快捷键：</p>
+<ul>
+<li>左右箭头：改变排序方式，默认是按IO排序。</li>
+<li>r：改变排序顺序。</li>
+<li>o：只显示有IO输出的进程。</li>
+<li>p：进程/线程的显示方式的切换。</li>
+<li>a：显示累积使用量。</li>
+<li>q：退出。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201119221830.png" alt=""></p>
+<h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><h3 id="ps"><a href="#ps" class="headerlink" title="ps"></a>ps</h3><p>ps（Process Status，进程状态）命令 用于报告当前系统的进程状态。</p>
+<p>ps 的用法非常多，这里仅列举一些常用的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ps -aux | grep &lt;name&gt;      # 查看name 进程详细信息</span><br><span class="line">ps -p &lt;pid&gt; -L             # 显示进程&lt;pid&gt; 的所有线程</span><br><span class="line">ps -o lstart &lt;pid&gt;         # 显示进程的启动时间</span><br><span class="line">ps -f --forest -C &lt;name&gt;   # 用树的风格显示进程的层次关系</span><br><span class="line">ps -e -o pid,uname,pcpu,pmem,comm,etime  # 定制显示的列</span><br><span class="line">ps -o lstart &lt;pid&gt;         # 显示进程的启动时间</span><br></pre></td></tr></table></figure>
+
+<h2 id="系统监控全能工具"><a href="#系统监控全能工具" class="headerlink" title="系统监控全能工具"></a>系统监控全能工具</h2><h3 id="glances"><a href="#glances" class="headerlink" title="glances"></a>glances</h3><p>glances 是一个用来监视 GNU/Linux 和 FreeBSD 操作系统的 GPL 授权的全能工具。</p>
+<p>Glances 会用一下几种颜色来代表状态：</p>
+<ul>
+<li>绿色：OK（一切正常） </li>
+<li>蓝色：CAREFUL（需要注意） </li>
+<li>紫色：WARNING（警告） </li>
+<li>红色：CRITICAL（严重）。</li>
+</ul>
+<p>阀值可以在配置文件中设置，一般阀值被默认设置为（careful=50、warning=70、critical=90）。</p>
+<h3 id="dstat"><a href="#dstat" class="headerlink" title="dstat"></a>dstat</h3><p>dstat命令 是一个用来替换vmstat、iostat、netstat、nfsstat和ifstat这些命令的工具。</p>
+<p>直接使用dstat，默认使用的是-cdngy参数，分别显示cpu、disk、net、page、system信息，默认是1s显示一条信息。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://wzfou.com/linux-jiankong/" target="_blank" rel="noopener">Linux系统监控命令整理汇总-掌握CPU,内存,磁盘IO等找出性能瓶颈</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/summary-of-linux-system-monitoring-commands/>https://www.0x2beace.com/summary-of-linux-system-monitoring-commands/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-02-13T17:12:57+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Feb 13, 2022</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Linux/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Linux</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Ubuntu/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Ubuntu</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/summary-of-linux-system-monitoring-commands/&title=Linux系统监控命令整理汇总 - Boo&summary=以下命令以Ubuntu 18.04 LTS 系统为准。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/summary-of-linux-system-monitoring-commands/&title=Linux系统监控命令整理汇总 - Boo&summary=以下命令以Ubuntu 18.04 LTS 系统为准。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/summary-of-linux-system-monitoring-commands/&title=Linux系统监控命令整理汇总 - Boo&summary=以下命令以Ubuntu 18.04 LTS 系统为准。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADqklEQVR42u3aS3JiQQwEQO5/6ZkDTBDdKukNws7egd+vEy9EFa8/VrReCMCBAwfOAgduCdwrXP9c8PL4d6+777/d6OH86n7BgQMHDhw4cOC2wV0PgIfj0+tNQZyeo7tfcODAgQMHDhy4rXDdAbZ63lPAt/ctPzc4cODAgQMHDtwPh5uGTu/fPR8cOHDgwIEDB+63wk0NpNWC/OsHYHDgwIEDBw4cuIcL6amAceq40/OsafLBgQMHDhw4cOCG4NKB81tfx/sFBw4cOHDgwIFbAtdd2wvn6QUOHDhw4MCBA7cFLh0Qq0FiNWC8BUo/mLjgBgcOHDhw4MCBWwaXFrnpD/Wqf6/Cps99PA8cOHDgwIEDB24JXDe4HBsswwByvHB+qpAGBw4cOHDgwIEbhuve4HZjt9dJn+cUmFaD1bfngQMHDhw4cODALYGrXrj6YN0BujtoP/7NARw4cODAgQMH7kNw3YG3PEAOw00/R7vJBwcOHDhw4MCB+xBcOnBWg8JqEFrdcBqYHq8DDhw4cODAgQO3BG76B4Xp+91iOy2ay/sCBw4cOHDgwIFbApcOvtMFdTfwnApAj+DgwIEDBw4cOHBL4KaCx+p5abDYDULHCmlw4MCBAwcOHLhlcN0AMQ0mnzq++8EcE2Bw4MCBAwcOHLgPw00VtrcD6xR0NQBNi2tw4MCBAwcOHLitcLcDYzqwVovkdFDt3icupMGBAwcOHDhw4JbApYNpCpH+UHAqAL0epMGBAwcOHDhw4JbBTRW5TxfS3Y1X93WdAIMDBw4cOHDgwH0IbqpA7gaH6aA8dX77mwM4cODAgQMHDtx/hrsdULsPkB7/dCF9/RocOHDgwIEDB24JXHVA7UKnG54upOMAFhw4cODAgQMHbilcesMqdFpcp4N29R/iWEiDAwcOHDhw4MAtg0uL3+lgMh3I0wG8XEiDAwcOHDhw4MAth0tBU5jpwfbVXODAgQMHDhw4cFvhpoLGbjDaLaTT4roc2IIDBw4cOHDgwC2BmxoMb4vktOhOg87p4BQcOHDgwIEDB24b3PTAW93Y9MBbLbCvA11w4MCBAwcOHLilcN2BcjpoTAfrdKAfa/LBgQMHDhw4cOC+BG4qoEwH4rRoLr8GBw4cOHDgwIH7oXApUPrDxG7QWoYHBw4cOHDgwIFbClctpKeL5+mCuR1cggMHDhw4cODALYfrFrhTG+gW0tUPvvyc4MCBAwcOHDhwS+CsYsCJABw4cOAscOA+u/4CqxGDaulDBgsAAAAASUVORK5CYII=">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/redis-persistence-quick-start/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Redis 持久化快速上手</p>
+                <p class='content'>
+什么是持久化？
+
+Redis 所有数据都是存储在内存中的，对于数据的更新将异步的保存在磁盘中，当Redis实例重启时，即可利用之前持久化的文件实现数据恢复。
+
+
+主流数据库的持久化方式：
+
+快...</p>
+              </a>
+            
+            
+              <a class='next' href='/idea-cannot-start-normally-under-mac/'>
+                <p class='title'>Mac 下IDEA 无法正常启动<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>前言今天本来打算使用PHPStorm的，但是突然启动不了了，就是双击应用程序之后，电脑没有任何反应。
+
+
+因为使用的PHPStorm是破解的，所以我以为是失效了。就在我一筹莫展准备重装一遍的，突...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Linux系统监控命令整理汇总',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+  <section class="widget toc-wrapper shadow desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#内存监控"><span class="toc-text">内存监控</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#free"><span class="toc-text">free</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#vmstat"><span class="toc-text">vmstat</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CPU-监控"><span class="toc-text">CPU 监控</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#top"><span class="toc-text">top</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mpstat"><span class="toc-text">mpstat</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#网络监控"><span class="toc-text">网络监控</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#sar"><span class="toc-text">sar</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#netstat"><span class="toc-text">netstat</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#磁盘监控"><span class="toc-text">磁盘监控</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#df"><span class="toc-text">df</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#iostat"><span class="toc-text">iostat</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#iotop"><span class="toc-text">iotop</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#进程"><span class="toc-text">进程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ps"><span class="toc-text">ps</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#系统监控全能工具"><span class="toc-text">系统监控全能工具</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#glances"><span class="toc-text">glances</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dstat"><span class="toc-text">dstat</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+  
+    <meting-js
+      theme='#1BCDFC'
+      autoplay='false'
+      volume='0.7'
+      loop='all'
+      order='list'
+      fixed='false'
+      list-max-height='340px'
+      server='netease'
+      type='playlist'
+      id='3175833810'
+      list-folded='true'>
+    </meting-js>
+  
+
+
+        </div>
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "Ki6kd5TUWoQyYKSErxehnRpc-MdYXbMMI",
+    appKey: "7pRBOKMw58Yo7EsUjHziIEY1",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>

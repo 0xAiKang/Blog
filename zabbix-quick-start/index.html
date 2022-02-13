@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>Zabbix 快速上手——部署 - Boo</title>
+  
+    <meta name="keywords" content="Linux,Zabbix,监控系统">
+  
+  
+    <meta name="description" content="因为一些特殊原因，部分环境不是搭建在云上面，而是在托管的实体机上面，这就导致原本很多云可以帮我们做的事情，现在只能自己去做了。比如：监控系统。
+本着不想当运维的前端不是一个好全栈的思想，我迫切需要自己搭建一套完整的监控系统来解放自己的双手👐️。">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Boo's Blog</p>
+    
+    
+      <p class="subtitle">Stay foolish, Stay hungry</p>
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/"
+                
+                
+                id="https:www0x2BeAcecom">
+                <i class='fas fa-book fa-fw'></i>博客
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/categories/"
+                
+                
+                id="https:www0x2BeAcecomcategories">
+                <i class='fas fa-rss fa-fw'></i>分类
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/tags/"
+                
+                
+                id="https:www0x2BeAcecomtags">
+                <i class='fas fa-play-circle fa-fw'></i>标签
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/archives/"
+                
+                  rel="external nofollow noopener noreferrer"
+                
+                
+                id="https:www0x2BeAcecomarchives">
+                <i class='fas fa-file-code fa-fw'></i>归档
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/about/"
+                
+                
+                id="https:www0x2BeAcecomabout">
+                <i class='fas fa-handshake fa-fw'></i>关于我
+              </a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/zabbix-quick-start/">
+      Zabbix 快速上手——部署
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Linux/Zabbix/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Linux/Zabbix</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Sep 5, 2020</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>1.6k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>6 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/zabbix-quick-start/" class="leancloud_visitors" data-flag-title="Zabbix 快速上手——部署">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>因为一些特殊原因，部分环境不是搭建在云上面，而是在托管的实体机上面，这就导致原本很多云可以帮我们做的事情，现在只能自己去做了。<br>比如：监控系统。</p>
+<p>本着<strong>不想当运维的前端不是一个好全栈</strong>的思想，我迫切需要自己搭建一套完整的监控系统来解放自己的双手👐️。</p>
+<a id="more"></a>
+
+<p>我希望这套监控系统是怎样的？</p>
+<ol>
+<li>免费开源</li>
+<li>入门相对容易</li>
+<li>支持多平台分布式监控</li>
+</ol>
+<p>综合以上需求，最后我选择了 <a href="https://www.zabbix.com/" target="_blank" rel="noopener">Zabbix</a> 。</p>
+<p>网上找了一圈，并没有发现合适的入门教程，要么是教程太老了，要么是写的不够详细，学习曲线很陡，光是部署就很费劲，而Zabbix 重要的不是部署，而是学会如何使用。</p>
+<p>所以这篇笔记就是用来记录如何快速部署 Zabbix。</p>
+<h2 id="认识-Zabbix"><a href="#认识-Zabbix" class="headerlink" title="认识 Zabbix"></a>认识 Zabbix</h2><p><a href="https://www.zabbix.com/" target="_blank" rel="noopener">Zabbix</a> 是一个企业级的分布式开源监控方案。</p>
+<p>一个完整的监控系统是由服务机（zabbix server）和客户机（zabbix zgent）组成，运行大概流程是这样的：<br> <code>zabbix agent</code> 需要安装到被监控的主机上，它负责定期收集各项数据，并发送到 <code>zabbix server</code> 端，zabbix server将数据存储到自己的数据库中，<code>zabbix web</code>根据数据在前端进行展现和绘图。这里 agent 收集数据分为主动和被动两种模式：</p>
+<ul>
+<li>主动：agent 请求server 获取主动的监控项列表，并主动将监控项内需要检测的数据提交给 server/proxy 。</li>
+<li>被动：server 向agent请求获取监控项的数据，agent返回数据。</li>
+</ul>
+<p>工作原理：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200905083643.png" alt=""></p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>系统环境：</p>
+<ul>
+<li>Ubuntu 18.04 LTS</li>
+<li>Mysql 5.7</li>
+<li>PHP 7.2</li>
+<li>Nginx </li>
+<li>Zabbix 5.0</li>
+</ul>
+<h3 id="1-安装数据库"><a href="#1-安装数据库" class="headerlink" title="1. 安装数据库"></a>1. 安装数据库</h3><p>在正式安装之前，这里推荐先去<a href="https://www.zabbix.com/cn/download" target="_blank" rel="noopener">官网</a>找到符合自己的 Zabbix 服务器平台。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200902093733.png" alt=""></p>
+<p>根据自己的实际环境来找到属于自己的下载链接，比如我是<code>Zabbix 5.0 + Ubuntu 18.04 + Mysql + Nginx</code>，所以我的安装方式应该是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ wget https:&#x2F;&#x2F;repo.zabbix.com&#x2F;zabbix&#x2F;5.0&#x2F;ubuntu&#x2F;pool&#x2F;main&#x2F;z&#x2F;zabbix-release&#x2F;zabbix-release_5.0-1+bionic_all.deb</span><br><span class="line">$ dpkg -i zabbix-release_5.0-1+bionic_all.deb</span><br><span class="line">$ apt update</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-安装Zabbix-server，Web前端，agent"><a href="#2-安装Zabbix-server，Web前端，agent" class="headerlink" title="2. 安装Zabbix server，Web前端，agent"></a>2. 安装Zabbix server，Web前端，agent</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apt install zabbix-server-mysql zabbix-frontend-php zabbix-nginx-conf zabbix-agent</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Zabbix Server：用来接收并处理 Zabbix agent 传过来的数据</li>
+<li>Web 前端：Zabbix 的交互界面</li>
+<li>Zabbix agent：需要被监控的主机</li>
+</ul>
+<h3 id="3-初始数据库"><a href="#3-初始数据库" class="headerlink" title="3. 初始数据库"></a>3. 初始数据库</h3><p>安装完数据库之后，并不能直接登录，因为不知道root 用户的密码，所以需要重置root 用户的密码，重置的方式有多种，这里推荐我常使用的的一种。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># vim &#x2F;etc&#x2F;mysql&#x2F;conf.d&#x2F;mysql.conf  </span><br><span class="line"># 也许你编辑的配置文件和我的名称不一样，不过没关系。</span><br><span class="line"></span><br><span class="line"># 添加下面两行配置</span><br><span class="line">[mysqld]</span><br><span class="line">skip-grant-tables</span><br></pre></td></tr></table></figure>
+
+<p>重启Mysql 服务：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ service mysql restart</span><br></pre></td></tr></table></figure>
+
+<p>现在的root 用户已经没有密码了，所以下一步要做的就是修改root 用户密码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ mysql -hlocalhost -uroot -p</span><br><span class="line"></span><br><span class="line">mysql &gt; UPDATE mysql.user SET authentication_string&#x3D;PASSWORD(&#39;password&#39;), plugin&#x3D;&#39;mysql_native_password&#39; WHERE User&#x3D;&#39;root&#39; AND Host&#x3D;&#39;localhost&#39;;</span><br></pre></td></tr></table></figure>
+<p>然后再次修改刚才的配置文件，将下面那行配置给注释掉， 最后重启Mysql 服务就可以了。</p>
+<p>Mysql 默认用户是root，这里不推荐直接使用 root 用户去管理 zabbix 数据库，所以还是使用官方推荐的方式，创建一个新的用户去管理：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ mysql -hlocalhost -uroot -p</span><br><span class="line"></span><br><span class="line">mysql&gt; create database zabbix character set utf8 collate utf8_bin;</span><br><span class="line">mysql&gt; create user zabbix@localhost identified by &#39;password&#39;;</span><br><span class="line">mysql&gt; grant all privileges on zabbix.* to zabbix@localhost;</span><br><span class="line">mysql&gt; flush privileges;</span><br><span class="line">mysql&gt; quit;</span><br></pre></td></tr></table></figure>
+<p>这里默认Mysql 是运行在本地机器上，如果Mysql 运行在容器中，而Zabbix 又运行在本机上，可能会出现一些异常（我遇到了但没能解决）。</p>
+<p>导入初始架构和数据。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ zcat &#x2F;usr&#x2F;share&#x2F;doc&#x2F;zabbix-server-mysql*&#x2F;create.sql.gz | mysql -uzabbix -p zabbix</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-配置数据库"><a href="#4-配置数据库" class="headerlink" title="4. 配置数据库"></a>4. 配置数据库</h3><p>为Zabbix server配置数据库，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># vim &#x2F;etc&#x2F;zabbix&#x2F;zabbix_server.conf</span><br><span class="line"></span><br><span class="line">DBPassword&#x3D;password</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-配置Web"><a href="#5-配置Web" class="headerlink" title="5. 配置Web"></a>5. 配置Web</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># vim &#x2F;etc&#x2F;zabbix&#x2F;nginx.conf</span><br><span class="line"></span><br><span class="line"># 去掉前面的注释，换成你自己的端口或者域名。</span><br><span class="line"># listen 80;</span><br><span class="line"># server_name example.com;</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-配置时区"><a href="#6-配置时区" class="headerlink" title="6. 配置时区"></a>6. 配置时区</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># vim &#x2F;etc&#x2F;zabbix&#x2F;php-fpm.conf</span><br><span class="line"></span><br><span class="line">php_value[date.timezone] &#x3D; Asia&#x2F;Shanghai</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-启动服务"><a href="#7-启动服务" class="headerlink" title="7. 启动服务"></a>7. 启动服务</h3><p>启动Zabbix server和agent 进程，并为它们设置开机自启：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ systemctl restart zabbix-server zabbix-agent nginx php7.2-fpm</span><br><span class="line">$ systemctl enable zabbix-server zabbix-agent nginx php7.2-fpm</span><br></pre></td></tr></table></figure>
+
+<p>一切准备就绪之后，就可以访问了：<code>http://server_ip_or_name</code>，如果你上面配置的不是80 端口，那得记得加上对应的端口。如果你不能正常访问，那可能是因为防火墙没有允许该端口。</p>
+<p>初次进来，需要配置相关参数，确认无误之后，点击 Next step。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200902105706.png" alt=""></p>
+<p>Zabbix 默认的用户名和密码是<code>Admin</code>、<code>zabbix</code>，顺利登录到后台之后，记得修改默认登录密码。</p>
+<h2 id="配置中文语言包"><a href="#配置中文语言包" class="headerlink" title="配置中文语言包"></a>配置中文语言包</h2><p>如果需要设置中文版的环境，需要做一些额外的配置。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim &#x2F;usr&#x2F;share&#x2F;zabbix&#x2F;include&#x2F;locales.inc.php</span><br></pre></td></tr></table></figure>
+<p>将zh_CN 后面参数改为 true。</p>
+<p>如果在选择语言时，发现还是不能选择，并且提示：</p>
+<blockquote>
+<p>You are not able to choose some of the languages, because locales for them are not installed on the web server.</p>
+</blockquote>
+<p>这是因为你系统里没中文环境，查看当前的所有系统语言环境</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ locale -a</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200902110702.png" alt=""></p>
+<h3 id="1-安装中文包"><a href="#1-安装中文包" class="headerlink" title="1. 安装中文包"></a>1. 安装中文包</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install language-pack-zh-hant language-pack-zh-hans</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-配置环境变量"><a href="#2-配置环境变量" class="headerlink" title="2. 配置环境变量"></a>2. 配置环境变量</h3><p>增加语言和编码的设置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># vim &#x2F;etc&#x2F;environment</span><br><span class="line"></span><br><span class="line">LANG&#x3D;&quot;zh_CN.UTF-8&quot;</span><br><span class="line">LANGUAGE&#x3D;&quot;zh_CN:zh:en_US:en&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-替换Zabbix-语言包"><a href="#3-替换Zabbix-语言包" class="headerlink" title="3. 替换Zabbix 语言包"></a>3. 替换Zabbix 语言包</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ cd cd &#x2F;usr&#x2F;share&#x2F;zabbix&#x2F;locale&#x2F;zh_CN&#x2F;LC_MESSAGES</span><br><span class="line">$ wget https:&#x2F;&#x2F;github.com&#x2F;echohn&#x2F;zabbix-zh_CN&#x2F;archive&#x2F;v0.1.0.zip</span><br><span class="line">$ unzip master.zip</span><br><span class="line">$ rm frontend.mo</span><br><span class="line">$ cp zabbix-zh_CN-master&#x2F;frontend.mo frontend.mo</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-解决乱码问题"><a href="#4-解决乱码问题" class="headerlink" title="4. 解决乱码问题"></a>4. 解决乱码问题</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ wget https:&#x2F;&#x2F;github.com&#x2F;chenqing&#x2F;ng-mini&#x2F;blob&#x2F;master&#x2F;font&#x2F;msyh.ttf</span><br><span class="line">$ vim &#x2F;usr&#x2F;share&#x2F;zabbix&#x2F;include&#x2F;defines.inc.php</span><br><span class="line"></span><br><span class="line"># 找到 define(&#39;ZBX_GRAPH_FONT_NAME&#39;, &#39;graphfont&#39;);</span><br><span class="line"># 将graphfont 替换成 msyh</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-更新mibs-库"><a href="#5-更新mibs-库" class="headerlink" title="5. 更新mibs 库"></a>5. 更新mibs 库</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apt-get install snmp-mibs-downloader</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-重启服务"><a href="#6-重启服务" class="headerlink" title="6. 重启服务"></a>6. 重启服务</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ systemctl restart zabbix-server zabbix-agent php7.2-fpm</span><br></pre></td></tr></table></figure>
+
+<p>至此Zabbix 的完整部署过程就全介绍完了。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://www.cnblogs.com/zangdalei/p/5712951.html" target="_blank" rel="noopener">Zabbix 3.0 for Ubuntu 14.04 LTS 安装</a></li>
+<li><a href="https://www.zabbix.com/cn/download?zabbix=5.0&os_distribution=ubuntu&os_version=18.04_bionic&db=mysql&ws=nginx" target="_blank" rel="noopener">下载安装Zabbix——Zabbix 官网</a></li>
+<li><a href="https://yq.aliyun.com/articles/611489" target="_blank" rel="noopener">企业级分布式监控系统–zabbix</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/zabbix-quick-start/>https://www.0x2beace.com/zabbix-quick-start/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-02-13T17:12:57+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Feb 13, 2022</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Linux/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Linux</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Zabbix/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Zabbix</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E7%9B%91%E6%8E%A7%E7%B3%BB%E7%BB%9F/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>监控系统</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/zabbix-quick-start/&title=Zabbix 快速上手——部署 - Boo&summary=因为一些特殊原因，部分环境不是搭建在云上面，而是在托管的实体机上面，这就导致原本很多云可以帮我们做的事情，现在只能自己去做了。比如：监控系统。
+本着不想当运维的前端不是一个好全栈的思想，我迫切需要自己搭建一套完整的监控系统来解放自己的双手👐️。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/zabbix-quick-start/&title=Zabbix 快速上手——部署 - Boo&summary=因为一些特殊原因，部分环境不是搭建在云上面，而是在托管的实体机上面，这就导致原本很多云可以帮我们做的事情，现在只能自己去做了。比如：监控系统。
+本着不想当运维的前端不是一个好全栈的思想，我迫切需要自己搭建一套完整的监控系统来解放自己的双手👐️。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/zabbix-quick-start/&title=Zabbix 快速上手——部署 - Boo&summary=因为一些特殊原因，部分环境不是搭建在云上面，而是在托管的实体机上面，这就导致原本很多云可以帮我们做的事情，现在只能自己去做了。比如：监控系统。
+本着不想当运维的前端不是一个好全栈的思想，我迫切需要自己搭建一套完整的监控系统来解放自己的双手👐️。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAAC9ElEQVR42u3aSW7EMAwEwPn/p5MHJIHVJD0wJ6WbAVtL+dIg9foyfh0vBGDAgAEDBswamFdx/JjwTd9Nzffn/GDAgAEDBgyYdTDHAehiQ1fPVwebXjedFwwYMGDAgAGzF+Y0YL1rw939xN+DAQMGDBgwYP4dzFRhaipIggEDBgwYMGDA3BXwUrhu4QoMGDBgwIAB8/kwcYOqeYAuRPU9MGDAgAEDBsznwKSjWzi6+7l8HjBgwIABAwbMGpjuqBaG0sB2WuhqnwcMGDBgwIABswamGpBOD1BtfFULUtX9gwEDBgwYMGD2waQLVhtmU/NUA2S7UAUGDBgwYMCAeRxM2khLF+5e8EkbbumPuEy+YMCAAQMGDJjHwpw2uqYKQ1MHmQ52YMCAAQMGDJh9MFMNtTSApQWxqcJWfHEIDBgwYMCAAfN4mKmLOt0GWxoUp4IoGDBgwIABA+ZzYaYadGngu7ug1g54YMCAAQMGDJjHwpwGrLtBpvZ5OQ8YMGDAgAEDZg1MtdFVXrjYaOvu67hBCAYMGDBgwIBZB5MufNcBphpu1eAJBgwYMGDAgNkDM73h0+A33igbCn5gwIABAwYMmH0w6cWgODiFhbD0+3RfYMCAAQMGDJj9MOlIN1gNbFMNuzTogQEDBgwYMGD2wKTBK72Y0y1cdQNn/KPBgAEDBgwYMGthpi7mdC8kVQNjtZAGBgwYMGDAgNkP0w5IzYA2HQjjRh4YMGDAgAEDZi3M1AWcKlQ3KFbnAQMGDBgwYMDsg+mO4+BUfK/b8DtdDwwYMGDAgAGzD6Zb6JmCmwpw6fNl8gUDBgwYMGDAPB4mPWj6nK7TvQCUFsDAgAEDBgwYMPthqgGqW1BKG4DVgHo5HxgwYMCAAQPm38GcFqC6Bae7Cl9gwIABAwYMGDDVwlK14FSFfluhCgwYMGDAgAHzNphuIakauKoNt+nvwIABAwYMGDD7YG4PTmFDrhsc08YdGDBgwIABA2YfjAEGDBgwYMCAWTa+AU3U6NKJlU8YAAAAAElFTkSuQmCC">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/php-fpm-configuration-initialization/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>PHP-FPM 配置初始化</p>
+                <p class='content'>php-fpm（FastCGI Process Manger）是一个PHP FastCGI 管理器，专门和Nginx 的 ngx_fastcgi_modul模块对接，用来处理动态请求。
+
+
+初始...</p>
+              </a>
+            
+            
+              <a class='next' href='/zabbix-add-agent-host/'>
+                <p class='title'>Zabbix 快速上手——添加Agent 主机<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>Zabbix-Server 安装完成之后，下一步需要添加主机才能看到数据。
+
+
+安装Zabbix AgentZabbix Agent 的作用是将服务器的数据发送给 Zabbix Server，所...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Zabbix 快速上手——部署',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+  <section class="widget toc-wrapper shadow desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#认识-Zabbix"><span class="toc-text">认识 Zabbix</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-text">安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-安装数据库"><span class="toc-text">1. 安装数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-安装Zabbix-server，Web前端，agent"><span class="toc-text">2. 安装Zabbix server，Web前端，agent</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-初始数据库"><span class="toc-text">3. 初始数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-配置数据库"><span class="toc-text">4. 配置数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-配置Web"><span class="toc-text">5. 配置Web</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-配置时区"><span class="toc-text">6. 配置时区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-启动服务"><span class="toc-text">7. 启动服务</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置中文语言包"><span class="toc-text">配置中文语言包</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-安装中文包"><span class="toc-text">1. 安装中文包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-配置环境变量"><span class="toc-text">2. 配置环境变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-替换Zabbix-语言包"><span class="toc-text">3. 替换Zabbix 语言包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-解决乱码问题"><span class="toc-text">4. 解决乱码问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-更新mibs-库"><span class="toc-text">5. 更新mibs 库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-重启服务"><span class="toc-text">6. 重启服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+  
+    <meting-js
+      theme='#1BCDFC'
+      autoplay='false'
+      volume='0.7'
+      loop='all'
+      order='list'
+      fixed='false'
+      list-max-height='340px'
+      server='netease'
+      type='playlist'
+      id='3175833810'
+      list-folded='true'>
+    </meting-js>
+  
+
+
+        </div>
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "Ki6kd5TUWoQyYKSErxehnRpc-MdYXbMMI",
+    appKey: "7pRBOKMw58Yo7EsUjHziIEY1",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>

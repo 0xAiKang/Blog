@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>Linux 添加用户以及权限分配 - Boo</title>
+  
+    <meta name="keywords" content="Linux">
+  
+  
+    <meta name="description" content="写这篇笔记的目的是：在 Linux 下经常为用户的权限问题而头疼，要么是权限不足，要么是权限太大，导致结果往往不是自己想要的。
+另外还有一个促使我写这篇笔记的原因就是：之前在 本地的 Ubuntu 上，竟然把用户玩坏了… 为了避免这种事情在服务器上发生，还是得深入研究下这一块。">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Boo's Blog</p>
+    
+    
+      <p class="subtitle">Stay foolish, Stay hungry</p>
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/"
+                
+                
+                id="https:www0x2BeAcecom">
+                <i class='fas fa-book fa-fw'></i>博客
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/categories/"
+                
+                
+                id="https:www0x2BeAcecomcategories">
+                <i class='fas fa-rss fa-fw'></i>分类
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/tags/"
+                
+                
+                id="https:www0x2BeAcecomtags">
+                <i class='fas fa-play-circle fa-fw'></i>标签
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/archives/"
+                
+                  rel="external nofollow noopener noreferrer"
+                
+                
+                id="https:www0x2BeAcecomarchives">
+                <i class='fas fa-file-code fa-fw'></i>归档
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/about/"
+                
+                
+                id="https:www0x2BeAcecomabout">
+                <i class='fas fa-handshake fa-fw'></i>关于我
+              </a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/linux-add-users-and-assign-permissions/">
+      Linux 添加用户以及权限分配
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Linux/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Linux/学习笔记</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Jul 15, 2020</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>1.7k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>6 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/linux-add-users-and-assign-permissions/" class="leancloud_visitors" data-flag-title="Linux 添加用户以及权限分配">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>写这篇笔记的目的是：在 Linux 下经常为用户的权限问题而头疼，要么是权限不足，要么是权限太大，导致结果往往不是自己想要的。</p>
+<p>另外还有一个促使我写这篇笔记的原因就是：之前在 本地的 Ubuntu 上，竟然把用户玩坏了… 为了避免这种事情在服务器上发生，还是得深入研究下这一块。</p>
+<a id="more"></a>
+
+<h2 id="添加用户"><a href="#添加用户" class="headerlink" title="添加用户"></a>添加用户</h2><p>在 Linux 上，添加用户有两种方式：<code>useradd</code>和<code>adduser</code>，其区别就是：</p>
+<ul>
+<li>useradd 是一个Linux 命令，它提供很多参数给用户根据自己的需要进行设置。</li>
+<li>adduser 则是一个perl 脚本，在使用时通过简单的人机交互界面，供用户进行个性设置。</li>
+</ul>
+<h3 id="adduser"><a href="#adduser" class="headerlink" title="adduser"></a>adduser</h3><p>相比 useradd，adduser的使用要简单很多。</p>
+<p>使用adduser 添加一个用户：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ adduser boo</span><br></pre></td></tr></table></figure>
+<p>然后根据提示填写相应的内容，需要注意的是，该命令会自动的在 <code>/home</code> 目录下创建一个与用户同名的目录。</p>
+<p>用 adduser 这个命令创建的账号是系统账号，可以用来登录到 ubuntu系统。</p>
+<h3 id="useradd"><a href="#useradd" class="headerlink" title="useradd"></a>useradd</h3><p>useradd 命令有大量的参数供我们进行个性设置，常用参数如下：</p>
+<ul>
+<li>-d&lt;登入目录&gt;：指定用户登入时的启始目录，并赋予用户对该目录的的完全控制权</li>
+<li>-g&lt;群组&gt;：指定用户所属的群组；</li>
+<li>-G&lt;群组&gt;：指定用户所属的附加群组；</li>
+<li>-m：在 /home 目录下自动建立用户的登入目录；</li>
+<li>-r：建立系统帐号；</li>
+<li>-s<shell>：指定用户登入后所使用的shell；</li>
+<li>-u<uid>：指定用户的 id</li>
+</ul>
+<p>使用 useradd 创建用户的一般步骤如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ useradd -m boo -s &#x2F;bin&#x2F;bash</span><br><span class="line">$ passwd boo</span><br><span class="line">$ ls &#x2F;home&#x2F;</span><br><span class="line">boo</span><br></pre></td></tr></table></figure>
+<p>其中要注意的有：</p>
+<ol>
+<li>useradd 命令如果不带任何参数（useradd boo），表示只是创建一个用户，既没有 /home 目录下的同名文件夹，也没有设置密码，但是可以在 /etc/passwd 文件的最后一行看到刚才添加的用户。</li>
+<li>useradd <del>这个命令创建的是普通账号，并不能用来登录系统</del>。加上参数<code>-r</code>，将该用户加入到系统用户，系统用户为 id在 1000以下的用户，而普通用户则是id 在 1000以上。事实证明 无论是普通用户还是系统用户 只要密码输入正确都能登入系统。</li>
+<li>当使用参数<code>-m</code>的时候，系统会自动地在 /home 目录下建立一个与新建用户同名的用户主文件夹；如果不使用<code>-m</code>的话，那么就默认是使用<code>-M</code>参数，不创建主文件夹，即使你使用了<code>-d</code>这个参数。所以如果想要自己选择主文件夹，需要同时加上<code>-m</code>和<code>-d</code>参数。</li>
+<li>误区：很都时候刚拿到一台新的机器，会发现用户目录下只有一个当前用户的文件夹，不要误以为该系统只有你一个用户，是因为很多系统用户的主目录并不在 /home 下。</li>
+</ol>
+<h2 id="权限分配"><a href="#权限分配" class="headerlink" title="权限分配"></a>权限分配</h2><h3 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h3><p>无论是使用 adduser 还是 useradd 创建的用户，都试着执行一下以下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install vim</span><br></pre></td></tr></table></figure>
+<p>不出意外，你肯定会得到这样一个错误：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[sudo] password for boo:</span><br><span class="line">boo is not in the sudoers file.  This incident will be reported.</span><br></pre></td></tr></table></figure>
+<p>这个错误的意思是说该用户并不在 sudoers 文件中，那么该如何解决呢？</p>
+<p>使用如下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ sudo visudo</span><br><span class="line"></span><br><span class="line"># Members of the admin group may gain root privileges</span><br><span class="line">%admin ALL&#x3D;(ALL) ALL</span><br><span class="line"></span><br><span class="line"># 找到该注释，在其下增加一行 </span><br><span class="line">%yourusername ALL&#x3D;(ALL) ALL</span><br></pre></td></tr></table></figure>
+<p>然后保存退出，就会发现可以使用 sudo 提权了。</p>
+<h3 id="赋予-root-权限"><a href="#赋予-root-权限" class="headerlink" title="赋予 root 权限"></a>赋予 root 权限</h3><p>这里有三种方式，先来看看最简单的方式：</p>
+<p>方式一：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vim &#x2F;etc&#x2F;passwd</span><br><span class="line"></span><br><span class="line"># 将用户id 改为 0</span><br><span class="line">testuser1:x:0:1001::&#x2F;home&#x2F;testuser1:&#x2F;bin&#x2F;sh</span><br></pre></td></tr></table></figure>
+<p>需要注意的是：</p>
+<ol>
+<li>该方法适用于普通用户以及管理员用户</li>
+<li>使用 testuser1 账户登录后，直接获取的就是 root 帐号的权限。</li>
+</ol>
+<p>方式二：（这里以ubuntu 系统为例）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ sudo visudo # sudo vim &#x2F;etc&#x2F;sudoers</span><br><span class="line"></span><br><span class="line">#  Allow members of group sudo to execute any command</span><br><span class="line">%sudo   ALL&#x3D;(ALL:ALL) ALL</span><br><span class="line"></span><br><span class="line"># 在其后面增加一行</span><br><span class="line">%wheel ALL&#x3D;(ALL:ALL) ALL</span><br></pre></td></tr></table></figure>
+<p>然后修改该用户，使其属于 root 组（wheel）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ usermod -g root boo</span><br></pre></td></tr></table></figure>
+<p>修改完成之后，使用boo 用户登入，执行命令：<code>su -</code>，输入 root 账户的密码，即可获得root 权限。</p>
+<p>方式三：（这里以ubuntu 为例）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ sudo visudo # sudo vim &#x2F;etc&#x2F;sudoers</span><br><span class="line"></span><br><span class="line"># User privilege specification</span><br><span class="line">root    ALL&#x3D;(ALL:ALL) ALL</span><br><span class="line">boo ALL&#x3D;(ALL:ALL) ALL</span><br></pre></td></tr></table></figure>
+<p>修改完成之后，使用boo 用户登入，执行命令：<code>su -</code>，输入 root 账户的密码，即可获得root 权限。</p>
+<p>方式二、方式三和方式一的区别就是：前者需要知道root 账户的密码，而后者可以直接以普通用户的身份或者管理员身份获取root 权限。</p>
+<p>另外还有一个需要注意的地方就是：使用第一种方式获取 root 权限，其实也有弊端，弊端就是 <del>远程使用该用户登入时，还是需要输入 root 密码，才能验证身份成功，是的 必须输入 root 用户的密码。</del></p>
+<p>事实证明，并非上面所述，ssh 连接时的确需要输入密码验证，但不是 root 用户的密码，之前之所以一直看到 <code>Permission denied, please try again.</code>这样的错误，只是因为 没有开启允许 root 用户远程登入的权限。如何开启，见下文扩展补充。</p>
+<h3 id="扩展补充"><a href="#扩展补充" class="headerlink" title="扩展补充"></a>扩展补充</h3><h4 id="在Ubuntu中如何修改-root-密码"><a href="#在Ubuntu中如何修改-root-密码" class="headerlink" title="在Ubuntu中如何修改 root 密码"></a>在Ubuntu中如何修改 root 密码</h4><p>默认情况下，出于安全原因，root用户帐户密码在Ubuntu Linux 中被锁定。因此，无法使用root用户登录或使用诸如<code>su -</code>之类的命令成为超级用户。</p>
+<p>但可以借助其他方式，使用<code>passwd</code>命令来修改。因为普通用户只能更改其帐户的密码。超级用户（root）可以更改任何用户帐户的密码（包括它自己）。</p>
+<p>使用以下命令成为 root用户：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo -i</span><br><span class="line">$ passwd root</span><br></pre></td></tr></table></figure>
+<p>如果在sudo 命令使用不了的情况下，可以进入单用户模式，再进行修改</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ passwd root</span><br></pre></td></tr></table></figure>
+
+<h4 id="在Ubuntu中如何远程-root-登入"><a href="#在Ubuntu中如何远程-root-登入" class="headerlink" title="在Ubuntu中如何远程 root 登入"></a>在Ubuntu中如何远程 root 登入</h4><p>在Ubuntu中，默认是不能使用 root 账户登入到系统的，如果一定想要用 root账户登入，可以编辑 sshd 配置，执行如下操作：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vim &#x2F;etc&#x2F;ssh&#x2F;sshd_config</span><br><span class="line"></span><br><span class="line"># PermitRootLogin prohibit-password</span><br><span class="line"># 修改为：</span><br><span class="line"># PermitRootLogin yes</span><br><span class="line"></span><br><span class="line"># 重启sshd 服务</span><br><span class="line">$ sudo systemctl restart sshd</span><br></pre></td></tr></table></figure>
+
+<h4 id=""><a href="#" class="headerlink" title=""></a></h4><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://blog.csdn.net/li_101357/article/details/46778827" target="_blank" rel="noopener">adduser 和 useradd 的区别</a></li>
+<li><a href="https://www.cnblogs.com/noway-neway/p/5235300.html" target="_blank" rel="noopener">Ubuntu 如何进入单用户模式</a></li>
+<li><a href="https://raspberrypi.stackexchange.com/questions/48056/how-to-login-as-root-remotely" target="_blank" rel="noopener">ssh-如何远程以root 登入</a></li>
+<li><a href="https://www.cyberciti.biz/faq/change-root-password-ubuntu-linux/" target="_blank" rel="noopener">如何在Ubuntu Linux 中更改 root 密码</a></li>
+<li><a href="https://www.cyberciti.biz/faq/become-superuser-on-ubuntu-linux/" target="_blank" rel="noopener">如何使用su / sudo成为Ubuntu Linux的超级用户？</a></li>
+<li><a href="https://www.cyberciti.biz/faq/ubuntu-linux-root-password-default-password/" target="_blank" rel="noopener">Ubuntu Linux root 用户默认密码</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/linux-add-users-and-assign-permissions/>https://www.0x2beace.com/linux-add-users-and-assign-permissions/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-02-13T17:12:57+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Feb 13, 2022</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Linux/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Linux</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/linux-add-users-and-assign-permissions/&title=Linux 添加用户以及权限分配 - Boo&summary=写这篇笔记的目的是：在 Linux 下经常为用户的权限问题而头疼，要么是权限不足，要么是权限太大，导致结果往往不是自己想要的。
+另外还有一个促使我写这篇笔记的原因就是：之前在 本地的 Ubuntu 上，竟然把用户玩坏了… 为了避免这种事情在服务器上发生，还是得深入研究下这一块。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/linux-add-users-and-assign-permissions/&title=Linux 添加用户以及权限分配 - Boo&summary=写这篇笔记的目的是：在 Linux 下经常为用户的权限问题而头疼，要么是权限不足，要么是权限太大，导致结果往往不是自己想要的。
+另外还有一个促使我写这篇笔记的原因就是：之前在 本地的 Ubuntu 上，竟然把用户玩坏了… 为了避免这种事情在服务器上发生，还是得深入研究下这一块。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/linux-add-users-and-assign-permissions/&title=Linux 添加用户以及权限分配 - Boo&summary=写这篇笔记的目的是：在 Linux 下经常为用户的权限问题而头疼，要么是权限不足，要么是权限太大，导致结果往往不是自己想要的。
+另外还有一个促使我写这篇笔记的原因就是：之前在 本地的 Ubuntu 上，竟然把用户玩坏了… 为了避免这种事情在服务器上发生，还是得深入研究下这一块。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADp0lEQVR42u3aQW7DMAwEwPz/0+29QGBxSddMMLo1rWVz1MOG9OvHitYLAThw4MBZ4MAtgXuF6931fz+v3qe679Xn7/4urhccOHDgwIEDB24Z3HEAPCwkLewU/vR50ud9ez04cODAgQMHDtxSuNNgelrQ1X5XAfW04NNg3K4XHDhw4MCBAwfuS+BSwPT60+vAgQMHDhw4cODAzd64OjCeCrjgwIEDBw4cOHDfDpcOlqcajdOD8bWTfHDgwIEDBw4cuCG46poOoP/9c1wvOHDgwIEDBw7cEriplQ6S08H1dNA9rhMcOHDgwIEDB24J3OkLe9VAfPr31cbn1cFMDbSPvzmAAwcOHDhw4MA9DJcGyGrj8PSAugPo6vMf7w8OHDhw4MCBA7cErrpBOTAWA3I3gE/9Q7x9fnDgwIEDBw4cuCVw1cHvfzceq4WnQbn8YiE4cODAgQMHDtzDcNUG5N0NxPRAugd83EAFBw4cOHDgwIFbAle9cbehOfWi4VQDs/wc4MCBAwcOHDhwy+CmB893Nxi7B5nWBQ4cOHDgwIEDtw2uWmC3QTgVtKsN0+4AHBw4cODAgQMHbgtcGlC7A+BuA7ILmQZ1cODAgQMHDhy4LXDp4DgtKD2Qu4GOrwMHDhw4cODAgVsG130hMAVK79sdQI8FYHDgwIEDBw4cuCVw0zeqHsAU/PTvwYEDBw4cOHDgtsFV13QwrTYou43S04O7bGSCAwcOHDhw4MB9CFw64K0eQHVQnu5XDfDgwIEDBw4cOHBb4dLGYXegfVfwvQ0WHDhw4MCBAwduKVzaaKyCdAG6YOmBggMHDhw4cODAbYM7hZoupBpAq885NQAHBw4cOHDgwIHbBlctPB00V4NxemBT9wMHDhw4cODAgfsUuDSoVgfR04WnBxgPvsGBAwcOHDhw4JbBpQF0CjgFuXtAHn9zAAcOHDhw4MCBexhuanBcLeiuAH564JcvFoIDBw4cOHDgwD0M112nANOBurrf1HXgwIEDBw4cOHBb4F7hqhZ096rCxAcCDhw4cODAgQO3DK4aeNPrU/A0uFZhLvcDBw4cOHDgwIFbClcNvNUBbzdQTw+ixwIwOHDgwIEDBw7cl8KlMGlA7u4LDhw4cODAgQP37XBTjcXThmIVLG2IggMHDhw4cODAfRpcN0BOD7bTwJoe8OU/Djhw4MCBAwcO3DK4dIBbfZDphmM5wHaDPThw4MCBAwcO3BI4qxjcEYADBw6cBQ7cs+sXgiB4Hp2ypgMAAAAASUVORK5CYII=">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/some-practical-linux-commands/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>一些实用的 Linux 命令</p>
+                <p class='content'>这篇笔记的目的是用来整理那些不常用但又很实用的Linux 命令。
+
+
+sudo !!有时候我们好不容易输完一长串命令，却被提示”权限不足”，如果这个时候有一个命令记住上一次的输入内容那该多好。
+...</p>
+              </a>
+            
+            
+              <a class='next' href='/the-difference-between-linux-init-service-systemctl/'>
+                <p class='title'>Linux init、service、systemctl 三者区别<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>在接触到Linux 的服务之后，我所知道的管理服务的方式有三种，分别是init、service、systemctl。
+至于这三者之间的区别不得而知，所以整理这片笔记的目的就是了解这三者之间的区别...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Linux 添加用户以及权限分配',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+  <section class="widget toc-wrapper shadow desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#添加用户"><span class="toc-text">添加用户</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#adduser"><span class="toc-text">adduser</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#useradd"><span class="toc-text">useradd</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#权限分配"><span class="toc-text">权限分配</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#提权"><span class="toc-text">提权</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#赋予-root-权限"><span class="toc-text">赋予 root 权限</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#扩展补充"><span class="toc-text">扩展补充</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#在Ubuntu中如何修改-root-密码"><span class="toc-text">在Ubuntu中如何修改 root 密码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#在Ubuntu中如何远程-root-登入"><span class="toc-text">在Ubuntu中如何远程 root 登入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#"><span class="toc-text"></span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+  
+    <meting-js
+      theme='#1BCDFC'
+      autoplay='false'
+      volume='0.7'
+      loop='all'
+      order='list'
+      fixed='false'
+      list-max-height='340px'
+      server='netease'
+      type='playlist'
+      id='3175833810'
+      list-folded='true'>
+    </meting-js>
+  
+
+
+        </div>
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "Ki6kd5TUWoQyYKSErxehnRpc-MdYXbMMI",
+    appKey: "7pRBOKMw58Yo7EsUjHziIEY1",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>

@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>手把手教你如何创建启动 AWS 实例 - Boo</title>
+  
+    <meta name="keywords" content="Tutorial,Linux,云">
+  
+  
+    <meta name="description" content="
+什么是AWS ？
+
+Amazon Web Services (AWS) 是亚马逊提供的全球最全面、应用最广泛的云平台。">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Boo's Blog</p>
+    
+    
+      <p class="subtitle">Stay foolish, Stay hungry</p>
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/"
+                
+                
+                id="https:www0x2BeAcecom">
+                <i class='fas fa-book fa-fw'></i>博客
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/categories/"
+                
+                
+                id="https:www0x2BeAcecomcategories">
+                <i class='fas fa-rss fa-fw'></i>分类
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/tags/"
+                
+                
+                id="https:www0x2BeAcecomtags">
+                <i class='fas fa-play-circle fa-fw'></i>标签
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/archives/"
+                
+                  rel="external nofollow noopener noreferrer"
+                
+                
+                id="https:www0x2BeAcecomarchives">
+                <i class='fas fa-file-code fa-fw'></i>归档
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/about/"
+                
+                
+                id="https:www0x2BeAcecomabout">
+                <i class='fas fa-handshake fa-fw'></i>关于我
+              </a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/teach-you-how-to-start-an-aws-instance/">
+      手把手教你如何创建启动 AWS 实例
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Linux/Tutorial/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Linux/Tutorial</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Aug 10, 2020</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>790 words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>2 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/teach-you-how-to-start-an-aws-instance/" class="leancloud_visitors" data-flag-title="手把手教你如何创建启动 AWS 实例">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <blockquote>
+<p>什么是AWS ？</p>
+</blockquote>
+<p><a href="https://aws.amazon.com/cn/?nc2=h_lg" target="_blank" rel="noopener">Amazon Web Services </a>(AWS) 是亚马逊提供的全球最全面、应用最广泛的云平台。</p>
+<a id="more"></a>
+
+<p>云这个概念最开始是从国内的阿里云、腾讯云这些地方听到的，后来服务器接触的多了，也慢慢了解了一些国外的云，如：亚马逊云、微软云。</p>
+<p>在亚马逊云、软微云上创建一台实例其实是非常简单的事情，但由于这方面资料比较少，导致对于新用户可能不那么友好，我自己当初创建时就不怎么顺利。所以整理这篇笔记的目的有两个，一是方便自己日后回顾，二是给第一次使用的用户一些参考。</p>
+<h2 id="启动实例"><a href="#启动实例" class="headerlink" title="启动实例"></a>启动实例</h2><p>首先登入到AWS ，找到<a href="https://console.aws.amazon.com/ec2/v2/home" target="_blank" rel="noopener">EC2</a> 并点击</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200810115939.png" alt="AWS"></p>
+<p>在左侧菜单栏中点击实例</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200810121213.png" alt=""></p>
+<p>点击启动实例</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200810121240.png" alt=""></p>
+<h2 id="配置实例"><a href="#配置实例" class="headerlink" title="配置实例"></a>配置实例</h2><p>选择系统映像，这里以Linux 操作系统为例，我选择是<code>Ubuntu Server 18.04 LTS</code>，这个版本表示Ubuntu 服务端 长期稳定支持版本。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200810121309.png" alt=""></p>
+<p>选择实例类型，根据自身需要考虑，当然 性能越好价格越高。这里我选择的是一个中等偏下的类型。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200810134659.png" alt=""></p>
+<p>配置实例详情信息，这里的这些核心配置，通常都保持默认，只是将自动分配公有IP 地址改为禁用。这样再重启机器时，就不会改变IP了。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200810134802.png" alt=""></p>
+<p>根据自身需要分配合适的硬盘大小。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200810134833.png" alt=""></p>
+<p>配置安全组，所谓安全组就是拥有相同防火墙规则的群组。这个也是根据自身需要选择是否共用同一个安全组。</p>
+<p>拥有同一个安全组就表示拥有相同的防火墙规则。设置完安全组之后，点击审核和启动。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200810134858.png" alt=""></p>
+<p>下面会有一个界面给你确认机器的配置是否无误的，从头到尾检查没有问题之后就可以点击启动实例了。</p>
+<h2 id="创建密钥"><a href="#创建密钥" class="headerlink" title="创建密钥"></a>创建密钥</h2><p>可以选择共用已有的密钥对也可以选择新建一个。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200810134919.png" alt=""></p>
+<p>然后点击启动实例。</p>
+<h2 id="分配弹性IP"><a href="#分配弹性IP" class="headerlink" title="分配弹性IP"></a>分配弹性IP</h2><p>启动完成之后点击查看实例。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200810134956.png" alt=""></p>
+<p>在实例列表中，找到该实例之后，分别点击操作=&gt;联网=&gt;管理IP 地址=&gt;分配弹性 IP</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200810135020.png" alt=""></p>
+<p>确认分配</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200810135056.png" alt=""></p>
+<p>分配成功之后，会得到一个弹性IP（公有），然后返回实例列表</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200810135121.png" alt=""></p>
+<h2 id="关联IP-地址"><a href="#关联IP-地址" class="headerlink" title="关联IP 地址"></a>关联IP 地址</h2><p>找到刚才启动的那个实例（没有实例ID），分别点击操作=&gt;关联地址</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200810135143.png" alt=""></p>
+<p>这一步很重要，这里要将实例和弹性IP 地址关联，所以要选择该弹性IP 对应自己的实例。如果不确定是哪一个，可以返回到实例列表中去查看，就是那个没有名称的实例。</p>
+<p>然后点击关联</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200810135205.png" alt=""></p>
+<p>关联成功</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200810135233.png" alt=""></p>
+<p>直到做完这一步才算正真的启动好一个实例。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200810135302.png" alt=""></p>
+<h3 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h3><p>启动好实例之后，如何连接呢？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh -i &lt;私钥路径&gt; ubuntu@ipaddress</span><br></pre></td></tr></table></figure>
+
+<p>指定刚才生成的密钥对，使用ssh命令 即可连接。</p>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/teach-you-how-to-start-an-aws-instance/>https://www.0x2beace.com/teach-you-how-to-start-an-aws-instance/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-02-13T17:12:57+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Feb 13, 2022</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Tutorial/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Tutorial</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Linux/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Linux</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E4%BA%91/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>云</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/teach-you-how-to-start-an-aws-instance/&title=手把手教你如何创建启动 AWS 实例 - Boo&summary=
+什么是AWS ？
+
+Amazon Web Services (AWS) 是亚马逊提供的全球最全面、应用最广泛的云平台。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/teach-you-how-to-start-an-aws-instance/&title=手把手教你如何创建启动 AWS 实例 - Boo&summary=
+什么是AWS ？
+
+Amazon Web Services (AWS) 是亚马逊提供的全球最全面、应用最广泛的云平台。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/teach-you-how-to-start-an-aws-instance/&title=手把手教你如何创建启动 AWS 实例 - Boo&summary=
+什么是AWS ？
+
+Amazon Web Services (AWS) 是亚马逊提供的全球最全面、应用最广泛的云平台。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADrklEQVR42u3aQW7DMAwEwPz/0+29QGBxScdsMLo5sGVpdNmQfv0Y0XghAAcOHDgDHLglcK9wxC8emu/dc39/f3ed7hccOHDgwIEDB24bXHfBp0BXG+tCnP6e7hccOHDgwIEDB24rXHWjVcirjZ0eRDeAx/sFBw4cOHDgwIH7Mri0QNk9qOr7wYEDBw4cOHDgwNUaw92GcHpAKTw4cODAgQMHDtx/g7urIHkKWQ3I6XyPd/LBgQMHDhw4cOCG4NLA+V+v4/2CAwcOHDhw4MAtgeuONLjeVbi8e4ADBw4cOHDgwG2BSzdULXBWC6DTDe3u/sCBAwcOHDhw4LbBVRu6pwu4mq96XxqEqwd9+Rw4cODAgQMHDtwyuC5AuqE0UE8dQHV94MCBAwcOHDhwW+HShnRaeKwG7DTYVgupb+cDBw4cOHDgwIFbAlddUBpM0yCbNqSn7wcHDhw4cODAgdsGdxqAp8Cqgbo7X/VgLucBBw4cOHDgwIFbApc2hruN4m6DuQqVruPynwM4cODAgQMHDtxDcGmg7W4sDcZTBdfxTj44cODAgQMHDtyH4aqFwm5gnTqIKkQ3qIMDBw4cOHDgwG2Du3tBtwXRsMHdDtjgwIEDBw4cOHBL4NKgOQWfNpKrYOlBlv85gAMHDhw4cODAPQRXLWC2C4M3Pd8tuJYb0uDAgQMHDhw4cB+Guzswdhvd7cDaPLjLCjA4cODAgQMHDtzDcN0NTAFVG+FTBdCxTj44cODAgQMHDtyH4dIAmR5At4BabZx3gzM4cODAgQMHDtw2uNNg2G0EVzcyHcDHAjw4cODAgQMHDtxSuDRgTn/YN1UITdd1+WEhOHDgwIEDBw7cUrjqhClwt9B4WlBNny8HYHDgwIEDBw4cuIfg0mB59weEpwXXqYOIG9LgwIEDBw4cOHAPwU03eKtQ6QF233e8HnDgwIEDBw4cuOVw1cZuN1B3C6XpwZWBwYEDBw4cOHDglsB1R3XB6QeEcWA9nOf44MCBAwcOHDhw4JbATQXEbhBNIasHUy3IXjakwYEDBw4cOHDgHoarBt5q0E3vTxvn6XoufwcHDhw4cODAgVsKVw2oUwXFaqCdHsfvBwcOHDhw4MCB+zK4qYWn86aN5vI1OHDgwIEDBw7cl8FNfaA4PU8675pCJjhw4MCBAwcO3E0N6bsLnNMN7+o6wYEDBw4cOHDgtsN1G7jpRk8bwafvqwKV9wsOHDhw4MCBA7cEzigWOBGAAwcOnAEO3LPjF40ag2oZxazzAAAAAElFTkSuQmCC">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/git-common-command-reference-manual/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Git 常用命令参考手册</p>
+                <p class='content'>虽然每天都在使用Git，但是有些命令太久不使用，还是会忘记，所以这篇笔记的目的就是整理那些Git 常用命令。
+
+
+基础配置Git的设置文件为.gitconfig，它可以在用户主目录下（全局配置）...</p>
+              </a>
+            
+            
+              <a class='next' href='/how-to-modify-the-linux-default-time-zone/'>
+                <p class='title'>如何修改 Linux 默认时区<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>在上一篇笔记中，我们知道了如何在Linux 中查看系统默认时区，这篇笔记来学习以下如何修改默认时区。
+
+
+在Linux 服务器或系统上保持正确的时间始终是一个好习惯，它可能具有以下优点：
+
+由于...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: '手把手教你如何创建启动 AWS 实例',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+  <section class="widget toc-wrapper shadow desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#启动实例"><span class="toc-text">启动实例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置实例"><span class="toc-text">配置实例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建密钥"><span class="toc-text">创建密钥</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分配弹性IP"><span class="toc-text">分配弹性IP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关联IP-地址"><span class="toc-text">关联IP 地址</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#连接"><span class="toc-text">连接</span></a></li></ol></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+  
+    <meting-js
+      theme='#1BCDFC'
+      autoplay='false'
+      volume='0.7'
+      loop='all'
+      order='list'
+      fixed='false'
+      list-max-height='340px'
+      server='netease'
+      type='playlist'
+      id='3175833810'
+      list-folded='true'>
+    </meting-js>
+  
+
+
+        </div>
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "Ki6kd5TUWoQyYKSErxehnRpc-MdYXbMMI",
+    appKey: "7pRBOKMw58Yo7EsUjHziIEY1",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>

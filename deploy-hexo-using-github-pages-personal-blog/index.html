@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>Github Pages 部署 Hexo 个人博客 - Boo</title>
+  
+    <meta name="keywords" content="Tutorial">
+  
+  
+    <meta name="description" content="关于个人博客，在很久之前就想自己搭建一套，甚至还为此买了一台服务器，但奈何自己太忙了(tai lan le) =_=，这件事情就一直搁浅了，服务器大部分时间也都是空闲状态。
+这段时间，突然很想把这件事情做好，觉得不能在这么拖下去了，所以便有了这篇文章。">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Boo's Blog</p>
+    
+    
+      <p class="subtitle">Stay foolish, Stay hungry</p>
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/"
+                
+                
+                id="https:www0x2BeAcecom">
+                <i class='fas fa-book fa-fw'></i>博客
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/categories/"
+                
+                
+                id="https:www0x2BeAcecomcategories">
+                <i class='fas fa-rss fa-fw'></i>分类
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/tags/"
+                
+                
+                id="https:www0x2BeAcecomtags">
+                <i class='fas fa-play-circle fa-fw'></i>标签
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/archives/"
+                
+                  rel="external nofollow noopener noreferrer"
+                
+                
+                id="https:www0x2BeAcecomarchives">
+                <i class='fas fa-file-code fa-fw'></i>归档
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/about/"
+                
+                
+                id="https:www0x2BeAcecomabout">
+                <i class='fas fa-handshake fa-fw'></i>关于我
+              </a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/deploy-hexo-using-github-pages-personal-blog/">
+      Github Pages 部署 Hexo 个人博客
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Tutorial/GitHub/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Tutorial/GitHub</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Jul 4, 2020</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>1.6k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>6 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/deploy-hexo-using-github-pages-personal-blog/" class="leancloud_visitors" data-flag-title="Github Pages 部署 Hexo 个人博客">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>关于个人博客，在很久之前就想自己搭建一套，甚至还为此买了一台服务器，但奈何自己太忙了(tai lan le) =_=，这件事情就一直搁浅了，服务器大部分时间也都是空闲状态。</p>
+<p>这段时间，突然很想把这件事情做好，觉得不能在这么拖下去了，所以便有了这篇文章。</p>
+<a id="more"></a>
+
+<blockquote>
+<p>为什么使用Github Pages？</p>
+</blockquote>
+<p>我是出于以下原因考虑的：</p>
+<ol>
+<li>暂时没有服务器的需要，我只想有一个能写博客的地方。</li>
+<li>GitHub Pages 可以提供 https服务，我不用担心域名备案的问题。</li>
+<li>免费</li>
+</ol>
+<p>总之，如果你想用最简单、最省心的方式，搭建属于自己的博客，那么 Github Pages 一定不会让你失望。</p>
+<h2 id="系统环境"><a href="#系统环境" class="headerlink" title="系统环境"></a>系统环境</h2><ul>
+<li>Mac OS 10.15.4</li>
+<li>Node.js 12</li>
+<li>Hexo-cli: 3.1</li>
+<li>NPM: 6.9</li>
+</ul>
+<h3 id="创建Github-Pages"><a href="#创建Github-Pages" class="headerlink" title="创建Github Pages"></a>创建Github Pages</h3><p>Github Pages分为两类，用户或组织主页、项目主页。</p>
+<ul>
+<li>用户或组织主页：在新建仓库时，仓库名称应该以<code>&lt;yourusername&gt;.github.io</code>的格式去填写。<code>&lt;yourusername&gt;</code>指的是你的Github 的用户名称。</li>
+<li>创建项目主页：在新建仓库时，名称可以任意设置，然后通过<code>Setting-&gt;Options-&gt;Github Pages</code>将 <code>Source</code>选项设置为<code>Master Branch</code>，此时这个项目就变成一个 Github Pages项目了。</li>
+</ul>
+<p>需要注意的是：</p>
+<ol>
+<li>Github Pages 只针对开源的项目是免费的，如果你不想开源，那可能就需要考虑收费的套餐了。</li>
+<li>第一种方式不能更改 Github Pages 部署分支。</li>
+<li>如果你有自己的域名，那么推荐使用方式二创建 Github Pages。如果你没有自己的域名，那也没有关系，可以使用Github Pages 提供的域名访问<code>http://&lt;yourusername&gt;.github.io</code>。</li>
+</ol>
+<h3 id="绑定域名"><a href="#绑定域名" class="headerlink" title="绑定域名"></a>绑定域名</h3><p>如果你是通过方式一，创建的Github Pages，那么可以跳过此部分。</p>
+<p>在 2018 年 5 月 1 日之后，GitHub Pages 已经开始提供免费为自定义域名开启 HTTPS 的功能，并且大大简化了操作的流程，现在用户已经不再需要自己提供证书，只需要将自己的域名使用 CNAME 的方式指向自己的 GitHub Pages 域名即可。</p>
+<p>首先需要在你的 DNS 解析里添加一条解析记录，例如我选择添加子域名<code>blog.aikang.me</code>，通过 CNAME 的方式指向我刚刚自定义的 GitHub Pages 域名 <code>0xAiKang.github.io</code>。</p>
+<p><img src="https://i.loli.net/2020/07/04/BDX384QPIZqniJU.png" alt="DNS 域名解析"></p>
+<p>添加完成后等待 DNS 解析的生效的同时回到项目的<code>Setting</code>界面，将刚才的子域名与 Github Pages 绑定在一起。</p>
+<p>保存之后，我们只需要耐心等待 GitHub 生成证书并确认域名的解析是否正常。</p>
+<p><img src="https://i.loli.net/2020/07/04/OZ2Vu8p9tXgTj7q.png" alt="等待 GitHub 生成证书并确认域名解析正常"></p>
+<h3 id="将Hexo-部署到Github-Pages"><a href="#将Hexo-部署到Github-Pages" class="headerlink" title="将Hexo 部署到Github Pages"></a>将Hexo 部署到Github Pages</h3><p>域名解析成功之后，就可以通过我们刚才绑定的域名进行访问了，但是你会发现，现在只能看到一片空白，这是因为我们的网站还没有任何内容，所以下一步需要做的就是选择一套静态模版系统。</p>
+<p>目前市场上有很多优秀的静态模板系统，比如：</p>
+<ul>
+<li>Node.js 编写的 Hexo</li>
+<li>Go 编写的 Hugo</li>
+<li>Python 编写的 Pelican</li>
+<li>静态博客写作客户端 Gridea</li>
+</ul>
+<blockquote>
+<p>为什么要选择Hexo？</p>
+</blockquote>
+<p>最初在选择博客模版系统时，并没有发现 Gridea ，事后发现这个小众的静态博客写作客户端似乎才是我真正想要的。</p>
+<p>不过既然选择了Hexo，也是因为它的生态环境很大，可选主题非常多，并且都是开源的。</p>
+<blockquote>
+<p>如何将 Hexo 部署到 GitHub Pages？</p>
+</blockquote>
+<ol>
+<li>将 <a href="https://github.com/marketplace/travis-ci" target="_blank" rel="noopener">Travis CI</a> 添加到你的 GitHub 账户中。</li>
+<li>前往 GitHub 的 <a href="https://github.com/settings/installations" target="_blank" rel="noopener">Applications settings</a>，配置 Travis CI 权限，使其能够访问你的 repository。</li>
+<li>正常情况下你会被重定向到 Travis CI 的页面。如果没有，请 <a href="https://travis-ci.com/" target="_blank" rel="noopener">手动前往</a>。</li>
+<li>前往 GitHub 新建 <a href="https://github.com/settings/tokens" target="_blank" rel="noopener">Personal Access Token</a>，只勾选 repo 的权限并生成一个新的 Token。Token 生成后请复制并保存好。</li>
+<li>回到 Travis CI，前往你的 repository 的设置页面，在 Environment Variables 下新建一个环境变量，Name 为 GH_TOKEN，Value 为刚才你在 GitHub 生成的 Token。确保 DISPLAY VALUE IN BUILD LOG 保持 不被勾选 避免你的 Token 泄漏。点击 Add 保存。</li>
+<li>在你的 Hexo 站点文件夹中新建一个 <code>.travis.yml</code> 文件：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">sudo: false</span><br><span class="line">language: node_js</span><br><span class="line">node_js:</span><br><span class="line">  - 10 # use nodejs v10 LTS</span><br><span class="line">cache: npm</span><br><span class="line">branches:</span><br><span class="line">  only:</span><br><span class="line">    - master # build master branch only</span><br><span class="line">script:</span><br><span class="line">  - hexo generate # generate static files</span><br><span class="line">deploy:</span><br><span class="line">  provider: pages</span><br><span class="line">  skip-cleanup: true</span><br><span class="line">  github-token: $GH_TOKEN</span><br><span class="line">  keep-history: true</span><br><span class="line">  on:</span><br><span class="line">    branch: master</span><br><span class="line">  local-dir: public</span><br></pre></td></tr></table></figure>
+<p>上面这个配置文件的作用是用来自动构建，编译测试。</p>
+<p>将 <code>.travis.yml</code> 推送到 repository 中。Travis CI 会自动开始运行，并将生成的文件推送到同一 repository 下的 <code>gh-pages</code> 分支下。</p>
+<h4 id="修改发布源"><a href="#修改发布源" class="headerlink" title="修改发布源"></a>修改发布源</h4><p>推送完成之后，会发现多了一个 <code>gh-gages</code>分支，这个分支就是用于部署站点的分支，但是GitHub Pages 会默认使用<code>master</code>分支作为发布源，所以我们需要切换发布源。</p>
+<p>在<code>Setting-&gt;Option-&gt;GitHub Pages</code>下，使用 Source（源）下拉菜单选择发布源。</p>
+<p><img src="https://i.loli.net/2020/07/04/AHldtP2bIhaqr8c.png" alt="修改默认源"></p>
+<p>注意：使用用户或组织主页构建的 Github Pages 不能修改发布源，只能使用默认的 <code>master</code>分支。</p>
+<h3 id="一键部署"><a href="#一键部署" class="headerlink" title="一键部署"></a>一键部署</h3><p>Hexo 提供了快速方便的一键部署功能，让你只需一条命令就能将网站部署到服务器上。</p>
+<p>在正式部署之前，我们需要先修改<code>_config.yml</code> 文件，配置参数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: &lt;repository url&gt; #https:&#x2F;&#x2F;bitbucket.org&#x2F;JohnSmith&#x2F;johnsmith.bitbucket.io</span><br><span class="line">  branch: [branch]</span><br><span class="line">  message: [message]</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>type</td>
+<td>deployer</td>
+<td>-</td>
+</tr>
+<tr>
+<td>repo</td>
+<td>项目地址</td>
+<td>-</td>
+</tr>
+<tr>
+<td>branch</td>
+<td>分支名称</td>
+<td>gh-pages</td>
+</tr>
+</tbody></table>
+<p>有以下两点需要注意：<br>1.repo 需要选择SSH 协议，HTTPS协议会报错。<br>2.branch 选择Github Pages中设置的那个分支，而不是拉取这个项目的分支</p>
+<p>我这里使用的是<code>git</code> 作为 deployer，所以需要手动安装一个插件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+
+<p>生成站点文件并部署至远程库：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo clean &amp;&amp; hexo deploy --generate</span><br></pre></td></tr></table></figure>
+
+<p>至此，就完成了使用Github Pages 部署 Hexo 个人博客的全部过程，总的来说还是很顺利的。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://sspai.com/post/54608" target="_blank" rel="noopener">Github Pages 搭建教程</a></li>
+<li><a href="https://hexo.io/zh-cn/docs/github-pages.html" target="_blank" rel="noopener">将Hexo 部署到 GitHub Pages</a></li>
+<li><a href="https://hexo.io/zh-cn/docs/one-command-deployment.html" target="_blank" rel="noopener">Hexo 一键部署</a></li>
+<li><a href="https://juejin.im/post/5acf02086fb9a028b92d8652#heading-15" target="_blank" rel="noopener">Github Pages部署个人博客（Hexo篇）</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/deploy-hexo-using-github-pages-personal-blog/>https://www.0x2beace.com/deploy-hexo-using-github-pages-personal-blog/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-02-13T17:12:57+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Feb 13, 2022</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Tutorial/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Tutorial</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/deploy-hexo-using-github-pages-personal-blog/&title=Github Pages 部署 Hexo 个人博客 - Boo&summary=关于个人博客，在很久之前就想自己搭建一套，甚至还为此买了一台服务器，但奈何自己太忙了(tai lan le) =_=，这件事情就一直搁浅了，服务器大部分时间也都是空闲状态。
+这段时间，突然很想把这件事情做好，觉得不能在这么拖下去了，所以便有了这篇文章。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/deploy-hexo-using-github-pages-personal-blog/&title=Github Pages 部署 Hexo 个人博客 - Boo&summary=关于个人博客，在很久之前就想自己搭建一套，甚至还为此买了一台服务器，但奈何自己太忙了(tai lan le) =_=，这件事情就一直搁浅了，服务器大部分时间也都是空闲状态。
+这段时间，突然很想把这件事情做好，觉得不能在这么拖下去了，所以便有了这篇文章。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/deploy-hexo-using-github-pages-personal-blog/&title=Github Pages 部署 Hexo 个人博客 - Boo&summary=关于个人博客，在很久之前就想自己搭建一套，甚至还为此买了一台服务器，但奈何自己太忙了(tai lan le) =_=，这件事情就一直搁浅了，服务器大部分时间也都是空闲状态。
+这段时间，突然很想把这件事情做好，觉得不能在这么拖下去了，所以便有了这篇文章。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADpklEQVR42u3aQXbiQAwEUO5/6ZkT+FkqydCQ3zsCxt3fWVRKef2zovVCAA4cOHAWOHCHwL3CdfnFF+/fXXe3n/Q+V6/T84IDBw4cOHDgwJ0GVw6ANxuubjQOoDffX/15fD9w4MCBAwcOHLhD4W4DYHGDXfhqEE6vXzsvOHDgwIEDBw7cj8GlsN2gOi1cwYEDBw4cOHDgwGXF4tPgWwNqcODAgQMHDhy4b4ObDoTT4FrdTzfYpkUqOHDgwIEDBw7ct8ClBeG3vo7PCw4cOHDgwIEDdwjcdKUbSwNuN8BuL3DgwIEDBw4cuFPgtg7ehUkLza1/LIwfLDhw4MCBAwcO3GFwXZDpwHe7oNz63K0HOHDgwIEDBw7cIXApYPXzTwXf6n3SIrQ8kAYHDhw4cODAgTsErhtkt4Ny+iDSfbSDOjhw4MCBAwcO3GFw0wDaHfRuF5XTVS00wYEDBw4cOHDgToXrFpvV69MicivQrgVicODAgQMHDhy4Q+BSgDQYdzc+DcbTB3oZgMGBAwcOHDhw4D4MNx0oPx1MqwedFq7lQhccOHDgwIEDB+4wuO7Bngqm3SI1HTA/NpAGBw4cOHDgwIH7ENy7i8Pumhah3QK3HIDBgQMHDhw4cOA+BJceoBpY04NU75+epx30wYEDBw4cOHDgDoN7V6GYBtHug+kWlmUPcODAgQMHDhy4w+C2isV0o1sw033d3h8cOHDgwIEDB+4QuDQYdld3413gpwpWcODAgQMHDhy4X4GrDnLTgrF7v2nQ7QZ2cODAgQMHDhy4U+DSQDgNqN2APT7wUrEKDhw4cODAgQN3Ctz0AONiMCwmPwYKDhw4cODAgQP3JXDpgDotRKcQ2wNzcODAgQMHDhy4b4VLDza9bqs4nQbjcZEJDhw4cODAgQP3ZrhpwKweZCuYdgvQ+BzgwIEDBw4cOHCHwnUD4zSYbg+g03V3P3DgwIEDBw4cuNPgtga5aZBNB84p/DhggwMHDhw4cODAHQI3DYzVoJpuOB14lwPt9C8HcODAgQMHDhy4D8NNB83bn08f4NaDuXxQ4MCBAwcOHDhwh8JtBcppkO4G3u2B9OX74MCBAwcOHDhwPwY3PWj1/tNBc3eQDQ4cOHDgwIED99fgqkVit0DdLk7b8ODAgQMHDhw4cIfCdQfS1ffbg98wCE9/EW6/Hxw4cODAgQMH7jC46QB3+roLmgbjdIAODhw4cODAgQN3GpzVLDgRgAMHDpwFDtxn139B+oCXjS0ySQAAAABJRU5ErkJggg==">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/hexo-quick-start/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Hexo 快速上手</p>
+                <p class='content'>最近使用Hexo 搭建了一套博客系统，整个过程还算顺利，不过还是遇到了一些问题，整理记录一下。
+
+
+常用命令init新建一个网站。如果没有设置 folder，Hexo 默认在目前的文件夹建立网站...</p>
+              </a>
+            
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Github Pages 部署 Hexo 个人博客',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+  <section class="widget toc-wrapper shadow desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#系统环境"><span class="toc-text">系统环境</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建Github-Pages"><span class="toc-text">创建Github Pages</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#绑定域名"><span class="toc-text">绑定域名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#将Hexo-部署到Github-Pages"><span class="toc-text">将Hexo 部署到Github Pages</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#修改发布源"><span class="toc-text">修改发布源</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#一键部署"><span class="toc-text">一键部署</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+  
+    <meting-js
+      theme='#1BCDFC'
+      autoplay='false'
+      volume='0.7'
+      loop='all'
+      order='list'
+      fixed='false'
+      list-max-height='340px'
+      server='netease'
+      type='playlist'
+      id='3175833810'
+      list-folded='true'>
+    </meting-js>
+  
+
+
+        </div>
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "Ki6kd5TUWoQyYKSErxehnRpc-MdYXbMMI",
+    appKey: "7pRBOKMw58Yo7EsUjHziIEY1",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>

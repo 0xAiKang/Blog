@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>在 Linux 命令行中执行和使用 PHP 代码 - Boo</title>
+  
+    <meta name="keywords" content="PHP,Shell">
+  
+  
+    <meta name="description" content="众所周知，PHP是一门脚本语言，主要用于服务端（JavaScript 用于客户端）以通过HTTP 生成动态网页。">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Boo's Blog</p>
+    
+    
+      <p class="subtitle">Stay foolish, Stay hungry</p>
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/"
+                
+                
+                id="https:www0x2BeAcecom">
+                <i class='fas fa-book fa-fw'></i>博客
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/categories/"
+                
+                
+                id="https:www0x2BeAcecomcategories">
+                <i class='fas fa-rss fa-fw'></i>分类
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/tags/"
+                
+                
+                id="https:www0x2BeAcecomtags">
+                <i class='fas fa-play-circle fa-fw'></i>标签
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/archives/"
+                
+                  rel="external nofollow noopener noreferrer"
+                
+                
+                id="https:www0x2BeAcecomarchives">
+                <i class='fas fa-file-code fa-fw'></i>归档
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/about/"
+                
+                
+                id="https:www0x2BeAcecomabout">
+                <i class='fas fa-handshake fa-fw'></i>关于我
+              </a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/execute-and-use-php-code-on-the-linux-command-line/">
+      在 Linux 命令行中执行和使用 PHP 代码
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/PHP/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>PHP</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Jul 29, 2020</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>921 words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>3 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/execute-and-use-php-code-on-the-linux-command-line/" class="leancloud_visitors" data-flag-title="在 Linux 命令行中执行和使用 PHP 代码">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>众所周知，PHP是一门脚本语言，主要用于服务端（JavaScript 用于客户端）以通过HTTP 生成动态网页。</p>
+<a id="more"></a>
+
+<p>所以与其他脚本语言一样，可以直接在终端中不需要网页浏览器来运行PHP 代码。</p>
+<h2 id="获取安装信息"><a href="#获取安装信息" class="headerlink" title="获取安装信息"></a>获取安装信息</h2><p>在安装完PHP 以及Nginx 之后，接下来我们通常需要做的是，在<code>/usr/local/var/www</code> (Mac 上的Nginx 工作目录)上创建一个内容为<code>&lt;?php phpinfo(); ?&gt;</code>，名为index.php的文件来测试PHP 是否安装正确。</p>
+<p>执行以下命令即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># echo &#39;&lt;?php phpinfo(); ?&gt;&#39; &gt; &#x2F;usr&#x2F;local&#x2F;var&#x2F;www&#x2F;index.php</span><br></pre></td></tr></table></figure>
+
+<p>然后，使用浏览器访问<code>http://127.0.0.1/index.php</code>，不出意外可以看到：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200930151004.png" alt=""></p>
+<blockquote>
+<p>如何在终端中直接查看该信息？</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># php -f &#x2F;usr&#x2F;local&#x2F;var&#x2F;www&#x2F;index.php | less</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200930151053.png" alt=""></p>
+<p>如果你觉得上面这种方式太麻烦了，那么还有一种更简便的方式可以达到同样的效果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># php -r &#39;php phpinfo();&#39; | less</span><br></pre></td></tr></table></figure>
+<h3 id="交互模式"><a href="#交互模式" class="headerlink" title="交互模式"></a>交互模式</h3><p>有时候我们会遇到这样一种情况，想测试一小段代码，看看其运行结果，但是又不想重新创建一个文件，太麻烦了。</p>
+<p>如果这个时候有一个地方可以直接运行这段代码且输出结果，那该多好啊。</p>
+<p>PHP 为我们提供了两种交互模式，前者是自动的，后者是手动的。</p>
+<ol>
+<li>Interactive shell</li>
+<li>Interactive mode enabled</li>
+</ol>
+<p>两种模式都是使用 <code>php -a</code> 命令进入。</p>
+<h4 id="Interactive-shell"><a href="#Interactive-shell" class="headerlink" title="Interactive shell"></a>Interactive shell</h4><p>使用这个交互式shell，你可以直接在命令行窗口里输入PHP并直接获得输出结果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ php -a</span><br><span class="line">Interactive shell</span><br><span class="line"></span><br><span class="line">php &gt;echo &quot;Hello PHP&quot;;</span><br><span class="line">Hello PHP</span><br><span class="line">php &gt; echo 10+90;</span><br><span class="line">100</span><br></pre></td></tr></table></figure>
+<p>回车即可查看输出内容。</p>
+<h4 id="Interactive-mode-enabled"><a href="#Interactive-mode-enabled" class="headerlink" title="Interactive mode enabled"></a>Interactive mode enabled</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ php -a</span><br><span class="line">Interactive mode enabled</span><br><span class="line"></span><br><span class="line">php &gt;echo &quot;Hello PHP&quot;;</span><br></pre></td></tr></table></figure>
+<p>如果出现的是这个模式，说明你的PHP并不支持交互式shell，</p>
+<p>不过不用担心，这个模式同样也可以执行PHP 代码，只是代码的执行方式有些区别。</p>
+<p>输入了所有PHP代码后，输入<code>Ctrl-Z</code>（windows里），或输入<code>Ctrl-D</code>（linux里），你输入的所有代码将会一次执行完成并输出结果。</p>
+<p>输入<code>exit</code>或者<code>⌃ + c</code> 退出交互模式。</p>
+<h3 id="PHP-脚本"><a href="#PHP-脚本" class="headerlink" title="PHP 脚本"></a>PHP 脚本</h3><p>在终端中可以把PHP 脚本作为Shell 脚本来运行。</p>
+<p>首先你需要创建一个PHP 脚本文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># echo -e &#39;#!&#x2F;usr&#x2F;bin&#x2F;php\n&lt;?php phpinfo();?&gt;&#39; &gt; phpscript.php</span><br></pre></td></tr></table></figure>
+<p><code>-e</code> 表示激活转义字符。</p>
+<p>注意，这个脚本文件中的第一行<code>#!/usr/bin/php</code>，就像是Shell 脚本中的<code>#!/bin/bash</code>。目的是告诉Linux 命令行使用PHP 解析器来解析该文件。</p>
+<p>运行该脚本：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># chmod +x phpscript.php  &#x2F;&#x2F; 使脚本具有执行权限</span><br><span class="line"># .&#x2F;phpscript.php   &#x2F;&#x2F;执行脚本</span><br></pre></td></tr></table></figure>
+
+<h3 id="PHP-服务"><a href="#PHP-服务" class="headerlink" title="PHP 服务"></a>PHP 服务</h3><p>PHP 有内置一个WebServer，可以很方便快速的搭建一个PHP 服务。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ php -t &#x2F;project to path -S localhost:port</span><br></pre></td></tr></table></figure>
+<p>然后通过浏览器访问<code>localhost:port</code> 就可以了。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li><code>php -a</code>：进入交互模式</li>
+<li><code>php -f</code>：解析和执行文件</li>
+<li><code>php -h</code>：获取帮助</li>
+<li><code>php -i</code>：查看PHP 信息和配置</li>
+<li><code>php -m</code>：显示已经安装的模块</li>
+<li><code>php -r</code>：运行PHP代码不使用脚本标签’<?..?>‘</li>
+<li><code>php -v</code>：查看PHP 版本</li>
+<li><code>php -ini</code>：查看加载配置文件（php.ini、conf.d）</li>
+<li><code>php -i | grep configure</code>：查看静态编译模块</li>
+<li><code>php --ri swoole</code>：查看指定模块的配置</li>
+<li><code>locate php.ini</code>：查询本地配置文件</li>
+<li><code>time php script.php</code>：查看程序的执行时间</li>
+</ul>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://linux.cn/article-5906-1.html" target="_blank" rel="noopener">在 Linux 命令行中执行和使用 PHP 代码</a></li>
+<li><a href="https://www.tecmint.com/execute-php-codes-functions-in-linux-commandline/" target="_blank" rel="noopener">12 个 Linux 终端中有用的 PHP 命令行用法</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/execute-and-use-php-code-on-the-linux-command-line/>https://www.0x2beace.com/execute-and-use-php-code-on-the-linux-command-line/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-02-13T17:12:57+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Feb 13, 2022</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Shell/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Shell</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/execute-and-use-php-code-on-the-linux-command-line/&title=在 Linux 命令行中执行和使用 PHP 代码 - Boo&summary=众所周知，PHP是一门脚本语言，主要用于服务端（JavaScript 用于客户端）以通过HTTP 生成动态网页。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/execute-and-use-php-code-on-the-linux-command-line/&title=在 Linux 命令行中执行和使用 PHP 代码 - Boo&summary=众所周知，PHP是一门脚本语言，主要用于服务端（JavaScript 用于客户端）以通过HTTP 生成动态网页。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/execute-and-use-php-code-on-the-linux-command-line/&title=在 Linux 命令行中执行和使用 PHP 代码 - Boo&summary=众所周知，PHP是一门脚本语言，主要用于服务端（JavaScript 用于客户端）以通过HTTP 生成动态网页。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVgAAAFYCAAAAAAzB7ucAAAEcklEQVR42u3aQW7kMAwEwPz/07sPWASjbtKaSbZ0Swa2pJIPaoJff4xHxhcCsGANsGDBGmCvwH6V47vnX048fM93v7fPv1pH7AEWLFiwYMGCBQv2KuzxBfjFwk4XvAXfHvyr/9ceYMGCBQsWLFiwYN8Ce7rQrQWeHkwaENJ9rXmABQsWLFiwYMGC/RGw7QW+BZoGhvSDAAsWLFiwYMGCBfs7YduAMG2saN/365MXWLBgwYIFCxbsfwrbFqZPQdJGjjRgTMfHdMKABQsWLFiwYMGCPYJNxxTy0/+uPcCCBQsWLFiwYMFegX16pAXr08aQtgHj8f2CBQsWLFiwYMGCvQLbFpi3xmnB+xQyPdD1Bg6wYMGCBQsWLFiwV2DbxohTmBZ2GgTSxpIU/Dh5gQULFixYsGDBgn0UdnwxLi/kbSE6hWuDRxpkwIIFCxYsWLBgwd6BnTZQTBsj6g2EB9wW4NMGErBgwYIFCxYsWLB3YNPC7rTAvBUE2kL1VoH7OHmBBQsWLFiwYMGCvQKbTrR90U5BpuvbLuiDBQsWLFiwYMGCvQPbNvy2F/fphXxaiE4/iDgwgQULFixYsGDBgr0Cm8KlheQ2QEwbSdLn23WDBQsWLFiwYMGCfS/stPCdFpC355k2imw1moAFCxYsWLBgwYK9C7vduLB1cOlBtEGlfS9YsGDBggULFizY98A+NdG0sSM96K3n0wOIO2HAggULFixYsGDBXoGdNkS0F/a2IL0VKB4PCGDBggULFixYsGBXYFPoacG5bagYX+DDhpI4YIAFCxYsWLBgwYK9AjstWKcQLdzpuraDRrp/sGDBggULFixYsHdh2wW3F/Z4wcMxff/xBwUWLFiwYMGCBQv2Kuw0CGxf9KfBZRpQWhewYMGCBQsWLFiwd2DTxou2YSNt3JgGjG3I4/2CBQsWLFiwYMGCvQK7NdoC9/TA0vmnH9DL38GCBQsWLFiwYMFegU0XVE+4NE9bcH+qUA4WLFiwYMGCBQv2PbBPB4PTC37baNE2nqTgp4EGLFiwYMGCBQsW7B3YaeNC2hjRFqTTDW4f4HFQAQsWLFiwYMGCBfsRsG1AmD7fNoS0Be02yIAFCxYsWLBgwYL9TNhpI8XWBtuC9ek86Xu+fR9YsGDBggULFizYj4LdKkBPg0AL1H4A8frBggULFixYsGDBvgU23fC04aINCOkH0e4rXhdYsGDBggULFizYK7DTsdXwkW50WqDfDj5gwYIFCxYsWLBg78JubWRasJ5udDpvetB18gILFixYsGDBggW7CpsGgilM+v8p2FPr/ccDLFiwYMGCBQsW7Ftg00DQXrDbAvfpPE8X1L99L1iwYMGCBQsWLNgfCbsVDE5hUug2GBwX+MGCBQsWLFiwYMH+CNitC3u68XY9aePG2wICWLBgwYIFCxYs2Ai23cjpcync1sV9ekDHgQksWLBgwYIFCxbsVdi2caFtqJgGj3T+9oDjwAIWLFiwYMGCBQv2CqyxO8CCBWuABQvWAPvo+At27dH2f8xktAAAAABJRU5ErkJggg==">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/supervisor-quick-start/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Supervisor 快速上手</p>
+                <p class='content'>supervisord 是一个用 Python 写的进程管理工具，是类Unix系统中的一个进程管理工具，
+Supervisor 只适用于类Unix 系统，不适用于Window。
+
+
+安装因为Su...</p>
+              </a>
+            
+            
+              <a class='next' href='/list-causes-mysql-5-7-with-select-distinct-and-order-by/'>
+                <p class='title'>如何解决“ORDER BY子句不在SELECT列表中”的问题<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>记录一个最近遇到的Mysql 问题。
+
+
+
+问题描述：在本地项目中，部分SQL 语句执行起来，总是会报一个错。而同样的SQL，在线上的服务器中执行起来没有任何问题。
+
+错误提示内容：
+1Expr...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: '在 Linux 命令行中执行和使用 PHP 代码',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+  <section class="widget toc-wrapper shadow desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#获取安装信息"><span class="toc-text">获取安装信息</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#交互模式"><span class="toc-text">交互模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Interactive-shell"><span class="toc-text">Interactive shell</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Interactive-mode-enabled"><span class="toc-text">Interactive mode enabled</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PHP-脚本"><span class="toc-text">PHP 脚本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PHP-服务"><span class="toc-text">PHP 服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+  
+    <meting-js
+      theme='#1BCDFC'
+      autoplay='false'
+      volume='0.7'
+      loop='all'
+      order='list'
+      fixed='false'
+      list-max-height='340px'
+      server='netease'
+      type='playlist'
+      id='3175833810'
+      list-folded='true'>
+    </meting-js>
+  
+
+
+        </div>
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "Ki6kd5TUWoQyYKSErxehnRpc-MdYXbMMI",
+    appKey: "7pRBOKMw58Yo7EsUjHziIEY1",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>

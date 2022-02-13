@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>当 Docker 容器无法正常启动时如何修改配置文件 - Boo</title>
+  
+    <meta name="keywords" content="Linux,Docker">
+  
+  
+    <meta name="description" content="在容器无法正常启动的情况下，如何修改其配置文件？
+问题描述：因为错误的配置文件导致容器运行异常，无法正常启动，通常情况下只有进入容器才能修改配置文件，所以在不能进入容器的情况下该怎么办呢？">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Boo's Blog</p>
+    
+    
+      <p class="subtitle">Stay foolish, Stay hungry</p>
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/"
+                
+                
+                id="https:www0x2BeAcecom">
+                <i class='fas fa-book fa-fw'></i>博客
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/categories/"
+                
+                
+                id="https:www0x2BeAcecomcategories">
+                <i class='fas fa-rss fa-fw'></i>分类
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/tags/"
+                
+                
+                id="https:www0x2BeAcecomtags">
+                <i class='fas fa-play-circle fa-fw'></i>标签
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/archives/"
+                
+                  rel="external nofollow noopener noreferrer"
+                
+                
+                id="https:www0x2BeAcecomarchives">
+                <i class='fas fa-file-code fa-fw'></i>归档
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/about/"
+                
+                
+                id="https:www0x2BeAcecomabout">
+                <i class='fas fa-handshake fa-fw'></i>关于我
+              </a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/how-to-modify-the-configuration-file-when-the-docker-container-cannot-start-normally-1/">
+      当 Docker 容器无法正常启动时如何修改配置文件
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Linux/Docker/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Linux/Docker</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Sep 10, 2020</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>682 words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>2 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/how-to-modify-the-configuration-file-when-the-docker-container-cannot-start-normally-1/" class="leancloud_visitors" data-flag-title="当 Docker 容器无法正常启动时如何修改配置文件">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>在容器无法正常启动的情况下，如何修改其配置文件？</p>
+<p>问题描述：因为错误的配置文件导致容器运行异常，无法正常启动，通常情况下只有进入容器才能修改配置文件，所以在不能进入容器的情况下该怎么办呢？</p>
+<a id="more"></a>
+
+<p>这种情况下，有两种方式去修改：<br>2. Docker 容器的配置文件一般在 <code>/var/lib/docker/overlay/</code>目录下，可以找到该目录下对应的配置文件进行修改。<br>2. 把容器中的配置文件复制到主机中，修改完之后，再移动到容器中。</p>
+<h2 id="方式一"><a href="#方式一" class="headerlink" title="方式一"></a>方式一</h2><ol>
+<li><p>查询日志</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">docker logs &lt;容器名称&#x2F;容器id&gt;</span><br><span class="line"></span><br><span class="line">ERROR: mysqld failed while attempting to check config</span><br><span class="line">command was: &quot;mysqld --verbose --help&quot;</span><br><span class="line">2020-09-03T12:15:54.644699Z 0 [ERROR] unknown variable &#39;realy-log&#x3D;slave-relay-bin&#39;</span><br><span class="line">2020-09-03T12:15:54.650119Z 0 [ERROR] Aborting</span><br></pre></td></tr></table></figure>
+<p>由于异常日志可以得知是因为我将<code>relay-log</code> 写成了 <code>realy</code> 导致容器无法正常启动。</p>
+</li>
+<li><p>查找文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ find &#x2F; -name mysqld.cnf</span><br><span class="line"></span><br><span class="line">&#x2F;var&#x2F;lib&#x2F;docker&#x2F;overlay2&#x2F;02e1644bc1a4dc1adc9a0300e1815f364416570d69b715fb3b7de0a06cf0c495&#x2F;diff&#x2F;etc&#x2F;mysql&#x2F;mysql.conf.d&#x2F;mysqld.cnf</span><br><span class="line">&#x2F;var&#x2F;lib&#x2F;docker&#x2F;overlay2&#x2F;02e1644bc1a4dc1adc9a0300e1815f364416570d69b715fb3b7de0a06cf0c495&#x2F;merged&#x2F;etc&#x2F;mysql&#x2F;mysql.conf.d&#x2F;mysqld.cnf</span><br><span class="line">&#x2F;var&#x2F;lib&#x2F;docker&#x2F;overlay2&#x2F;4f128d7fb1200f722b0d2cfe3606149fe72987a7a16bc78551a2b1fe6c6c6572&#x2F;diff&#x2F;etc&#x2F;mysql&#x2F;mysql.conf.d&#x2F;mysqld.cnf</span><br><span class="line">&#x2F;var&#x2F;lib&#x2F;docker&#x2F;overlay2&#x2F;a68f1af4adf982b037f1bd37d61082fde1fa2b0e26ea0e2fe146edcb69b198ea&#x2F;diff&#x2F;etc&#x2F;mysql&#x2F;mysql.conf.d&#x2F;mysqld.cnf</span><br></pre></td></tr></table></figure>
+<p>这里可能会出现多个配置文件，这是因为每一次重启Mysql 容器都会保留一个配置文件，所以理论上，直接修改第一个配置文件，就是当前Mysql 所使用的配置文件。</p>
+</li>
+<li><p>修改配置文件</p>
+</li>
+<li><p>重启容器即可。</p>
+</li>
+</ol>
+<h2 id="方式二"><a href="#方式二" class="headerlink" title="方式二"></a>方式二</h2><p>如果第一种方式没生效，那可以尝试第二种方式。</p>
+<ol>
+<li><p>复制容器中的配置文件到主机：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 语法：docker cp &lt;容器名称&#x2F;容器id&gt;:&lt;配置文件在容器中的路径&gt; &lt;需要复制到主机的路径&gt;</span><br><span class="line"></span><br><span class="line">$ docker cp mysql:&#x2F;etc&#x2F;mysql&#x2F;mysql.conf.d&#x2F;mysqld.cnf ~&#x2F;mysqld.cnf</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改主机中的配置文件</p>
+</li>
+<li><p>将该配置文件mv 到容器中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 语法：docker cp &lt;配置文件在主机中的路径&gt; &lt;容器名称&#x2F;容器id&gt;:&lt;配置文件在容器中的路径&gt;</span><br><span class="line"></span><br><span class="line">$ docker cp ~&#x2F;mysqld.cnf mysql:&#x2F;etc&#x2F;mysql&#x2F;mysql.conf.d&#x2F;mysqld.cnf</span><br></pre></td></tr></table></figure></li>
+<li><p>重启配置文件即可。</p>
+</li>
+</ol>
+<p>总结：两种方式均可以有效解决上述问题，当然这类方式仅适用于容器是因错误的配置文件导致无法正常启动的情况。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://blog.csdn.net/LinHenk/article/details/88111616" target="_blank" rel="noopener">Docker修改无法启动的容器的配置文件</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/how-to-modify-the-configuration-file-when-the-docker-container-cannot-start-normally-1/>https://www.0x2beace.com/how-to-modify-the-configuration-file-when-the-docker-container-cannot-start-normally-1/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-02-13T17:12:57+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Feb 13, 2022</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Linux/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Linux</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Docker/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Docker</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/how-to-modify-the-configuration-file-when-the-docker-container-cannot-start-normally-1/&title=当 Docker 容器无法正常启动时如何修改配置文件 - Boo&summary=在容器无法正常启动的情况下，如何修改其配置文件？
+问题描述：因为错误的配置文件导致容器运行异常，无法正常启动，通常情况下只有进入容器才能修改配置文件，所以在不能进入容器的情况下该怎么办呢？"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/how-to-modify-the-configuration-file-when-the-docker-container-cannot-start-normally-1/&title=当 Docker 容器无法正常启动时如何修改配置文件 - Boo&summary=在容器无法正常启动的情况下，如何修改其配置文件？
+问题描述：因为错误的配置文件导致容器运行异常，无法正常启动，通常情况下只有进入容器才能修改配置文件，所以在不能进入容器的情况下该怎么办呢？"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/how-to-modify-the-configuration-file-when-the-docker-container-cannot-start-normally-1/&title=当 Docker 容器无法正常启动时如何修改配置文件 - Boo&summary=在容器无法正常启动的情况下，如何修改其配置文件？
+问题描述：因为错误的配置文件导致容器运行异常，无法正常启动，通常情况下只有进入容器才能修改配置文件，所以在不能进入容器的情况下该怎么办呢？"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXgAAAF4CAAAAAB79r16AAAFJ0lEQVR42u3aQXLkOAwEQP//0zP3cThEFIpyb2zy1m01KSZ5KQNff4xfGV8IwIM3wIM3wIM3CvBf4fg24T/f//T8T79/mm/6/XT9dN6pF3jw4MGDBw8ePHjwTfjjAPDw/CnAree386XfH3uABw8ePHjw4MGDB38B/nQjp4Fie0BPAC34NGiNvcCDBw8ePHjw4MGD/0D4p+dOAW8BT4NgevHAgwcPHjx48ODBg/8vwm83njYQTedJLwJ48ODBgwcPHjx48J8EP27QGQJO/37rQNNGpbUXePDgwYMHDx48ePBF+DSo/F8/x17gwYMHDx48ePDgwRfgt2MbjNoFjtP5t8Et9gIPHjx48ODBgwcPvgCfBoRTyCegbTC51dA0nef4PcCDBw8ePHjw4MGDL8DXG3bCwNIKZnWoUoADDx48ePDgwYMHD74Jvw0g2+CSBprxhg/n3zZ2Pe4HPHjw4MGDBw8ePPgi/OmLtBqZ2gfaLnxMgWsVKPDgwYMHDx48ePDgC301aaFjuuG3A9npPtMC0Y/zgAcPHjx48ODBgwf/Avy2ESk9oFbBJA1q2/f78XfgwYMHDx48ePDgwRfhW7DT4HKrcWkaeKaNS9PgCR48ePDgwYMHDx58E75VWJgWGlq/vxXc0kam4wAFHjx48ODBgwcPHnwBvlUQOQ1U7Q1tG43Sxq7TfYEHDx48ePDgwYMHfxP+rYakbcEiLaRMCz6tQAUePHjw4MGDBw8e/E346QFMG4mmB9A68DZ07AQePHjw4MGDBw8e/AvwU/C0YLAtuGwvzPYCgQcPHjx48ODBgwf/JvytBqPfmictqGzXHzc0gQcPHjx48ODBgwdfhN8GmXawSYPMtpFqW9j5cd/gwYMHDx48ePDgwRfhp4FiGzzSgsL0860Lk64PHjx48ODBgwcPHnwTfhsgTg9mu9G0cLOdv7Y+ePDgwYMHDx48ePAF+GnASQsK7Y2cwk5B0/0fB0Dw4MGDBw8ePHjw4Avwpy9yKxi1DnpbAGk1dj0eJHjw4MGDBw8ePHjwRfhtg9FpkDmFbgWwP8OR7u/4goAHDx48ePDgwYMHX4Dfgt0CSgsQ7XXSeR4DFHjw4MGDBw8ePHjwRfhtMEmDUwqRXqBbF+64EAIePHjw4MGDBw8e/AJ+utD4H/9hENo2TKXvm3qABw8ePHjw4MGDB/8b8O2GpLSQMA1m00DWKrRMAxp48ODBgwcPHjx48G/AxwFhWZCYBqC04NH6/bTAAh48ePDgwYMHDx58A35bQGg1Or11gNuAtt4XePDgwYMHDx48ePBF+GnDUFrQ2B74NkiljVDbAwAPHjx48ODBgwcPvgm/LXRMg8S0USiF+pSD/fY8ePDgwYMHDx48ePBF+NaCaaNSG2gbDNN5Ht3AgwcPHjx48ODBgy/An8K2wJ/mawGkB377PcCDBw8ePHjw4MGDb8BvRy1YhJBp4SO9eNuGKfDgwYMHDx48ePDgG/DbQsL0hdPgMm14mhZkYsjD9wYPHjx48ODBgwcP/gb89MVOP08DSRpgpoBvBSjw4MGDBw8ePHjw4N+ATwNEK9hsG4paB7FddxygwIMHDx48ePDgwYP/APhW4KoFlyVc6vTte/DgwYMHDx48ePDgPwi+3dg0DUjTws42kE0vGHjw4MGDBw8ePHjwN+GnC6SBY3pA2wJK66DWDVjgwYMHDx48ePDgwRfh2407rcJFuwCzvWjbgwIPHjx48ODBgwcPvgFvvDvAgwdvgAdvgAdvLMZf/A8xg8n/iNYAAAAASUVORK5CYII=">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/how-to-automatically-apply-for-a-free-ssl-certificate/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>如何自动申请免费的SSL 证书</p>
+                <p class='content'>上次介绍了如何通过第三方网站申请免费的SSL 证书，但有效期只有三个月，三个月之后又需要再次申请，记得还好，如果忘了可能还会造成不必要的损失。
+
+
+Let’s Encrypt 是一个免费提供的S...</p>
+              </a>
+            
+            
+              <a class='next' href='/zabbix-quick-start-add-monitoring-items/'>
+                <p class='title'>Zabbix 快速上手——添加监控项<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>在Zabbix 默认的监控项中，唯独没有网络状态的监控，而网络状况的监控又是我最关心的，所以需要自己手动添加。
+下面介绍的方式仅适合主机数量不多的情况手动添加，如果主机数量很多，使用这种方式会很...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: '当 Docker 容器无法正常启动时如何修改配置文件',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+  <section class="widget toc-wrapper shadow desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#方式一"><span class="toc-text">方式一</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方式二"><span class="toc-text">方式二</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+  
+    <meting-js
+      theme='#1BCDFC'
+      autoplay='false'
+      volume='0.7'
+      loop='all'
+      order='list'
+      fixed='false'
+      list-max-height='340px'
+      server='netease'
+      type='playlist'
+      id='3175833810'
+      list-folded='true'>
+    </meting-js>
+  
+
+
+        </div>
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "Ki6kd5TUWoQyYKSErxehnRpc-MdYXbMMI",
+    appKey: "7pRBOKMw58Yo7EsUjHziIEY1",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>

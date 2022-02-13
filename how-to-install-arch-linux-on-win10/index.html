@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>Win10 如何安装 Arch Linux - Boo</title>
+  
+    <meta name="keywords" content="Linux,Windows,WSL,Arch Linux">
+  
+  
+    <meta name="description" content="最近主力生产工具可能要拿去送修，所以可能有一段时间要和我的MBP 分开了。但是工作还是要继续，于是把之前闲置的 小米 Pro 15.6 给整起来。
+第一件需要做的事情就是配置开发环境。">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Boo's Blog</p>
+    
+    
+      <p class="subtitle">Stay foolish, Stay hungry</p>
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/"
+                
+                
+                id="https:www0x2BeAcecom">
+                <i class='fas fa-book fa-fw'></i>博客
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/categories/"
+                
+                
+                id="https:www0x2BeAcecomcategories">
+                <i class='fas fa-rss fa-fw'></i>分类
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/tags/"
+                
+                
+                id="https:www0x2BeAcecomtags">
+                <i class='fas fa-play-circle fa-fw'></i>标签
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/archives/"
+                
+                  rel="external nofollow noopener noreferrer"
+                
+                
+                id="https:www0x2BeAcecomarchives">
+                <i class='fas fa-file-code fa-fw'></i>归档
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/about/"
+                
+                
+                id="https:www0x2BeAcecomabout">
+                <i class='fas fa-handshake fa-fw'></i>关于我
+              </a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/how-to-install-arch-linux-on-win10/">
+      Win10 如何安装 Arch Linux
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Linux/Windows/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Linux/Windows</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Aug 16, 2020</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>892 words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>3 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/how-to-install-arch-linux-on-win10/" class="leancloud_visitors" data-flag-title="Win10 如何安装 Arch Linux">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>最近主力生产工具可能要拿去送修，所以可能有一段时间要和我的MBP 分开了。但是工作还是要继续，于是把之前闲置的 小米 Pro 15.6 给整起来。</p>
+<p>第一件需要做的事情就是配置开发环境。</p>
+<a id="more"></a>
+
+<h2 id="了解-WSL"><a href="#了解-WSL" class="headerlink" title="了解 WSL"></a>了解 WSL</h2><h3 id="什么是-WSL-？"><a href="#什么是-WSL-？" class="headerlink" title="什么是 WSL ？"></a>什么是 WSL ？</h3><p>Windows Linux Server (WSL) 又名Windows 子系统，它使得开发人员可以直接在未经修改得Windows 上运行 <code>Gun/Linux</code> 环境，也包括大多数命令行工具，实用程序员和应用程序员，而不会需要额外增加虚拟机。</p>
+<h3 id="WSL-可以做什么"><a href="#WSL-可以做什么" class="headerlink" title="WSL 可以做什么"></a>WSL 可以做什么</h3><ul>
+<li>你可以自行选择你喜欢的 <code>Gun/Linux</code> 发行版：Arch Linux、Ubuntu、OpenSuSE、Kail Linux、Debian、Fedora等。</li>
+<li>运行通用的命令行，例如grep，sed，awk或其他ELF-64二进制文件。</li>
+<li>轻松运行Bash Shell脚本和 <code>GNU/Linux</code> 命令行应用程序</li>
+<li>使用自己的 <code>GNU/Linux</code> 分发程序包管理器安装其他软件。</li>
+<li>使用类似Unix的命令行外壳调用Windows应用程序。</li>
+<li>在Windows上调用 <code>GNU/Linux</code> 应用程序。</li>
+</ul>
+<p>有了这些功能，我们就可以完成很多工作，而不必担心安装虚拟机监控程序，从而享受Linux的好处。安装并准备好Win 10后，请按照以下步骤进行操作，并在其中添加Arch Linux。</p>
+<h2 id="安装-WSL"><a href="#安装-WSL" class="headerlink" title="安装 WSL"></a>安装 WSL</h2><p>本文要安装的WSL 是 <a href="https://www.archlinux.org/" target="_blank" rel="noopener">Arch Linux</a> 。</p>
+<blockquote>
+<p>为什么要选择 Arch Linux？</p>
+</blockquote>
+<p>因为它是一个轻量级且灵活的Linux 发行版。</p>
+<h3 id="为Linux-安装Windows-子系统"><a href="#为Linux-安装Windows-子系统" class="headerlink" title="为Linux 安装Windows 子系统"></a>为Linux 安装Windows 子系统</h3><p>这是一项使Windows能够“ 托管 ” Linux 的功能。所以需要先启用此功能。</p>
+<p>以管理员的身份打开Power Shell，然后输入以下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux</span><br></pre></td></tr></table></figure>
+<p>通常会重启一次你的电脑。</p>
+<h3 id="安装Arch-Linux"><a href="#安装Arch-Linux" class="headerlink" title="安装Arch Linux"></a>安装Arch Linux</h3><p>我记得在2019 年，Windows 刚拥抱 Linux 时，Arch Linux 还可以直接从 Microsoft Store 直接下载，不知为何现在却搜不到了。</p>
+<p>不过还是有其他办法手动安装，<a href="https://github.com/yuk7/ArchWSL/releases/tag/20.4.3.0" target="_blank" rel="noopener">打开该页面</a>，下载<code>Arch.zip</code>。</p>
+<p>解压完成之后，可以看到如下文件：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20200816171455.png" alt=""></p>
+<p>双击<code>Arch.exe</code>应用程序，进行安装。</p>
+<p>稍微等待一会，就可以看到Arch Linux 已经顺利安装完成了，然后按任意键退出。</p>
+<h3 id="启动Arch-Linux"><a href="#启动Arch-Linux" class="headerlink" title="启动Arch Linux"></a>启动Arch Linux</h3><p>再次双击<code>Arch Linux</code>，不出意外的话，就可以看到<code>Arch Linux</code> 的控制台了，没错就是这么简单。</p>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>第一次安装完成之后，需要手动做一些配置，初始化并更新系统。</p>
+<p>在终端或<code>CMD</code> 中输入<code>WSL</code> 进入<code>Arch Linux</code>。</p>
+<p>编辑 <code>/etc/pacman.d/mirrorlist</code>，去掉<code>China</code>节点 前面的<code>##</code>，以及下面的<code>Server</code>下面的<code>##</code>。</p>
+<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pacman-key --init</span><br><span class="line"></span><br><span class="line">pacman-key --populate archlinux</span><br></pre></td></tr></table></figure>
+
+<h3 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 更新 GPG key</span><br><span class="line">pacman -Sy archlinux-keyring</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 更新系统，速度快慢与镜像源有关</span><br><span class="line">pacman -Syyu base base-devel</span><br></pre></td></tr></table></figure>
+
+<h2 id="个性化"><a href="#个性化" class="headerlink" title="个性化"></a>个性化</h2><p>Arch Linux 默认的样式并不好看，和CMD 都是黑漆漆的一片。</p>
+<p>因为Arch Linux 默认使用的 Bash，如果你和我一样，更喜欢 Zsh 的话，那就请继续看下去。</p>
+<h3 id="安装ZSH"><a href="#安装ZSH" class="headerlink" title="安装ZSH"></a>安装ZSH</h3><p>既然要安装Zsh，那就不得不安装<code>oh-my-zsh</code>了，所以这里一起安装了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacman -S zsh oh-my-zsh-git</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装Spaceship-ZSH"><a href="#安装Spaceship-ZSH" class="headerlink" title="安装Spaceship ZSH"></a>安装Spaceship ZSH</h3><p><a href="https://github.com/denysdovhan/spaceship-prompt" target="_blank" rel="noopener">Spaceship ZSH</a> 是Zsh 的提示符工具。</p>
+<ol>
+<li><p>克隆仓库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;denysdovhan&#x2F;spaceship-prompt.git &quot;$ZSH_CUSTOM&#x2F;themes&#x2F;spaceship-prompt&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>链接文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s &quot;$ZSH_CUSTOM&#x2F;themes&#x2F;spaceship-prompt&#x2F;spaceship.zsh&quot; &quot;$ZSH_CUSTOM&#x2F;themes&#x2F;spaceship.zsh-theme&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>更改默认theme </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># vim ~&#x2F;.zshrc</span><br><span class="line">ZSH_THEME&#x3D;&quot;spaceship&quot;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>重启终端即可。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://github.com/way-zer/way-zer.github.com/issues/2" target="_blank" rel="noopener">安装ArchWSL（Windows 下的Arch Linux 子系统）</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/how-to-install-arch-linux-on-win10/>https://www.0x2beace.com/how-to-install-arch-linux-on-win10/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-02-13T17:12:57+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Feb 13, 2022</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Linux/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Linux</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Windows/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Windows</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/WSL/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>WSL</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Arch-Linux/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Arch Linux</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/how-to-install-arch-linux-on-win10/&title=Win10 如何安装 Arch Linux - Boo&summary=最近主力生产工具可能要拿去送修，所以可能有一段时间要和我的MBP 分开了。但是工作还是要继续，于是把之前闲置的 小米 Pro 15.6 给整起来。
+第一件需要做的事情就是配置开发环境。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/how-to-install-arch-linux-on-win10/&title=Win10 如何安装 Arch Linux - Boo&summary=最近主力生产工具可能要拿去送修，所以可能有一段时间要和我的MBP 分开了。但是工作还是要继续，于是把之前闲置的 小米 Pro 15.6 给整起来。
+第一件需要做的事情就是配置开发环境。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/how-to-install-arch-linux-on-win10/&title=Win10 如何安装 Arch Linux - Boo&summary=最近主力生产工具可能要拿去送修，所以可能有一段时间要和我的MBP 分开了。但是工作还是要继续，于是把之前闲置的 小米 Pro 15.6 给整起来。
+第一件需要做的事情就是配置开发环境。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADpklEQVR42u3aQXLjMAwEQP//07sPSLlEDMAYcTVv3tiS2LzMYvT6Z0XrhQAcOHDgLHDglsC9wvXjgm/+/u77T79Lv1+9X3W/4MCBAwcOHDhw2+COA+Dhgz096Ol1nw7i6cCqB/l4f3DgwIEDBw4cuKVwjwEw3Eg3MKff7x4sOHDgwIEDBw7ct8Olg89qMJ0auIIDBw4cOHDgwIG7UySfPkc6WAUHDhw4cODAgfs2uHJB23yQ6gCzelDVQv3Xmnxw4MCBAwcOHLghuHRA+Fc/x/sFBw4cOHDgwIFbAtddaeFcHUxWg+utBQ4cOHDgwIEDtwXu9ouCU9c7ve7TQaTPAw4cOHDgwIEDtw0uvWB84/AApgPx6cGAAwcOHDhw4MBthbu98amgnV53ep/gwIEDBw4cOHDb4KrB8lYAPt3oNORpUAYHDhw4cODAgdsCd2tDU4Xy7YFr+XrgwIEDBw4cOHBL4E7BqoVwt1ieKq67Qf+4kAYHDhw4cODAgfsQ3FSB3C58wyK5Gqir1wUHDhw4cODAgdsG1w2EaWC+VXyncO1CGhw4cODAgQMHbglcGjTTQWRaeN8CfRxkggMHDhw4cODAfRiue8Op36eBuhpgu9cFBw4cOHDgwIHbBjdV7E4NME9/Xw3SaQEPDhw4cODAgQO3DS4NhOkGpgao5Q0XB6rHhTQ4cODAgQMHDtwSuOnBZfUFwupBpgV2+rzgwIEDBw4cOHBb4G4Vyt2NdYPwreIaHDhw4MCBAwduG1w82BsqiG8H6m4wBgcOHDhw4MCB2wY3tbFqsHyFqxvM06IcHDhw4MCBAwduK9x04G0/YPM+aaB+/AwOHDhw4MCBA7cE7nYATYvstIDuHszjAYEDBw4cOHDgwC2Dqxa31e9NDSJTiGqx3W7ywYEDBw4cOHDgfhkuHWB2waqFdXXwmgbo4wAMDhw4cODAgQP3YbhuoXt6IN2iOx3EpgscOHDgwIEDB24bXHelAXfqBcFqkK+++Pg2AIMDBw4cOHDgwH0YrhsI0wfpbvQUemogCw4cOHDgwIEDtxWuG3irgL8FfD0AgwMHDhw4cODALYFLA2VaUKcB91rh/PQZHDhw4MCBAwfuy+C6wbMbxE+DbfszOHDgwIEDBw7cl8GlwfgUaAqieh9w4MCBAwcOHLi/AjcdPKsDzukCuztgBQcOHDhw4MCB2w43VeDe/vepwWn8HwBw4MCBAwcOHLglcFZxsIoAHDhw4Cxw4D67/gMBUX61westoAAAAABJRU5ErkJggg==">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/how-to-uninstall-wsl-linux-subsystem-in-win-10/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Win10 如何卸载 Arch Linux</p>
+                <p class='content'>最近在Windows 上安装 WSL，遇到一点问题，需要将 Arch Linux 完全卸载。
+
+
+在正式卸载之前，有以下几点需要注意：
+
+不要试图通过 Microsoft Store 去卸载，那...</p>
+              </a>
+            
+            
+              <a class='next' href='/how-to-apply-for-a-free-ssl-certificate/'>
+                <p class='title'>如何申请免费的SSL 证书<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>这篇笔记用来记录如何申请免费的 SSL 证书，通过本文介绍的方式所申请的证书有效期只有三个月，请谨慎选择。
+
+
+准备像这类提供免费 SSL 证书的网站非常多，这里我选择的平台是 FreeSSL....</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Win10 如何安装 Arch Linux',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+  <section class="widget toc-wrapper shadow desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#了解-WSL"><span class="toc-text">了解 WSL</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是-WSL-？"><span class="toc-text">什么是 WSL ？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#WSL-可以做什么"><span class="toc-text">WSL 可以做什么</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装-WSL"><span class="toc-text">安装 WSL</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#为Linux-安装Windows-子系统"><span class="toc-text">为Linux 安装Windows 子系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装Arch-Linux"><span class="toc-text">安装Arch Linux</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#启动Arch-Linux"><span class="toc-text">启动Arch Linux</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置"><span class="toc-text">配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#初始化"><span class="toc-text">初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#更新"><span class="toc-text">更新</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#个性化"><span class="toc-text">个性化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装ZSH"><span class="toc-text">安装ZSH</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装Spaceship-ZSH"><span class="toc-text">安装Spaceship ZSH</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+  
+    <meting-js
+      theme='#1BCDFC'
+      autoplay='false'
+      volume='0.7'
+      loop='all'
+      order='list'
+      fixed='false'
+      list-max-height='340px'
+      server='netease'
+      type='playlist'
+      id='3175833810'
+      list-folded='true'>
+    </meting-js>
+  
+
+
+        </div>
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "Ki6kd5TUWoQyYKSErxehnRpc-MdYXbMMI",
+    appKey: "7pRBOKMw58Yo7EsUjHziIEY1",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>

@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>了解 SSH Config - Boo</title>
+  
+    <meta name="keywords" content="Linux">
+  
+  
+    <meta name="description" content="很早就接触到了SSH，起初并不知道有ssh config这样一个东西存在，基本上是摸着石头过河，中间遇到过不少问题，走过不少弯路。
+最后总结出来了两个解决办法，今天无意间发现原来其中有一个这么好用的工具一直都被我忽略了。">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Boo's Blog</p>
+    
+    
+      <p class="subtitle">Stay foolish, Stay hungry</p>
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/"
+                
+                
+                id="https:www0x2BeAcecom">
+                <i class='fas fa-book fa-fw'></i>博客
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/categories/"
+                
+                
+                id="https:www0x2BeAcecomcategories">
+                <i class='fas fa-rss fa-fw'></i>分类
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/tags/"
+                
+                
+                id="https:www0x2BeAcecomtags">
+                <i class='fas fa-play-circle fa-fw'></i>标签
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/archives/"
+                
+                  rel="external nofollow noopener noreferrer"
+                
+                
+                id="https:www0x2BeAcecomarchives">
+                <i class='fas fa-file-code fa-fw'></i>归档
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/about/"
+                
+                
+                id="https:www0x2BeAcecomabout">
+                <i class='fas fa-handshake fa-fw'></i>关于我
+              </a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/understand-ssh-config/">
+      了解 SSH Config
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Linux/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Linux</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Sep 2, 2020</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>1k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>3 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/understand-ssh-config/" class="leancloud_visitors" data-flag-title="了解 SSH Config">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>很早就接触到了SSH，起初并不知道有<code>ssh config</code>这样一个东西存在，基本上是摸着石头过河，中间遇到过不少问题，走过不少弯路。</p>
+<p>最后总结出来了两个解决办法，今天无意间发现原来其中有一个这么好用的工具一直都被我忽略了。</p>
+<a id="more"></a>
+
+<h2 id="什么是SSH-Config"><a href="#什么是SSH-Config" class="headerlink" title="什么是SSH Config"></a>什么是SSH Config</h2><blockquote>
+<p>先决条件：在使用ssh 之前，需要先安装好<code>Openssh</code>、<code>SSH1</code>或者是<code>SSH2</code>。（Linux、Mac用户请忽略）</p>
+</blockquote>
+<p><code>~/.ssh/config</code> 是通过ssh 连接远程服务器时使用的配置文件。</p>
+<h2 id="为什么要使用SSH-Config"><a href="#为什么要使用SSH-Config" class="headerlink" title="为什么要使用SSH Config"></a>为什么要使用SSH Config</h2><p>例如：使用SSH 进行远程连接，一般会这样做：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh Boo@18.182.201.142</span><br></pre></td></tr></table></figure>
+<p>在简单地连接情况下，它并不麻烦。但是当端口号不是默认值（22）时，当密钥对不是默认名称时，连接就变得复杂了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 指定端口连接</span><br><span class="line">$ ssh Boo@18.182.201.142 -p 2222</span><br><span class="line"></span><br><span class="line"># 非默认名称密钥认证</span><br><span class="line">$ ssh -i ~&#x2F;.ssh&#x2F;id_rsa_aliyun Boo@18.182.201.142</span><br><span class="line"></span><br><span class="line"># 以上两种情况综合</span><br><span class="line">$ ssh -i ~&#x2F;.ssh&#x2F;id_rsa_aliyun Boo@18.182.201.142 -p 2222</span><br></pre></td></tr></table></figure>
+
+<p>此时，使用<code>ssh config</code>就变得很有用了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># vim ~&#x2F;.ssh&#x2F;config</span><br><span class="line">Host aliyun</span><br><span class="line">    HostName 18.182.201.142</span><br><span class="line">    Port 2222</span><br><span class="line">    User Boo</span><br><span class="line">    IdentityFile ~&#x2F;.ssh&#x2F;id_rsa_aliyun</span><br></pre></td></tr></table></figure>
+<p>现在在连接使用如下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh aliyun</span><br></pre></td></tr></table></figure>
+<p>是不是非常的方便！就算此时手上有多台服务器需要管理，只要配置好对应的<code>~/.ssh/config</code>参数，就可以很轻松的进行连接了。</p>
+<p>但需要注意的是：有关ssh 的配置不能分成多个文件，只能写在这一个文件中<code>~/.ssh/config</code>（如果你有更好的办法）。</p>
+<p>SSH 的配置文件同样适用于其他程序，如：<code>scp</code>，<code>sftp</code>等。</p>
+<h2 id="常用的配置选项"><a href="#常用的配置选项" class="headerlink" title="常用的配置选项"></a>常用的配置选项</h2><h3 id="配置文件格式"><a href="#配置文件格式" class="headerlink" title="配置文件格式"></a>配置文件格式</h3><ul>
+<li>空行和以’＃’开头的行是注释。</li>
+<li>每行以关键字开头，后跟参数。</li>
+<li>配置选项可以用空格或可选的空格分隔，只需要一个=。</li>
+<li>参数可以用双引号（”）括起来，以指定包含空格的参数。</li>
+</ul>
+<h3 id="常用关键字"><a href="#常用关键字" class="headerlink" title="常用关键字"></a>常用关键字</h3><p>SSH Config 的关键字不区分大小写，但是参数区分大小写。</p>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> Host：可以理解为远程主机名的别名，最终指明这个名称进行连接，如：<code>ssh aliyun</code></li>
+<li><input checked="" disabled="" type="checkbox"> HostName：需要远程连接的主机名，通常都是IP。</li>
+<li><input checked="" disabled="" type="checkbox"> Port：指定连接端口</li>
+<li><input checked="" disabled="" type="checkbox"> User：指定连接用户</li>
+<li><input checked="" disabled="" type="checkbox"> IdentityFile：指明远程连接密钥文件</li>
+</ul>
+<blockquote>
+<p>注：Host 关键字可以包含以下模式匹配：</p>
+</blockquote>
+<ul>
+<li><code>*</code>- 匹配零个或多个字符。例如，Host <em>将匹配所有主机，同时`192.168.0.</em><code>匹配</code>192.168.0.0/24`子网中的所有主机。</li>
+<li>? - 恰好匹配一个字符。该模式Host <code>10.10.0.?</code>将匹配<code>10.10.0.[0-9]</code>范围内的所有主机。</li>
+<li>!- 在模式的开头将否定其匹配例如，Host <code>10.10.0.*</code> <code>!10.10.0.5</code>将匹配<code>10.10.0.0/24</code>子网中的任何主机，除了<code>10.10.0.5</code>。</li>
+</ul>
+<h4 id="配置文件加载顺序"><a href="#配置文件加载顺序" class="headerlink" title="配置文件加载顺序"></a>配置文件加载顺序</h4><ul>
+<li><p>全局配置文件：<code>/etc/ssh/ssh_config</code></p>
+</li>
+<li><p>用户配置文件：<code>~/.ssh/config</code></p>
+</li>
+</ul>
+<p>ssh 客户端按以下优先顺序读取其配置：</p>
+<ol>
+<li>从命令行指定的选项</li>
+<li>用户的ssh 配置文件</li>
+<li>全局的ssh 配置文件</li>
+</ol>
+<p>如果希望SSH 客户端忽略ssh 配置文件中指定的所有选项，可以使用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh -F user@example.com</span><br></pre></td></tr></table></figure>
+
+<h2 id="恢复连接"><a href="#恢复连接" class="headerlink" title="恢复连接"></a>恢复连接</h2><p>常用SSH 的小伙伴可能都知道，使用SSH 连接到远程服务器之后，如果一段时间没有输入任何指令，很有可能会断开与服务器的连接，需要重连就会变得很麻烦。</p>
+<p>此时，ssh config 又变得很有用了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">＃定期向服务器发送实时报告（每60秒，可以自定义）</span><br><span class="line">ServerAliveInterval 60</span><br><span class="line"></span><br><span class="line"># 如果想要针对某个连接单独使用，需要放在Host 指令下，全局则放在最头部</span><br><span class="line">Host aliyun</span><br><span class="line">    ServerAliveInterval 60</span><br></pre></td></tr></table></figure>
+
+<h3 id="可能感兴趣的内容"><a href="#可能感兴趣的内容" class="headerlink" title="可能感兴趣的内容"></a>可能感兴趣的内容</h3><ul>
+<li><a href="https://linuxize.com/post/how-to-change-ssh-port-in-linux/" target="_blank" rel="noopener">如何在Linux 中更改SSH 端口</a></li>
+<li><a href="https://qiita.com/passol78/items/2ad123e39efeb1a5286b#sshconfig%E3%81%A8%E3%81%AF" target="_blank" rel="noopener">关于 ~/.ssh/config</a></li>
+<li><a href="https://linuxize.com/post/using-the-ssh-config-file/" target="_blank" rel="noopener">使用 SSH 配置文件</a></li>
+<li><a href="https://man.openbsd.org/OpenBSD-current/man5/ssh_config.5" target="_blank" rel="noopener">ssh_config 指令详解</a></li>
+<li><a href="https://www.ssh.com/" target="_blank" rel="noopener">SSH 官网</a></li>
+<li><a href="https://www.ssh.com/ssh/config/" target="_blank" rel="noopener">OpenSSH 客户端SSH 配置文件</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/understand-ssh-config/>https://www.0x2beace.com/understand-ssh-config/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-02-13T17:12:57+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Feb 13, 2022</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Linux/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Linux</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/understand-ssh-config/&title=了解 SSH Config - Boo&summary=很早就接触到了SSH，起初并不知道有ssh config这样一个东西存在，基本上是摸着石头过河，中间遇到过不少问题，走过不少弯路。
+最后总结出来了两个解决办法，今天无意间发现原来其中有一个这么好用的工具一直都被我忽略了。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/understand-ssh-config/&title=了解 SSH Config - Boo&summary=很早就接触到了SSH，起初并不知道有ssh config这样一个东西存在，基本上是摸着石头过河，中间遇到过不少问题，走过不少弯路。
+最后总结出来了两个解决办法，今天无意间发现原来其中有一个这么好用的工具一直都被我忽略了。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/understand-ssh-config/&title=了解 SSH Config - Boo&summary=很早就接触到了SSH，起初并不知道有ssh config这样一个东西存在，基本上是摸着石头过河，中间遇到过不少问题，走过不少弯路。
+最后总结出来了两个解决办法，今天无意间发现原来其中有一个这么好用的工具一直都被我忽略了。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAAC+klEQVR42u3aQXIjIRAEQP3/0/YD1grR1Y1j2pvcbGlGkFwqCl5fxo/jhQAMGDBgwIBZA/MKxz8vfPP/T9+r/t7pPNL1gAEDBgwYMGD2wRwHoKHvn4KfvmdqfmDAgAEDBgyYvTCnAav7fPXz2/MBAwYMGDBgwICpFkrpe8GAAQMGDBgwYG7BTAXAqeIKDBgwYMCAAfP3YW5d/DldaPVi0mNPIsGAAQMGDBgwvwaTLvCpf8frAQMGDBgwYMCsgemOW4XTdJA7Xg8YMGDAgAEDZg1MGpCqRVL3IlG6UeXCDAwYMGDAgAGzDmbqQlA3CE5/r7pOMGDAgAEDBszfgekexHWD4u0DuTjggQEDBgwYMGAeA9MtjE6LqnLgCgun9HkwYMCAAQMGzB6YKki1wGpPtAhePegDAwYMGDBgwOyFuRXwugd2p0VYFfJjwAQDBgwYMGDArIOpFkdTF4/SgHcNEAwYMGDAgAGzDqZaBKWBLQ2OU4HwIzQYMGDAgAEDZg1M9YfSA7NbUG2Id0UVGDBgwIABA+bxMOmLU5huUKtuXHmDwIABAwYMGDDrYKoXcE4XUF1weiFpKviBAQMGDBgwYPbApEGvOoE04E0HxfjADQwYMGDAgAHzeJhukKoGuPTALS3UPq4PDBgwYMCAAbMGprug6Ys/aTCsbmj5JBIMGDBgwIAB81iY0wWeQqbA6TidR3wSCQYMGDBgwIBZB5MGqWrRdLoR1QO20/eBAQMGDBgwYPbDTBdBt56fOvg7LqrAgAEDBgwYMI+DmS6IpoqvblBLgyAYMGDAgAEDZg/MdGDqFlDVoqq6MeWiCgwYMGDAgAHzeJhuoEsvKleh0yLq9HkwYMCAAQMGzF6Y6kKnCqY0OI4HUzBgwIABAwYMmKGDsLSQiosuMGDAgAEDBsx/D5MeoHULpyrErwc8MGDAgAEDBsw1mOkLQelEu4VTvHFgwIABAwYMmHUw3eD0FY7qe6fm+fb9YMCAAQMGDJg1MAYYMGDAgAEDZtn4BuvEZY5rexGEAAAAAElFTkSuQmCC">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/mysql-master-slave-architecture-configuration/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Mysql 主从架构配置</p>
+                <p class='content'>Mysql 主从配置是数据库同步的必要步骤。
+
+
+主机环境：
+
+Ubuntu 18.04 LTS
+Mysql 5.7
+
+下面会将主数据库简称为Master，从数据库简称为 Slave。
+配置Ma...</p>
+              </a>
+            
+            
+              <a class='next' href='/cygwin-quick-start/'>
+                <p class='title'>Cygwin 快速上手<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>在很早之前就听说过Cygwin和MinGW64这两个东西，只是当时不是很理解这两个东西是做什么的，还经常和msysGit 搞混淆，加上最近用MinGW64用的很不顺手，所以打算安装一个Cygwi...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: '了解 SSH Config',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+  <section class="widget toc-wrapper shadow desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是SSH-Config"><span class="toc-text">什么是SSH Config</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么要使用SSH-Config"><span class="toc-text">为什么要使用SSH Config</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用的配置选项"><span class="toc-text">常用的配置选项</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#配置文件格式"><span class="toc-text">配置文件格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用关键字"><span class="toc-text">常用关键字</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#配置文件加载顺序"><span class="toc-text">配置文件加载顺序</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#恢复连接"><span class="toc-text">恢复连接</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#可能感兴趣的内容"><span class="toc-text">可能感兴趣的内容</span></a></li></ol></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+  
+    <meting-js
+      theme='#1BCDFC'
+      autoplay='false'
+      volume='0.7'
+      loop='all'
+      order='list'
+      fixed='false'
+      list-max-height='340px'
+      server='netease'
+      type='playlist'
+      id='3175833810'
+      list-folded='true'>
+    </meting-js>
+  
+
+
+        </div>
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "Ki6kd5TUWoQyYKSErxehnRpc-MdYXbMMI",
+    appKey: "7pRBOKMw58Yo7EsUjHziIEY1",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
