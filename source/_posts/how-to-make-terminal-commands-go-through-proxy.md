@@ -1,13 +1,11 @@
 ---
 title: 如何让终端命令走代理？
 date: 2020-08-18 23:39:58
-tags: ["Git"]
-categories: ["Git"]
+tags: ["Skill"]
+categories: ["Skill"]
 ---
 
 问题描述：今天本来打算使用Homebrew 更新一个工具，但是输入完`brew updata` 之后，就一直是`Updating Homebrew...`
-
-<!-- more -->
 
 这个时候，我产生了几个疑问：
 1. 为什么卡着不动了，明明是有网络的啊。
@@ -21,7 +19,8 @@ categories: ["Git"]
 
 所以这一切的问题可以总结成一个问题：如果能让终端命令走代理就好了。
 
-好在Homebrew 是支持全局代理的，所以我们只需要在当前环境中加入代理配置就好了。
+### 临时生效
+好在Homebrew 是支持全局代理的，所以我们只需要在当前命令行环境中加入代理配置就好了。
 
 ```
 export ALL_PROXY=socks5://127.0.0.1:1080
@@ -41,17 +40,16 @@ curl https://www.google.com
 需要注意的是，上面的配置仅仅只是临时的，如果重启一下终端，这个配置就失效了，那么有没有办法可以永久生效呢？
 
 当然是有的，只需要将环境变量写入终端中。
-
 ```
 # bash
-echo export ALL_PROXY=socks5://127.0.0.1:1080 >> ~/.bash_profile
+echo export https_proxy=http://127.0.0.1:1080 http_proxy=http://127.0.0.1:1080 all_proxy=socks5://127.0.0.1:1080 >> ~/.bash_profile
 
 # zsh
-echo export ALL_PROXY=socks5://127.0.0.1:1080 >> ~/.zsh_profile
+echo export https_proxy=http://127.0.0.1:1080 http_proxy=http://127.0.0.1:1080 all_proxy=socks5://127.0.0.1:1080 >> ~/.zprofile
 ```
 
 这样，Homebrew 就能通过 `Shadowsocks` 来更新了。
 
-#### 参考链接
+## 参考链接
 * [让 Homebrew 走代理更新](https://www.logcg.com/archives/1617.html)
 * [如何让Homebrew 走代理更新？](https://www.cnblogs.com/xjnotxj/p/7478614.html)

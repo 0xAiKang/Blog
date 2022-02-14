@@ -7,6 +7,8 @@ categories: Tutorial
 
 在Mac 上，可以使用 [Karabiner-Elements](https://github.com/pqrs-org/Karabiner-Elements) 进行改键，可以同时给笔记本和外接键盘进行改键，非常方便。
 
+<!-- more -->
+
 * 系统：macOS Monterey 12.1
 * 外接键盘：Keychron K6
 
