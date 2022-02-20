@@ -16,12 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>Mac 如何给键盘改键 - Boo</title>
+    <title>如何解决类似 curl:(7) Failed to connect to raw.githubusercontent.com port 443:Connection refused 的问题 - Boo</title>
   
-    <meta name="keywords" content="Tutorial,Hexo">
+    <meta name="keywords" content="Mac">
   
   
-    <meta name="description" content="在Mac 上，可以使用 Karabiner-Elements 进行改键，可以同时给笔记本和外接键盘进行改键，非常方便。">
+    <meta name="description" content="有时使用Homebrew 安装工具时，会出现类似下面的错误：">
   
 
   <!-- feed -->
@@ -372,8 +372,8 @@
         
           
   <h1 class="title">
-    <a href="/how-to-change-the-keyboard-on-a-mac/">
-      Mac 如何给键盘改键
+    <a href="/How-to-solve-problems-like-curl-7-Failed-to-connect-to-raw-githubusercontent-com-port-443-Connection-refused/">
+      如何解决类似 curl:(7) Failed to connect to raw.githubusercontent.com port 443:Connection refused 的问题
     </a>
   </h1>
 
@@ -398,9 +398,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Tutorial/' rel="nofollow">
+    <a href='/categories/Mac/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Tutorial</p>
+      <p>Mac</p>
     </a>
   </div>
 
@@ -411,7 +411,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Feb 13, 2022</p>
+    <p>发布于：Feb 20, 2022</p>
   </a>
 </div>
 
@@ -427,7 +427,7 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>202 words</p>
+      <p>263 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
@@ -446,7 +446,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/how-to-change-the-keyboard-on-a-mac/" class="leancloud_visitors" data-flag-title="Mac 如何给键盘改键">
+      <span id="/How-to-solve-problems-like-curl-7-Failed-to-connect-to-raw-githubusercontent-com-port-443-Connection-refused/" class="leancloud_visitors" data-flag-title="如何解决类似 curl:(7) Failed to connect to raw.githubusercontent.com port 443:Connection refused 的问题">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -469,20 +469,21 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>在Mac 上，可以使用 <a href="https://github.com/pqrs-org/Karabiner-Elements" target="_blank" rel="noopener">Karabiner-Elements</a> 进行改键，可以同时给笔记本和外接键盘进行改键，非常方便。</p>
+          <p>有时使用Homebrew 安装工具时，会出现类似下面的错误：</p>
 <a id="more"></a>
 
-<ul>
-<li>系统：macOS Monterey 12.1</li>
-<li>外接键盘：Keychron K6</li>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sh -C &quot;§(curl-fsSL https: &#x2F;&#x2F;raw.githubusercontent.com&#x2F;ohmyzsh&#x2F;ohmyzsh&#x2F;master&#x2F;tools&#x2F;install.sh)&quot; </span><br><span class="line"></span><br><span class="line">curl: (7) Failed to connect to raw.githubusercontent.com port 443: Connection refused</span><br></pre></td></tr></table></figure>
+
+<p>这是因为github 的一些域名的 DNS 解析被污染，导致DNS 解析过程无法通过域名取得正确的IP地址。</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>打开 <a href="https://www.ipaddress.com/" target="_blank" rel="noopener">https://www.ipaddress.com/</a> 输入访问不了的域名，或者在终端使用<code>ping</code> 命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ ping raw.githubusercontent.com</span><br><span class="line">PING raw.githubusercontent.com (199.232.68.133): 56 data bytes</span><br><span class="line">64 bytes from 199.232.68.133: icmp_seq=0 ttl=49 time=226.190 ms</span><br><span class="line">64 bytes from 199.232.68.133: icmp_seq=1 ttl=49 time=325.860 ms</span><br><span class="line">c64 bytes from 199.232.68.133: icmp_seq=2 ttl=49 time=326.362 ms</span><br><span class="line">64 bytes from 199.232.68.133: icmp_seq=3 ttl=49 time=277.042 ms</span><br><span class="line">^C</span><br><span class="line">--- raw.githubusercontent.com ping statistics ---</span><br></pre></td></tr></table></figure>
+
+<p>查询到正确的域名后，将其添加到对应的<code>hosts</code> 文件中即可。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220215222459.png" alt=""></p>
+<p>添加完 <code>hosts</code> 配置之后，<code>homebrew</code> 就能正常了。</p>
+<h2 id="参考连接"><a href="#参考连接" class="headerlink" title="参考连接"></a>参考连接</h2><ul>
+<li><a href="https://github.com/hawtim/hawtim.github.io/issues/10" target="_blank" rel="noopener">如何解决类似 curl: (7) Failed to connect to raw.githubusercontent.com port 443: Connection refused 的问题</a></li>
 </ul>
-<h2 id="简单改键"><a href="#简单改键" class="headerlink" title="简单改键"></a>简单改键</h2><p>Caps Lock 键占据了非常重要的位置，这个是没有办法接受的，所以需要将其替换成 Control 键。</p>
-<p>打开 Karabiner-Elements，给予各种授权之后，直接在 <code>Simple modifications</code> 下面，选择需要替换的键。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220213162744.png" alt=""></p>
-<h2 id="复杂改键"><a href="#复杂改键" class="headerlink" title="复杂改键"></a>复杂改键</h2><p>复杂改键通常是以组合的方式去修改，可以在 <a href="https://ke-complex-modifications.pqrs.org/" target="_blank" rel="noopener">Karabiner-Elements complex_modifications rules</a> 上查找自己想要的规则。</p>
-<p>因为我的外接键盘是 Keychron K6，所以直接搜索键盘名称，就可以看到很多已经写好的规则，点击 Import。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220213162435.png" alt=""><br>导入之后，可以自行选择启用某个规则。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220213171820.png" alt=""></p>
 
           
             <div class='article_footer'>
@@ -519,7 +520,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/how-to-change-the-keyboard-on-a-mac/>https://www.0x2beace.com/how-to-change-the-keyboard-on-a-mac/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/How-to-solve-problems-like-curl-7-Failed-to-connect-to-raw-githubusercontent-com-port-443-Connection-refused/>https://www.0x2beace.com/How-to-solve-problems-like-curl-7-Failed-to-connect-to-raw-githubusercontent-com-port-443-Connection-refused/</a></p>
           
         
       </blockquote>
@@ -567,10 +568,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-02-14T20:40:40+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-02-20T19:15:09+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Feb 14, 2022</p>
+    <p>更新于：Feb 20, 2022</p>
   </a>
 </div>
 
@@ -579,7 +580,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Tutorial/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Tutorial</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Hexo/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Hexo</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Mac/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Mac</p></a></div>
 
 
         
@@ -597,7 +598,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/how-to-change-the-keyboard-on-a-mac/&title=Mac 如何给键盘改键 - Boo&summary=在Mac 上，可以使用 Karabiner-Elements 进行改键，可以同时给笔记本和外接键盘进行改键，非常方便。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/How-to-solve-problems-like-curl-7-Failed-to-connect-to-raw-githubusercontent-com-port-443-Connection-refused/&title=如何解决类似 curl:(7) Failed to connect to raw.githubusercontent.com port 443:Connection refused 的问题 - Boo&summary=有时使用Homebrew 安装工具时，会出现类似下面的错误："
           
           >
           
@@ -609,7 +610,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/how-to-change-the-keyboard-on-a-mac/&title=Mac 如何给键盘改键 - Boo&summary=在Mac 上，可以使用 Karabiner-Elements 进行改键，可以同时给笔记本和外接键盘进行改键，非常方便。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/How-to-solve-problems-like-curl-7-Failed-to-connect-to-raw-githubusercontent-com-port-443-Connection-refused/&title=如何解决类似 curl:(7) Failed to connect to raw.githubusercontent.com port 443:Connection refused 的问题 - Boo&summary=有时使用Homebrew 安装工具时，会出现类似下面的错误："
           
           >
           
@@ -621,7 +622,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/how-to-change-the-keyboard-on-a-mac/&title=Mac 如何给键盘改键 - Boo&summary=在Mac 上，可以使用 Karabiner-Elements 进行改键，可以同时给笔记本和外接键盘进行改键，非常方便。"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/How-to-solve-problems-like-curl-7-Failed-to-connect-to-raw-githubusercontent-com-port-443-Connection-refused/&title=如何解决类似 curl:(7) Failed to connect to raw.githubusercontent.com port 443:Connection refused 的问题 - Boo&summary=有时使用Homebrew 安装工具时，会出现类似下面的错误："
           
           >
           
@@ -635,7 +636,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADq0lEQVR42u3aQY7jMAwEwPz/05kXGBabTEIPSrdZJLZU2kODndfbitYLAThw4MBZ4MAtgXuFq72Bw+dfve90H1fPS88LDhw4cODAgQO3Da564BToFOQU7O75p+89hgcHDhw4cODAgVsKVw2kp8E4PXAaxNP9334eHDhw4MCBAwfun8NVB59pQE5BwYEDBw4cOHDgwNUO2P3eVPAGBw4cOHDgwIH7b3DTQXXqe1PF+ZomHxw4cODAgQMHbgguLYKf+nd8XnDgwIEDBw4cuCVw3VUFrg4qq8G1GnDL5wUHDhw4cODAgVsClwbE6uBw6geGaXDtng8cOHDgwIEDB24bXDXYdovn6kbTfXUD8eV5wYEDBw4cOHDglsF1B4pTA8Q76Orn04s6LqTBgQMHDhw4cOCWwJ1u/NVcU0VzWnzHg1Vw4MCBAwcOHLglcN0AWd1gN0BP7S8+Dzhw4MCBAwcO3MPg0sHfFEQaYKsXePsccODAgQMHDhy4ZXB3D6oOOk+BToNxWkyn/0GOAzA4cODAgQMHDtyP4U6B0gFl9SDV73cL9OMCHBw4cODAgQMHbhnc9AGrwbj679XBZLcwBwcOHDhw4MCB2wo39cJuwVwNuu9wpUU8OHDgwIEDBw7cNrhvBdupgvoUZqoIBwcOHDhw4MCB2wY3HUCnBpjdC6sOKI+DMjhw4MCBAwcO3BK4NAB3i+O0GP70AHW8yQcHDhw4cODAgfsw3OnGpoNn9X1TFxgPSMGBAwcOHDhw4JbBVTfcHTB2A2634K4GY3DgwIEDBw4cuO1w7Qc3A3M6oEwHpeWgDQ4cOHDgwIEDtwQuHUymA8r0h4VpId393OUgExw4cODAgQMH7sdwadD81A8P04uoFs3x88CBAwcOHDhw4JbBfasYnj5gGnjjgAwOHDhw4MCBA7cUrvqitHBOg2z1vdULvL1IcODAgQMHDhy45XDpAbqF8ru4usG2HJTBgQMHDhw4cOCWwHXXFGRahFcHoe1iHBw4cODAgQMHbglcNxBWB4lTz63CjP0NDhw4cODAgQO3DC4taqcHkKeDzjRwVy8EHDhw4MCBAwfuKXBpodwdhKYXNl44d5t8cODAgQMHDhy4h8F1B4zfKpo/NsgEBw4cOHDgwIF7OFx3gNi9oG5A/1kABgcOHDhw4MCBa8JNDR6rANXCulpId4M0OHDgwIEDBw7cVripArc7UEwL4zT4ls8LDhw4cODAgQO3BM6qLXDgwIEDZ4ED9+P1B1YGAvnk3hONAAAAAElFTkSuQmCC">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZgAAAGYCAAAAABaUKuJAAAGBklEQVR42u3cQW4cMQwEQP//08kDgsWwmxzbQEo3785qJJYuDQr++mP8yvGlBGAMMGAMMGAMMMYjzFc5Pk788H373unvP61j+tx0/ul70v2BAQMGDBgwYMCAAQNmDjMOQOFGpgVL3z8tVDrPurDLeoIBAwYMGDBgwIABAyaH+anCtgWYfr89QOk+6nqCAQMGDBgwYMCAAQPm22GmDbVpYG0bU9PfbQ/Gdn1gwIABAwYMGDBgwID5OZhpgVKgtoHV7icFBwMGDBgwYMCAAQMGzM/DbF+8vaCXPp++b3uxbzrvj9/EBAMGDBgwYMCAAQPmP4DZBjh/H9UTDBgwYMCAAAMGDBgwjzDbcdWoahtRbXC8DtJn9QQDBgwYMGDAgAEDBswjTBuQthtKL9p9d0OrbQCu1wUGDBgwYMCAAQMGDJjXAub1xtKCTudPfzdtiG3X9fF7MGDAgAEDBgwYMGDAPMK8FejahbUNrGkB0+Dbvq89uGDAgAEDBgwYMGDAgJnDtAHxCngLlzau2ve1wXM8HxgwYMCAAQMGDBgwYMYwbTBLN7oNiG2D7bqBl+5zvH8wYMCAAQMGDBgwYMCsA2YbnKZB9K3n0oOU7uN6v2DAgAEDBgwYMGDAgJnDtMHuGnJb2O3Fw+v564AOBgwYMGDAgAEDBgyYMUwbONvG1jSAtYW+en8bZNsDCQYMGDBgwIABAwYMmB7masHbAqQFvwrK7XvbC4JgwIABAwYMGDBgwIDpYcZBKCz0FezVAUobXGkDrK4rGDBgwIABAwYMGDBgHmHagLYNbNuNtAFxu77peusGHRgwYMCAAQMGDBgwYGKYJ4izBSzfe3UApp+nz6UHCAwYMGDAgAEDBgwYMDnM+IcvNaTawLgNxi30VaD953swYMCAAQMGDBgwYMDEMNuA2H7eQl0Xuh1XDUEwYMCAAQMGDBgwYMA8w2xflAbQ9L3bArTzbAN1PT8YMGDAgAEDBgwYMGAeYa4bP1uwKUy6njRAXzfcxvOBAQMGDBgwYMCAAQPmHKZtjF0HuLfA00bXVQAFAwYMGDBgwIABAwbMezDphrfzbgNbe+FveiCu9wEGDBgwYMCAAQMGDJg5TBsUt4G0DXDpPO28bRBtYcGAAQMGDBgwYMCAAZP/3+VpgdtCT8dVQyw9ONcNuDSYgwEDBgwYMGDAgAED5hnmrQtsVw2tdINvFXBc2G2gBgMGDBgwYMCAAQMGzBgmDWDtxbd0/jZwto2wLUAaXMGAAQMGDBgwYMCAAdPDpAEubVSlz6Ubmzb81oV7KXCCAQMGDBgwYMCAAQNmDrNtMG0v0LUB9aqBdxU004PxsS5gwIABAwYMGDBgwIB5hNkGqHSBbfBsG1PffRDW+wADBgwYMGDAgAEDBkwcMNMAtd14ezC2wFeNvG1w/ee9YMCAAQMGDBgwYMCAGcOkBW8bRlv47cXCFq4NpnEDEQwYMGDAgAEDBgwYMK/1Y9oLgdvG3FWjrb2YNw2ObV3AgAEDBgwYMGDAgAHzDHPVyEobRHUAe6mx9fYFxvHfYMCAAQMGDBgwYMCAifsx24JcF7oNnC3gVaCsAzkYMGDAgAEDBgwYMGDG/Zg0cLVBrW18tQWbjq/jMV3/Y/IHAwYMGDBgwIABAwbMI0xa8DZAbgHeCpDpvtuDEgdMMGDAgAEDBgwYMGDAfH03yFXDKQ14b0G/FkDBgAEDBgwYMGDAgAHzCPNWg2kdtMLPp8HxqqG1DaQfnwcDBgwYMGDAgAEDBswjzDYgtQ2wbfDczn99ge/sbzBgwIABAwYMGDBgwIxhtoVuG1dpcN0GzKvnrwMvGDBgwIABAwYMGDBgepjrgLV9rg2G1wdsu55xgAUDBgwYMGDAgAEDBsy3waSB8jpgToPcdWBtG21gwIABAwYMGDBgwID5PTBPn6eFTyGun7s6eON1gAEDBgwYMGDAgAEDJoZJG0zbAJkGzHQ923Vs6xA37MCAAQMGDBgwYMCAATOGuWr8pIWZArcBdnuw0gO3bfyBAQMGDBgwYMCAAQPmGcb4XQMMGAMMGAMMGAOM8XH8BdCbAnG172k1AAAAAElFTkSuQmCC">
           </div>
         </div>
       
@@ -655,22 +656,15 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/How-to-solve-problems-like-curl-7-Failed-to-connect-to-raw-githubusercontent-com-port-443-Connection-refused/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>如何解决类似 curl:(7) Failed to connect to raw.githubusercontent.com port 443:Connection refused 的问题</p>
-                <p class='content'>有时使用Homebrew 安装工具时，会出现类似下面的错误：
-
-
-123sh -C &quot;§(curl-fsSL https: &#x2F;&#x2F;raw.githubusercont...</p>
-              </a>
             
-            
-              <a class='next' href='/2021-year-end-summary/'>
-                <p class='title'>二零一零年终总结<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>如果问我今年最大的收获是什么，仔细想了一下，好像只有房子。
+              <a class='next' href='/how-to-change-the-keyboard-on-a-mac/'>
+                <p class='title'>Mac 如何给键盘改键<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>在Mac 上，可以使用 Karabiner-Elements 进行改键，可以同时给笔记本和外接键盘进行改键，非常方便。
 
 
-今年在自我提升上好像没太多值得说的。
-虽然一年下来也有不少收货，但比较遗憾的是年前立下的Flag 却没能完成几个。上半年过得很充实...</p>
+
+系统：macOS Monterey 12.1
+外接键盘：Keychr...</p>
               </a>
             
           </div>
@@ -715,7 +709,7 @@
 
   <script>
     window.subData = {
-      title: 'Mac 如何给键盘改键',
+      title: '如何解决类似 curl:(7) Failed to connect to raw.githubusercontent.com port 443:Connection refused 的问题',
       tools: true
     }
   </script>
@@ -741,7 +735,7 @@
 
 
     <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#简单改键"><span class="toc-text">简单改键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#复杂改键"><span class="toc-text">复杂改键</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#解决方案"><span class="toc-text">解决方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考连接"><span class="toc-text">参考连接</span></a></li></ol>
     </div>
   </section>
 

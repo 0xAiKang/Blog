@@ -6,7 +6,7 @@
   <link href="https://www.0x2beace.com/atom.xml" rel="self"/>
   
   <link href="https://www.0x2beace.com/"/>
-  <updated>2022-02-14T12:40:40.797Z</updated>
+  <updated>2022-02-20T11:15:09.200Z</updated>
   <id>https://www.0x2beace.com/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>如何解决类似 curl:(7) Failed to connect to raw.githubusercontent.com port 443:Connection refused 的问题</title>
+    <link href="https://www.0x2beace.com/How-to-solve-problems-like-curl-7-Failed-to-connect-to-raw-githubusercontent-com-port-443-Connection-refused/"/>
+    <id>https://www.0x2beace.com/How-to-solve-problems-like-curl-7-Failed-to-connect-to-raw-githubusercontent-com-port-443-Connection-refused/</id>
+    <published>2022-02-20T11:11:04.000Z</published>
+    <updated>2022-02-20T11:15:09.200Z</updated>
+    
+    <content type="html"><![CDATA[<p>有时使用Homebrew 安装工具时，会出现类似下面的错误：</p><a id="more"></a><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sh -C &quot;§(curl-fsSL https: &#x2F;&#x2F;raw.githubusercontent.com&#x2F;ohmyzsh&#x2F;ohmyzsh&#x2F;master&#x2F;tools&#x2F;install.sh)&quot; </span><br><span class="line"></span><br><span class="line">curl: (7) Failed to connect to raw.githubusercontent.com port 443: Connection refused</span><br></pre></td></tr></table></figure><p>这是因为github 的一些域名的 DNS 解析被污染，导致DNS 解析过程无法通过域名取得正确的IP地址。</p><h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>打开 <a href="https://www.ipaddress.com/" target="_blank" rel="noopener">https://www.ipaddress.com/</a> 输入访问不了的域名，或者在终端使用<code>ping</code> 命令：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ ping raw.githubusercontent.com</span><br><span class="line">PING raw.githubusercontent.com (199.232.68.133): 56 data bytes</span><br><span class="line">64 bytes from 199.232.68.133: icmp_seq=0 ttl=49 time=226.190 ms</span><br><span class="line">64 bytes from 199.232.68.133: icmp_seq=1 ttl=49 time=325.860 ms</span><br><span class="line">c64 bytes from 199.232.68.133: icmp_seq=2 ttl=49 time=326.362 ms</span><br><span class="line">64 bytes from 199.232.68.133: icmp_seq=3 ttl=49 time=277.042 ms</span><br><span class="line">^C</span><br><span class="line">--- raw.githubusercontent.com ping statistics ---</span><br></pre></td></tr></table></figure><p>查询到正确的域名后，将其添加到对应的<code>hosts</code> 文件中即可。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220215222459.png" alt=""></p><p>添加完 <code>hosts</code> 配置之后，<code>homebrew</code> 就能正常了。</p><h2 id="参考连接"><a href="#参考连接" class="headerlink" title="参考连接"></a>参考连接</h2><ul><li><a href="https://github.com/hawtim/hawtim.github.io/issues/10" target="_blank" rel="noopener">如何解决类似 curl: (7) Failed to connect to raw.githubusercontent.com port 443: Connection refused 的问题</a></li></ul>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;有时使用Homebrew 安装工具时，会出现类似下面的错误：&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="Mac" scheme="https://www.0x2beace.com/categories/Mac/"/>
+    
+    
+    <category term="Mac" scheme="https://www.0x2beace.com/tags/Mac/"/>
+    
+  </entry>
   
   <entry>
     <title>Mac 如何给键盘改键</title>
