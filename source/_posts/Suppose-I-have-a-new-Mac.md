@@ -2,7 +2,7 @@
 title: 假如我有一台新的 Mac
 date: 2022-02-20 19:26:13
 tags:tags: ["Mac"]
-categories: ["PHP"]
+categories: ["Mac"]
 ---
 
 
