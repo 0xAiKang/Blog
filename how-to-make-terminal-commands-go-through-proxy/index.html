@@ -18,10 +18,8 @@
   
     <title>如何让终端命令走代理？ - Boo</title>
   
-    <meta name="keywords" content="Git">
+    <meta name="keywords" content="Skill">
   
-  
-    <meta name="description" content="问题描述：今天本来打算使用Homebrew 更新一个工具，但是输入完brew updata 之后，就一直是Updating Homebrew...">
   
 
   <!-- feed -->
@@ -398,9 +396,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Git/' rel="nofollow">
+    <a href='/categories/Skill/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Git</p>
+      <p>Skill</p>
     </a>
   </div>
 
@@ -427,13 +425,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>476 words</p>
+      <p>523 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>1 min</p>
+      <p>2 min</p>
     </a>
   </div>
 
@@ -470,8 +468,6 @@
         <div class="article-entry" itemprop="articleBody">
           
           <p>问题描述：今天本来打算使用Homebrew 更新一个工具，但是输入完<code>brew updata</code> 之后，就一直是<code>Updating Homebrew...</code></p>
-<a id="more"></a>
-
 <p>这个时候，我产生了几个疑问：</p>
 <ol>
 <li>为什么卡着不动了，明明是有网络的啊。</li>
@@ -481,7 +477,7 @@
 </ol>
 <h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2><p>首先先回答一下上面那些问题，因为国内网络环境进一步恶劣，使得从根本上造成了这个问题的产生。因为<code>Shadowshocks</code>的全局代理虽然对浏览器是有效，但对命令行无效。</p>
 <p>所以这一切的问题可以总结成一个问题：如果能让终端命令走代理就好了。</p>
-<p>好在Homebrew 是支持全局代理的，所以我们只需要在当前环境中加入代理配置就好了。</p>
+<h3 id="临时生效"><a href="#临时生效" class="headerlink" title="临时生效"></a>临时生效</h3><p>好在Homebrew 是支持全局代理的，所以我们只需要在当前命令行环境中加入代理配置就好了。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export ALL_PROXY&#x3D;socks5:&#x2F;&#x2F;127.0.0.1:1080</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 1080 是本地 socks5 监听端口</span><br></pre></td></tr></table></figure>
 
 <blockquote>
@@ -492,10 +488,10 @@
 <p>如果走了本地代理，那么很快终端就会有输出，如果没有走则会提示403 端口请求超时。</p>
 <h3 id="永久生效"><a href="#永久生效" class="headerlink" title="永久生效"></a>永久生效</h3><p>需要注意的是，上面的配置仅仅只是临时的，如果重启一下终端，这个配置就失效了，那么有没有办法可以永久生效呢？</p>
 <p>当然是有的，只需要将环境变量写入终端中。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># bash</span><br><span class="line">echo export ALL_PROXY&#x3D;socks5:&#x2F;&#x2F;127.0.0.1:1080 &gt;&gt; ~&#x2F;.bash_profile</span><br><span class="line"></span><br><span class="line"># zsh</span><br><span class="line">echo export ALL_PROXY&#x3D;socks5:&#x2F;&#x2F;127.0.0.1:1080 &gt;&gt; ~&#x2F;.zsh_profile</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># bash</span><br><span class="line">echo export https_proxy&#x3D;http:&#x2F;&#x2F;127.0.0.1:1080 http_proxy&#x3D;http:&#x2F;&#x2F;127.0.0.1:1080 all_proxy&#x3D;socks5:&#x2F;&#x2F;127.0.0.1:1080 &gt;&gt; ~&#x2F;.bash_profile</span><br><span class="line"></span><br><span class="line"># zsh</span><br><span class="line">echo export https_proxy&#x3D;http:&#x2F;&#x2F;127.0.0.1:1080 http_proxy&#x3D;http:&#x2F;&#x2F;127.0.0.1:1080 all_proxy&#x3D;socks5:&#x2F;&#x2F;127.0.0.1:1080 &gt;&gt; ~&#x2F;.zprofile</span><br></pre></td></tr></table></figure>
 
 <p>这样，Homebrew 就能通过 <code>Shadowsocks</code> 来更新了。</p>
-<h4 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h4><ul>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
 <li><a href="https://www.logcg.com/archives/1617.html" target="_blank" rel="noopener">让 Homebrew 走代理更新</a></li>
 <li><a href="https://www.cnblogs.com/xjnotxj/p/7478614.html" target="_blank" rel="noopener">如何让Homebrew 走代理更新？</a></li>
 </ul>
@@ -583,10 +579,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-08-18T23:43:24+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-03-11T09:21:50+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Aug 18, 2020</p>
+    <p>更新于：Mar 11, 2022</p>
   </a>
 </div>
 
@@ -595,7 +591,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Git/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Git</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Skill/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Skill</p></a></div>
 
 
         
@@ -613,7 +609,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/how-to-make-terminal-commands-go-through-proxy/&title=如何让终端命令走代理？ - Boo&summary=问题描述：今天本来打算使用Homebrew 更新一个工具，但是输入完brew updata 之后，就一直是Updating Homebrew..."
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/how-to-make-terminal-commands-go-through-proxy/&title=如何让终端命令走代理？ - Boo&summary="
           
           >
           
@@ -625,7 +621,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/how-to-make-terminal-commands-go-through-proxy/&title=如何让终端命令走代理？ - Boo&summary=问题描述：今天本来打算使用Homebrew 更新一个工具，但是输入完brew updata 之后，就一直是Updating Homebrew..."
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/how-to-make-terminal-commands-go-through-proxy/&title=如何让终端命令走代理？ - Boo&summary="
           
           >
           
@@ -637,7 +633,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/how-to-make-terminal-commands-go-through-proxy/&title=如何让终端命令走代理？ - Boo&summary=问题描述：今天本来打算使用Homebrew 更新一个工具，但是输入完brew updata 之后，就一直是Updating Homebrew..."
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/how-to-make-terminal-commands-go-through-proxy/&title=如何让终端命令走代理？ - Boo&summary="
           
           >
           
@@ -757,7 +753,7 @@ git pullgit pull 的作用是：取回远程主机某个分支的更新，再与
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#方案"><span class="toc-text">方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#永久生效"><span class="toc-text">永久生效</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#方案"><span class="toc-text">方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#临时生效"><span class="toc-text">临时生效</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#永久生效"><span class="toc-text">永久生效</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
     </div>
   </section>
 
@@ -792,7 +788,7 @@ git pullgit pull 的作用是：取回远程主机某个分支的更新，再与
     
       
         <div class='copyright'>
-        <span class="post-count">总字数：190.3k</span>
+        <span class="post-count">总字数：195.4k</span>
         <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
 
         <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>

@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>PHP 使用Headless Chrome 抓取网页 - Boo</title>
+  
+    <meta name="keywords" content="PHP">
+  
+  
+    <meta name="description" content="PHP 使用 Headless Chrome 抓取网页通常使用 PHP 抓取网页数据时，最常见的两种方式就是 CURL 和 file_get_contents。这样确实可以抓取到数据，但是无法等待等待页面上的 JS 加载完成之后才进行数据抓取。
+于是便有了使用 PhantomJS，SlimerJS 这类解决方案。...">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Boo's Blog</p>
+    
+    
+      <p class="subtitle">Stay foolish, Stay hungry</p>
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/"
+                
+                
+                id="https:www0x2BeAcecom">
+                <i class='fas fa-book fa-fw'></i>博客
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/categories/"
+                
+                
+                id="https:www0x2BeAcecomcategories">
+                <i class='fas fa-rss fa-fw'></i>分类
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/tags/"
+                
+                
+                id="https:www0x2BeAcecomtags">
+                <i class='fas fa-play-circle fa-fw'></i>标签
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/archives/"
+                
+                  rel="external nofollow noopener noreferrer"
+                
+                
+                id="https:www0x2BeAcecomarchives">
+                <i class='fas fa-file-code fa-fw'></i>归档
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/about/"
+                
+                
+                id="https:www0x2BeAcecomabout">
+                <i class='fas fa-handshake fa-fw'></i>关于我
+              </a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/php-uses-headless-chrome-to-scrape-web-pages/">
+      PHP 使用Headless Chrome 抓取网页
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/PHP/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>PHP</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Mar 10, 2022</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>736 words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>3 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/php-uses-headless-chrome-to-scrape-web-pages/" class="leancloud_visitors" data-flag-title="PHP 使用Headless Chrome 抓取网页">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <h1 id="PHP-使用-Headless-Chrome-抓取网页"><a href="#PHP-使用-Headless-Chrome-抓取网页" class="headerlink" title="PHP 使用 Headless Chrome 抓取网页"></a>PHP 使用 Headless Chrome 抓取网页</h1><p>通常使用 PHP 抓取网页数据时，最常见的两种方式就是 <code>CURL</code> 和 <code>file_get_contents</code>。这样确实可以抓取到数据，但是无法等待等待页面上的 <code>JS</code> 加载完成之后才进行数据抓取。</p>
+<p>于是便有了使用 <a href="http://phantomjs.org/" target="_blank" rel="noopener">PhantomJS</a>，<a href="https://github.com/laurentj/slimerjs" target="_blank" rel="noopener">SlimerJS</a> 这类解决方案。</p>
+<p>今天要介绍的并不是上面两位，而是 Headless Chrome。</p>
+<a id="more"></a>
+
+<h2 id="什么是-Headless-Chrome"><a href="#什么是-Headless-Chrome" class="headerlink" title="什么是 Headless Chrome"></a>什么是 Headless Chrome</h2><p>Headless Chrome 是 Chrome 浏览器的无界面形态，可以在不打开浏览器的前提下，使用所有 Chrome 支持的特性运行你的程序。<br>相比于现代浏览器，Headless Chrome 更加方便测试 Web 应用，获得网站的截图，做爬虫抓取信息等。</p>
+<h2 id="如何获取-Headless-Chrome"><a href="#如何获取-Headless-Chrome" class="headerlink" title="如何获取 Headless Chrome"></a>如何获取 Headless Chrome</h2><p>在 Mac 上，Chrome 59 以后的版本均搭载了 Headless Chrome，所以只要保证 Google Chrome 版本不要低于 59 即可。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --version</span><br><span class="line"></span><br><span class="line">Google Chrome 99.0.4844.51</span><br></pre></td></tr></table></figure>
+
+<p>或者直接在 Chrome 中输入：<code>chrome://version</code>，进行查看。</p>
+<hr>
+<p>Windows 用户找一下 Chrome 的安装路径，通常是：<code>C:\Program Files (x86)\Google\Chrome\Application\chrome</code></p>
+<p>Linxu 服务器则使用 <code>google-chrome</code>（需要提前安装）</p>
+<h3 id="CentOS-安装-Google-Chrome"><a href="#CentOS-安装-Google-Chrome" class="headerlink" title="CentOS 安装 Google Chrome"></a>CentOS 安装 Google Chrome</h3><ol>
+<li><p>下载 Chrome 最新的rpm</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装 Chrome</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install .&#x2F;google-chrome-stable_current_*.rpm</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看当前版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">google-chrome -version</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="如何在终端中使用"><a href="#如何在终端中使用" class="headerlink" title="如何在终端中使用"></a>如何在终端中使用</h2><p>Mac 用户在终端使用之前，建议先绑定别名，使用起来更方便：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alias google-chrome&#x3D;&quot;&#x2F;Applications&#x2F;Google\ Chrome.app&#x2F;Contents&#x2F;MacOS&#x2F;Google\ Chrome&quot;</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">google-chrome --headless --disable-gpu --remote-debugging-port&#x3D;9222 https:&#x2F;&#x2F;www.github.com</span><br></pre></td></tr></table></figure>
+
+<p>参数说明：</p>
+<ul>
+<li><code>--headless</code>：使用 headless 模式运行 Chrome</li>
+<li><code>--disable-gpu</code>：屏蔽现阶段可能触发的错误</li>
+<li><code>--remote-debug-port=9222</code>：DevTools 远程调试Chrome</li>
+<li><code>https://www.github.com</code>：目标地址</li>
+</ul>
+<h3 id="保存为截图"><a href="#保存为截图" class="headerlink" title="保存为截图"></a>保存为截图</h3><p><code>--screenshot</code> 参数可以将页面内容保存为截图：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">google-chrome --headless --<span class="built_in">disable</span>-gpu --screenshot --window-size=1280,1696 https://github.com</span><br></pre></td></tr></table></figure>
+
+<h3 id="保存为PDF"><a href="#保存为PDF" class="headerlink" title="保存为PDF"></a>保存为PDF</h3><p><code>--print-to-pdf</code> 参数可以将页面内容保存为PDF：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">google-chrome --headless --<span class="built_in">disable</span>-gpu --<span class="built_in">print</span>-to-pdf https://github.com</span><br></pre></td></tr></table></figure>
+
+<h3 id="打印DOM"><a href="#打印DOM" class="headerlink" title="打印DOM"></a>打印DOM</h3><p><code>--dump-dom</code> 参数将 <code>document.body.innerHTML</code> 输出：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">google-chrome --headless --<span class="built_in">disable</span>-gpu --dump-dom https://github.com</span><br></pre></td></tr></table></figure>
+
+<h2 id="在-PHP-中使用-Headless-Chrome"><a href="#在-PHP-中使用-Headless-Chrome" class="headerlink" title="在 PHP 中使用 Headless Chrome"></a>在 PHP 中使用 Headless Chrome</h2><p><a href="https://github.com/chrome-php/chrome" target="_blank" rel="noopener">Chrome PHP</a> 是一个可以在 headless 模式下使用 <code>Chrome/Chromium</code> 的类库。</p>
+<p>安装：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer require chrome-php/chrome</span><br></pre></td></tr></table></figure>
+
+<p>使用：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> <span class="title">HeadlessChromium</span>\<span class="title">BrowserFactory</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="comment">// chrome/chromium 安装位置</span></span><br><span class="line">    $browserFactory = <span class="keyword">new</span> BrowserFactory(<span class="string">'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// starts headless chrome</span></span><br><span class="line">    $browser = $browserFactory-&gt;createBrowser();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// cr3eates a new page and navigate to an url</span></span><br><span class="line">    $page = $browser-&gt;createPage();</span><br><span class="line">    $page-&gt;navigate(<span class="string">"https://github.com"</span>)-&gt;waitForNavigation();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取浏览器滚动条宽高，用于设置：setViewport</span></span><br><span class="line">    $evaluation = $page-&gt;callFunction(</span><br><span class="line">        <span class="string">'function() &#123;</span></span><br><span class="line"><span class="string">            var width = document.body.scrollWidth;</span></span><br><span class="line"><span class="string">            var height = document.body.scrollHeight;</span></span><br><span class="line"><span class="string">            return [width,height];</span></span><br><span class="line"><span class="string">         &#125;'</span></span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    $value  = $evaluation-&gt;getReturnValue();</span><br><span class="line">    $width  = $value[<span class="number">0</span>];</span><br><span class="line">    $height = $value[<span class="number">1</span>];</span><br><span class="line">    $page-&gt;setViewport($width, $height)-&gt;await(); <span class="comment">// wait for operation to complete</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// take the screenshot (in memory binaries)</span></span><br><span class="line">    $screenshot = $page-&gt;screenshot([</span><br><span class="line">        <span class="string">'format'</span>  =&gt; <span class="string">'jpeg'</span>, <span class="comment">// default to 'png' - possible values: 'png', 'jpeg',</span></span><br><span class="line">        <span class="string">'quality'</span> =&gt; <span class="number">100</span>, <span class="comment">// only if format is 'jpeg' - default 100</span></span><br><span class="line">    ]);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 保存图片</span></span><br><span class="line">    $screenshot-&gt;saveToFile(<span class="string">"github.png"</span>);</span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    <span class="comment">// 关闭浏览器</span></span><br><span class="line">    $browser-&gt;close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://github.com/chrome-php/chrome" target="_blank" rel="noopener">Chrome-PHP</a></li>
+<li><a href="https://www.chromium.org/" target="_blank" rel="noopener">Chromium Project</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/27100187" target="_blank" rel="noopener">初探 Headless Chrome</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/php-uses-headless-chrome-to-scrape-web-pages/>https://www.0x2beace.com/php-uses-headless-chrome-to-scrape-web-pages/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-03-11T09:20:06+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Mar 11, 2022</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/php-uses-headless-chrome-to-scrape-web-pages/&title=PHP 使用Headless Chrome 抓取网页 - Boo&summary=PHP 使用 Headless Chrome 抓取网页通常使用 PHP 抓取网页数据时，最常见的两种方式就是 CURL 和 file_get_contents。这样确实可以抓取到数据，但是无法等待等待页面上的 JS 加载完成之后才进行数据抓取。
+于是便有了使用 PhantomJS，SlimerJS 这类解决方案。
+今天要介绍的并不是上面两位，而是 Headless Chrome。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/php-uses-headless-chrome-to-scrape-web-pages/&title=PHP 使用Headless Chrome 抓取网页 - Boo&summary=PHP 使用 Headless Chrome 抓取网页通常使用 PHP 抓取网页数据时，最常见的两种方式就是 CURL 和 file_get_contents。这样确实可以抓取到数据，但是无法等待等待页面上的 JS 加载完成之后才进行数据抓取。
+于是便有了使用 PhantomJS，SlimerJS 这类解决方案。
+今天要介绍的并不是上面两位，而是 Headless Chrome。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/php-uses-headless-chrome-to-scrape-web-pages/&title=PHP 使用Headless Chrome 抓取网页 - Boo&summary=PHP 使用 Headless Chrome 抓取网页通常使用 PHP 抓取网页数据时，最常见的两种方式就是 CURL 和 file_get_contents。这样确实可以抓取到数据，但是无法等待等待页面上的 JS 加载完成之后才进行数据抓取。
+于是便有了使用 PhantomJS，SlimerJS 这类解决方案。
+今天要介绍的并不是上面两位，而是 Headless Chrome。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADrklEQVR42u3aQY7bQAwEQP//08kDgoXZJOXQi5qbbFka1lwapF9/rNZ6IQAHDhw4Cxy4I3Cv5vrngT98/1paP73vbaFL+wEHDhw4cODAgbsKVw6ARbgqQBxAi5BT8B+fCw4cOHDgwIEDdxTubQB8c38aQN9tuHsQ3f28rRccOHDgwIEDB+6XwaUNzern08YkOHDgwIEDBw4cuKxhuNUA7QJ1DxocOHDgwIEDB+5b4eIBbTj47RbabYCeneSDAwcOHDhw4MAtwaUrDZjXrtv1ggMHDhw4cODAHYGbrqcCcHVwPQ24cb3gwIEDBw4cOHBH4LoBcbrx9LnV/aUHENcHDhw4cODAgQN3BG76wLTBOW2IdqG3Bt/gwIEDBw4cOHDX4KoNw/T7bkDdDtbVfb/dHzhw4MCBAwcO3DG4tEGZDoynQOOCi+9/+3xw4MCBAwcOHLijcFvB9VMB+bW0yg1XcODAgQMHDhy4Y3Dp6gbdKUQ30HYDcHkgDQ4cOHDgwIED92G4NHjGgbE52O4WOA3O5YE0OHDgwIEDBw7cf4bbCsDdRmQ6YK4OvrcH6ODAgQMHDhw4cNfg0iCaBtzu9dZgu/q78j7BgQMHDhw4cOCOwk0Da7fw6n6mBzY+SHDgwIEDBw4cuCNwaVBsB8fuH/mWAdMDiwfS4MCBAwcOHDhwH4LrFtgtqBugnwq88YAcHDhw4MCBAwfuCFwaYLcbkNUC0n2lwb0MCQ4cOHDgwIEDdwyuG4i37u8WOg3qcWAHBw4cOHDgwIE7Bpc2BKcFthuJ4b62Aj04cODAgQMHDty3wXU3uj3Qnh5Y9ffgwIEDBw4cOHDfBldt7HVB04bldF8pdLk+cODAgQMHDhy4I3DVRmI1qHYbn92guzWQLtcDDhw4cODAgQN3FC5u7C0F4ur708H11sGBAwcOHDhw4MBdh+s2ELcC9VMBdhqgwYEDBw4cOHDgrsNNB9FpcO4G39fDCxw4cODAgQMH7jrcdHUbhFsNx/GAOQ3Y4MCBAwcOHDhwR+CmAbELu9XITIP1+BocOHDgwIEDB+4YXApRDcBP3d/9Y2C30QoOHDhw4MCBA3cdrltYt5E4bTw+PoBOJ/ngwIEDBw4cOHBfBtcNplvP6wbbuH5w4MCBAwcOHLhfBvdUIN6CWHsfOHDgwIEDBw7cUbhuo3EaZKeNyk81YsGBAwcOHDhw4K7BbW00bVxWAdP70gMv1wsOHDhw4MCBA3cEzgobnAjAgQMHzgIH7v+uv1xPf6ZZ0eD1AAAAAElFTkSuQmCC">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/laravel-valet-uses-problem-sorting/'>
+                <p class='title'>Laravel Valet 使用问题整理<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>Valet 是 Mac 极简主义者的 Laravel 开发环境。
+
+
+问题一brew services stop php和 valet stop 全部停止之后：
+
+访问站点：
+
+brew ser...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'PHP 使用Headless Chrome 抓取网页',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是-Headless-Chrome"><span class="toc-text">什么是 Headless Chrome</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何获取-Headless-Chrome"><span class="toc-text">如何获取 Headless Chrome</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CentOS-安装-Google-Chrome"><span class="toc-text">CentOS 安装 Google Chrome</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何在终端中使用"><span class="toc-text">如何在终端中使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#保存为截图"><span class="toc-text">保存为截图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#保存为PDF"><span class="toc-text">保存为PDF</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#打印DOM"><span class="toc-text">打印DOM</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在-PHP-中使用-Headless-Chrome"><span class="toc-text">在 PHP 中使用 Headless Chrome</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+      
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <span class="post-count">总字数：195.4k</span>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
+
+        <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+        
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?fbe826b92f6d49a0ebacf4d848bd3add";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+<script>
+  var now = new Date(); 
+  function createtime() {    
+      var grt= new Date("07/04/2020 14:12:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";     
+  } 
+setInterval("createtime()",250);
+</script>
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "Ki6kd5TUWoQyYKSErxehnRpc-MdYXbMMI",
+    appKey: "7pRBOKMw58Yo7EsUjHziIEY1",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>

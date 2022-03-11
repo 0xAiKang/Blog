@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>如何避免写出 If-Else如何避免写出 If-Else - Boo</title>
+  
+    <meta name="keywords" content="PHP">
+  
+  
+    <meta name="description" content="本文并不肯定或者否定哪一种写法，仅仅为大家提供一些其他的编码思路或者一些值得借鉴的点子。">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Boo's Blog</p>
+    
+    
+      <p class="subtitle">Stay foolish, Stay hungry</p>
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/"
+                
+                
+                id="https:www0x2BeAcecom">
+                <i class='fas fa-book fa-fw'></i>博客
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/categories/"
+                
+                
+                id="https:www0x2BeAcecomcategories">
+                <i class='fas fa-rss fa-fw'></i>分类
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/tags/"
+                
+                
+                id="https:www0x2BeAcecomtags">
+                <i class='fas fa-play-circle fa-fw'></i>标签
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/archives/"
+                
+                  rel="external nofollow noopener noreferrer"
+                
+                
+                id="https:www0x2BeAcecomarchives">
+                <i class='fas fa-file-code fa-fw'></i>归档
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/about/"
+                
+                
+                id="https:www0x2BeAcecomabout">
+                <i class='fas fa-handshake fa-fw'></i>关于我
+              </a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/how-to-avoid-writing-out-if-else/">
+      如何避免写出 If-Else如何避免写出 If-Else
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/PHP/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>PHP</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Feb 27, 2022</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>1.6k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>6 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/how-to-avoid-writing-out-if-else/" class="leancloud_visitors" data-flag-title="如何避免写出 If-Else如何避免写出 If-Else">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>本文并不肯定或者否定哪一种写法，仅仅为大家提供一些其他的编码思路或者一些值得借鉴的点子。</p>
+<a id="more"></a>
+
+<h2 id="为什么要避免使用if-else"><a href="#为什么要避免使用if-else" class="headerlink" title="为什么要避免使用if-else"></a>为什么要避免使用if-else</h2><p><code>if-else</code> 通常是一个糟糕的选择，它导致设计复杂，代码可读性差，并且可能导致重构困难。</p>
+<p>这里以<strong>表驱动法</strong>为例，来介绍一下为什么要避免使用<code>if-else</code>。</p>
+<p><strong>表驱动法</strong>的意义在于逻辑和数据分离，在程序中，添加数据和添加逻辑的方式、成本是不一样的，简单来说：</p>
+<ul>
+<li>添加数据非常简单，属于<strong>低成本</strong>、<strong>低风险</strong></li>
+<li>而添加逻辑是复杂的，属于<strong>高成本</strong>、<strong>高风险</strong></li>
+</ul>
+<p>下面是一段用表驱动法重构之前的<code>if-else</code>代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">contry_initial</span><span class="params">($country)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> ($country===<span class="string">"China"</span> )&#123;</span><br><span class="line">       <span class="keyword">return</span> <span class="string">"CHN"</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>($country===<span class="string">"America"</span>)&#123;</span><br><span class="line">       <span class="keyword">return</span> <span class="string">"USA"</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>($country===<span class="string">"Japna"</span>)&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="string">"JPN"</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">       <span class="keyword">return</span> <span class="string">"OTHER"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>现在如果需要增加一个国家，继续使用<code>if-else</code> 写的话，就等同于增加一个逻辑。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">contry_initial</span><span class="params">($country)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> ($country===<span class="string">"China"</span> )&#123;</span><br><span class="line">       <span class="keyword">return</span> <span class="string">"CHN"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> ($country===<span class="string">"Korea"</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="string">"KR"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果改成表驱动法就是：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">contry_initial</span><span class="params">($country)</span></span>&#123;</span><br><span class="line">  $countryList=[</span><br><span class="line">      <span class="string">"China"</span>=&gt; <span class="string">"CHN"</span>,</span><br><span class="line">      <span class="string">"America"</span>=&gt; <span class="string">"USA"</span>,</span><br><span class="line">      <span class="string">"Japna"</span>=&gt; <span class="string">"JPN"</span>,</span><br><span class="line">    ];</span><br><span class="line"></span><br><span class="line">   <span class="keyword">if</span>(array_key_exists($country, $countryList)) &#123;</span><br><span class="line">       <span class="keyword">return</span> $countryList[$country];</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">return</span> <span class="string">"Other"</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>改写成表驱动法之后，如果需要增加一个国家，就只需要在数组里面加个数据，此时就分离了数据与逻辑的关系了。</p>
+<p>重构到此结束，这样做的好处有哪些呢？</p>
+<h3 id="代码本身的优势"><a href="#代码本身的优势" class="headerlink" title="代码本身的优势"></a>代码本身的优势</h3><ul>
+<li>逻辑和数据分离，两者一目了然</li>
+<li>关系表可以更换，比如国家表格可以是多语言的，中文版表格，英文版表格等，日语版表格，以及单元测试中，可以注入测试表格。</li>
+<li>在单元测试中，逻辑必须测试，而数据无需测试。可以想象如果没有表格法，弄个多语言，要写多少语句。</li>
+</ul>
+<h3 id="数据来源的灵活性"><a href="#数据来源的灵活性" class="headerlink" title="数据来源的灵活性"></a>数据来源的灵活性</h3><p>国家表格的数据可以来源以下渠道：</p>
+<ul>
+<li>来自代码</li>
+<li>来自配置</li>
+<li>来自数据库</li>
+<li>来自第三方 API</li>
+<li>…</li>
+</ul>
+<h3 id="数据输入修改的成本与风险"><a href="#数据输入修改的成本与风险" class="headerlink" title="数据输入修改的成本与风险"></a>数据输入修改的成本与风险</h3><p>我们想想，聘用一个不懂编程，但培训一下就会用后台的客服便宜，还是会一个懂系统开发人员便宜？</p>
+<p>如果这个是数据，是来自于数据库的，那么基本上公司的任何有权限的人在后台把这个映射表填一下，就能正常工作了。这个耗费与风险几乎可以忽略不计。 如果数据来自第三方 API，如果第三方添加修改了数据，你也是基本放心的。</p>
+<p>但是如果这个是逻辑本身，那么只能是这个系统开发人员进行修改，构建，然后经过一系列的测试，进行专业部署流程，使得这个功能在产品上运行，是个耗费与风险是不言而喻的。另外考虑到多人开发，开发风格不统一的话，那么代码审查就不可避免了。</p>
+<h3 id="数据格式的强制性和代码风格的随意性"><a href="#数据格式的强制性和代码风格的随意性" class="headerlink" title="数据格式的强制性和代码风格的随意性"></a>数据格式的强制性和代码风格的随意性</h3><p>在现实中，多人开发同一个功能是很常见的，这里就会有一个多人代码风格统一的问题。</p>
+<p>而对于数据来说，一旦数据的格式被确认之后，数据格式就是强制性的了。</p>
+<p>比如在上面的例子中，无论是谁，加几个美国的数据也只能这样加：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$countryList=[</span><br><span class="line">     <span class="string">"China"</span>=&gt; <span class="string">"CHN"</span>,</span><br><span class="line">     <span class="string">"America"</span>=&gt; <span class="string">"USA"</span>,</span><br><span class="line">     <span class="string">"Japan"</span>=&gt; <span class="string">"JPN"</span>,</span><br><span class="line">     <span class="string">"US"</span>=&gt; <span class="string">"USA"</span>,</span><br><span class="line">     <span class="string">"United States of America"</span>=&gt; <span class="string">"USA"</span>,</span><br><span class="line">     <span class="string">"美国"</span>=&gt; <span class="string">"USA"</span>,</span><br><span class="line">   ];</span><br></pre></td></tr></table></figure>
+<p>就算原始数据花样丰富，最终数据必须格式化成如此。</p>
+<p>然而如果是逻辑的话，人一多，逻辑方法就可能发生变化。你可能指望对方这样写代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ($country===<span class="string">"China"</span> )&#123;</span><br><span class="line">   <span class="keyword">return</span> <span class="string">"CHN"</span>;</span><br><span class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span>($country===<span class="string">"America"</span>)&#123;</span><br><span class="line">   <span class="keyword">return</span> <span class="string">"USA"</span>;</span><br><span class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span>($country===<span class="string">"Japan"</span>)&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">"JPN"</span>;</span><br><span class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span>($country===<span class="string">"US"</span>)&#123;</span><br><span class="line">   <span class="keyword">return</span> <span class="string">"USA"</span>;</span><br><span class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span>($country===<span class="string">"United States of America"</span>)&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">"USA"</span>;</span><br><span class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span>($country===<span class="string">"美国"</span>)&#123;</span><br><span class="line">   <span class="keyword">return</span> <span class="string">"USA"</span>;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">   <span class="keyword">return</span> <span class="string">"OTHER"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然而，对方可能会这样写：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">if</span> ($country === <span class="string">"China"</span>) &#123;</span><br><span class="line">     <span class="keyword">return</span> <span class="string">"CHN"</span>;</span><br><span class="line"> &#125; <span class="keyword">else</span> <span class="keyword">if</span> (in_array($country, [<span class="string">"America"</span>, <span class="string">"US"</span>, <span class="string">"United States of America"</span>, <span class="string">"美国"</span>])) &#123;</span><br><span class="line">     <span class="keyword">return</span> <span class="string">"USA"</span>;</span><br><span class="line"> &#125; <span class="keyword">else</span> <span class="keyword">if</span> ($country === <span class="string">"Japan"</span>) &#123;</span><br><span class="line">     <span class="keyword">return</span> <span class="string">"JPN"</span>;</span><br><span class="line"> &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">     <span class="keyword">return</span> <span class="string">""</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>后来多了一个日本的需求，又交给不同的人去完成，说不定最后会写成这样：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">if</span> ($country === <span class="string">"China"</span>) &#123;</span><br><span class="line">     <span class="keyword">return</span> <span class="string">"CHN"</span>;</span><br><span class="line"> &#125; <span class="keyword">else</span> <span class="keyword">if</span> (in_array($country, [<span class="string">"America"</span>, <span class="string">"US"</span>, <span class="string">"United States of America"</span>, <span class="string">"美国"</span>])) &#123;</span><br><span class="line">     <span class="keyword">return</span> <span class="string">"USA"</span>;</span><br><span class="line"> &#125; <span class="keyword">else</span> <span class="keyword">if</span> ($country === <span class="string">"Japan"</span>||$country === <span class="string">"日本"</span>) &#123;</span><br><span class="line">     <span class="keyword">return</span> <span class="string">"JPN"</span>;</span><br><span class="line"> &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">     <span class="keyword">return</span> <span class="string">""</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>怎样写，都没有错，然而风格却大相径庭。在多人合作编程过程中，无法控制所有人的风格，如果需要统一风格，必须依靠代码审查，这需要大量资源和成本。</p>
+<p>另外，就是因为如此，所有和 if else 相关的逻辑在单元测试中必须进行一次测试，才能有代码覆盖率；而如果是数据，由于数据格式的可控性，无需对数据进行测试。所以说：</p>
+<ul>
+<li>在多人开发的项目中，逻辑无序而不可控；数据格式有序而极易控制</li>
+<li>在单元测试中，逻辑区块必须进行测试；而数据本身无需测试</li>
+</ul>
+<h2 id="提前返回"><a href="#提前返回" class="headerlink" title="提前返回"></a>提前返回</h2><p>这也许是初级开发人员很容易犯的错误之一。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">sayHi</span><span class="params">($name)</span></span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!<span class="keyword">empty</span>($name))&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"Hi"</span> . $name;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// do something else</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>只需要删除完全不必要的 Else 块，即可简化此过程：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">say</span><span class="params">($name)</span></span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!<span class="keyword">empty</span>($name))&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"Hi"</span> . $name;</span><br><span class="line">  &#125; </span><br><span class="line">  </span><br><span class="line">  <span class="comment">// do something else</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>像这种条件单一的场景，满足某个条件的情况下执行某些操作并立即返回（提前<code>return</code>）是很好地解决方案。</p>
+<h2 id="表驱动法"><a href="#表驱动法" class="headerlink" title="表驱动法"></a>表驱动法</h2><p>下面的案例是另外一个比较常见的：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">doSomething</span><span class="params">($input)</span></span>&#123;</span><br><span class="line">  <span class="keyword">if</span> ($input == <span class="number">0</span>)&#123;</span><br><span class="line">    $gender = <span class="string">"woman"</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> ($input == <span class="number">1</span>)&#123;</span><br><span class="line">    $gender = <span class="string">"man"</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    $gender = <span class="string">"unknown"</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span> $gender;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>像这样的<code>If-Else</code> 语句，可以看到<code>key</code> 和<code>value</code> 是一一对应的，所以可以这样写：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">doSomething</span><span class="params">($input)</span></span>&#123;</span><br><span class="line">  $map = [</span><br><span class="line">      <span class="number">0</span> =&gt; <span class="string">"woman"</span>,</span><br><span class="line">      <span class="number">1</span> =&gt; <span class="string">"man"</span>,</span><br><span class="line">      <span class="comment">// ...</span></span><br><span class="line">  ];</span><br><span class="line"> </span><br><span class="line">  <span class="keyword">return</span> !<span class="keyword">empty</span>($map[$input]) ? $map[$input] : <span class="string">"unknown"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://learnku.com/laravel/t/2712/the-meaning-of-the-if-else-code-style-into-the-table-driven-method" target="_blank" rel="noopener">caoglish—把 if-else 的代码风格改成表格驱动法的意义</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/how-to-avoid-writing-out-if-else/>https://www.0x2beace.com/how-to-avoid-writing-out-if-else/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-03-11T09:21:50+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Mar 11, 2022</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/how-to-avoid-writing-out-if-else/&title=如何避免写出 If-Else如何避免写出 If-Else - Boo&summary=本文并不肯定或者否定哪一种写法，仅仅为大家提供一些其他的编码思路或者一些值得借鉴的点子。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/how-to-avoid-writing-out-if-else/&title=如何避免写出 If-Else如何避免写出 If-Else - Boo&summary=本文并不肯定或者否定哪一种写法，仅仅为大家提供一些其他的编码思路或者一些值得借鉴的点子。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/how-to-avoid-writing-out-if-else/&title=如何避免写出 If-Else如何避免写出 If-Else - Boo&summary=本文并不肯定或者否定哪一种写法，仅仅为大家提供一些其他的编码思路或者一些值得借鉴的点子。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADmUlEQVR42u3aQXLjMAwEQP//09l7tlwmBpAFpRo3x4pEtnKYAHz9qKheCMCBAwdOgQO3BO4V1n83/PDzd9/HGzi83+/ruvsFBw4cOHDgwIHbBje14Kvg0+tOf/8YHhw4cODAgQMHbincxwA4tJDqxtIgfbr+4/2CAwcOHDhw4MD9UbhqEK0G4zRggwMHDhw4cODAgTuDSRuRVdDu88GBAwcOHDhw4P4K3HRjMB0cV4HSAfdtk3xw4MCBAwcOHLghuGp1G5t3f473Cw4cOHDgwIEDtwSuW+mguXpwsBt8x/YLDhw4cODAgQO3BG7q4N70dekLSp9/fDARHDhw4MCBAwduCdxpcJw6gFgdTE8Nlrv7BQcOHDhw4MCB2wrXvWEKksJ3g3Ea0MGBAwcOHDhw4LbAVW803XA8HVCng+3u/sCBAwcOHDhw4J4G1x0Ap/e7OvCmBQ4cOHDgwIEDtx3u6oDaHXRXG53p9W/vAw4cOHDgwIEDtwQu3Vh1wdVBdTqYrg7Ay+sDBw4cOHDgwIFbDvftxubpOtLA2x20gwMHDhw4cODAbYPrNjB/hiseFBfXf/oHAQ4cOHDgwIEDtxXu6qB51UD7qgANDhw4cODAgQP3FLjqwcLqQcDpA4DdAXU36IMDBw4cOHDgwG2BmxrodhdYDcwpZLvxCQ4cOHDgwIEDtxxuOoBONya7lTZUwYEDBw4cOHDgtsBd3cCsHuSb2mA36IIDBw4cOHDgwD0NLoWaBu0G6e5+ypN8cODAgQMHDhy4m+HSB18Fng6806ANDhw4cODAgQP3VLi0IVgdXHfv1wWvPgccOHDgwIEDB24rXLrB08Hut4JrOmgGBw4cOHDgwIF7OlwaLLvBtfoCug3V06D/sZEJDhw4cODAgQO3BC4NmN1GZfeFdQfsp4EYHDhw4MCBAwduK9w0UDVodoNqtRF6ej04cODAgQMHDtw2uG51G5fVhXcDbLWh+nYgDQ4cOHDgwIEDdzPcK6w0KFevq76oqc/H/zmAAwcOHDhw4MDdDDcdeI8XUoRKB9ppAAYHDhw4cODAgXsKXHWj1c/Vn7++VO0ADA4cOHDgwIED91C46WB8GsSnX/zXAzA4cODAgQMHDtwSuOr3VaCpAB6/GHDgwIEDBw4cuKVw1YH06WC3u7Hui5waiIMDBw4cOHDgwG2Dmx7gViGnBtRXwYMDBw4cOHDgwG2DU8UGJwJw4MCBU+DA3Vv/AC/qfrURfqm1AAAAAElFTkSuQmCC">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/laravel-valet-uses-problem-sorting/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Laravel Valet 使用问题整理</p>
+                <p class='content'>Valet 是 Mac 极简主义者的 Laravel 开发环境。
+
+
+问题一brew services stop php和 valet stop 全部停止之后：
+
+访问站点：
+
+brew ser...</p>
+              </a>
+            
+            
+              <a class='next' href='/Suppose-I-have-a-new-Mac/'>
+                <p class='title'>假如我有一台新的 Mac<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>从去年就想入手一台新的MacBookPro，中间因为一些原因，没有第一时间选择从官网下单，而是让朋友帮忙从其他渠道代购。
+这一等就是好几个月，直到二月初才拿到货…
+好了，现在我们真的有了一台新 ...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: '如何避免写出 If-Else如何避免写出 If-Else',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么要避免使用if-else"><span class="toc-text">为什么要避免使用if-else</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#代码本身的优势"><span class="toc-text">代码本身的优势</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据来源的灵活性"><span class="toc-text">数据来源的灵活性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据输入修改的成本与风险"><span class="toc-text">数据输入修改的成本与风险</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据格式的强制性和代码风格的随意性"><span class="toc-text">数据格式的强制性和代码风格的随意性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#提前返回"><span class="toc-text">提前返回</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#表驱动法"><span class="toc-text">表驱动法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+      
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <span class="post-count">总字数：195.4k</span>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
+
+        <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+        
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?fbe826b92f6d49a0ebacf4d848bd3add";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+<script>
+  var now = new Date(); 
+  function createtime() {    
+      var grt= new Date("07/04/2020 14:12:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";     
+  } 
+setInterval("createtime()",250);
+</script>
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "Ki6kd5TUWoQyYKSErxehnRpc-MdYXbMMI",
+    appKey: "7pRBOKMw58Yo7EsUjHziIEY1",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
