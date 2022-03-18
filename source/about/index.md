@@ -24,7 +24,7 @@ valine:
 
 * [博客](https://www.0x2BeAce.com/)
 * [GitHub](https://github.com/0xAikang)
-* [Eamil](mailto:aikangtongxue@gamil.com)
+* [Eamil](mailto:aikangtongxue@gmail.com)
 * [豆瓣](https://www.douban.com/people/164428873/) - 记录书影
 * [Weibo](https://weibo.com/aikangtongxue) - 很久没更新了...
 * [Telegram](https://t.me/s/Hoooliday)
