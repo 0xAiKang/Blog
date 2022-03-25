@@ -42,9 +42,11 @@ $collection = collect([1, 2, 3]);
 var_dump($collection);
 ```
 
-记住，所有方法都可以使用链式编程的方式优雅的操纵数组。而且几乎所有的方法都会返回**新的** `Collection` 实例，
+记住，所有方法都可以使用链式编程的方式优雅的操纵数组。而且几乎所有的方法都会返回**新的** `Collection` 实例。
 
-## all
+## 方法列表
+
+### all
 返回该集合表示的底层数组。
 
 ```php
@@ -52,7 +54,7 @@ collect(["boo", "yumi", "mac"])->all();
 // [“boo”, "yumi", "mac"]
 ```
 
-## avg
+### avg
 获取数组的平均值：
 ```php
 collect([1, 1, 2, 4])->avg(); // 2
@@ -62,9 +64,12 @@ collect([1, 1, 2, 4])->avg(); // 2
 ```php
 collect([['foo' => 10], ['foo' => 10], ['foo' => 20], ['foo' => 40]])->avg('foo'); // 20
 ```
-`avg()`是`average()` 的别名，两者的效果是一样的。
 
-## chunk
+### average
+
+`avg()`方法的别名，两者的效果是一样的。
+
+### chunk
 将大集合按指定大小拆分成小集合。
 
 ```php
@@ -74,7 +79,7 @@ $chunks->toArray();
 // [[1, 2, 3, 4], [5, 6, 7]]
 ```
 
-## chunkWhile
+### chunkWhile
 根据指定的回调值把集合分解成多个更小的集合：
 ```php
 $collection = collect(str_split('AABBCCCD'));
@@ -87,7 +92,7 @@ $chunks->all();
 // [['A', 'A'], ['B', 'B'], ['C', 'C', 'C'], ['D']]
 ```
 
-## collapse
+### collapse
 将多个数组合并成一个集合。
 ```php
 $collection = collect([[1, 2, 3], [4, 5, 6], [7, 8, 9]]);
@@ -97,7 +102,7 @@ $collapsed->all();
 // [1, 2, 3, 4, 5, 6, 7, 8, 9]
 ```
 
-## combine
+### combine
 将一个集合的值作为「键」，再将另一个数组或者集合的值作为「值」合并成一个集合。
 
 ```php
@@ -107,7 +112,7 @@ $combined->all();
 // ['name' => 'boo', 'age' => 25]
 ```
 
-## collect
+### collect
 返回一个包含当前集合所含元素的新的 Collection 实例：
 ```php
 $collection = collect([1, 2, 3]);
@@ -115,8 +120,9 @@ $collection->all();
 // [1,2,3]
 ```
 
-## concat
-在集合的末端附加指定的数组或集合值：
+### concat
+
+追加给定数组或集合数据到集合末尾。
 ```php
 $collection = collect(['John Doe']);
 $concatenated = $collection->concat(['Boo'])->concat(['name' => 'Yumi']);
@@ -124,7 +130,7 @@ $concatenated->all();
 // ['John Doe', 'Boo', 'Yumi']
 ```
 
-## contains
+### contains
 判断集合是否包含给定的项目。
 
 基本用法：
@@ -155,7 +161,7 @@ $collection->contains(function ($value, $key) {
 ```
 contains 方法在检查项目值时使用「宽松」比较，意味着具有整数值的字符串将被视为等于相同值的整数。 相反 containsStrict 方法则是使用「严格」比较进行过滤。
 
-## containsStrict
+### containsStrict
 使用「严格模式」判断集合是否包含给定的项目：
 
 基本使用：
@@ -169,14 +175,14 @@ $collection->containsStrict("age", "25");  // false
 ```
 如上例所示，数组值存在，但是值类型不一致也返回false。
 
-## count 
+### count 
 返回该集合内的项目总数。
 
 ```php
 collect([1, 2, 3, 4])->count();  // 4
 ```
 
-## countBy
+### countBy
 统计集合中每个元素出现的次数。
 
 基本用法：
@@ -197,7 +203,7 @@ $counted->all();
 // ['gmail.com' => 2, 'yahoo.com' => 1]
 ```
 
-## crossJoin
+### crossJoin
 返回指定集合的可能的笛卡尔积。
 
 ```php
@@ -236,7 +242,7 @@ $matrix->all();
 */
 ```
 
-## dd
+### dd
 备份文件系统和停止系统（dump and die）的缩写，打印集合元素并中断脚本执行。
 ```php
 $collection = collect(['John Doe', 'Jane Doe']);
@@ -244,7 +250,26 @@ $collection->dd();
 ```
 如果不想中断执行脚本，请使用`dump`方法替代。
 
-## diff
+### dump
+
+打印集合项而不终止脚本执行。
+
+```php
+$collection = collect(['John Doe', 'Jane Doe']);
+
+$collection->dump();
+
+/*
+    Collection {
+        #items: array:2 [
+            0 => "John Doe"
+            1 => "Jane Doe"
+        ]
+    }
+*/
+```
+
+### diff
 与给定的集合或者数组进行比较，基于值求差集。
 
 将集合与其它集合或纯 PHP 数组进行值的比较，然后返回原集合中存在而给定集合中不存在的值：
@@ -253,7 +278,7 @@ $collection = collect([1, 2, 3, 4, 5]);
 $collection->diff([2, 4, 6, 8])->all();   // [1, 3, 5]
 ```
 
-## diffAssoc
+### diffAssoc
 与给定的集合或者数组进行比较，基于键值对求差集。
 
 返回原集合不存在于给定集合中的键值对：
@@ -274,7 +299,7 @@ $diff = $collection->diffAssoc([
 $diff->all(); // ['color' => 'orange', 'remain' => 6]
 ```
 
-## diffKeys
+### diffKeys
 与给定的集合或者数组进行比较，基于键求差集。
 
 返回原集合中存在而给定的集合中不存在「键」所对应的键值对：
@@ -297,7 +322,7 @@ $diff = $collection->diffKeys([
 $diff->all(); // ['one' => 10, 'three' => 30, 'five' => 50]
 ```
 
-## duplicates
+### duplicates
 从集合中检索并返回重复的值。
 
 基本用法：
@@ -320,7 +345,7 @@ $employees->duplicates('position');
 ```
 `duplicates` 方法在检查项目值时使用「宽松」比较，相反`duplicatesStrict` 方法则是使用「严格」比较进行过滤。
 
-## each
+### each
 迭代集合中的内容并将其传递到回调函数中。
 
 ```php
@@ -332,7 +357,7 @@ $collection = $collection->each(function ($item, $key) {
 });
 ```
 
-## eachSpread
+### eachSpread
 同样是遍历集合，不过与each 的区别在于，对于多维数组，可以直接拿到元素。
 
 ```php
@@ -360,7 +385,7 @@ $collection->each(function ($item, $key){
 */
 ```
 
-## every
+### every
 检查集合中的每一个元素是否通过指定条件：
 
 ```
@@ -372,7 +397,7 @@ collect([1, 2, 3, 4])->every(function ($value, $key) {
 ```
 注意：如果集合为空， every 将返回 true。
 
-## except
+### except
 返回集合中除了指定键以外的所有项目。
 
 ```php
@@ -382,7 +407,7 @@ $filtered->all(); // ['product_id' => 1]
 ```
 与之相反的方法是 `only()`。
 
-## filter
+### filter
 使用给定的回调函数过滤集合的内容，只留下那些通过的元素。
 
 ```php
@@ -402,7 +427,7 @@ $collection->filter()->all(); // [1, 2, 3]
 
 与之相反的方法是 `reject()`。
 
-## first
+### first
 返回集合中的第一个元素。
 
 基本用法：
@@ -420,7 +445,7 @@ collect([1, 2, 3, 4])->first(function ($value, $key) {
 
 如果需要返回最后一个元素可以使用`last()` 方法。
 
-## firstWhere
+### firstWhere
 返回集合中含有指定键 / 值对的第一个元素：
 
 ```php
@@ -448,7 +473,7 @@ $collection->firstWhere('age');
 // ['name' => 'Linda', 'age' => 14]
 ```
 
-## firstMap
+### firstMap
 遍历集合并将其中的每个值传递到给定的回调。
 
 可以通过回调修改每个值的内容再返回出来，从而形成一个新的被修改过内容的集合：
@@ -465,7 +490,7 @@ $flattened->all();
 // ['name' => 'SALLY', 'school' => 'ARKANSAS', 'age' => '28'];
 ```
 
-## flatten
+### flatten
 将多维集合转为一维。
 
 基本用法：
@@ -499,7 +524,7 @@ $products->values()->all();
 ```
 在这个例子里，调用 flatten 方法时不传入深度参数的话也会将嵌套数组转成一维的，然后返回 `['iPhone 6S', 'Apple', 'Galaxy S7', 'Samsung']`，传入深度参数能限制设置返回数组的层数。
 
-## flip
+### flip
 键值反转。
 
 ```php
@@ -507,7 +532,7 @@ $collection = collect(["name" => "boo", "age" => 25]);
 $collection->flip()->all();  // ["boo" => "name", 25 => "age"]
 ```
 
-## forget
+### forget
 通过给定的键来移除掉集合中对应的内容。
 
 ```php
@@ -519,7 +544,7 @@ $collection->all();
 
 与大多数集合的方法不同，`forget()` 不会返回修改过后的新集合；它会直接修改原来的集合。
 
-## get
+### get
 返回给定键的项目。
 
 基本用法，如果该键不存在，则返回 null：
@@ -543,7 +568,7 @@ $collection->get('email', function () {
 }); // boo
 ```
 
-## groupBy
+### groupBy
 根据给定的键对集合内的项目进行分组。
 
 基本用法：
@@ -634,7 +659,7 @@ $result = $data->groupBy([
 */
 ```
 
-## has
+### has
 判断集合中是否存在给定的键。
 
 ```php
@@ -642,7 +667,7 @@ $collection = collect(["name" => "boo", "age" => 25]);
 $collection->has("name");  // true
 ```
 
-## implode
+### implode
 合并集合中的项目。
 
 implode 方法用于合并集合项。其参数取决于集合项的类型。如果集合包含数组或对象，你应该传递你希望合并的属性的键，以及你希望放在值之间用来「拼接」的字符串：
@@ -663,7 +688,7 @@ collect([1, 2, 3, 4, 5])->implode('-');
 // '1-2-3-4-5'
 ```
 
-## intersect
+### intersect
 从原集合中移除不在给定数组或集合中的『任何值』，返回新的集合将保留原集合的键。
 
 ```php
@@ -673,7 +698,7 @@ $intersect->all();
 // [0 => 'Desk', 2 => 'Chair']
 ```
 
-## intersectKey
+### intersectKey
 删除原集合中不存在于给定数组或集合中的『任何键』，返回新的集合将保留原集合的键。
 
 ```php
@@ -688,21 +713,21 @@ $intersect->all();
 // ['type' => 'screen', 'year' => 2009]
 ```
 
-## isEmpty
+### isEmpty
 判断集合是否为空。
 
 ```php
 collect([])->isEmpty(); // true
 ```
 
-## isNotEmpty
+### isNotEmpty
 判断集合是否不为空。
 
 ```php
 collect([])->isEmpty(); // false
 ```
 
-## join
+### join
 将集合中的值用字符串连接。
 
 ```php
@@ -713,7 +738,7 @@ collect(['a'])->join(', ', ' and '); // 'a'
 collect([])->join(', ', ' and '); // ''
 ```
 
-## keyBy
+### keyBy
 以给定的键作为集合的键。
 
 ```php
@@ -750,7 +775,7 @@ $keyed->all();
 */
 ```
 
-## keys
+### keys
 返回集合的所有键。
 
 ```php
@@ -758,7 +783,7 @@ $collection = collect(["name" => "boo", "age" => 25]);
 $collection->keys()->all();  // ["name", "age"]
 ```
 
-## last
+### last
 返回集合中通过给定真实测试的最后一个元素，与`first` 方法正好相反。
 
 ```php
@@ -768,7 +793,21 @@ collect([1, 2, 3, 4])->last(function ($value, $key) {
 // 2
 ```
 
-## map
+还可以调用无参的 last 方法来获取集合的最后一个元素。如果集合为空。返回 null：
+```php
+collect([1, 2, 3, 4])->last();
+// 4
+```
+
+### macro
+
+静态 `macro` 方法允许你在运行时添加方法到 `Collection` 类，更多细节可以查看扩展集合部分文档。
+
+### make
+
+静态 `make` 方法会创建一个新的集合实例，细节可查看创建集合部分文档。
+
+### map
 遍历集合并将每一个值传入给定的回调，返回新的集合。
 
 ```php
@@ -783,7 +822,24 @@ $multiplied->all();
 ```
 与其他大多数集合方法一样， map 会返回一个新的集合实例；它不会修改原集合。如果你想修改原集合，请使用 `transform` 方法。
 
-## mapToGroups
+### mapSpread
+迭代集合项，传递每个嵌套集合项值到给定回调。在回调中我们可以修改集合项并将其返回，从而通过修改的值组合成一个新的集合。
+
+```php
+$collection = collect([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
+
+$chunks = $collection->chunk(2);
+
+$sequence = $chunks->mapSpread(function ($odd, $even) {
+    return $odd + $even;
+});
+
+$sequence->all();
+
+// [1, 5, 9, 13, 17]
+```
+
+### mapToGroups
 通过指定回调函数对集合进行分组，
 
 ```php
@@ -819,10 +875,38 @@ $grouped->get('Sales')->all();
 // ['John Doe', 'Jane Doe']
 ```
 
-## mapWithKeys
-遍历集合并将每个值传入给定的回调。
+### mapWithKeys
+对集合进行迭代并传递每个值到给定回调，该回调会返回包含键值对的关联数组。
 
-## max
+```php
+$collection = collect([
+    [
+        'name' => 'John',
+        'department' => 'Sales',
+        'email' => 'john@example.com'
+    ],
+    [
+        'name' => 'Jane',
+        'department' => 'Marketing',
+        'email' => 'jane@example.com'
+    ]
+]);
+
+$keyed = $collection->mapWithKeys(function ($item) {
+    return [$item['email'] => $item['name']];
+});
+
+$keyed->all();
+
+/*
+[
+    'john@example.com' => 'John',
+    'jane@example.com' => 'Jane',
+]
+*/
+```
+
+### max
 返回指定键的最大值。
 
 ```php
@@ -830,7 +914,7 @@ $max = collect([['foo' => 10], ['foo' => 20]])->max('foo');   // 20
 $max = collect([1, 2, 3, 4, 5])->max();   // 5
 ```
 
-## median
+### median
 返回指定键的中间值。
 
 ```php
@@ -838,7 +922,7 @@ $median = collect([['foo' => 10], ['foo' => 10], ['foo' => 20], ['foo' => 40]])-
 $median = collect([1, 1, 2, 4])->median();  // 1.5
 ```
 
-## merge
+### merge
 将给定数组或集合合并到原集合。
 
 如果给定的集合项的字符串键与原集合中的字符串键相匹配，则指定集合项的值将覆盖原集合的值：
@@ -857,21 +941,21 @@ $merged->all();
 // ['Desk', 'Chair', 'Bookcase', 'Door']
 ```
 
-## min
+### min
 返回指定键的最小值。
 
 ```php
 $min = collect([1, 2, 3, 4, 5])->min();     // 1
 ```
 
-## mode
+### mode
 返回指定键的众数值。
 
 ```php
 collect([1, 1, 2, 4])->mode();    // [1]
 ```
 
-## nth 
+### nth 
 每隔n个元素取一个元素组成一个新的集合。
 
 ```php
@@ -882,7 +966,7 @@ $collection->nth(4);    // ['a', 'e']
 $collection->nth(4, 1); // ['b', 'f']
 ```
 
-## only 
+### only 
 返回集合中给定键的所有项目。
 
 ```php
@@ -891,7 +975,28 @@ $filtered = $collection->only(['product_id', 'name']);
 $filtered->all();     // ['product_id' => 1, 'name' => 'Desk']
 ```
 
-## partition 
+### pad
+将给定值填充数组直到达到指定的最大长度。该方法和 PHP 函数 array_pad 类似。
+
+如果你想要把数据填充到左侧，需要指定一个负值长度，如果指定长度绝对值小于等于数组长度那么将不会做任何填充。
+
+```php
+$collection = collect(['A', 'B', 'C']);
+
+$filtered = $collection->pad(5, 0);
+
+$filtered->all();
+
+// ['A', 'B', 'C', 0, 0]
+
+$filtered = $collection->pad(-5, 0);
+
+$filtered->all();
+
+// [0, 0, 'A', 'B', 'C']
+```
+
+### partition 
 配合list()方法区分回调函数满足和不满足的数据。
 
 ```php
@@ -904,7 +1009,7 @@ $underThree->all();     // [1, 2]
 $equalOrAboveThree->all();    // [3, 4, 5, 6]
 ```
 
-## pipe 
+### pipe
 将集合传给给定的回调并返回结果。
 ```
 $collection = collect([1, 2, 3]);
@@ -913,7 +1018,7 @@ $piped = $collection->pipe(function ($collection) {
 }); // 6
 ```
 
-## pluck 
+### pluck 
 获取集合中给定键对应的所有值。
 
 基本用法：
@@ -933,7 +1038,7 @@ $plucked = $collection->pluck('name', "id");
 $plucked->all();    // [1 => 'Desk', 2 => 'Chair']
 ```
 
-## pop 
+### pop 
 移除并返回集合中的最后一个项目。
 
 ```php
@@ -943,7 +1048,7 @@ $collection->pop();     // 5
 $collection->all();     // [1, 2, 3, 4]
 ```
 
-## prepend 
+### prepend 
 将给定的值添加到集合的开头。
 ```php
 $collection = collect([1, 2, 3, 4, 5]);
@@ -960,7 +1065,7 @@ $collection->prepend(0, 'zero');
 $collection->all();       // ['zero' => 0, 'one' => 1, 'two' => 2]
 ```
 
-## pull 
+### pull 
 把给定键对应的值从集合中移除并返回。
 
 ```php
@@ -970,7 +1075,7 @@ $collection->pull('name');    // 'Desk'
 $collection->all();           // ['product_id' => 'prod-100']
 ```
 
-## push 
+### push 
 把给定值添加到集合的末尾。
 
 ```php
@@ -980,7 +1085,7 @@ $collection->push(5);
 $collection->all();       // [1, 2, 3, 4, 5]
 ```
 
-## put 
+### put 
 在集合内设置给定的键值对。
 ```php
 $collection = collect(['product_id' => 1, 'name' => 'Desk']);
@@ -989,7 +1094,7 @@ $collection->put('price', 100);
 $collection->all();       // ['product_id' => 1, 'name' => 'Desk', 'price' => 100]
 ```
 
-## random 
+### random 
 从集合中返回一个随机项。
 
 ```php
@@ -1002,8 +1107,31 @@ $collection->random();      // 4 - (retrieved randomly)
 $collection->random();    // 2, 3, 5
 ```
 
-## reject 
-使用指定的回调过滤集合。
+### reduce
+用于减少集合到单个值，传递每个迭代结果到子迭代。
+
+```php
+$collection = collect([1, 2, 3]);
+
+$total = $collection->reduce(function ($carry, $item) {
+    return $carry + $item;
+});
+
+// 6
+```
+
+在第一次迭代时 $carry 的值是null；不过，你可以通过传递第二个参数到 reduce 来指定其初始值。
+
+```php
+$collection->reduce(function ($carry, $item) {
+    return $carry + $item;
+}, 4);
+
+// 10
+```
+
+### reject 
+使用指定的回调过滤集合，该回调应该为所有它想要从结果集合中移除的数据项返回 true。
 
 ```php
 $collection = collect([1, 2, 3, 4]);
@@ -1014,7 +1142,7 @@ $filtered = $collection->reject(function ($value, $key) {
 $filtered->all();     // [1, 2]
 ```
 
-## reverse 
+### reverse 
 倒转集合中项目的顺序，并保留原始的键值：
 
 ```php
@@ -1033,7 +1161,7 @@ $reversed->all();
 */
 ```
 
-## search
+### search
 搜索给定的值并返回它的键，如果没有找到返回 false
 
 ```php
@@ -1042,7 +1170,22 @@ $collection = collect([2, 4, 6, 8]);
 $collection->search(4);   // 1
 ```
 
-## shift 
+上面的搜索使用的是「宽松」比较，要使用「严格」比较，传递 true 作为第二个参数到该方法。
+
+```php
+$collection->search('4', true);
+// false
+```
+
+此外，你还可以传递自己的回调来搜索通过真理测试的第一个数据项。
+```php
+$collection->search(function ($item, $key) {
+    return $item > 5;
+});
+// 2
+```
+
+### shift 
 移除并返回集合的第一个元素。
 
 ```php
@@ -1052,7 +1195,7 @@ $collection->shift();   // 1
 $collection->all();     // [2, 3, 4, 5]
 ```
 
-## shuffle
+### shuffle
 随机排序集合中的项目。
 
 ```php
@@ -1062,8 +1205,8 @@ $shuffled = $collection->shuffle();
 $shuffled->all();       // [3, 2, 5, 1, 4] - (generated randomly)
 ```
 
-## slice 
-返回集合中给定值后面的部分。
+### slice 
+从给定索引开始返回集合的一个切片。
 
 ```php
 $collection = collect([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
@@ -1073,7 +1216,19 @@ $slice->all();      // [5, 6, 7, 8, 9, 10]
 ```
 与`skip()` 方法类似。
 
-## sort 
+如果你想要限制返回切片的尺寸，将尺寸值作为第二个参数传递到该方法。
+
+```php
+$slice = $collection->slice(4, 2);
+
+$slice->all();
+
+// [5, 6]
+```
+
+返回的切片有新的、数字化索引的键，如果你想要保持原有的键，可以使用 values 方法对它们进行重新索引。
+
+### sort 
 保留原数组的键，对集合进行排序。
 
 ```php
@@ -1087,7 +1242,7 @@ $sorted->values()->all();       // [1, 2, 3, 4, 5]
 
 如果你需要对嵌套数组或对象进行排序，请参照 `sortBy()` 和 `sortByDesc()` 方法。
 
-## sortBy
+### sortBy
 `sortBy` 方法将根据指定键对集合进行排序。
 
 ```php
@@ -1110,10 +1265,10 @@ $sorted->values()->all();
 ```
 可以传递第二个参数作为[排序标志](https://www.php.net/manual/en/function.sort.php)，或者，你可以通过你自己的回调函数来决定如何排序集合的值。
 
-## sortByDesc
+### sortByDesc
 该方法与 `sortBy` 方法一样，但是会以相反的顺序来对集合进行排序：
 
-## sortKeys
+### sortKeys
 `sortKeys` 使用关联数组的键来对集合进行排序：
 
 ```php
@@ -1133,11 +1288,12 @@ $sorted->all();
     ]
 */
 ```
-## sortKeysDesc
+
+### sortKeysDesc
 该方法与 `sortKeys` 方法一样，但是会以相反的顺序来对集合进行排序。
 
-## splice 
-删除并返回从给定值后的内容，原集合也会受到影响。
+### splice 
+从给定位置开始移除并返回数据项切片。
 
 ```php
 $collection = collect([1, 2, 3, 4, 5]);
@@ -1147,7 +1303,29 @@ $chunk->all();            // [3, 4, 5]
 $collection->all();       // [1, 2]
 ```
 
-## split 
+你可以传递参数来限制返回组块的大小。
+```php
+$collection = collect([1, 2, 3, 4, 5]);
+
+$chunk = $collection->splice(2, 1);
+
+$chunk->all();// [3]
+
+$collection->all(); // [1, 2, 4, 5]
+```
+
+此外，你可以传递第三个包含新的数据项的参数来替代从集合中移除的数据项。
+```php
+$collection = collect([1, 2, 3, 4, 5]);
+
+$chunk = $collection->splice(2, 1, [10, 11]);
+
+$chunk->all();// [3]
+
+$collection->all();// [1, 2, 10, 11, 4, 5]
+```
+
+### split 
 将集合按给定的值拆分。
 
 ```php
@@ -1157,14 +1335,39 @@ $groups = $collection->split(3);
 $groups->all();     // [[1, 2], [3, 4], [5]]
 ```
 
-## sum 
+### sum 
 返回集合内所有项目的总和。
 
 ```php
 collect([1, 2, 3, 4, 5])->sum();    // 15
 ```
 
-## take
+如果集合包含嵌套数组或对象，应该传递一个键用于判断对哪些值进行求和运算。
+
+```php
+$collection = collect([
+    ['name' => 'JavaScript: The Good Parts', 'pages' => 176],
+    ['name' => 'JavaScript: The Definitive Guide', 'pages' => 1096],
+]);
+
+$collection->sum('pages'); // 1272
+```
+
+此外，你还可以传递自己的回调来判断对哪些值进行求和。
+```php
+$collection = collect([
+    ['name' => 'Chair', 'colors' => ['Black']],
+    ['name' => 'Desk', 'colors' => ['Black', 'Mahogany']],
+    ['name' => 'Bookcase', 'colors' => ['Red', 'Beige', 'Brown']],
+]);
+
+$collection->sum(function ($product) {
+    return count($product['colors']);
+});
+// 6
+```
+
+### take
 返回给定数量项目的新集合。
 
 ```php
@@ -1174,7 +1377,30 @@ $chunk = $collection->take(3);
 $chunk->all();      // [0, 1, 2]
 ```
 
-## times 
+你还可以传递负数的方式从集合末尾开始获取指定数目的数据项。
+```php
+$collection = collect([0, 1, 2, 3, 4, 5]);
+
+$chunk = $collection->take(-2);
+
+$chunk->all();// [4, 5]
+```
+
+### tap
+传递集合到给定回调，从而允许你在指定入口进入集合并对集合项进行处理而不影响集合本身。
+
+```php
+collect([2, 4, 3, 1, 5])
+    ->sort()
+    ->tap(function ($collection) {
+        Log::debug('Values after sorting', $collection->values()->toArray());
+    })
+    ->shift();
+
+// 1
+```
+
+### times 
 静态`times()` 方法通过调用给定次数的回调函数来创建新集合：
 
 ```php
@@ -1184,7 +1410,25 @@ $collection = Collection::times(10, function ($number) {
 $collection->all();     // [9, 18, 27, 36, 45, 54, 63, 72, 81, 90]
 ```
 
-## transform 
+该方法在和工厂方法一起创建 Eloquent 模型时很有用。
+
+```php
+$categories = Collection::times(3, function ($number) {
+    return factory(Category::class)->create(['name' => 'Category #'.$number]);
+});
+
+$categories->all();
+
+/*
+    [
+        ['id' => 1, 'name' => 'Category #1'],
+        ['id' => 2, 'name' => 'Category #2'],
+        ['id' => 3, 'name' => 'Category #3'],
+    ]
+*/
+```
+
+### transform 
 迭代集合并对集合内的每个项目调用给定的回调。
 
 ```php
@@ -1197,7 +1441,7 @@ $multiplied->all();     // [2, 4, 6, 8, 10]
 ```
 注意：each 只是遍历集合，map 则会返回一个新的集合实例；它不会修改原集合。如果你想修改原集合，请使用 transform 方法。
 
-## union 
+### union 
 将给定的数组添加到集合中。如果给定的数组含有与原集合一样的键，则首选原始集合的值。
 
 ```php
@@ -1207,8 +1451,8 @@ $union = $collection->union([3 => ['c'], 1 => ['b']]);
 $union->all();      // [1 => ['a'], 2 => ['b'], 3 => ['c']]
 ```
 
-## unique 
-返回集合中所有唯一的项目。
+### unique 
+返回集合中所有的唯一数据项， 返回的集合保持原来的数组键，在本例中我们使用 values 方法重置这些键为连续的数字索引
 
 基本用法：
 ```php
@@ -1239,15 +1483,85 @@ $unique->values()->all();
 */
 ```
 
-## values
+你还可以指定自己的回调用于判断数据项唯一性。
+
+```php
+$unique = $collection->unique(function ($item) {
+    return $item['brand'].$item['type'];
+});
+
+$unique->values()->all();
+
+/*
+    [
+        ['name' => 'iPhone 6', 'brand' => 'Apple', 'type' => 'phone'],
+        ['name' => 'Apple Watch', 'brand' => 'Apple', 'type' => 'watch'],
+        ['name' => 'Galaxy S6', 'brand' => 'Samsung', 'type' => 'phone'],
+        ['name' => 'Galaxy Gear', 'brand' => 'Samsung', 'type' => 'watch'],
+    ]
+*/
+```
+
+### uniqueStrict
+
+该方法和 `unique` 方法签名一样，不同之处在于所有值都是「严格」比较。
+
+### unless
+会执行给定回调，除非传递到该方法的第一个参数等于 true。
+
+```php
+$collection = collect([1, 2, 3]);
+
+$collection->unless(true, function ($collection) {
+    return $collection->push(4);
+});
+
+$collection->unless(false, function ($collection) {
+    return $collection->push(5);
+});
+
+$collection->all();
+// [1, 2, 3, 5]
+```
+
+与 unless 相对的方法是 when。
+
+### values
 返回键被重置为连续编号的新集合。
 
 ```php
-$collection = collect([5, 3, 1, 2, 4]);
-$sorted->values()->all();   // [1, 2, 3, 4, 5]
+$collection = collect([
+    10 => ['product' => 'Desk', 'price' => 200],
+    11 => ['product' => 'Desk', 'price' => 200]
+]);
+
+$values = $collection->values();
+
+$values->all();
+
+/*
+    [
+        0 => ['product' => 'Desk', 'price' => 200],
+        1 => ['product' => 'Desk', 'price' => 200],
+    ]
+*/
 ```
 
-## when 
+### unwrap
+静态 unwrap 方法会从给定值中返回集合项。
+
+```php
+Collection::unwrap(collect('John Doe'));
+// ['John Doe']
+
+Collection::unwrap(['John Doe']);
+// ['John Doe']
+
+Collection::unwrap('John Doe');
+// 'John Doe'
+```
+
+### when 
 当传入的第一个参数为 true 的时，将执行给定的回调。
 
 ```php
@@ -1264,7 +1578,7 @@ $collection->unless(false, function ($collection) {
 });
 ```
 
-## where 
+### where 
 通过给定的键值过滤集合。
 
 ```php
@@ -1284,10 +1598,13 @@ $filtered->all();
     ]
 */
 ```
+
+### whereStrict
+
 `whereStrict`方法使用严格模式通过给定的键值过滤集合。
 
 
-## whenEmpty
+### whenEmpty
 当集合为空时，将执行给定的回调函数。
 
 ```php
@@ -1300,7 +1617,7 @@ $collection->all();     // ['michael', 'tom']
 ```
 反之`whenNotEmpty()` 方法当集合不为空时，将执行给定的回调函数。
 
-## whereIn 
+### whereIn 
 通过给定的键值数组来过滤集合。
 
 ```php
@@ -1323,7 +1640,7 @@ $filtered->all();
 
 类似方法还有`whereNotIn`、`whereBetween`、`whereNotInStrict`。
 
-## whereBetween
+### whereBetween
 筛选指定范围内的集合。
 
 ```php
@@ -1346,7 +1663,31 @@ $filtered->all();
 */
 ```
 
-## zip 
+### wrap
+
+静态 wrap 方法会将给定值封装到集合中。
+
+```php
+$collection = Collection::wrap('John Doe');
+
+$collection->all();
+
+// ['John Doe']
+
+$collection = Collection::wrap(['John Doe']);
+
+$collection->all();
+
+// ['John Doe']
+
+$collection = Collection::wrap(collect('John Doe'));
+
+$collection->all();
+
+// ['John Doe']
+```
+
+### zip 
 将给定数组的值与相应索引处的原集合的值合并在一起。
 
 ```php
@@ -1356,6 +1697,24 @@ $zipped = $collection->zip([100, 200]);
 $zipped->all();     // [['Chair', 100], ['Desk', 200]]
 ```
 
+## 高阶消息传递
+集合还支持“高阶消息传递”，也就是在集合上执行通用的功能，支持高阶消息传递的方法包括：`average`、`avg`、`contains`、`each`、`every`、`filter`、`first`、`map`、`partition`、`reject`、`sortBy`、`sortByDesc`、`sum` 和 `unique`。
+
+每个高阶消息传递都可以在集合实例上以动态属性的方式访问，例如，我们使用 each 高阶消息传递来在集合的每个对象上调用一个方法：
+
+```php
+$users = User::where('votes', '>', 500)->get();
+
+$users->each->markAsVip();
+```
+
+类似的，我们可以使用 sum 高阶消息传递来聚合用户集合的投票总数：
+
+```php
+$users = User::where('group', 'Development')->get();
+
+return $users->sum->votes;
+```
 
 ## 参考链接
 * [Laravel 的集合 Collection](https://curder.gitbooks.io/laravel_study/content/collections/)
