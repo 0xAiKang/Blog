@@ -16,12 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>假如我有一台新的 Mac - Boo</title>
+    <title>如何在 PHP 中生成二维码 - Boo</title>
+  
+    <meta name="keywords" content="PHP">
   
   
-    <meta name="description" content="从去年就想入手一台新的MacBookPro，中间因为一些原因，没有第一时间选择从官网下单，而是让朋友帮忙从其他渠道代购。
-这一等就是好几个月，直到二月初才拿到货…
-好了，现在我们真的有了一台新 Mac。正式开始之前，请自行准备科学上网环境，本文不使用任何代理源。">
+    <meta name="description" content="如何在 PHP 中生成二维码原生 PHP 无法直接生成二维码，可以借助一些第三方的二维码库。这里使用 endroid/qr-code。">
   
 
   <!-- feed -->
@@ -372,8 +372,8 @@
         
           
   <h1 class="title">
-    <a href="/Suppose-I-have-a-new-Mac/">
-      假如我有一台新的 Mac
+    <a href="/how-to-generate-qr-code-in-php/">
+      如何在 PHP 中生成二维码
     </a>
   </h1>
 
@@ -398,9 +398,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Mac/' rel="nofollow">
+    <a href='/categories/PHP/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Mac</p>
+      <p>PHP</p>
     </a>
   </div>
 
@@ -411,7 +411,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Feb 20, 2022</p>
+    <p>发布于：Feb 26, 2022</p>
   </a>
 </div>
 
@@ -427,13 +427,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1.5k words</p>
+      <p>520 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>6 min</p>
+      <p>2 min</p>
     </a>
   </div>
 
@@ -446,7 +446,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/Suppose-I-have-a-new-Mac/" class="leancloud_visitors" data-flag-title="假如我有一台新的 Mac">
+      <span id="/how-to-generate-qr-code-in-php/" class="leancloud_visitors" data-flag-title="如何在 PHP 中生成二维码">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -469,217 +469,39 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>从去年就想入手一台新的MacBookPro，中间因为一些原因，没有第一时间选择从官网下单，而是让朋友帮忙从其他渠道代购。</p>
-<p>这一等就是好几个月，直到二月初才拿到货…</p>
-<p>好了，现在我们真的有了一台新 Mac。正式开始之前，请自行准备科学上网环境，本文不使用任何代理源。</p>
+          <h1 id="如何在-PHP-中生成二维码"><a href="#如何在-PHP-中生成二维码" class="headerlink" title="如何在 PHP 中生成二维码"></a>如何在 PHP 中生成二维码</h1><p>原生 PHP 无法直接生成二维码，可以借助一些第三方的二维码库。这里使用 <a href="https://github.com/endroid/qr-code" target="_blank" rel="noopener">endroid/qr-code</a>。</p>
 <a id="more"></a>
 
-<h2 id="触控板和键位配置"><a href="#触控板和键位配置" class="headerlink" title="触控板和键位配置"></a>触控板和键位配置</h2><h3 id="三指拖移"><a href="#三指拖移" class="headerlink" title="三指拖移"></a>三指拖移</h3><p>Mac 的三指拖移手势能够大大的提高触摸板的使用频率，减少触控板左下角按键的左键功能使用，但默认是没有启用的。</p>
-<p>所以我通常拿到一台新Mac 的第一件事情就是打开三指拖移。</p>
-<p>按以下路径找到对应的设置面板：<code>系统设置偏好 -&gt; 辅助功能 -&gt; 指针选项 -&gt; 触控板选项</code></p>
-<p><img src="https://wxnacy.com/images/mac-chukong2.png" alt=""></p>
-<p>点击启用即可。</p>
-<h3 id="键盘改键"><a href="#键盘改键" class="headerlink" title="键盘改键"></a>键盘改键</h3><p>新款的MacBook 的剪刀键盘，有好几个不常用键占据了非常重要的位置，这是肯定不能接受的。</p>
-<p>具体的改键过程，请查阅<a href="https://www.0x2beace.com/how-to-change-the-keyboard-on-a-mac/">这篇笔记</a>。</p>
-<h2 id="命令行工具"><a href="#命令行工具" class="headerlink" title="命令行工具"></a>命令行工具</h2><h3 id="Homebrew"><a href="#Homebrew" class="headerlink" title="Homebrew"></a>Homebrew</h3><p>经常与终端打交道的用户，对这个一定不陌生，它就是类似<code>Ubuntu</code>下的 <code>apt-get</code> 这样的包管理工具。</p>
-<p>通常我需要搭建一个全新的开发环境时，它一定是第一个需要安装的工具。</p>
-<p>打开终端，执行以下命令：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/bin/bash -c <span class="string">"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</span></span><br></pre></td></tr></table></figure>
+<p>安装：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer require endroid/qr-code</span><br></pre></td></tr></table></figure>
 
-<p>常用命令如下：</p>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>brew search package</td>
-<td>搜索软件包</td>
-</tr>
-<tr>
-<td>brew install package</td>
-<td>安装软件包</td>
-</tr>
-<tr>
-<td>brew uninstall package</td>
-<td>卸载软件包</td>
-</tr>
-<tr>
-<td>brew list</td>
-<td>列出已安装清单</td>
-</tr>
-<tr>
-<td>brew services list</td>
-<td>列出使用brew 运行的服务</td>
-</tr>
-<tr>
-<td>brew upgrade xxx</td>
-<td>升级软件</td>
-</tr>
-<tr>
-<td>brew info nginx</td>
-<td>查看软件包详情</td>
-</tr>
-<tr>
-<td>brew help</td>
-<td>获取帮助</td>
-</tr>
-<tr>
-<td>brew tap homebrew/php</td>
-<td>更新Homebrew 安装源</td>
-</tr>
-<tr>
-<td>brew link <a href="mailto:php@7.3">php@7.3</a></td>
-<td>手动创建符号链接Cellar</td>
-</tr>
-<tr>
-<td>brew unlink <a href="mailto:php@7.3">php@7.3</a></td>
-<td>取消链接</td>
-</tr>
-</tbody></table>
-<p><a href="https://brew.sh/index_zh-cn" target="_blank" rel="noopener">homebrew</a> 的重要性就不必多说了，Mac 下必装工具之一。</p>
-<p>如果在安装<code>homebrew</code> 的过程中，因为众所周知的原因导致安装失败，可以看一下下面两篇笔记，说不定会有帮助：</p>
+<p>首先来了解一下二维码的一些基本特征</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220326100220.png" alt=""></p>
+<p>这是一张常见的二维码，由以下几部分构成：</p>
 <ul>
-<li><a href="https://www.0x2beace.com/how-to-make-terminal-commands-go-through-proxy/">如何让终端命令走代理</a></li>
-<li><a href="https://www.0x2beace.com/How-to-solve-problems-like-curl-7-Failed-to-connect-to-raw-githubusercontent-com-port-443-Connection-refused/">如何解决类似 curl:(7) Failed to connect to raw.githubusercontent.com port 443:Connection refused 的问题</a></li>
+<li>①：外框</li>
+<li>②：码眼</li>
+<li>③：码点</li>
+<li>④：logo</li>
+<li>⑤：文字</li>
 </ul>
-<h3 id="Homebrew-Cask"><a href="#Homebrew-Cask" class="headerlink" title="Homebrew Cask"></a>Homebrew Cask</h3><p>Homebrew Cask扩展了Homebrew，使得macOS GUI 应用程序的安装和管理更优雅、简单和快速。</p>
-<p>看看官方的实例图：</p>
-<p><img src="https://camo.githubusercontent.com/f8b75a5e461338a90db6acf4db8f5bc9cf620bfba65a5a490ed10bd08f457b52/68747470733a2f2f692e696d6775722e636f6d2f464e4e4d36574c2e676966" alt=""></p>
-<p>Homebrew Cask 先下载软件后解压到统一的目录中 <code>/opt/homebrew-cask/Caskroom</code>，然后再软链到 <code>~/Applications/</code> 目录下，省掉了自己下载、解压、拖拽安装等步骤，同样的，卸载相当简单和干净，一句命令就可以完成。</p>
-<p>更多Homebrew Cask 的用法请<a href="https://github.com/Homebrew/homebrew-cask/blob/master/USAGE.md" target="_blank" rel="noopener">自行查阅</a>。</p>
-<h3 id="zsh"><a href="#zsh" class="headerlink" title="zsh"></a>zsh</h3><p>zsh 是一种shell语言，兼容bash，提供强大的命令行功能，比如tab补全，自动纠错功能等。</p>
-<p>安装 zsh：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install zsh</span><br></pre></td></tr></table></figure>
+<p>其中码眼和码点是必要的，其余部分则均是为二维码美化的而添加的，非必要。</p>
+<h2 id="简单的二维码生成"><a href="#简单的二维码生成" class="headerlink" title="简单的二维码生成"></a>简单的二维码生成</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">require</span> <span class="string">"vendor/autoload.php"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">Endroid</span>\<span class="title">QrCode</span>\<span class="title">QrCode</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Endroid</span>\<span class="title">QrCode</span>\<span class="title">Writer</span>\<span class="title">PngWriter</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建二维码</span></span><br><span class="line">$qr = QrCode::create(<span class="string">"Hello World"</span>);</span><br><span class="line">$writer = <span class="keyword">new</span> PngWriter();</span><br><span class="line">$result = $writer-&gt;write($qr);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出二维码（方式一）</span></span><br><span class="line">$result-&gt;saveToFile(<span class="keyword">__DIR__</span> . <span class="string">"/qr.png"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 方式二</span></span><br><span class="line"><span class="comment">// header("Content-Type: " . $result-&gt;getMimeType());</span></span><br><span class="line"><span class="comment">// echo $result-&gt;getString();</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 方式三</span></span><br><span class="line"><span class="comment">// echo "&lt;img src='&#123;$result-&gt;getDataUri()&#125;'/&gt;";</span></span><br></pre></td></tr></table></figure>
 
-<p><code>oh-my-zsh</code>则是基于<code>zsh</code> 命令行，提供了主题配置，插件机制等便捷操作，将<code>zsh</code> 变得更加强大。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh -c &quot;$(curl -fsSL https:&#x2F;&#x2F;raw.github.com&#x2F;robbyrussell&#x2F;oh-my-zsh&#x2F;master&#x2F;tools&#x2F;install.sh)&quot;</span><br></pre></td></tr></table></figure>
-<p>个性化配置、别名配置、插件启用都在目录 <code>~/.zshrc</code> 下，可以自行扩展。</p>
-<h4 id="让终端走代理"><a href="#让终端走代理" class="headerlink" title="让终端走代理"></a>让终端走代理</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> zsh</span></span><br><span class="line">echo export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7890 &gt;&gt; ~/.zprofile</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> bash</span></span><br><span class="line">echo export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7890 &gt;&gt; ~/.bash_profile</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="其他环境和插件"><a href="#其他环境和插件" class="headerlink" title="其他环境和插件"></a>其他环境和插件</h2><h3 id="Finder（访达）预览插件"><a href="#Finder（访达）预览插件" class="headerlink" title="Finder（访达）预览插件"></a>Finder（访达）预览插件</h3><p>用于Finder 快速显示文件的内容，这个工具的安装就是依靠<code>Homebrew Cask</code>。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install qlcolorcode qlstephen qlmarkdown quicklook-json qlimagesize suspicious-package apparency quicklookase qlvideo</span><br></pre></td></tr></table></figure>
-
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220326130344.png" alt=""></p>
+<p><code>endroid/qr-code</code> 提供三种不同的输出模式：</p>
 <ul>
-<li>qlcolorcode: 代码文件预览时高亮</li>
-<li>qlstephen: 以纯文本的形式预览无拓展名或者未知拓展名的文件</li>
-<li>qlmarkdown: 预览渲染后的 markdown 文件</li>
-<li>quicklook-json: 预览格式化后的 json 文件</li>
-<li>ProvisionQL: ipa文件信息展示</li>
-<li>QuickLookAPK：apk文件信息展示</li>
+<li><code>saveToFile()</code>：生成二维码以图片的形式保存在本地</li>
+<li><code>getString()</code>：直接输出在浏览器</li>
+<li><code>getDataUri()</code>：输出二维码图片对应的 Base64</li>
 </ul>
-<h3 id="macos-扩展"><a href="#macos-扩展" class="headerlink" title="macos 扩展"></a>macos 扩展</h3><p><code>macos</code> 扩展是<code>zsh</code> 提供的一个控制终端和访达（功能之一）的扩展工具。</p>
-<p>启用方式很简单，直接编辑<code>~/.zshrc</code>，然后添加 <code>macos</code> 到插件列表即可：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">plugins&#x3D;(</span><br><span class="line">    macos</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h2 id="二维码美化"><a href="#二维码美化" class="headerlink" title="二维码美化"></a>二维码美化</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">require</span> <span class="string">"vendor/autoload.php"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">Endroid</span>\<span class="title">QrCode</span>\<span class="title">QrCode</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Endroid</span>\<span class="title">QrCode</span>\<span class="title">Writer</span>\<span class="title">PngWriter</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Endroid</span>\<span class="title">QrCode</span>\<span class="title">ErrorCorrectionLevel</span>\<span class="title">ErrorCorrectionLevelHigh</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Endroid</span>\<span class="title">QrCode</span>\<span class="title">Color</span>\<span class="title">Color</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Endroid</span>\<span class="title">QrCode</span>\<span class="title">Logo</span>\<span class="title">Logo</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Endroid</span>\<span class="title">QrCode</span>\<span class="title">Label</span>\<span class="title">Label</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建二维码</span></span><br><span class="line">$qr = QrCode::create(<span class="string">"Hello World"</span>)</span><br><span class="line">    <span class="comment">// 设置容错等级</span></span><br><span class="line">    -&gt;setErrorCorrectionLevel(<span class="keyword">new</span> ErrorCorrectionLevelHigh())</span><br><span class="line">    <span class="comment">// 设置内容区域宽高，默认为300</span></span><br><span class="line">    -&gt;setSize(<span class="number">300</span>)</span><br><span class="line">    <span class="comment">// 设置外边距，默认为10</span></span><br><span class="line">    -&gt;setMargin(<span class="number">10</span>)</span><br><span class="line">    <span class="comment">// 设置二维码颜色，默认为黑色</span></span><br><span class="line">    -&gt;setForegroundColor(<span class="keyword">new</span> Color(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>))</span><br><span class="line">    <span class="comment">// 设置二维码背景色，默认为白色</span></span><br><span class="line">    -&gt;setBackgroundColor(<span class="keyword">new</span> Color(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 设置 logo</span></span><br><span class="line">$logo = Logo::create(<span class="keyword">__DIR__</span> . <span class="string">"/logo.png"</span>)</span><br><span class="line">    <span class="comment">// 设置 logo 大小</span></span><br><span class="line">    -&gt;setResizeToWidth(<span class="number">70</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 设置二维码下方的文字</span></span><br><span class="line">$label = Label::create(<span class="string">"扫一扫"</span>)</span><br><span class="line">    <span class="comment">// 设置文字颜色</span></span><br><span class="line">    -&gt;setTextColor(<span class="keyword">new</span> Color(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出二维码</span></span><br><span class="line">$writer = <span class="keyword">new</span> PngWriter();</span><br><span class="line">$result = $writer-&gt;write($qr, $logo, $label);</span><br><span class="line">header(<span class="string">"Content-Type: "</span> . $result-&gt;getMimeType());</span><br><span class="line"><span class="keyword">echo</span> $result-&gt;getString();</span><br></pre></td></tr></table></figure>
 
-<p>其中最为常用是<code>ofd</code>命令，将当前<code>shell</code>窗口在访达中打开。</p>
-<p>另一个较为常用的命令是<code>cdf</code>，可在<code>shell</code>中直接跳转至当前访达窗口所在的路径（如果存在多个访达窗口，那么跳转至最前面的那个）。</p>
-<p>其他常用命令如下：</p>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>tab</td>
-<td>在当前目录打开一个新窗口</td>
-</tr>
-<tr>
-<td>split_tab</td>
-<td>在当前窗口打开一个水平窗口</td>
-</tr>
-<tr>
-<td>vsplit_tab</td>
-<td>在当前窗口打开一个垂直窗口</td>
-</tr>
-<tr>
-<td>ofd</td>
-<td>在访达窗口中打开当前目录</td>
-</tr>
-<tr>
-<td>pfd</td>
-<td>返回最前面的访达窗口的路径</td>
-</tr>
-<tr>
-<td>pfs</td>
-<td>返回当前查找程序选择</td>
-</tr>
-<tr>
-<td>cdf</td>
-<td>cd 到当前访达窗口所在的路径</td>
-</tr>
-<tr>
-<td>pushdf</td>
-<td>pushed 到当前访达目录</td>
-</tr>
-<tr>
-<td>quick-look</td>
-<td>快速查看指定文件</td>
-</tr>
-<tr>
-<td>man-preview</td>
-<td>在预览应用程序中打开特定的手册页</td>
-</tr>
-<tr>
-<td>showfiles</td>
-<td>显示隐藏文件</td>
-</tr>
-<tr>
-<td>hidefiles</td>
-<td>隐藏隐藏的文件</td>
-</tr>
-<tr>
-<td>rmdsstore</td>
-<td>以递归方式删除目录中的.DS_Store文件</td>
-</tr>
-</tbody></table>
-<h3 id="tmux"><a href="#tmux" class="headerlink" title="tmux"></a>tmux</h3><p><code>tmux</code> 是一个终端下窗口分割的工具，有关它的具体介绍，请查阅<a href="https://www.0x2beace.com/tmux-quick-start/">这篇笔记</a>。</p>
-<h3 id="autojump"><a href="#autojump" class="headerlink" title="autojump"></a>autojump</h3><p>autojump - 目录快速跳转命令行工具，从此告别<code>cd... cd...</code>。</p>
-<p>autojump 是一个<code>Windows</code>、<code>Linux</code>、<code>macOS</code> 都能使用的命令行工具，这是仅介绍<code>macOS</code> 的安装方式。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install autojump</span><br></pre></td></tr></table></figure>
-<p>使用<code>brew</code>安装完成之后，还需要进行配置，以下方法二选一：</p>
-<ul>
-<li>在 <code>~/.bash_profile</code> 文件中加入语句 <code>[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] &amp;&amp; . $(brew --prefix)/etc/profile.d/autojump.sh</code>。</li>
-<li>在 <code>~/.zshrc</code> 文件中，修改 <code>plugins=(git)</code> 插件配置行，以开启 <code>zsh</code> 对 <code>autojump</code> 插件的支持 <code>plugins=(git autojump)</code>。</li>
-</ul>
-<p>其他常用命令如下：</p>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>j foo</td>
-<td>跳转到包含 foo 的目录</td>
-</tr>
-<tr>
-<td>jc bar</td>
-<td>跳转到包含 bar 的子目录</td>
-</tr>
-<tr>
-<td>jo file</td>
-<td>在访达中打开包含 file 的目录</td>
-</tr>
-<tr>
-<td>autojump –help</td>
-<td>打开帮助列表</td>
-</tr>
-</tbody></table>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220326155401.png" alt=""></p>
+<p>创建二维码时，除了可以放文本，还可以放入 URL、邮箱、深度链接等等。</p>
+<h2 id="其他问题"><a href="#其他问题" class="headerlink" title="其他问题"></a>其他问题</h2><p>endroid/qr-code 似乎不支持外框、码眼、码点的自定义，具体可以查看这个 <a href="https://github.com/endroid/qr-code/issues/196" target="_blank" rel="noopener">Issue</a>。</p>
 <h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
-<li><a href="https://github.com/ohmyzsh/ohmyzsh" target="_blank" rel="noopener">Oh My Zsh</a></li>
-<li><a href="https://brew.sh" target="_blank" rel="noopener">Homebrew</a></li>
-<li><a href="https://github.com/Homebrew/homebrew-cask" target="_blank" rel="noopener">Homebrew Cask</a></li>
-<li><a href="https://github.com/sindresorhus/quick-look-plugins" target="_blank" rel="noopener">Quick Look plugins</a></li>
-<li><a href="https://github.com/zsh-users" target="_blank" rel="noopener">zsh-users</a></li>
-<li><a href="https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/macos" target="_blank" rel="noopener">MacOS plugin</a></li>
-<li><a href="https://github.com/wting/autojump" target="_blank" rel="noopener">autojump</a></li>
+<li><a href="https://code-boxx.com/generate-qr-code-php/" target="_blank" rel="noopener">generate-qr-code-php</a></li>
 </ul>
 
           
@@ -717,7 +539,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/Suppose-I-have-a-new-Mac/>https://www.0x2beace.com/Suppose-I-have-a-new-Mac/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/how-to-generate-qr-code-in-php/>https://www.0x2beace.com/how-to-generate-qr-code-in-php/</a></p>
           
         
       </blockquote>
@@ -765,10 +587,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-02-27T11:23:56+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-03-26T16:02:27+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Feb 27, 2022</p>
+    <p>更新于：Mar 26, 2022</p>
   </a>
 </div>
 
@@ -776,6 +598,9 @@
       
         
           
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div>
+
 
         
       
@@ -792,9 +617,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/Suppose-I-have-a-new-Mac/&title=假如我有一台新的 Mac - Boo&summary=从去年就想入手一台新的MacBookPro，中间因为一些原因，没有第一时间选择从官网下单，而是让朋友帮忙从其他渠道代购。
-这一等就是好几个月，直到二月初才拿到货…
-好了，现在我们真的有了一台新 Mac。正式开始之前，请自行准备科学上网环境，本文不使用任何代理源。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/how-to-generate-qr-code-in-php/&title=如何在 PHP 中生成二维码 - Boo&summary=如何在 PHP 中生成二维码原生 PHP 无法直接生成二维码，可以借助一些第三方的二维码库。这里使用 endroid/qr-code。"
           
           >
           
@@ -806,9 +629,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/Suppose-I-have-a-new-Mac/&title=假如我有一台新的 Mac - Boo&summary=从去年就想入手一台新的MacBookPro，中间因为一些原因，没有第一时间选择从官网下单，而是让朋友帮忙从其他渠道代购。
-这一等就是好几个月，直到二月初才拿到货…
-好了，现在我们真的有了一台新 Mac。正式开始之前，请自行准备科学上网环境，本文不使用任何代理源。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/how-to-generate-qr-code-in-php/&title=如何在 PHP 中生成二维码 - Boo&summary=如何在 PHP 中生成二维码原生 PHP 无法直接生成二维码，可以借助一些第三方的二维码库。这里使用 endroid/qr-code。"
           
           >
           
@@ -820,9 +641,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/Suppose-I-have-a-new-Mac/&title=假如我有一台新的 Mac - Boo&summary=从去年就想入手一台新的MacBookPro，中间因为一些原因，没有第一时间选择从官网下单，而是让朋友帮忙从其他渠道代购。
-这一等就是好几个月，直到二月初才拿到货…
-好了，现在我们真的有了一台新 Mac。正式开始之前，请自行准备科学上网环境，本文不使用任何代理源。"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/how-to-generate-qr-code-in-php/&title=如何在 PHP 中生成二维码 - Boo&summary=如何在 PHP 中生成二维码原生 PHP 无法直接生成二维码，可以借助一些第三方的二维码库。这里使用 endroid/qr-code。"
           
           >
           
@@ -836,7 +655,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAAC4klEQVR42u3aSW4bQRAEQP7/0/bdMDC1JC0WHX2TNFuHLonKfv2y/rpeCMCAAQMGDJgzMK/hKr/o4b4/f7/9ju1+wIABAwYMGDD3YLobrQKkgJ8gU/sBAwYMGDBgwNyFeQxAoUC2DWhdqPL9YMCAAQMGDJj/HqY7uNoGNTBgwIABAwYMmG2gmkJ0obcFHhgwYMCAAQPm+2DeVXhVP7ALMb0ODBgwYMCAAfM9MKni7FN+Hu8HDBgwYMCAAXMGZruqgW46iKoWebH9gAEDBgwYMGDOwEwDUhWiCzUdOG2/HwwYMGDAgAFzFyZ1QCd1X7q4AwMGDBgwYMCAmRZvVfAUxBgeDBgwYMCAAXMWJvXi6ka3g6du8QcGDBgwYMCA+R6Y7QBpW9BNQd820AIDBgwYMGDAnIOZPnhbxHXBu+/vBk0wYMCAAQMGzB2YVGD7V0GwG/zWEzwwYMCAAQMGzMfDpAZB2wFS9aBRtxgsQ4MBAwYMGDBgzsCkHvyuQLg9SNTdDxgwYMCAAQPmDky3ANsOpt4dFLtQYMCAAQMGDJj7MKnglgpmaeD1BA8MGDBgwIAB83Ew6UJsuuFtYKxe/wgMBgwYMGDAgDkDkxr4dJ8XK8ia3/MYRMGAAQMGDBgwZ2GmB4q6A6sU5PS98cINDBgwYMCAAfNjMOVCKjSA6g7AtteNB1VgwIABAwYMmDMwW4BuQTa9P/0+MGDAgAEDBsz3wKQHVtOVel65iAMDBgwYMGDAnIHZru2H/tRBo8fCDQwYMGDAgAHz8TCpwFQt3NoFWBNmPWADAwYMGDBgwJyD6Qa6aXE2PQCU+kc9BkcwYMCAAQMGzFmY6oAoffBoCpcKpmDAgAEDBgwYMKmB1XQANQ2MYMCAAQMGDBgw2wItdTCpCwUGDBgwYMCAuQ8zLcS6B32qz5kWd+P3ggEDBgwYMGDOwUyDU/fvXegpWBceDBgwYMCAAXMPxgIDBgwYMGDAHFu/AWLEazQ/eAmrAAAAAElFTkSuQmCC">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADtklEQVR42u3aQW7jQAwEQP//07v3BQKRTSamszU3Q7I0rPGhQfr1x4rWCwE4cODAWeDAHYF7heur71ef++9931Zoc1+P+wUHDhw4cODAgTsG91Mb6cI+HVD1+lq94MCBAwcOHDhwR+GmgbX6vS2A7j6n9YIDBw4cOHDgwP0WuCpANyB3wdIADA4cOHDgwIED97/CfRdUOqhODx4cOHDgwIEDB+7T4boD2uqGpvDfHdh/fJIPDhw4cODAgQO3BJcG10/9HNcLDhw4cODAgQN3BG66psE3DdpP70kboY/7AgcOHDhw4MCBOwLXLXwahJ8K27rebWSWHcCBAwcOHDhw4I7AVTdWDZRbg+UpRLrvR2Bw4MCBAwcOHLgjcOnAdqtBOQ3KaUO0G6zBgQMHDhw4cOCuwnU3OA22aYBNG6zpdXDgwIEDBw4cuKtw3eA4DczpgHsa0KcLHDhw4MCBAwfuKlw6+O1uNIVL3z8dmIMDBw4cOHDgwF2FmzYqq/eng+utIL3WeAUHDhw4cODAgTsGNx3UboN0g29aT/s54MCBAwcOHDhwx+C2IOMGYdi47H6/eqBfPhccOHDgwIEDB+4YXLeQtGFYDbzdADt9fzyQBgcOHDhw4MCBOwaXAm6v9H1d2PIPABw4cODAgQMH7gjcuwa/3fumDdWtRig4cODAgQMHDtwVuHQgnRaSBtQuQPcAygEcHDhw4MCBAwfuGNy0Ybk1iJ4OvKv7qgb9xwAMDhw4cODAgQP3JrhuIdWNpAWnz91qVLY7wODAgQMHDhw4cG+C6zYU08Zi96DWBsjN4P54sODAgQMHDhw4cEfgthqV1YOoNhh/agDd/gwOHDhw4MCBA3cMLg2o6YB5KyhP/wDZ/iMlOHDgwIEDBw7cMbhpYE0bhduw1YCc3g8OHDhw4MCBA3cFbruBWQ2s1cZk9w+N08bmIyw4cODAgQMHDtwRuGmjMC2sG5inB7c2KAcHDhw4cODAgTsKN20UbjUut57fPchHWHDgwIEDBw4cuCNwr3B1B9lVuPVCw8/gwIEDBw4cOHCfAtcNvOlGqgE3ha4eXFw/OHDgwIEDBw7cUbg00D5BpSDd6+kAvdxYBQcOHDhw4MCB+yVw3WCabjhteG4HZHDgwIEDBw4cuN8K1x1kdxuKVfB0oP62AAwOHDhw4MCBAzeES4Nnd+CcNjC7UN37Hg8EHDhw4MCBAwfuGFw6uO0G0nTwvNUQTQfW4MCBAwcOHDhw1+Cs5iAcAThw4MBZ4MC9d/0FhzT/JpkIzrYAAAAASUVORK5CYII=">
           </div>
         </div>
       
@@ -856,22 +675,20 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/how-to-generate-qr-code-in-php/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>如何在 PHP 中生成二维码</p>
-                <p class='content'>如何在 PHP 中生成二维码原生 PHP 无法直接生成二维码，可以借助一些第三方的二维码库。这里使用 endroid/qr-code。
+              <a class='prev' href='/how-to-avoid-writing-out-if-else/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>如何避免写出 If-Else如何避免写出 If-Else</p>
+                <p class='content'>本文并不肯定或者否定哪一种写法，仅仅为大家提供一些其他的编码思路或者一些值得借鉴的点子。
 
 
-安装：
-1composer require endro...</p>
+为什么要避免使用if-elseif-else 通常是一个糟糕的选择，它导致设计复杂，代码可读性差，并...</p>
               </a>
             
             
-              <a class='next' href='/How-to-solve-problems-like-curl-7-Failed-to-connect-to-raw-githubusercontent-com-port-443-Connection-refused/'>
-                <p class='title'>如何解决类似 curl:(7) Failed to connect to raw.githubusercontent.com port 443:Connection refused 的问题<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>有时使用Homebrew 安装工具时，会出现类似下面的错误：
-
-
-123sh -C &quot;§(curl-fsSL https: &#x2F;&#x2F;raw.githubusercont...</p>
+              <a class='next' href='/Suppose-I-have-a-new-Mac/'>
+                <p class='title'>假如我有一台新的 Mac<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>从去年就想入手一台新的MacBookPro，中间因为一些原因，没有第一时间选择从官网下单，而是让朋友帮忙从其他渠道代购。
+这一等就是好几个月，直到二月初才拿到货…
+好了，现在我们真的有了一台新 ...</p>
               </a>
             
           </div>
@@ -916,7 +733,7 @@
 
   <script>
     window.subData = {
-      title: '假如我有一台新的 Mac',
+      title: '如何在 PHP 中生成二维码',
       tools: true
     }
   </script>
@@ -942,7 +759,7 @@
 
 
     <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#触控板和键位配置"><span class="toc-text">触控板和键位配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#三指拖移"><span class="toc-text">三指拖移</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#键盘改键"><span class="toc-text">键盘改键</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#命令行工具"><span class="toc-text">命令行工具</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Homebrew"><span class="toc-text">Homebrew</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Homebrew-Cask"><span class="toc-text">Homebrew Cask</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#zsh"><span class="toc-text">zsh</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#让终端走代理"><span class="toc-text">让终端走代理</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他环境和插件"><span class="toc-text">其他环境和插件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Finder（访达）预览插件"><span class="toc-text">Finder（访达）预览插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#macos-扩展"><span class="toc-text">macos 扩展</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tmux"><span class="toc-text">tmux</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#autojump"><span class="toc-text">autojump</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#简单的二维码生成"><span class="toc-text">简单的二维码生成</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二维码美化"><span class="toc-text">二维码美化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他问题"><span class="toc-text">其他问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
     </div>
   </section>
 
