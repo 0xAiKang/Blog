@@ -533,7 +533,7 @@ Switched to a new branch 'daves'
 $  git fetch --all  
 ```
 
-#### 如果本地分支已经存在
+#### 如果本地分支不存在
 
 将远程分支 `release` 与本地不存在的分支设置跟踪：
 ```bash
@@ -542,7 +542,7 @@ $ git branch --track release remotes/origin/release
 
 如果分支已经存在了，则会设置失败。
 
-#### 如果本地分支不存在
+#### 如果本地分支已经存在
 
 将远程分支 `release` 与本地分支 `release`设置跟踪：
 ```bash
