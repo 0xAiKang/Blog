@@ -16,12 +16,10 @@
 
   <!-- 页面元数据 -->
   
-    <title>记一次服务端防火墙引起的 444 错误 - Boo</title>
+    <title>Node 版本控制工具 - Boo</title>
   
-    <meta name="keywords" content="防火墙">
+    <meta name="keywords" content="Node">
   
-  
-    <meta name="description" content="这周接手一个需求，需要做一个Http“代理”，将请求转发至不同的场景。">
   
 
   <!-- feed -->
@@ -372,8 +370,8 @@
         
           
   <h1 class="title">
-    <a href="/444-errors-caused-by-a-server-firewall/">
-      记一次服务端防火墙引起的 444 错误
+    <a href="/node-version-control-tool/">
+      Node 版本控制工具
     </a>
   </h1>
 
@@ -398,9 +396,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/%E9%98%B2%E7%81%AB%E5%A2%99/' rel="nofollow">
+    <a href='/categories/Node/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>防火墙</p>
+      <p>Node</p>
     </a>
   </div>
 
@@ -411,7 +409,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jul 24, 2021</p>
+    <p>发布于：Apr 5, 2022</p>
   </a>
 </div>
 
@@ -427,13 +425,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>529 words</p>
+      <p>558 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>1 min</p>
+      <p>2 min</p>
     </a>
   </div>
 
@@ -446,7 +444,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/444-errors-caused-by-a-server-firewall/" class="leancloud_visitors" data-flag-title="记一次服务端防火墙引起的 444 错误">
+      <span id="/node-version-control-tool/" class="leancloud_visitors" data-flag-title="Node 版本控制工具">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -469,38 +467,59 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>这周接手一个需求，需要做一个Http“代理”，将请求转发至不同的场景。</p>
-<a id="more"></a>
+          <p>主流的 Node.js 版本管理工具有 n 和 nvm，两者都是使用 shell 脚本实现，本文会逐一介绍。</p>
+<h2 id="n"><a href="#n" class="headerlink" title="n"></a>n</h2><p><a href="https://github.com/tj/n" target="_blank" rel="noopener">n</a> 是Node的一个模块，作者是TJ Holowaychuk（鼎鼎大名的[Express]框架作者），就像它的名字一样，它的理念就是简单。</p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo npm install -g n</span><br></pre></td></tr></table></figure>
 
-<p>本来不是多复杂的需求，实现起来也没花多久，反而是在部署测试上面，耗费不少时间。</p>
-<p>本地测试一切正常之后，变将代码部署至服务端，因为服务器使用宝塔，部署过程也很快。</p>
-<p>可是问题就出在了，测试过程中。</p>
-<p>起初我只是察觉，代理服务端收到请求之后，一直没有将请求转发出去，于是查看请求日志，发现满屏的<code>http 444</code>。</p>
-<p>这个时候，我只是比较困惑，本地发送相同的请求都是正常的，怎么来自客户端的请求就有问题了。</p>
-<p>于是，查了一下这个 <a href="https://httpstatuses.com/444" target="_blank" rel="noopener">444</a> 状态码。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210724152825.png" alt=""></p>
-<p>它实际上并不是一个标准的 HTTP Status Codes，而是Nginx 自定义的一个Code，通常用于<strong>服务端没有返回信息给客户端并且关闭了连接</strong>的场景。</p>
-<blockquote>
-<p>服务端的Nginx 为什么会关闭连接？通常由以下两类原因引起：</p>
-</blockquote>
-<ol>
-<li>客户端发送恶意的请求</li>
-<li>客户端发送格式错误的请求</li>
-</ol>
-<p>想清楚这两点之后，我对比了一下本地发送的请求，与客户端发送的请求之间的差异：</p>
-<p>本地：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">curl --location --request POST <span class="string">'http://xxx.xxx.com/route'</span> \</span><br><span class="line">--header <span class="string">'User-Agent: PostmanRuntime/7.28.2'</span> \</span><br><span class="line">--form <span class="string">'params=xxxx'</span> \</span><br><span class="line">--form <span class="string">'params=xxxx'</span></span><br></pre></td></tr></table></figure>
+<h3 id="版本切换"><a href="#版本切换" class="headerlink" title="版本切换"></a>版本切换</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">n x.x.x</span><br></pre></td></tr></table></figure>
 
-<p>客户端：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">curl --location --request POST <span class="string">'http://xxx.xxx.com/route'</span> \</span><br><span class="line">--header <span class="string">'User-Agent: Apache-HttpClient/4.4.1'</span> \</span><br><span class="line">--form <span class="string">'params=xxxx'</span> \</span><br><span class="line">--form <span class="string">'params=xxxx'</span></span><br></pre></td></tr></table></figure>
+<h3 id="安装某个版本"><a href="#安装某个版本" class="headerlink" title="安装某个版本"></a>安装某个版本</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">n x.x.x</span><br></pre></td></tr></table></figure>
 
-<p>除了<code>User-Agent</code> 不同，其余信息均一致。</p>
-<p>为了验证我的猜想，打开宝塔的Nginx 防火墙站点日志，果然，全部被拦截了：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210724154555.png" alt=""></p>
-<p>至于为什么UA 中携带了<code>Apache-HttpClient/4.4.1</code> 这几个关键字就被拦截了，可以通过宝塔默认的<code>User-Agent过滤</code> 规则中找到答案：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20210724155612.png" alt=""></p>
-<p>可以很清晰地看到，关键词过滤规则中，有一个<code>Apache-HttpClient</code>。</p>
-<p>知道原因之后就好办了，将关键词过滤的开关给关了，服务即可正常访问。</p>
+<h3 id="安装最新版本"><a href="#安装最新版本" class="headerlink" title="安装最新版本"></a>安装最新版本</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">n latest</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装稳定版本"><a href="#安装稳定版本" class="headerlink" title="安装稳定版本"></a>安装稳定版本</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">n stable</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除某个版本"><a href="#删除某个版本" class="headerlink" title="删除某个版本"></a>删除某个版本</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">n rm x.x.x</span><br></pre></td></tr></table></figure>
+
+<h3 id="指定某个版本来执行文件"><a href="#指定某个版本来执行文件" class="headerlink" title="指定某个版本来执行文件"></a>指定某个版本来执行文件</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">n user x.x.x some.js</span><br></pre></td></tr></table></figure>
+
+<h2 id="nvm"><a href="#nvm" class="headerlink" title="nvm"></a>nvm</h2><p><a href="https://github.com/nvm-sh/nvm" target="_blank" rel="noopener">nvm</a> 全称Node Version Manager。</p>
+<h3 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h3><p>nvm 项目提供了一个 install.sh 脚本帮助用户快速安装，可以使用 cURL 或 Wget 等工具下载。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash</span><br></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash</span><br></pre></td></tr></table></figure>
+
+<p>运行上面命令中的任意一条，就会下载并运行 v0.39.1 版本的 nvm，默认安装位置为 <del>/.nvm，并会在一些配置文件中添加如下代码片段，例如 ~/.bash_profile、</del>/.zshrc、~/.profile 或 ~/.bashrc。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> NVM_DIR=<span class="string">"([ -z "</span>&#123;XDG_CONFIG_HOME-&#125;<span class="string">" ] &amp;&amp; printf %s "</span>&#123;HOME&#125;/.nvm<span class="string">" || printf %s "</span>&#123;XDG_CONFIG_HOME&#125;/nvm<span class="string">")"</span></span><br><span class="line">[ -s <span class="string">"NVM_DIR/nvm.sh"</span> ] &amp;&amp; \. <span class="string">"NVM_DIR/nvm.sh"</span> <span class="comment"># This loads nvm</span></span><br></pre></td></tr></table></figure>
+
+<p>下载、编译和安装 node 的最新版本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm install node  <span class="comment"># "node" 是最新版本的别名</span></span><br></pre></td></tr></table></figure>
+
+<p>也可以指定安装版本，例如 v14.17.4</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm install 14.17.4</span><br></pre></td></tr></table></figure>
+
+<p>如果不知道哪些版本可以正常使用，可以先列出所有可用版本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm ls-remote</span><br></pre></td></tr></table></figure>
+
+<h3 id="版本切换-1"><a href="#版本切换-1" class="headerlink" title="版本切换"></a>版本切换</h3><p>使用指定版本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm use 14.17.4</span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是这个只是临时使用该版本，当环境发生变化之后，node 又会恢复之前的版本。</p>
+<h3 id="查看正在使用的版本"><a href="#查看正在使用的版本" class="headerlink" title="查看正在使用的版本"></a>查看正在使用的版本</h3><p>查看当前所使用的 node 版本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm current</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看当前已经安装的版本"><a href="#查看当前已经安装的版本" class="headerlink" title="查看当前已经安装的版本"></a>查看当前已经安装的版本</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm ls</span><br></pre></td></tr></table></figure>
+
+<h3 id="指定某个版本来执行文件-1"><a href="#指定某个版本来执行文件-1" class="headerlink" title="指定某个版本来执行文件"></a>指定某个版本来执行文件</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm run x.x.x some.js</span><br></pre></td></tr></table></figure>
+
+<h3 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h3><p>如何使得某个版本变为默认版本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm <span class="built_in">alias</span> default v14.17.4</span><br></pre></td></tr></table></figure>
+
+<p>获取对应版本的安装路径：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm <span class="built_in">which</span> 14.17.4</span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是，npm 的版本切换，没有具体的命令，只要控制 node 版本就行，npm 版本会随之变化。</p>
 
           
             <div class='article_footer'>
@@ -537,7 +556,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/444-errors-caused-by-a-server-firewall/>https://www.0x2beace.com/444-errors-caused-by-a-server-firewall/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/node-version-control-tool/>https://www.0x2beace.com/node-version-control-tool/</a></p>
           
         
       </blockquote>
@@ -585,10 +604,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-07-24T16:02:42+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-04-06T15:01:35+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Jul 24, 2021</p>
+    <p>更新于：Apr 6, 2022</p>
   </a>
 </div>
 
@@ -597,7 +616,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E9%98%B2%E7%81%AB%E5%A2%99/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>防火墙</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Node/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Node</p></a></div>
 
 
         
@@ -615,7 +634,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/444-errors-caused-by-a-server-firewall/&title=记一次服务端防火墙引起的 444 错误 - Boo&summary=这周接手一个需求，需要做一个Http“代理”，将请求转发至不同的场景。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/node-version-control-tool/&title=Node 版本控制工具 - Boo&summary="
           
           >
           
@@ -627,7 +646,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/444-errors-caused-by-a-server-firewall/&title=记一次服务端防火墙引起的 444 错误 - Boo&summary=这周接手一个需求，需要做一个Http“代理”，将请求转发至不同的场景。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/node-version-control-tool/&title=Node 版本控制工具 - Boo&summary="
           
           >
           
@@ -639,7 +658,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/444-errors-caused-by-a-server-firewall/&title=记一次服务端防火墙引起的 444 错误 - Boo&summary=这周接手一个需求，需要做一个Http“代理”，将请求转发至不同的场景。"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/node-version-control-tool/&title=Node 版本控制工具 - Boo&summary="
           
           >
           
@@ -653,7 +672,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADpUlEQVR42u3aQW7jQAwEQP//08kDAsNkk4npoOaWhSTPlPbQYOvxZUXrgQAcOHDgLHDgjsA9wvXs/h8/9OTfxwcoPvfVftvnBQcOHDhw4MCBOwaXbvgVaPe6V7+bvsC184IDBw4cOHDgwB2Fq25wK5hOg3MXcnpecODAgQMHDhy4/wL36voqSApYHUCCAwcOHDhw4MCByw7y6ve2gvH2iwcHDhw4cODAgfsUuG5B2wXZCrJbL+ptTT44cODAgQMHDtwSXHelYFf+js8LDhw4cODAgQN3BG66qgGzGmi7z0kHnvF5wYEDBw4cOHDgjsBVC+HtILw9KO0OTKvPj5t8cODAgQMHDhy4P4LrBtQpSHqAbvDd+sAQHDhw4MCBAwfuU+G6Afi3Bp9bA9H4OnDgwIEDBw4cuCNw0yI5DZjpADT98HGryAYHDhw4cODAgbsClxbSaYCeDhK7II+lBQ4cOHDgwIEDdxVuq5Cebny7WE7Bnz4fHDhw4MCBAwfuCFwaMNNieloQTwef6YeI4MCBAwcOHDhw1+G2guZ0YNkFSvfVDvzgwIEDBw4cOHBH4aaDv+r93cCbvqD1FwoOHDhw4MCBA3cErvpB3jboFDgdqE4HmuDAgQMHDhw4cFfhqhtKP9Dbgu0W2t0XDA4cOHDgwIED96lwX+FKi+MpTLdYjwM0OHDgwIEDBw7cUbjpoHEaSNPrtgaVL+8DBw4cOHDgwIE7BrcdMLeK7fTAU6Cn14EDBw4cOHDgwB2D2x44dmHToFwdQKZQ4MCBAwcOHDhwV+G6B9060LSIrgbj7f8Y4MCBAwcOHDhwV+C6AfJdA8ntYjsevIIDBw4cOHDgwB2BqwbN7gCyG3S3BpJdwOq+wYEDBw4cOHDgrsI9mmuruE6D6FYBvT4BBgcOHDhw4MCB+yO47cFgF2ZaQG+9wPJ+wIEDBw4cOHDgjsB1H5AWutNCON3XtCgvT4DBgQMHDhw4cODeDNdd3aI6Dc7Twera/sGBAwcOHDhw4I7APcJV3WD3YNPn//rf4MCBAwcOHDhwx+CmgbcbbLfvT4vv9gsHBw4cOHDgwIE7ClcNvFWI7kGnINvFNDhw4MCBAwcO3H+FS4vhrfu2BqXjQSY4cODAgQMHDtyHw6XQaaDtDkjT54EDBw4cOHDgwF2H6xbAaaCdXjcttKuw4MCBAwcOHDhw1+GmxW13w9P7p8V5HOjBgQMHDhw4cOCOwFm9BQ4cOHDgLHDg3ry+AdBQ/FNy8EtFAAAAAElFTkSuQmCC">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAAC9ElEQVR42u3aQW7DQAgFUN//0u0B2srDB0chfbOLqjjw3MUXzPXl/HouBGDAgAEDBswamCs8Px54+Pc/Czr8vWod1X7AgAEDBgwYMPtgjgPQYYN3n0/B70DuPlf7AQMGDBgwYMDshTkNWHeFpIEwDZZj/YABAwYMGDBg/h1MGti6QQ0MGDBgwIABA2YKpruIS4MdGDBgwIABAwZMN1Cdfn/qolB1IfiyTSQYMGDAgAED5mUw1ZMOnF71Oe4HDBgwYMCAAbMGpnumLgY9HSyP+wEDBgwYMGDArIFJA9LpIKq7eOu+kHL9YMCAAQMGDJg1MNUHTxV4+mJOn5sGy+NBFRgwYMCAAQNmHczThaUXjdIgeNsfGDBgwIABA2YtzBRAWmAczMIXUr44BAYMGDBgwIBZB1NtvAvSHaTFgRIMGDBgwIABswamW2gaEKsXfboLwOPABwYMGDBgwIBZA5MGrCmwNDimL+D298CAAQMGDBgwa2CmBj1TF4HShd9YH2DAgAEDBgyYtTDdizfVYFYOYOGFoeM6wIABAwYMGDBrYZ4ObtVG04AXPxcMGDBgwIABswYmDUTVQroDsO4FpON/BDBgwIABAwbMWpj0ItDUgCodZF3hAQMGDBgwYMDshUkHS2nhabDsLuKO6wEDBgwYMGDArIOpFjzd0LtAgwEDBgwYMGD2w1QbmFqcpYOy7sUiMGDAgAEDBsznw6SFTg/GpoDAgAEDBgwYMJ8Dky6qpgdf3cVa+oLAgAEDBgwYMHtgpgdF1YHWdGOnkLcLNzBgwIABAwbM28Nc4ZkaWKWNdC8cHQ+qwIABAwYMGDBvD1MNdN3BVfV56YsqQ4IBAwYMGDBg1sI8FaCeHjxVg+njF4fAgAEDBgwYMGtgnl64VV9Q+qLAgAEDBgwYMP8XplpYd0DVDXQvC3hgwIABAwYMmMdhqgu3dBE3BZIGSDBgwIABAwbM58B0g9NUkEvBuos7MGDAgAEDBsw+GAcMGDBgwIABs+x8A5M75f+ESuvBAAAAAElFTkSuQmCC">
           </div>
         </div>
       
@@ -673,21 +692,13 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/how-to-customize-sorting-in-mysql/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Mysql 如何自定义排序</p>
-                <p class='content'>在Mysql 中，想要对结果进行排序，通常会使用Order By 子句，使用时，应注意以下几点：
-
-在Order By 子句中，使用 ASC 或 DESC 关键字来设置查询结果是按升序或降序排列...</p>
-              </a>
             
-            
-              <a class='next' href='/how-to-use-rabbitmq-in-laravel/'>
-                <p class='title'>如何在 Laravel 中使用 RabbitMQ<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>这篇笔记用来记录如何在Laravel 中使用RabbitMQ。
+              <a class='next' href='/the-classic-operation-scene-of-git-is-organized/'>
+                <p class='title'>Git 经典操作场景整理，专治不会合代码<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>
+原文链接：https://mp.weixin.qq.com/s/oY6D5E3h5K36aMJQ6AZlVQ
 
-
-Laravel 自带了那么多队列，为什么还要使用其他队列？
-这是因为Laravel 的队列，通常是基于Redis、Databa...</p>
+git 对于大家应该都不太陌生，熟练使用 git 已经成为程序员的一项基本技能，...</p>
               </a>
             
           </div>
@@ -732,7 +743,7 @@ Laravel 自带了那么多队列，为什么还要使用其他队列？
 
   <script>
     window.subData = {
-      title: '记一次服务端防火墙引起的 444 错误',
+      title: 'Node 版本控制工具',
       tools: true
     }
   </script>
@@ -748,6 +759,20 @@ Laravel 自带了那么多队列，为什么还要使用其他队列？
     
 
 
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#n"><span class="toc-text">n</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#版本切换"><span class="toc-text">版本切换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装某个版本"><span class="toc-text">安装某个版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装最新版本"><span class="toc-text">安装最新版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装稳定版本"><span class="toc-text">安装稳定版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除某个版本"><span class="toc-text">删除某个版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#指定某个版本来执行文件"><span class="toc-text">指定某个版本来执行文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nvm"><span class="toc-text">nvm</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装-1"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#版本切换-1"><span class="toc-text">版本切换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看正在使用的版本"><span class="toc-text">查看正在使用的版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看当前已经安装的版本"><span class="toc-text">查看当前已经安装的版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#指定某个版本来执行文件-1"><span class="toc-text">指定某个版本来执行文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他命令"><span class="toc-text">其他命令</span></a></li></ol></li></ol>
+    </div>
+  </section>
 
 
   
