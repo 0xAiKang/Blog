@@ -7,6 +7,8 @@ categories: ["Node"]
 
 主流的 Node.js 版本管理工具有 n 和 nvm，两者都是使用 shell 脚本实现，本文会逐一介绍。
 
+<!-- more -->
+
 ## n
 [n](https://github.com/tj/n) 是Node的一个模块，作者是TJ Holowaychuk（鼎鼎大名的[Express]框架作者），就像它的名字一样，它的理念就是简单。
 
