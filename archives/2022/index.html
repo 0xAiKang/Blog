@@ -399,6 +399,118 @@
         
           
   <h2 class="title">
+    <a href="/how-mysql-restores-specified-table-data-from-full-backup/">
+      Mysql 如何从全备中恢复指定表数据
+    </a>
+  </h2>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Mysql/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Mysql</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Apr 9, 2022</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>539 words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>2 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>备份数据库是常有的需求，通常是整库备份，整库还原。<br>但如果只想还原其中部分数据表，该怎么做呢？</p>
+      
+    </div>
+    
+      
+        <div class="button readmore">
+          <a href="/how-mysql-restores-specified-table-data-from-full-backup/">
+            阅读全文 <i class="fas fa-chevron-right"></i>
+          </a>
+        </div>
+      
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow reveal ">
+  
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h2 class="title">
     <a href="/node-version-control-tool/">
       Node 版本控制工具
     </a>
@@ -480,62 +592,15 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>主流的 Node.js 版本管理工具有 n 和 nvm，两者都是使用 shell 脚本实现，本文会逐一介绍。</p>
-<h2 id="n"><a href="#n" class="headerlink" title="n"></a>n</h2><p><a href="https://github.com/tj/n" target="_blank" rel="noopener">n</a> 是Node的一个模块，作者是TJ Holowaychuk（鼎鼎大名的[Express]框架作者），就像它的名字一样，它的理念就是简单。</p>
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo npm install -g n</span><br></pre></td></tr></table></figure>
-
-<h3 id="版本切换"><a href="#版本切换" class="headerlink" title="版本切换"></a>版本切换</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">n x.x.x</span><br></pre></td></tr></table></figure>
-
-<h3 id="安装某个版本"><a href="#安装某个版本" class="headerlink" title="安装某个版本"></a>安装某个版本</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">n x.x.x</span><br></pre></td></tr></table></figure>
-
-<h3 id="安装最新版本"><a href="#安装最新版本" class="headerlink" title="安装最新版本"></a>安装最新版本</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">n latest</span><br></pre></td></tr></table></figure>
-
-<h3 id="安装稳定版本"><a href="#安装稳定版本" class="headerlink" title="安装稳定版本"></a>安装稳定版本</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">n stable</span><br></pre></td></tr></table></figure>
-
-<h3 id="删除某个版本"><a href="#删除某个版本" class="headerlink" title="删除某个版本"></a>删除某个版本</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">n rm x.x.x</span><br></pre></td></tr></table></figure>
-
-<h3 id="指定某个版本来执行文件"><a href="#指定某个版本来执行文件" class="headerlink" title="指定某个版本来执行文件"></a>指定某个版本来执行文件</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">n user x.x.x some.js</span><br></pre></td></tr></table></figure>
-
-<h2 id="nvm"><a href="#nvm" class="headerlink" title="nvm"></a>nvm</h2><p><a href="https://github.com/nvm-sh/nvm" target="_blank" rel="noopener">nvm</a> 全称Node Version Manager。</p>
-<h3 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h3><p>nvm 项目提供了一个 install.sh 脚本帮助用户快速安装，可以使用 cURL 或 Wget 等工具下载。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash</span><br></pre></td></tr></table></figure>
-
-<p>或者</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash</span><br></pre></td></tr></table></figure>
-
-<p>运行上面命令中的任意一条，就会下载并运行 v0.39.1 版本的 nvm，默认安装位置为 <del>/.nvm，并会在一些配置文件中添加如下代码片段，例如 ~/.bash_profile、</del>/.zshrc、~/.profile 或 ~/.bashrc。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> NVM_DIR=<span class="string">"([ -z "</span>&#123;XDG_CONFIG_HOME-&#125;<span class="string">" ] &amp;&amp; printf %s "</span>&#123;HOME&#125;/.nvm<span class="string">" || printf %s "</span>&#123;XDG_CONFIG_HOME&#125;/nvm<span class="string">")"</span></span><br><span class="line">[ -s <span class="string">"NVM_DIR/nvm.sh"</span> ] &amp;&amp; \. <span class="string">"NVM_DIR/nvm.sh"</span> <span class="comment"># This loads nvm</span></span><br></pre></td></tr></table></figure>
-
-<p>下载、编译和安装 node 的最新版本：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm install node  <span class="comment"># "node" 是最新版本的别名</span></span><br></pre></td></tr></table></figure>
-
-<p>也可以指定安装版本，例如 v14.17.4</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm install 14.17.4</span><br></pre></td></tr></table></figure>
-
-<p>如果不知道哪些版本可以正常使用，可以先列出所有可用版本：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm ls-remote</span><br></pre></td></tr></table></figure>
-
-<h3 id="版本切换-1"><a href="#版本切换-1" class="headerlink" title="版本切换"></a>版本切换</h3><p>使用指定版本：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm use 14.17.4</span><br></pre></td></tr></table></figure>
-
-<p>需要注意的是这个只是临时使用该版本，当环境发生变化之后，node 又会恢复之前的版本。</p>
-<h3 id="查看正在使用的版本"><a href="#查看正在使用的版本" class="headerlink" title="查看正在使用的版本"></a>查看正在使用的版本</h3><p>查看当前所使用的 node 版本：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm current</span><br></pre></td></tr></table></figure>
-
-<h3 id="查看当前已经安装的版本"><a href="#查看当前已经安装的版本" class="headerlink" title="查看当前已经安装的版本"></a>查看当前已经安装的版本</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm ls</span><br></pre></td></tr></table></figure>
-
-<h3 id="指定某个版本来执行文件-1"><a href="#指定某个版本来执行文件-1" class="headerlink" title="指定某个版本来执行文件"></a>指定某个版本来执行文件</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm run x.x.x some.js</span><br></pre></td></tr></table></figure>
-
-<h3 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h3><p>如何使得某个版本变为默认版本：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm <span class="built_in">alias</span> default v14.17.4</span><br></pre></td></tr></table></figure>
-
-<p>获取对应版本的安装路径：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm <span class="built_in">which</span> 14.17.4</span><br></pre></td></tr></table></figure>
-
-<p>需要注意的是，npm 的版本切换，没有具体的命令，只要控制 node 版本就行，npm 版本会随之变化。</p>
-
       
     </div>
     
+      
+        <div class="button readmore">
+          <a href="/node-version-control-tool/">
+            阅读全文 <i class="fas fa-chevron-right"></i>
+          </a>
+        </div>
       
     
   </section>
@@ -1448,125 +1513,24 @@
           </div>
         
       
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
-  
-
-
-  <section class='meta'>
     
-      
-      
-      <div class="meta" id="header-meta">
-        
-          
-  <h2 class="title">
-    <a href="/PECL-extension-library-installation/">
-      PECL 扩展库安装
-    </a>
-  </h2>
-
-
-        
-        <div class='new-meta-box'>
-          
-            
-          
-            
-              
-<div class='new-meta-item author'>
-  <a href="https://www.0x2BeAce.com" rel="nofollow">
-    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
-    <p>Boo</p>
-  </a>
-</div>
-
-            
-          
-            
-              
+  </section>
   
-  <div class='new-meta-item category'>
-    <a href='/categories/PHP/' rel="nofollow">
-      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>PHP</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Feb 12, 2022</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-  <div class="new-meta-item wordcount">
-    <a class='notlink'>
-      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>355 words</p>
-    </a>
-  </div>
-  <div class="new-meta-item readtime">
-    <a class='notlink'>
-      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>1 min</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              
-
-            
-          
-        </div>
+    
+      <br>
+      <div class="prev-next">
         
-          <hr>
+        <p class="current">
+          1 / 2
+        </p>
+        
+          <a class="next" rel="next" href="/archives/2022/page/2/">
+            <section class="post next white-box shadow">
+              &nbsp;Next&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i>
+            </section>
+          </a>
         
       </div>
-    
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="PECL-扩展库安装"><a href="#PECL-扩展库安装" class="headerlink" title="PECL 扩展库安装"></a>PECL 扩展库安装</h1><p>通常安装 PHP 扩展，有两种方式：</p>
-<ol>
-<li>源码编译安装</li>
-<li>通过  pecl 命令一键安装</li>
-</ol>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/PECL-extension-library-installation/">
-            阅读全文 <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-    
-  </section>
-  
     
     <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
     
@@ -1764,7 +1728,7 @@
           <li><a class="flat-box"
             title="/categories/Mysql/" href="/categories/Mysql/"
             id="categoriesMysql"
-            ><div class='name'>Mysql</div><div class='badge'>(23)</div></a></li>
+            ><div class='name'>Mysql</div><div class='badge'>(24)</div></a></li>
         
           <li><a class="flat-box"
             title="/categories/Nginx/" href="/categories/Nginx/"
