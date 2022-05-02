@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>git 设置和取消代理</title>
+      <link href="/git-set-and-cancel-proxy/"/>
+      <url>/git-set-and-cancel-proxy/</url>
+      
+        <content type="html"><![CDATA[<p>在使用 Git 时，经常会需要克隆仓库，有时候是国内的仓库，有时候是国外的仓库，如果直接强制让终端走代理，那么当克隆国内仓库时，速度可能特别慢。</p><p>这个时候其实可以只针对部分域名进行代理设置，而其他域名则不用走代理。</p><a id="more"></a><h3 id="https-代理"><a href="#https-代理" class="headerlink" title="https 代理"></a>https 代理</h3><p>针对所有 https 请求生效：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global https.proxy https://127.0.0.1:1080</span><br></pre></td></tr></table></figure><p>取消设置代理：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global --<span class="built_in">unset</span> https.proxy</span><br></pre></td></tr></table></figure><p>只针对 <code>github.com</code> 生效</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.https://github.com.proxy socks5://127.0.0.1:1080</span><br></pre></td></tr></table></figure><p>取消设置代理</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global --<span class="built_in">unset</span> http.https://github.com.proxy</span><br></pre></td></tr></table></figure><h3 id="ssh-代理"><a href="#ssh-代理" class="headerlink" title="ssh 代理"></a>ssh 代理</h3><p>需要修改 <code>~/.ssh/config</code>文件，如果没有，新建一个。</p><p>macOS 下，同样仅为 <code>github.com</code> 设置代理：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">    User git</span><br><span class="line">    ProxyCommand nc -v -x 127.0.0.1:1086 %h %p</span><br></pre></td></tr></table></figure><p>如果是在 Windows 下，设置代理命令会有所不同：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">    User git</span><br><span class="line">    ProxyCommand connect -S 127.0.0.1:1086 %h %p</span><br></pre></td></tr></table></figure><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul><li><a href="https://gist.github.com/laispace/666dd7b27e9116faece6" target="_blank" rel="noopener">git 设置和取消代理</a></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> Git </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Git </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Mysql Too many connections 异常记录</title>
       <link href="/mysql-too-many-connections-exception-record/"/>
       <url>/mysql-too-many-connections-exception-record/</url>
