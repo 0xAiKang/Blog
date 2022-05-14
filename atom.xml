@@ -6,7 +6,7 @@
   <link href="https://www.0x2beace.com/atom.xml" rel="self"/>
   
   <link href="https://www.0x2beace.com/"/>
-  <updated>2022-05-09T15:00:01.398Z</updated>
+  <updated>2022-05-14T08:59:02.556Z</updated>
   <id>https://www.0x2beace.com/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>记录一次网站无法访问事件</title>
+    <link href="https://www.0x2beace.com/log-a-website-inaccessible-event/"/>
+    <id>https://www.0x2beace.com/log-a-website-inaccessible-event/</id>
+    <published>2022-05-14T08:53:29.000Z</published>
+    <updated>2022-05-14T08:59:02.556Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近经历了一次大面积网站无法访问事件，过程比较魔幻，记录一下。</p><a id="more"></a><p>五月十二日晚上六点半，刚刚上线了一个版本，今天是自己生日，提前预定了一个蛋糕，准备下班了。</p><p>收拾好桌面，左脚都已经离开工位了，突然被同事叫住，被告知网站怎么打不开了，我想都没想就说，你确定吗？我刚刚都还打开过。</p><p>他表情凝重的告诉我，是真的。</p><p>于是我熟练地打开相关客户端，只见满屏的“网络异常”，此时我才意识到可能是真的出大问题了。</p><p>因为两分钟前，我刚上线了一个版本，所以第一时间我以为是是不是我误操作了什么造成的，一下子就慌了。</p><p>WebService、站点、DB依次过了一遍相关的日志，没有发现任何异常，此刻我更不安了，因为找不到问题的问题，往往是最难解决的。</p><p>同一个服务器下面的其他站点都是正常的，慌乱之中，有想过是否是域名过期了，排查之后发现域名并没有过期。</p><p>在经过长达半个小时的排查之后，发现竟然是网站没有备案，导致整个站点被停了…</p><p>有些事情往往就是这么巧。</p><p>为了避免以后再次遇到类似的问题，整理一下网站无法访问的常见排查思路。</p><h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>网站的访问与域名的状态、域名实名认证状态、网站备案状态、解析是否生效、网站网络环境等多个环节有关系。在这些环节中，任意一个环节出现问题，都会导致网站无法访问。</p><h2 id="排查思路"><a href="#排查思路" class="headerlink" title="排查思路"></a>排查思路</h2><ul><li>查询域名注册信息：检查域名是否过期、状态是否正常</li><li>查看域名解析是否生效：检查域名解析是否生效</li><li>查看域名解析配置：检查域名解析配置是否正确</li><li>查看域名备案状态：对于部署在中国大陆区域的网站，检查是否通过备案审核</li><li>查看网站配置：检查网站本地网络环境、网站服务器配置是否正常</li><li>提交工单</li></ul><h2 id="查询域名注册信息"><a href="#查询域名注册信息" class="headerlink" title="查询域名注册信息"></a>查询域名注册信息</h2><p>通常通过 whois 平台，可以查询域名的注册商、注册周期、状态、DNS服务器等注册信息。</p><p>通过这些信息可以快速判断，网站无法访问是否与域名有关。</p><p>常用 whois 查询平台：</p><ul><li><a href="https://whois.chinaz.com" target="_blank" rel="noopener">whois查询——站长之家</a></li><li><a href="https://whois.aliyun.com" target="_blank" rel="noopener">whois查询——中国万网</a></li><li><a href="https://www.huaweicloud.com/whois/index.html" target="_blank" rel="noopener">whois查询——华为云</a></li><li><a href="https://www.alibabacloud.com/zh/whois" target="_blank" rel="noopener">whois查询——阿里云</a></li></ul><h2 id="查看域名解析是否生效"><a href="#查看域名解析是否生效" class="headerlink" title="查看域名解析是否生效"></a>查看域名解析是否生效</h2><p>通过域名成功访问网站的其中一个条件是，域名到IP地址的解析生效。因此，检查域名解析是否成功，是必不可少的一步。</p><p>使用查询命令检测是否生效</p><ul><li>ping</li><li>nslookup</li></ul><h2 id="查看域名解析配置"><a href="#查看域名解析配置" class="headerlink" title="查看域名解析配置"></a>查看域名解析配置</h2><p>解析记录配置错误会导致无法将域名解析到正确的IP地址，从而导致网站无法访问。</p><p>这一步往往需要登录到对应的服务器的控制台进行查看，此处就跳过了。</p><h2 id="查看域名备案状态"><a href="#查看域名备案状态" class="headerlink" title="查看域名备案状态"></a>查看域名备案状态</h2><p>对于服务器部署在中国大陆区域的网站，如果未进行备案，或者备案审核未通过，则会导致网站访问网站被阻断。</p><p>常用备案查询平台：</p><ul><li><a href="https://beian.miit.gov.cn/#/Integrated/index" target="_blank" rel="noopener">ICP/IP地址/域名信息备案</a></li><li><a href="https://icp.chinaz.com" target="_blank" rel="noopener">网站备案查询——站长工具</a></li><li><a href="https://www.beianx.cn" target="_blank" rel="noopener">ICP备案查询网</a></li></ul><h2 id="查看网站配置"><a href="#查看网站配置" class="headerlink" title="查看网站配置"></a>查看网站配置</h2><p>若域名状态正常、解析生效、网站备案审核通过，网站仍然无法访问，需要进一步查看网站的本地网络以及网站的服务器配置。</p><p>这一步则是检查是否是因为服务器自身原因而导致不可用，原因较多，这里只列举几个常见的方向：</p><ol><li>被防火墙拦截</li><li>Web Service异常</li><li>本地网络故障</li><li>等</li></ol><h2 id="提交工单"><a href="#提交工单" class="headerlink" title="提交工单"></a>提交工单</h2><p>如果上述检查全部没有问题，网站仍然无法访问，可以尝试联系对应的服务商，通过提交工单寻求帮助。</p><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul><li><a href="https://support.huaweicloud.com/dns_faq/dns_faq_140401.html" target="_blank" rel="noopener">网站无法访问排查思路</a></li><li><a href="https://support.huaweicloud.com/dns_faq/dns_faq_015.html" target="_blank" rel="noopener">怎样测试域名解析是否生效？</a></li></ul>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;最近经历了一次大面积网站无法访问事件，过程比较魔幻，记录一下。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="一些经验" scheme="https://www.0x2beace.com/categories/%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C/"/>
+    
+    
+    <category term="一些经验" scheme="https://www.0x2beace.com/tags/%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C/"/>
+    
+  </entry>
   
   <entry>
     <title>C 语言学习笔记</title>
