@@ -6,7 +6,7 @@
   <link href="https://www.0x2beace.com/atom.xml" rel="self"/>
   
   <link href="https://www.0x2beace.com/"/>
-  <updated>2022-05-15T08:31:12.280Z</updated>
+  <updated>2022-05-22T08:43:26.803Z</updated>
   <id>https://www.0x2beace.com/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>为什么域名解析成功，网站仍无法访问</title>
+    <link href="https://www.0x2beace.com/successful-domain-name-analysis-domain-name-lawless-question/"/>
+    <id>https://www.0x2beace.com/successful-domain-name-analysis-domain-name-lawless-question/</id>
+    <published>2022-05-22T08:42:08.000Z</published>
+    <updated>2022-05-22T08:43:26.803Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近总是收到反馈，哪个站点又双叒叕打不开了。我找到对应的站点，按下回车，却又可以正常访问。</p><a id="more"></a><p>这篇文章就来整理一下，为什么同一个网站，有些地方可以访问，有一些地方又无法访问。</p><h2 id="一次完整的请求"><a href="#一次完整的请求" class="headerlink" title="一次完整的请求"></a>一次完整的请求</h2><p>在回答上面的问题之前，我们来看一下完整的网络请求大概需要经历哪些过程。</p><p>成功访问网站包含以下两个阶段，这两个阶段缺一不可，需要同时成功才能正常访问网站，如下图所示：</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220514163057.png" alt=""></p><h3 id="阶段一"><a href="#阶段一" class="headerlink" title="阶段一"></a>阶段一</h3><p>DNS根据访问请求中的域名解析出对应的IP地址并返回解析结果。</p><p>在此阶段，出现如下情况将导致网站无法访问：</p><ol><li>域名解析不成功：无法返回解析结果，可参考<a href="https://www.0x2beace.com/what-are-the-reasons-why-the-domain-name-resolution-does-not-take-effect/">域名解析不生效有哪些原因</a>？进行处理。</li><li>域名未进行实名认证：找到对应的服务商进行认证</li></ol><h3 id="阶段二"><a href="#阶段二" class="headerlink" title="阶段二"></a>阶段二</h3><p>访问网站服务器IP获取网站内容。</p><p>在此阶段，出现如下情况，即使DNS成功解析域名的IP地址，网站仍然无法访问：</p><ol><li>网站服务器不可用：服务器不用可的原因就很多了，此处就不详细展开了 </li><li>网站服务器域名及IP地址未备案</li></ol><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>说了这么多，为什么我可以访问？而他们访问不了？</p><p>我能正常访问，他们切换成数据也能正常访问，足以说明网站是正常的。</p><p>他们使用 WIFI 访问不了，很可能就是 DNS 没有正常解析出来对应的IP地址。<br>而解析不成功的原因就有很多了：</p><ul><li>本地网络故障（他们可以访问其他网站，所以可以排除）</li><li>云解析服务器的解析记录异常（我能正常访问，所以也排除）</li><li>域名未通过实名认证（域名能查到备案记录，所以也排除）</li><li>域名解析记录在DNS被修改或者不稳定（通常来说，如果上面都是正常的，那就只有这个原因了）</li></ul><p>这时可以选择手动设置 DNS，从而避免运营商自动获取 DNS 不稳定等问题。</p><p>不同操作系统设置方式不一样，具体步骤可以自行百度。</p><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul><li><a href="https://support.huaweicloud.com/dns_faq/dns_faq_038.html" target="_blank" rel="noopener">为什么域名解析成功但网站仍然无法访问？</a></li><li><a href="https://support.huaweicloud.com/dns_faq/dns_faq_003.html" target="_blank" rel="noopener">解析不生效有哪些原因？</a></li><li><a href="https://www.dns.com/supports/446.html" target="_blank" rel="noopener">为什么网站有些地区无法访问?</a></li></ul>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;最近总是收到反馈，哪个站点又双叒叕打不开了。我找到对应的站点，按下回车，却又可以正常访问。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="一些经验" scheme="https://www.0x2beace.com/categories/%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C/"/>
+    
+    
+    <category term="一些经验" scheme="https://www.0x2beace.com/tags/%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C/"/>
+    
+  </entry>
   
   <entry>
     <title>域名解析不生效有哪些原因</title>
