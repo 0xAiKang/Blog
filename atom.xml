@@ -6,7 +6,7 @@
   <link href="https://www.0x2beace.com/atom.xml" rel="self"/>
   
   <link href="https://www.0x2beace.com/"/>
-  <updated>2022-05-22T09:07:08.743Z</updated>
+  <updated>2022-05-24T14:34:35.434Z</updated>
   <id>https://www.0x2beace.com/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>数据结构（一）基本概念</title>
+    <link href="https://www.0x2beace.com/data-structure-1-basic-concepts/"/>
+    <id>https://www.0x2beace.com/data-structure-1-basic-concepts/</id>
+    <published>2022-05-24T14:32:43.000Z</published>
+    <updated>2022-05-24T14:34:35.434Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>在计算机科学中，数据结构（英语：data structure）是计算机中存储、组织数据的方式。<br>——<a href="https://zh.wikipedia.org/wiki/数据结构" target="_blank" rel="noopener">维基百科</a></p></blockquote><a id="more"></a><p>数据结构是一种具有一定逻辑关系，在计算机中应用某种存储结构，并且封装了相应操作的数据元素集合。</p><p>它包含三方面的内容，逻辑关系、存储关系及操作。</p><h2 id="逻辑结构"><a href="#逻辑结构" class="headerlink" title="逻辑结构"></a>逻辑结构</h2><p>逻辑结构是指数据元素之间的逻辑关系，即从逻辑关系上描述数据。它与数据的存储无关，是独立于计算机的</p><p>数据的逻辑结构分为线性结构和非线性结构</p><ol><li>集合结构（元素同属于一个集合，元素之间不存在任何关系）</li><li>线性结构（元素只存在一对一的关系）</li><li>树形结构（元素之间存在一种一对多的层次关系）</li><li>图形结构（元素之间存在多对多的关系）</li></ol><h2 id="存储结构"><a href="#存储结构" class="headerlink" title="存储结构"></a>存储结构</h2><p>存储结构是指数据结构在计算机中的表示（又称映像），也称物理结构。它包括数据元素的表示和关系的表示。数据的存储结构是逻辑结构用计算机语言的实现，它依赖于计算机语言。数据的存储结构主要有：顺序存储、链式存储、索引存储和散列存储。</p><p>存储结构可以分为两类：</p><ul><li>顺序存储：存储的物理位置相邻。（p.s. 物理位置即信息在计算机中的位置。）</li><li>链式存储：存储的物理位置未必相邻，通过记录相邻元素的物理位置来找到相邻元素。</li><li>索引存储：类似于目录。</li><li>散列存储：通过关键字直接计算出元素的物理地址。</li></ul><p>C 语言实现顺序存储：</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> arr[<span class="number">6</span>] = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>&#125;;  <span class="comment">// 定义数组并初始化</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d \n"</span>, arr[<span class="number">3</span>]);</span><br></pre></td></tr></table></figure><p>顺序结构的优点：</p><ol><li>充分利用所有的存储单元，不会出现碎片现象</li></ol><p>缺点：</p><ol><li>需要额外空间用来存放下一结点的指针</li><li>只能实现顺序存储</li></ol><p>C 语言实现链式存储：</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">Lnode</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    Element data;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">Lnode</span> *<span class="title">next</span>;</span></span><br><span class="line">&#125;Lnode, *LinkList;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义一个指针</span></span><br><span class="line">Lnode *L;</span><br><span class="line">L = (LinkList)<span class="built_in">malloc</span>(sizfof(Lnode));</span><br><span class="line">A-&gt;next = B;</span><br><span class="line">B-&gt;next = C;</span><br></pre></td></tr></table></figure><p>链式结构的优点：</p><ol><li>可以实现随机存取</li><li>每个元素占用最少的空间</li></ol><p>缺点：</p><ol><li>只能使用整块的存储单元，会产生较多的碎片</li></ol><p>在上面的例子中，A 只知道 B 的地址，B 只知道 C 的地址，A 不能直接访问到 C，因为它不知道 C 的地址。</p><p>这就是链式结构只能实现顺序存储的原因。</p><h2 id="常用算法"><a href="#常用算法" class="headerlink" title="常用算法"></a>常用算法</h2><p>数据结构研究的内容，就是如何按一定的逻辑结构（线性结构还是树形结构），把数据组织起来，并选择适当的存储结构（顺序存储还是链式存储）把逻辑结构组织好的数据存储到计算机的储存器里。</p><p>算法研究的目的是为了更有效的处理数据，提高数据运算效率。数据的运算是定义在数据的逻辑结构上，但运算的具体实现要在存储结构上进行。一般有以下几种常用运算：</p><ul><li>检索：检索就是在数据结构里查找满足一定条件的节点。一般是给定一个某字段的值，找具有该字段值的节点。</li><li>插入：往数据结构中增加新的节点。</li><li>删除：把指定的结点从数据结构中去掉。</li><li>更新：改变指定节点的一个或多个字段的值。</li><li>排序：把节点按某种指定的顺序重新排列。例如递增或递减。</li></ul>]]></content>
+    
+    
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;在计算机科学中，数据结构（英语：data structure）是计算机中存储、组织数据的方式。&lt;br&gt;——&lt;a href=&quot;https://zh.wikipedia.org/wiki/数据结构&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;维基百科&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;</summary>
+    
+    
+    
+    <category term="数据结构" scheme="https://www.0x2beace.com/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    
+    
+    <category term="数据结构" scheme="https://www.0x2beace.com/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    
+  </entry>
   
   <entry>
     <title>02 日志系统：一条SQL更新语句是如何执行的</title>
