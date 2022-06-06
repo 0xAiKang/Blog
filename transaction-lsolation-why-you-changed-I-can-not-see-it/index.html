@@ -433,13 +433,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1.2k words</p>
+      <p>1.4k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>4 min</p>
+      <p>5 min</p>
     </a>
   </div>
 
@@ -489,16 +489,16 @@
 <h2 id="隔离性与隔离级别"><a href="#隔离性与隔离级别" class="headerlink" title="隔离性与隔离级别"></a>隔离性与隔离级别</h2><p>提到事务，就离不开 ACID(Atomicity、Consistency、Isolation、Durability，即原子性、一致性、隔离性、持久性)，今天来说说其中 I，也就是“隔离性”。</p>
 <p>当数据库上有多个事务同时执行的时候，就可能出现：</p>
 <ul>
-<li>脏读(dirty read)</li>
-<li>不可重复读 (non-repeatable read)</li>
-<li>幻读(phantom read)</li>
+<li>脏读(dirty read)：一个事务正在对一条记录做修改，在这个事务完成并提交前，这条记录的数据就处于不一致状态；这时，另一个事务也来读取同一条记录，如果不加控制，第二个事务读取了这些“脏”数据，并据此做进一步的处理，就会产生未提交的数据依赖关系。这种现象被形象的叫作”脏读”。</li>
+<li>不可重复读 (non-repeatable read)：一个事务在读取某些数据后的某个时间，再次读取以前读过的数据，却发现其读出的数据已经发生了改变、或某些记录已经被删除了！这种现象就叫作“ 不可重复读”。</li>
+<li>幻读(phantom read)：一个事务按相同的查询条件重新读取以前检索过的数据，却发现其他事务插入了满足其查询条件的新数据，这种现象就称为“幻读”。</li>
 </ul>
 <p>为了解决上面这些问题，就有了“隔离级别”的概念，SQL 标准的事务隔离级别包括：</p>
 <ul>
-<li>读未提交：一个事务还没有提交时，它做的变更就能被别的事务所看到</li>
-<li>读提交：一个事务提交之后，它做的变更才会被其他事务所看到</li>
-<li>可重复读：一个事务执行过程中看到的数据，总是跟这个事务在启动时看到的数据是一致的</li>
-<li>串行化：对同一行记录，“写”会加“写锁”，“读”会加“读锁”。当出 现读写锁冲突的时候，后访问的事务必须等前一个事务执行完成，才能继续执行。</li>
+<li>读未提交（read uncommitted）：一个事务还没有提交时，它做的变更就能被别的事务所看到</li>
+<li>读提交（read committed）：一个事务提交之后，它做的变更才会被其他事务所看到</li>
+<li>读提交（read committed）：一个事务执行过程中看到的数据，总是跟这个事务在启动时看到的数据是一致的</li>
+<li>串行化（serializable）：对同一行记录，“写”会加“写锁”，“读”会加“读锁”。当出 现读写锁冲突的时候，后访问的事务必须等前一个事务执行完成，才能继续执行。</li>
 </ul>
 <p>这四种隔离级别下，并行性能依次降低，安全性依次提高。</p>
 <p>查看当前隔离级别：</p>
@@ -610,10 +610,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-06-01T22:56:52+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-06-05T19:28:23+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Jun 1, 2022</p>
+    <p>更新于：Jun 5, 2022</p>
   </a>
 </div>
 
@@ -715,6 +715,15 @@
         
         
           <div class="prev-next">
+            
+              <a class='prev' href='/introduction-to-the-index-part-2/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>05 深入浅出索引（下）</p>
+                <p class='content'>本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
+课程重点：
+
+覆盖索引优化，避免多次回表
+了解联合索引及最左前缀原则...</p>
+              </a>
             
             
               <a class='next' href='/introduction-to-the-index-part-1/'>
