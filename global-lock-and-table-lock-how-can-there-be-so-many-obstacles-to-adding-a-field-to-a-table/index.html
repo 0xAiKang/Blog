@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>06 全局锁和表锁：给表加个字段怎么有这么多阻碍 - Boo</title>
+  
+    <meta name="keywords" content="Mysql">
+  
+  
+    <meta name="description" content="本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
+课程重点：
+
+了解 Mysql 全局锁
+了解 Mysql 表级锁
+为什么给小表增加字段也会导致表锁
+">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Boo's Blog</p>
+    
+    
+      <p class="subtitle">Stay foolish, Stay hungry</p>
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/"
+                
+                
+                id="https:www0x2BeAcecom">
+                <i class='fas fa-book fa-fw'></i>博客
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/categories/"
+                
+                
+                id="https:www0x2BeAcecomcategories">
+                <i class='fas fa-rss fa-fw'></i>分类
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/tags/"
+                
+                
+                id="https:www0x2BeAcecomtags">
+                <i class='fas fa-play-circle fa-fw'></i>标签
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/archives/"
+                
+                  rel="external nofollow noopener noreferrer"
+                
+                
+                id="https:www0x2BeAcecomarchives">
+                <i class='fas fa-file-code fa-fw'></i>归档
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/about/"
+                
+                
+                id="https:www0x2BeAcecomabout">
+                <i class='fas fa-handshake fa-fw'></i>关于我
+              </a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/global-lock-and-table-lock-how-can-there-be-so-many-obstacles-to-adding-a-field-to-a-table/">
+      06 全局锁和表锁：给表加个字段怎么有这么多阻碍
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Mysql/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Mysql</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Jun 12, 2022</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>2k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>7 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/global-lock-and-table-lock-how-can-there-be-so-many-obstacles-to-adding-a-field-to-a-table/" class="leancloud_visitors" data-flag-title="06 全局锁和表锁：给表加个字段怎么有这么多阻碍">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>本文是基于 <a href="https://time.geekbang.org/column/intro/100020801" target="_blank" rel="noopener">极客时间——MySQL 实战 45 讲</a> 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。</p>
+<p>课程重点：</p>
+<ul>
+<li>了解 Mysql 全局锁</li>
+<li>了解 Mysql 表级锁</li>
+<li>为什么给小表增加字段也会导致表锁</li>
+</ul>
+<a id="more"></a>
+
+<h2 id="全局锁"><a href="#全局锁" class="headerlink" title="全局锁"></a>全局锁</h2><p>顾名思义，全局锁就是对整个数据库实例加锁。MySQL 提供了一个加全局读锁的方法，命令是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; Flush tables with read lock (FTWRL)</span><br></pre></td></tr></table></figure>
+
+<p>当你需要让整个库处于只读状态的时候，可 以使用这个命令，之后其他线程的以下语句会被阻塞:数据更新语句(数据的增删改)、数 据定义语句(包括建表、修改表结构等)和更新类事务的提交语句。</p>
+<p><strong>全局锁的典型使用场景是，做全库逻辑备份</strong>。也就是把整库每个表都 select 出来存成文本。</p>
+<blockquote>
+<p>为什么备份需要加锁呢？</p>
+</blockquote>
+<p>不加锁的话，备份系统备份的得到的库不是一个逻辑时间点，这个视图是逻辑不一致的。</p>
+<p>官方自带的逻辑备份工具是 mysqldump。当 mysqldump 使用参数–single-transaction 的时候，导数据之前就会启动一个事务，来确保拿到一致性视图。而由于 MVCC 的支持， 这个过程中数据是可以正常更新的。</p>
+<p>你一定在疑惑，有了这个功能，为什么还需要 FTWRL 呢?一致性读是好，但前提是引擎要 支持这个隔离级别。比如，对于 MyISAM 这种不支持事务的引擎，如果备份过程中有更 新，总是只能取到最新的数据，那么就破坏了备份的一致性。这时，我们就需要使用 FTWRL 命令了。</p>
+<p>所以，single-transaction 方法只适用于所有的表使用事务引擎的库。如果有的表使用了 不支持事务的引擎，那么备份就只能通过 FTWRL 方法。这往往是 DBA 要求业务开发人员 使用 InnoDB 替代 MyISAM 的原因之一。</p>
+<p>你也许会问，既然要全库只读，为什么不使用 set global readonly=true 的方式呢?确 实 readonly 方式也可以让全库进入只读状态，但我还是会建议你用 FTWRL 方式，主要有 两个原因:</p>
+<ul>
+<li>一是，在有些系统中，readonly 的值会被用来做其他逻辑，比如用来判断一个库是主库 还是备库。因此，修改 global 变量的方式影响面更大，我不建议你使用。</li>
+<li>二是，在异常处理机制上有差异。如果执行 FTWRL 命令之后由于客户端发生异常断开， 那么 MySQL 会自动释放这个全局锁，整个库回到可以正常更新的状态。而将整个库设 置为 readonly 之后，如果客户端发生异常，则数据库就会一直保持 readonly 状态，这 样会导致整个库长时间处于不可写状态，风险较高。</li>
+</ul>
+<p>业务的更新不只是增删改数据(DML)，还有可能是加字段等修改表结构的操作(DDL)。 不论是哪种方法，一个库被全局锁上以后，你要对里面任何一个表做加字段操作，都是会被 锁住的。</p>
+<h2 id="表级锁"><a href="#表级锁" class="headerlink" title="表级锁"></a>表级锁</h2><p>MySQL 里面表级别的锁有两种:一种是表锁，一种是元数据锁(meta data lock， MDL)。</p>
+<p>表锁的语法是 <strong>lock tables … read/write</strong>。与 FTWRL 类似，可以用 unlock tables 主动 释放锁，也可以在客户端断开的时候自动释放。需要注意，lock tables 语法除了会限制别 的线程的读写外，也限定了本线程接下来的操作对象。</p>
+<p>举个例子, 如果在某个线程 A 中执行 lock tables t1 read, t2 write; 这个语句，则其他线程 写 t1、读写 t2 的语句都会被阻塞。同时，线程 A 在执行 unlock tables 之前，也只能执 行读 t1、读写 t2 的操作。连写 t1 都不允许，自然也不能访问其他表。</p>
+<p>在还没有出现更细粒度的锁的时候，表锁是最常用的处理并发的方式。而对于 InnoDB 这 种支持行锁的引擎，一般不使用 lock tables 命令来控制并发，毕竟锁住整个表的影响面还 是太大。</p>
+<hr>
+<p><strong>另一类表级的锁是 MDL(metadata lock)</strong>。MDL 不需要显式使用，在访问一个表的时候 会被自动加上。MDL 的作用是，保证读写的正确性。你可以想象一下，如果一个查询正在 遍历一个表中的数据，而执行期间另一个线程对这个表结构做变更，删了一列，那么查询线 程拿到的结果跟表结构对不上，肯定是不行的。</p>
+<p>MDL 是MySQL 5.5版本引入的，当对一个表做增删改查操作的时候，加 MDL 读锁;当要对表做结构变更操作的时候，加 MDL 写锁。</p>
+<ul>
+<li>读锁之间不互斥，因此你可以有多个线程同时对一张表增删改查。</li>
+<li>读写锁、写锁之间是互斥的，用来保证变更表结构操作的安全性。也就是说，如果有两个<br>线程要同时给一个表加字段或者分别进行增删改查和加字段，那么其中一个要等另一个执行完才能开始执行。</li>
+</ul>
+<p>Mysql 5.6 之后，支持Online DDL，也就是不会堵塞增删改查。</p>
+<p>Online DDL的过程是这样的: </p>
+<ol>
+<li>拿MDL写锁</li>
+<li>降级成MDL读锁</li>
+<li>真正做DDL</li>
+<li>升级成MDL写锁</li>
+<li>释放MDL锁</li>
+</ol>
+<p>下面通过一个示例来说明，为什么有时候给小表增加字段也可能会导致整个表被锁住。</p>
+<p>这里的实验环境是 MySQL 5.7。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220612095232.png" alt=""></p>
+<p>从上图可以看到 session A 先启动，这时候会对表 t 加一个 MDL 读锁。由于 session B 需要 的也是 MDL 读锁，因此可以正常执行。</p>
+<p>需要注意的是，此时 session A 开启了事务，但是并没有释放。</p>
+<p>之后 session C 会被 blocked，是因为 session A 的 MDL 读锁还没有释放，而 session C 需要 MDL 写锁，因此只能被阻塞（阻塞原因就是前面提到的，MDL 读写锁是互斥的）。</p>
+<p>如果只有 session C 自己被阻塞还没什么关系，但是之后所有要在表 t 上新申请 MDL 读锁的请求也会被 session C 阻塞。前面我们说了，所有对表的增删改查操作都需要先申请 MDL 读锁，就都被锁住，等于<br>这个表现在完全不可读写了。</p>
+<p>如果某个表上的查询语句频繁，而且客户端有重试机制，也就是说超时后会再起一个新 session 再请求的话，这个库的线程很快就会爆满。</p>
+<p>事务中的 MDL 锁，在语句执行开始时申请，但是语句结束后并不会马上释放，<strong>MDL 需要等到整个事务提交后再释放</strong>。</p>
+<blockquote>
+<p>那么如何安全的给小表加字段呢？</p>
+</blockquote>
+<ul>
+<li>非热点表：解决长事务、慢查询占着 MDL 锁不释放的问题</li>
+<li>热点表：在 alter table 语句里面设定等待时间</li>
+</ul>
+<p>所以在做 DDL 操作之前，最好看一下是否有大事务的提交，或者慢查询存在，尽量避免与这些同时执行。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
+<li>备份整库时，需要加全局锁。有两种方式：FTWRL 和 mysqldump 的 -single-transaction。一个库被全局锁上以后，要对里面任何一个表做加字段操作，都是会被锁住的。</li>
+<li>表级锁有两种：表锁和 MDL。前者需要显式使用，后者则不需要，是系统默认加的。</li>
+<li><code>update table set is_enable = 1</code> 这个 SQL 语句，获取的还是行锁，只是是这个表的所有行。</li>
+<li>Mysql 5.6 以后支持 Online DDL，也就是对表做 DDL 操作，不会阻塞增删改查。</li>
+<li>不过做 DDL 操作之前，还是要看一下是否有长事务未提交，否则 DDL 操作会被阻塞。</li>
+</ol>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/global-lock-and-table-lock-how-can-there-be-so-many-obstacles-to-adding-a-field-to-a-table/>https://www.0x2beace.com/global-lock-and-table-lock-how-can-there-be-so-many-obstacles-to-adding-a-field-to-a-table/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-06-17T15:35:22+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Jun 17, 2022</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Mysql/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Mysql</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/global-lock-and-table-lock-how-can-there-be-so-many-obstacles-to-adding-a-field-to-a-table/&title=06 全局锁和表锁：给表加个字段怎么有这么多阻碍 - Boo&summary=本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
+课程重点：
+
+了解 Mysql 全局锁
+了解 Mysql 表级锁
+为什么给小表增加字段也会导致表锁
+"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/global-lock-and-table-lock-how-can-there-be-so-many-obstacles-to-adding-a-field-to-a-table/&title=06 全局锁和表锁：给表加个字段怎么有这么多阻碍 - Boo&summary=本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
+课程重点：
+
+了解 Mysql 全局锁
+了解 Mysql 表级锁
+为什么给小表增加字段也会导致表锁
+"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/global-lock-and-table-lock-how-can-there-be-so-many-obstacles-to-adding-a-field-to-a-table/&title=06 全局锁和表锁：给表加个字段怎么有这么多阻碍 - Boo&summary=本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
+课程重点：
+
+了解 Mysql 全局锁
+了解 Mysql 表级锁
+为什么给小表增加字段也会导致表锁
+"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,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">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/row-lock-merits-and-demerits-how-to-reduce-the-impact-of-row-locks-on-performance/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>07 行锁功过:怎么减少行锁对性能的影响</p>
+                <p class='content'>本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
+课程重点：
+
+了解 Mysql 的行锁
+理解两阶段锁协议
+了解死锁及...</p>
+              </a>
+            
+            
+              <a class='next' href='/common-usage-scenarios-of-eloquent-orm/'>
+                <p class='title'>Eloquent ORM 常见使用场景整理<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>以下实例，都是基于 Eloquent ORM，可以直接在 Laravel 下直接使用。
+
+
+场景一用户表增加了一个字段，因为项目中有许多指定部分列的查询，现在希望项目中所有查询用户信息的地方都可...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: '06 全局锁和表锁：给表加个字段怎么有这么多阻碍',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#全局锁"><span class="toc-text">全局锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#表级锁"><span class="toc-text">表级锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+      
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <span class="post-count">总字数：241.8k</span>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
+
+        <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+        
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?fbe826b92f6d49a0ebacf4d848bd3add";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+<script>
+  var now = new Date(); 
+  function createtime() {    
+      var grt= new Date("07/04/2020 14:12:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";     
+  } 
+setInterval("createtime()",250);
+</script>
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "Ki6kd5TUWoQyYKSErxehnRpc-MdYXbMMI",
+    appKey: "7pRBOKMw58Yo7EsUjHziIEY1",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>

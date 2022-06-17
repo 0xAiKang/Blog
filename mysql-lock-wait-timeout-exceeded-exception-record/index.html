@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>MySql Lock wait timeout exceeded 异常记录 - Boo</title>
+  
+    <meta name="keywords" content="Mysql">
+  
+  
+    <meta name="description" content="
+原文链接：MySql Lock wait timeout exceeded该如何处理？
+
+Mysql造成锁的情况有很多，下面我们就列举一些情况：
+
+执行 DML 操作没有 Commit，再执行删除操作就会锁表。
+在同一事务内先后对同一条数据进行插入和更新操作。
+表索引设计不当，导致数据库出现死锁。
+长事物，阻塞...">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Boo's Blog</p>
+    
+    
+      <p class="subtitle">Stay foolish, Stay hungry</p>
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/"
+                
+                
+                id="https:www0x2BeAcecom">
+                <i class='fas fa-book fa-fw'></i>博客
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/categories/"
+                
+                
+                id="https:www0x2BeAcecomcategories">
+                <i class='fas fa-rss fa-fw'></i>分类
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/tags/"
+                
+                
+                id="https:www0x2BeAcecomtags">
+                <i class='fas fa-play-circle fa-fw'></i>标签
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/archives/"
+                
+                  rel="external nofollow noopener noreferrer"
+                
+                
+                id="https:www0x2BeAcecomarchives">
+                <i class='fas fa-file-code fa-fw'></i>归档
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/about/"
+                
+                
+                id="https:www0x2BeAcecomabout">
+                <i class='fas fa-handshake fa-fw'></i>关于我
+              </a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/mysql-lock-wait-timeout-exceeded-exception-record/">
+      MySql Lock wait timeout exceeded 异常记录
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Mysql/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Mysql</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Apr 11, 2022</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>1.8k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>6 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/mysql-lock-wait-timeout-exceeded-exception-record/" class="leancloud_visitors" data-flag-title="MySql Lock wait timeout exceeded 异常记录">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <blockquote>
+<p>原文链接：<a href="https://ningyu1.github.io/site/post/75-mysql-lock-wait-timeout-exceeded/" target="_blank" rel="noopener">MySql Lock wait timeout exceeded该如何处理？</a></p>
+</blockquote>
+<p>Mysql造成锁的情况有很多，下面我们就列举一些情况：</p>
+<ul>
+<li>执行 <code>DML</code> 操作没有 Commit，再执行删除操作就会锁表。</li>
+<li>在同一事务内先后对同一条数据进行插入和更新操作。</li>
+<li>表索引设计不当，导致数据库出现死锁。</li>
+<li>长事物，阻塞 <code>DDL</code>，继而阻塞所有同表的后续操作。</li>
+</ul>
+<a id="more"></a>
+
+<p>但是要区分的是 <code>Lock wait timeout exceeded</code> 与 <code>Dead Lock</code> 是不一样。</p>
+<ul>
+<li><code>Lock wait timeout exceeded</code>：后提交的事务等待前面处理的事务释放锁，但是在等待的时候超过了mysql的锁等待时间，就会引发这个异常。</li>
+<li><code>Dead Lock</code>：两个事务互相等待对方释放相同资源的锁，从而造成的死循环，就会引发这个异常。</li>
+</ul>
+<p>还有一个要注意的是 <code>innodb_lock_wait_timeout</code> 与 <code>lock_wait_timeout</code>也是不一样的。</p>
+<ul>
+<li><code>innodb_lock_wait_timeout</code>：innodb 的 <code>DML</code> 操作的行级锁的等待时间</li>
+<li><code>lock_wait_timeout</code>：数据结构 <code>DDL</code> 操作的锁的等待时间</li>
+</ul>
+<p>如何查看 <code>innodb_lock_wait_timeout</code> 的具体值？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SHOW VARIABLES LIKE &#39;innodb_lock_wait_timeout&#39;</span><br></pre></td></tr></table></figure>
+
+<p>参数修改的范围有Session和Global，并且支持动态修改，可以有两种方法修改：</p>
+<p>方法一：</p>
+<p>通过下面语句修改</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set innodb_lock_wait_timeout&#x3D;100;</span><br><span class="line">set global innodb_lock_wait_timeout&#x3D;100;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意 global 的修改对当前线程是不生效的，只有建立新的连接才生效。</p>
+</blockquote>
+<p>方法二：</p>
+<p>修改参数文件 <code>/etc/my.cnf</code>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">innodb_lock_wait_timeout &#x3D; 50</span><br></pre></td></tr></table></figure>
+
+<p><code>innodb_lock_wait_timeout</code> 指的是事务等待获取资源等待的最长时间，超过这个时间还未分配到资源则会返回应用失败； 当锁等待超过设置时间的时候，就会报如下的错误；<code>ERROR 1205 (HY000): Lock wait timeout exceeded; try restarting transaction</code>。<br>其参数的时间单位是秒，最小可设置为1s(一般不会设置得这么小)，最大可设置1073741824秒，默认安装时这个值是50s(默认参数设置)</p>
+<h2 id="问题导致的结果"><a href="#问题导致的结果" class="headerlink" title="问题导致的结果"></a>问题导致的结果</h2><ol>
+<li>数据更新或新增后数据会自动回滚</li>
+<li>表操作返回 <code>Lock wait timeout exceeded</code> 并长时间无反应</li>
+</ol>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><ul>
+<li>应急方法：<code>show full processlist</code>; kill掉出现问题的进程。 ps.有的时候通过processlist是看不出哪里有锁等待的，当两个事务都在commit阶段是无法体现在processlist上</li>
+<li>根治方法：<code>select * from innodb_trx</code>; 查看有是哪些事务占据了表资源。 ps.通过这个办法就需要对innodb有一些了解才好处理</li>
+</ul>
+<p>说起来很简单找到它杀掉它就搞定了，但是实际上并没有想象的这么简单，当问题出现要分析问题的原因，通过原因定位业务代码可能某些地方实现的有问题，从而来避免今后遇到同样的问题。</p>
+<h2 id="innodb-表的解释"><a href="#innodb-表的解释" class="headerlink" title="innodb_*表的解释"></a>innodb_*表的解释</h2><p><code>Mysql</code>的 <code>InnoDB</code> 存储引擎是支持事务的，事务开启后没有被主动Commit。导致该资源被长期占用，其他事务在抢占该资源时，因上一个事务的锁而导致抢占失败！因此出现 <code>Lock wait timeout exceeded</code></p>
+<p>下面几张表是innodb的事务和锁的信息表，理解这些表就能很好的定位问题。</p>
+<ul>
+<li>innodb_trx：当前运行的所有事务</li>
+<li>innodb_locks：当前出现的锁</li>
+<li>innodb_lock_waits：锁等待的对应关系</li>
+</ul>
+<p>innodb_trx 表：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">desc information_schema.innodb_trx;</span><br><span class="line"></span><br><span class="line">trx_id：事务ID。</span><br><span class="line">trx_state：事务状态，有以下几种状态：RUNNING、LOCK WAIT、ROLLING BACK 和 COMMITTING。</span><br><span class="line">trx_started：事务开始时间。</span><br><span class="line">trx_requested_lock_id：事务当前正在等待锁的标识，可以和 INNODB_LOCKS 表 JOIN 以得到更多详细信息。</span><br><span class="line">trx_wait_started：事务开始等待的时间。</span><br><span class="line">trx_weight：事务的权重。</span><br><span class="line">trx_mysql_thread_id：事务线程 ID，可以和 PROCESSLIST 表 JOIN。</span><br><span class="line">trx_query：事务正在执行的 SQL 语句。</span><br><span class="line">trx_operation_state：事务当前操作状态。</span><br><span class="line">trx_tables_in_use：当前事务执行的 SQL 中使用的表的个数。</span><br><span class="line">trx_tables_locked：当前执行 SQL 的行锁数量。</span><br><span class="line">trx_lock_structs：事务保留的锁数量。</span><br><span class="line">trx_lock_memory_bytes：事务锁住的内存大小，单位为 BYTES。</span><br><span class="line">trx_rows_locked：事务锁住的记录数。包含标记为 DELETED，并且已经保存到磁盘但对事务不可见的行。</span><br><span class="line">trx_rows_modified：事务更改的行数。</span><br><span class="line">trx_concurrency_tickets：事务并发票数。</span><br><span class="line">trx_isolation_level：当前事务的隔离级别。</span><br><span class="line">trx_unique_checks：是否打开唯一性检查的标识。</span><br><span class="line">trx_foreign_key_checks：是否打开外键检查的标识。</span><br><span class="line">trx_last_foreign_key_error：最后一次的外键错误信息。</span><br><span class="line">trx_adaptive_hash_latched：自适应散列索引是否被当前事务锁住的标识。</span><br><span class="line">trx_adaptive_hash_timeout：是否立刻放弃为自适应散列索引搜索 LATCH 的标识。</span><br></pre></td></tr></table></figure>
+
+<p>innodb_locks 表：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">desc information_schema.innodb_locks;</span><br><span class="line"></span><br><span class="line">lock_id：锁 ID。</span><br><span class="line">lock_trx_id：拥有锁的事务 ID。可以和 INNODB_TRX 表 JOIN 得到事务的详细信息。</span><br><span class="line">lock_mode：锁的模式。有如下锁类型：行级锁包括：S、X、IS、IX，分别代表：共享锁、排它锁、意向共享锁、意向排它锁。表级锁包括：S_GAP、X_GAP、IS_GAP、IX_GAP 和 AUTO_INC，分别代表共享间隙锁、排它间隙锁、意向共享间隙锁、意向排它间隙锁和自动递增锁。</span><br><span class="line">lock_type：锁的类型。RECORD 代表行级锁，TABLE 代表表级锁。</span><br><span class="line">lock_table：被锁定的或者包含锁定记录的表的名称。</span><br><span class="line">lock_index：当 LOCK_TYPE&#x3D;’RECORD’ 时，表示索引的名称；否则为 NULL。</span><br><span class="line">lock_space：当 LOCK_TYPE&#x3D;’RECORD’ 时，表示锁定行的表空间 ID；否则为 NULL。</span><br><span class="line">lock_page：当 LOCK_TYPE&#x3D;’RECORD’ 时，表示锁定行的页号；否则为 NULL。</span><br><span class="line">lock_rec：当 LOCK_TYPE&#x3D;’RECORD’ 时，表示一堆页面中锁定行的数量，亦即被锁定的记录号；否则为 NULL。</span><br><span class="line">lock_data：当 LOCK_TYPE&#x3D;’RECORD’ 时，表示锁定行的主键；否则为NULL。</span><br></pre></td></tr></table></figure>
+
+<p>innodb_lock_waits 表：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">desc information_schema.innodb_lock_waits;</span><br><span class="line"></span><br><span class="line">requesting_trx_id：请求事务的 ID。</span><br><span class="line">requested_lock_id：事务所等待的锁定的 ID。可以和 INNODB_LOCKS 表 JOIN。</span><br><span class="line">blocking_trx_id：阻塞事务的 ID。</span><br><span class="line">blocking_lock_id：某一事务的锁的 ID，该事务阻塞了另一事务的运行。可以和 INNODB_LOCKS 表 JOIN。</span><br></pre></td></tr></table></figure>
+
+<h2 id="锁等待的处理步骤"><a href="#锁等待的处理步骤" class="headerlink" title="锁等待的处理步骤"></a>锁等待的处理步骤</h2><p>查看 innodb_lock_waits 表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM innodb_lock_waits;</span><br></pre></td></tr></table></figure>
+
+<p>innodb_locks 表和 innodb_lock_waits 表联表查看：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM innodb_locks WHERE lock_trx_id IN (SELECT blocking_trx_id FROM innodb_lock_waits);</span><br></pre></td></tr></table></figure>
+
+<p>innodb_locks 表 JOIN innodb_lock_waits 表联表查看：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT innodb_locks.* FROM innodb_locks JOIN innodb_lock_waits ON (innodb_locks.lock_trx_id &#x3D; innodb_lock_waits.blocking_trx_id);</span><br></pre></td></tr></table></figure>
+
+<p>查询 innodb_trx 表:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT trx_id, trx_requested_lock_id, trx_mysql_thread_id, trx_query FROM innodb_trx WHERE trx_state &#x3D; &#39;LOCK WAIT&#39;;</span><br></pre></td></tr></table></figure>
+
+<p>trx_mysql_thread_id 即 kill 掉事务线程 ID</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SHOW ENGINE INNODB STATUS ;</span><br><span class="line">SHOW PROCESSLIST ;</span><br></pre></td></tr></table></figure>
+
+<p>从上述方法中得到了相关信息，我们可以得到发生锁等待的线程 ID，然后将其 KILL 掉。 KILL 掉发生锁等待的线程。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kill ID;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>前几天生成环境，有个需求需要跑个脚本处理一下。<br>脚本所做的事情是遍历查询出来的数据集，逐个调用某段逻辑。</p>
+<p>结果等了半天，发现什么都没有修改成功。</p>
+<p>后面查看日志才发现是因为某次抛出异常时，事务没有释放， 而后提交的事务又需要等待前面处理的事务释放锁，但是等待的时间超过了 Mysql <code>innodb_lock_wait_timeout</code> 所设置的超时时间，所以引发了 <code>Lock wait timeout exceeded</code> 异常，事务自动回滚了，也就出现了数据都没有变化的现象。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://ningyu1.github.io/site/post/75-mysql-lock-wait-timeout-exceeded/" target="_blank" rel="noopener">MySql Lock wait timeout exceeded该如何处理？</a></li>
+<li><a href="https://segmentfault.com/a/1190000015314171" target="_blank" rel="noopener">关于MySQL的lock wait timeout exceeded解决方案</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/mysql-lock-wait-timeout-exceeded-exception-record/>https://www.0x2beace.com/mysql-lock-wait-timeout-exceeded-exception-record/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-05-24T10:20:27+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：May 24, 2022</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Mysql/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Mysql</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/mysql-lock-wait-timeout-exceeded-exception-record/&title=MySql Lock wait timeout exceeded 异常记录 - Boo&summary=
+原文链接：MySql Lock wait timeout exceeded该如何处理？
+
+Mysql造成锁的情况有很多，下面我们就列举一些情况：
+
+执行 DML 操作没有 Commit，再执行删除操作就会锁表。
+在同一事务内先后对同一条数据进行插入和更新操作。
+表索引设计不当，导致数据库出现死锁。
+长事物，阻塞 DDL，继而阻塞所有同表的后续操作。
+"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/mysql-lock-wait-timeout-exceeded-exception-record/&title=MySql Lock wait timeout exceeded 异常记录 - Boo&summary=
+原文链接：MySql Lock wait timeout exceeded该如何处理？
+
+Mysql造成锁的情况有很多，下面我们就列举一些情况：
+
+执行 DML 操作没有 Commit，再执行删除操作就会锁表。
+在同一事务内先后对同一条数据进行插入和更新操作。
+表索引设计不当，导致数据库出现死锁。
+长事物，阻塞 DDL，继而阻塞所有同表的后续操作。
+"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/mysql-lock-wait-timeout-exceeded-exception-record/&title=MySql Lock wait timeout exceeded 异常记录 - Boo&summary=
+原文链接：MySql Lock wait timeout exceeded该如何处理？
+
+Mysql造成锁的情况有很多，下面我们就列举一些情况：
+
+执行 DML 操作没有 Commit，再执行删除操作就会锁表。
+在同一事务内先后对同一条数据进行插入和更新操作。
+表索引设计不当，导致数据库出现死锁。
+长事物，阻塞 DDL，继而阻塞所有同表的后续操作。
+"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVgAAAFYCAAAAAAzB7ucAAAEWklEQVR42u3aQY7jMAwEwPz/0zP3BRYmm7TsCUq3yWZtqZQD2eDnx7plfRCABWuBBQvWAnsE9hOu/z74n3+vfn+6j6v3XL13ywMsWLBgwYIFCxbsWdjuhtKNTy+ge0Hd9049wIIFCxYsWLBgwT4D2y3Epw3FWmFehEyhyx5gwYIFCxYsWLBgvwK22jB0C/408E6hwYIFCxYsWLBgwX4n7FYgfnpgAyxYsGDBggULFux3wLYHFIYXMS3o0wD79ZMwYMGCBQsWLFiwYEuwW4X5t/wde4AFCxYsWLBgwYI9AjtdV4X3XUF49/9tNR6X7wULFixYsGDBggV7BDYtkFPo6nvSoL0bwK+fHyxYsGDBggULFuwR2HTjWwMW6UFSqDTQLl8YWLBgwYIFCxYs2COw0w1tNQrp392AO21c4qAbLFiwYMGCBQsW7Ctgtwcrpg3D9OK7z710AwsWLFiwYMGCBXsEduvgW4Mb1c+3Autp4wEWLFiwYMGCBQv2Gdgp1HgjxQNW9zdtbNL3gQULFixYsGDBgn0Gdqvgnhbq3UajO3Cx1XiUBzbAggULFixYsGDB3go7bQzSjU4D8u1GIv0BgAULFixYsGDBgn0WdjrYMB0ESQdGpufo/jDAggULFixYsGDBvgM2DXjTQLgLN20k0s+7+wALFixYsGDBggV7FjYdZLh9o2ngfPh9YMGCBQsWLFiwYM/CpsHzJ1xpwF0dzEgvNh0AAQsWLFiwYMGCBfsM7LQxSDew3YBMB0G2gniwYMGCBQsWLFiw74CdHrRbiKcBfPf9aWMDFixYsGDBggUL9h2wWw3ANDiufn/rYrYDbrBgwYIFCxYsWLBnYdNC+FQgXt1HOnDSDeDBggULFixYsGDBvgO2e+D0YFuBeDWwnhb6sQ9YsGDBggULFizYI7BbAxVbBX4XbAqVnrM8CQMWLFiwYMGCBQv2FtitAnkKNg3cqxDTRubyc7BgwYIFCxYsWLBHYasH3Qq20+dNn5NedBkcLFiwYMGCBQsW7BHY7gG2guitC0wbmLSRuDw3WLBgwYIFCxYs2Edg0wB7Gkynz+tCt4Pr7vPBggULFixYsGDBPgq7HQTfHXR3n9+9uHIDAxYsWLBgwYIFC/YR2OkGtwY5qo3GtAGZNiJgwYIFCxYsWLBg3wXbLZinsPFBhhcwbXzAggULFixYsGDBPgM7Xd2NpRc4bTTShqh7YWDBggULFixYsGDPwE4HM7oHSwv7LsD2hcVBN1iwYMGCBQsWLNhbYdPBjDQoTp+TNgJbFwYWLFiwYMGCBQv2nbBbAXP6vO0g+64fRjnoBgsWLFiwYMGCBfunYbcbgXLBHn6ve06wYMGCBQsWLFiwfxu2O/AwDdrTc6QNAliwYMGCBQsWLNh3wm4V3FsrvZjtxqAcvIMFCxYsWLBgwYI9CpsG0N3Cu/reKnR3n2nDUA72wYIFCxYsWLBgwR6BtZYbGgRgwVpgwYK1wN65fgFswRDUT3yongAAAABJRU5ErkJggg==">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/inventory-beyond-common-solution-collation/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>库存超出常见解决方案整理</p>
+                <p class='content'>
+原文链接：使用laravel解决库存超出的几个方案
+
+库存超出是一个常见的幂等问题，下面介绍一下解决超卖问题常见的一些方案
+
+Redis 存储库存
+Redis 原子锁
+Mysql 悲观锁 
+M...</p>
+              </a>
+            
+            
+              <a class='next' href='/how-mysql-restores-specified-table-data-from-full-backup/'>
+                <p class='title'>Mysql 如何从全备中恢复指定表数据<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>备份数据库是常有的需求，通常是整库备份，整库还原。但如果只想还原其中部分数据表，该怎么做呢？
+
+
+测试前准备
+mysqldump 备份指定数据库，如：test_dump
+
+1mysqldump ...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'MySql Lock wait timeout exceeded 异常记录',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#问题导致的结果"><span class="toc-text">问题导致的结果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解决方法"><span class="toc-text">解决方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#innodb-表的解释"><span class="toc-text">innodb_*表的解释</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#锁等待的处理步骤"><span class="toc-text">锁等待的处理步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+      
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <span class="post-count">总字数：241.8k</span>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
+
+        <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+        
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?fbe826b92f6d49a0ebacf4d848bd3add";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+<script>
+  var now = new Date(); 
+  function createtime() {    
+      var grt= new Date("07/04/2020 14:12:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";     
+  } 
+setInterval("createtime()",250);
+</script>
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "Ki6kd5TUWoQyYKSErxehnRpc-MdYXbMMI",
+    appKey: "7pRBOKMw58Yo7EsUjHziIEY1",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>

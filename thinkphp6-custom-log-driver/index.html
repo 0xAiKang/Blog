@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>ThinkPHP6 自定义日志驱动 - Boo</title>
+  
+    <meta name="keywords" content="PHP,ThinkPHP">
+  
+  
+    <meta name="description" content="最近接手一个项目，ThinkPHP6.x 写的，日志处理形同虚设，每次出了啥问题，第一时间也不知道问题出在哪，调试起来障碍很多。">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Boo's Blog</p>
+    
+    
+      <p class="subtitle">Stay foolish, Stay hungry</p>
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/"
+                
+                
+                id="https:www0x2BeAcecom">
+                <i class='fas fa-book fa-fw'></i>博客
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/categories/"
+                
+                
+                id="https:www0x2BeAcecomcategories">
+                <i class='fas fa-rss fa-fw'></i>分类
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/tags/"
+                
+                
+                id="https:www0x2BeAcecomtags">
+                <i class='fas fa-play-circle fa-fw'></i>标签
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/archives/"
+                
+                  rel="external nofollow noopener noreferrer"
+                
+                
+                id="https:www0x2BeAcecomarchives">
+                <i class='fas fa-file-code fa-fw'></i>归档
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/about/"
+                
+                
+                id="https:www0x2BeAcecomabout">
+                <i class='fas fa-handshake fa-fw'></i>关于我
+              </a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/thinkphp6-custom-log-driver/">
+      ThinkPHP6 自定义日志驱动
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/PHP/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>PHP</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Jun 17, 2022</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>2.2k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>10 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/thinkphp6-custom-log-driver/" class="leancloud_visitors" data-flag-title="ThinkPHP6 自定义日志驱动">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>最近接手一个项目，<code>ThinkPHP6.x</code> 写的，日志处理形同虚设，每次出了啥问题，第一时间也不知道问题出在哪，调试起来障碍很多。</p>
+<a id="more"></a>
+
+<p>ThinkPHP 6.0 在日志这一块，改动挺大了，直接砍掉了原来的请求信息部分。</p>
+<p><img src="inkdrop://file:OwdyJOIKO" alt="clipboard.png"></p>
+<h2 id="日志记录"><a href="#日志记录" class="headerlink" title="日志记录"></a>日志记录</h2><p>ThinkPHP 对系统的日志按照级别来分类记录，按照 <code>PSR-3</code> 日志规范。除非是实时写入的日志，其它日志都是在当前请求结束的时候统一写入的 所以不要在日志写入之后使用exit等中断操作会导致日志写入失败。</p>
+<p>日志的级别从低到高依次为：<code>debug</code>，<code>info</code>，<code>notice</code>，<code>warning</code>，<code>error</code>，<code>critical</code>，<code>alert</code>， <code>emergency</code>，ThinkPHP 额外增加了一个 <code>sql</code> 日志级别仅用于记录SQL日志（并且仅当开启数据库调试模式有效）。</p>
+<h2 id="设置日志记录级别"><a href="#设置日志记录级别" class="headerlink" title="设置日志记录级别"></a>设置日志记录级别</h2><p><code>config/log.php</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">use</span> <span class="title">app</span>\<span class="title">handle</span>\<span class="title">Tp6Log</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> [</span><br><span class="line">    <span class="comment">// 日志记录级别</span></span><br><span class="line">    <span class="string">'level'</span>        =&gt; [],</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>当 level 为空时，记录所有级别</li>
+<li>当 level 不为空时，只记录level中指定的错误级别</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">index</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 当 level 配置为 notice、warning</span></span><br><span class="line">    <span class="comment">// 会记录</span></span><br><span class="line">    Log::warning(<span class="string">"这是第一段日志"</span>);  </span><br><span class="line">    <span class="comment">// 不会记录，因为 info 不在日志级别中</span></span><br><span class="line">    Log::info(<span class="string">"这是第二段日志"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="单一日志"><a href="#单一日志" class="headerlink" title="单一日志"></a>单一日志</h2><p>默认的 ThinkPHP 日志是写在当前日期(年月)目录下的，如(runtime/admin/log/202204/30.log)</p>
+<p>设置单文件日志写入之后，所有日志则写入 <code>single.log</code> 文件中：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">use</span> <span class="title">app</span>\<span class="title">handle</span>\<span class="title">Tp6Log</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> [</span><br><span class="line">    <span class="comment">// 单文件日志写入</span></span><br><span class="line">    <span class="string">'single'</span> =&gt; <span class="keyword">true</span></span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<h2 id="独立日志"><a href="#独立日志" class="headerlink" title="独立日志"></a>独立日志</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">use</span> <span class="title">app</span>\<span class="title">handle</span>\<span class="title">Tp6Log</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> [</span><br><span class="line">    <span class="comment">// 独立日志级别</span></span><br><span class="line">    <span class="string">'apart_level'</span>    =&gt; [<span class="string">'error'</span>, <span class="string">'warning'</span>, <span class="string">"info"</span>],</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<p>设置独立日志级别之后，不同类型的日志将会分别记录到对应类型的日志文件下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 设置独立日志级别之前</span><br><span class="line">runtime&#x2F;admin&#x2F;log&#x2F;202204&#x2F;30.log</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 设置独立日志级别之后</span><br><span class="line">runtime&#x2F;admin&#x2F;log&#x2F;202204&#x2F;30_warning.log</span><br><span class="line">runtime&#x2F;admin&#x2F;log&#x2F;202204&#x2F;30_error.log</span><br><span class="line">runtime&#x2F;admin&#x2F;log&#x2F;202204&#x2F;30_info.log</span><br></pre></td></tr></table></figure>
+
+<h2 id="日志的写入时机"><a href="#日志的写入时机" class="headerlink" title="日志的写入时机"></a>日志的写入时机</h2><p>日志写入时机提供两种</p>
+<ul>
+<li>实时写入</li>
+<li>程序执行完后写入</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">use</span> <span class="title">app</span>\<span class="title">handle</span>\<span class="title">Tp6Log</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> [</span><br><span class="line">    <span class="comment">// 实时写入</span></span><br><span class="line">    <span class="string">'realtime_write'</span> =&gt; <span class="keyword">true</span>,</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<h2 id="日志通道"><a href="#日志通道" class="headerlink" title="日志通道"></a>日志通道</h2><p><code>ThinkPHP6.x</code> 日志类的一大特性就是日志级别支持指定通道写入，也就是可以实现自定义的日志记录，自定义日志驱动类，实现 <code>think\contract\LogHandlerInterface</code> 接口。</p>
+<p>将 <code>config/log.php</code> 中通道 type 改成自定义驱动类即可。</p>
+<p><code>config.php</code>：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// +----------------------------------------------------------------------</span></span><br><span class="line"><span class="comment">// | 日志设置</span></span><br><span class="line"><span class="comment">// +----------------------------------------------------------------------</span></span><br><span class="line"><span class="keyword">use</span> <span class="title">app</span>\<span class="title">handle</span>\<span class="title">Tp6Log</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> [</span><br><span class="line">    <span class="comment">// 默认日志记录通道</span></span><br><span class="line">    <span class="string">'default'</span>      =&gt; env(<span class="string">'log.channel'</span>, <span class="string">'file'</span>),</span><br><span class="line">    <span class="comment">// 日志记录级别</span></span><br><span class="line">    <span class="string">'level'</span>        =&gt; [],</span><br><span class="line">    <span class="comment">// 日志类型记录的通道 ['error'=&gt;'email',...]</span></span><br><span class="line">    <span class="string">'type_channel'</span> =&gt; [],</span><br><span class="line">    <span class="comment">// 关闭全局日志写入</span></span><br><span class="line">    <span class="string">'close'</span>        =&gt; <span class="keyword">false</span>,</span><br><span class="line">    <span class="comment">// 全局日志处理 支持闭包</span></span><br><span class="line">    <span class="string">'processor'</span>    =&gt; <span class="keyword">null</span>,</span><br><span class="line">    <span class="comment">// ThinkPHP对系统的日志按照级别来分类记录，按照PSR-3日志规范，日志的级别从低到高依次为：</span></span><br><span class="line">    <span class="comment">// debug, info, notice, warning, error, critical, alert, emergency</span></span><br><span class="line">    <span class="comment">// ThinkPHP额外增加了一个sql日志级别仅用于记录SQL日志（并且仅当开启数据库调试模式有效）。</span></span><br><span class="line">    <span class="comment">// 日志通道列表</span></span><br><span class="line">    <span class="string">'channels'</span>     =&gt; [</span><br><span class="line">        <span class="string">'file'</span> =&gt; [</span><br><span class="line">            <span class="comment">// 日志记录方式</span></span><br><span class="line">            <span class="string">'type'</span>           =&gt; <span class="string">'File'</span>,</span><br><span class="line">            <span class="comment">// 'type'           =&gt; Tp6Log::class,</span></span><br><span class="line">            <span class="comment">// 日志保存目录</span></span><br><span class="line">            <span class="comment">// "path"           =&gt; "",</span></span><br><span class="line">            <span class="comment">// 如果没有设置路径，日志会输出到对应的应用目录下; 如果设置了路径，则所有的日志都会输出到该路径下</span></span><br><span class="line">            <span class="string">'path'</span>           =&gt; app()-&gt;getRuntimePath() . <span class="string">'debug'</span>,</span><br><span class="line">            <span class="comment">// 单文件日志写入</span></span><br><span class="line">            <span class="string">'single'</span>         =&gt; <span class="keyword">false</span>,</span><br><span class="line">            <span class="comment">// 独立日志级别</span></span><br><span class="line">            <span class="string">'apart_level'</span>    =&gt; [<span class="string">'error'</span>, <span class="string">'sql'</span>,],</span><br><span class="line">            <span class="comment">// 最大日志文件数量</span></span><br><span class="line">            <span class="string">'max_files'</span>      =&gt; <span class="number">0</span>,</span><br><span class="line">            <span class="comment">// 使用JSON格式记录</span></span><br><span class="line">            <span class="string">'json'</span>           =&gt; <span class="keyword">false</span>,</span><br><span class="line">            <span class="comment">// 文件大小</span></span><br><span class="line">            <span class="string">'file_size'</span>   	=&gt; 	<span class="number">1024</span>*<span class="number">1024</span>*<span class="number">2</span>,</span><br><span class="line">            <span class="comment">// 日志处理</span></span><br><span class="line">            <span class="string">'processor'</span>      =&gt; <span class="keyword">null</span>,</span><br><span class="line">            <span class="comment">// 关闭通道日志写入</span></span><br><span class="line">            <span class="string">'close'</span>          =&gt; <span class="keyword">false</span>,</span><br><span class="line">            <span class="comment">// 日志输出格式化</span></span><br><span class="line">            <span class="string">'format'</span>         =&gt; <span class="string">'[%s][%s] %s'</span>,</span><br><span class="line">            <span class="comment">// 是否实时写入</span></span><br><span class="line">            <span class="string">'realtime_write'</span> =&gt; <span class="keyword">true</span>,</span><br><span class="line">        ],</span><br><span class="line">        <span class="comment">// 其它日志通道配置</span></span><br><span class="line">    ],</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<h2 id="自定义日志驱动"><a href="#自定义日志驱动" class="headerlink" title="自定义日志驱动"></a>自定义日志驱动</h2><p>我希望哪些信息能被记录？</p>
+<ul>
+<li>请求记录</li>
+<li>SQL 执行记录</li>
+<li>错误信息</li>
+</ul>
+<p><code>ThinkPHP 5.x 版本</code>，还存在请求记录的日志。类似下面的输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[2022-06-16T11:38:42+08:00] 127.0.0.1 POST localhost&#x2F;api&#x2F;v1.index&#x2F;index</span><br><span class="line">[运行时间：0.508767s] [吞吐率：1.97req&#x2F;s] [内存消耗：705.89kb] [文件加载：156]</span><br><span class="line">[ HEADER ] array (</span><br><span class="line">  &#39;accept-encoding&#39; &#x3D;&gt; &#39;gzip, deflate&#39;,</span><br><span class="line">  &#39;referer&#39; &#x3D;&gt; &#39;https:&#x2F;&#x2F;servicewechat.com&#x2F;wx8703b750b3e3c6dc&#x2F;devtools&#x2F;page-frame.html&#39;,</span><br><span class="line">  &#39;accept&#39; &#x3D;&gt; &#39;*&#x2F;*&#39;,</span><br><span class="line">  &#39;version&#39; &#x3D;&gt; &#39;&#39;,</span><br><span class="line">  &#39;token&#39; &#x3D;&gt; &#39;ae42R9eUhyp3NUdW+AzKYOvEcr&#x2F;UCwYLGA6nNMxrhT5AApsjJCpQuCX5WA2jePdKZBV1RP1Ws0&#x2F;cK0KXxAjNDu&#x2F;JRW4tqYPJ2vyNiiCwT6WbLe0Y2t7fo2P4sfRZrRSEnePSlJAetbU0afh5mzi9X6NztTd7fk4cBtGFxhFmTMmWynoL+HZ0DBGQ2VjwT82DjYbaUq+Ww4JUybQeSvpxcwqbEY3UR0L++gz+tQ&#39;,</span><br><span class="line">  &#39;user-agent&#39; &#x3D;&gt; &#39;Mozilla&#x2F;5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit&#x2F;604.1.38 (KHTML, like Gecko) Version&#x2F;11.0 Mobile&#x2F;15A372 Safari&#x2F;604.1 wechatdevtools&#x2F;1.05.2107090 MicroMessenger&#x2F;8.0.5 Language&#x2F;zh_CN webview&#x2F;&#39;,</span><br><span class="line">  &#39;content-type&#39; &#x3D;&gt; &#39;application&#x2F;json&#39;,</span><br><span class="line">  &#39;scene&#39; &#x3D;&gt; &#39;weixin&#39;,</span><br><span class="line">  &#39;content-length&#39; &#x3D;&gt; &#39;46&#39;,</span><br><span class="line">  &#39;connection&#39; &#x3D;&gt; &#39;keep-alive&#39;,</span><br><span class="line">  &#39;host&#39; &#x3D;&gt; &#39;apiv2.smshw.local&#39;,</span><br><span class="line">)</span><br><span class="line">[ PARAM ] array (</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>ThinkPHP 6.0 则是直接砍掉了记录请求信息。</p>
+<p>这里直接拿<code>ThinkPHP5.x</code> 的日志类源码进行修改，在 <code>ThinkPHP6.x</code> 中作为日志驱动：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">declare</span> (strict_types=<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">app</span>\<span class="title">handle</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">DateTime</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">DateTimeZone</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Exception</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">think</span>\<span class="title">App</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">think</span>\<span class="title">contract</span>\<span class="title">LogHandlerInterface</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">think</span>\<span class="title">facade</span>\<span class="title">Request</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 本地化调试输出到文件</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Tp6Log</span> <span class="keyword">implements</span> <span class="title">LogHandlerInterface</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 配置参数</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@var</span> array</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">protected</span> $config = [</span><br><span class="line">        <span class="string">'time_format'</span> =&gt; <span class="string">'c'</span>,</span><br><span class="line">        <span class="string">'single'</span> =&gt; <span class="keyword">false</span>,</span><br><span class="line">        <span class="string">'file_size'</span> =&gt; <span class="number">2097152</span>,</span><br><span class="line">        <span class="string">'path'</span> =&gt; <span class="string">''</span>,</span><br><span class="line">        <span class="string">'apart_level'</span> =&gt; [],</span><br><span class="line">        <span class="string">'max_files'</span> =&gt; <span class="number">0</span>,</span><br><span class="line">        <span class="string">'json'</span> =&gt; <span class="keyword">false</span>,</span><br><span class="line">        <span class="string">'json_options'</span> =&gt; JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES,</span><br><span class="line">        <span class="string">'format'</span> =&gt; <span class="string">'[%s][%s] %s'</span>,</span><br><span class="line">    ];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> $app;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 实例化并传入参数</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(App $app, $config = [])</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;app = $app;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (is_array($config)) &#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;config = array_merge(<span class="keyword">$this</span>-&gt;config, $config);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">empty</span>(<span class="keyword">$this</span>-&gt;config[<span class="string">'format'</span>])) &#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;config[<span class="string">'format'</span>] = <span class="string">'[%s][%s] %s'</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">empty</span>(<span class="keyword">$this</span>-&gt;config[<span class="string">'path'</span>])) &#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;config[<span class="string">'path'</span>] = $app-&gt;getRuntimePath() . <span class="string">'log'</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (substr(<span class="keyword">$this</span>-&gt;config[<span class="string">'path'</span>], <span class="number">-1</span>) != DIRECTORY_SEPARATOR) &#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;config[<span class="string">'path'</span>] .= DIRECTORY_SEPARATOR;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 日志写入接口</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@access</span> public</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> array $log 日志信息</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> bool</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">save</span><span class="params">(array $log)</span>: <span class="title">bool</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $destination = <span class="keyword">$this</span>-&gt;getMasterLogFile();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        $path = dirname($destination);</span><br><span class="line">        !is_dir($path) &amp;&amp; mkdir($path, <span class="number">0755</span>, <span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">        $info = [];</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 日志信息封装</span></span><br><span class="line">        $time = DateTime::createFromFormat(<span class="string">'0.u00 U'</span>, microtime())-&gt;setTimezone(<span class="keyword">new</span> DateTimeZone(date_default_timezone_get()))-&gt;format(<span class="keyword">$this</span>-&gt;config[<span class="string">'time_format'</span>]);</span><br><span class="line"></span><br><span class="line">        $request = Request::instance();</span><br><span class="line">        <span class="comment">//新增</span></span><br><span class="line">        $requestInfo = [</span><br><span class="line">            <span class="string">'ip'</span> =&gt; $request-&gt;ip(),</span><br><span class="line">            <span class="string">'method'</span> =&gt; $request-&gt;method(),</span><br><span class="line">            <span class="string">'host'</span> =&gt; $request-&gt;host(),</span><br><span class="line">            <span class="string">'uri'</span> =&gt; $request-&gt;url()</span><br><span class="line">        ];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">isset</span>($log[<span class="string">'sql'</span>][<span class="number">0</span>]) &amp;&amp; strpos(<span class="string">'CONNECT'</span>,$log[<span class="string">'sql'</span>][<span class="number">0</span>]))&#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!<span class="keyword">$this</span>-&gt;config[<span class="string">'json'</span>]) &#123;</span><br><span class="line"></span><br><span class="line">            $debugInfo = [</span><br><span class="line">                <span class="string">'param'</span> =&gt; <span class="string">'[ PARAM ] '</span> . var_export($request-&gt;param(), <span class="keyword">true</span>),</span><br><span class="line">                <span class="string">'header'</span> =&gt; <span class="string">'[ HEADER ] '</span> . var_export($request-&gt;header(), <span class="keyword">true</span>)</span><br><span class="line">            ];</span><br><span class="line">            <span class="keyword">foreach</span> ($debugInfo <span class="keyword">as</span> $row) &#123;</span><br><span class="line">                array_unshift($info, $row);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 增加额外的调试信息</span></span><br><span class="line">            $runtime = round(microtime(<span class="keyword">true</span>) - <span class="keyword">$this</span>-&gt;app-&gt;getBeginTime(), <span class="number">10</span>);</span><br><span class="line">            $reqs = $runtime &gt; <span class="number">0</span> ? number_format(<span class="number">1</span> / $runtime, <span class="number">2</span>) : <span class="string">'∞'</span>;</span><br><span class="line">            $memory_use = number_format((memory_get_usage() - <span class="keyword">$this</span>-&gt;app-&gt;getBeginMem()) / <span class="number">1024</span>, <span class="number">2</span>);</span><br><span class="line">            $time_str = <span class="string">'[运行时间：'</span> . number_format($runtime, <span class="number">6</span>) . <span class="string">'s] [吞吐率：'</span> . $reqs . <span class="string">'req/s]'</span>;</span><br><span class="line">            $memory_str = <span class="string">' [内存消耗：'</span> . $memory_use . <span class="string">'kb]'</span>;</span><br><span class="line">            $file_load = <span class="string">' [文件加载：'</span> . count(get_included_files()) . <span class="string">']'</span>;</span><br><span class="line">            array_unshift($info, $time_str . $memory_str . $file_load);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            array_unshift($info, <span class="string">"---------------------------------------------------------------\r\n[&#123;$time&#125;] &#123;$requestInfo['ip']&#125; &#123;$requestInfo['method']&#125; &#123;$requestInfo['host']&#125;&#123;$requestInfo['uri']&#125;"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">foreach</span> ($log <span class="keyword">as</span> $type =&gt; $val) &#123;</span><br><span class="line">            $message = [];</span><br><span class="line">            <span class="keyword">foreach</span> ($val <span class="keyword">as</span> $msg) &#123;</span><br><span class="line">                <span class="keyword">if</span> (!is_string($msg)) &#123;</span><br><span class="line">                    $msg = var_export($msg, <span class="keyword">true</span>);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                $message[] = <span class="keyword">$this</span>-&gt;config[<span class="string">'json'</span>] ?</span><br><span class="line">                    json_encode([<span class="string">'time'</span> =&gt; $time, <span class="string">'type'</span> =&gt; $type, <span class="string">'msg'</span> =&gt; $msg], <span class="keyword">$this</span>-&gt;config[<span class="string">'json_options'</span>]) :</span><br><span class="line">                    sprintf(<span class="keyword">$this</span>-&gt;config[<span class="string">'format'</span>], $time, $type, $msg);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">true</span> === <span class="keyword">$this</span>-&gt;config[<span class="string">'apart_level'</span>] || in_array($type, <span class="keyword">$this</span>-&gt;config[<span class="string">'apart_level'</span>])) &#123;</span><br><span class="line">                <span class="comment">//这一句很关键，可以给mysql或者其他独立的日志，也加上请求和时间等信息</span></span><br><span class="line">                array_unshift($message, <span class="string">"---------------------------------------------------------------\r\n[&#123;$time&#125;] &#123;$requestInfo['ip']&#125; &#123;$requestInfo['method']&#125; &#123;$requestInfo['host']&#125;&#123;$requestInfo['uri']&#125;"</span>);</span><br><span class="line">                <span class="comment">// 独立记录的日志级别</span></span><br><span class="line">                $filename = <span class="keyword">$this</span>-&gt;getApartLevelFile($path, $type);</span><br><span class="line">                <span class="keyword">$this</span>-&gt;write($message, $filename);</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            $info[$type] = $message;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> ($info) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;write($info, $destination);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取主日志文件名</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@access</span> public</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> string</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">getMasterLogFile</span><span class="params">()</span>: <span class="title">string</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">$this</span>-&gt;config[<span class="string">'max_files'</span>]) &#123;</span><br><span class="line">            $files = glob(<span class="keyword">$this</span>-&gt;config[<span class="string">'path'</span>] . <span class="string">'*.log'</span>);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (count($files) &gt; <span class="keyword">$this</span>-&gt;config[<span class="string">'max_files'</span>]) &#123;</span><br><span class="line">                    unlink($files[<span class="number">0</span>]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (<span class="keyword">Exception</span> $e) &#123;</span><br><span class="line">                <span class="comment">//</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">$this</span>-&gt;config[<span class="string">'single'</span>]) &#123;</span><br><span class="line">            $name = is_string(<span class="keyword">$this</span>-&gt;config[<span class="string">'single'</span>]) ? <span class="keyword">$this</span>-&gt;config[<span class="string">'single'</span>] : <span class="string">'single'</span>;</span><br><span class="line">            $destination = <span class="keyword">$this</span>-&gt;config[<span class="string">'path'</span>] . $name . <span class="string">'.log'</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">$this</span>-&gt;config[<span class="string">'max_files'</span>]) &#123;</span><br><span class="line">                $filename = date(<span class="string">'Ymd'</span>) . <span class="string">'.log'</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                $filename = date(<span class="string">'Ym'</span>) . DIRECTORY_SEPARATOR . date(<span class="string">'d'</span>) . <span class="string">'.log'</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            $destination = <span class="keyword">$this</span>-&gt;config[<span class="string">'path'</span>] . $filename;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> $destination;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取独立日志文件名</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@access</span> public</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> string $path 日志目录</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> string $type 日志类型</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> string</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">getApartLevelFile</span><span class="params">(string $path, string $type)</span>: <span class="title">string</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">$this</span>-&gt;config[<span class="string">'single'</span>]) &#123;</span><br><span class="line">            $name = is_string(<span class="keyword">$this</span>-&gt;config[<span class="string">'single'</span>]) ? <span class="keyword">$this</span>-&gt;config[<span class="string">'single'</span>] : <span class="string">'single'</span>;</span><br><span class="line"></span><br><span class="line">            $name .= <span class="string">'_'</span> . $type;</span><br><span class="line">        &#125; <span class="keyword">elseif</span> (<span class="keyword">$this</span>-&gt;config[<span class="string">'max_files'</span>]) &#123;</span><br><span class="line">            $name = date(<span class="string">'Ymd'</span>) . <span class="string">'_'</span> . $type;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            $name = date(<span class="string">'d'</span>) . <span class="string">'_'</span> . $type;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> $path . DIRECTORY_SEPARATOR . $name . <span class="string">'.log'</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 日志写入</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@access</span> protected</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> array $message 日志信息</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> string $destination 日志文件</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> bool</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">write</span><span class="params">(array $message, string $destination)</span>: <span class="title">bool</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// 检测日志文件大小，超过配置大小则备份日志文件重新生成</span></span><br><span class="line">        <span class="keyword">$this</span>-&gt;checkLogSize($destination);</span><br><span class="line"></span><br><span class="line">        $info = [];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">foreach</span> ($message <span class="keyword">as</span> $type =&gt; $msg) &#123;</span><br><span class="line">            $info[$type] = is_array($msg) ? implode(PHP_EOL, $msg) : $msg;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        $message = implode(PHP_EOL, $info) . PHP_EOL;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> error_log($message, <span class="number">3</span>, $destination);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 检查日志文件大小并自动生成备份文件</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@access</span> protected</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> string $destination 日志文件</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> void</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">checkLogSize</span><span class="params">(string $destination)</span>: <span class="title">void</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (is_file($destination) &amp;&amp; floor(<span class="keyword">$this</span>-&gt;config[<span class="string">'file_size'</span>]) &lt;= filesize($destination)) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                rename($destination, dirname($destination) . DIRECTORY_SEPARATOR . time() . <span class="string">'-'</span> . basename($destination));</span><br><span class="line">            &#125; <span class="keyword">catch</span> (<span class="keyword">Exception</span> $e) &#123;</span><br><span class="line">                <span class="comment">//</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后将 <code>config/log.php</code> 配置中的 type 设置为 <code>Tp6Log::class</code> ，便可以将请求记录、SQL 执行记录、错误等信息统统记录到日志文件中。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://blog.csdn.net/Function_JX_/article/details/121261012" target="_blank" rel="noopener">thinkphp6自定义日志驱动,增加显示全部请求信息</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/thinkphp6-custom-log-driver/>https://www.0x2beace.com/thinkphp6-custom-log-driver/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-06-17T16:55:02+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Jun 17, 2022</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/ThinkPHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>ThinkPHP</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/thinkphp6-custom-log-driver/&title=ThinkPHP6 自定义日志驱动 - Boo&summary=最近接手一个项目，ThinkPHP6.x 写的，日志处理形同虚设，每次出了啥问题，第一时间也不知道问题出在哪，调试起来障碍很多。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/thinkphp6-custom-log-driver/&title=ThinkPHP6 自定义日志驱动 - Boo&summary=最近接手一个项目，ThinkPHP6.x 写的，日志处理形同虚设，每次出了啥问题，第一时间也不知道问题出在哪，调试起来障碍很多。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/thinkphp6-custom-log-driver/&title=ThinkPHP6 自定义日志驱动 - Boo&summary=最近接手一个项目，ThinkPHP6.x 写的，日志处理形同虚设，每次出了啥问题，第一时间也不知道问题出在哪，调试起来障碍很多。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADnUlEQVR42u3awVLDMAwE0P7/T5c7TCfWSgG1PN9Kk9h+zmGR+nga0XggAAcOHDgDHLglcI9wfL//xwSH919d/3ID4fra+wUHDhw4cODAgVsGdxwAb4abAk2/v9wvOHDgwIEDBw7cUrg0UE6Dv1rPFezp3+P9ggMHDhw4cODAfQhcdaFTBUlw4MCBAwcOHDhwMwE4bSTf1WA+Dd7gwIEDBw4cOHCfAlctSKYgp/enAN3CKzhw4MCBAwcO3LvAVUd1Q9s+x/sFBw4cOHDgwIFbAnf3SANpt0BaDbrH+wEHDhw4cODAgVsCV114GoyrsKfPTwuacYMaHDhw4MCBAwduKdzpwk8bydWGdjVAVxvj1RfjOACDAwcOHDhw4MAtgWtP0AyiU88rB9yrz+DAgQMHDhw4cMvg7gqmU8G2CtwN4seFTHDgwIEDBw4cuDeBmwqW3UA8/dzj/YMDBw4cOHDgwC2DKwfBmwqc0wE2vf7lvODAgQMHDhw4cEvgqhC/tbEqbDWopy8AOHDgwIEDBw7cVrjTADwdbO8qgKbQL+8DBw4cOHDgwIFbAndXAbIalKcOrjpP+TngwIEDBw4cOHDL4J7hmCpYpgfTLWCWDxocOHDgwIEDB24pXDUIp43sboFx6rpqIRQcOHDgwIEDB24L3FRATAG7Iy3AxpDgwIEDBw4cOHDL4E4LlacTdANtd33VecuFTHDgwIEDBw4cuCVwaeA9DZLpdaeN62pDOt43OHDgwIEDBw7cErhq47hbsOw2rlP4qWAPDhw4cODAgQO3Fa66wG6jOG14p0DdFwAcOHDgwIEDB24bXFpA7ILfFYRT6OOGNDhw4MCBAwcO3HK4qY2nBcS00T3dIAcHDhw4cODAgdsKVw2s6Qa6cFON7ziIgwMHDhw4cODALYObKiymgGlD+fS+9MDL/zmAAwcOHDhw4MD9EVy14JcWPuOGcLMxnQZycODAgQMHDhy4bXDd0Q2aUwdVBY0PAhw4cODAgQMHbgncIxzViad+gDj1nLggCg4cOHDgwIEDtwxuqpA49QPC9GC6jevLecCBAwcOHDhw4JbCTW2kW2CsNpanAv0lKDhw4MCBAwcO3D+Bm2pop4XKNBCDAwcOHDhw4MB9Olz3Od372hDVBjw4cODAgQMHDtxSuGpg7QbULuzU+sCBAwcOHDhw4N4VLm3gdsHSg0rnae8DHDhw4MCBAwduCZxRbKAjAAcOHDgDHLi/HV9ZQ3619gP/HgAAAABJRU5ErkJggg==">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/is-the-transaction-isolated-or-not/'>
+                <p class='title'>08 事务到底是隔离的还是不隔离的<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
+课程重点：
+
+了解 Mysql 的全局锁
+了解当前读的概念
+
+
+
+下...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'ThinkPHP6 自定义日志驱动',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#日志记录"><span class="toc-text">日志记录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置日志记录级别"><span class="toc-text">设置日志记录级别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#单一日志"><span class="toc-text">单一日志</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#独立日志"><span class="toc-text">独立日志</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#日志的写入时机"><span class="toc-text">日志的写入时机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#日志通道"><span class="toc-text">日志通道</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自定义日志驱动"><span class="toc-text">自定义日志驱动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+      
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <span class="post-count">总字数：241.8k</span>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
+
+        <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+        
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?fbe826b92f6d49a0ebacf4d848bd3add";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+<script>
+  var now = new Date(); 
+  function createtime() {    
+      var grt= new Date("07/04/2020 14:12:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";     
+  } 
+setInterval("createtime()",250);
+</script>
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "Ki6kd5TUWoQyYKSErxehnRpc-MdYXbMMI",
+    appKey: "7pRBOKMw58Yo7EsUjHziIEY1",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
