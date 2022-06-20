@@ -169,6 +169,26 @@ public function index()
 ```
 
 生成 SQL 如下：
-```php
+```sql
 select `user`.*, (select sum(total_price) from `order` where `uid` = `user`.`uid` and `order`.`is_deleted` = '0' order by `total_price` desc limit 1) as `cost_amount` from `user` order by `cost_amount` desc limit 20 offset 
+```
+
+## 场景六
+基于子查询结合关联模型进行模糊匹配。
+
+思路通过一个 EXISTS 子查询实现基于关联模型字段对 User 模型实例的筛选。
+```php
+public function index()
+{
+     $result = OrderModel::whereHas("user", function ($query) {
+            $query->where('mobile', '*******');
+        })
+            ->orderByDesc("order_id")
+            ->paginate(20);
+}
+```
+
+生成 SQL 如下：
+```sql
+ select * from `order` where exists (select * from `user` where `order`.`uid` = `user`.`uid` and `mobile` = '********') order by `order_id` desc limit 20 offset 0
 ```
