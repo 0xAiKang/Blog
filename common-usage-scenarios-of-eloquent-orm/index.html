@@ -427,7 +427,7 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>887 words</p>
+      <p>987 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
@@ -524,7 +524,14 @@
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">index</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    UserModel::addSelect([</span><br><span class="line">       <span class="string">"cost_amount"</span> =&gt; OrderModel::selectRaw(<span class="string">'sum(total_price)'</span>)</span><br><span class="line">            -&gt;whereColumn(<span class="string">'uid'</span>, <span class="string">'user.uid'</span>)</span><br><span class="line">            -&gt;orderByDesc(<span class="string">"total_price"</span>)</span><br><span class="line">            -&gt;limit(<span class="number">1</span>)</span><br><span class="line">    ])</span><br><span class="line">        -&gt;orderByDesc(<span class="string">"cost_amount"</span>)</span><br><span class="line">        -&gt;paginate(<span class="number">20</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>生成 SQL 如下：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select `user`.*, (select sum(total_price) from `order` where `uid` = `user`.`uid` <span class="keyword">and</span> `order`.`is_deleted` = <span class="string">'0'</span> order by `total_price` desc limit <span class="number">1</span>) <span class="keyword">as</span> `cost_amount` from `user` order by `cost_amount` desc limit <span class="number">20</span> offset</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="string">`user`</span>.*, (<span class="keyword">select</span> <span class="keyword">sum</span>(total_price) <span class="keyword">from</span> <span class="string">`order`</span> <span class="keyword">where</span> <span class="string">`uid`</span> = <span class="string">`user`</span>.<span class="string">`uid`</span> <span class="keyword">and</span> <span class="string">`order`</span>.<span class="string">`is_deleted`</span> = <span class="string">'0'</span> <span class="keyword">order</span> <span class="keyword">by</span> <span class="string">`total_price`</span> <span class="keyword">desc</span> <span class="keyword">limit</span> <span class="number">1</span>) <span class="keyword">as</span> <span class="string">`cost_amount`</span> <span class="keyword">from</span> <span class="string">`user`</span> <span class="keyword">order</span> <span class="keyword">by</span> <span class="string">`cost_amount`</span> <span class="keyword">desc</span> <span class="keyword">limit</span> <span class="number">20</span> <span class="keyword">offset</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="场景六"><a href="#场景六" class="headerlink" title="场景六"></a>场景六</h2><p>基于子查询结合关联模型进行模糊匹配。</p>
+<p>思路通过一个 EXISTS 子查询实现基于关联模型字段对 User 模型实例的筛选。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">index</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">     $result = OrderModel::whereHas(<span class="string">"user"</span>, <span class="function"><span class="keyword">function</span> <span class="params">($query)</span> </span>&#123;</span><br><span class="line">            $query-&gt;where(<span class="string">'mobile'</span>, <span class="string">'*******'</span>);</span><br><span class="line">        &#125;)</span><br><span class="line">            -&gt;orderByDesc(<span class="string">"order_id"</span>)</span><br><span class="line">            -&gt;paginate(<span class="number">20</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>生成 SQL 如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="string">`order`</span> <span class="keyword">where</span> <span class="keyword">exists</span> (<span class="keyword">select</span> * <span class="keyword">from</span> <span class="string">`user`</span> <span class="keyword">where</span> <span class="string">`order`</span>.<span class="string">`uid`</span> = <span class="string">`user`</span>.<span class="string">`uid`</span> <span class="keyword">and</span> <span class="string">`mobile`</span> = <span class="string">'********'</span>) <span class="keyword">order</span> <span class="keyword">by</span> <span class="string">`order_id`</span> <span class="keyword">desc</span> <span class="keyword">limit</span> <span class="number">20</span> <span class="keyword">offset</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
           
             <div class='article_footer'>
               
@@ -608,10 +615,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-06-09T22:58:13+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-06-20T22:58:29+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Jun 9, 2022</p>
+    <p>更新于：Jun 20, 2022</p>
   </a>
 </div>
 
@@ -784,7 +791,7 @@
 
 
     <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#场景一"><span class="toc-text">场景一</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#场景二"><span class="toc-text">场景二</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#场景三"><span class="toc-text">场景三</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#场景四"><span class="toc-text">场景四</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#场景五"><span class="toc-text">场景五</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#场景一"><span class="toc-text">场景一</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#场景二"><span class="toc-text">场景二</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#场景三"><span class="toc-text">场景三</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#场景四"><span class="toc-text">场景四</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#场景五"><span class="toc-text">场景五</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#场景六"><span class="toc-text">场景六</span></a></li></ol>
     </div>
   </section>
 
