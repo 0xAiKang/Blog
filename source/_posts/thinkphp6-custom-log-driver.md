@@ -11,7 +11,7 @@ categories: ["PHP"]
 
 ThinkPHP 6.0 在日志这一块，改动挺大了，直接砍掉了原来的请求信息部分。
 
-![clipboard.png](inkdrop://file:OwdyJOIKO)
+![](https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220619091135.png)
 
 ## 日志记录
 ThinkPHP 对系统的日志按照级别来分类记录，按照 `PSR-3` 日志规范。除非是实时写入的日志，其它日志都是在当前请求结束的时候统一写入的 所以不要在日志写入之后使用exit等中断操作会导致日志写入失败。
