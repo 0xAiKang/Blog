@@ -1,5 +1,5 @@
 ---
-title: 为什么我的 Mysql 会抖一下
+title: 12 为什么我的 Mysql 会抖一下
 date: 2022-06-22 23:45:15
 tags: ["Mysql"]
 categories: ["Mysql"]
