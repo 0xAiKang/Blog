@@ -16,7 +16,7 @@
 
   <!-- 页面元数据 -->
   
-    <title>12 为什么我的 Mysql 会抖一下 - Boo</title>
+    <title>13 为什么表数据删掉一半，表文件大小不变 - Boo</title>
   
     <meta name="keywords" content="Mysql">
   
@@ -24,8 +24,9 @@
     <meta name="description" content="本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
 课程重点：
 
-了解脏页与干净页的概念
-了解InnoDB 刷脏页的控制策略
+了解 Mysql 的innodb_file_per_table 参数
+了解 Mysql 数据删除流程
+区分 Online 和 Inplace
 ">
   
 
@@ -377,8 +378,8 @@
         
           
   <h1 class="title">
-    <a href="/why-does-my-mysql-shake/">
-      12 为什么我的 Mysql 会抖一下
+    <a href="/why-is-half-of-the-table-data-deleted-but-the-table-file-size-remains-the-same/">
+      13 为什么表数据删掉一半，表文件大小不变
     </a>
   </h1>
 
@@ -416,7 +417,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jun 22, 2022</p>
+    <p>发布于：Jun 23, 2022</p>
   </a>
 </div>
 
@@ -451,7 +452,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/why-does-my-mysql-shake/" class="leancloud_visitors" data-flag-title="12 为什么我的 Mysql 会抖一下">
+      <span id="/why-is-half-of-the-table-data-deleted-but-the-table-file-size-remains-the-same/" class="leancloud_visitors" data-flag-title="13 为什么表数据删掉一半，表文件大小不变">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -476,64 +477,64 @@
           
           <p>本文是基于 <a href="https://time.geekbang.org/column/intro/100020801" target="_blank" rel="noopener">极客时间——MySQL 实战 45 讲</a> 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。</p>
 <p>课程重点：</p>
-<ol>
-<li>了解脏页与干净页的概念</li>
-<li>了解InnoDB 刷脏页的控制策略</li>
-</ol>
+<ul>
+<li>了解 Mysql 的innodb_file_per_table 参数</li>
+<li>了解 Mysql 数据删除流程</li>
+<li>区分 Online 和 Inplace</li>
+</ul>
 <a id="more"></a>
 
-<h2 id="你的-SQL-语句为什么变“慢”了"><a href="#你的-SQL-语句为什么变“慢”了" class="headerlink" title="你的 SQL 语句为什么变“慢”了"></a>你的 SQL 语句为什么变“慢”了</h2><p>当内存数据页跟磁盘数据页内容不一致的时候，我们称这个内存页为“脏页”。内存数据写入到磁盘后，内存和磁盘上的数据页的内容就一致了，称为“干净页”。</p>
-<p>不论是脏页还是干净页，都在内存中。</p>
-<p>接下来，我们用一个示意图来展示一下“孔乙己赊账”的整个操作过程。假设原来孔乙己欠账 10 文，这次又要赊 9 文。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220622234633.png" alt=""><br>回到文章开头的问题，你不难想象，平时执行很快的更新操作，其实就是在写内存和日志，而 MySQL 偶尔“抖”一下的那个瞬间，可能就是在刷脏页（flush）。</p>
-<p>那么，什么情况会引发数据库的 flush 过程呢？</p>
-<p>我们还是继续用咸亨酒店掌柜的这个例子，想一想：掌柜在什么情况下会把粉板上的赊账记录改到账本上？</p>
-<ul>
-<li>第一种场景是，粉板满了，记不下了。这时候如果再有人来赊账，掌柜就只得放下手里的活儿，将粉板上的记录擦掉一些，留出空位以便继续记账。当然在擦掉之前，他必须先将正确的账目记录到账本中才行。</li>
-</ul>
-<p>这个场景，对应的就是 InnoDB 的 redo log 写满了。这时候系统会停止所有更新操作，把 checkpoint 往前推进，redo log 留出空间可以继续写。我在第二讲画了一个 redo log 的示意图，这里我改成环形，便于大家理解。</p>
-<ul>
-<li>第二种场景是，这一天生意太好，要记住的事情太多，掌柜发现自己快记不住了，赶紧找出账本把孔乙己这笔账先加进去。</li>
-</ul>
-<p>这种场景，对应的就是系统内存不足。当需要新的内存页，而内存不够用的时候，就要淘汰一些数据页，空出内存给别的数据页使用。如果淘汰的是“脏页”，就要先将脏页写到磁盘。</p>
-<p>这个时候能否直接把内存淘汰掉，下次需要请求的时候，从磁盘读入数据页，然后拿 redo log 出来应用？</p>
-<p>这里其实是从性能考虑的。如果刷脏页一定会写盘，就保证了每个数据页有两种状态：</p>
-<ul>
-<li><p>一种是内存里存在，内存里就肯定是正确的结果，直接返回；</p>
-</li>
-<li><p>另一种是内存里没有数据，就可以肯定数据文件上是正确的结果，读入内存后返回。这样的效率最高。</p>
-</li>
-<li><p>第三种场景是，生意不忙的时候，或者打烊之后。这时候柜台没事，掌柜闲着也是闲着，不如更新账本。</p>
-</li>
-</ul>
-<p>这种场景，对应的就是 MySQL 认为系统“空闲”的时候。当然，MySQL“这家酒店”的生意好起来可是会很快就<br>能把粉板记满的，所以“掌柜”要合理地安排时间，即使是“生意好”的时候，也要见缝插针地找时间，只要有机会就刷一点“脏页”。</p>
-<ul>
-<li>第四种场景是，年底了咸亨酒店要关门几天，需要把账结清一下。这时候掌柜要把所有账都记到账本上，这样过完年重新开张的时候，就能就着账本明确账目情况了。</li>
-</ul>
-<p>这种场景，对应的就是 MySQL 正常关闭的情况。这时候，MySQL 会把内存的脏页都 flush 到磁盘上，这样下次 MySQL 启动的时候，就可以直接从磁盘上读数据，启动速度会很快。</p>
-<p><strong>四种场景对应性能分析</strong></p>
-<p>其中，第三种情况是属于 MySQL 空闲时的操作，这时系统没什么压力，而第四种场景是数据库本来就要关闭了。这两种情况下，你不会太关注“性能”问题。所以这里，我们主要来分析一下前两种场景下的性能问题。</p>
-<p>第一种是“redo log 写满了，要 flush 脏页”，这种情况是 InnoDB 要尽量避免的。因为出现这种情况的时候，整个系统就不能再接受更新了，所有的更新都必须堵住。如果你从监控上看，这时候更新数会跌为 0。</p>
-<p>第二种是“内存不够用了，要先将脏页写到磁盘”，这种情况其实是常态。InnoDB 用缓冲池（buffer pool）管理内存，缓冲池中的内存页有三种状态：</p>
-<p>第一种是，还没有使用的；<br>第二种是，使用了并且是干净页；<br>第三种是，使用了并且是脏页。<br>InnoDB 的策略是尽量使用内存，因此对于一个长时间运行的库来说，未被使用的页面很少。</p>
-<p>而当要读入的数据页没有在内存的时候，就必须到缓冲池中申请一个数据页。这时候只能把最久不使用的数据页从内存中淘汰掉：如果要淘汰的是一个干净页，就直接释放出来复用；但如果是脏页呢，就必须将脏页先刷到磁盘，变成干净页后才能复用。</p>
-<p>所以，刷脏页虽然是常态，但是出现以下这两种情况，都是会明显影响性能的：</p>
+<h2 id="参数-innodb-file-per-table"><a href="#参数-innodb-file-per-table" class="headerlink" title="参数 innodb_file_per_table"></a>参数 innodb_file_per_table</h2><p>表数据既可以存在共享表空间里，也可以是单独的文件。这个行为是由参数 innodb_file_per_table 控制的：</p>
 <ol>
-<li>一个查询要淘汰的脏页个数太多，会导致查询的响应时间明显变长；</li>
-<li>日志写满，更新全部堵住，写性能跌为 0，这种情况对敏感业务来说，是不能接受的。</li>
+<li>这个参数设置为 OFF 表示的是，表的数据放在系统共享表空间，也就是跟数据字典放在一起</li>
+<li>这个参数设置为 ON 表示的是，每个 InnoDB 表数据存储在一个以 .ibd 为后缀的文件中</li>
 </ol>
-<p>所以，InnoDB 需要有控制脏页比例的机制，来尽量避免上面的这两种情况。</p>
-<h2 id="InnoDB-刷脏页的控制策略"><a href="#InnoDB-刷脏页的控制策略" class="headerlink" title="InnoDB 刷脏页的控制策略"></a>InnoDB 刷脏页的控制策略</h2><ul>
-<li><code>innodb_io_capacity</code> 这个参数可以设置磁盘的 I/O 能力，不能设置太小，会导致刷脏页的速度变慢。</li>
-<li><code>innodb_max_dirty_pages_pct</code> 用来设置脏页比例上限，默认值是 75%。</li>
+<p>从 MySQL 5.6.6 版本开始，它的默认值就是 ON 了。</p>
+<p>建议不论使用 MySQL 的哪个版本，都将这个值设置为 ON。</p>
+<p>因为，一个表单独存储为一个文件更容易管理，而且在你不需要这个表的时候，通过 <code>drop table</code> 命令，系统就会直接删除这个文件。而如果是放在共享表空间中，即使表删掉了，空间也是不会回收的。</p>
+<h2 id="数据删除流程"><a href="#数据删除流程" class="headerlink" title="数据删除流程"></a>数据删除流程</h2><p>B + 树索引示意图：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220623222553.png" alt=""></p>
+<p>假设，我们要删掉 R4 这个记录，InnoDB 引擎只会把 R4 这个记录标记为删除。如果之后要再插入一个 ID 在 300 和 600 之间的记录时，可能会复用这个位置。但是，磁盘文件的大小并不会缩小。</p>
+<p>在 InnoBD 中，数据是按页进行存储的，如果我们删掉了一个数据页上的所有记录，会怎么样？</p>
+<p>答案是，整个数据页就可以被复用了。</p>
+<p>但是，<strong>数据页的复用跟记录的复用是不同的</strong>。</p>
+<p><strong>记录的复用，只限于符合范围条件的数据</strong>。比如上面的这个例子，R4 这条记录被删除后，如果插入一个 ID 是 400 的行，可以直接复用这个空间。但如果插入的是一个 ID 是 800 的行，就不能复用这个位置了。</p>
+<p><strong>数据页的复用</strong>，当整个页从 B+ 树里面摘掉以后，可以复用到任何位置。以上图为例，如果将数据页 page A 上的所有记录删除以后，page A 会被标记为可复用。这时候如果要插入一条 ID=50 的记录需要使用新页的时候，page A 是可以被复用的。</p>
+<p>如果相邻的两个数据页利用率都很小，系统就会把这两个页上的数据合到其中一个页上，另外一个数据页就被标记为可复用。</p>
+<p>进一步地，如果我们用 delete 命令把整个表的数据删除呢？结果就是，所有的数据页都会被标记为可复用。但是磁盘上，文件不会变小。</p>
+<p>你现在知道了，delete 命令其实只是把记录的位置，或者数据页标记为了“可复用”，但磁盘文件的大小是不会变的。也就是说，通过 delete 命令是不能回收表空间的。这些可以复用，而没有被使用的空间，看起来就像是“空洞”。</p>
+<p>实际上，<strong>不止是删除数据会造成空洞，插入数据也会</strong>。</p>
+<p>如果数据是按照索引递增顺序插入的，那么索引是紧凑的。但如果数据是随机插入的，就可能造成索引的数据页分裂。</p>
+<p>假设图 1 中 page A 已经满了，这时我要再插入一行数据，会怎样呢？</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220623222611.png" alt=""></p>
+<p>可以看到，由于 page A 满了，再插入一个 ID 是 550 的数据时，就不得不再申请一个新的页面 page B 来保存数据了。页分裂完成后，page A 的末尾就留下了空洞（注意：实际上，可能不止 1 个记录的位置是空洞）。</p>
+<p>另外，更新索引上的值，可以理解为删除一个旧的值，再插入一个新值。不难理解，这也是会造成空洞的。</p>
+<p>也就是说，经过大量增删改的表，都是可能是存在空洞的。所以，如果能够把这些空洞去掉，就能达到收缩表空间的目的。</p>
+<p>而重建表，就可以达到这样的目的。</p>
+<h2 id="重建表"><a href="#重建表" class="headerlink" title="重建表"></a>重建表</h2><p>可以新建一个与表 A 结构相同的表 B，然后按照主键 ID 递增的顺序，把数据一行一行地从表 A 里读出来再插入到表 B 中。</p>
+<p>由于表 B 是新建的表，所以表 A 主键索引上的空洞，在表 B 中就都不存在了。显然地，表 B 的主键索引更紧凑，数据页的利用率也更高。如果我们把表 B 作为临时表，数据从表 A 导入表 B 的操作完成后，用表 B 替换 A，从效果上看，就起到了收缩表 A 空间的作用。</p>
+<p>可以使用 alter table A engine=InnoDB 命令来重建表。在 MySQL 5.5 版本之前，这个命令的执行流程跟我们前面描述的差不多，区别只是这个临时表 B 不需要你自己创建，MySQL 会自动完成转存数据、交换表名、删除旧表的操作。</p>
+<p>不过需要注意的是，在整个 DDL 过程中，表 A 中不能有更新。也就是说，这个 DDL 不是 Online 的。</p>
+<h2 id="Online-和-Inplace"><a href="#Online-和-Inplace" class="headerlink" title="Online 和 Inplace"></a>Online 和 Inplace</h2><p>另一个跟 Online 有关， 比较容易混淆的概念是 Inplace。</p>
+<p>在上面的重建表的过程中，重建出来的数据会放在“tmp_file” 临时文件中，这个临时文件是 InnoDB 在内部创建出来的。整个 DDL 过程都在 InnoDB 内部完成。</p>
+<p>对于 server 层来说，<strong>没有把数据挪动到临时表，是一个“原地”操作，这就是“Inplace”名称的来源</strong>。</p>
+<p>所以，我现在问你，如果你有一个 1TB 的表，现在磁盘间是 1.2TB，能不能做一个 Inplace 的 DDL 呢？</p>
+<p>答案是不能。因为，tmp_file 也是要占用临时空间的。</p>
+<p>Online 和 Inplace 这两个逻辑之间的关系是什么？</p>
+<ul>
+<li>DDL 过程如果是 Online 的，就一定是 inplace 的</li>
+<li>反过来未必，也就是说 inplace 的 DDL，有可能不是 Online 的。截止到 MySQL 8.0，添加全文索引（FULLTEXT index）和空间索引 (SPATIAL index) 就属于这种情况</li>
 </ul>
-<p>InnoDB 会在后台刷脏页，而刷脏页的过程是要将内存页写入磁盘。所以，无论是你的查询语句在需要内存的时候可能要求淘汰一个脏页，还是由于刷脏页的逻辑会占用 IO 资源并可能影响到了你的更新语句，都可能是造成你从业务端感知到 MySQL“抖”了一下的原因。</p>
-<p>要尽量避免这种情况，你就要合理地设置 <code>innodb_io_capacity</code> 的值，并且平时要多关注脏页比例，不要让它经常接近 75%。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
-<li>当内存数据页跟磁盘数据页内容不一致的时候，我们称这个内存页为“脏页”。内存数据写入到磁盘后，内存和磁盘上的数据页的内容就一致了，称为“干净页”。</li>
-<li>把内存里的数据写入磁盘的过程，叫做 flush</li>
-<li>平时感知到 MySQL“抖”了一下，可能就是因为刚刚在刷脏页（flush）</li>
-<li>可以通过一些参数设置磁盘 I/O 能力，提高刷脏页的速度</li>
+<li>只是 delete 掉表里面不用的数据的话，表文件的大小是不会变的</li>
+<li>drop table 命令可以回收表空间，但是会把表结构定义和数据全部删掉</li>
+<li>如果希望在保留表结构以及数据的情况下，还能回收表空间，那么可以考虑重建表</li>
+<li>使用 alter table 重建表，有两种方式：<ul>
+<li><code>alter table t engine=innodb,ALGORITHM=copy;</code>：这个 DDL 不是 Online 的</li>
+<li><code>alter table t engine=innodb,ALGORITHM=inplace;</code>：这个 DDL 是 Online 的</li>
+</ul>
+</li>
+<li>Mysql 5.6 之后，除了增加加全文索引不是 online，其他 alter 操作(增删字段、增删索引等)都是支持 online ddl </li>
 </ul>
 
           
@@ -571,7 +572,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/why-does-my-mysql-shake/>https://www.0x2beace.com/why-does-my-mysql-shake/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/why-is-half-of-the-table-data-deleted-but-the-table-file-size-remains-the-same/>https://www.0x2beace.com/why-is-half-of-the-table-data-deleted-but-the-table-file-size-remains-the-same/</a></p>
           
         
       </blockquote>
@@ -619,10 +620,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-06-22T23:54:17+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-06-23T22:29:47+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Jun 22, 2022</p>
+    <p>更新于：Jun 23, 2022</p>
   </a>
 </div>
 
@@ -649,11 +650,12 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/why-does-my-mysql-shake/&title=12 为什么我的 Mysql 会抖一下 - Boo&summary=本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/why-is-half-of-the-table-data-deleted-but-the-table-file-size-remains-the-same/&title=13 为什么表数据删掉一半，表文件大小不变 - Boo&summary=本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
 课程重点：
 
-了解脏页与干净页的概念
-了解InnoDB 刷脏页的控制策略
+了解 Mysql 的innodb_file_per_table 参数
+了解 Mysql 数据删除流程
+区分 Online 和 Inplace
 "
           
           >
@@ -666,11 +668,12 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/why-does-my-mysql-shake/&title=12 为什么我的 Mysql 会抖一下 - Boo&summary=本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/why-is-half-of-the-table-data-deleted-but-the-table-file-size-remains-the-same/&title=13 为什么表数据删掉一半，表文件大小不变 - Boo&summary=本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
 课程重点：
 
-了解脏页与干净页的概念
-了解InnoDB 刷脏页的控制策略
+了解 Mysql 的innodb_file_per_table 参数
+了解 Mysql 数据删除流程
+区分 Online 和 Inplace
 "
           
           >
@@ -683,11 +686,12 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/why-does-my-mysql-shake/&title=12 为什么我的 Mysql 会抖一下 - Boo&summary=本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/why-is-half-of-the-table-data-deleted-but-the-table-file-size-remains-the-same/&title=13 为什么表数据删掉一半，表文件大小不变 - Boo&summary=本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
 课程重点：
 
-了解脏页与干净页的概念
-了解InnoDB 刷脏页的控制策略
+了解 Mysql 的innodb_file_per_table 参数
+了解 Mysql 数据删除流程
+区分 Online 和 Inplace
 "
           
           >
@@ -702,7 +706,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAAC70lEQVR42u3aS3ICMQwFQO5/aXKAhLJ+E9DQ3iUwRu7ZvJL8eFp/rgcCMGDAgAEDZg3Mo7hePX/6/69CDs9l922fBwwYMGDAgAGzDiYcgJowVYhTHWPnAQMGDBgwYMCshakWmg1aWfjo73fPAwYMGDBgwID5Hphow6gaHLtwYMCAAQMGDBgw3YDVDYJdKDBgwIABAwbM/WGyQax7YecqiLdPIsGAAQMGDBgw/wYzdYBP+bt8HjBgwIABAwbMGpjuOg3WqoU/37TAgAEDBgwYMHtgToVHB1fZAVc1SHYvMh33AwMGDBgwYMCsgZkOXtHCpkGzL/Y4cAMDBgwYMGDAfDzM1MZTgbB7gan6+2DAgAEDBgyYfTDRQquFRJ+rDvKyjSkwYMCAAQMGzH1gqsGqe+DuvtmDhxttYMCAAQMGDJg1MNWgli1kanB3NRQYMGDAgAEDZj/MdEMqOuBrX/zp1gcGDBgwYMCAWQMz1RjKBrrs5906w/uAAQMGDBgwYG4HUw1U0ZXdDwwYMGDAgAEDJjqoqja0ogVmg97p+9kgCQYMGDBgwIDZCzNV2FUXkZ7JlR3cgQEDBgwYMGDuD5M9eBUgO+jLwr7cHwwYMGDAgAGzHiZb2FUDuW7QiwKCAQMGDBgwYO4HM11AF25qEFceuIEBAwYMGDBgPgYm2niqQh4DVfFgUaj0QA4MGDBgwIABsw6m+kPVg0wHxKkXBwYMGDBgwIDZA9NtKFUvAHWDXneABwYMGDBgwIDZD9Nd0QNPBcduI+y4HxgwYMCAAQNmDUw3KE01oKoNq2jjKvyiwYABAwYMGDDrYKqBrguY/V73gtCxTjBgwIABAwbMWpjuAbPQ1YFdN5C+PAcYMGDAgAED5mtgqhd1sgBTA7vj/mDAgAEDBgyYr4eZbmRNDQaPjS0wYMCAAQMGzFqYbCOpus9UQJwKnGDAgAEDBgyYvTDd4NQFTB8g+CKyz4EBAwYMGDBg9sBYYMCAAQMGDJhl6wcK0uUO5SK/AQAAAABJRU5ErkJggg==">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXgAAAF4CAAAAAB79r16AAAFKUlEQVR42u3aQY4bMQwEwP3/pzf3BMaIzZZtIKWbszMjqahLh/r5NT4yfhCAB2+AB2+AB28U4H/C8ff7/0xw+Pyr90+/fzrfdF+n84y9wIMHDx48ePDgwYMvwh8HgMMNpyCn728LnB6ItRd48ODBgwcPHjx48Bfgp4FpGkieFngaqG4Fn21we/QCDx48ePDgwYMHD/4L4LeBIy3YaaBKD8r24IEHDx48ePDgwYMH/83w8cWesBEynad9EMCDBw8ePHjw4MGD/0b4NLhsg01rvhSstf+33SQDDx48ePDgwYMHD34RUP7X37EXePDgwYMHDx48ePAF+Pb4lgCVXmDaBqbH/YAHDx48ePDgwYMHX4BvXSRqFaY9/3a9rXWDBw8ePHjw4MGDB9+Ef/XC6ULaG08Pwum6xlDLC1OPyRU8ePDgwYMHDx48+CJ8GlxOQdLvbIG3gWjb8AEPHjx48ODBgwcPvgGfQm8LMAW5DZMWeHwBCzx48ODBgwcPHjz4Ivx2o9P3p7/TQHar0RE/Dx48ePDgwYMHDx78Bfg0KE2h2kFnC5Q2Nk4PMHjw4MGDBw8ePHjwTfg0kKSBazum3902LqZB7LgRAh48ePDgwYMHDx78G+G3C9o+3wacHpjpd8GDBw8ePHjw4MGD/wT89IJS60LTNMi1GjbbA3Z8oQk8ePDgwYMHDx48+AV82vCIA0RY0Hijw+fSgh4XBDx48ODBgwcPHjz4C/DtxkTrAlNa6FaASg8SePDgwYMHDx48ePDvgJ9ucFq4KWTru9PvbYMeePDgwYMHDx48ePA34dMFnQaftHDboLUNZtP1HQcu8ODBgwcPHjx48OCL8NP/6J8Gj+1FqdsNl3bDBzx48ODBgwcPHjz4m/DTBsjT72nDYBp4TuffFrDW+HjqQIEHDx48ePDgwYMHv4CfNjC2z00bGK0AkwawbeMEPHjw4MGDBw8ePPgb8NvGwi24bcNiG8C284IHDx48ePDgwYMHfwN+uoDb/95qzKwbFqVg+XiTDDx48ODBgwcPHjz4AD4NRunFoNMAsy3cNFjd3g948ODBgwcPHjx48Dfgf8ORBpJtIyMt5LRw6UUm8ODBgwcPHjx48OBvwqeNj2kASRsV26DTWk867+OFJvDgwYMHDx48ePDgF/Dbi0S1hS3naTU20uce9wMePHjw4MGDBw8efAH+VgOj1UBoBbntwag1csCDBw8ePHjw4MGDL8KnF4RuNUDSoJUGsm2QiwMUePDgwYMHDx48ePAL+BS0tbBWw2MLXQN+9Rx48ODBgwcPHjx48EX4bWOhFWDS77QaFq2LTC+dwIMHDx48ePDgwYMvwE8Dy7Zh0Aoi0+9vGym1AoIHDx48ePDgwYMHX4TfTjAt3LQx0roQla5nu37w4MGDBw8ePHjw4Jvw6UJbF4TSRsbpQTktyHYdxwcPPHjw4MGDBw8ePPgC/Ha0wdOA1gp8t+YHDx48ePDgwYMHD74JfyugpMElvVB1Crot/PQ3ePDgwYMHDx48ePA34beBKQVfB5JhAU//vg1QLwsHHjx48ODBgwcPHvwF+NPA1ApK04BWu1gU7m8673GAAg8ePHjw4MGDBw/+A/DTgDRtgKSArYC3LRB48ODBgwcPHjx48N8EfwrcLuy2AXIahNoHETx48ODBgwcPHjz4G/At0O3GWwVPg1JrP+DBgwcPHjx48ODB34RPLw5tN3baoGgD3f7e8YUm8ODBgwcPHjx48OADeOO9Azx48AZ48AZ48MZi/AE7NrPWviMnLgAAAABJRU5ErkJggg==">
           </div>
         </div>
       
@@ -722,22 +726,14 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/why-is-half-of-the-table-data-deleted-but-the-table-file-size-remains-the-same/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>13 为什么表数据删掉一半，表文件大小不变</p>
+            
+              <a class='next' href='/why-does-my-mysql-shake/'>
+                <p class='title'>12 为什么我的 Mysql 会抖一下<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
                 <p class='content'>本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
 课程重点：
 
-了解 Mysql 的innodb_file_per_t...</p>
-              </a>
-            
-            
-              <a class='next' href='/how-to-add-an-index-to-a-string-field/'>
-                <p class='title'>11 怎么给字符串字段加索引<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
-课程重点：
-
-搞清楚怎么给字符串字段加索引
-了解前缀索引对覆盖索引的...</p>
+了解脏页与干净页的概念
+了解InnoDB 刷脏页的控制...</p>
               </a>
             
           </div>
@@ -782,7 +778,7 @@
 
   <script>
     window.subData = {
-      title: '12 为什么我的 Mysql 会抖一下',
+      title: '13 为什么表数据删掉一半，表文件大小不变',
       tools: true
     }
   </script>
@@ -808,7 +804,7 @@
 
 
     <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#你的-SQL-语句为什么变“慢”了"><span class="toc-text">你的 SQL 语句为什么变“慢”了</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#InnoDB-刷脏页的控制策略"><span class="toc-text">InnoDB 刷脏页的控制策略</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#参数-innodb-file-per-table"><span class="toc-text">参数 innodb_file_per_table</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据删除流程"><span class="toc-text">数据删除流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#重建表"><span class="toc-text">重建表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Online-和-Inplace"><span class="toc-text">Online 和 Inplace</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
     </div>
   </section>
 
