@@ -39,6 +39,7 @@ $user = UserModel::select(["uid", "nickname"])->find(1);
 
 这个场景下使用连接查询是不行的，因为涉及到被驱动表的排序和限定查询问题。
 
+思路：基于子查询结合关联模型进行查询。
 ```php
 public function index()
 {
@@ -85,15 +86,15 @@ select (select SUM(total_price) from `order` where `uid` = `user`.`uid` order by
 ```php
 public function index()
 {
-    AuctionOrderModel::selectRaw("count(order_id)")
-          ->groupBy("auction_order_status")
-          ->get();
+    OrderModel::selectRaw("count(order_id), user_order_status")
+      ->groupBy("user_order_status")
+      ->get();
 }
 ```
 
 生成 SQL：
-```mysql
-select count(order_id) from `auction_order` where `auction_order`.`is_deleted` = '0' group by `auction_order_status
+```sql
+select count(order_id), user_order_status from `order` group by `user_order_status
 ```
 
 思路一：将多次聚合统计查询合并为一次查询：
@@ -153,7 +154,9 @@ public function index()
 ## 场景五
 一对多关联排序（用户表与订单表）：用户列表展示用户对应创建订单的金额，并根据金额大小进行排序。
 
-思路一：子查询：
+一对多关联的场景不能使用连接查询，因为如果被驱动表中没有关联的数据，驱动表的记录也不会出现在结果列表中，同时涉及到排序和限定查询问题。
+
+思路：子查询
 ```php
 public function index()
 {
@@ -176,7 +179,7 @@ select `user`.*, (select sum(total_price) from `order` where `uid` = `user`.`uid
 ## 场景六
 基于子查询结合关联模型进行模糊匹配。
 
-思路通过一个 EXISTS 子查询实现基于关联模型字段对 User 模型实例的筛选。
+思路：通过一个 EXISTS 子查询实现基于关联模型字段对 User 模型实例的筛选。
 ```php
 public function index()
 {
@@ -190,5 +193,5 @@ public function index()
 
 生成 SQL 如下：
 ```sql
- select * from `order` where exists (select * from `user` where `order`.`uid` = `user`.`uid` and `mobile` = '********') order by `order_id` desc limit 20 offset 0
+ select * from `order` where exists (select * from `user` where `order`.`uid` = `user`.`uid` and `mobile` = '*******') order by `order_id` desc limit 20 offset 0
 ```
