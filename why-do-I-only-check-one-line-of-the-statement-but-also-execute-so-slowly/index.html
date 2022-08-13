@@ -16,7 +16,7 @@
 
   <!-- 页面元数据 -->
   
-    <title>18 为什么这些SQL语句逻辑相同，性能却差异巨大 - Boo</title>
+    <title>19 为什么我只查一行的语句，也执行这么慢 - Boo</title>
   
     <meta name="keywords" content="Mysql">
   
@@ -24,9 +24,8 @@
     <meta name="description" content="本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
 课程重点：
 
-了解常见的几种导致性能差异巨大的 SQL 语句
-
-在 MySQL 中，有很多看上去逻辑相同，但性能却差异巨大的 SQL 语句。对这些语句使用不当的话，就会不经意间导致整个数据...">
+了解只查一行记录，也会执行得特别慢的多种情况
+">
   
 
   <!-- feed -->
@@ -377,8 +376,8 @@
         
           
   <h1 class="title">
-    <a href="/why-these-sql-statements-have-the-same-logic-but-the-performance-is-very-different/">
-      18 为什么这些SQL语句逻辑相同，性能却差异巨大
+    <a href="/why-do-I-only-check-one-line-of-the-statement-but-also-execute-so-slowly/">
+      19 为什么我只查一行的语句，也执行这么慢
     </a>
   </h1>
 
@@ -416,7 +415,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Aug 12, 2022</p>
+    <p>发布于：Aug 13, 2022</p>
   </a>
 </div>
 
@@ -432,13 +431,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1.3k words</p>
+      <p>1.5k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>4 min</p>
+      <p>5 min</p>
     </a>
   </div>
 
@@ -451,7 +450,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/why-these-sql-statements-have-the-same-logic-but-the-performance-is-very-different/" class="leancloud_visitors" data-flag-title="18 为什么这些SQL语句逻辑相同，性能却差异巨大">
+      <span id="/why-do-I-only-check-one-line-of-the-statement-but-also-execute-so-slowly/" class="leancloud_visitors" data-flag-title="19 为什么我只查一行的语句，也执行这么慢">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -477,61 +476,80 @@
           <p>本文是基于 <a href="https://time.geekbang.org/column/intro/100020801" target="_blank" rel="noopener">极客时间——MySQL 实战 45 讲</a> 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。</p>
 <p>课程重点：</p>
 <ul>
-<li>了解常见的几种导致性能差异巨大的 SQL 语句</li>
+<li>了解只查一行记录，也会执行得特别慢的多种情况</li>
 </ul>
-<p>在 MySQL 中，有很多看上去逻辑相同，但性能却差异巨大的 SQL 语句。对这些语句使用不当的话，就会不经意间导致整个数据库的压力变大。</p>
 <a id="more"></a>
 
-<h2 id="案例一：条件字段函数操作"><a href="#案例一：条件字段函数操作" class="headerlink" title="案例一：条件字段函数操作"></a>案例一：条件字段函数操作</h2><p>当需要统计某张表的某个月份的合计数量时，这个时候通常会使用 <code>month()</code> 函数，类似的 SQL 语句如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select count(*) from t where month(created_at)&#x3D;7;</span><br></pre></td></tr></table></figure>
+<p>有时候，在 Mysql 中，只查一行记录，也会执行得特别慢。</p>
+<p>当然上面说的这个问题，肯定不是在 MySQL 数据库本身就有很大的压力，导致数据库服务器 CPU 占用率很高或 ioutil（IO 利用率）很高，这种情况下所有语句的执行都有可能变慢。</p>
+<p>为了便于描述，我还是构造一个表，基于这个表来说明今天的问题。这个表有两个字段 id 和 c，并且我在里面插入了 10 万行记录。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE &#96;t&#96; (</span><br><span class="line">  &#96;id&#96; int(11) NOT NULL,</span><br><span class="line">  &#96;c&#96; int(11) DEFAULT NULL,</span><br><span class="line">  PRIMARY KEY (&#96;id&#96;)</span><br><span class="line">) ENGINE&#x3D;InnoDB;</span><br><span class="line"> </span><br><span class="line">delimiter ;;</span><br><span class="line">create procedure idata()</span><br><span class="line">begin</span><br><span class="line">  declare i int;</span><br><span class="line">  set i&#x3D;1;</span><br><span class="line">  while(i&lt;&#x3D;100000)do</span><br><span class="line">    insert into t values(i,i);</span><br><span class="line">    set i&#x3D;i+1;</span><br><span class="line">  end while;</span><br><span class="line">end;;</span><br><span class="line">delimiter ;</span><br><span class="line"> </span><br><span class="line">call idata();</span><br></pre></td></tr></table></figure>
 
-<p>对索引字段做函数操作，可能会破坏索引值的有序性，因此优化器就决定放弃走树搜索功能。</p>
-<p>需要注意的是，优化器并不是要放弃使用这个索引。</p>
-<p>在这个例子里，放弃了树搜索功能，优化器可以选择遍历主键索引，也可以选择遍历索引 created_at，优化器对比索引大小后发现，索引 created_at 更小，遍历这个索引比遍历主键索引来得更快。因此最终还是会选择索引 created_at。</p>
-<p>所以，当使用 explain 命令查看这条 SQL 语句的执行计划时：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220812131115.png" alt=""></p>
-<ul>
-<li>key=”created_at” 表示的是，使用了 created_at 这个索引；在测试表数据中插入了 10 万行数据，rows=100335，说明这条语句扫描了整个索引的所有值</li>
-<li>Extra 字段的 Using index，表示的是使用了覆盖索引</li>
-</ul>
-<p>也就是说，由于在 created_at 字段加了 month() 函数操作，导致了全索引扫描。为了能够用上索引的快速定位能力，我们就要把 SQL 语句改成基于字段本身的范围查询。按照下面这个写法，优化器就能按照我们预期的，用上 created_at 索引的快速定位能力了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select count(*) from t where created_at &gt;&#x3D; &#39;2022-06-01&#39; and &#96;created_at&#96; &lt;&#x3D; &#39;2022-07-01&#39;;</span><br></pre></td></tr></table></figure>
+<h2 id="第一类：查询长时间不返回"><a href="#第一类：查询长时间不返回" class="headerlink" title="第一类：查询长时间不返回"></a>第一类：查询长时间不返回</h2><p>如下图所示，在表 t 执行下面的 SQL 语句：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from t where id&#x3D;1;</span><br></pre></td></tr></table></figure>
 
-<h2 id="案例二：隐式类型转换"><a href="#案例二：隐式类型转换" class="headerlink" title="案例二：隐式类型转换"></a>案例二：隐式类型转换</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from t where order_no &#x3D; 110717;</span><br></pre></td></tr></table></figure>
-
-<p>订单编号 order_no 这个字段上，本来就有索引，但是 explain 的结果却显示，这条语句需要走全表扫描。你可能也发现了，order_no 的字段类型是 varchar(32)，而输入的参数却是整型，所以需要做类型转换。</p>
-<p>那么，现在这里就有两个问题：</p>
+<p>查询结果长时间不返回。</p>
+<p>一般碰到这种情况的话，大概率是表 t 被锁住了。接下来分析原因的时候，一般都是首先执行一下 show processlist 命令，看看当前语句处于什么状态。</p>
+<p>然后我们再针对每种状态，去分析它们产生的原因、如何复现，以及如何处理。</p>
+<h3 id="等-MDL-锁"><a href="#等-MDL-锁" class="headerlink" title="等 MDL 锁"></a>等 MDL 锁</h3><p>通常前面的学习得知，MDL 锁是可能会导致整个表锁住的（增删改查都做不了）。</p>
+<p>复现过程：</p>
 <ol>
-<li>数据类型转换的规则是什么？</li>
-<li>为什么有数据类型转换，就需要走全索引扫描？</li>
+<li>开启一个事务 A ，对表 t 加一个 MDL 读锁（对表 t 做增删改查）</li>
+<li>开启一个事务 B，对表 t 加一个 MDL 写锁（对表 t 增加一个字段）</li>
 </ol>
-<p>数据库里面类型这么多，这种数据类型转换规则更多，我记不住，应该怎么办呢？</p>
-<p>这里有一个简单的方法，看 select “10” &gt; 9 的结果：</p>
+<p>此时 session A 开启了事务，并没有释放，而 session B 需要 MDL 写锁，因此只能被阻塞（阻塞原因：MDL 读写锁是互斥的）</p>
+<p>此时的解决方案就是，使用 show processlist 命令查看 Waiting for table metadata lock。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220813130648.png" alt=""></p>
+<p>找出造成阻塞的 process id，把这个连接用 kill 命令断开即可。</p>
+<h3 id="等-flush"><a href="#等-flush" class="headerlink" title="等 flush"></a>等 flush</h3><p>MySQL 中对表做 flush 操作的用法，一般有以下两个：</p>
 <ul>
-<li>如果规则是“将字符串转成数字”，那么就是做数字比较，结果应该是 1</li>
-<li>如果规则是“将数字转成字符串”，那么就是做字符串比较，结果应该是 0</li>
+<li>flush tables t with read lock;</li>
+<li>flush tables with read lock;</li>
 </ul>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220812131126.png" alt=""></p>
-<p>从图中可知，select “10” &gt; 9 返回的是 1，所以你就能确认 MySQL 里的转换规则了：在 MySQL 中，字符串和数字做比较的话，是将字符串转换成数字。</p>
-<p>因此上面的语句对于优化器来说，相当于：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from t where  CAST(order_no AS signed int) &#x3D; 110717;</span><br></pre></td></tr></table></figure>
+<p>这两个 flush 语句，如果指定表 t 的话，代表的是只关闭表 t；如果没有指定具体的表名，则表示关闭 MySQL 里所有打开的表。</p>
+<p>但是正常这两个语句执行起来都很快，除非它们也被别的线程堵住了。</p>
+<p>所以，出现 Waiting for table flush 状态的可能情况是：有一个 flush tables 命令被别的语句堵住了，然后它又堵住了我们的 select 语句。</p>
+<p>重现步骤：</p>
+<ul>
+<li>开启一个事务 A，执行 <code>select sleep(1) from t</code>，故意每行都调用一次 sleep(1)，这样这个语句默认要执行 10 万秒（依据表 t 的总行数）</li>
+<li>开启一个事务 B，执行 <code>flush tables t</code>，关闭表 t，这时就需要等 session A 的查询结束</li>
+<li>此时如果再开启一个事务 C，执行查询语句，就会被 flush 命令堵住了</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220813130706.png" alt=""><br>解决方案同时是，找出造成阻塞的 process id，把这个连接用 kill 命令断开即可。</p>
+<h3 id="等行锁"><a href="#等行锁" class="headerlink" title="等行锁"></a>等行锁</h3><p>现在，经过了表级锁的考验，我们的 select 语句终于来到引擎里了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from t where id&#x3D;1 lock in share mode;</span><br></pre></td></tr></table></figure>
 
-<p>也就是说，这条语句触发了我们上面说到的规则：对索引字段做函数操作，优化器会放弃走树搜索功能。</p>
-<h2 id="案例三：隐式字符编码转换"><a href="#案例三：隐式字符编码转换" class="headerlink" title="案例三：隐式字符编码转换"></a>案例三：隐式字符编码转换</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select d.* from tradelog l, trade_detail d where d.tradeid&#x3D;l.tradeid and l.id&#x3D;2;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>lock in share mode 表示加读锁（S 锁，共享锁）</li>
+<li>for update 表示加写锁（X 锁，排他锁）</li>
+</ul>
+<p>由于访问 id=1 这个记录时要加读锁，如果这时候已经有一个事务在这行记录上持有一个写锁，我们的 select 语句就会被堵住。</p>
+<p>复现步骤：</p>
+<ol>
+<li>开启一个事务 A，更新 id = 1 这一行的记录</li>
+<li>开启一个事务 B，执行上面的 SQL 语句</li>
+</ol>
+<p>显然，session A 启动了事务，占有写锁，还不提交，是导致 session B 被堵住的原因。</p>
+<p>Mysql 5.7 可以通过 sys.innodb_lock_waits 表查到。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from sys.innodb_lock_waits where locked_table&#x3D; &#39;&#96;test_dump&#96;.&#96;t&#96;&#39;;</span><br></pre></td></tr></table></figure>
 
-<p>当联表查询时，这两个表的字符集不同，例如一个是 utf8，另一个是 utf8mb4，这时做表连接查询的时候用不上关联字段的索引。</p>
-<p>字符集 utf8mb4 是 utf8 的超集，所以当这两个类型的字符串在做比较的时候，MySQL 内部的操作是，先把 utf8 字符串转成 utf8mb4 字符集，再做比较。</p>
-<p>因此， 在执行上面这个语句的时候，需要将被驱动数据表里的字段一个个地转换成 utf8mb4，再跟 L2(id= 2) 做比较。</p>
-<p>也就是说，实际上这个语句等同于下面这个写法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from trade_detail  where CONVERT(traideid USING utf8mb4)&#x3D;$L2.tradeid.value;</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220813130806.png" alt=""><br>通过这个命令可以得到的信息还是挺多的，找到对应的线程 id，将其 kill 掉即可。</p>
+<p>连接被断开的时候，会自动回滚这个连接里面正在执行的线程，也就释放了 id=1 上的行锁。</p>
+<h2 id="第二类：查询慢"><a href="#第二类：查询慢" class="headerlink" title="第二类：查询慢"></a>第二类：查询慢</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from t where c&#x3D;50000 limit 1;</span><br></pre></td></tr></table></figure>
 
-<p>CONVERT() 函数，在这里的意思是把输入的字符串转成 utf8mb4 字符集。</p>
-<p>这就再次触发了我们上面说到的原则：对索引字段做函数操作，优化器会放弃走树搜索功能。</p>
-<p><strong>连接过程中要求在被驱动表的索引字段上加函数操作，是直接导致对被驱动表做全表扫描的原因</strong>。</p>
+<p>由于字段 c 上没有索引，这个语句只能走 id 主键顺序扫描，因此需要扫描 5 万行。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220813130823.png" alt=""></p>
+<p>通过查询慢查询日志，可以确定，确实扫描了 5 万行，但是并不慢呀，2ms 就返回了。</p>
+<p><strong>坏查询不一定是慢查询</strong>。我们这个例子里面只有 10 万行记录，数据量大起来的话，执行时间就线性涨上去了。</p>
+<p>扫描行数多，所以执行慢，这个很好理解。</p>
+<p>但是接下来，我们再看一个只扫描一行，但是执行很慢的语句。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220813130838.png" alt=""><br>复现步骤如上图所示。</p>
+<p>session A 先用 start transaction with consistent snapshot 命令启动了一个事务，之后 session B 才开始执行 update 语句。</p>
+<p>session B 执行完 100 万次 update 语句后，生成了 100 万个回滚日志 (undo log)。</p>
+<p>带 lock in share mode 的 SQL 语句，是当前读，因此会直接读到 1000001 这个结果，所以速度很快；而 select * from t where id=1 这个语句，是一致性读，因此需要从 1000001 开始，依次执行 undo log，执行了 100 万次以后，才将 1 这个结果返回。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
-<li>条件字段函数操作、隐式类型转换、隐式字符编码转换，这三个例子都会导致对索引字段做函数操作</li>
-<li>对索引字段做函数操作，可能会破坏索引值的有序性，因此优化器就决定放弃走树搜索功能</li>
-<li>对索引字段做函数操作，会导致全表扫猫</li>
+<li>坏查询不一定是慢查询，当数据量大一些时，执行时间就线性涨上去了</li>
+<li>表锁、行锁都可能会导致阻塞查询语句</li>
 </ul>
 
           
@@ -569,7 +587,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/why-these-sql-statements-have-the-same-logic-but-the-performance-is-very-different/>https://www.0x2beace.com/why-these-sql-statements-have-the-same-logic-but-the-performance-is-very-different/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/why-do-I-only-check-one-line-of-the-statement-but-also-execute-so-slowly/>https://www.0x2beace.com/why-do-I-only-check-one-line-of-the-statement-but-also-execute-so-slowly/</a></p>
           
         
       </blockquote>
@@ -617,10 +635,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-08-12T13:13:22+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-08-13T13:09:06+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Aug 12, 2022</p>
+    <p>更新于：Aug 13, 2022</p>
   </a>
 </div>
 
@@ -647,12 +665,11 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/why-these-sql-statements-have-the-same-logic-but-the-performance-is-very-different/&title=18 为什么这些SQL语句逻辑相同，性能却差异巨大 - Boo&summary=本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/why-do-I-only-check-one-line-of-the-statement-but-also-execute-so-slowly/&title=19 为什么我只查一行的语句，也执行这么慢 - Boo&summary=本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
 课程重点：
 
-了解常见的几种导致性能差异巨大的 SQL 语句
-
-在 MySQL 中，有很多看上去逻辑相同，但性能却差异巨大的 SQL 语句。对这些语句使用不当的话，就会不经意间导致整个数据库的压力变大。"
+了解只查一行记录，也会执行得特别慢的多种情况
+"
           
           >
           
@@ -664,12 +681,11 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/why-these-sql-statements-have-the-same-logic-but-the-performance-is-very-different/&title=18 为什么这些SQL语句逻辑相同，性能却差异巨大 - Boo&summary=本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/why-do-I-only-check-one-line-of-the-statement-but-also-execute-so-slowly/&title=19 为什么我只查一行的语句，也执行这么慢 - Boo&summary=本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
 课程重点：
 
-了解常见的几种导致性能差异巨大的 SQL 语句
-
-在 MySQL 中，有很多看上去逻辑相同，但性能却差异巨大的 SQL 语句。对这些语句使用不当的话，就会不经意间导致整个数据库的压力变大。"
+了解只查一行记录，也会执行得特别慢的多种情况
+"
           
           >
           
@@ -681,12 +697,11 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/why-these-sql-statements-have-the-same-logic-but-the-performance-is-very-different/&title=18 为什么这些SQL语句逻辑相同，性能却差异巨大 - Boo&summary=本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/why-do-I-only-check-one-line-of-the-statement-but-also-execute-so-slowly/&title=19 为什么我只查一行的语句，也执行这么慢 - Boo&summary=本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
 课程重点：
 
-了解常见的几种导致性能差异巨大的 SQL 语句
-
-在 MySQL 中，有很多看上去逻辑相同，但性能却差异巨大的 SQL 语句。对这些语句使用不当的话，就会不经意间导致整个数据库的压力变大。"
+了解只查一行记录，也会执行得特别慢的多种情况
+"
           
           >
           
@@ -700,7 +715,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXgAAAF4CAAAAAB79r16AAAFKklEQVR42u3aS25cMQwEwLn/pZ19AuOJzdaLg5R24xnrU9SmQX2+jL8yPgjAgzfAgzfAgzcK8J9w/P7/fyww/P23G32Yf7ru03me1ll7gQcPHjx48ODBgwdfhE8h0gM9QbW+f9p3q+DH64IHDx48ePDgwYMHfwF+Gphan6frnRakHfTW+wcPHjx48ODBgwcP/gfA3wpiU8hPaUwLAh48ePDgwYMHDx78vwjfaiicBpwp4PSCtAMdePDgwYMHDx48ePBvwE+Dz/ZgrfW2YK3zv/aSDDx48ODBgwcPHjz4QsPgf/sce4EHDx48ePDgwYMHX4Bvj9MHQu3GRdpgaQesRx/w4MGDBw8ePHjw4AvwrYdE04OfQrQfMKWQ0wIeJ1fw4MGDBw8ePHjw4Bfwbz0I2sKkD6bSYLed5zFAgQcPHjx48ODBgwcfwJ9uPG0gbBsVaSHSi5P+bhygwIMHDx48ePDgwYNfwL/14OfWgbYBrNUoOV4fPHjw4MGDBw8ePPgCfDt43IKIA8uyUK2gCR48ePDgwYMHDx58Ez6d4PRg28ZFa/72RUoDJXjw4MGDBw8ePHjwN+Cn0OmB00J+DsetgAQePHjw4MGDBw8e/E+AnzYk0s/tRse0AOl6Y9iniwAePHjw4MGDBw8efAF+GjzSwJIGkWnASxsgrYbQowN48ODBgwcPHjx48C/Ap4GiVZjt5/RCXTsHePDgwYMHDx48ePAF+FZgOt1guuHpvlqNje2DLfDgwYMHDx48ePDgb8KfLrA9eKsBcmv9beHHAQo8ePDgwYMHDx48+AD+c2mkG04LMv2/bYCcnhc8ePDgwYMHDx48+Bvw02CSNhS2DZLTebYF3F6kb38PHjx48ODBgwcPHvwF+NMDpIXbHjwtWBqwtvMcByjw4MGDBw8ePHjw4AfwabBJA8S2sOsAcylAHe8XPHjw4MGDBw8ePPgC/OfSmMK0AlcapFoPsB6DHXjw4MGDBw8ePHjwBfjTh0m3NzwtzHae278HDx48ePDgwYMHD/5N+OmCrYbBOpiUGhnpuY4bQODBgwcPHjx48ODBF+G3jYvtRtMAk86zPU98AcGDBw8ePHjw4MGDL8C3D3b6f9sHUOsgE55zepH++Dt48ODBgwcPHjx48EX404XaB542TKYNjW3jY3sxwIMHDx48ePDgwYO/AZ9uLG2YpAf9Wo7t/k7P/fg9ePDgwYMHDx48ePBF+OkBp6CnsOnDo+MAU3o4lQZJ8ODBgwcPHjx48OAb8KcbmQafaaBpQabQ230dzw8ePHjw4MGDBw8efAG+tcD2gVKrkGkQmn4/bQiBBw8ePHjw4MGDB38D/lYjYQqZNhxuBavXXpKBBw8ePHjw4MGDB794H3/rIU+rAFOYafBqFTRuhIAHDx48ePDgwYMHfwC/fbh0GiSmhfqEo9WoubUuePDgwYMHDx48ePAN+O2YFqYFljY4thdqGzzBgwcPHjx48ODBg2/AbwPDacNh2uDYFnYaBLcB8nhe8ODBgwcPHjx48OCL8NvAtAXYBpi0sO0HXY+FAQ8ePHjw4MGDBw/+AnzaMEiDT9rAmAJt91V/0AQePHjw4MGDBw8e/A+An24gbiQs95XOvw1i4MGDBw8ePHjw4MH/JPjtg6W3gkwLev0ZPHjw4MGDBw8ePPgL8NNGwvQgtwqeBrL2fHGAAg8ePHjw4MGDBw8+gE8fDrUaE+nDpOn+Urjp/r6dHzx48ODBgwcPHjz4Arzx7gAPHrwBHrwBHryxGL8A2hQr3Y6mxnUAAAAASUVORK5CYII=">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXgAAAF4CAAAAAB79r16AAAFHUlEQVR42u3aUXIiMQwEUO5/afYEFFarDWzq+S+EjMdP/ulIj6f1lfVAAB68BR68BR68VYB/hOvlg198b/q81uft5269wIMHDx48ePDgwYNvwh8HgOEBWwWdQkxhXz03Pf/L9wUPHjx48ODBgwcP/gL82wCw/P7pwVOwtCAp/NgLPHjw4MGDBw8ePPgfhJ+CbxsPaYG3DR3w4MGDBw8ePHjw4P8C/GmwudVQmRYwLRB48ODBgwcPHjx48L8Ivx0oSr83bYS0GinpRfj6JBl48ODBgwcPHjx48MGaBqq/9nPsBR48ePDgwYMHDx58AX67TgszHURqDR5NYaf7j73AgwcPHjx48ODBgy/ApwFh2nBo//3pc1vvsfUBDx48ePDgwYMHD/4GfNrw2L5oOmh0a//WQNW6AwUePHjw4MGDBw8efHGuZnuA1qBU+0KkgXIc0MCDBw8ePHjw4MGDL8KfHnQaMNqNhNYg0/Q5tYYMePDgwYMHDx48ePDFuZppgGg1Jk73mX6eBr70/Y89wYMHDx48ePDgwYMvwG9fYPr7aVC61cC4VTDw4MGDBw8ePHjw4L8BnwaoNJC1GhJpQyd9fhzowIMHDx48ePDgwYMvwKf/0L/V4NgGm1tw20AGHjx48ODBgwcPHnwT/hS2Xai0gdFuqKRBMG7YgAcPHjx48ODBgwdfhJ8OHrUaES2wNOBNGyTpBQIPHjx48ODBgwcPvgmfvtCthkkasFpB7vTCpYELPHjw4MGDBw8ePPib8K0BoynYNLCkg0ZT4MdygQcPHjx48ODBgwd/E/7WgdoFaQWxNFhNLwp48ODBgwcPHjx48E34FGzaSElfPH1ue6Ap3f9lgAIPHjx48ODBgwcPvgCfDiy1YG4NLE1/v93/7X7gwYMHDx48ePDgwRfhtwHm042NVqOiVbjj84AHDx48ePDgwYMHX4A/DQS3wLaQ3wpU8WAXePDgwYMHDx48ePAF+FawuR2EPjV4dXq+5+ECDx48ePDgwYMHD/4G/KO00kGm9EBT4NNCTQs7dgEPHjx48ODBgwcPvgAfB4EQKg1arYuwhgsLCh48ePDgwYMHDx58E/604XAadKYvtm28TANZWvBaEAMPHjx48ODBgwcPvgi/bTxMGxvp99KBprRBc/r5caHAgwcPHjx48ODBg78Avw0m02C2bbRMC3+7ITKeJAMPHjx48ODBgwcPPoBPD95uOGwDTlr49ILEzwUPHjx48ODBgwcPvgh/evC0QZA2KFqDVNP9pxfpOPCBBw8ePHjw4MGDB1+E/3QQSoNIeiG259heHPDgwYMHDx48ePDgb8C3gsm0kdFuqKQFSRsl433BgwcPHjx48ODBgy/CTxsQtwNXuk/rAqSDT2/3Aw8ePHjw4MGDBw++AL8NGCngtgHSbnBsC3PsAB48ePDgwYMHDx58AX670mC0DXDbgaPtBUsHpsCDBw8ePHjw4MGDb8Bvg0paqFYwSt+rvf9xwAQPHjx48ODBgwcPvgifBqYU6PSAaYA6fe7079PBKfDgwYMHDx48ePDgb8JvA8S2oGnBTiGnBWsFLfDgwYMHDx48ePDg/wf49IDThkM6WLU9R1xw8ODBgwcPHjx48OB/CL72YtPGwhCw1ahJGyLgwYMHDx48ePDgwd+An77wtJEwhdtCpg2b1gUEDx48ePDgwYMHD/4mfGtwZwu8DVxT2OdwpRcBPHjw4MGDBw8ePPgmvPXZBR48eAs8eAs8eGux/gFwo68hJnptAgAAAABJRU5ErkJggg==">
           </div>
         </div>
       
@@ -720,26 +735,15 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/why-do-I-only-check-one-line-of-the-statement-but-also-execute-so-slowly/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>19 为什么我只查一行的语句，也执行这么慢</p>
+            
+              <a class='next' href='/why-these-sql-statements-have-the-same-logic-but-the-performance-is-very-different/'>
+                <p class='title'>18 为什么这些SQL语句逻辑相同，性能却差异巨大<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
                 <p class='content'>本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
 课程重点：
 
-了解只查一行记录，也会执行得特别慢的多种情况
+了解常见的几种导致性能差异巨大的 SQL 语句
 
-
-
-有...</p>
-              </a>
-            
-            
-              <a class='next' href='/how-to-display-random-messages-correctly/'>
-                <p class='title'>17 如何正确地显示随机消息<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
-课程重点：
-
-了解 order by rand 背后的执行流程
-了解...</p>
+在 ...</p>
               </a>
             
           </div>
@@ -784,7 +788,7 @@
 
   <script>
     window.subData = {
-      title: '18 为什么这些SQL语句逻辑相同，性能却差异巨大',
+      title: '19 为什么我只查一行的语句，也执行这么慢',
       tools: true
     }
   </script>
@@ -810,7 +814,7 @@
 
 
     <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#案例一：条件字段函数操作"><span class="toc-text">案例一：条件字段函数操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#案例二：隐式类型转换"><span class="toc-text">案例二：隐式类型转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#案例三：隐式字符编码转换"><span class="toc-text">案例三：隐式字符编码转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第一类：查询长时间不返回"><span class="toc-text">第一类：查询长时间不返回</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#等-MDL-锁"><span class="toc-text">等 MDL 锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#等-flush"><span class="toc-text">等 flush</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#等行锁"><span class="toc-text">等行锁</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第二类：查询慢"><span class="toc-text">第二类：查询慢</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
     </div>
   </section>
 
