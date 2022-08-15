@@ -16,7 +16,7 @@
 
   <!-- 页面元数据 -->
   
-    <title>19 为什么我只查一行的语句，也执行这么慢 - Boo</title>
+    <title>20 幻读是什么，幻读有什么问题 - Boo</title>
   
     <meta name="keywords" content="Mysql">
   
@@ -24,7 +24,9 @@
     <meta name="description" content="本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
 课程重点：
 
-了解只查一行记录，也会执行得特别慢的多种情况
+了解全表扫猫的加锁方式
+认识幻读
+了解幻读所带来的问题以及如何解决幻读
 ">
   
 
@@ -376,8 +378,8 @@
         
           
   <h1 class="title">
-    <a href="/why-do-I-only-check-one-line-of-the-statement-but-also-execute-so-slowly/">
-      19 为什么我只查一行的语句，也执行这么慢
+    <a href="/what-is-phantom-reading-and-what-s-wrong-with-phantom-reading/">
+      20 幻读是什么，幻读有什么问题
     </a>
   </h1>
 
@@ -415,7 +417,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Aug 13, 2022</p>
+    <p>发布于：Aug 15, 2022</p>
   </a>
 </div>
 
@@ -431,7 +433,7 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1.5k words</p>
+      <p>1.4k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
@@ -450,7 +452,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/why-do-I-only-check-one-line-of-the-statement-but-also-execute-so-slowly/" class="leancloud_visitors" data-flag-title="19 为什么我只查一行的语句，也执行这么慢">
+      <span id="/what-is-phantom-reading-and-what-s-wrong-with-phantom-reading/" class="leancloud_visitors" data-flag-title="20 幻读是什么，幻读有什么问题">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -476,80 +478,47 @@
           <p>本文是基于 <a href="https://time.geekbang.org/column/intro/100020801" target="_blank" rel="noopener">极客时间——MySQL 实战 45 讲</a> 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。</p>
 <p>课程重点：</p>
 <ul>
-<li>了解只查一行记录，也会执行得特别慢的多种情况</li>
+<li>了解全表扫猫的加锁方式</li>
+<li>认识幻读</li>
+<li>了解幻读所带来的问题以及如何解决幻读</li>
 </ul>
 <a id="more"></a>
 
-<p>有时候，在 Mysql 中，只查一行记录，也会执行得特别慢。</p>
-<p>当然上面说的这个问题，肯定不是在 MySQL 数据库本身就有很大的压力，导致数据库服务器 CPU 占用率很高或 ioutil（IO 利用率）很高，这种情况下所有语句的执行都有可能变慢。</p>
-<p>为了便于描述，我还是构造一个表，基于这个表来说明今天的问题。这个表有两个字段 id 和 c，并且我在里面插入了 10 万行记录。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE &#96;t&#96; (</span><br><span class="line">  &#96;id&#96; int(11) NOT NULL,</span><br><span class="line">  &#96;c&#96; int(11) DEFAULT NULL,</span><br><span class="line">  PRIMARY KEY (&#96;id&#96;)</span><br><span class="line">) ENGINE&#x3D;InnoDB;</span><br><span class="line"> </span><br><span class="line">delimiter ;;</span><br><span class="line">create procedure idata()</span><br><span class="line">begin</span><br><span class="line">  declare i int;</span><br><span class="line">  set i&#x3D;1;</span><br><span class="line">  while(i&lt;&#x3D;100000)do</span><br><span class="line">    insert into t values(i,i);</span><br><span class="line">    set i&#x3D;i+1;</span><br><span class="line">  end while;</span><br><span class="line">end;;</span><br><span class="line">delimiter ;</span><br><span class="line"> </span><br><span class="line">call idata();</span><br></pre></td></tr></table></figure>
+<p>下面的示例都是基于表 t 进行展开的，建表和初始化语句如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE &#96;t&#96; (</span><br><span class="line">  &#96;id&#96; int(11) NOT NULL,</span><br><span class="line">  &#96;c&#96; int(11) DEFAULT NULL,</span><br><span class="line">  &#96;d&#96; int(11) DEFAULT NULL,</span><br><span class="line">  PRIMARY KEY (&#96;id&#96;),</span><br><span class="line">  KEY &#96;c&#96; (&#96;c&#96;)</span><br><span class="line">) ENGINE&#x3D;InnoDB;</span><br><span class="line"> </span><br><span class="line">insert into t values(0,0,0),(5,5,5),</span><br><span class="line">(10,10,10),(15,15,15),(20,20,20),(25,25,25);</span><br></pre></td></tr></table></figure>
 
-<h2 id="第一类：查询长时间不返回"><a href="#第一类：查询长时间不返回" class="headerlink" title="第一类：查询长时间不返回"></a>第一类：查询长时间不返回</h2><p>如下图所示，在表 t 执行下面的 SQL 语句：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from t where id&#x3D;1;</span><br></pre></td></tr></table></figure>
+<h2 id="幻读是什么"><a href="#幻读是什么" class="headerlink" title="幻读是什么"></a>幻读是什么</h2><p>下面的语句序列，是怎么加锁的，加的锁又是什么时候释放的呢？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">begin;</span><br><span class="line">select * from t where d&#x3D;5 for update;</span><br><span class="line">commit;</span><br></pre></td></tr></table></figure>
 
-<p>查询结果长时间不返回。</p>
-<p>一般碰到这种情况的话，大概率是表 t 被锁住了。接下来分析原因的时候，一般都是首先执行一下 show processlist 命令，看看当前语句处于什么状态。</p>
-<p>然后我们再针对每种状态，去分析它们产生的原因、如何复现，以及如何处理。</p>
-<h3 id="等-MDL-锁"><a href="#等-MDL-锁" class="headerlink" title="等 MDL 锁"></a>等 MDL 锁</h3><p>通常前面的学习得知，MDL 锁是可能会导致整个表锁住的（增删改查都做不了）。</p>
-<p>复现过程：</p>
-<ol>
-<li>开启一个事务 A ，对表 t 加一个 MDL 读锁（对表 t 做增删改查）</li>
-<li>开启一个事务 B，对表 t 加一个 MDL 写锁（对表 t 增加一个字段）</li>
-</ol>
-<p>此时 session A 开启了事务，并没有释放，而 session B 需要 MDL 写锁，因此只能被阻塞（阻塞原因：MDL 读写锁是互斥的）</p>
-<p>此时的解决方案就是，使用 show processlist 命令查看 Waiting for table metadata lock。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220813130648.png" alt=""></p>
-<p>找出造成阻塞的 process id，把这个连接用 kill 命令断开即可。</p>
-<h3 id="等-flush"><a href="#等-flush" class="headerlink" title="等 flush"></a>等 flush</h3><p>MySQL 中对表做 flush 操作的用法，一般有以下两个：</p>
-<ul>
-<li>flush tables t with read lock;</li>
-<li>flush tables with read lock;</li>
-</ul>
-<p>这两个 flush 语句，如果指定表 t 的话，代表的是只关闭表 t；如果没有指定具体的表名，则表示关闭 MySQL 里所有打开的表。</p>
-<p>但是正常这两个语句执行起来都很快，除非它们也被别的线程堵住了。</p>
-<p>所以，出现 Waiting for table flush 状态的可能情况是：有一个 flush tables 命令被别的语句堵住了，然后它又堵住了我们的 select 语句。</p>
-<p>重现步骤：</p>
-<ul>
-<li>开启一个事务 A，执行 <code>select sleep(1) from t</code>，故意每行都调用一次 sleep(1)，这样这个语句默认要执行 10 万秒（依据表 t 的总行数）</li>
-<li>开启一个事务 B，执行 <code>flush tables t</code>，关闭表 t，这时就需要等 session A 的查询结束</li>
-<li>此时如果再开启一个事务 C，执行查询语句，就会被 flush 命令堵住了</li>
-</ul>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220813130706.png" alt=""><br>解决方案同时是，找出造成阻塞的 process id，把这个连接用 kill 命令断开即可。</p>
-<h3 id="等行锁"><a href="#等行锁" class="headerlink" title="等行锁"></a>等行锁</h3><p>现在，经过了表级锁的考验，我们的 select 语句终于来到引擎里了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from t where id&#x3D;1 lock in share mode;</span><br></pre></td></tr></table></figure>
+<p>这个语句会命中 d=5 的这一行，对应的主键 id=5，因此在 select 语句执行完成后，id=5 这一行会加一个写锁，而且由于两阶段锁协议，这个写锁会在执行 commit 语句的时候释放。</p>
+<p>由于字段 d 上没有索引，因此这条查询语句会做全表扫描。那么，其他被扫描到的，但不满足条件 <code>d=5</code> 的记录，会不会被加锁呢。</p>
+<p>答案是，也会被锁住。</p>
+<p>幻读指的是<strong>一个事务在前后两次查询同一个范围的时候，后一次查询看到了前一次查询没有看到的行</strong>。</p>
+<h2 id="幻读有什么问题"><a href="#幻读有什么问题" class="headerlink" title="幻读有什么问题"></a>幻读有什么问题</h2><p>假设只在 id=5 这一行加行锁，会产生数据一致性问题。</p>
+<p>我们把扫描过程中碰到的行，也都加上写锁，再来看看执行效果。</p>
+<p><img src="inkdrop://file:-xYywTMuh" alt="clipboard.png"></p>
+<p>由于 session A 把所有的行都加了写锁，所以 session B 在执行第一个 update 语句的时候就被锁住了。需要等到 T6 时刻 session A 提交以后，session B 才能继续执行。</p>
+<p>这样对于 id=0 这一行，在数据库里的最终结果还是 (0,5,5)。在 binlog 里面，执行序列是这样的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">insert into t values(1,1,5); &#x2F;*(1,1,5)*&#x2F;</span><br><span class="line">update t set c&#x3D;5 where id&#x3D;1; &#x2F;*(1,5,5)*&#x2F;</span><br><span class="line"> </span><br><span class="line">update t set d&#x3D;100 where d&#x3D;5;&#x2F;* 所有 d&#x3D;5 的行，d 改成 100*&#x2F;</span><br><span class="line"> </span><br><span class="line">update t set d&#x3D;5 where id&#x3D;0; &#x2F;*(0,0,5)*&#x2F;</span><br><span class="line">update t set c&#x3D;5 where id&#x3D;0; &#x2F;*(0,5,5)*&#x2F;</span><br></pre></td></tr></table></figure>
 
-<ul>
-<li>lock in share mode 表示加读锁（S 锁，共享锁）</li>
-<li>for update 表示加写锁（X 锁，排他锁）</li>
-</ul>
-<p>由于访问 id=1 这个记录时要加读锁，如果这时候已经有一个事务在这行记录上持有一个写锁，我们的 select 语句就会被堵住。</p>
-<p>复现步骤：</p>
-<ol>
-<li>开启一个事务 A，更新 id = 1 这一行的记录</li>
-<li>开启一个事务 B，执行上面的 SQL 语句</li>
-</ol>
-<p>显然，session A 启动了事务，占有写锁，还不提交，是导致 session B 被堵住的原因。</p>
-<p>Mysql 5.7 可以通过 sys.innodb_lock_waits 表查到。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from sys.innodb_lock_waits where locked_table&#x3D; &#39;&#96;test_dump&#96;.&#96;t&#96;&#39;;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220813130806.png" alt=""><br>通过这个命令可以得到的信息还是挺多的，找到对应的线程 id，将其 kill 掉即可。</p>
-<p>连接被断开的时候，会自动回滚这个连接里面正在执行的线程，也就释放了 id=1 上的行锁。</p>
-<h2 id="第二类：查询慢"><a href="#第二类：查询慢" class="headerlink" title="第二类：查询慢"></a>第二类：查询慢</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from t where c&#x3D;50000 limit 1;</span><br></pre></td></tr></table></figure>
-
-<p>由于字段 c 上没有索引，这个语句只能走 id 主键顺序扫描，因此需要扫描 5 万行。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220813130823.png" alt=""></p>
-<p>通过查询慢查询日志，可以确定，确实扫描了 5 万行，但是并不慢呀，2ms 就返回了。</p>
-<p><strong>坏查询不一定是慢查询</strong>。我们这个例子里面只有 10 万行记录，数据量大起来的话，执行时间就线性涨上去了。</p>
-<p>扫描行数多，所以执行慢，这个很好理解。</p>
-<p>但是接下来，我们再看一个只扫描一行，但是执行很慢的语句。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220813130838.png" alt=""><br>复现步骤如上图所示。</p>
-<p>session A 先用 start transaction with consistent snapshot 命令启动了一个事务，之后 session B 才开始执行 update 语句。</p>
-<p>session B 执行完 100 万次 update 语句后，生成了 100 万个回滚日志 (undo log)。</p>
-<p>带 lock in share mode 的 SQL 语句，是当前读，因此会直接读到 1000001 这个结果，所以速度很快；而 select * from t where id=1 这个语句，是一致性读，因此需要从 1000001 开始，依次执行 undo log，执行了 100 万次以后，才将 1 这个结果返回。</p>
+<p>但同时你也可以看到，id=1 这一行，在数据库里面的结果是 (1,5,5)，而根据 binlog 的执行结果是 (1,5,100)，也就是说幻读的问题还是没有解决。为什么我们已经这么“凶残”地，把所有的记录都上了锁，还是阻止不了 id=1 这一行的插入和更新呢？</p>
+<p>原因很简单。在 T3 时刻，我们给所有行加锁的时候，id=1 这一行还不存在，不存在也就加不上锁。</p>
+<p><strong>也就是说，即使把所有的记录都加上锁，还是阻止不了新插入的记录</strong>，这也是为什么“幻读”会被单独拿出来解决的原因。</p>
+<h2 id="幻读怎么解决"><a href="#幻读怎么解决" class="headerlink" title="幻读怎么解决"></a>幻读怎么解决</h2><p>产生幻读的原因是，行锁只能锁住行，但是新插入记录这个动作，要更新的是记录之间的“间隙”。因此，为了解决幻读问题，InnoDB 只好引入新的锁，也就是间隙锁 (Gap Lock)。</p>
+<p>顾名思义，间隙锁，锁的就是两个值之间的空隙。比如文章开头的表 t，初始化插入了 6 个记录，这就产生了 7 个间隙。</p>
+<p><img src="inkdrop://file:Iy6mJB3VR" alt="clipboard.png"><br>这样，当执行 select * from t where d=5 for update 的时候，就不止是给数据库中已有的 6 个记录加上了行锁，还同时加了 7 个间隙锁。这样就确保了无法再插入新的记录。</p>
+<p><strong>间隙锁和行锁合称 next-key lock，每个 next-key lock 是前开后闭区间。</strong></p>
+<p>也就是说这时候，在一行行扫描的过程中，不仅将给行加上了行锁，还给行两边的空隙，也加上了间隙锁。</p>
+<p>现在你知道了，数据行是可以加上锁的实体，数据行之间的间隙，也是可以加上锁的实体。但是间隙锁跟我们之前碰到过的锁都不太一样。</p>
+<p>比如行锁，分成读锁和写锁。下图就是这两种类型行锁的冲突关系。</p>
+<p><img src="inkdrop://file:S3-3rPtu1" alt="clipboard.png"><br>也就是说，跟行锁有冲突关系的是“另外一个行锁”。</p>
+<p>但是间隙锁不一样，跟间隙锁存在冲突关系的，是“往这个间隙中插入一个记录”这个操作。间隙锁之间都不存在冲突关系。</p>
+<p>间隙锁的引入，可能会导致同样的语句锁住更大的范围，这其实是影响了并发度的。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
-<li>坏查询不一定是慢查询，当数据量大一些时，执行时间就线性涨上去了</li>
-<li>表锁、行锁都可能会导致阻塞查询语句</li>
+<li><code>select * from t where d=5 for update;</code>，由于字段 d 上没有索引，因此这条查询语句会做全表扫描。不满足条件 <code>d= 5</code> 的记录，也会被加锁，因为如果不加锁的话，会产生幻读。</li>
+<li>幻读是指<strong>一个事务在前后两次查询同一个范围的时候，后一次查询看到了前一次查询没有看到的行</strong>。</li>
+<li>幻读所带来的问题就是，数据一致性被破坏，数据和日志在逻辑上不一致。</li>
+<li>解决幻读的方式是，引入间隙锁。</li>
 </ul>
 
           
@@ -587,7 +556,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/why-do-I-only-check-one-line-of-the-statement-but-also-execute-so-slowly/>https://www.0x2beace.com/why-do-I-only-check-one-line-of-the-statement-but-also-execute-so-slowly/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/what-is-phantom-reading-and-what-s-wrong-with-phantom-reading/>https://www.0x2beace.com/what-is-phantom-reading-and-what-s-wrong-with-phantom-reading/</a></p>
           
         
       </blockquote>
@@ -635,10 +604,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-08-13T13:09:06+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-08-15T15:29:15+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Aug 13, 2022</p>
+    <p>更新于：Aug 15, 2022</p>
   </a>
 </div>
 
@@ -665,10 +634,12 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/why-do-I-only-check-one-line-of-the-statement-but-also-execute-so-slowly/&title=19 为什么我只查一行的语句，也执行这么慢 - Boo&summary=本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/what-is-phantom-reading-and-what-s-wrong-with-phantom-reading/&title=20 幻读是什么，幻读有什么问题 - Boo&summary=本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
 课程重点：
 
-了解只查一行记录，也会执行得特别慢的多种情况
+了解全表扫猫的加锁方式
+认识幻读
+了解幻读所带来的问题以及如何解决幻读
 "
           
           >
@@ -681,10 +652,12 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/why-do-I-only-check-one-line-of-the-statement-but-also-execute-so-slowly/&title=19 为什么我只查一行的语句，也执行这么慢 - Boo&summary=本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/what-is-phantom-reading-and-what-s-wrong-with-phantom-reading/&title=20 幻读是什么，幻读有什么问题 - Boo&summary=本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
 课程重点：
 
-了解只查一行记录，也会执行得特别慢的多种情况
+了解全表扫猫的加锁方式
+认识幻读
+了解幻读所带来的问题以及如何解决幻读
 "
           
           >
@@ -697,10 +670,12 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/why-do-I-only-check-one-line-of-the-statement-but-also-execute-so-slowly/&title=19 为什么我只查一行的语句，也执行这么慢 - Boo&summary=本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/what-is-phantom-reading-and-what-s-wrong-with-phantom-reading/&title=20 幻读是什么，幻读有什么问题 - Boo&summary=本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
 课程重点：
 
-了解只查一行记录，也会执行得特别慢的多种情况
+了解全表扫猫的加锁方式
+认识幻读
+了解幻读所带来的问题以及如何解决幻读
 "
           
           >
@@ -715,7 +690,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXgAAAF4CAAAAAB79r16AAAFHUlEQVR42u3aUXIiMQwEUO5/afYEFFarDWzq+S+EjMdP/ulIj6f1lfVAAB68BR68BR68VYB/hOvlg198b/q81uft5269wIMHDx48ePDgwYNvwh8HgOEBWwWdQkxhXz03Pf/L9wUPHjx48ODBgwcP/gL82wCw/P7pwVOwtCAp/NgLPHjw4MGDBw8ePPgfhJ+CbxsPaYG3DR3w4MGDBw8ePHjw4P8C/GmwudVQmRYwLRB48ODBgwcPHjx48L8Ivx0oSr83bYS0GinpRfj6JBl48ODBgwcPHjx48MGaBqq/9nPsBR48ePDgwYMHDx58AX67TgszHURqDR5NYaf7j73AgwcPHjx48ODBgy/ApwFh2nBo//3pc1vvsfUBDx48ePDgwYMHD/4GfNrw2L5oOmh0a//WQNW6AwUePHjw4MGDBw8efHGuZnuA1qBU+0KkgXIc0MCDBw8ePHjw4MGDL8KfHnQaMNqNhNYg0/Q5tYYMePDgwYMHDx48ePDFuZppgGg1Jk73mX6eBr70/Y89wYMHDx48ePDgwYMvwG9fYPr7aVC61cC4VTDw4MGDBw8ePHjw4L8BnwaoNJC1GhJpQyd9fhzowIMHDx48ePDgwYMvwKf/0L/V4NgGm1tw20AGHjx48ODBgwcPHnwT/hS2Xai0gdFuqKRBMG7YgAcPHjx48ODBgwdfhJ8OHrUaES2wNOBNGyTpBQIPHjx48ODBgwcPvgmfvtCthkkasFpB7vTCpYELPHjw4MGDBw8ePPib8K0BoynYNLCkg0ZT4MdygQcPHjx48ODBgwd/E/7WgdoFaQWxNFhNLwp48ODBgwcPHjx48E34FGzaSElfPH1ue6Ap3f9lgAIPHjx48ODBgwcPvgCfDiy1YG4NLE1/v93/7X7gwYMHDx48ePDgwRfhtwHm042NVqOiVbjj84AHDx48ePDgwYMHX4A/DQS3wLaQ3wpU8WAXePDgwYMHDx48ePAF+FawuR2EPjV4dXq+5+ECDx48ePDgwYMHD/4G/KO00kGm9EBT4NNCTQs7dgEPHjx48ODBgwcPvgAfB4EQKg1arYuwhgsLCh48ePDgwYMHDx58E/604XAadKYvtm28TANZWvBaEAMPHjx48ODBgwcPvgi/bTxMGxvp99KBprRBc/r5caHAgwcPHjx48ODBg78Avw0m02C2bbRMC3+7ITKeJAMPHjx48ODBgwcPPoBPD95uOGwDTlr49ILEzwUPHjx48ODBgwcPvgh/evC0QZA2KFqDVNP9pxfpOPCBBw8ePHjw4MGDB1+E/3QQSoNIeiG259heHPDgwYMHDx48ePDgb8C3gsm0kdFuqKQFSRsl433BgwcPHjx48ODBgy/CTxsQtwNXuk/rAqSDT2/3Aw8ePHjw4MGDBw++AL8NGCngtgHSbnBsC3PsAB48ePDgwYMHDx58AX670mC0DXDbgaPtBUsHpsCDBw8ePHjw4MGDb8Bvg0paqFYwSt+rvf9xwAQPHjx48ODBgwcPvgifBqYU6PSAaYA6fe7079PBKfDgwYMHDx48ePDgb8JvA8S2oGnBTiGnBWsFLfDgwYMHDx48ePDg/wf49IDThkM6WLU9R1xw8ODBgwcPHjx48OB/CL72YtPGwhCw1ahJGyLgwYMHDx48ePDgwd+An77wtJEwhdtCpg2b1gUEDx48ePDgwYMHD/4mfGtwZwu8DVxT2OdwpRcBPHjw4MGDBw8ePPgmvPXZBR48eAs8eAs8eGux/gFwo68hJnptAgAAAABJRU5ErkJggg==">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVgAAAFYCAAAAAAzB7ucAAAEV0lEQVR42u3aQXLjMAwEQP//07sPSKUMDEDKTjVvjiyJbPpATPD6ZxwZLwRgwRpgwYI1wF6BfYXj1we/+d6751Xve/f+6fXUAyxYsGDBggULFuxd2PIB+BeILmh1wdtQ3fW1PcCCBQsWLFiwYME+Ats9wE/BxgfyJnx3vm0PsGDBggULFixYsF8Fm8J1D/YpVBcSLFiwYMGCBQsW7N+G3QLZKhTShgywYMGCBQsWLFiw3w17qqGhu0HTIP3rO2HAggULFixYsGDBlmC3Gib+yufYAyxYsGDBggULFuwV2OnYbsg4fYA/PcCCBQsWLFiwYMHegR0Hu80g+93fqxvSDcK7hUD1BwQWLFiwYMGCBQv2s2CnjQ5bC+1er/5guoH3WoEAFixYsGDBggULdgU2fVEKMP1eN3jfWidYsGDBggULFizYz4JNH5AuqNvIMW0k7s53WoCABQsWLFiwYMGCvQObBtVbE/mUjUzn+eN+sGDBggULFixYsI/AxgFvEzxtIO4WFtWROoAFCxYsWLBgwYJ9Bna7wWF63zSQTguercYNsGDBggULFixYsM/CbhUK00B5uiHTwLwLDRYsWLBgwYIFC/YObHUB04P0UwVDOu94fmDBggULFixYsGCvwp46WG8dxNPguvuDScHBggULFixYsGDBPgN7akHVwiG9b/vzGBosWLBgwYIFCxbso7DVgmEreN4qRKYB/ni+YMGCBQsWLFiwYB+BnRYCWw0gaSFRLSi2Av5ygQAWLFiwYMGCBQt2FXY7WJ4G3F3g7evjggksWLBgwYIFCxbsVdg0cN5ujOhuQPc900C8HHSDBQsWLFiwYMGCPQrbDbqrAfH0/nTjTjWGlN8LFixYsGDBggUL9iNgu39PGx1OH9yr80kbUMCCBQsWLFiwYMHehZ0ucCvw7m7E6cIiLhzAggULFixYsGDBXoVNC4R0bAFtQ6aBPViwYMGCBQsWLNi7sNNGi1MH961APZ139YcBFixYsGDBggUL9jtgTwfG6fvbgfShhhOwYMGCBQsWLFiwd2DThabBcRc+DaLThpFuQN/uhAELFixYsGDBggW7Cjs9oE8P4tUNni48nVc5IAcLFixYsGDBggV7FXba+NDdoFMNId3ndjfkrRtYsGDBggULFizYj4LdLiSmwXd3Xulz2gUQWLBgwYIFCxYs2Cuw05FuTFoIvMJxKtj/tUAACxYsWLBgwYIFexR2OtFpo8b0egrXLQCqATtYsGDBggULFizYu7DTgiBtkEgLilOw3Q1o/wcBLFiwYMGCBQsW7BHY7sKmB/o02O7eNw3My0E4WLBgwYIFCxYs2D8FOw2W0wV3N7Ib1IMFCxYsWLBgwYL9bthTB/F4gWEg3t3AcsMGWLBgwYIFCxYs2KOw0wB7e4HTg/1WAVBeH1iwYMGCBQsWLNirsOmB+fTGdAP000H52/vAggULFixYsGDBXoE1dgdYsGANsGDBGmCPjv8yyhDU+969LgAAAABJRU5ErkJggg==">
           </div>
         </div>
       
@@ -735,25 +710,17 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/what-is-phantom-reading-and-what-s-wrong-with-phantom-reading/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>20 幻读是什么，幻读有什么问题</p>
+            
+              <a class='next' href='/why-do-I-only-check-one-line-of-the-statement-but-also-execute-so-slowly/'>
+                <p class='title'>19 为什么我只查一行的语句，也执行这么慢<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
                 <p class='content'>本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
 课程重点：
 
-了解全表扫猫的加锁方式
-认识幻读
-了解幻读所带来的问题...</p>
-              </a>
-            
-            
-              <a class='next' href='/why-these-sql-statements-have-the-same-logic-but-the-performance-is-very-different/'>
-                <p class='title'>18 为什么这些SQL语句逻辑相同，性能却差异巨大<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
-课程重点：
+了解只查一行记录，也会执行得特别慢的多种情况
 
-了解常见的几种导致性能差异巨大的 SQL 语句
 
-在 ...</p>
+
+有...</p>
               </a>
             
           </div>
@@ -798,7 +765,7 @@
 
   <script>
     window.subData = {
-      title: '19 为什么我只查一行的语句，也执行这么慢',
+      title: '20 幻读是什么，幻读有什么问题',
       tools: true
     }
   </script>
@@ -824,7 +791,7 @@
 
 
     <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第一类：查询长时间不返回"><span class="toc-text">第一类：查询长时间不返回</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#等-MDL-锁"><span class="toc-text">等 MDL 锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#等-flush"><span class="toc-text">等 flush</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#等行锁"><span class="toc-text">等行锁</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第二类：查询慢"><span class="toc-text">第二类：查询慢</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#幻读是什么"><span class="toc-text">幻读是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#幻读有什么问题"><span class="toc-text">幻读有什么问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#幻读怎么解决"><span class="toc-text">幻读怎么解决</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
     </div>
   </section>
 
