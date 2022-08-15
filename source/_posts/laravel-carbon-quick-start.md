@@ -230,6 +230,12 @@ Carbon::parse("2021-08-29 14:57:32")->diffForHumans(now());
 // 一分钟前
 ```
 
+转化为天小时分钟：
+```php
+CarbonInterval::seconds(384)->cascade()->forHumans();
+// 6分钟24秒
+```
+
 ## 参考链接
 * [Laravel 中日期时间 Carbon 包的的使用详解](https://www.heibaiketang.com/forum/show/141.html)
 * [Carbon Api Doc](https://carbon.nesbot.com/docs/)
