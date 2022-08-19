@@ -1,5 +1,5 @@
 ---
-title: MySQL有哪些“饮鸩止渴”提高性能的方法
+title: 22 MySQL有哪些“饮鸩止渴”提高性能的方法
 date: 2022-08-18 10:45:41
 tags: ["Mysql"]
 categories: ["Mysql"]
