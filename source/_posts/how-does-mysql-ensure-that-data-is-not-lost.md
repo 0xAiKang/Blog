@@ -95,8 +95,8 @@ LSN 也会写到 InnoDB 的数据页中，来确保数据页不会被多次执�
 如图 3 所示，是三个并发事务 (trx1, trx2, trx3) 在 prepare 阶段，都写完 redo log buffer，持久化到磁盘的过程，对应的 LSN 分别是 50、120 和 160。
 
 ![](https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220819091659.png)
-从图中可以看到，
 
+从图中可以看到：
 1. trx1 是第一个到达的，会被选为这组的 leader；
 2. 等 trx1 要开始写盘的时候，这个组里面已经有了三个事务，这时候 LSN 也变成了 160；
 3. trx1 去写盘的时候，带的就是 LSN=160，因此等 trx1 返回时，所有 LSN 小于等于 160 的 redo log，都已经被持久化到磁盘；
