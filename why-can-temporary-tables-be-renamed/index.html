@@ -16,7 +16,7 @@
 
   <!-- 页面元数据 -->
   
-    <title>35 join语句怎么优化 - Boo</title>
+    <title>36 为什么临时表可以重名 - Boo</title>
   
     <meta name="keywords" content="Mysql">
   
@@ -24,8 +24,8 @@
     <meta name="description" content="本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
 课程重点：
 
-了解 MRR 优化
-了解 BKA 算法
+了解临时表的特性
+了解临时表的应用场景
 ">
   
 
@@ -377,8 +377,8 @@
         
           
   <h1 class="title">
-    <a href="/how-to-optimize-the-join-statement/">
-      35 join语句怎么优化
+    <a href="/why-can-temporary-tables-be-renamed/">
+      36 为什么临时表可以重名
     </a>
   </h1>
 
@@ -416,7 +416,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Aug 27, 2022</p>
+    <p>发布于：Aug 28, 2022</p>
   </a>
 </div>
 
@@ -432,13 +432,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>3k words</p>
+      <p>1.6k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>11 min</p>
+      <p>5 min</p>
     </a>
   </div>
 
@@ -451,7 +451,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/how-to-optimize-the-join-statement/" class="leancloud_visitors" data-flag-title="35 join语句怎么优化">
+      <span id="/why-can-temporary-tables-be-renamed/" class="leancloud_visitors" data-flag-title="36 为什么临时表可以重名">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -476,98 +476,62 @@
           
           <p>本文是基于 <a href="https://time.geekbang.org/column/intro/100020801" target="_blank" rel="noopener">极客时间——MySQL 实战 45 讲</a> 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。</p>
 <p>课程重点：</p>
-<ol>
-<li>了解 MRR 优化</li>
-<li>了解 BKA 算法</li>
-</ol>
+<ul>
+<li>了解临时表的特性</li>
+<li>了解临时表的应用场景</li>
+</ul>
 <a id="more"></a>
 
-<p>在上一篇文章中，了解了 join 语句的两种算法，分别是 Index Nested-Loop Join(NLJ) 和 Block Nested-Loop Join(BNL)。</p>
-<p>NLJ 算法，效果其实还是不错的，比通过应用层拆分成多个语句然后再拼接查询结果更方便，而且性能也不会差。</p>
-<p>但是，BNL 算法在大表 join 的时候性能就差多了，比较次数等于两个表参与 join 的行数的乘积，很消耗 CPU 资源。</p>
-<h2 id="Multi-Range-Read-优化"><a href="#Multi-Range-Read-优化" class="headerlink" title="Multi-Range Read 优化"></a>Multi-Range Read 优化</h2><p>在介绍 join 语句的优化方案之前，我需要先和你介绍一个知识点，即：Multi-Range Read 优化 (MRR)。这个优化的主要目的是尽量使用顺序读盘。</p>
-<p>在第 4 篇文章中，我和你介绍 InnoDB 的索引结构时，提到了“回表”的概念。我们先来回顾一下这个概念。回表是指，InnoDB 在普通索引 a 上查到主键 id 的值后，再根据一个个主键 id 的值到主键索引上去查整行数据的过程。</p>
-<p>因为主键索引是一棵 B+ 树，在这棵树上，每次只能根据一个主键 id 查到一行数据。因此，回表是一行行搜索主键索引的，基本流程如图 1 所示。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220705212100.png" alt=""><br>如果随着 a 的值递增顺序查询的话，id 的值就变成随机的，那么就会出现随机访问，性能相对较差。虽然“按行查”这个机制不能改，但是调整查询的顺序，还是能够加速的。</p>
-<p>因为大多数的数据都是按照主键递增顺序插入得到的，所以我们可以认为，如果按照主键的递增顺序查询的话，对磁盘的读比较接近顺序读，能够提升读性能。</p>
-<p>这就是 MRR 优化的设计思路。此时，语句的执行流程变成了这样：</p>
-<ol>
-<li>根据索引 a，定位到满足条件的记录，将 id 值放入 read_rnd_buffer 中 </li>
-<li>将 read_rnd_buffer 中的 id 进行递增排序</li>
-<li>排序后的 id 数组，依次到主键 id 索引中查记录，并作为结果返回</li>
-</ol>
-<p>这里，read_rnd_buffer 的大小是由 read_rnd_buffer_size 参数控制的。如果步骤 1 中，read_rnd_buffer 放满了，就会先执行完步骤 2 和 3，然后清空 read_rnd_buffer。之后继续找索引 a 的下个记录，并继续循环。</p>
-<p>另外需要说明的是，如果你想要稳定地使用 MRR 优化的话，需要设置set optimizer_switch=”mrr_cost_based=off”。（官方文档的说法，是现在的优化器策略，判断消耗的时候，会更倾向于不使用 MRR，把 mrr_cost_based 设置为 off，就是固定使用 MRR 了。）</p>
-<p>下面两幅图就是使用了 MRR 优化后的执行流程和 explain 结果。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220705212316.png" alt=""></p>
-<p>MRR 执行流程的 explain 结果：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220705212412.png" alt=""></p>
-<p>从图 3 的 explain 结果中，我们可以看到 Extra 字段多了 Using MRR，表示的是用上了 MRR 优化。而且，由于我们在 read_rnd_buffer 中按照 id 做了排序，所以最后得到的结果集也是按照主键 id 递增顺序的，也就是与图 1 结果集中行的顺序相反。</p>
-<p><strong>MRR 能够提升性能的核心</strong>在于，这条查询语句在索引 a 上做的是一个范围查询（也就是说，这是一个多值查询），可以得到足够多的主键 id。这样通过排序以后，再去主键索引查数据，才能体现出“顺序性”的优势。</p>
-<h2 id="Batched-Key-Access"><a href="#Batched-Key-Access" class="headerlink" title="Batched Key Access"></a>Batched Key Access</h2><p>理解了 MRR 性能提升的原理，我们就能理解 MySQL 在 5.6 版本后开始引入的 Batched Key Access(BKA) 算法了。这个 BKA 算法，其实就是对 NLJ 算法的优化。</p>
-<p>我们再来看看上一篇文章中用到的 NLJ 算法的流程图：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220705212711.png" alt=""><br>NLJ 算法执行的逻辑是：从驱动表 t1，一行行地取出 a 的值，再到被驱动表 t2 去做 join。也就是说，对于表 t2 来说，每次都是匹配一个值。这时，MRR 的优势就用不上了。</p>
-<p>那怎么才能一次性地多传些值给表 t2 呢？方法就是，从表 t1 里一次性地多拿些行出来，一起传给表 t2。</p>
-<p>既然如此，我们就把表 t1 的数据取出来一部分，先放到一个临时内存。这个临时内存不是别人，就是 join_buffer。</p>
-<p>通过上一篇文章，我们知道 join_buffer 在 BNL 算法里的作用，是暂存驱动表的数据。但是在 NLJ 算法里并没有用。那么，我们刚好就可以复用 join_buffer 到 BKA 算法中。</p>
-<p>如图 5 所示，是上面的 NLJ 算法优化后的 BKA 算法的流程。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220705212812.png" alt=""></p>
-<p>图中，我在 join_buffer 中放入的数据是 P1<del>P100，表示的是只会取查询需要的字段。当然，如果 join buffer 放不下 P1</del>P100 的所有数据，就会把这 100 行数据分成多段执行上图的流程。</p>
-<p>那么，这个 BKA 算法到底要怎么启用呢？</p>
-<p>如果要使用 BKA 优化算法的话，你需要在执行 SQL 语句之前，先设置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set optimizer_switch&#x3D;&#39;mrr&#x3D;on,mrr_cost_based&#x3D;off,batched_key_access&#x3D;on&#39;;</span><br></pre></td></tr></table></figure>
+<p>在上一篇文章中，在优化 join 查询的时候使用到了临时表。当时，是这么用的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">create temporary table temp_t like t1;</span><br><span class="line">alter table temp_t add index(b);</span><br><span class="line">insert into temp_t select * from t2 where b&gt;&#x3D;1 and b&lt;&#x3D;2000;</span><br><span class="line">select * from t1 join temp_t on (t1.b&#x3D;temp_t.b);</span><br></pre></td></tr></table></figure>
 
-<p>其中，前两个参数的作用是要启用 MRR。这么做的原因是，BKA 算法的优化要依赖于 MRR。</p>
-<h2 id="BNL-算法的性能问题"><a href="#BNL-算法的性能问题" class="headerlink" title="BNL 算法的性能问题"></a>BNL 算法的性能问题</h2><p>说完了 NLJ 算法的优化，再来看 BNL 算法的优化。</p>
-<p>由于 InnoDB 对 Bufffer Pool 的 LRU 算法做了优化，即：第一次从磁盘读入内存的数据页，会先放在 old 区域。如果 1 秒之后这个数据页不再被访问了，就不会被移动到 LRU 链表头部，这样对 Buffer Pool 的命中率影响就不大。</p>
-<p>但是，如果一个使用 BNL 算法的 join 语句，多次扫描一个冷表，而且这个语句执行时间超过 1 秒，就会在再次扫描冷表的时候，把冷表的数据页移到 LRU 链表头部。</p>
-<p>这种情况对应的，是冷表的数据量小于整个 Buffer Pool 的 3/8，能够完全放入 old 区域的情况。</p>
-<p>如果这个冷表很大，就会出现另外一种情况：业务正常访问的数据页，没有机会进入 young 区域。</p>
-<p>由于优化机制的存在，一个正常访问的数据页，要进入 young 区域，需要隔 1 秒后再次被访问到。但是，由于我们的 join 语句在循环读磁盘和淘汰内存页，进入 old 区域的数据页，很可能在 1 秒之内就被淘汰了。这样，就会导致这个 MySQL 实例的 Buffer Pool 在这段时间内，young 区域的数据页没有被合理地淘汰。</p>
-<p>也就是说，这两种情况都会影响 Buffer Pool 的正常运作。</p>
-<p>大表 join 操作虽然对 IO 有影响，但是在语句执行结束后，对 IO 的影响也就结束了。但是，对 Buffer Pool 的影响就是持续性的，需要依靠后续的查询请求慢慢恢复内存命中率。</p>
-<p>为了减少这种影响，你可以考虑增大 join_buffer_size 的值，减少对被驱动表的扫描次数。</p>
-<p>也就是说，BNL 算法对系统的影响主要包括三个方面：</p>
-<ol>
-<li>可能会多次扫描被驱动表，占用磁盘 IO 资源；</li>
-<li>判断 join 条件需要执行 M*N 次对比（M、N 分别是两张表的行数），如果是大表就会占用非常多的 CPU 资源；</li>
-<li>可能会导致 Buffer Pool 的热数据被淘汰，影响内存命中率。</li>
-</ol>
-<p>我们执行语句之前，需要通过理论分析和查看 explain 结果的方式，确认是否要使用 BNL 算法。如果确认优化器会使用 BNL 算法，就需要做优化。优化的常见做法是，给被驱动表的 join 字段加上索引，把 BNL 算法转成 BKA 算法。</p>
-<h2 id="BNL-转-BKA"><a href="#BNL-转-BKA" class="headerlink" title="BNL 转 BKA"></a>BNL 转 BKA</h2><p>一些情况下，我们可以直接在被驱动表上建索引，这时就可以直接转成 BKA 算法了。</p>
-<p>但是，有时候你确实会碰到一些不适合在被驱动表上建索引的情况。比如下面这个语句：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from t1 join t2 on (t1.b&#x3D;t2.b) where t2.b&gt;&#x3D;1 and t2.b&lt;&#x3D;2000;</span><br></pre></td></tr></table></figure>
-
-<p>我们在文章开始的时候，在表 t2 中插入了 100 万行数据，但是经过 where 条件过滤后，需要参与 join 的只有 2000 行数据。如果这条语句同时是一个低频的 SQL 语句，那么再为这个语句在表 t2 的字段 b 上创建一个索引就很浪费了。</p>
-<p>但是，如果使用 BNL 算法来 join 的话，这个语句的执行流程是这样的：</p>
-<ol>
-<li>把表 t1 的所有字段取出来，存入 join_buffer 中。这个表只有 1000 行，join_buffer_size 默认值是 256k，可以完全存入。</li>
-<li>扫描表 t2，取出每一行数据跟 join_buffer 中的数据进行对比，</li>
-<li>如果不满足 t1.b=t2.b，则跳过；<ul>
-<li>如果满足 t1.b=t2.b, 再判断其他条件，也就是是否满足 t2.b 处于 [1,2000] 的条件，</li>
-<li>如果是，就作为结果集的一部分返回，否则跳过。</li>
+<p>你可能会有疑问，为什么要用临时表呢？直接用普通表是不是也可以呢？</p>
+<p>今天我们就从这个问题说起：临时表有哪些特征，为什么它适合这个场景？</p>
+<p>这里，我需要先帮你厘清一个容易误解的问题：有的人可能会认为，临时表就是内存表。但是，这两个概念可是完全不同的。</p>
+<ul>
+<li>内存表，指的是使用 Memory 引擎的表，建表语法是 <code>create table … engine=memory</code>。这种表的数据都保存在内存里，系统重启的时候会被清空，但是表结构还在。除了这两个特性看上去比较“奇怪”外，从其他的特征上看，它就是一个正常的表。</li>
+<li>而临时表，可以使用各种引擎类型 。如果是使用 InnoDB 引擎或者 MyISAM 引擎的临时表，写数据的时候是写到磁盘上的。当然，临时表也可以使用 Memory 引擎。</li>
 </ul>
-</li>
-</ol>
-<p>我在上一篇文章中说过，对于表 t2 的每一行，判断 join 是否满足的时候，都需要遍历 join_buffer 中的所有行。因此判断等值条件的次数是 1000*100 万 =10 亿次，这个判断的工作量很大。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220705213624.png" alt=""></p>
-<p>可以看到，explain 结果里 Extra 字段显示使用了 BNL 算法。在我的测试环境里，这条语句需要执行 1 分 11 秒。</p>
-<p>在表 t2 的字段 b 上创建索引会浪费资源，但是不创建索引的话这个语句的等值条件要判断 10 亿次，想想也是浪费。那么，有没有两全其美的办法呢？</p>
-<p>这时候，我们可以考虑使用临时表。使用临时表的大致思路是：</p>
+<p>弄清楚了内存表和临时表的区别以后，我们再来看看临时表有哪些特征。</p>
+<h2 id="临时表的特性"><a href="#临时表的特性" class="headerlink" title="临时表的特性"></a>临时表的特性</h2><p>为了便于理解，我们来看下下面这个操作序列：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220816152151.png" alt=""></p>
+<p>可以看到，临时表在使用上有以下几个特点：</p>
 <ol>
-<li>把表 t2 中满足条件的数据放在临时表 tmp_t 中；</li>
-<li>为了让 join 使用 BKA 算法，给临时表 tmp_t 的字段 b 加上索引；</li>
-<li>让表 t1 和 tmp_t 做 join 操作。</li>
+<li>建表语法是 <code>create temporary table …</code>。</li>
+<li>一个临时表只能被创建它的 session 访问，对其他线程不可见。所以，图中 session A 创建的临时表 t，对于 session B 就是不可见的。</li>
+<li>临时表可以与普通表同名。</li>
+<li>session A 内有同名的临时表和普通表的时候，show create 语句，以及增删改查语句访问的是临时表。</li>
+<li>show tables 命令不显示临时表。</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">create temporary table temp_t(id int primary key, a int, b int, index(b))engine&#x3D;innodb;</span><br><span class="line">insert into temp_t select * from t2 where b&gt;&#x3D;1 and b&lt;&#x3D;2000;</span><br><span class="line">select * from t1 join temp_t on (t1.b&#x3D;temp_t.b);</span><br></pre></td></tr></table></figure>
+<p>由于临时表只能被创建它的 session 访问，<strong>所以在这个 session 结束的时候，会自动删除临时表</strong>。也正是由于这个特性，临时表就特别适合我们文章开头的 join 优化这种场景。为什么呢？</p>
+<p>原因主要包括以下两个方面：</p>
+<ol>
+<li>不同 session 的临时表是可以重名的，如果有多个 session 同时执行 join 优化，不需要担心表名重复导致建表失败的问题。</li>
+<li>不需要担心数据删除问题。如果使用普通表，在流程执行过程中客户端发生了异常断开，或者数据库发生异常重启，还需要专门来清理中间过程中生成的数据表。而临时表由于会自动回收，所以不需要这个额外的操作。</li>
+</ol>
+<h2 id="临时表的应用"><a href="#临时表的应用" class="headerlink" title="临时表的应用"></a>临时表的应用</h2><p>由于不用担心线程之间的重名冲突，临时表经常会被用在复杂查询的优化过程中。其中，分库分表系统的跨库查询就是一个典型的使用场景。</p>
+<h2 id="为什么临时表可以重名"><a href="#为什么临时表可以重名" class="headerlink" title="为什么临时表可以重名"></a>为什么临时表可以重名</h2><p>当我们使用建表语句创建临时表时：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create temporary table temp_t(id int primary key)engine&#x3D;innodb;</span><br></pre></td></tr></table></figure>
 
-<p>可以看到，整个过程 3 个语句执行时间的总和还不到 1 秒，相比于前面的 1 分 11 秒，性能得到了大幅提升。接下来，我们一起看一下这个过程的消耗：</p>
-<p>执行 insert 语句构造 temp_t 表并插入数据的过程中，对表 t2 做了全表扫描，这里扫描行数是 100 万。<br>之后的 join 语句，扫描表 t1，这里的扫描行数是 1000；join 比较过程中，做了 1000 次带索引的查询。相比于优化前的 join 语句需要做 10 亿次条件判断来说，这个优化效果还是很明显的。<br>总体来看，不论是在原表上加索引，还是用有索引的临时表，我们的思路都是让 join 语句能够用上被驱动表上的索引，来触发 BKA 算法，提升查询性能。</p>
+<p>这个时候，MySQL 要给这个 InnoDB 表创建一个 frm 文件保存表结构定义，还要有地方保存表数据。</p>
+<p>这个 frm 文件放在临时文件目录下，文件名的后缀是.frm，前缀是“#sql{进程 id}<em>{线程 id}</em> 序列号”。你可以使用 select @@tmpdir 命令，来显示实例的临时文件目录。</p>
+<p>而关于表中数据的存放方式，在不同的 MySQL 版本中有着不同的处理方式：</p>
+<ul>
+<li>在 5.6 以及之前的版本里，MySQL 会在临时文件目录下创建一个相同前缀、以.ibd 为后缀的文件，用来存放数据文件；</li>
+<li>而从 5.7 版本开始，MySQL 引入了一个临时文件表空间，专门用来存放临时文件的数据。因此，我们就不需要再创建 ibd 文件了。</li>
+</ul>
+<p>从文件名的前缀规则，我们可以看到，其实创建一个叫作 t1 的 InnoDB 临时表，MySQL 在存储上认为我们创建的表名跟普通表 t1 是不同的，因此同一个库下面已经有普通表 t1 的情况下，还是可以再创建一个临时表 t1 的。</p>
+<p>为了便于后面讨论，我先来举一个例子。</p>
+<p>临时表的命名：<br><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220816152846.png" alt=""></p>
+<p>这个进程的进程号是 1234，session A 的线程 id 是 4，session B 的线程 id 是 5。所以你看到了，session A 和 session B 创建的临时表，在磁盘上的文件不会重名。</p>
+<p>MySQL 维护数据表，除了物理上要有文件外，内存里面也有一套机制区别不同的表，每个表都对应一个 table_def_key。</p>
+<p>一个普通表的 table_def_key 的值是由“库名 + 表名”得到的，所以如果你要在同一个库下创建两个同名的普通表，创建第二个表的过程中就会发现 table_def_key 已经存在了。<br>而对于临时表，table_def_key 在“库名 + 表名”基础上，又加入了“server_id+thread_id”。<br>也就是说，session A 和 sessionB 创建的两个临时表 t1，它们的 table_def_key 不同，磁盘文件名也不同，因此可以并存。</p>
+<p>在实现上，每个线程都维护了自己的临时表链表。这样每次 session 内操作表的时候，先遍历链表，检查是否有这个名字的临时表，如果有就优先操作临时表，如果没有再操作普通表；在 session 结束的时候，对链表里的每个临时表，执行 “DROP TEMPORARY TABLE + 表名”操作。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
-<li>BKA 优化是 MySQL 已经内置支持的，建议默认使用</li>
-<li>BNL 算法效率低，建议都尽量转成 BKA 算法。优化的方向就是给被驱动表的关联字段加上索引</li>
-<li>基于临时表的改进方案，对于能够提前过滤出小数据的 join 语句来说，效果还是很好的</li>
-<li>MySQL 目前的版本还不支持 hash join，但可以配合应用端自己模拟出来，理论上效果要好于临时表的方案</li>
+<li>内存表，指的是使用 Memory 引擎的表; 而临时表，可以使用各种引擎类型。</li>
+<li>上面说到的这种临时表，是用户自己创建的 ，也可以称为用户临时表。</li>
+<li>临时表可以与普通表同名</li>
+<li>临时表只能被创建它的 session 访问，在这个 session 结束的时候，会自动删除对应的临时表</li>
 </ul>
 
           
@@ -605,7 +569,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/how-to-optimize-the-join-statement/>https://www.0x2beace.com/how-to-optimize-the-join-statement/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/why-can-temporary-tables-be-renamed/>https://www.0x2beace.com/why-can-temporary-tables-be-renamed/</a></p>
           
         
       </blockquote>
@@ -653,10 +617,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-08-27T22:13:23+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-08-28T08:59:19+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Aug 27, 2022</p>
+    <p>更新于：Aug 28, 2022</p>
   </a>
 </div>
 
@@ -683,11 +647,11 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/how-to-optimize-the-join-statement/&title=35 join语句怎么优化 - Boo&summary=本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/why-can-temporary-tables-be-renamed/&title=36 为什么临时表可以重名 - Boo&summary=本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
 课程重点：
 
-了解 MRR 优化
-了解 BKA 算法
+了解临时表的特性
+了解临时表的应用场景
 "
           
           >
@@ -700,11 +664,11 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/how-to-optimize-the-join-statement/&title=35 join语句怎么优化 - Boo&summary=本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/why-can-temporary-tables-be-renamed/&title=36 为什么临时表可以重名 - Boo&summary=本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
 课程重点：
 
-了解 MRR 优化
-了解 BKA 算法
+了解临时表的特性
+了解临时表的应用场景
 "
           
           >
@@ -717,11 +681,11 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/how-to-optimize-the-join-statement/&title=35 join语句怎么优化 - Boo&summary=本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/why-can-temporary-tables-be-renamed/&title=36 为什么临时表可以重名 - Boo&summary=本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
 课程重点：
 
-了解 MRR 优化
-了解 BKA 算法
+了解临时表的特性
+了解临时表的应用场景
 "
           
           >
@@ -736,7 +700,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADmElEQVR42u3aQXLbQAwEQP//08k9qZSAAWhBTu9NlEwuei9jgF+/rGh9IQAHDhw4Cxy4I3Bf4frrhn9c7/59eePhPrbqBQcOHDhw4MCBuwbX3fh3Xe9CpM+t1gsOHDhw4MCBA3cV7mUADAPl1sFUgaaBGBw4cODAgQMHDlzvPtMGaQoJDhw4cODAgQP3v8NtB8/q9x8fgMGBAwcOHDhw4IZw7QFt2LBMG5hVqPOTfHDgwIEDBw4cuCW4pxqSVz/H9YIDBw4cOHDgwB2Bm66nB9hbAXutXnDgwIEDBw4cuCNwWy/udRuM6f3SYD6tDxw4cODAgQMH7hpcN+BWG4bVQfbW76b7Lw+0wYEDBw4cOHDgjsBVA3D1+zQQb0NPG6TlST44cODAgQMHDtyb4KoBMv3ddqNx6+/T+sGBAwcOHDhw4K7APR0g00HwdKC8vcCBAwcOHDhw4K7CpYExLTxtpD49EH9ZLzhw4MCBAwcO3BG46QC4OmDuDrxTyO4gvX1A4MCBAwcOHDhwR+C6D/yugJsG9Cnwy7rBgQMHDhw4cOCOwHWBugV3X1R8Osim9wcHDhw4cODAgbsKVx08dwGnBXcH4ekBlg8AHDhw4MCBAwfuKNzWwLkaeNNGaHe/02ANDhw4cODAgQN3DS5t6E0L68KmjdbuoP1lfeDAgQMHDhw4cMfhpoFzegBbDdHp9/9sZIIDBw4cOHDgwB2B22pEpgPsLvD0QOODAwcOHDhw4MCBOwK3HTC7sFug6WC9Wxc4cODAgQMHDtwVuLVB7dLAeFxYs2E5HkiDAwcOHDhw4MC9GW57A9ONdxuqU+jyc8CBAwcOHDhw4I7BbQXbrQNJB9DpQBocOHDgwIEDB+6nwFUD7DTgVgNw9/p2UAcHDhw4cODAgbsON33xL31BMX0BcPvFwZcBGRw4cODAgQMH7ihcGkynAXerUfnUAgcOHDhw4MCBuwY3XVvAafCe7qM9sAYHDhw4cODAgTsCNw2EaSHTQruD8u7n8n8O4MCBAwcOHDhwb4ZLA+8W/HbATgfYL+sFBw4cOHDgwIE7CrcdKNNC3jZw3prkgwMHDhw4cODAfQhcen07GFefH9cLDhw4cODAgQP3Q+G2QZ4K5NV9gAMHDhw4cODAfQrcNHhWC57er/vcKvy3TfLBgQMHDhw4cOCW4KYD3G6B1d8/9bwYGhw4cODAgQMH7gic1WxwIgAHDhw4Cxy4967f7TIE2+8eu6oAAAAASUVORK5CYII=">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADoElEQVR42u3aQXLjMAwEQP3/07svcBkYUDasNG9OKRTZuEwBuv5Z0boQgAMHDpwFDtwSuCtcr/7/5QuH+1V/d/dv3xccOHDgwIEDB24ZXDkAvni++vd3v6vg6f7T+4IDBw4cOHDgwG2F6x60e4AucPf/0kKWCwMOHDhw4MCBA/cQuGljsBt4u4VJzw8OHDhw4MCBA/dX4NLgWg3Y13CBAwcOHDhw4MA9Ha49oD0UdKsNz+6gPH0OHDhw4MCBAwfuV+BOB8rtv+P7ggMHDhw4cODALYGbrtOg6UWr7xnfFxw4cODAgQMHbglcteHYHeC+Gyx3G41pwzQtwLgDDA4cOHDgwIED92G4uwNtCnWqEdl9fzkAgwMHDhw4cODAfRiuGnjTF6UQ8cXCYFy+Bzhw4MCBAwcO3BK4T0FVG4blhmKz4TktMDhw4MCBAwcO3K/ATT/8mw6ETzcqTz0PDhw4cODAgQO3Da47UD4NNm1kTvcpNz7BgQMHDhw4cOCWwk0bm1PwFOp0QcGBAwcOHDhw4LbDVQe16Qd63UFz92JpsI2DPzhw4MCBAwcO3BK46kGmgbi636c+UOwOwMGBAwcOHDhw4LbBTQPh3YG3WrC4Mdk9Jzhw4MCBAwcO3FK47gA4PVC38XlXEO42csGBAwcOHDhw4LbAXc01HSTftaaN0XggDQ4cOHDgwIED9yW4aYNxOoDu7nu6gO0BOThw4MCBAwcO3HK4Yy8KL3CqgHHQnQ6kwYEDBw4cOHDgboabDoDTAXUaZE81YNNCggMHDhw4cODAbYG7+6LTwqQFShuv4MCBAwcOHDhwvwp3KmhW908D72nQMjg4cODAgQMHDtwSuOqBTgXJaZCeFjgN4ODAgQMHDhw4cNvguoFx2sCswk8H4933ggMHDhw4cODAPQWuulKotMGZNjyn7wEHDhw4cODAgdsGdyqodgfRaWNyOuCeDqbBgQMHDhw4cOC2wJ0KwClcCpQOstPzgwMHDhw4cODAbYO7wjVtHKYfDJ4qWNpYBQcOHDhw4MCB2wY3DbxpwE33mzZA4+fBgQMHDhw4cOCWwnUvmsKkAXk6SO8GfHDgwIEDBw4cuKfCnR5Ydwt2d2P05YeF4MCBAwcOHDhwD4H71qD6VKAuB3Zw4MCBAwcOHLilcJ8OtNMG4/GA++594MCBAwcOHDhwy+DSC3RhpoPn9DxdsJf7gwMHDhw4cODALYGzegscOHDgwFngwH15/QcqyATbmeBWKAAAAABJRU5ErkJggg==">
           </div>
         </div>
       
@@ -756,27 +720,18 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/why-can-temporary-tables-be-renamed/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>36 为什么临时表可以重名</p>
+            
+              <a class='next' href='/how-to-optimize-the-join-statement/'>
+                <p class='title'>35 join语句怎么优化<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
                 <p class='content'>本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
 课程重点：
 
-了解临时表的特性
-了解临时表的应用场景
+了解 MRR 优化
+了解 BKA 算法
 
 
 
 在上一篇...</p>
-              </a>
-            
-            
-              <a class='next' href='/is-it-possible-to-use-join/'>
-                <p class='title'>34 到底可不可以使用join<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
-课程重点：
-
-了解有索引的情况下，join 的过程
-了解没有索引的情...</p>
               </a>
             
           </div>
@@ -821,7 +776,7 @@
 
   <script>
     window.subData = {
-      title: '35 join语句怎么优化',
+      title: '36 为什么临时表可以重名',
       tools: true
     }
   </script>
@@ -847,7 +802,7 @@
 
 
     <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Multi-Range-Read-优化"><span class="toc-text">Multi-Range Read 优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Batched-Key-Access"><span class="toc-text">Batched Key Access</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BNL-算法的性能问题"><span class="toc-text">BNL 算法的性能问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BNL-转-BKA"><span class="toc-text">BNL 转 BKA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#临时表的特性"><span class="toc-text">临时表的特性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#临时表的应用"><span class="toc-text">临时表的应用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么临时表可以重名"><span class="toc-text">为什么临时表可以重名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
     </div>
   </section>
 
