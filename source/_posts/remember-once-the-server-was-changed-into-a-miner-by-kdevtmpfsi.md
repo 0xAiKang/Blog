@@ -7,7 +7,7 @@ categories: ["Linux"]
 
 昨天有台测试服务器被告知服务异常，进服务器之后才发现是因为docker 异常退出了。
 
-<!-- more -->
+<!-- more -->
 
 将docker 运行起来之后，发现有个不认识的进程 `kdevtmpfsi` 占用CPU 异常的多，Google 一下才知道，好家伙，服务器被当成矿机了。
 
