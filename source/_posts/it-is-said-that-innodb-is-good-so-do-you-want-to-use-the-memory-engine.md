@@ -1,7 +1,8 @@
 ---
 title: 38 都说InnoDB好，那还要不要使用Memory引擎
 date: 2022-09-01 09:02:23
-tags:
+tags: ["Mysql"]
+categories: ["Mysql"]
 ---
 
 本文是基于 [极客时间——MySQL 实战 45 讲](https://time.geekbang.org/column/intro/100020801) 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
