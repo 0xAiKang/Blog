@@ -61,7 +61,7 @@ Rows_examined：20003 就表示这个语句执行过程中扫描了 20003 行，
 ## 磁盘临时表
 那么，是不是所有的临时表都是内存表呢？
 
-是的。tmp_table_size 这个配置限制了内存临时表的大小，默认值是 16M。如果临时表大小超过了 tmp_table_size，那么内存临时表就会转成磁盘临时表。
+其实不是的。tmp_table_size 这个配置限制了内存临时表的大小，默认值是 16M。如果临时表大小超过了 tmp_table_size，那么内存临时表就会转成磁盘临时表。
 
 磁盘临时表使用的引擎默认是 InnoDB，是由参数 internal_tmp_disk_storage_engine 控制的。
 

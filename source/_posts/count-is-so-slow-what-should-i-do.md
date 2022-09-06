@@ -93,7 +93,7 @@ TABLE_ROWS 就是从这个采样估算得来的，因此它也很不准。有多
 
 当然，MySQL 专门针对这个语句进行优化，也不是不可以。但是这种需要专门优化的情况太多了，而且 MySQL 已经优化过 count(*) 了，你直接使用这种用法就可以了。
 
-所以结论是：按照效率排序的话，count(字段)<count(主键 id)<count(1)≈count(*)，所以我建议你，尽量使用 count(*)。
+所以结论是：按照效率排序的话，count(字段)<count(主键 id)<count(1)≈`count(*)`，所以我建议你，尽量使用 `count(*)`。
 
 ## 总结
-* 按照效率排序的话，count(字段)<count(主键 id)<count(1)≈count(*)，建议使用 count(*)
+* 按照效率排序的话，count(字段)<count(主键 id)<count(1)≈`count(*)`，建议使用 `count(*)`
