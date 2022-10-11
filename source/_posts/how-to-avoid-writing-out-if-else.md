@@ -1,5 +1,5 @@
 ---
-title: 如何避免写出 If-Else如何避免写出 If-Else
+title: 如何避免写出 If-Else
 date: 2022-02-27 14:41:32
 tags: ["PHP"]
 categories: ["PHP"]
