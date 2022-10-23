@@ -16,18 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>04 深入浅出索引（上） - Boo</title>
+    <title>八大基本数据结构概述 - Boo</title>
   
-    <meta name="keywords" content="Mysql">
+    <meta name="keywords" content="数据结构">
   
   
-    <meta name="description" content="本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
-课程重点：
-
-了解数据库引擎数据结构
-了解索引的常见模型
-指导 InnoDB 为什么要要选择 B+ 树作为索引模型
-">
+    <meta name="description" content="数据结构是一种具有一定逻辑关系，在计算机中应用某种存储结构，并且封装了相应操作的数据元素集合，常用的数据结构有以下8种：">
   
 
   <!-- feed -->
@@ -378,8 +372,8 @@
         
           
   <h1 class="title">
-    <a href="/introduction-to-the-index-part-1/">
-      04 深入浅出索引（上）
+    <a href="/mathematical-structural-overview/">
+      八大基本数据结构概述
     </a>
   </h1>
 
@@ -404,9 +398,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Mysql/' rel="nofollow">
+    <a href='/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Mysql</p>
+      <p>数据结构</p>
     </a>
   </div>
 
@@ -417,7 +411,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jun 1, 2022</p>
+    <p>发布于：May 28, 2022</p>
   </a>
 </div>
 
@@ -433,13 +427,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1.9k words</p>
+      <p>768 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>6 min</p>
+      <p>2 min</p>
     </a>
   </div>
 
@@ -452,7 +446,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/introduction-to-the-index-part-1/" class="leancloud_visitors" data-flag-title="04 深入浅出索引（上）">
+      <span id="/mathematical-structural-overview/" class="leancloud_visitors" data-flag-title="八大基本数据结构概述">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -475,73 +469,66 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>本文是基于 <a href="https://time.geekbang.org/column/intro/100020801" target="_blank" rel="noopener">极客时间——MySQL 实战 45 讲</a> 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。</p>
-<p>课程重点：</p>
-<ol>
-<li>了解数据库引擎数据结构</li>
-<li>了解索引的常见模型</li>
-<li>指导 InnoDB 为什么要要选择 B+ 树作为索引模型</li>
-</ol>
+          <p>数据结构是一种具有一定逻辑关系，在计算机中应用某种存储结构，并且封装了相应操作的数据元素集合，常用的数据结构有以下8种：</p>
 <a id="more"></a>
 
-<h2 id="索引的常见模型"><a href="#索引的常见模型" class="headerlink" title="索引的常见模型"></a>索引的常见模型</h2><p>索引的出现是为了提高查询效率，但是实现索引的方式却有很多种，所以这里也就引入了索引模型的概念。</p>
-<p>常见的三种索引模型：</p>
-<ol>
-<li>哈希表</li>
-<li>有序数组</li>
-<li>搜索树</li>
-</ol>
-<h3 id="哈希表"><a href="#哈希表" class="headerlink" title="哈希表"></a>哈希表</h3><p>哈希表是一种以键 - 值(key-value)存储数据的结构，我们只要输入待查找的值即 key， 就可以找到其对应的值即 Value。</p>
-<p>哈希的思路很简单，把值放在数组里，用一个哈希函数把 key 换算成一个确定的位置，然后把 value 放在数组的这个位置。</p>
-<p>不可避免地，多个 key 值经过哈希函数的换算，会出现同一个值的情况。处理这种情况的 一种方法是，拉出一个链表。</p>
-<p>优点：新增速度很快，只需要往后面追加。<br>缺点：因为不是有序的，区间查询速度很慢。</p>
-<p>总结：哈希表<strong>只适合等值查询的场景</strong>，比如 Memcached 及其他一些 NoSQL 引擎。</p>
-<h3 id="有序数组"><a href="#有序数组" class="headerlink" title="有序数组"></a>有序数组</h3><p>有序数组在等值查询和范围查询场景中的性能就都非常优秀。</p>
-<p>如果仅仅看查询效率，有序数组就是最好的数据结构了。但是，在需要更新数据的时候就麻<br>烦了，你往中间插入一个记录就必须得挪动后面所有的记录，成本太高。</p>
-<p>总结：<strong>有序数组索引只适用于静态存储引擎</strong>。</p>
-<h3 id="二叉搜索树"><a href="#二叉搜索树" class="headerlink" title="二叉搜索树"></a>二叉搜索树</h3><p>二叉树是搜索效率最高的，但是实际上大多数的数据库存储却并不使用二叉树。<br>其原因是，索引不止存在内存中，还要写到磁盘上。</p>
-<p>想象一下一棵 100 万节点的平衡二叉树，树高 20。一次查询可能需要访问 20 个数 据块。在机械硬盘时代，从磁盘随机读一个数据块需要 10 ms 左右的寻址时间。也就是说，对于一个 100 万行的表，如果使用二叉树来存储，单独访问一个行可能需要 20 个 10 ms 的时间。</p>
-<p>为了让一个查询尽量少地读磁盘，就必须让查询过程访问尽量少的数据块。那么，我们就不 应该使用二叉树，而是要使用“N 叉”树。这里，“N 叉”树中的“N”取决于数据块的大小。</p>
-<h2 id="InnoDB-的索引模型"><a href="#InnoDB-的索引模型" class="headerlink" title="InnoDB 的索引模型"></a>InnoDB 的索引模型</h2><p>在 InnoDB 中，表都是根据主键顺序以索引的形式存放的，这种存储方式的表称为<strong>索引组织表</strong>。又因为前面提到的，InnoDB 使用了 B+ 树索引模型，所以数据都是存储在 B+ 树中的。</p>
-<p>每一个索引在 InnoDB 里面对应一棵 B+ 树。</p>
-<p>假设，有一个主键列为 ID 的表，表中有字段 k，并且在 k 上有索引。 这个表的建表语句是:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create table T( id int primary key,</span><br><span class="line">k int not null,</span><br><span class="line">name varchar(16),</span><br><span class="line">index (k))engine&#x3D;InnoDB;</span><br></pre></td></tr></table></figure>
-
-<p>表中 R1~R5 的 (ID,k) 值分别为 (100,1)、(200,2)、(300,3)、(500,5) 和 (600,6)，两棵树 的示例示意图如下：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220601225209.png" alt=""></p>
-<p>从图中可以看出，根据叶子节点的内容，索引类型分为主键索引和非主键索引。</p>
-<p>主键索引的叶子节点存的是整行数据。在 InnoDB 里，主键索引也被称为聚簇索引 (clustered index)。</p>
-<p>非主键索引的叶子节点内容是主键的值。在 InnoDB 里，非主键索引也被称为二级索引 (secondary index)。</p>
-<blockquote>
-<p>基于主键索引和普通索引的查询有什么区别?</p>
-</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20221023230841.png" alt=""></p>
+<h2 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h2><p>链表是一种非常常见的数据结构，有多种扩展的链表：</p>
 <ul>
-<li>如果语句是 <code>select * from T where ID=500</code>，即主键查询方式，则只需要搜索 ID 这棵 B+ 树;</li>
-<li>如果语句是 <code>select * from T where k=5</code>，即普通索引查询方式，则需要先搜索 k 索引 树，得到 ID 的值为 500，再到 ID 索引树搜索一次。这个过程称为回表。</li>
+<li>单向链表</li>
+<li>双向链表</li>
+<li>循环链表</li>
 </ul>
-<p>也就是说，基于非主键索引的查询需要多扫描一棵索引树。因此，我们在应用中应该尽量使用主键查询。</p>
-<h2 id="索引维护"><a href="#索引维护" class="headerlink" title="索引维护"></a>索引维护</h2><p>B+ 树为了维护索引有序性，在插入新值的时候需要做必要的维护。以上面这个图为例，如 果插入新的行 ID 值为 700，则只需要在 R5 的记录后面插入一个新记录。如果新插入的 ID 值为 400，就相对麻烦了，需要逻辑上挪动后面的数据，空出位置。</p>
-<p>而更糟的情况是，如果 R5 所在的数据页已经满了，根据 B+ 树的算法，这时候需要申请一 个新的数据页，然后挪动部分数据过去。这个过程称为页分裂。在这种情况下，性能自然会 受影响。</p>
-<p>除了性能外，页分裂操作还影响数据页的利用率。原本放在一个页的数据，现在分到两个页 中，整体空间利用率降低大约 50%。</p>
-<p>当然有分裂就有合并。当相邻两个页由于删除了数据，利用率很低之后，会将数据页做合<br>并。合并的过程，可以认为是分裂过程的逆过程。</p>
-<p>基于以上索引维护过程说明，如果每次插入<br>一条新记录，都是追加操作，都不涉及到挪动其他记录，也不会触发叶子节点的分裂，这样就能最大程度的维护好索引的有序性。</p>
-<p>而这种“自动追加操作”，就是自增主键的插入数据模式。</p>
-<p>而有业务逻辑的字段做主键，则往往不容易保证有序插入，这样写数据成本相对较高。</p>
-<p>除了考虑性能外，我们还可以从存储空间的角度来看。假设你的表中确实有一个唯一字段，<br>比如字符串类型的身份证号，那应该用身份证号做主键，还是用自增字段做主键呢?</p>
-<p>由于每个非主键索引的叶子节点上都是主键的值。如果用身份证号做主键，那么每个二级索 引的叶子节点占用约 20 个字节，而如果用整型做主键，则只要 4 个字节，如果是长整型 (bigint)则是 8 个字节。</p>
-<p><strong>显然，主键长度越小，普通索引的叶子节点就越小，普通索引占用的空间也就越小。</strong></p>
-<p>所以，从性能和存储空间方面考量，自增主键往往是更合理的选择。</p>
-<p>有没有什么场景适合用业务字段直接做主键的呢？还是有的。比如，有些业务的场景需求是这样的:</p>
-<ol>
-<li>只有一个索引;</li>
-<li>该索引必须是唯一索引。</li>
-</ol>
-<p>这就是典型的 KV 场景。由于没有其他索引，所以也就不用考虑其他索引的叶子节点大小的问题。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
-<li>InnoDB 采用 B+ 树结构作为索引模型，是因为B+ 树能够很好地配合磁盘的读写特性，减少单次查询的磁盘访问次数。</li>
-<li>由于 InnoDB 是索引组织表，通常会建议创建一个自增主键，这样非主键索引 占用的空间最小。</li>
-<li>尽量使用主键查询，其目的是减少回表。</li>
-</ol>
+<p>链表的特点是：</p>
+<ul>
+<li>添加删除数据很方便，因为只需要移动指针的指向，然后操作目标元素即可，复杂度为O(1)</li>
+<li>查找数据，速度很慢，复杂度为 O(1)</li>
+<li>链表的数据存储是分散的，无需存储在连续的内存空间中</li>
+</ul>
+<p>适用场景：数据量较小，需要频繁增加，删除操作的场景</p>
+<h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><p>数组也是线性排列的一种数据结构。</p>
+<p>数组的特点是：</p>
+<ul>
+<li>查找数据，速度很快，复杂度为 O(1)</li>
+<li>添加删除数据很慢，因为需要移动元素，复杂度为 O(n)</li>
+<li>数组是存储在一片连续的内存空间中，每个数据的内存地址都可以通过数组下标计算出来</li>
+</ul>
+<p>适用场景：频繁查询，对存储空间要求不大，较少增加和删除的场景</p>
+<h2 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h2><p>栈也是一种数据呈线性排列的数据结构。</p>
+<p>栈的特点是：</p>
+<ul>
+<li>元素只能通过一端进行访问</li>
+<li>先进后出（最先进入的元素，只能最后取出）</li>
+</ul>
+<h2 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h2><p>队列是类似栈的数据结构。</p>
+<p>队列的特点是：</p>
+<ul>
+<li>元素可以通过两端进行访问</li>
+<li>先进先出（最先进入的元素，最先取出</li>
+</ul>
+<h2 id="哈希表"><a href="#哈希表" class="headerlink" title="哈希表"></a>哈希表</h2><p>哈希表是根据键值对直接进行访问的数据结构。</p>
+<p>哈希表的特点是：</p>
+<ul>
+<li>查找数据，速度很快</li>
+<li>无法做范围查找</li>
+</ul>
+<h2 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h2><p>堆是一种图的树形结构。</p>
+<p>堆的特点是：</p>
+<ul>
+<li>每个结点最多有两个子结点</li>
+<li>子结点必须大于父结点</li>
+<li>堆中最顶端的数据始终最小，无论数据量有多少，取出最小值的时间复杂度都为O(1)</li>
+<li>取出数据，需要将最后的数据移动到最顶端，一边与子结点比较大小，一边往下移动，复杂度为O(logn)</li>
+<li>添加数据，一边与父结点比较大小，一边往上移动，复杂度为O(logn)</li>
+</ul>
+<h2 id="树"><a href="#树" class="headerlink" title="树"></a>树</h2><p>二叉查找树（又叫二叉搜索树或二叉排序树）是一种图形的数据结构。</p>
+<p>二叉查找树的特点是：</p>
+<ul>
+<li>每个结点最多有两个子结点</li>
+<li>每个结点的值均大于左子树上任意一个结点的值</li>
+<li>每个结点的值均小于右子树上任意一个结点的值</li>
+</ul>
+<h2 id="图"><a href="#图" class="headerlink" title="图"></a>图</h2><p>图是由结点的有穷集合V和边的集合E组成，图的数据结构比较复杂，在存储数据上有着比较复杂和高效的算法，分别有邻接矩阵 、邻接表、十字链表、邻接多重表、边集数组等存储结构。</p>
 
           
             <div class='article_footer'>
@@ -578,7 +565,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/introduction-to-the-index-part-1/>https://www.0x2beace.com/introduction-to-the-index-part-1/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/mathematical-structural-overview/>https://www.0x2beace.com/mathematical-structural-overview/</a></p>
           
         
       </blockquote>
@@ -626,10 +613,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-06-04T19:12:35+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-10-23T23:11:14+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Jun 4, 2022</p>
+    <p>更新于：Oct 23, 2022</p>
   </a>
 </div>
 
@@ -638,7 +625,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Mysql/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Mysql</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>数据结构</p></a></div>
 
 
         
@@ -656,13 +643,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/introduction-to-the-index-part-1/&title=04 深入浅出索引（上） - Boo&summary=本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
-课程重点：
-
-了解数据库引擎数据结构
-了解索引的常见模型
-指导 InnoDB 为什么要要选择 B+ 树作为索引模型
-"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/mathematical-structural-overview/&title=八大基本数据结构概述 - Boo&summary=数据结构是一种具有一定逻辑关系，在计算机中应用某种存储结构，并且封装了相应操作的数据元素集合，常用的数据结构有以下8种："
           
           >
           
@@ -674,13 +655,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/introduction-to-the-index-part-1/&title=04 深入浅出索引（上） - Boo&summary=本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
-课程重点：
-
-了解数据库引擎数据结构
-了解索引的常见模型
-指导 InnoDB 为什么要要选择 B+ 树作为索引模型
-"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/mathematical-structural-overview/&title=八大基本数据结构概述 - Boo&summary=数据结构是一种具有一定逻辑关系，在计算机中应用某种存储结构，并且封装了相应操作的数据元素集合，常用的数据结构有以下8种："
           
           >
           
@@ -692,13 +667,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/introduction-to-the-index-part-1/&title=04 深入浅出索引（上） - Boo&summary=本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
-课程重点：
-
-了解数据库引擎数据结构
-了解索引的常见模型
-指导 InnoDB 为什么要要选择 B+ 树作为索引模型
-"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/mathematical-structural-overview/&title=八大基本数据结构概述 - Boo&summary=数据结构是一种具有一定逻辑关系，在计算机中应用某种存储结构，并且封装了相应操作的数据元素集合，常用的数据结构有以下8种："
           
           >
           
@@ -712,7 +681,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADqElEQVR42u3aQZIiMQwEQP7/6ZkHbEwglUQg2PStabptpzkoSjx+jGg8EIADBw6cAQ7cEbhHOP56Pn3vPwsszludb22/4MCBAwcOHDhwx+DKBWDx+ylIFaY677Pr7j7AgQMHDhw4cOCuwnULz3QD3QNJIbvveQoPDhw4cODAgQP3JXBpsLldsG6tFxw4cODAgQMH7n+FSwvWrWBzq5ENDhw4cODAgQP3aXDbQeA0qEwb3dOGOjhw4MCBAwcO3KfAdUcaRF65jvcLDhw4cODAgQN3BG46thvU6YanDe3yfsGBAwcOHDhw4I7ApQHjVmE8bVBXYbqF7jgBBgcOHDhw4MCBezFcF6oL3l3g1kF0G9zldYIDBw4cOHDgwB2Hm46tALQK0y2MqwUvOHDgwIEDBw7cdbjtArcbgE7f1y2E40Y5OHDgwIEDBw7cMbjtBm4aJE4Dzu7z7fnAgQMHDhw4cOCOwE0XNA0qu8DpQUyDT3DgwIEDBw4cuGtw1UIwDSS3NrbVOB8X+ODAgQMHDhw4cEfgpgHjqxvB3evt+cCBAwcOHDhw4D4FLi0MpwHm1v10H+XvgQMHDhw4cODAHYOrvnhrA2lgmhbgaVBb7uSDAwcOHDhw4MC9CW4aYHaDzq2gMv3jY/yHSXDgwIEDBw4cuKNw3QI3LTCnAeZ2I31cAIMDBw4cOHDgwL0JrgrUDQynwWQ3cJ021tsFMDhw4MCBAwcO3BG47kTTBvWrnk8b4U9/AODAgQMHDhw4cEfgpgFl/Ae98PPuvNPvgQMHDhw4cODAXYfbKki7AWXa2J4+Fx84OHDgwIEDBw7cMbhnC0gX1F14enCvggQHDhw4cODAgbsKlzakp4XpNni3EO/OCw4cOHDgwIEDdw2uWvCm0N3GbxqIThvi5UIaHDhw4MCBAwfuQ+DS0S2guwe0FbS274MDBw4cOHDgwB2B2w7+pgFnWnB3DzA+UHDgwIEDBw4cuCNw24XuFtRWQV2FLa8bHDhw4MCBAwfuCNy0kZwGi90Gdfp59xocOHDgwIEDB+7T4LqF67Qw3m5Adw8kLZzBgQMHDhw4cOCuwk0X3i2EuwfzqoZ0+eDAgQMHDhw4cOC+BC4NMLtBZwqYruvP58GBAwcOHDhw4L4MbtoQnkJXAdL74MCBAwcOHDhw1+G2G9JbC08L3u3AFRw4cODAgQMH7hpc3KBdChSr97vPdX8A7YY0OHDgwIEDBw7cm+CM3gAHDhw4cAY4cG8ev6IkBNuJguwmAAAAAElFTkSuQmCC">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADm0lEQVR42u3aQVLDQAwEwPz/0/AAivJqJGOZ6r2ZJM5um4OY4fNlReuDABw4cOAscOCWwH3C9eOGF+9L7/vrAQ7fn+7j13OAAwcOHDhw4MAtg7trw6fQVwe9+v4roKnzggMHDhw4cODAbYU7HWRPN1i9X/ogqgNwfF5w4MCBAwcOHLh/DncKUwXpBqLgwIEDBw4cOHDgMsi0GK4W4K8ZgMGBAwcOHDhw4IbgusFgd4CdHpTTQh0cOHDgwIEDB+4tcOlA+tbr+LzgwIEDBw4cOHBL4LorLYCrQWJ38B07Lzhw4MCBAwcO3BK4dECcCipTkOki+/h84MCBAwcOHDhwS+DS4rc6mKaF8VSx3B3cwYEDBw4cOHDgtsFND6zdwbMaaHYH49P9ggMHDhw4cODAbYWrDqBpkHlXIHoK2Q5QwYEDBw4cOHDglsJVg8XqRp8aeNPvBQcOHDhw4MCBewvc6QHSgDOFSIvrqfeDAwcOHDhw4MBthTvdaDVYnAap7m98AAcHDhw4cODAgVsClw6iKdjX0OoW03HBDQ4cOHDgwIEDtxSuOgjf9Xr1wHcNvuDAgQMHDhw4cFvh0oCxWjRXv69bKKdF+G2FNDhw4MCBAwcO3DBcupF0Y90AMn2g3QUOHDhw4MCBA7cNrlvUpsHk3YNsGnweF9LgwIEDBw4cOHDL4boBZfUBVAHbA211v+DAgQMHDhw4cEvgqsHg3UFlCtB9MHEhDQ4cOHDgwIEDtwQuLaTvus80VDfoBAcOHDhw4MCB2wqXFs3p62nQOLW/6ufBgQMHDhw4cOC2wJ0GlOl1GnxOF+GnBfvlNThw4MCBAwcO3DK4NDBMg8rqwaYL6TSQBQcOHDhw4MCB2wY3VUBPFc0pbDcAPS6kwYEDBw4cOHDglsGlB5kukk/v3x14y78I4MCBAwcOHDhwy+G6g2a3SJ763GdogQMHDhw4cODAbYPrrhQ6HazLBXIYWF4W0uDAgQMHDhw4cA/DdQfC0wG1Gzj+9fXxXw7gwIEDBw4cOHAPw1UH3mqB3B2wqz9PH3T8j4XgwIEDBw4cOHAPw1UL5m4x3H0w44XzVJMPDhw4cODAgQP3Urhq0JkO4lP7P74GBw4cOHDgwIH7Z3Bp4ZwCpQdPA1pw4MCBAwcOHLjtcGlBHG8kvF83+IwfDDhw4MCBAwcO3DK4qQJ3alC+OwiNocGBAwcOHDhw4JbAWUVoBODAgQNngQP37PoGwG4C+VCpG+sAAAAASUVORK5CYII=">
           </div>
         </div>
       
@@ -732,26 +701,24 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/transaction-lsolation-why-you-changed-I-can-not-see-it/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>03 事务隔离：为什么你改了我还看不见</p>
+              <a class='prev' href='/introduction-to-the-index-part-1/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>04 深入浅出索引（上）</p>
                 <p class='content'>本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
 课程重点：
 
-了解 Mysql 的隔离性与隔离级别
-了解长事务存存在...</p>
+了解数据库引擎数据结构
+了解索引的常见模型
+指导 In...</p>
               </a>
             
             
-              <a class='next' href='/mathematical-structural-overview/'>
-                <p class='title'>八大基本数据结构概述<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>数据结构是一种具有一定逻辑关系，在计算机中应用某种存储结构，并且封装了相应操作的数据元素集合，常用的数据结构有以下8种：
+              <a class='next' href='/data-structure-3-stack/'>
+                <p class='title'>数据结构（三）栈<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>栈的定义栈是一种只能从表的一端存取数据且遵循 “后进先出 LIFO（Last In First Out）” 原则的线性存储结构。
 
 
 
-链表链表是一种非常常见的数据结构，有多种扩展的链表：
-
-单向链表
-...</p>
+通常，栈的开口端被称为栈顶，允许进行插入和删除；相应地，封...</p>
               </a>
             
           </div>
@@ -796,7 +763,7 @@
 
   <script>
     window.subData = {
-      title: '04 深入浅出索引（上）',
+      title: '八大基本数据结构概述',
       tools: true
     }
   </script>
@@ -822,7 +789,7 @@
 
 
     <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#索引的常见模型"><span class="toc-text">索引的常见模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#哈希表"><span class="toc-text">哈希表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#有序数组"><span class="toc-text">有序数组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二叉搜索树"><span class="toc-text">二叉搜索树</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#InnoDB-的索引模型"><span class="toc-text">InnoDB 的索引模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#索引维护"><span class="toc-text">索引维护</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#链表"><span class="toc-text">链表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数组"><span class="toc-text">数组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#栈"><span class="toc-text">栈</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#队列"><span class="toc-text">队列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#哈希表"><span class="toc-text">哈希表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#堆"><span class="toc-text">堆</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#树"><span class="toc-text">树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#图"><span class="toc-text">图</span></a></li></ol>
     </div>
   </section>
 
