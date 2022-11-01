@@ -68,6 +68,31 @@
   </entry>
   
   <entry>
+    <title>Go 语言学习笔记——运行第一个 Go 程序</title>
+    <link href="https://www.0x2beace.com/go-language-learning-manual%E2%80%94%E2%80%94transportation-first-go-procedure/"/>
+    <id>https://www.0x2beace.com/go-language-learning-manual%E2%80%94%E2%80%94transportation-first-go-procedure/</id>
+    <published>2022-10-21T14:41:54.000Z</published>
+    <updated>2022-11-01T14:44:05.462Z</updated>
+    
+    <content type="html"><![CDATA[<p>时隔一年之久，再一次来学习 Go。</p><h2 id="设计哲学"><a href="#设计哲学" class="headerlink" title="设计哲学"></a>设计哲学</h2><p>Go 语言的设计哲学：<strong>简单、显式、组合、并发和面向工程</strong>：</p><ul><li>简单是指 Go 语言特性始终保持在少且足够的水平，不走语言特性融合的道路，但又不乏生产力。简单是 Go 生产力的源泉，也是 Go 对开发者的最大吸引力</li><li>显式是指任何代码行为都需开发者明确知晓，不存在因“暗箱操作”而导致可维护性降低和不安全的结果</li><li>组合是构建 Go 程序骨架的主要方式，它可以大幅降低程序元素间的耦合，提供程序的可扩展性和灵活性</li><li>并发是 Go 敏锐地把握了 CPU 向多核方向发展这一趋势的结果，可以让开发人员在多核时代更容易写出充分利用系统资源、支持性能随 CPU 核数增加而自然提升的应用程序</li><li>面向工程是 Go 语言在语言设计上的一个重大创新，它将语言要解决的问题域扩展到那些原本并不是由编程语言去解决的领域，从而覆盖了更多开发者在开发过程遇到的“痛点”，为开发者提供了更好的使用体验</li></ul><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>Go 从 2009 年开源并演化到今天，它的安装方法其实都已经很成熟了。</p><p>写下这篇笔记时，Go 的版本已经到了 1.18.1。</p><p>Windows 和 Mac 可以直接从官网<a href="https://golang.google.cn/dl/" target="_blank" rel="noopener">下载</a> 最新的安装包，在图形界面的引导下，一路“下一步”，即可安装成功。</p><p>Linux 则通过命令行的方式进行安装：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ wget -c https://go.dev/dl/go1.19.2.linux-amd64.tar.gz \</span><br><span class="line">tar -C /usr/<span class="built_in">local</span> -xzf go1.19.2.linux-amd64.tar.gz</span><br></pre></td></tr></table></figure><p>解压成功，即可在 <code>/usr/local</code> 下面看到名为 go 的安装目录。</p><p>添加环境变量：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:/usr/<span class="built_in">local</span>/go/bin &amp;&amp; <span class="built_in">source</span> ~/.profile</span><br></pre></td></tr></table></figure><p>查看是否安装成功：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ go version</span><br><span class="line"></span><br><span class="line">go version go1.19.2 darwin/amd64</span><br></pre></td></tr></table></figure><h2 id="配置-Go"><a href="#配置-Go" class="headerlink" title="配置 Go"></a>配置 Go</h2><p>其实 Go 在安装后是开箱即用的，无需做任何配置就能使用。</p><p>但是因为众所周知的原因，一般会修改 <code>GOPROXY</code> 环境变量：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ go env -w GOPROXY=https://goproxy.cn,direct</span><br><span class="line"></span><br><span class="line"><span class="comment"># 备用goproxy服务 https://mirrors.aliyun.com/goproxy/</span></span><br></pre></td></tr></table></figure><p>顺便看一下其他的一些常用配置项：</p><table><thead><tr><th>名称</th><th>作用</th><th>值</th></tr></thead><tbody><tr><td>GOARCH</td><td>用于指示编译器生成代码（针对平台 CPU 架构）</td><td>主要值是 AMD64、Arm 等，默认值是本机的 CPU 架构</td></tr><tr><td>GOOS</td><td>用于指示 Go 编译器生成代码（针对平台的操作系统</td><td>主要值是 Linux、Darwin、Windows 等，默认值是本机的操作系统</td></tr><tr><td>GO111MODULE</td><td>它的值决定了当前使用的构建模式是传统的 GOPATH 模式还是新引入的 Go Module 模式</td><td>在 Go1.16 版本 Go Module 构建模式默认开启，该变量的值是 on</td></tr><tr><td>GOCACHE</td><td>用于指示存储构建结果缓存的路径，这些缓存可能会被后续构建所使用</td><td>在不同的操作系统上，GOCACHE 有不同的默认值，通过 go env GOMODCACHE 查看</td></tr><tr><td>GOMODCACHE</td><td>用于指示存放 Go Module 的路径</td><td>在不同的操作系统上，GOCACHE 有不同的默认值，通过 go env GOMODCACHE 查看</td></tr><tr><td>GOPROXY</td><td>用来配置 Go Module proxy 服务</td><td>默认值是 <code>https://proxy.golang.org.direct</code></td></tr><tr><td>GOPATH</td><td>在传统的 GOPATH 构建模式下，用于指示 Go 包搜索路径的环境变量，在 Go module 机制启用之前是 Go 核心配置项，Go 1.8 版本之前需要手动配置，Go 1.8 版本之后引入了默认的GOPATH（$HOME/go）</td><td></td></tr><tr><td>GOROOT</td><td>指示 GO 安装路径，GO 1.10 版本引入了默认的 GOROOT，开发者无需显式设置，Go 程序会自动根据自己所在的路径推导出 GOROOT 的路径</td><td></td></tr></tbody></table><h2 id="hello-world"><a href="#hello-world" class="headerlink" title="hello world"></a>hello world</h2><p>首先，需要创建一个 <code>main.go</code> 的源文件。</p><p>这里需要注意一下 Go 的命名规则：Go 源文件总是用<strong>全小写字母形式的短小单词命名</strong>，并且 <code>.go</code> 扩展名结尾。</p><p>如果要在源文件的名字中使用多个单词，通常直接是将多个单词连接起来作为源文件名，而不是使用其他分割符。<br>比如下划线，通常会使用 <code>helloworld.go</code> 作为文件名，而不是 <code>hello_world.go</code>。</p><p>这是因为下划线这种分割符，在 Go 源文件命名中有特殊作用。</p><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// main.go</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">  fmt.Println(<span class="string">"hello world"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>写完之后，就可以编译运行第一个 Go 程序了：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ go build main.go   <span class="comment"># 编译</span></span><br><span class="line"></span><br><span class="line">$ ./main             <span class="comment"># 运行</span></span><br><span class="line">hello, world</span><br></pre></td></tr></table></figure><p>上面这个简单的 Go 程序，由三个很重要的部分组成：</p><ul><li><code>package main</code>：定义了 Go 中的一个包 package</li><li><code>import fmt</code>：声明导入标准库 fmt 目录下的包</li><li><code>func main(){}</code>：定义入口函数</li></ul><p>下面一一说明。</p><h3 id="package"><a href="#package" class="headerlink" title="package"></a>package</h3><p>包（package）是 Go 语言的基本组成单元，通常使用单个的小写单词命名，一个 Go 程序本质上就是一组包的集合。</p><p>所有 Go 代码都有属于自己的 package（很像 PHP 的命名空间的概念），在这里的“helloworld”示例的所有代码都在一个名为 main 的包中。main 包在 Go 中是一个特殊的包，<strong>整个 Go 程序中仅允许存在一个名为 main 的包</strong>。</p><h3 id="import"><a href="#import" class="headerlink" title="import"></a>import</h3><p><code>import</code> 的作用是导入标准库或者第三方包，在这里的作用是导入标准库 fmt 目录下的包。</p><p>在上面的示例中，有两处都使用了 <code>fmt</code> 这个字面值，但是其含义是不一样的。</p><ul><li><code>import fmt</code> 一行中“fmt”代表的是包的导入路径（Import），它表示的是<strong>标准库下的 fmt 目录</strong></li><li><code>fmt.Println</code> 函数调用一行中的“fmt”代表的则是<strong>包名</strong></li></ul><p>main 函数体中之所以可以调用 fmt 包的 Println 函数，还有最后一个原因，那就是 Println 函数名的首字母是大写的。</p><p>在 Go 语言中，<strong>只有首字母为大写的标识符才是导出的（Exported），才能对包外的代码可见</strong>；如果首字母是小写的，那么就说明这个标识符<strong>仅限于在声明它的包内可见</strong>。</p><h3 id="main"><a href="#main" class="headerlink" title="main"></a>main</h3><p>main 包中的主要代码是一个名为 main 的函数：</p><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">"hello, world"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>这里的 main 函数会比较特殊：<strong>当运行一个可执行的 Go 程序的时，所有的代码都会从这个入口函数开始运行</strong>。</p><hr><p>Go 要求所有的函数体都要被花括号包裹起来，用来标记函数体。按照惯例，推荐把左花括号与函数声明置于同一行并以空格分隔。<br>Go 语言内置了一套 Go 社区约定俗称的代码风格，并随安装包提供了一个名为 Gofmt 的工具，这个工具可以帮助将代码自动格式化为约定的风格。</p><hr><p>通过观察输出，可以发现，传入的字符串就是执行程序后在终端的标准输出上看到的字符串。</p><p>这种“所见即所得”得益于 Go 源码文件本身采用的是 Unicode 字符集，而且用的是 UTF-8 标准的字符编码方式，这与编译后的程序所运行的环境所使用的字符集和字符编码方式是一致的。</p><hr><p>整个示例程序源码中，都没有使用过分号来标识语句的结束，这是因为，大多数分号都是可选的，常常被省略，不过在源码编译时，Go 编译器会自动插入这些被省略的分号。</p><p>所以加上分号也是完全合法的，只不过 gofmt 在按约定格式化代码时，会自动删除这些分号。</p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过 <code>hello world</code> 示例程序，了解了 Go 的基本源码结构，以下是重点：</p><ul><li>包是 Go 语言的基本组成单元。一个 Go 程序就是一组包的集合，所有 Go 代码都位于包中</li><li>Go 源码可以导入其他 Go 包，并使用其中的导出语法元素，包括类型、变量、函数、方法等</li><li>整个 Go 程序中仅允许存在一个名为 main 的包只能由一个 main 包; main 函数是整个 Go 应用的入口函数</li></ul><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul><li><a href="https://time.geekbang.org/column/intro/100093501" target="_blank" rel="noopener">Tony Bai · Go 语言第一课</a></li></ul>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;时隔一年之久，再一次来学习 Go。&lt;/p&gt;
+&lt;h2 id=&quot;设计哲学&quot;&gt;&lt;a href=&quot;#设计哲学&quot; class=&quot;headerlink&quot; title=&quot;设计哲学&quot;&gt;&lt;/a&gt;设计哲学&lt;/h2&gt;&lt;p&gt;Go 语言的设计哲学：&lt;strong&gt;简单、显式、组合、并发和面向工程&lt;/</summary>
+      
+    
+    
+    
+    <category term="Go" scheme="https://www.0x2beace.com/categories/Go/"/>
+    
+    
+    <category term="Go" scheme="https://www.0x2beace.com/tags/Go/"/>
+    
+  </entry>
+  
+  <entry>
     <title>计算机网络学习——01 TCP/IP网络模型</title>
     <link href="https://www.0x2beace.com/computer-network-learning-01-tcp-ip-network-model/"/>
     <id>https://www.0x2beace.com/computer-network-learning-01-tcp-ip-network-model/</id>
@@ -2916,9 +2941,9 @@
     <category term="PHP" scheme="https://www.0x2beace.com/categories/PHP/"/>
     
     
-    <category term="Mysql" scheme="https://www.0x2beace.com/tags/Mysql/"/>
-    
     <category term="PHP" scheme="https://www.0x2beace.com/tags/PHP/"/>
+    
+    <category term="Mysql" scheme="https://www.0x2beace.com/tags/Mysql/"/>
     
   </entry>
   
@@ -3264,27 +3289,6 @@
   </entry>
   
   <entry>
-    <title>Go 语言学习笔记</title>
-    <link href="https://www.0x2beace.com/golang-quick-start/"/>
-    <id>https://www.0x2beace.com/golang-quick-start/</id>
-    <published>2020-12-08T15:53:16.000Z</published>
-    <updated>2022-02-13T09:12:57.305Z</updated>
-    
-    <content type="html"><![CDATA[<p>最近开始学习Go 语言，记录一下学习笔记，具体可以访问<a href="https://github.com/0xAiKang/go_learning_note" target="_blank" rel="noopener">Go 语言学习笔记</a></p><a id="more"></a><h3 id="切片"><a href="#切片" class="headerlink" title="切片"></a>切片</h3><p>slice 的本质是一个数据结构，实现了对数组操作的封装。</p><p>go 提供了一种类似“动态数组”结构的数据类型，这种类型就是切片。</p><p>声明</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 语法</span><br><span class="line">var identifier []type</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 声明一个为 int64 类型的切片 </span><br><span class="line">var slice []int64</span><br></pre></td></tr></table></figure><p>初始化：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 初始化一个 int64 类型的切片</span><br><span class="line">array &#x3D; make ([]int64, 10)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 初始化数组</span><br><span class="line">array &#x3D; [10] int64 &#123;0, 1, 2, 3, 4, 5, 6, 7, 8, 9&#125;</span><br></pre></td></tr></table></figure><h4 id="切片常见操作"><a href="#切片常见操作" class="headerlink" title="切片常见操作"></a>切片常见操作</h4><p>对元素进行添加：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure><p>数组和切片存在一些区别：</p><ul><li>声明数组时，是需要指定长度，而切片不用指定长度。</li><li>初始化操作不一样。</li></ul>]]></content>
-    
-    
-    <summary type="html">&lt;p&gt;最近开始学习Go 语言，记录一下学习笔记，具体可以访问&lt;a href=&quot;https://github.com/0xAiKang/go_learning_note&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Go 语言学习笔记&lt;/a&gt;&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="Golang" scheme="https://www.0x2beace.com/categories/Golang/"/>
-    
-    
-    <category term="Golang" scheme="https://www.0x2beace.com/tags/Golang/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Docker Login 登录异常</title>
     <link href="https://www.0x2beace.com/docker-Login-login-exception/"/>
     <id>https://www.0x2beace.com/docker-Login-login-exception/</id>
@@ -3393,9 +3397,9 @@
     <category term="PHP" scheme="https://www.0x2beace.com/categories/Linux/PHP/"/>
     
     
-    <category term="Mysql" scheme="https://www.0x2beace.com/tags/Mysql/"/>
-    
     <category term="PHP" scheme="https://www.0x2beace.com/tags/PHP/"/>
+    
+    <category term="Mysql" scheme="https://www.0x2beace.com/tags/Mysql/"/>
     
     <category term="Linux" scheme="https://www.0x2beace.com/tags/Linux/"/>
     
@@ -4522,13 +4526,13 @@
     <category term="Tutorial" scheme="https://www.0x2beace.com/categories/Tutorial/"/>
     
     
-    <category term="HTTPS" scheme="https://www.0x2beace.com/tags/HTTPS/"/>
-    
     <category term="SSL" scheme="https://www.0x2beace.com/tags/SSL/"/>
+    
+    <category term="Certbot" scheme="https://www.0x2beace.com/tags/Certbot/"/>
     
     <category term="HTTP" scheme="https://www.0x2beace.com/tags/HTTP/"/>
     
-    <category term="Certbot" scheme="https://www.0x2beace.com/tags/Certbot/"/>
+    <category term="HTTPS" scheme="https://www.0x2beace.com/tags/HTTPS/"/>
     
   </entry>
   
@@ -5026,7 +5030,7 @@
     <link href="https://www.0x2beace.com/how-to-make-terminal-commands-go-through-proxy/"/>
     <id>https://www.0x2beace.com/how-to-make-terminal-commands-go-through-proxy/</id>
     <published>2020-08-18T15:39:58.000Z</published>
-    <updated>2022-02-14T12:48:02.255Z</updated>
+    <updated>2022-09-08T10:23:27.475Z</updated>
     
     <content type="html"><![CDATA[<p>问题描述：今天本来打算使用Homebrew 更新一个工具，但是输入完<code>brew updata</code> 之后，就一直是<code>Updating Homebrew...</code></p><p>这个时候，我产生了几个疑问：</p><ol><li>为什么卡着不动了，明明是有网络的啊。</li><li>难道是因为Homebrew 需要访问国外的源？</li><li>Shadowsocks 明明是开着全局代理，为什么没有用？</li><li>如何让终端命令走代理，或者说如何让 Homebrew 走代理更新？</li></ol><h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2><p>首先先回答一下上面那些问题，因为国内网络环境进一步恶劣，使得从根本上造成了这个问题的产生。因为<code>Shadowshocks</code>的全局代理虽然对浏览器是有效，但对命令行无效。</p><p>所以这一切的问题可以总结成一个问题：如果能让终端命令走代理就好了。</p><h3 id="临时生效"><a href="#临时生效" class="headerlink" title="临时生效"></a>临时生效</h3><p>好在Homebrew 是支持全局代理的，所以我们只需要在当前命令行环境中加入代理配置就好了。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export ALL_PROXY&#x3D;socks5:&#x2F;&#x2F;127.0.0.1:1080</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 1080 是本地 socks5 监听端口</span><br></pre></td></tr></table></figure><blockquote><p>如何知道终端命令有没有走代理？</p></blockquote><p>有一个很简单的方法，那就是通过Curl 命令：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl https:&#x2F;&#x2F;www.google.com</span><br></pre></td></tr></table></figure><p>如果走了本地代理，那么很快终端就会有输出，如果没有走则会提示403 端口请求超时。</p><h3 id="永久生效"><a href="#永久生效" class="headerlink" title="永久生效"></a>永久生效</h3><p>需要注意的是，上面的配置仅仅只是临时的，如果重启一下终端，这个配置就失效了，那么有没有办法可以永久生效呢？</p><p>当然是有的，只需要将环境变量写入终端中。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># bash</span><br><span class="line">echo export https_proxy&#x3D;http:&#x2F;&#x2F;127.0.0.1:1080 http_proxy&#x3D;http:&#x2F;&#x2F;127.0.0.1:1080 all_proxy&#x3D;socks5:&#x2F;&#x2F;127.0.0.1:1080 &gt;&gt; ~&#x2F;.bash_profile</span><br><span class="line"></span><br><span class="line"># zsh</span><br><span class="line">echo export https_proxy&#x3D;http:&#x2F;&#x2F;127.0.0.1:1080 http_proxy&#x3D;http:&#x2F;&#x2F;127.0.0.1:1080 all_proxy&#x3D;socks5:&#x2F;&#x2F;127.0.0.1:1080 &gt;&gt; ~&#x2F;.zprofile</span><br></pre></td></tr></table></figure><p>这样，Homebrew 就能通过 <code>Shadowsocks</code> 来更新了。</p><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul><li><a href="https://www.logcg.com/archives/1617.html" target="_blank" rel="noopener">让 Homebrew 走代理更新</a></li><li><a href="https://www.cnblogs.com/xjnotxj/p/7478614.html" target="_blank" rel="noopener">如何让Homebrew 走代理更新？</a></li></ul>]]></content>
     
@@ -5141,11 +5145,11 @@
     <category term="Tutorial" scheme="https://www.0x2beace.com/categories/Tutorial/"/>
     
     
-    <category term="HTTPS" scheme="https://www.0x2beace.com/tags/HTTPS/"/>
-    
     <category term="SSL" scheme="https://www.0x2beace.com/tags/SSL/"/>
     
     <category term="HTTP" scheme="https://www.0x2beace.com/tags/HTTP/"/>
+    
+    <category term="HTTPS" scheme="https://www.0x2beace.com/tags/HTTPS/"/>
     
   </entry>
   
@@ -5803,9 +5807,9 @@
     <category term="一些经验" scheme="https://www.0x2beace.com/categories/%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C/"/>
     
     
-    <category term="HTTPS" scheme="https://www.0x2beace.com/tags/HTTPS/"/>
-    
     <category term="HTTP" scheme="https://www.0x2beace.com/tags/HTTP/"/>
+    
+    <category term="HTTPS" scheme="https://www.0x2beace.com/tags/HTTPS/"/>
     
   </entry>
   
