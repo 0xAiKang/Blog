@@ -16,20 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>异或运算 XOR 快速上手 - Boo</title>
+    <title>Go 语言学习笔记——认识Go Module - Boo</title>
   
-    <meta name="keywords" content="算法">
+    <meta name="keywords" content="Go">
   
   
-    <meta name="description" content="运算符有多种类型，常见的有：
-
-算术运算符
-关系运算符
-逻辑运算符
-位运算
-…
-
-在位运算中，异或运算虽然不常用，但是也非常重要，某些场景下，使用异或运算非常方便。">
+    <meta name="description" content="Go module 构建模式是在 Go 1.11 版本正式引入的，为的是彻底解决 Go 项目复杂版本依赖的问题，在 Go 1.16 版本中，Go module 已经成为了 Go 默认的包依赖管理机制和 Go 源码构建机制。">
   
 
   <!-- feed -->
@@ -380,8 +372,8 @@
         
           
   <h1 class="title">
-    <a href="/different-calculations-xor-rapid-skill/">
-      异或运算 XOR 快速上手
+    <a href="/go-language-study-notes-get-to-know-go-module/">
+      Go 语言学习笔记——认识Go Module
     </a>
   </h1>
 
@@ -406,9 +398,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/%E7%AE%97%E6%B3%95/' rel="nofollow">
+    <a href='/categories/Go/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>算法</p>
+      <p>Go</p>
     </a>
   </div>
 
@@ -419,7 +411,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Oct 31, 2022</p>
+    <p>发布于：Oct 22, 2022</p>
   </a>
 </div>
 
@@ -435,7 +427,7 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>906 words</p>
+      <p>773 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
@@ -454,7 +446,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/different-calculations-xor-rapid-skill/" class="leancloud_visitors" data-flag-title="异或运算 XOR 快速上手">
+      <span id="/go-language-study-notes-get-to-know-go-module/" class="leancloud_visitors" data-flag-title="Go 语言学习笔记——认识Go Module">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -477,111 +469,44 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>运算符有多种类型，常见的有：</p>
-<ul>
-<li>算术运算符</li>
-<li>关系运算符</li>
-<li>逻辑运算符</li>
-<li>位运算</li>
-<li>…</li>
-</ul>
-<p>在位运算中，异或运算虽然不常用，但是也非常重要，某些场景下，使用异或运算非常方便。</p>
+          <p>Go module 构建模式是在 Go 1.11 版本正式引入的，为的是<strong>彻底解决 Go 项目复杂版本依赖的问题</strong>，在 Go 1.16 版本中，Go module 已经成为了 Go 默认的包依赖管理机制和 Go 源码构建机制。</p>
 <a id="more"></a>
 
-<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>位运算符作用于位，并逐位执行操作。&amp;、 | 和 ^ 的真值表如下所示：</p>
-<table>
-<thead>
-<tr>
-<th align="left">p</th>
-<th align="left">q</th>
-<th align="left">p &amp; q（与运算）</th>
-<th align="left">p | q（或运算）</th>
-<th align="left">p ^ q（异或运算）</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-</tr>
-<tr>
-<td align="left">0</td>
-<td align="left">1</td>
-<td align="left">0</td>
-<td align="left">1</td>
-<td align="left">1</td>
-</tr>
-<tr>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">0</td>
-</tr>
-<tr>
-<td align="left">1</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">1</td>
-<td align="left">1</td>
-</tr>
-</tbody></table>
-<p><strong>与运算（AND）</strong> 和 <strong>或运算（OR）</strong> 都比较好理解，所以这篇笔记重点介绍 <strong>异或运算（XOR）</strong>。</p>
-<p>异或，英文为 exclusive OR，缩写成xor，<strong>XOR 主要用来判断两个值是否不同</strong>。</p>
-<h2 id="运算法则"><a href="#运算法则" class="headerlink" title="运算法则"></a>运算法则</h2><p>归零律，一个值与自身的运算，总是为 0：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x ^ x &#x3D; 0</span><br></pre></td></tr></table></figure>
+<p>Go Module 的核心是一个名为 <code>go.mod</code> 的文件，在这个文件中存储了这个 module 对第三方依赖的全部信息。</p>
+<h2 id="go-module"><a href="#go-module" class="headerlink" title="go module"></a>go module</h2><p>首先来创建一个 <code>hellomodule.go</code> 的源文件。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// hellomodule.go</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"github.com/valyala/fasthttp"</span></span><br><span class="line">	<span class="string">"go.uber.org/zap"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> logger *zap.Logger</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">init</span><span class="params">()</span></span> &#123;</span><br><span class="line">	logger, _ = zap.NewProduction()</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">fastHTTPHandler</span><span class="params">(ctx *fasthttp.RequestCtx)</span></span> &#123;</span><br><span class="line">	logger.Info(<span class="string">"hello, go module"</span>, zap.ByteString(<span class="string">"uri"</span>, ctx.RequestURI()))</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	fasthttp.ListenAndServe(<span class="string">":8081"</span>, fastHTTPHandler)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>先不用在意每行代码的意思，只需要知道在这个示例中，通过 import 引入了两个第三方依赖库。</p>
+<p>接下来，通过下面命令为 “hellomodule” 这个示例程序添加 <code>go.mod</code> 文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ go mod init hellomodule</span><br><span class="line">go: creating new go.mod: module hellomodule</span><br><span class="line">go: to add module requirements and sums:</span><br><span class="line">  go mod tidy</span><br></pre></td></tr></table></figure>
 
-<p>恒等律，一个值与 0 的运算，总是等于其本身：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x ^ 0 &#x3D; x</span><br></pre></td></tr></table></figure>
+<p><code>go mod init</code> 命令的执行结果是在当前目录下生成了一个 <code>go.mod</code> 文件，查看一下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ cat go.mod</span><br><span class="line"></span><br><span class="line">module hellomodule</span><br><span class="line"></span><br><span class="line">go 1.18</span><br></pre></td></tr></table></figure>
 
-<p>交换律：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x ^ y &#x3D; y ^ x</span><br></pre></td></tr></table></figure>
+<p>其实，一个 module 就是一个包的集合，这些包和 module 一起打版本、发布和分发。<br><code>go.mod</code> 所在的目录被我们称为它声明的 module 的根目录。</p>
+<p>有了 <code>go.mod</code> 之后，还不能立马构建 “hellomodule” ，因为需要添加源码依赖，也就是代码中用到的 fasthttp 和 zap 这两个第三方包。</p>
+<p>使用以下命令自动添加：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ go mod tidy</span><br></pre></td></tr></table></figure>
 
-<p>结合律：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x ^ y ^ z &#x3D; x ^ (y ^ z) &#x3D; (x ^ y) ^ z</span><br></pre></td></tr></table></figure>
+<p>再次查看 <code>go.mod</code> 文件，就会发现多了很多内容：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">$ cat <span class="keyword">go</span>.mod</span><br><span class="line"></span><br><span class="line">module hellomodule</span><br><span class="line"></span><br><span class="line"><span class="keyword">go</span> <span class="number">1.18</span></span><br><span class="line"></span><br><span class="line">require (</span><br><span class="line">        github.com/valyala/fasthttp v1<span class="number">.41</span><span class="number">.0</span></span><br><span class="line">        <span class="keyword">go</span>.uber.org/zap v1<span class="number">.23</span><span class="number">.0</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">require (</span><br><span class="line">        github.com/andybalholm/brotli v1<span class="number">.0</span><span class="number">.4</span> <span class="comment">// indirect</span></span><br><span class="line">        github.com/klauspost/compress v1<span class="number">.15</span><span class="number">.9</span> <span class="comment">// indirect</span></span><br><span class="line">        github.com/valyala/bytebufferpool v1<span class="number">.0</span><span class="number">.0</span> <span class="comment">// indirect</span></span><br><span class="line">        <span class="keyword">go</span>.uber.org/atomic v1<span class="number">.7</span><span class="number">.0</span> <span class="comment">// indirect</span></span><br><span class="line">        <span class="keyword">go</span>.uber.org/multierr v1<span class="number">.6</span><span class="number">.0</span> <span class="comment">// indirect</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 
-<p>自反：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x ^ y ^ x &#x3D; y</span><br></pre></td></tr></table></figure>
+<p>还会发现本地多了一个 <code>go.sum</code> 的文件，它的作用是记录项目的直接依赖和间接依赖包的相关版本的 hash 值，用来校验本地包的真实性。<br>在构建的时候，如果本地依赖包的 hash 值与 <code>go.sum</code> 文件中记录的不一致，就会被拒绝构建。</p>
+<p>现在就可以进行编译了：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ go build hellomodule.go</span><br><span class="line">$ ls</span><br><span class="line">go.mod    go.sum    hellomodule*    hellomodule.go</span><br><span class="line"></span><br><span class="line">$ ./hellomodule</span><br></pre></td></tr></table></figure>
 
-<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><p>根据上面的这些运算法则，可以得到异或运算的很多重要应用。</p>
-<h3 id="简化计算"><a href="#简化计算" class="headerlink" title="简化计算"></a>简化计算</h3><p>多个值的异或运算，可以根据运算定律进行简化。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">x ^ y ^ z ^ y ^ x</span><br><span class="line">&#x3D; x ^ x ^ y ^ y ^ z</span><br><span class="line">&#x3D; 0 ^ 0 ^ z</span><br><span class="line">&#x3D; z</span><br></pre></td></tr></table></figure>
+<p>启动服务，然后访问 <code>localhost:8081</code>，可以看到控制台输出以下内容，即表示服务正常</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="attr">"level"</span>:<span class="string">"info"</span>,<span class="attr">"ts"</span>:<span class="number">1667202109.444561</span>,<span class="attr">"caller"</span>:<span class="string">"hellomodule/hellomodule.go:14"</span>,<span class="attr">"msg"</span>:<span class="string">"hello, go module"</span>,<span class="attr">"uri"</span>:<span class="string">"/"</span>&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="交换值"><a href="#交换值" class="headerlink" title="交换值"></a>交换值</h3><p>两个变量连续进行三次异或运算，可以互相交换值。</p>
-<p>假设两个变量是x和y，各自的值是a和b。下面就是x和y进行三次异或运算：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">x = x ^ y;  <span class="comment">// 第一次运算之后，x 的值是 a ^ b，y 的值是 b</span></span><br><span class="line">y = x ^ y   <span class="comment">// 第二次运算之后，x 的值是 a ^ b，y 的值是 a ^ b ^ b，也就是 a</span></span><br><span class="line">x = x ^ y   <span class="comment">// 第三次运算之后，x 的值是 a ^ b ^ a，y 的值是 a</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 所以最终 x 的值是 b， y 的值是 a</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h3><p>异或运算可以用于加密。</p>
-<p>第一步，明文（text）与密钥（key）进行异或运算，可以得到密文（cipherText）。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">text ^ key &#x3D; cipherText</span><br></pre></td></tr></table></figure>
-
-<p>第二步，密文与密钥再次进行异或运算，就可以还原成明文。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cipherText ^ key &#x3D; text</span><br></pre></td></tr></table></figure>
-
-<p>原理很简单，如果明文是 x，密钥是 y，那么 x 连续与 y 进行两次异或运算，得到自身。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(x ^ y) ^ y</span><br><span class="line">&#x3D; x ^ (y ^ y)</span><br><span class="line">&#x3D; x ^ 0</span><br><span class="line">&#x3D; x</span><br></pre></td></tr></table></figure>
-
-<h3 id="数据备份"><a href="#数据备份" class="headerlink" title="数据备份"></a>数据备份</h3><p>异或运算可以用于数据备份。</p>
-<p>文件 x 和文件 y 进行异或运算，产生一个备份文件 z。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x ^ y &#x3D; z</span><br></pre></td></tr></table></figure>
-
-<p>以后，无论是文件 x 或文件 y 损坏，只要不是两个原始文件同时损坏，就能根据另一个文件和备份文件，进行还原。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">x ^ z</span><br><span class="line">&#x3D; x ^ (x ^ y) </span><br><span class="line">&#x3D; (x ^ x) ^ y</span><br><span class="line">&#x3D; 0 ^ y</span><br><span class="line">&#x3D; y</span><br></pre></td></tr></table></figure>
-
-<p>上面的例子是 y 损坏，x 和 z 进行异或运算，就能得到 y。</p>
-<h2 id="一道算法题"><a href="#一道算法题" class="headerlink" title="一道算法题"></a>一道算法题</h2><p><a href="https://leetcode.cn/problems/single-number/" target="_blank" rel="noopener">只出现一次的数字——LeetCode</a></p>
-<p>给定一个非空整数数组，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。</p>
-<p>要求：算法的复杂度是线性的，且不允许使用额外的空间。</p>
-<p>示例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: [4,1,2,1,2]</span><br><span class="line">输出: 4</span><br></pre></td></tr></table></figure>
-
-<p>解题思路：这里就可以利用异或运算的自反特性，可以将所有相同的数字全部抵消掉，最后留下的就是只出现了一次的元素：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">func</span><span class="params">($array)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    $result = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> ($i = <span class="number">0</span>; $i &lt; count($array); $i++) &#123;</span><br><span class="line">        $result ^= $array[$i];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> $result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$array = [<span class="number">4</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">4</span>];</span><br><span class="line">$result = func($array);</span><br><span class="line">print_r($result);   <span class="comment">// 0 ^ 4 ^ 1 ^ 2 ^ 1 ^ 4 = 2</span></span><br></pre></td></tr></table></figure>
-
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>Go 源码需要先编译，再分发和运行</li>
+<li>如果是单 Go 源文件的情况，可以直接使用 go build 命令 + Go 源文件名的方式编译</li>
+<li>对于复杂的 Go 项目，需要在 Go Module 的帮助下完成项目的构建</li>
+<li>Go Module 已经是 go 官方标准包依赖管理和构建模式了，gopath 模式了解即可</li>
+<li><code>go mod init</code> 命令为项目创建一个 Go Module</li>
+<li><code>go mod tidy</code> 命令自动添加第三方依赖</li>
+</ul>
 <h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
-<li><a href="https://www.ruanyifeng.com/blog/2021/01/_xor.html" target="_blank" rel="noopener">异或运算 XOR 教程</a></li>
+<li><a href="https://time.geekbang.org/column/intro/100093501" target="_blank" rel="noopener">Tony Bai · Go 语言第一课</a></li>
 </ul>
 
           
@@ -619,7 +544,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/different-calculations-xor-rapid-skill/>https://www.0x2beace.com/different-calculations-xor-rapid-skill/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/go-language-study-notes-get-to-know-go-module/>https://www.0x2beace.com/go-language-study-notes-get-to-know-go-module/</a></p>
           
         
       </blockquote>
@@ -667,10 +592,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-10-31T23:33:47+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-11-02T22:38:19+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Oct 31, 2022</p>
+    <p>更新于：Nov 2, 2022</p>
   </a>
 </div>
 
@@ -679,7 +604,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E7%AE%97%E6%B3%95/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>算法</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Go/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Go</p></a></div>
 
 
         
@@ -697,15 +622,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/different-calculations-xor-rapid-skill/&title=异或运算 XOR 快速上手 - Boo&summary=运算符有多种类型，常见的有：
-
-算术运算符
-关系运算符
-逻辑运算符
-位运算
-…
-
-在位运算中，异或运算虽然不常用，但是也非常重要，某些场景下，使用异或运算非常方便。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/go-language-study-notes-get-to-know-go-module/&title=Go 语言学习笔记——认识Go Module - Boo&summary=Go module 构建模式是在 Go 1.11 版本正式引入的，为的是彻底解决 Go 项目复杂版本依赖的问题，在 Go 1.16 版本中，Go module 已经成为了 Go 默认的包依赖管理机制和 Go 源码构建机制。"
           
           >
           
@@ -717,15 +634,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/different-calculations-xor-rapid-skill/&title=异或运算 XOR 快速上手 - Boo&summary=运算符有多种类型，常见的有：
-
-算术运算符
-关系运算符
-逻辑运算符
-位运算
-…
-
-在位运算中，异或运算虽然不常用，但是也非常重要，某些场景下，使用异或运算非常方便。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/go-language-study-notes-get-to-know-go-module/&title=Go 语言学习笔记——认识Go Module - Boo&summary=Go module 构建模式是在 Go 1.11 版本正式引入的，为的是彻底解决 Go 项目复杂版本依赖的问题，在 Go 1.16 版本中，Go module 已经成为了 Go 默认的包依赖管理机制和 Go 源码构建机制。"
           
           >
           
@@ -737,15 +646,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/different-calculations-xor-rapid-skill/&title=异或运算 XOR 快速上手 - Boo&summary=运算符有多种类型，常见的有：
-
-算术运算符
-关系运算符
-逻辑运算符
-位运算
-…
-
-在位运算中，异或运算虽然不常用，但是也非常重要，某些场景下，使用异或运算非常方便。"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/go-language-study-notes-get-to-know-go-module/&title=Go 语言学习笔记——认识Go Module - Boo&summary=Go module 构建模式是在 Go 1.11 版本正式引入的，为的是彻底解决 Go 项目复杂版本依赖的问题，在 Go 1.16 版本中，Go module 已经成为了 Go 默认的包依赖管理机制和 Go 源码构建机制。"
           
           >
           
@@ -759,7 +660,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADoUlEQVR42u3aQY7jMAwEwPz/07svGEhs0g4xU7oZSWSxdGmQ+fyzovVBAA4cOHAWOHBL4D7h+nHjHz5P90vfc3pO6wUHDhw4cODAgdsG1z3wCWrqfSeIx98PDhw4cODAgQO3FO4YAMOAeSqoGqCnLq5cLzhw4MCBAwcO3C+DSwPn0xd1G6jBgQMHDhw4cOD+Ktx047EbpKcDOzhw4MCBAwcO3Ha4pwbEt43KamPy9lzrJvngwIEDBw4cOHBDcNU1HYjffo7rBQcOHDhw4MCBWwLXXd0GZLeQbsAt1wsOHDhw4MCBA7cErjsYrkJ2G5td4HZ94MCBAwcOHDhwy+BuAasD4jQYpxcxHejBgQMHDhw4cOC2wlU36AbmNBin55mqBxw4cODAgQMHbhtcdcPq4He6IdptdKaBGBw4cODAgQMHbhtcGoBvD55CTA2kpxY4cODAgQMHDtw2uOqB04ZjNVh39+l+P/5HJjhw4MCBAwcO3Etw5UZeMeBWG4vVi0gbr9XBOThw4MCBAwcO3Da46YFxCpo2VLuN1PI+4MCBAwcOHDhwS+C6A+lu4L1tmHb/QFi96LiRCQ4cOHDgwIED9xLc7QbVAW4abKf2nw7Q4MCBAwcOHDhw2+HSQFsd+JYPHF7c1AIHDhw4cODAgdsKN9VInAqit+85XVj1e6cLAwcOHDhw4MCB2wKXDmzTg1wfMBwsV4N4e5IPDhw4cODAgQP3JbjbxuFUo7IL0YVuD7jBgQMHDhw4cOCWwd0eNB0MV4N2u8Dwoo5BHxw4cODAgQMHbhlc94ApQLWQqYbq+CQfHDhw4MCBAwfuZbjqhtMD57cCdXoh4MCBAwcOHDhwW+HSxmU6oK5+fltw2tB8bJIPDhw4cODAgQP3Mlz6R78uzG1BKUR6/usADA4cOHDgwIED92W4FKD7u+pFpOdqnwccOHDgwIEDB245XBpYq79LB8hPL3DgwIEDBw4cuO1w3TXdmKwOtqsNznZgBgcOHDhw4MCBWwI3HRCrwN1B8tRFxQNpcODAgQMHDhy4L8NVAaYKnR5IVwfN5UYqOHDgwIEDBw7cUrhuQO02GNMB+dQA+vgMDhw4cODAgQP3y+CmCkx/nwZncODAgQMHDhy4vw5XLbz7R8b0ud1ABQcOHDhw4MCBWwpXPfht8O0WfnvOaVhw4MCBAwcOHLjtcE81HKcupPu+sQE7OHDgwIEDBw7cEjir2OBEAA4cOHAWOHDfXf8BEBAE2wBPP88AAAAASUVORK5CYII=">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADpElEQVR42u3aQZIiMQwEQP7/6dkXEFgleVsQqRsxTWOnLzWSX38qqhcCcODAgVPgwC2Be4X19sVvnjt9T/fv756f2i84cODAgQMHDtw2uOMAWHy+HDAPD+b0oLrrBwcOHDhw4MCB+xa4jwGw+DkNrlPfP13v8X7BgQMHDhw4cOB+DC5tQHYDbNpoBQcOHDhw4MCBA9cbDFcHxemBgQMHDhw4cODA/TpcF+C08ZgG56nnHp/kgwMHDhw4cODADcFVKx1Qb/kc7xccOHDgwIEDB24JXLeqgXR6YNwNuOX9ggMHDhw4cODALYHrDoZTqGpDNA2w1XV+PBhw4MCBAwcOHLhlcLcahNXBcdpAPV1Xe5AODhw4cODAgQO3BK7aqDxdQAqaBuXbARkcOHDgwIEDB24rXLfB1x1cpxC3DuDt98CBAwcOHDhw4JbAVWGmAu9x47A5MJ96Hhw4cODAgQMHbhvc1Ia6g+GpoJs2ZI/fAw4cOHDgwIEDtwTuFVYVfOpi4K0Li8cHDQ4cOHDgwIEDtxyuGiyrMOkGq+/vNlrLARgcOHDgwIEDB+4huLTxmDYS0/dMr+MYHhw4cODAgQMHbjlcOoC+9b50ID01UAcHDhw4cODAgdsGl/5gN9B2G6fdoNweSIMDBw4cOHDgwC2F6zYEp8C6B1IdaH/cJzhw4MCBAwcO3BK4NBhONzpvDaa7fz/uAIMDBw4cOHDgwP1nuO4AeHpgnB5gtfEarxccOHDgwIEDB24JXDWInm4sDdjdBmgVOh5IgwMHDhw4cODALYGrBsxbcK+wTveTrhscOHDgwIEDB24b3HTwrYJPX1RMQY8dwIEDBw4cOHDglsB1F/xXrG7ATX8/3Sc4cODAgQMHDty3wZ0uOB0sd8Gr66oOwq9N8sGBAwcOHDhw4C7DVRuAafDsNk7Tgx2b5IMDBw4cOHDgwC2BS8FS4O7vTF1UPD5ocODAgQMHDhy4JXDdSi8WTgXUbuO03IgFBw4cOHDgwIFbAjd10a+6kOlGaBxou/85gAMHDhw4cODAPQzXDbzdOv3d6iC520gFBw4cOHDgwIH7FrhbgbL6vSrg1MF9hAYHDhw4cODAgftRuOpGp4JuNdiuC8DgwIEDBw4cOHAPwaWA1Q1UB91poxYcOHDgwIEDB+7b4KoD6XTj6UC6uo70wK5fLAQHDhw4cODAgRuCmxrgpoF1CubWxUhw4MCBAwcOHLhtcKpW4MCBAwdOgQP3cP0DDAwAJu6xIxIAAAAASUVORK5CYII=">
           </div>
         </div>
       
@@ -779,10 +680,27 @@
         
           <div class="prev-next">
             
+              <a class='prev' href='/different-calculations-xor-rapid-skill/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>异或运算 XOR 快速上手</p>
+                <p class='content'>运算符有多种类型，常见的有：
+
+算术运算符
+关系运算符
+逻辑运算符
+位运算
+…
+
+在位运算中，异或运算虽然不常用，但是也非常重要，某些场景下，使用异或运算非常方便。
+
+
+概念位运算符作用于位，并...</p>
+              </a>
             
-              <a class='next' href='/go-language-study-notes-get-to-know-go-module/'>
-                <p class='title'>Go 语言学习笔记——认识Go Module<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>Go module 构建模式是在 Go 1.11 版本正式引入的，为的是彻底解决 Go 项目复杂版本依赖的问题，在 Go 1.16 版本中，Go module 已经成为了 Go 默认的包依赖管理...</p>
+            
+              <a class='next' href='/elasticsearch-quick-start/'>
+                <p class='title'>ElasticSearch 快速上手<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>Elasticsearch 是目前全文搜索引擎的首选，它可以快速地储存、搜索和分析海量数据。
+ES 底层是开源库 Lucene。但是没法直接用 Lucene，必须自己写代码去调用它的接口。Ela...</p>
               </a>
             
           </div>
@@ -827,7 +745,7 @@
 
   <script>
     window.subData = {
-      title: '异或运算 XOR 快速上手',
+      title: 'Go 语言学习笔记——认识Go Module',
       tools: true
     }
   </script>
@@ -853,7 +771,7 @@
 
 
     <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#概念"><span class="toc-text">概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运算法则"><span class="toc-text">运算法则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#应用"><span class="toc-text">应用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#简化计算"><span class="toc-text">简化计算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#交换值"><span class="toc-text">交换值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#加密"><span class="toc-text">加密</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据备份"><span class="toc-text">数据备份</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一道算法题"><span class="toc-text">一道算法题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#go-module"><span class="toc-text">go module</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
     </div>
   </section>
 
