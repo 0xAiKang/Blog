@@ -35,7 +35,7 @@ categories: ["Go"]
 | complex64 | 8 |  |  |
 | complex128 | 16 |  |  |
 | rune | 4 | 0 | Unicode Code Point, int32 |
-| uintptr | 4,8 | 0 | 足以存储指针的 uint |
+| uintptr | 4,8 | 0 | 无符号整型，用于存放一个指针 |
 | string |  | "" | 字符串，默认值为 空字符串，而非 NULL |
 | array |  |  |  数组 |
 | struct |  |  |  结构体 |
