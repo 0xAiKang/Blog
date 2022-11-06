@@ -1,7 +1,8 @@
 ---
-title: go language study notes array and slice
-date: 2022-11-06 23:30:51
-tags:
+title: Go 语言学习笔记——数组和切片
+date: 2022-10-26 23:30:51
+tags: ["Go"]
+categories: ["Go"]
 ---
 
 Go 语言原生内置了多种复合数据类型，包括数组、切片（slice）、map、结构体，以及像 channel 这类用于并发程序设计的高级复合数据类型。
