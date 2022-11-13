@@ -427,13 +427,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>2.3k words</p>
+      <p>2.5k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>8 min</p>
+      <p>9 min</p>
     </a>
   </div>
 
@@ -551,6 +551,17 @@
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">arr := [<span class="number">10</span>]<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>&#125;</span><br><span class="line"></span><br><span class="line">sl := arr[<span class="number">3</span>:<span class="number">7</span>:<span class="number">9</span>]</span><br><span class="line">sl2 = arr[<span class="number">1</span>,<span class="number">4</span>,<span class="number">10</span>]</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20221103221542.png" alt=""></p>
+<p>常见操作：</p>
+<ul>
+<li><code>s[n]</code>：切片 s 中索引位置为 n 的项</li>
+<li><code>s[:]</code>：从切片 s 的索引位置 0 到 len(s)-1 处所获得的切片</li>
+<li><code>s[low:]</code>：从切片 s 的索引位置 low 到 len(s)-1 处所获得的切片</li>
+<li><code>s[:high]</code>：从切片 s 的索引位置 0 到 high 处所获得的切片，len = high</li>
+<li><code>s[low:high]</code>：从切片 s 的索引位置 low 到 high 处所获得的切片，len = high-low</li>
+<li><code>s[low:high:max]</code>：从切片 s 的索引位置 low 到 high 所获得的切片，len = high-low, cap = max-low</li>
+<li><code>len(s)</code>：切片 s 的长度，总是 &lt;= cap(s)</li>
+<li><code>cap(s)</code>：切片 s 的容量，总是 &gt;= len(s)</li>
+</ul>
 <h3 id="切片创建切片"><a href="#切片创建切片" class="headerlink" title="切片创建切片"></a>切片创建切片</h3><h2 id="动态扩容"><a href="#动态扩容" class="headerlink" title="动态扩容"></a>动态扩容</h2><p>切片与数组最大的不同，就在于其长度的不定长，这种不定长需要 Go 运行时提供支持，这种支持就是切片的“动态扩容”。</p>
 <p>“动态扩容”指的就是，当使用 append 操作向切片追加数据的时候，如果这时切片的 len 值和 cap 值是相等的，也就是说切片底层数组已经没有空闲空间再来存储追加的值了，Go 运行时就会对这个切片做扩容操作，来保证切片始终能存储下追加的新值。</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> s []<span class="keyword">int</span></span><br><span class="line">s = <span class="built_in">append</span>(s, <span class="number">11</span>) </span><br><span class="line">fmt.Println(<span class="built_in">len</span>(s), <span class="built_in">cap</span>(s)) <span class="comment">//1 1</span></span><br><span class="line">s = <span class="built_in">append</span>(s, <span class="number">12</span>) </span><br><span class="line">fmt.Println(<span class="built_in">len</span>(s), <span class="built_in">cap</span>(s)) <span class="comment">//2 2</span></span><br><span class="line">s = <span class="built_in">append</span>(s, <span class="number">13</span>) </span><br><span class="line">fmt.Println(<span class="built_in">len</span>(s), <span class="built_in">cap</span>(s)) <span class="comment">//3 4</span></span><br><span class="line">s = <span class="built_in">append</span>(s, <span class="number">14</span>) </span><br><span class="line">fmt.Println(<span class="built_in">len</span>(s), <span class="built_in">cap</span>(s)) <span class="comment">//4 4</span></span><br><span class="line">s = <span class="built_in">append</span>(s, <span class="number">15</span>) </span><br><span class="line">fmt.Println(<span class="built_in">len</span>(s), <span class="built_in">cap</span>(s)) <span class="comment">//5 8</span></span><br></pre></td></tr></table></figure>
@@ -653,10 +664,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-11-06T23:32:05+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-11-13T23:31:19+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Nov 6, 2022</p>
+    <p>更新于：Nov 13, 2022</p>
   </a>
 </div>
 
