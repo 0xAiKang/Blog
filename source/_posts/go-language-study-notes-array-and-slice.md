@@ -192,6 +192,16 @@ sl2 = arr[1,4,10]
 
 ![](https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20221103221542.png)
 
+常见操作：
+* `s[n]`：切片 s 中索引位置为 n 的项
+* `s[:]`：从切片 s 的索引位置 0 到 len(s)-1 处所获得的切片
+* `s[low:]`：从切片 s 的索引位置 low 到 len(s)-1 处所获得的切片
+* `s[:high]`：从切片 s 的索引位置 0 到 high 处所获得的切片，len = high
+* `s[low:high]`：从切片 s 的索引位置 low 到 high 处所获得的切片，len = high-low
+* `s[low:high:max]`：从切片 s 的索引位置 low 到 high 所获得的切片，len = high-low, cap = max-low
+* `len(s)`：切片 s 的长度，总是 <= cap(s)
+* `cap(s)`：切片 s 的容量，总是 >= len(s)
+
 ### 切片创建切片
 
 ## 动态扩容
