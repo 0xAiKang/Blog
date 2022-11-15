@@ -401,6 +401,231 @@
         
           
   <h2 class="title">
+    <a href="/go-language-study-notes-interface-runtime-representation/">
+      Go 语言学习笔记——接口运行时表示
+    </a>
+  </h2>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Go/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Go</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Nov 3, 2022</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>3.4k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>14 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>接口在 Go 中的地位非常高，这是因为接口是 Go 这门静态语言中唯一“动静兼容”的语法特性。</p>
+      
+    </div>
+    
+      
+        <div class="button readmore">
+          <a href="/go-language-study-notes-interface-runtime-representation/">
+            阅读全文 <i class="fas fa-chevron-right"></i>
+          </a>
+        </div>
+      
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow reveal ">
+  
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h2 class="title">
+    <a href="/go-language-study-notes-interface/">
+      Go 语言学习笔记——接口
+    </a>
+  </h2>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Go/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Go</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Nov 2, 2022</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>2.5k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>9 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在前面的笔记中，已经很多次用到了接口，但是还没有真正介绍它，是因为它和并发原语（Goroutine、channel、select）一样重要，更考验理解力，所以放在后面一些。</p>
+<p>下面就正式进入接口的学习了。</p>
+      
+    </div>
+    
+      
+        <div class="button readmore">
+          <a href="/go-language-study-notes-interface/">
+            阅读全文 <i class="fas fa-chevron-right"></i>
+          </a>
+        </div>
+      
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow reveal ">
+  
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h2 class="title">
     <a href="/go-language-study-notes-embedded-type/">
       Go 语言学习笔记——类型嵌入
     </a>
@@ -606,7 +831,7 @@
 <li>当 receiver 参数的类型为 <code>*T</code>（指针）时：receiver 参数实际上是<strong>T 类型实例的地址</strong>，因此对参数 t 进行任何修改都<strong>会影响</strong>到原实例。</li>
 </ul>
 <p>了解了不同类型的 receiver 参数对 Go 方法的影响后，就可以总结一下，日常编码中选择 receiver 的参数类型的时候，我们可以参考哪些原则。</p>
-<h2 id="原则一"><a href="#原则一" class="headerlink" title="原则一"></a>原则一</h2><p><strong>如果 Go 方法要把对 receiver 参数代表的类型实例的修改，反映到原类型实例上，那么我们应该选择 <code>*T</code> 作为 receiver 参数的类型</strong>。</p>
+<h3 id="原则一"><a href="#原则一" class="headerlink" title="原则一"></a>原则一</h3><p><strong>如果 Go 方法要把对 receiver 参数代表的类型实例的修改，反映到原类型实例上，那么我们应该选择 <code>*T</code> 作为 receiver 参数的类型</strong>。</p>
 <p>这个原则很好理解，依据实际情况选择合适的。</p>
 <p>不过这个时候可能会有一个问题：<br>选择<code>*T</code> 作为 receiver 参数的类型，那么是不是只能通过 <code>*T</code> 类型的实例调用该方法，而不能通过 <code>T</code> 类型的实例调用？</p>
 <p>正好这也是上一篇笔记中，遗留下了一个问题。</p>
@@ -625,13 +850,13 @@
 <p>对于实例 t2 而言，它是一个变量地址，类型为 <code>*T</code>，所以也可以说是 <code>*T</code> 的指针类型。<br>所以可以通过 <code>*t2</code> 进行取值操作。</p>
 <p>而类型 T，它是一个结构体，所以它既可以使用&amp; 获取自己的地址，也可以使用 * 作为一个结构体指针。</p>
 <p>语法糖，自动转换。</p>
-<h2 id="原则二"><a href="#原则二" class="headerlink" title="原则二"></a>原则二</h2><p>第一个原则说的是，当要在方法中对 receiver 参数代表的类型实例进行修改，那要为 receiver 参数选择 <code>*T</code> 类型，但是如果不需要在方法中对类型实例进行修改呢？<br>这个时候是选择 <code>T</code> 类型还是 <code>*T</code> 类型呢？</p>
+<h3 id="原则二"><a href="#原则二" class="headerlink" title="原则二"></a>原则二</h3><p>第一个原则说的是，当要在方法中对 receiver 参数代表的类型实例进行修改，那要为 receiver 参数选择 <code>*T</code> 类型，但是如果不需要在方法中对类型实例进行修改呢？<br>这个时候是选择 <code>T</code> 类型还是 <code>*T</code> 类型呢？</p>
 <p>通常会为 receiver 参数选择 <code>T</code> 类型，这是因为可以缩窄外部修改类型实例内部状态的“接触面”，也就是尽量少暴露可以修改类型内部状态的方法。</p>
 <p>不过也有一个例外需要你特别注意。考虑到 Go 方法调用时，receiver 参数是以值拷贝的形式传入方法中的。那么，如果 receiver 参数类型的 size 较大，以值拷贝形式传入就会导致较大的性能开销，这时我们选择 *T 作为 receiver 类型可能更好些。</p>
 <p>以上这些可以作为我们选择 receiver 参数类型的第二个原则。</p>
 <p>到这里，可能会觉得，前两个原则似乎并不难理解，这是因为这两条只是基础原则，还有一条比较难的原则在下面。</p>
 <p>不过在讲解这第三条原则之前，需要先要了解一个基本概念：<strong>方法集合（Method Set）</strong>，它是理解第三条原则的前提。</p>
-<h2 id="方法集合"><a href="#方法集合" class="headerlink" title="方法集合"></a>方法集合</h2><p>在了解方法集合是什么之前，我们先通过一个示例，直观了解一下为什么要有方法集合，它主要用来解决什么问题：</p>
+<h3 id="方法集合"><a href="#方法集合" class="headerlink" title="方法集合"></a>方法集合</h3><p>在了解方法集合是什么之前，我们先通过一个示例，直观了解一下为什么要有方法集合，它主要用来解决什么问题：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Interface <span class="keyword">interface</span> &#123;</span><br><span class="line">    M1()</span><br><span class="line">    M2()</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">type</span> T <span class="keyword">struct</span>&#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t T)</span> <span class="title">M1</span><span class="params">()</span></span>  &#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t *T)</span> <span class="title">M2</span><span class="params">()</span></span> &#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> t T</span><br><span class="line">    <span class="keyword">var</span> pt *T</span><br><span class="line">    <span class="keyword">var</span> i Interface</span><br><span class="line">    i = pt</span><br><span class="line">    i = t </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>上面的示例代码定义了一个接口类型 Interface 以及一个自定义类型 T。Interface 接口类型包含了两个方法 M1 和 M2，它们的基类型都是 T，但它们的 receiver 参数类型不同，一个为  <code>T</code>，另一个为 <code>*T</code>。<br>在 main 函数中，分别将 <code>T</code> 类型实例 t 和 <code>*T</code> 类型实例 pt 赋值给 Interface 类型变量 i。</p>
@@ -661,7 +886,7 @@
 <p>从输出结果中，可以看到 <code>T</code>、<code>*T</code> 各自的方法集合确实是符合上面的结论的。</p>
 <p>到这里，已经知道了所谓的<strong>方法集合决定接口实现</strong>的含义就是：如果某类型 <code>T</code> 的方法集合与某接口类型的方法集合相同，或者类型 <code>T</code> 的方法集合是接口类型 <code>I</code> 方法集合的超集，那么我们就说这个类型 <code>T</code> 实现了接口 <code>I</code>。或者说，方法集合这个概念在 Go 语言中的主要用途，就是用来<strong>判断某个类型是否实现了某个接口</strong>。</p>
 <p>有了方法集合的概念做铺垫，选择 receiver 参数类型的第三个原则也相对好理解了。</p>
-<h2 id="原则三"><a href="#原则三" class="headerlink" title="原则三"></a>原则三</h2><p>该原则的选择依据就是 <strong><code>T</code> 类型是否需要实现某个接口</strong>。</p>
+<h3 id="原则三"><a href="#原则三" class="headerlink" title="原则三"></a>原则三</h3><p>该原则的选择依据就是 <strong><code>T</code> 类型是否需要实现某个接口</strong>。</p>
 <p>如果 <strong><code>T</code> 类型需要实现某个接口的全部方法，那就要使用 <code>T</code> 作为 receiver 参数的类型，来满足接口类型方法集合中的所有方法</strong>。</p>
 <p>如果 <strong><code>T</code> 类型不需要实现某一接口的全部方法，那么参考原则一和原则二就可以了</strong>。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
@@ -1357,230 +1582,6 @@
           </div>
         
       
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
-  
-
-
-  <section class='meta'>
-    
-      
-      
-      <div class="meta" id="header-meta">
-        
-          
-  <h2 class="title">
-    <a href="/go-language-study-notes-string/">
-      Go 语言学习笔记——字符串
-    </a>
-  </h2>
-
-
-        
-        <div class='new-meta-box'>
-          
-            
-          
-            
-              
-<div class='new-meta-item author'>
-  <a href="https://www.0x2BeAce.com" rel="nofollow">
-    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
-    <p>Boo</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/Go/' rel="nofollow">
-      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Go</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Oct 25, 2022</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-  <div class="new-meta-item wordcount">
-    <a class='notlink'>
-      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>3.3k words</p>
-    </a>
-  </div>
-  <div class="new-meta-item readtime">
-    <a class='notlink'>
-      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>12 min</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              
-
-            
-          
-        </div>
-        
-          <hr>
-        
-      </div>
-    
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Go 语言原生支持字符串。</p>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/go-language-study-notes-string/">
-            阅读全文 <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
-  
-
-
-  <section class='meta'>
-    
-      
-      
-      <div class="meta" id="header-meta">
-        
-          
-  <h2 class="title">
-    <a href="/go-language-study-notes-type-of-data/">
-      Go 语言学习笔记——数据类型
-    </a>
-  </h2>
-
-
-        
-        <div class='new-meta-box'>
-          
-            
-          
-            
-              
-<div class='new-meta-item author'>
-  <a href="https://www.0x2BeAce.com" rel="nofollow">
-    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
-    <p>Boo</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/Go/' rel="nofollow">
-      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Go</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Oct 25, 2022</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-  <div class="new-meta-item wordcount">
-    <a class='notlink'>
-      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>372 words</p>
-    </a>
-  </div>
-  <div class="new-meta-item readtime">
-    <a class='notlink'>
-      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>1 min</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              
-
-            
-          
-        </div>
-        
-          <hr>
-        
-      </div>
-    
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>作为一个站在巨人的肩膀上成长起来的现代编程语言，Go 语言中的数据类型大部分都是由C 语言演变而来的，它继承了前辈语言的优点，又改进了前辈语言中的不足，下面来对比看一下。</p>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/go-language-study-notes-type-of-data/">
-            阅读全文 <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
-
-          </div>
-        
-      
     
   </section>
   
@@ -1728,7 +1729,7 @@
           <li><a class="flat-box"
             title="/categories/Go/" href="/categories/Go/"
             id="categoriesGo"
-            ><div class='name'>Go</div><div class='badge'>(16)</div></a></li>
+            ><div class='name'>Go</div><div class='badge'>(18)</div></a></li>
         
           <li><a class="flat-box"
             title="/categories/Hexo/" href="/categories/Hexo/"
