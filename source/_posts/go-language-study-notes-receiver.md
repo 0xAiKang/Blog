@@ -7,6 +7,8 @@ categories: ["Go"]
 
 上一篇笔记了解了 Go 语言方法的声明、本质，这篇笔记主要来了解 Go 语言方法的receiver 参数。
 
+<!-- more -->
+
 ## receiver 参数类型对 Go 方法的影响
 
 要想为 receiver 参数选出合理的类型，需要先要了解不同的 receiver 参数类型会对 Go 方法产生怎样的影响。
@@ -97,7 +99,7 @@ type T struct {
 
 结论：**无论是 `T` 类型实例，还是 `*T` 类型实例，都既可以调用 receiver 为 `T`类型的方法，也可以调用 receiver 为 `*T` 类型的方法。**
 
-这里做了两次自动转换，涉及到了指针的运用，如果不理解，可以看下这篇笔记。
+这里做了两次自动转换，涉及到了指针的运用，如果不理解，可以看下[这篇笔记](https://www.0x2beace.com/go-language-study-notes-pointer/)。
 
 ---
 
