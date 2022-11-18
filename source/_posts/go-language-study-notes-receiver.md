@@ -61,32 +61,32 @@ func main() {
 将上面的示例代码改造一下：
 ```go
 type T struct {
-      a int
-  }
-  
-  func (t T) M1() {
-      t.a = 10
-  }
- 
- func (t *T) M2() {
-     t.a = 11
- }
- 
- func main() {
-     var t1 T
-     println(t1.a) // 0
-     t1.M1()
-     println(t1.a) // 0
-     t1.M2()
-     println(t1.a) // 11
- 
-     var t2 = &T{}
-     println(t2.a) // 0
-     t2.M1()
-     println(t2.a) // 0
-     t2.M2()
-     println(t2.a) // 11
- }
+    a int
+}
+
+func (t T) M1() {
+    t.a = 10
+}
+
+func (t *T) M2() {
+   t.a = 11
+}
+
+func main() {
+   var t1 T
+   println(t1.a) // 0
+   t1.M1()
+   println(t1.a) // 0
+   t1.M2()
+   println(t1.a) // 11
+
+   var t2 = &T{}
+   println(t2.a) // 0
+   t2.M1()
+   println(t2.a) // 0
+   t2.M2()
+   println(t2.a) // 11
+}
 ```
 
 运行示例代码查看输出结果，会发现类型为 `T` 的实例 t1，不仅可以调用 receiver 参数类型为 `T` 的方法 M1，它还可以直接调用 receiver 参数类型为 `*T` 的方法 M2，并且调用完 M2 方法后，成员的值也被修改了。
@@ -100,19 +100,6 @@ type T struct {
 结论：**无论是 `T` 类型实例，还是 `*T` 类型实例，都既可以调用 receiver 为 `T`类型的方法，也可以调用 receiver 为 `*T` 类型的方法。**
 
 这里做了两次自动转换，涉及到了指针的运用，如果不理解，可以看下[这篇笔记](https://www.0x2beace.com/go-language-study-notes-pointer/)。
-
----
-
-对于实例 t1，已经是一个变量，所以对于它而言，只有取址符可以用。（因为只有变量地址才能使用 * 操作符）
-
-对于实例 t1 而言，它只是一个变量，类型为 `T`，所以只能进行取址操作。
-
-对于实例 t2 而言，它是一个变量地址，类型为 `*T`，所以也可以说是 `*T` 的指针类型。
-所以可以通过 `*t2` 进行取值操作。
-
-而类型 T，它是一个结构体，所以它既可以使用& 获取自己的地址，也可以使用 * 作为一个结构体指针。
-
-语法糖，自动转换。
 
 ### 原则二
 第一个原则说的是，当要在方法中对 receiver 参数代表的类型实例进行修改，那要为 receiver 参数选择 `*T` 类型，但是如果不需要在方法中对类型实例进行修改呢？\
@@ -196,13 +183,13 @@ func (*T) M3() {}
 func (*T) M4() {}
 
 func main() {
-    var n int
-    dumpMethodSet(n)
-    dumpMethodSet(&n)
+  var n int
+  dumpMethodSet(n)
+  dumpMethodSet(&n)
 
   var t T
-    dumpMethodSet(t)
-    dumpMethodSet(&t)
+  dumpMethodSet(t)
+  dumpMethodSet(&t)
 }
 ```
 
@@ -249,7 +236,43 @@ main.T's method set:
 
 如果 **`T` 类型需要实现某个接口的全部方法，那就要使用 `T` 作为 receiver 参数的类型，来满足接口类型方法集合中的所有方法**。
 
-如果 **`T` 类型不需要实现某一接口的全部方法，那么参考原则一和原则二就可以了**。
+上面这个总结没有问题，只是有一点绕，想表达的意思是，有一个接口类型I，一个自定义非接口类型T，那么下面这段代码是ok的，即t 可以赋值给i。
+```go
+type Interface interface {
+    M1()
+    M2()
+}
+type T struct{}
+// 使用 T 作为 receiver 参数的类型，来满足接口类型方法集合中的所有方法
+func (t T) M1()  {}
+func (t T) M2() {}
+
+func main(){
+  var i I 
+  var t T
+  i = t    // 编译成功
+}
+```
+
+但是如果是 *T 实现了I，那么就不能保证 T 也会实现 I，也就是下面这段代码会编译失败。
+```go
+type Interface interface {
+    M1()
+    M2()
+}
+type T struct{}
+func (t T) M1()  {}
+// 使用 *T 作为 receiver 参数的类型
+func (t *T) M2() {}
+
+func main(){
+  var i I 
+  var t T
+  i = t     // 编译失败
+}
+```
+
+因此我们在设计一个自定义类型T的方法时，考虑是否T需要实现某个接口。如果需要，方法receiver参数的类型应该是T。如果T不需要，那么用*T或T就都可以了。
 
 ## 总结
 * 当 receiver 参数的类型为 `T` 时，对receiver 参数的任何修改都**不会**影响到原实例
