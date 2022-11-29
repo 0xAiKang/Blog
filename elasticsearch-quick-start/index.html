@@ -21,8 +21,7 @@
     <meta name="keywords" content="ElasticSearch">
   
   
-    <meta name="description" content="Elasticsearch 是目前全文搜索引擎的首选，它可以快速地储存、搜索和分析海量数据。
-ES 底层是开源库 Lucene。但是没法直接用 Lucene，必须自己写代码去调用它的接口。Elastic 是 Lucene 的封装，提供了 REST API 的操作接口，开箱即用。">
+    <meta name="description" content="Elasticsearch 是目前全文搜索引擎的首选，它可以快速地储存、搜索和分析海量数据，下面简称 ES。">
   
 
   <!-- feed -->
@@ -470,11 +469,11 @@ ES 底层是开源库 Lucene。但是没法直接用 Lucene，必须自己写代
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p><a href="https://www.elastic.co/cn/" target="_blank" rel="noopener">Elasticsearch</a> 是目前全文搜索引擎的首选，它可以快速地储存、搜索和分析海量数据。</p>
-<p>ES 底层是开源库 Lucene。但是没法直接用 Lucene，必须自己写代码去调用它的接口。Elastic 是 Lucene 的封装，提供了 REST API 的操作接口，开箱即用。</p>
+          <p><a href="https://www.elastic.co/cn/" target="_blank" rel="noopener">Elasticsearch</a> 是目前全文搜索引擎的首选，它可以快速地储存、搜索和分析海量数据，下面简称 ES。</p>
 <a id="more"></a>
 
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>ElasticSearch 需要 Java 8 环境。如果你的机器还没安装 Java，可以进行<a href="https://www.java.com/en/download/" target="_blank" rel="noopener">下载安装</a>。</p>
+<p>ES 底层是开源库 Lucene。但是没法直接用 Lucene，必须自己写代码去调用它的接口。ES 是 Lucene 的封装，提供了 REST API 的操作接口，开箱即用。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>ES 需要 Java 8 环境。如果你的机器还没安装 Java，可以进行<a href="https://www.java.com/en/download/" target="_blank" rel="noopener">下载安装</a>。</p>
 <p>ES 的安装比较简单，直接<a href="https://www.elastic.co/cn/downloads/elasticsearch" target="_blank" rel="noopener">下载</a>对应版本的压缩包解压即可：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-8.4.3-darwin-x86_64.tar.gz</span><br><span class="line">curl https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-8.4.3-darwin-x86_64.tar.gz.sha512 | shasum -a 512 -c - </span><br><span class="line">tar -xzf elasticsearch-8.4.3-darwin-x86_64.tar.gz</span><br></pre></td></tr></table></figure>
 <p>这里下载安装的是最新版本 <code>8.4.3</code>。</p>
@@ -487,7 +486,7 @@ ES 底层是开源库 Lucene。但是没法直接用 Lucene，必须自己写代
 <p>如果这时报错 “max virtual memory areas vm.maxmapcount [65530] is too low”，要运行下面的命令。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo sysctl -w vm.max_map_count=262144</span><br></pre></td></tr></table></figure>
 
-<p>如果一切正常，Elastic 就会在默认的 9200 端口运行，访问<code>localhost:9200</code>会返回如下信息：</p>
+<p>如果一切正常，ES 就会在默认的 9200 端口运行，访问<code>localhost:9200</code>会返回如下信息：</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span> : <span class="string">"192.168.123.11"</span>,</span><br><span class="line">  <span class="attr">"cluster_name"</span> : <span class="string">"elasticsearch"</span>,</span><br><span class="line">  <span class="attr">"cluster_uuid"</span> : <span class="string">"GUgWHb9ERuOo230FP2os4g"</span>,</span><br><span class="line">  <span class="attr">"version"</span> : &#123;</span><br><span class="line">    <span class="attr">"number"</span> : <span class="string">"8.4.3"</span>,</span><br><span class="line">    <span class="attr">"build_flavor"</span> : <span class="string">"default"</span>,</span><br><span class="line">    <span class="attr">"build_type"</span> : <span class="string">"tar"</span>,</span><br><span class="line">    <span class="attr">"build_hash"</span> : <span class="string">"42f05b9372a9a4a470db3b52817899b99a76ee73"</span>,</span><br><span class="line">    <span class="attr">"build_date"</span> : <span class="string">"2022-10-04T07:17:24.662462378Z"</span>,</span><br><span class="line">    <span class="attr">"build_snapshot"</span> : <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">"lucene_version"</span> : <span class="string">"9.3.0"</span>,</span><br><span class="line">    <span class="attr">"minimum_wire_compatibility_version"</span> : <span class="string">"7.17.0"</span>,</span><br><span class="line">    <span class="attr">"minimum_index_compatibility_version"</span> : <span class="string">"7.0.0"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"tagline"</span> : <span class="string">"You Know, for Search"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="head-插件安装"><a href="#head-插件安装" class="headerlink" title="head 插件安装"></a>head 插件安装</h2><p><a href="https://github.com/mobz/elasticsearch-head" target="_blank" rel="noopener">elasticsearch-head</a> 是一个ES 集群的 Web 前端控制台，可以可视化管理 ES。</p>
@@ -510,7 +509,7 @@ ES 底层是开源库 Lucene。但是没法直接用 Lucene，必须自己写代
 <p>如果处于 red，很多操作是做不了的，我这里是因为磁盘空间不足而导致的，释放掉磁盘空间之后便恢复 green 了：</p>
 <p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20221022164249.png" alt=""></p>
 <h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="Node-与-Cluster"><a href="#Node-与-Cluster" class="headerlink" title="Node 与 Cluster"></a>Node 与 Cluster</h3><p>ES 本质上是一个分布式的数据库，允许多台服务器协同工作，每台服务器也可以同时运行多个实例。</p>
-<p>单个 Elastic 实例称为一个节点（node）。一组节点构成一个集群（cluster）。</p>
+<p>单个 ES 实例称为一个节点（node）。一组节点构成一个集群（cluster）。</p>
 <h3 id="Index"><a href="#Index" class="headerlink" title="Index"></a>Index</h3><p>Index 是 ES 的核心概念，ES 会索引所有字段，经过处理后写入一个反向索引（Inverted Index）。查找数据的时候，直接查找该索引。</p>
 <p>ES 数据管理的顶层单位就叫做 Index（索引）。它是单个数据库的同义词。每个 Index （即数据库）的名字必须是小写。</p>
 <h3 id="Document"><a href="#Document" class="headerlink" title="Document"></a>Document</h3><p>Index 里面单条的记录称为 Document（文档）。许多条 Document 构成了一个 Index。</p>
@@ -560,7 +559,7 @@ ES 底层是开源库 Lucene。但是没法直接用 Lucene，必须自己写代
 <li>hits：返回的记录组成的数组</li>
 </ul>
 <p>返回的记录中，每条记录都有一个 <code>_score</code> 字段，表示匹配的程序，默认是按照这个字段降序排列。</p>
-<h3 id="全文搜索"><a href="#全文搜索" class="headerlink" title="全文搜索"></a>全文搜索</h3><p>Elastic 的查询非常特别，使用自己的<a href="https://www.elastic.co/guide/en/elasticsearch/reference/8.4/query-dsl.html" target="_blank" rel="noopener">查询语法</a>，要求 GET 请求带有数据体。</p>
+<h3 id="全文搜索"><a href="#全文搜索" class="headerlink" title="全文搜索"></a>全文搜索</h3><p>ES 的查询非常特别，使用自己的<a href="https://www.elastic.co/guide/en/elasticsearch/reference/8.4/query-dsl.html" target="_blank" rel="noopener">查询语法</a>，要求 GET 请求带有数据体。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">curl -X GET <span class="string">"localhost:9200/_search?pretty"</span> -H <span class="string">'Content-Type: application/json'</span> -d<span class="string">'&#123;</span></span><br><span class="line"><span class="string">    "query":&#123;</span></span><br><span class="line"><span class="string">        "bool":&#123;</span></span><br><span class="line"><span class="string">            "must":[</span></span><br><span class="line"><span class="string">                &#123;</span></span><br><span class="line"><span class="string">                    "term":&#123;</span></span><br><span class="line"><span class="string">                        "name.keyword":"张三"</span></span><br><span class="line"><span class="string">                    &#125;</span></span><br><span class="line"><span class="string">                &#125;</span></span><br><span class="line"><span class="string">            ],</span></span><br><span class="line"><span class="string">            "must_not":[</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">            ],</span></span><br><span class="line"><span class="string">            "should":[</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">            ]</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">    &#125;,</span></span><br><span class="line"><span class="string">    "from":0,</span></span><br><span class="line"><span class="string">    "size":10,</span></span><br><span class="line"><span class="string">    "sort":[</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    ],</span></span><br><span class="line"><span class="string">    "aggs":&#123;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">&#125;'</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"took"</span> : 3,</span><br><span class="line">  <span class="string">"timed_out"</span> : <span class="literal">false</span>,</span><br><span class="line">  <span class="string">"_shards"</span> : &#123;</span><br><span class="line">    <span class="string">"total"</span> : 1,</span><br><span class="line">    <span class="string">"successful"</span> : 1,</span><br><span class="line">    <span class="string">"skipped"</span> : 0,</span><br><span class="line">    <span class="string">"failed"</span> : 0</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"hits"</span> : &#123;</span><br><span class="line">    <span class="string">"total"</span> : &#123;</span><br><span class="line">      <span class="string">"value"</span> : 1,</span><br><span class="line">      <span class="string">"relation"</span> : <span class="string">"eq"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">"max_score"</span> : 0.6931471,</span><br><span class="line">    <span class="string">"hits"</span> : [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="string">"_index"</span> : <span class="string">"customer"</span>,</span><br><span class="line">        <span class="string">"_id"</span> : <span class="string">"-c3r_oMBDokqbW4aIGss"</span>,</span><br><span class="line">        <span class="string">"_score"</span> : 0.6931471,</span><br><span class="line">        <span class="string">"_source"</span> : &#123;</span><br><span class="line">          <span class="string">"name"</span> : <span class="string">"张三"</span>,</span><br><span class="line">          <span class="string">"gender"</span> : <span class="string">"男"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
@@ -653,10 +652,10 @@ ES 底层是开源库 Lucene。但是没法直接用 Lucene，必须自己写代
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-10-22T17:59:49+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-11-27T09:44:45+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Oct 22, 2022</p>
+    <p>更新于：Nov 27, 2022</p>
   </a>
 </div>
 
@@ -683,8 +682,7 @@ ES 底层是开源库 Lucene。但是没法直接用 Lucene，必须自己写代
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/elasticsearch-quick-start/&title=ElasticSearch 快速上手 - Boo&summary=Elasticsearch 是目前全文搜索引擎的首选，它可以快速地储存、搜索和分析海量数据。
-ES 底层是开源库 Lucene。但是没法直接用 Lucene，必须自己写代码去调用它的接口。Elastic 是 Lucene 的封装，提供了 REST API 的操作接口，开箱即用。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/elasticsearch-quick-start/&title=ElasticSearch 快速上手 - Boo&summary=Elasticsearch 是目前全文搜索引擎的首选，它可以快速地储存、搜索和分析海量数据，下面简称 ES。"
           
           >
           
@@ -696,8 +694,7 @@ ES 底层是开源库 Lucene。但是没法直接用 Lucene，必须自己写代
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/elasticsearch-quick-start/&title=ElasticSearch 快速上手 - Boo&summary=Elasticsearch 是目前全文搜索引擎的首选，它可以快速地储存、搜索和分析海量数据。
-ES 底层是开源库 Lucene。但是没法直接用 Lucene，必须自己写代码去调用它的接口。Elastic 是 Lucene 的封装，提供了 REST API 的操作接口，开箱即用。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/elasticsearch-quick-start/&title=ElasticSearch 快速上手 - Boo&summary=Elasticsearch 是目前全文搜索引擎的首选，它可以快速地储存、搜索和分析海量数据，下面简称 ES。"
           
           >
           
@@ -709,8 +706,7 @@ ES 底层是开源库 Lucene。但是没法直接用 Lucene，必须自己写代
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/elasticsearch-quick-start/&title=ElasticSearch 快速上手 - Boo&summary=Elasticsearch 是目前全文搜索引擎的首选，它可以快速地储存、搜索和分析海量数据。
-ES 底层是开源库 Lucene。但是没法直接用 Lucene，必须自己写代码去调用它的接口。Elastic 是 Lucene 的封装，提供了 REST API 的操作接口，开箱即用。"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/elasticsearch-quick-start/&title=ElasticSearch 快速上手 - Boo&summary=Elasticsearch 是目前全文搜索引擎的首选，它可以快速地储存、搜索和分析海量数据，下面简称 ES。"
           
           >
           
