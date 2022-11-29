@@ -5,14 +5,14 @@ tags: ["ElasticSearch"]
 categories: ["ElasticSearch"]
 ---
 
-[Elasticsearch](https://www.elastic.co/cn/) 是目前全文搜索引擎的首选，它可以快速地储存、搜索和分析海量数据。
-
-ES 底层是开源库 Lucene。但是没法直接用 Lucene，必须自己写代码去调用它的接口。Elastic 是 Lucene 的封装，提供了 REST API 的操作接口，开箱即用。
+[Elasticsearch](https://www.elastic.co/cn/) 是目前全文搜索引擎的首选，它可以快速地储存、搜索和分析海量数据，下面简称 ES。
 
 <!-- more -->
 
+ES 底层是开源库 Lucene。但是没法直接用 Lucene，必须自己写代码去调用它的接口。ES 是 Lucene 的封装，提供了 REST API 的操作接口，开箱即用。
+
 ## 安装
-ElasticSearch 需要 Java 8 环境。如果你的机器还没安装 Java，可以进行[下载安装](https://www.java.com/en/download/)。
+ES 需要 Java 8 环境。如果你的机器还没安装 Java，可以进行[下载安装](https://www.java.com/en/download/)。
 
 ES 的安装比较简单，直接[下载](https://www.elastic.co/cn/downloads/elasticsearch)对应版本的压缩包解压即可：
 ```bash
@@ -38,7 +38,7 @@ bin/elasticsearch
 sudo sysctl -w vm.max_map_count=262144
 ```
 
-如果一切正常，Elastic 就会在默认的 9200 端口运行，访问`localhost:9200`会返回如下信息：
+如果一切正常，ES 就会在默认的 9200 端口运行，访问`localhost:9200`会返回如下信息：
 ```json
 {
   "name" : "192.168.123.11",
@@ -92,7 +92,7 @@ elasticsearch-head 默认监听 9100 端口，正常访问 `localhost:9100` 会�
 ### Node 与 Cluster
 ES 本质上是一个分布式的数据库，允许多台服务器协同工作，每台服务器也可以同时运行多个实例。
 
-单个 Elastic 实例称为一个节点（node）。一组节点构成一个集群（cluster）。
+单个 ES 实例称为一个节点（node）。一组节点构成一个集群（cluster）。
 
 ### Index
 Index 是 ES 的核心概念，ES 会索引所有字段，经过处理后写入一个反向索引（Inverted Index）。查找数据的时候，直接查找该索引。
@@ -287,7 +287,7 @@ hits 的子字段的含义如下：
 返回的记录中，每条记录都有一个 `_score` 字段，表示匹配的程序，默认是按照这个字段降序排列。
 
 ### 全文搜索
-Elastic 的查询非常特别，使用自己的[查询语法](https://www.elastic.co/guide/en/elasticsearch/reference/8.4/query-dsl.html)，要求 GET 请求带有数据体。
+ES 的查询非常特别，使用自己的[查询语法](https://www.elastic.co/guide/en/elasticsearch/reference/8.4/query-dsl.html)，要求 GET 请求带有数据体。
 
 ```bash
 curl -X GET "localhost:9200/_search?pretty" -H 'Content-Type: application/json' -d'{
