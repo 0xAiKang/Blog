@@ -7,6 +7,8 @@ categories: ["Linux"]
 
 常用的性能测试工具，Apache ab 这个用得比较多的，这篇笔记用来介绍另外一个轻量级性能测试工具——[wrk](https://github.com/wg/wrk)。
 
+<!-- more -->
+
 > wrk 是一款针对 Http 协议的基准测试工具，它能够在单机多核 CPU 的条件下，使用系统自带的高性能 I/O 机制，如 epoll，kqueue 等，通过多线程和事件模式，对目标机器产生大量的负载——Github
 > 
 
