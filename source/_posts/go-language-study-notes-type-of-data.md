@@ -40,7 +40,7 @@ categories: ["Go"]
 | array |  |  |  数组 |
 | struct |  |  |  结构体 |
 | function |  | nil |  函数 |
-| interface |  | nil |  结构体 |
-| map |  | nil |  接口，引用类型 |
+| interface |  | nil | 接口 |
+| map |  | nil |  字典，引用类型 |
 | slice |  | nil |  切片，引用类型 |
 | channel |  | nil |  通道，引用类型 |
