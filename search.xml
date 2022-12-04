@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>Wrk 性能测试工具</title>
+      <link href="/wrk-performance-testing-tool/"/>
+      <url>/wrk-performance-testing-tool/</url>
+      
+        <content type="html"><![CDATA[<p>常用的性能测试工具，Apache ab 这个用得比较多的，这篇笔记用来介绍另外一个轻量级性能测试工具——<a href="https://github.com/wg/wrk" target="_blank" rel="noopener">wrk</a>。</p><a id="more"></a><blockquote><p>wrk 是一款针对 Http 协议的基准测试工具，它能够在单机多核 CPU 的条件下，使用系统自带的高性能 I/O 机制，如 epoll，kqueue 等，通过多线程和事件模式，对目标机器产生大量的负载——Github</p></blockquote><p>wrk 的优势：</p><ol><li>轻量级的性能测试工具，开箱即用</li><li>安装简单，各大操作系统基本上都能一键安装</li><li>学习成本很低，记住常用的几个参数即可</li><li>基于系统自带的高性能 I/O 机制，如 epoll, kqueue, 利用异步的事件驱动框架，通过很少的线程就可以压出很大的并发量</li></ol><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="MacOS"><a href="#MacOS" class="headerlink" title="MacOS"></a>MacOS</h3><p>wrk 的安装非常简单：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ brew install wrk</span><br></pre></td></tr></table></figure><h3 id="Ubuntu"><a href="#Ubuntu" class="headerlink" title="Ubuntu"></a>Ubuntu</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get update</span><br><span class="line">$ sudo apt-get install wrk</span><br></pre></td></tr></table></figure><p>验证是否安装成功：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ wrk -v</span><br><span class="line">wrk 4.2.0 [kqueue] Copyright (C) 2012 Will Glozer</span><br></pre></td></tr></table></figure><h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>wrk 命令格式如下：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wrk &lt;options&gt; &lt;url&gt;</span><br></pre></td></tr></table></figure><p>其中常用参数如下：</p><ul><li>-c, –conections: 跟服务器建立并保持的 TCP 连接数量</li><li>-d, –duration: 压测时间，默认为 10s</li><li>-t, –threads: 使用多少个线程进行压测（线程数一般是核数的 2 到 4 倍，过多会出现线程切换过多导致效率降低）</li><li>-H: 指定请求的 HTTP Header，有些 API 需要传入一些 Header，可通过 Wrk 的 -H 参数来传入</li><li>–latency: 在压测结束之后，打印延迟统计信息</li><li>-T –timeout: 请求超时时间</li><li>-v，–version: 打印正在使用 wrk 详细版本信息</li><li>-s, –script: 指定 Lua 脚本路径</li></ul><h2 id="测试报告"><a href="#测试报告" class="headerlink" title="测试报告"></a>测试报告</h2><p>利用 wrk 对 <code>www.baidu.com</code> 发起压力测试，线程数为 4，模拟 300 个并发请求，持续 30 秒，并在压测结束之后，打印延迟统计信息。</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20221202090629.png" alt=""></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Linux </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Mac </tag>
+            
+            <tag> Linux </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Go 语言学习笔记——如何理解 channel 的无缓冲带和有缓冲带</title>
       <link href="/go-language-study-notes-how-to-understand-the-channel-without-buffer-and-with-buffer/"/>
       <url>/go-language-study-notes-how-to-understand-the-channel-without-buffer-and-with-buffer/</url>
@@ -558,7 +585,7 @@
       <link href="/go-language-study-notes-type-of-data/"/>
       <url>/go-language-study-notes-type-of-data/</url>
       
-        <content type="html"><![CDATA[<p>作为一个站在巨人的肩膀上成长起来的现代编程语言，Go 语言中的数据类型大部分都是由C 语言演变而来的，它继承了前辈语言的优点，又改进了前辈语言中的不足，下面来对比看一下。</p><a id="more"></a><h2 id="C-语言数据类型"><a href="#C-语言数据类型" class="headerlink" title="C 语言数据类型"></a>C 语言数据类型</h2><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/C%E8%AF%AD%E8%A8%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.png" alt=""></p><h2 id="Go-语言数据类型"><a href="#Go-语言数据类型" class="headerlink" title="Go 语言数据类型"></a>Go 语言数据类型</h2><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/Go%E8%AF%AD%E8%A8%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.png" alt=""></p><p>可以看到 Go 语言的数据类型更丰富，除了基本的数据类型都支持，像 C 语言中没有的字符串类型，Go 语言也原生支持了。</p><h2 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h2><p>认识预定义基本类型、各自占用字节大小以及默认值，有助于开发跨平台应用时无需过多考虑符号和长度差异：</p><table><thead><tr><th>类型</th><th>长度（字节）</th><th>默认值（零值）</th><th>说明</th></tr></thead><tbody><tr><td>bool</td><td>1</td><td>false</td><td></td></tr><tr><td>byte</td><td>1</td><td>0</td><td>uint8</td></tr><tr><td>int, unit</td><td>4,8</td><td>0</td><td>默认整数类型，依据目标平台，32 位或 64 位</td></tr><tr><td>int8, uint8</td><td>1</td><td>0</td><td>-128 ～ 127， 0～255（byte 是uint8 的别名）</td></tr><tr><td>int16, unit16</td><td>2</td><td>0</td><td>-32768<del>32767, 0</del>65535</td></tr><tr><td>int32, unit32</td><td>4</td><td>0</td><td>-21 亿<del>21 亿, 0</del>42 亿（rune 是int32 的别名）</td></tr><tr><td>int64, unit64</td><td>8</td><td>0</td><td></td></tr><tr><td>float32</td><td>4</td><td>0.0</td><td></td></tr><tr><td>float64</td><td>8</td><td>0.0</td><td>默认浮点数类型</td></tr><tr><td>complex64</td><td>8</td><td></td><td></td></tr><tr><td>complex128</td><td>16</td><td></td><td></td></tr><tr><td>rune</td><td>4</td><td>0</td><td>Unicode Code Point, int32</td></tr><tr><td>uintptr</td><td>4,8</td><td>0</td><td>无符号整型，用于存放一个指针</td></tr><tr><td>string</td><td></td><td>“”</td><td>字符串，默认值为 空字符串，而非 NULL</td></tr><tr><td>array</td><td></td><td></td><td>数组</td></tr><tr><td>struct</td><td></td><td></td><td>结构体</td></tr><tr><td>function</td><td></td><td>nil</td><td>函数</td></tr><tr><td>interface</td><td></td><td>nil</td><td>结构体</td></tr><tr><td>map</td><td></td><td>nil</td><td>接口，引用类型</td></tr><tr><td>slice</td><td></td><td>nil</td><td>切片，引用类型</td></tr><tr><td>channel</td><td></td><td>nil</td><td>通道，引用类型</td></tr></tbody></table>]]></content>
+        <content type="html"><![CDATA[<p>作为一个站在巨人的肩膀上成长起来的现代编程语言，Go 语言中的数据类型大部分都是由C 语言演变而来的，它继承了前辈语言的优点，又改进了前辈语言中的不足，下面来对比看一下。</p><a id="more"></a><h2 id="C-语言数据类型"><a href="#C-语言数据类型" class="headerlink" title="C 语言数据类型"></a>C 语言数据类型</h2><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/C%E8%AF%AD%E8%A8%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.png" alt=""></p><h2 id="Go-语言数据类型"><a href="#Go-语言数据类型" class="headerlink" title="Go 语言数据类型"></a>Go 语言数据类型</h2><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/Go%E8%AF%AD%E8%A8%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.png" alt=""></p><p>可以看到 Go 语言的数据类型更丰富，除了基本的数据类型都支持，像 C 语言中没有的字符串类型，Go 语言也原生支持了。</p><h2 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h2><p>认识预定义基本类型、各自占用字节大小以及默认值，有助于开发跨平台应用时无需过多考虑符号和长度差异：</p><table><thead><tr><th>类型</th><th>长度（字节）</th><th>默认值（零值）</th><th>说明</th></tr></thead><tbody><tr><td>bool</td><td>1</td><td>false</td><td></td></tr><tr><td>byte</td><td>1</td><td>0</td><td>uint8</td></tr><tr><td>int, unit</td><td>4,8</td><td>0</td><td>默认整数类型，依据目标平台，32 位或 64 位</td></tr><tr><td>int8, uint8</td><td>1</td><td>0</td><td>-128 ～ 127， 0～255（byte 是uint8 的别名）</td></tr><tr><td>int16, unit16</td><td>2</td><td>0</td><td>-32768<del>32767, 0</del>65535</td></tr><tr><td>int32, unit32</td><td>4</td><td>0</td><td>-21 亿<del>21 亿, 0</del>42 亿（rune 是int32 的别名）</td></tr><tr><td>int64, unit64</td><td>8</td><td>0</td><td></td></tr><tr><td>float32</td><td>4</td><td>0.0</td><td></td></tr><tr><td>float64</td><td>8</td><td>0.0</td><td>默认浮点数类型</td></tr><tr><td>complex64</td><td>8</td><td></td><td></td></tr><tr><td>complex128</td><td>16</td><td></td><td></td></tr><tr><td>rune</td><td>4</td><td>0</td><td>Unicode Code Point, int32</td></tr><tr><td>uintptr</td><td>4,8</td><td>0</td><td>无符号整型，用于存放一个指针</td></tr><tr><td>string</td><td></td><td>“”</td><td>字符串，默认值为 空字符串，而非 NULL</td></tr><tr><td>array</td><td></td><td></td><td>数组</td></tr><tr><td>struct</td><td></td><td></td><td>结构体</td></tr><tr><td>function</td><td></td><td>nil</td><td>函数</td></tr><tr><td>interface</td><td></td><td>nil</td><td>接口</td></tr><tr><td>map</td><td></td><td>nil</td><td>字典，引用类型</td></tr><tr><td>slice</td><td></td><td>nil</td><td>切片，引用类型</td></tr><tr><td>channel</td><td></td><td>nil</td><td>通道，引用类型</td></tr></tbody></table>]]></content>
       
       
       <categories>
