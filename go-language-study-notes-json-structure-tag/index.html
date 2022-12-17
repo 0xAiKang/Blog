@@ -16,12 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>Wrk 性能测试工具 - Boo</title>
+    <title>Go 语言学习——json 结构体标签 - Boo</title>
   
-    <meta name="keywords" content="Mac,Linux">
+    <meta name="keywords" content="Go">
   
   
-    <meta name="description" content="常用的性能测试工具，Apache ab 这个用得比较多的，这篇笔记用来介绍另外一个轻量级性能测试工具——wrk。">
+    <meta name="description" content="使用 Golang 时，经常需要创建结构体，而结构体经常需要被序列化或者反序列化，通常会在结构体的 field 类型后加上 json 结构体标签。">
   
 
   <!-- feed -->
@@ -372,8 +372,8 @@
         
           
   <h1 class="title">
-    <a href="/wrk-performance-testing-tool/">
-      Wrk 性能测试工具
+    <a href="/go-language-study-notes-json-structure-tag/">
+      Go 语言学习——json 结构体标签
     </a>
   </h1>
 
@@ -398,9 +398,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Linux/' rel="nofollow">
+    <a href='/categories/Go/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Linux</p>
+      <p>Go</p>
     </a>
   </div>
 
@@ -411,7 +411,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Dec 4, 2022</p>
+    <p>发布于：Dec 10, 2022</p>
   </a>
 </div>
 
@@ -427,13 +427,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>479 words</p>
+      <p>816 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>1 min</p>
+      <p>3 min</p>
     </a>
   </div>
 
@@ -446,7 +446,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/wrk-performance-testing-tool/" class="leancloud_visitors" data-flag-title="Wrk 性能测试工具">
+      <span id="/go-language-study-notes-json-structure-tag/" class="leancloud_visitors" data-flag-title="Go 语言学习——json 结构体标签">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -469,43 +469,22 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>常用的性能测试工具，Apache ab 这个用得比较多的，这篇笔记用来介绍另外一个轻量级性能测试工具——<a href="https://github.com/wg/wrk" target="_blank" rel="noopener">wrk</a>。</p>
+          <p>使用 Golang 时，经常需要创建结构体，而结构体经常需要被序列化或者反序列化，通常会在结构体的 field 类型后加上 json 结构体标签。</p>
 <a id="more"></a>
 
-<blockquote>
-<p>wrk 是一款针对 Http 协议的基准测试工具，它能够在单机多核 CPU 的条件下，使用系统自带的高性能 I/O 机制，如 epoll，kqueue 等，通过多线程和事件模式，对目标机器产生大量的负载——Github</p>
-</blockquote>
-<p>wrk 的优势：</p>
-<ol>
-<li>轻量级的性能测试工具，开箱即用</li>
-<li>安装简单，各大操作系统基本上都能一键安装</li>
-<li>学习成本很低，记住常用的几个参数即可</li>
-<li>基于系统自带的高性能 I/O 机制，如 epoll, kqueue, 利用异步的事件驱动框架，通过很少的线程就可以压出很大的并发量</li>
-</ol>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="MacOS"><a href="#MacOS" class="headerlink" title="MacOS"></a>MacOS</h3><p>wrk 的安装非常简单：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ brew install wrk</span><br></pre></td></tr></table></figure>
+<p>json 结构体标签，常见的关键字有 <code>omitempty</code> 和 <code>-</code>，下面一起来看一下，这几种的区别。</p>
+<p>示例代码如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> User <span class="keyword">struct</span> &#123;</span><br><span class="line">	Id       <span class="keyword">string</span></span><br><span class="line">	Name     <span class="keyword">string</span></span><br><span class="line">	age      <span class="keyword">int</span></span><br><span class="line">	gender   <span class="keyword">string</span></span><br><span class="line">	nickname <span class="keyword">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> User2 <span class="keyword">struct</span> &#123;</span><br><span class="line">	Id       <span class="keyword">string</span> <span class="string">`json:"id"`</span></span><br><span class="line">	Name     <span class="keyword">string</span> <span class="string">`json:"name"`</span></span><br><span class="line">	Age      <span class="keyword">int</span>    <span class="string">`json:"age"`</span></span><br><span class="line">	Gender   <span class="keyword">string</span> <span class="string">`json:"gender"`</span></span><br><span class="line">	NickName <span class="keyword">string</span> <span class="string">`json:"nickname"`</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> User3 <span class="keyword">struct</span> &#123;</span><br><span class="line">	Id       <span class="keyword">string</span> <span class="string">`json:"id"`</span></span><br><span class="line">	Name     <span class="keyword">string</span> <span class="string">`json:"name,omitempty"`</span></span><br><span class="line">	Age      <span class="keyword">int</span>    <span class="string">`json:"age,omitempty"`</span></span><br><span class="line">	Gender   <span class="keyword">string</span> <span class="string">`json:"gender,omitempty"`</span></span><br><span class="line">	NickName <span class="keyword">string</span> <span class="string">`json:"nickname,omitempty"`</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> User4 <span class="keyword">struct</span> &#123;</span><br><span class="line">	Id       <span class="keyword">string</span> <span class="string">`json:"id"`</span></span><br><span class="line">	Name     <span class="keyword">string</span> <span class="string">`json:"name,omitempty"`</span></span><br><span class="line">	Age      <span class="keyword">int</span>    <span class="string">`json:"-"`</span></span><br><span class="line">	Gender   <span class="keyword">string</span> <span class="string">`json:"gender,omitempty"`</span></span><br><span class="line">	NickName <span class="keyword">string</span> <span class="string">`json:"nickname,omitempty"`</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	u := User&#123;</span><br><span class="line">		Id:     <span class="string">"1"</span>,</span><br><span class="line">		Name:   <span class="string">"张三"</span>,</span><br><span class="line">		age:    <span class="number">20</span>,</span><br><span class="line">		gender: <span class="string">"男"</span>,</span><br><span class="line">	&#125;</span><br><span class="line">	data, err := json.Marshal(u)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		fmt.Println(err.Error())</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	u2 := User2&#123;</span><br><span class="line">		<span class="string">"1"</span>,</span><br><span class="line">		<span class="string">"张三"</span>,</span><br><span class="line">		<span class="number">20</span>,</span><br><span class="line">		<span class="string">"男"</span>,</span><br><span class="line">		<span class="string">""</span>,</span><br><span class="line">	&#125;</span><br><span class="line">	data2, _ := json.Marshal(u2)</span><br><span class="line"></span><br><span class="line">	u3 := User3&#123;</span><br><span class="line">		Id: <span class="string">"1"</span>,</span><br><span class="line">	&#125;</span><br><span class="line">	data3, _ := json.Marshal(u3)</span><br><span class="line"></span><br><span class="line">	u4 := User2&#123;</span><br><span class="line">		Id: <span class="string">"1"</span>,</span><br><span class="line">	&#125;</span><br><span class="line">	data4, _ := json.Marshal(u4)</span><br><span class="line"></span><br><span class="line">	u5 := User4&#123;</span><br><span class="line">		Id:     <span class="string">"1"</span>,</span><br><span class="line">		Name:   <span class="string">"张三"</span>,</span><br><span class="line">		Age:    <span class="number">19</span>,</span><br><span class="line">		Gender: <span class="string">"男"</span>,</span><br><span class="line">	&#125;</span><br><span class="line">	data5, _ := json.Marshal(u5)</span><br><span class="line">	fmt.Printf(<span class="string">"%s ：只会打印出首字母大写的 field，首字母小写的 field 只允许在包内使用，没有使用 json 结构体标签，序列化之后的 json 数据，field 不会发生变化 \n"</span>, <span class="keyword">string</span>(data))</span><br><span class="line">	fmt.Printf(<span class="string">"%s :使用 json 结构体标签，序列化之后的 json 数据，field 和 json 结构体保持一致 \n"</span>, <span class="keyword">string</span>(data2))</span><br><span class="line">	fmt.Printf(<span class="string">"%s :使用 json 结构体标签，同时使用 omitempty 标记，初始化时，只有 Id 字段进行赋值 \n"</span>, <span class="keyword">string</span>(data3))</span><br><span class="line">	fmt.Printf(<span class="string">"%s :使用 json 结构体标签，未使用 omitempty 标记，初始化时，只有 Id 字段进行赋值 \n"</span>, <span class="keyword">string</span>(data4))</span><br><span class="line">	fmt.Printf(<span class="string">"%s :使用 json 结构体标签，同时使用 - 标记以及 omitempty 标记 \n"</span>, <span class="keyword">string</span>(data5))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="Ubuntu"><a href="#Ubuntu" class="headerlink" title="Ubuntu"></a>Ubuntu</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get update</span><br><span class="line">$ sudo apt-get install wrk</span><br></pre></td></tr></table></figure>
+<p>运行上面的示例代码，得到以下输出：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;"Id":"1","Name":"张三"&#125; ：只会打印出首字母大写的 field，首字母小写的 field 只允许在包内使用，没有使用 json 结构体标签，序列化之后的 json 数据，field 不会发生变化 </span><br><span class="line">&#123;"id":"1","name":"张三","age":20,"gender":"男","nickname":""&#125; :使用 json 结构体标签，序列化之后的 json 数据，field 和 json 结构体保持一致 </span><br><span class="line">&#123;"id":"1"&#125; :使用 json 结构体标签，同时使用 omitempty 标记，初始化时，只有 Id 字段进行赋值 </span><br><span class="line">&#123;"id":"1","name":"","age":0,"gender":"","nickname":""&#125; :使用 json 结构体标签，未使用 omitempty 标记，初始化时，只有 Id 字段进行赋值 </span><br><span class="line">&#123;"id":"1","name":"张三","gender":"男"&#125; :使用 json 结构体标签，同时使用 - 标记以及 omitempty 标记</span><br></pre></td></tr></table></figure>
 
-<p>验证是否安装成功：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ wrk -v</span><br><span class="line">wrk 4.2.0 [kqueue] Copyright (C) 2012 Will Glozer</span><br></pre></td></tr></table></figure>
-
-<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>wrk 命令格式如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wrk &lt;options&gt; &lt;url&gt;</span><br></pre></td></tr></table></figure>
-
-<p>其中常用参数如下：</p>
-<ul>
-<li>-c, –conections: 跟服务器建立并保持的 TCP 连接数量</li>
-<li>-d, –duration: 压测时间，默认为 10s</li>
-<li>-t, –threads: 使用多少个线程进行压测（线程数一般是核数的 2 到 4 倍，过多会出现线程切换过多导致效率降低）</li>
-<li>-H: 指定请求的 HTTP Header，有些 API 需要传入一些 Header，可通过 Wrk 的 -H 参数来传入</li>
-<li>–latency: 在压测结束之后，打印延迟统计信息</li>
-<li>-T –timeout: 请求超时时间</li>
-<li>-v，–version: 打印正在使用 wrk 详细版本信息</li>
-<li>-s, –script: 指定 Lua 脚本路径</li>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>json 结构体标签，用于结构体序列化时，将结构体与 json 数据解藕</li>
+<li>定义为 <code>json:&quot;field&quot;</code> 格式的结构体，在初始化时，field 字段不能省略，否则会编译错误</li>
+<li>定义为 <code>json:&quot;nickname,omitempty&quot;</code> 格式的结构体，在初始化时，field 字段可以省略。当省略 field 字段进行赋值时，序列化之后的 json 也不会包含该字段，反之则会包含</li>
+<li>定义为 <code>json:&quot;-&quot;</code> 格式的结构体，初始化时，无论是否赋值，序列化之后的 json 都不会包含该字段</li>
 </ul>
-<h2 id="测试报告"><a href="#测试报告" class="headerlink" title="测试报告"></a>测试报告</h2><p>利用 wrk 对 <code>www.baidu.com</code> 发起压力测试，线程数为 4，模拟 300 个并发请求，持续 30 秒，并在压测结束之后，打印延迟统计信息。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20221202090629.png" alt=""></p>
 
           
             <div class='article_footer'>
@@ -542,7 +521,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/wrk-performance-testing-tool/>https://www.0x2beace.com/wrk-performance-testing-tool/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/go-language-study-notes-json-structure-tag/>https://www.0x2beace.com/go-language-study-notes-json-structure-tag/</a></p>
           
         
       </blockquote>
@@ -590,10 +569,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-12-04T11:19:25+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-12-17T17:36:57+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Dec 4, 2022</p>
+    <p>更新于：Dec 17, 2022</p>
   </a>
 </div>
 
@@ -602,7 +581,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Mac/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Mac</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Linux/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Linux</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Go/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Go</p></a></div>
 
 
         
@@ -620,7 +599,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/wrk-performance-testing-tool/&title=Wrk 性能测试工具 - Boo&summary=常用的性能测试工具，Apache ab 这个用得比较多的，这篇笔记用来介绍另外一个轻量级性能测试工具——wrk。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/go-language-study-notes-json-structure-tag/&title=Go 语言学习——json 结构体标签 - Boo&summary=使用 Golang 时，经常需要创建结构体，而结构体经常需要被序列化或者反序列化，通常会在结构体的 field 类型后加上 json 结构体标签。"
           
           >
           
@@ -632,7 +611,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/wrk-performance-testing-tool/&title=Wrk 性能测试工具 - Boo&summary=常用的性能测试工具，Apache ab 这个用得比较多的，这篇笔记用来介绍另外一个轻量级性能测试工具——wrk。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/go-language-study-notes-json-structure-tag/&title=Go 语言学习——json 结构体标签 - Boo&summary=使用 Golang 时，经常需要创建结构体，而结构体经常需要被序列化或者反序列化，通常会在结构体的 field 类型后加上 json 结构体标签。"
           
           >
           
@@ -644,7 +623,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/wrk-performance-testing-tool/&title=Wrk 性能测试工具 - Boo&summary=常用的性能测试工具，Apache ab 这个用得比较多的，这篇笔记用来介绍另外一个轻量级性能测试工具——wrk。"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/go-language-study-notes-json-structure-tag/&title=Go 语言学习——json 结构体标签 - Boo&summary=使用 Golang 时，经常需要创建结构体，而结构体经常需要被序列化或者反序列化，通常会在结构体的 field 类型后加上 json 结构体标签。"
           
           >
           
@@ -658,7 +637,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADqklEQVR42u3aQRLaQAwEQP7/6eSeKsrSSIY16b0Bxt5tXaYkv/5Y0XohAAcOHDgLHLhD4F7hunzAP9e9+/zufu9+v/q+uq/0vODAgQMHDhw4cKfBlQNgccPdg1UBuwVNgd/+Hxw4cODAgQMH7lC4ywAYBttugK4CVq9fOy84cODAgQMHDtyPw6WNxLShmQZgcODAgQMHDhy4/xUuDbIpzHYjExw4cODAgQMH7lfgugffCqzTgmzt/2OTfHDgwIEDBw4cuCW4NGg+9XN8XnDgwIEDBw4cuEPgtgJlNVhuF2or6JbPCw4cOHDgwIEDdwjcuLFXbFxugW8F32pBwYEDBw4cOHDgToWLb9AESV/82ypkGsTBgQMHDhw4cOBOhas+IN1Y9T7TgnUDebVhejnJBwcOHDhw4MCB+xJc2ljsAk8H1tsNzLRQ4MCBAwcOHDhwp8Cljcpu43IK2S30Xd+DAwcOHDhw4MCdAtdtCKYH3W44bgXj7mAcHDhw4MCBAwfuFLi08Zd+3w3OaSCeBvL2JB8cOHDgwIEDB+5LcNMX79Jg2h1MtwfIy41WcODAgQMHDhy4U+C6DcqtAFoNuK9wpYH78jM4cODAgQMHDtyhcN2DTwfW6eB7q9Dt/4EDBw4cOHDgwD0UbqtRuVWorQbs7QEYHDhw4MCBAwduGW6rwZhelwbfbkM1LTg4cODAgQMHDtzpcNPA2L2uC3F34K0WEhw4cODAgQMH7hS4aoCcDn6nAOn9poUBBw4cOHDgwIF7CtzWYLrbYOxCpY3XNBiDAwcOHDhw4MCdCrcVHKsNyjS4dgP6dGANDhw4cODAgQN3Otz0gVuNyPR5KVA7SIMDBw4cOHDgwB0CNw2uaeOwe9/tgBzvDxw4cODAgQMH7iFw3cFzGmjTAXT1Pt3nXjYywYEDBw4cOHDgDoNLN7412O4WaArbvg4cOHDgwIEDB+5hcFuNyLQRmg6cp4N0cODAgQMHDhy4U+HuDphpo7R7oOr9p0EbHDhw4MCBAwfuFLhpQOwCTwfWV9enzy3vGxw4cODAgQMH7jC4FCANnNPnpgPz6e/gwIEDBw4cOHCnwt3VQExfNHx9aJXPDw4cOHDgwIED9+NwU7Bpg3MrwIMDBw4cOHDgwP06XDVQTg80LVy18fmxAAwOHDhw4MCBA7cENx1IdwswDdjdfRw7yQcHDhw4cODAgQvhpgPc7Y1XC7o9+AYHDhw4cODAgXsKnNVb4MCBAwfOAgfuy+svvgK8k0SlWqUAAAAASUVORK5CYII=">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADr0lEQVR42u3aQW7jQAwEQP//09n7AoamScpinOJNgCTP1OTQIfX6UaV6IQAHDhw4BQ7cErhXsf5//t312wUcvv/dc1fvqf7u5X7BgQMHDhw4cOCWwR0HwIuFn96fQnRhx/YLDhw4cODAgQO3FK4aeFPQq410g3d6kMe/Aw4cOHDgwIED9yVwXZDq/dMBHBw4cODAgQMH7q/BTS04Dc7dRik4cODAgQMHDty3wVWD7acD7tQBPjbJBwcOHDhw4MCBG4JLazqAfvq6vF9w4MCBAwcOHLglcNN1uoA0uN4ddI/3Bw4cOHDgwIEDtwTutIGYglQH0VMNzm6j8/g/B3DgwIEDBw4cuIfgqgPotNF5N1h3cH4MDQ4cOHDgwIEDtwyuGzirgXcqQFcPPG2IggMHDhw4cODAbYNLB7unA9+pQFttZFbXGTcywYEDBw4cOHDgPgyXBtjpBuJPsdIgmx74ZQAGBw4cOHDgwIFbBnfXBk+DZrnBWB0wp0EZHDhw4MCBAwduGdxdg94u1NT9U8+BAwcOHDhw4MBtgesuuBp0u43ONCinAfoyAIMDBw4cOHDgwC2BSzeULrC68O6Gu/eDAwcOHDhw4MBthXuFVX1uqqFYDdDjARgcOHDgwIEDB24ZXLqA9APDbnCePvAYHBw4cODAgQMHbglct04XWv2QsTqI7gZicODAgQMHDhy47XDVgFltEHYhu4PtaoMUHDhw4MCBAwduK1w1WFYblncBpw3YtFELDhw4cODAgQO3BS5tUKYbSIPq6XvS56pgcQcYHDhw4MCBAwfuIbixoBgG0e6Ae7qxCQ4cOHDgwIEDtx0uheourBtAuwE3HUCXJ/ngwIEDBw4cOHDL4E4boNXn0oOZaniWPywEBw4cOHDgwIF7GK476O0G5qkDmIa8bGSCAwcOHDhw4MA9DJcOaruD52pDMoVLA/TlesCBAwcOHDhw4H4pXHch0wdS/XCw/OEjOHDgwIEDBw7cErhuTQ2Kq/d1B81pEAYHDhw4cODAgdsC9yrWVNC8K2BXry/fDw4cOHDgwIEDtwyuG3jTBVQXPh2YwYEDBw4cOHDgvgXursFz+v7uwLoazC//cMCBAwcOHDhw4L4MLt1YN2hPB97jxic4cODAgQMHDtyXwF2BpYHz9CDSA0gbouDAgQMHDhw4cL8NLg2maTCuBumpAXg1aIMDBw4cOHDgwG2Fqw5wuw3PbnCNA2wY7MGBAwcOHDhw4LbCqazAgQMHDpwCB+7h+gdRvv41Umha8QAAAABJRU5ErkJggg==">
           </div>
         </div>
       
@@ -678,23 +657,14 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/go-language-study-notes-json-structure-tag/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Go 语言学习——json 结构体标签</p>
-                <p class='content'>使用 Golang 时，经常需要创建结构体，而结构体经常需要被序列化或者反序列化，通常会在结构体的 field 类型后加上 json 结构体标签。
-
-
-json 结构体标签，常见的关键字有 om...</p>
-              </a>
             
-            
-              <a class='next' href='/go-language-study-notes-standard-command-learning/'>
-                <p class='title'>Go 语言学习笔记——Go 标准命令学习<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>Go 语言标准命令详解。
+              <a class='next' href='/wrk-performance-testing-tool/'>
+                <p class='title'>Wrk 性能测试工具<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>常用的性能测试工具，Apache ab 这个用得比较多的，这篇笔记用来介绍另外一个轻量级性能测试工具——wrk。
 
 
-go envgo env 是非常常用的命令，用于查看当前的 go 环境信息。
-后面跟上环境变量名称，则可以输出对应环境变量的值：
-12$ go env GOROOT...</p>
+
+wrk 是一款针对 Http 协议的基准测试工具，它能够在单机多核 CPU...</p>
               </a>
             
           </div>
@@ -739,7 +709,7 @@ go envgo env 是非常常用的命令，用于查看当前的 go 环境信息。
 
   <script>
     window.subData = {
-      title: 'Wrk 性能测试工具',
+      title: 'Go 语言学习——json 结构体标签',
       tools: true
     }
   </script>
@@ -765,7 +735,7 @@ go envgo env 是非常常用的命令，用于查看当前的 go 环境信息。
 
 
     <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-text">安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MacOS"><span class="toc-text">MacOS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ubuntu"><span class="toc-text">Ubuntu</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用方法"><span class="toc-text">使用方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试报告"><span class="toc-text">测试报告</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
     </div>
   </section>
 
