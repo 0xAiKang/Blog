@@ -16,12 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>Go语言之禅 - Boo</title>
+    <title>如何设计一个千万级架构 - Boo</title>
   
-    <meta name="keywords" content="Go">
+    <meta name="keywords" content="一些经验">
   
   
-    <meta name="description" content="Go语言之禅">
+    <meta name="description" content="这篇笔记用来记录如何从单机一步步设计出支持百万级、千万级、亿级数据的架构。">
   
 
   <!-- feed -->
@@ -372,8 +372,8 @@
         
           
   <h1 class="title">
-    <a href="/the-en-of-go/">
-      Go语言之禅
+    <a href="/how-to-design-a-tens-of-millions-of-architecture/">
+      如何设计一个千万级架构
     </a>
   </h1>
 
@@ -398,9 +398,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Go/' rel="nofollow">
+    <a href='/categories/%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Go</p>
+      <p>一些经验</p>
     </a>
   </div>
 
@@ -411,7 +411,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Dec 18, 2022</p>
+    <p>发布于：Dec 24, 2022</p>
   </a>
 </div>
 
@@ -427,13 +427,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>353 words</p>
+      <p>613 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>1 min</p>
+      <p>2 min</p>
     </a>
   </div>
 
@@ -446,7 +446,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/the-en-of-go/" class="leancloud_visitors" data-flag-title="Go语言之禅">
+      <span id="/how-to-design-a-tens-of-millions-of-architecture/" class="leancloud_visitors" data-flag-title="如何设计一个千万级架构">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -469,47 +469,53 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>Go语言之禅</p>
+          <p>这篇笔记用来记录如何从单机一步步设计出支持百万级、千万级、亿级数据的架构。</p>
 <a id="more"></a>
 
-<h2 id="Go-箴言"><a href="#Go-箴言" class="headerlink" title="Go 箴言"></a>Go 箴言</h2><ul>
-<li>不要通过共享内存进行通信，通过通信共享内存</li>
-<li>并发不是并行</li>
-<li>管道用于协调；互斥量（锁）用于同步</li>
-<li>接口越大，抽象就越弱</li>
-<li>利用好零值</li>
-<li>空接口 interface{} 没有任何类型约束</li>
-<li>Gofmt 的风格不是人们最喜欢的，但 gofmt 是每个人的最爱</li>
-<li>允许一点点重复比引入一点点依赖更好</li>
-<li>系统调用必须始终使用构建标记进行保护</li>
-<li>必须始终使用构建标记保护 Cgo</li>
-<li>Cgo 不是 Go</li>
-<li>使用标准库的 unsafe 包，不能保证能如期运行</li>
-<li>清晰比聪明更好</li>
-<li>反射永远不清晰</li>
-<li>错误是值</li>
-<li>不要只检查错误，还要优雅地处理它们</li>
-<li>设计架构，命名组件，（文档）记录细节</li>
-<li>文档是供用户使用的</li>
-<li>不要（在生产环境）使用 panic()</li>
+<h2 id="单机时代"><a href="#单机时代" class="headerlink" title="单机时代"></a>单机时代</h2><p>最开始的时候，用户量很少，一天就几百上千个请求，此时一台服务器就完全足够。</p>
+<p>Java、Python、PHP或者其他后端语言开发一个Web后端服务，再用一个MySQL来存储业务数据，它俩携手工作，运行在同一台服务器上，对外提供服务。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20221230153055.png" alt=""></p>
+<p>随着数据量增加、访问量增加，MySQL 会出现查询变慢，Web 服务会出现访问变慢。</p>
+<p>解决方案：</p>
+<ul>
+<li>创建索引和优化索引，解决查询变慢的问题。</li>
+<li>增加 CDN（让静态资源不至于直接请求服务器）</li>
+<li>增加服务器，使用 nginx 做负载均衡（分散单台压力）</li>
 </ul>
-<h2 id="Go-语言之禅"><a href="#Go-语言之禅" class="headerlink" title="Go 语言之禅"></a>Go 语言之禅</h2><ul>
-<li>每个 package 实现单一的目的</li>
-<li>显式处理错误</li>
-<li>尽早返回，而不是使用深嵌套</li>
-<li>让调用者处理并发（带来的问题）</li>
-<li>在启动一个 goroutine 时，需要知道何时它会停止</li>
-<li>避免 package 级别的状态</li>
-<li>简单很重要</li>
-<li>编写测试以锁定 package API 的行为</li>
-<li>如果你觉得慢，先编写 benchmark 来证明</li>
-<li>适度是一种美德</li>
-<li>可维护性</li>
+<h2 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h2><p>数据量还在继续增加，单台服务器已经不能满足需求了。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20221230153104.png" alt=""></p>
+<p>解决方案：</p>
+<ul>
+<li>通过 Mysql binlog 实现主从复制</li>
+<li>对不同用户创建不同读写权限，实现读写分离</li>
+<li>分库分表</li>
 </ul>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
-<li><a href="https://the-zen-of-go.netlify.com/" target="_blank" rel="noopener">The Zen of Go</a></li>
-<li><a href="https://go-proverbs.github.io/" target="_blank" rel="noopener">Go Proverbs</a></li>
+<h2 id="数据读写分离"><a href="#数据读写分离" class="headerlink" title="数据读写分离"></a>数据读写分离</h2><p>数据的压力继续增大，数据库仍然是瓶颈。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20221230153114.png" alt=""></p>
+<p>解决方案：</p>
+<ul>
+<li>引入缓存系统，可以有效缩短服务的响应时间</li>
 </ul>
+<h2 id="缓存系统"><a href="#缓存系统" class="headerlink" title="缓存系统"></a>缓存系统</h2><p>随着流量继续增加，业务逻辑会变得越来越复杂，代码也会越来越复杂。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20221230153123.png" alt=""><br>解决方案：</p>
+<ul>
+<li>引入缓存系统，可以有效缩短服务的响应时间</li>
+</ul>
+<h2 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h2><p>此时设计到这里，已经完全可以支撑百万级的数据。</p>
+<p>Mysql 天生适合海量的数据存储，不适合海量数据的查询，所以此时数据的查询就成了瓶颈。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20221230153135.png" alt=""><br>解决方案：</p>
+<ul>
+<li>引入消息队列，异步、解藕、削峰</li>
+</ul>
+<h2 id="搜索引擎"><a href="#搜索引擎" class="headerlink" title="搜索引擎"></a>搜索引擎</h2><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20221230153153.png" alt=""><br>解决方案：</p>
+<ul>
+<li>引入 ElasticSearch</li>
+</ul>
+<p>引入搜索引擎之后，还可以对架构进行优化。</p>
+<h2 id="最后版本"><a href="#最后版本" class="headerlink" title="最后版本"></a>最后版本</h2><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20221230153207.png" alt=""></p>
+<p>上面就是从最简单的单机到复杂集群的高并发演进之路，架构设计到最后，做好集群的话，支持亿级的数据是没有问题的。</p>
+<p>其中的搜索引擎，消息队列等都是可以替代的。</p>
+<p>高可用、高并发、高性能是一个很大的话题，它所涵盖的东西其实不止上面这些内容，其中每一个模块拿出来都可以扩展出很多知识点。</p>
 
           
             <div class='article_footer'>
@@ -546,7 +552,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/the-en-of-go/>https://www.0x2beace.com/the-en-of-go/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/how-to-design-a-tens-of-millions-of-architecture/>https://www.0x2beace.com/how-to-design-a-tens-of-millions-of-architecture/</a></p>
           
         
       </blockquote>
@@ -594,10 +600,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-12-18T16:11:57+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-12-30T15:37:11+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Dec 18, 2022</p>
+    <p>更新于：Dec 30, 2022</p>
   </a>
 </div>
 
@@ -606,7 +612,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Go/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Go</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>一些经验</p></a></div>
 
 
         
@@ -624,7 +630,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/the-en-of-go/&title=Go语言之禅 - Boo&summary=Go语言之禅"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/how-to-design-a-tens-of-millions-of-architecture/&title=如何设计一个千万级架构 - Boo&summary=这篇笔记用来记录如何从单机一步步设计出支持百万级、千万级、亿级数据的架构。"
           
           >
           
@@ -636,7 +642,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/the-en-of-go/&title=Go语言之禅 - Boo&summary=Go语言之禅"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/how-to-design-a-tens-of-millions-of-architecture/&title=如何设计一个千万级架构 - Boo&summary=这篇笔记用来记录如何从单机一步步设计出支持百万级、千万级、亿级数据的架构。"
           
           >
           
@@ -648,7 +654,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/the-en-of-go/&title=Go语言之禅 - Boo&summary=Go语言之禅"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/how-to-design-a-tens-of-millions-of-architecture/&title=如何设计一个千万级架构 - Boo&summary=这篇笔记用来记录如何从单机一步步设计出支持百万级、千万级、亿级数据的架构。"
           
           >
           
@@ -662,7 +668,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAAC9klEQVR42u3aQW7DMAwEQP//0+09bWFxKRWhM7qlqGVxfFmQur6sX9eFAAwYMGDAgBkDc4Xr9fnV/X4cJHxfd78/9wcDBgwYMGDAjINZDkCHYFZ/p39frgcMGDBgwIABMxamGuiqha4+l+7XrQcMGDBgwIAB8zkwVcDq/1UDIBgwYMCAAQMGzKmAlzaeulBgwIABAwYMmOfDpA2lNLDtCo5vN4kEAwYMGDBgwPwbTHxh+E1/x/WAAQMGDBgwYMbAdFe1MXS3z+lAd3sOMGDAgAEDBswYmGqDaPeFomqQTAeCy+cDAwYMGDBgwIyBSTdIB2ndoFcFLH8oMGDAgAEDBsxjYO4OfioIVuG65wQDBgwYMGDAzIPpHrwbvHbDr9Z1G/DAgAEDBgwYMGNgqgfffeGoGzDToAkGDBgwYMCAeR5MOijrAp2Gv/0wYMCAAQMGDJgxMNUBV9qIuopr16CtDAYGDBgwYMCAGQPTDXTVC0LVhlUKngZIMGDAgAEDBswcmLSRlF4MSkHSAFgeKIIBAwYMGDBgxsDsKrAasKoBsAqUfkgwYMCAAQMGzByYNHjFjaBNMMcGg2DAgAEDBgyYMTDdizppIdV9uh9ieX8wYMCAAQMGzBiY3Y2o1YbRqcZUGxoMGDBgwIABMwamWnA64EoHYNVg1/6AYMCAAQMGDJgxMNWAlTaGuo2t1cCYBkkwYMCAAQMGzFyY3QO20wGx+vxy4AMDBgwYMGDAjIGpDsbSYJUWtCvoLX9oMGDAgAEDBswYmO5KL/R0IdP3gAEDBgwYMGCeA3OFq1pAWnD3glAVFAwYMGDAgAEzDyYNdOnA7PRgLg6SYMCAAQMGDJixMNWN0oFYt+HVDaTHLg6BAQMGDBgwYMbA7L4QlF5c6jbEwIABAwYMGDCfC1MNgt0GWHcwuHxxCAwYMGDAgAEzBqZaQHWlhe0CigMeGDBgwIABA+ZtYXYFp+UgVR2Ehe8tDwzBgAEDBgwYMGNgLDBgwIABAwbMsPUNDsfgWcoluAMAAAAASUVORK5CYII=">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADtklEQVR42u3aQZKjQAwEQP//07MP2HDQJQksO7JvHoyhkzlUqHj9WaX1QgAOHDhwFjhwS+BexfXu/MsLX5x/9Tvvjqfnl/cLDhw4cODAgQO3DO44AB7e+Cn0u+MpzOnfu/sFBw4cOHDgwIHbCpdu7HRD3QCd3kcKebxfcODAgQMHDhy4H4FLobrXrT4gcODAgQMHDhw4cLPFc7VIrg4qwYEDBw4cOHDgfhWuCvJXXHdv/LS4frzJBwcOHDhw4MCBG4JLV1oUb/tc3i84cODAgQMHDtwSuKnVDZbVgJwW1+19ggMHDhw4cODALYHrvjh4dbxacHcB0hcMjx8MOHDgwIEDBw7cErjuD94dfK/AqzDlFxnBgQMHDhw4cOC+BK4bWKvfT18gTK+bBn5w4MCBAwcOHLhvhUsv0C2Uu8V4+kDiQhocOHDgwIEDB+7DcNXBXjeITg0+u4Vz/ODBgQMHDhw4cOCWwFUHhd2AnL6gWD3eHYSCAwcOHDhw4MBth6sG3mrhO118V7+XDjrBgQMHDhw4cOC2wJ0Gw6mCt1tQpw8y/ccoT4DBgQMHDhw4cOAehqturDpo7EJXA3c1GP93Pjhw4MCBAwcO3DK4p4Lp66aVPrjT+z9u8sGBAwcOHDhw4B6Gmwqk3b9Xi+8Utv0ZHDhw4MCBAwduCVx6I9XB4BTgNGg62AQHDhw4cODAgdsCNxVcTzfWLZzT49NFOThw4MCBAwcO3Da46cHidOEdF8fNoHs8AQYHDhw4cODAgVsO1wWdHmCefj4eUJ5eFxw4cODAgQMHbhlc9wbSAru6keoANr3feAIMDhw4cODAgQP3MFz6Q+kg8LZiuPjCYzUYgwMHDhw4cODAbYVLB5FTg8pqwJ2GiweZ4MCBAwcOHDhwH4abLoK7xfPUA6u+4HgcgMGBAwcOHDhw4D4M1w2+KfjdLwy+muvSBRw4cODAgQMHbglc9wJTLyJWB5HVB1wN4uDAgQMHDhw4cFvguisteNMA3R1YVgei4MCBAwcOHDhw2+GmA3AaQLuD0scLdXDgwIEDBw4cuGVwaeC9vMAwfLcIrwbgy0IaHDhw4MCBAwduCdzTG60W1qcPslpExwEYHDhw4MCBAwfuS+HSQNodVE4H4ON9ggMHDhw4cODA/Qjc6WAzDcRV2OlgflsABgcOHDhw4MCBG4abKqS7Kw3apw82DciPN/ngwIEDBw4cOHAh3NTgsFsop+dVoapBHhw4cODAgQMHbgucFQZzBODAgQNngQP32fUPNtt3LdMZQ44AAAAASUVORK5CYII=">
           </div>
         </div>
       
@@ -682,22 +688,27 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/how-to-design-a-tens-of-millions-of-architecture/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>如何设计一个千万级架构</p>
-                <p class='content'>这篇笔记用来记录如何从单机一步步设计出支持百万级、千万级、亿级数据的架构。
+              <a class='prev' href='/gotchas-and-common-mistakes-in-go-golang/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Go 语言常见错误和陷阱</p>
+                <p class='content'>Go 是一门简单有趣的编程语言，与其他语言一样，在使用时不免会遇到很多坑，不过它们大多不是 Go 本身的设计缺陷。如果你刚从其他语言转到 Go，那这篇文章里的坑多半会踩到。
 
 
-单机时代最开始的时候，用户量很少，一天就几百上千个请求，此时一台服务器就完全足够。
-Java、Python、PHP...</p>
+初级1.左大括号...</p>
               </a>
             
             
-              <a class='next' href='/go-language-study-notes-json-structure-tag/'>
-                <p class='title'>Go 语言学习——json 结构体标签<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>使用 Golang 时，经常需要创建结构体，而结构体经常需要被序列化或者反序列化，通常会在结构体的 field 类型后加上 json 结构体标签。
+              <a class='next' href='/the-en-of-go/'>
+                <p class='title'>Go语言之禅<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>Go语言之禅
 
 
-json 结构体标签，常见的关键字有 om...</p>
+Go 箴言
+不要通过共享内存进行通信，通过通信共享内存
+并发不是并行
+管道用于协调；互斥量（锁）用于同步
+接口越大，抽象就越弱
+利用好零值
+空接口 interface{} 没有...</p>
               </a>
             
           </div>
@@ -742,7 +753,7 @@ json 结构体标签，常见的关键字有 om...</p>
 
   <script>
     window.subData = {
-      title: 'Go语言之禅',
+      title: '如何设计一个千万级架构',
       tools: true
     }
   </script>
@@ -768,7 +779,7 @@ json 结构体标签，常见的关键字有 om...</p>
 
 
     <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Go-箴言"><span class="toc-text">Go 箴言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Go-语言之禅"><span class="toc-text">Go 语言之禅</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#单机时代"><span class="toc-text">单机时代</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#负载均衡"><span class="toc-text">负载均衡</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据读写分离"><span class="toc-text">数据读写分离</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#缓存系统"><span class="toc-text">缓存系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#消息队列"><span class="toc-text">消息队列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#搜索引擎"><span class="toc-text">搜索引擎</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最后版本"><span class="toc-text">最后版本</span></a></li></ol>
     </div>
   </section>
 
