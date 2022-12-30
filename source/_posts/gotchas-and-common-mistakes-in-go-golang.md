@@ -573,3 +573,4 @@ func main() {
 
 ## 参考链接
 * [Golang新手可能会踩的58个坑](https://www.topgoer.com/%E8%B5%84%E6%96%99%E4%B8%8B%E8%BD%BD/Golang%E6%96%B0%E6%89%8B%E5%8F%AF%E8%83%BD%E4%BC%9A%E8%B8%A9%E7%9A%8450%E4%B8%AA%E5%9D%91.html?h=%E5%9D%91)
+* [50 Shades of Go: Traps, Gotchas, and Common Mistakes for New Golang Devs](http://devs.cloudimmunity.com/gotchas-and-common-mistakes-in-go-golang/)
