@@ -16,12 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>程序员如何写好简历 - Boo</title>
+    <title>RabbitMQ 常见的工作模式 - Boo</title>
   
-    <meta name="keywords" content="一些经验">
+    <meta name="keywords" content="RabbitMQ,MQ">
   
   
-    <meta name="description" content="简历就是一块敲门砖，就算技术很好，但是简历写得不好的话，也是得不到认可的，获取不到面试机会的。">
+    <meta name="description" content="这篇笔记主要用来介绍 RabbitMQ 常见的几种工作模式。">
   
 
   <!-- feed -->
@@ -372,8 +372,8 @@
         
           
   <h1 class="title">
-    <a href="/how-to-write-a-good-resume-for-programmers/">
-      程序员如何写好简历
+    <a href="/rabbitmq-common-working-mode/">
+      RabbitMQ 常见的工作模式
     </a>
   </h1>
 
@@ -398,9 +398,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C/' rel="nofollow">
+    <a href='/categories/MQ/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>一些经验</p>
+      <p>MQ</p>
     </a>
   </div>
 
@@ -411,7 +411,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Oct 1, 2022</p>
+    <p>发布于：Sep 17, 2022</p>
   </a>
 </div>
 
@@ -427,13 +427,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>839 words</p>
+      <p>875 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>2 min</p>
+      <p>3 min</p>
     </a>
   </div>
 
@@ -446,7 +446,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/how-to-write-a-good-resume-for-programmers/" class="leancloud_visitors" data-flag-title="程序员如何写好简历">
+      <span id="/rabbitmq-common-working-mode/" class="leancloud_visitors" data-flag-title="RabbitMQ 常见的工作模式">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -469,55 +469,50 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>简历就是一块敲门砖，就算技术很好，但是简历写得不好的话，也是得不到认可的，获取不到面试机会的。</p>
+          <p>这篇笔记主要用来介绍 RabbitMQ 常见的几种工作模式。</p>
 <a id="more"></a>
 
+<h2 id="五种工作模式"><a href="#五种工作模式" class="headerlink" title="五种工作模式"></a>五种工作模式</h2><h3 id="简单模式"><a href="#简单模式" class="headerlink" title="简单模式"></a>简单模式</h3><p>最简单的工作队列，其中一个消息生产者，一个消息消费者，一个队列。也称为点对点模式</p>
+<p><img src="https://img2020.cnblogs.com/blog/630011/202108/630011-20210823224226426-2036472160.png" alt=""></p>
+<p>一个生产者 P 发送消息到队列 Q，一个消费者 C 进行接收。</p>
+<h3 id="工作模式"><a href="#工作模式" class="headerlink" title="工作模式"></a>工作模式</h3><p>一个消息生产者，一个交换器，一个消息队列，多个消费者。同样也称为点对点模式</p>
+<p><img src="https://img2020.cnblogs.com/blog/630011/202108/630011-20210823234032492-1935279120.png" alt=""></p>
+<p>生产者 P 发送消息到队列，多个消费者 C 消费队列的数据。</p>
+<p>工作队列也称为公平性队列模式，循环分发，RabbitMQ 将按顺序将每条消息发送给下一个消费者，每个消费者将获得相同数量的消息。</p>
+<h3 id="发布订阅模式"><a href="#发布订阅模式" class="headerlink" title="发布订阅模式"></a>发布订阅模式</h3><p>一个消息生产者，一个交换机（交换机类型为fanout），多个消息队列，多个消费者。称为发布/订阅模式</p>
+<p>在应用中，只需要简单的将队列绑定到交换机上。一个发送到交换机的消息都会被转发到与该交换机绑定的所有队列上。很像子网广播，每台子网内的主机都获得了一份复制的消息。</p>
+<p><img src="https://img2020.cnblogs.com/blog/630011/202108/630011-20210824004518932-1431271545.png" alt=""></p>
+<p>生产者 P 只需把消息发送到交换机X，绑定这个交换机的队列都会获得一份一样的数据。</p>
+<h3 id="路由模式"><a href="#路由模式" class="headerlink" title="路由模式"></a>路由模式</h3><p>在发布/订阅模式的基础上，有选择的接收消息，也就是通过 routing 路由进行匹配条件是否满足接收消息。</p>
+<p><img src="https://img2020.cnblogs.com/blog/630011/202108/630011-20210824232341125-726054635.png" alt=""></p>
+<p>在路由模式下，会把消息路由到哪些 binding key 与 routing key 完全匹配的 Queue。</p>
+<p>生产者P发送数据是要指定交换机(X）和routing发送消息 ，指定的routingKey=error，则队列Q1和队列Q2都会有一份数据，如果指定routingKey=into,或=warning，交换机(X)只会把消息发到Q2队列。</p>
+<h3 id="主题模式"><a href="#主题模式" class="headerlink" title="主题模式"></a>主题模式</h3><p>主题模式和路由模式类似，只不过路由模式是指定固定的路由键 routingKey，而主题模式是可以模糊匹配路由键 routingKey，类似于SQL中 = 和 like 的关系。</p>
+<p><img src="https://img2020.cnblogs.com/blog/630011/202108/630011-20210825001059370-1966411856.png" alt=""></p>
+<h2 id="死信队列"><a href="#死信队列" class="headerlink" title="死信队列"></a>死信队列</h2><p>DLX 全称是 Dead-Letter-Exchange，死信交换机。</p>
+<p>当一个队列中的消息变成死信之后，会被重新发送到另一个交换机，这个交换机就是 DLX，而绑定 DLX 的队列就是死信队列。</p>
+<p>什么情况下会变成死信呢？</p>
+<ol>
+<li>消息被拒绝</li>
+<li>消息过期</li>
+<li>队列达到最大长度</li>
+</ol>
+<p>延时队列就是当消息发送以后，并不想让消费者立刻拿到消息，而是等待特定时间后消费者才能拿到消息来消费。</p>
+<p>延时功能可以通过设置过期时间（TTL）+死信队列（DLX）来实现。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20230117125252.png" alt=""></p>
+<p>当已经存在一个队列了，此时再次声明相同名称的队列时，如果属性不一致，就会出现错误。</p>
 <blockquote>
-<p>那么什么样的简历算写得不好呢？</p>
+<p>inequivalent arg ‘x-message-ttl’ for queue</p>
 </blockquote>
-<p>命中下面的多条</p>
+<p>解决办法就是，删除掉已经存在的队列。</p>
+<p>因为 RabbitMQ 有多种工作方式，在不同工作模式下，消息投递到队列的方式是不一样的。</p>
 <ul>
-<li>简历样式不统一，尽量少在简历中使用表格</li>
-<li>文字样式不要花里胡哨</li>
-<li>简历中一定要展示技术栈（技能清单），但是不要是单词本</li>
-<li>个人评价（个人总结）不要写一些虚的东西，比如为人性格、诚实谦虚、勤奋、能吃苦耐劳、有耐心这类看不出优点特长的句子</li>
-<li>不管工作多久，简历上的项目只需要三四个，不需要无意义进行堆砌</li>
-<li>项目介绍篇幅不要过长，注意排版</li>
-<li>有错别字</li>
+<li>简单模式：不需要交换机，直接投递到队列</li>
+<li>路由模式：需要交换机、需要 Routing Key，通过将 Routing 与 Queue 进行绑定，消息才能通过交换机到正确的路由上</li>
 </ul>
-<h2 id="基本信息"><a href="#基本信息" class="headerlink" title="基本信息"></a>基本信息</h2><p>简历一定写上自己的基本信息。</p>
-<p>一般基本信息包括姓名、电话、电子邮箱、贯籍、求职意向、工作年限、年龄、在职状态、学历等这几部分。</p>
-<h2 id="技术栈"><a href="#技术栈" class="headerlink" title="技术栈"></a>技术栈</h2><p>技术栈不能是单词本，要凸显技术细节，把你现在会的、已经掌握的，尽可能多地陈述给面试官。</p>
-<p>错误的打开方式：<br><img src="inkdrop://file:WnWdheVfF" alt="clipboard.png"></p>
-<p>正确的打开方式：</p>
-<p><img src="inkdrop://file:PvVu8WFpD" alt="clipboard.png"></p>
-<h2 id="个人评价"><a href="#个人评价" class="headerlink" title="个人评价"></a>个人评价</h2><p>个人评价这一块很重要，但是往往很多人的写法都是有问题的，完全看不出个性特点，写和没写没什么区别。</p>
-<p>错误的打开方式：</p>
-<ul>
-<li>为人性格，诚实谦虚，勤奋，能吃苦耐劳，有耐心，有团队意识，能和同事和谐相处，能虚心接受别人的建议的人</li>
-<li>责任心强，善于沟通，具有良好的团队合作精神；专业扎实，具有较强的钻研精神和学习能力；性格比较乐观外向</li>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://www.cnblogs.com/Leo_wl/p/15507961.html#_label3" target="_blank" rel="noopener">RabbitMQ 常见的工作模式</a></li>
 </ul>
-<p>正确的打开方式：</p>
-<ul>
-<li>三年开发经验，拥有一线互联网项目架构设计与研发经验，参与过百万级用户，日活万级社交系统开发</li>
-<li>五年开发经验，其中三年以上大型系统架构设计经验，以及三年以上的团队管理经验，具有分布式、高并发、高可用、大数据量的系统架构设计以及研发经验</li>
-</ul>
-<h2 id="项目经验"><a href="#项目经验" class="headerlink" title="项目经验"></a>项目经验</h2><p>不管工作多久，简历上的项目只需要三四个，不需要凑字数，比如一些老项目，没有亮点的项目，就不要写上去。</p>
-<ul>
-<li>项目介绍篇幅不要过长，注意文字排版</li>
-<li>项目有什么作用，有什么亮点，主要解决什么问题（尽量突出项目经验、技术背景、技术优势、行业深度）</li>
-<li>凸显出来你在当前项目里面到底做什么事情，在项目中的核心作用，价值在什么地方</li>
-</ul>
-<p>错误的打开方式：</p>
-<p><img src="inkdrop://file:LfDRuWzG9" alt="clipboard.png"></p>
-<p>正确的打开方式：</p>
-<p><img src="inkdrop://file:M9DB7nsxr" alt="clipboard.png"></p>
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>不要害怕写简历，不要敷衍写简历，简历上一定不要有错别字，这个很影响第一印象。</p>
-<p>写在简历上的任何内容，都是有可能被问到的，所以要提前做好功课，不打没有准备的仗。</p>
-<blockquote>
-<p>找工作应该抱着怎样的心态？</p>
-</blockquote>
-<p>不管这家公司的面试能不能过，但最起码要把面试的机会争取到</p>
 
           
             <div class='article_footer'>
@@ -554,7 +549,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/how-to-write-a-good-resume-for-programmers/>https://www.0x2beace.com/how-to-write-a-good-resume-for-programmers/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/rabbitmq-common-working-mode/>https://www.0x2beace.com/rabbitmq-common-working-mode/</a></p>
           
         
       </blockquote>
@@ -602,10 +597,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-12-30T14:50:04+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2023-01-17T12:56:14+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Dec 30, 2022</p>
+    <p>更新于：Jan 17, 2023</p>
   </a>
 </div>
 
@@ -614,7 +609,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>一些经验</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/RabbitMQ/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>RabbitMQ</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/MQ/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>MQ</p></a></div>
 
 
         
@@ -632,7 +627,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/how-to-write-a-good-resume-for-programmers/&title=程序员如何写好简历 - Boo&summary=简历就是一块敲门砖，就算技术很好，但是简历写得不好的话，也是得不到认可的，获取不到面试机会的。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/rabbitmq-common-working-mode/&title=RabbitMQ 常见的工作模式 - Boo&summary=这篇笔记主要用来介绍 RabbitMQ 常见的几种工作模式。"
           
           >
           
@@ -644,7 +639,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/how-to-write-a-good-resume-for-programmers/&title=程序员如何写好简历 - Boo&summary=简历就是一块敲门砖，就算技术很好，但是简历写得不好的话，也是得不到认可的，获取不到面试机会的。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/rabbitmq-common-working-mode/&title=RabbitMQ 常见的工作模式 - Boo&summary=这篇笔记主要用来介绍 RabbitMQ 常见的几种工作模式。"
           
           >
           
@@ -656,7 +651,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/how-to-write-a-good-resume-for-programmers/&title=程序员如何写好简历 - Boo&summary=简历就是一块敲门砖，就算技术很好，但是简历写得不好的话，也是得不到认可的，获取不到面试机会的。"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/rabbitmq-common-working-mode/&title=RabbitMQ 常见的工作模式 - Boo&summary=这篇笔记主要用来介绍 RabbitMQ 常见的几种工作模式。"
           
           >
           
@@ -670,7 +665,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADtklEQVR42u3ay3LbQBADQP3/Tzv3pFQkMCtp5PTe9KBI9voAD/j4sar1QAAOHDhwFjhwS+Ae5fr7+H9OcPO4q+89+92757l7XbfvFxw4cODAgQMHbhnc7QB48/vTC7z6vav3p9f/dKPAgQMHDhw4cOCWwqWB9yoAtwH2dNA+dr/gwIEDBw4cOHC/BG4aMNOAexfw1CAUHDhw4MCBAwfut8NNA2i7MaeOBwcOHDhw4MCB+3a4uKANB5YtxDQgr2vywYEDBw4cOHDgDsG1DwB+6+v6fsGBAwcOHDhw4JbAnVptcTweLF4cf/w+wYEDBw4cOHDglsC1he50AJkOENuNTD8fN/ngwIEDBw4cOHBvhps+UHj6/TQotxscO4ADBw4cOHDgwC2Bmxa1p8Bfdd7jhTY4cODAgQMHDtwSuDZIni6q0wFmG7DTDb4spMGBAwcOHDhw4D4El97gdIA4LarT65gW3fV/DuDAgQMHDhw4cG+CSy/w1EDx9KByWnCDAwcOHDhw4MB9G9y0YE4/b4vhdCCaDkYv7x8cOHDgwIEDB24pXHujbaGcbsSxIFsOVMGBAwcOHDhw4LbApYE0LZZPDSx/Dq02GIMDBw4cOHDgwG2DS4vjtBBuB5+ni+72usCBAwcOHDhw4LbCpQPJtEh+9cakg8nxecCBAwcOHDhw4JbAnSqe0wFkG6Db1+0g9naTDw4cOHDgwIED9yG4NhCmwbIFnhbLp64LHDhw4MCBAwduC1z7YF87wLwbQNMgm543hQYHDhw4cODAgdsG1w4ep99vg2+7UdPCHBw4cODAgQMHbjtcCjMdMF5dcDpQTc+Xnh8cOHDgwIEDB24LXHxgeEPtYHS6Qe31X8KDAwcOHDhw4MAtgUsL4HjwNwyqaXA+NbCsJ8DgwIEDBw4cOHBvgps+sNcWyOmDhK8qpOPX4MCBAwcOHDhwS+CmhfJ0gNkG3xR8+sAhOHDgwIEDBw7cNrg08E6D56sD6t3z1X8g4MCBAwcOHDhwS+Cm61SwbAvn9vM6cIMDBw4cOHDgwC2Be5SrLajbgPyuQA0OHDhw4MCBA/dtcG3xnH5vWjinG9YG4Ke/Dw4cOHDgwIEDtxRuOphsi+u2KP54kw8OHDhw4MCBA/flcNPC99QAdRq4wYEDBw4cOHDg/he4NoBOB5LjYrmEBwcOHDhw4MCB2wr36kD7arBXBWlw4MCBAwcOHLitcKcGim0QbQeM04Ae/z44cODAgQMHDtwSOCtb4MCBAwfOAgfuw+sPm4/7YkTTVv0AAAAASUVORK5CYII=">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADqElEQVR42u3awXLiQAwEUP7/p5P7Vrk8asmgJW9uBMfMPHPoavH6saL1QgAOHDhwFjhwS+Be4fr3/6/uV73u9D539788ePe84MCBAwcOHDhwy+COA+DhhtPrTqGrD2jsvODAgQMHDhw4cEvhnt5YNahOvR47Lzhw4MCBAwcO3JfAVQPq6edUC800iIMDBw4cOHDgwP1VuOqBU5AUEBw4cODAgQMH7q/AVQvG6SBdve/UAP3tk3xw4MCBAwcOHLghuOp6anD8rtfxecGBAwcOHDhw4JbATa200KwOtLsD7vY5wYEDBw4cOHDglsBVN5IOilPIFOb0+nIBCw4cOHDgwIEDtwxuKjCmwXVsYBzCHgd6cODAgQMHDhy4JXDVDVcLy/T69GDdYvV2oA0OHDhw4MCBA7cMrgqQDoC7hWc6sO4WteDAgQMHDhw4cFvhToNhN0CmheVYEdn8Ozhw4MCBAwcO3Ha4bqGYDoSnHkj3+st9gwMHDhw4cODALYOrFo9PB+j0B4/lYnKqAQYHDhw4cODAgXszXPoDveliMgWpPujqAPwyAIMDBw4cOHDgwC2H6wbYtNicPvDYPsCBAwcOHDhw4JbAVTc+HUi7QTgtYNN9gAMHDhw4cODAbYOrBs3qddUDpAG4+/m3r8GBAwcOHDhw4JbCTQXcFDYtLtPPKT9AcODAgQMHDhy4JXDVG3eDZgrRHXxX939bZIIDBw4cOHDgwC2BOw3EaQE5dZCpArX6gMGBAwcOHDhw4LbBTf2gr/p+9YGlD2TqfuDAgQMHDhw4cNvgqgPn6SCbBuj0/W6hCQ4cOHDgwIEDtxUuHQRPQ76K66kBNDhw4MCBAwcO3P8K1y0EuwdNB8jpF2EsAIMDBw4cOHDgwH0IbmqgmxaU3ftUIY8fCDhw4MCBAwcO3DK4KmQ3yFYPnoKnQf3yOnDgwIEDBw4cuOVw6UbeDTo1mD7+woADBw4cOHDgwC2B6650QFwN3qfg6UD6+EGAAwcOHDhw4MAtgWsHwrCIrMKmgfq0wDyGBQcOHDhw4MCBWwbXDbzVANotPtOBcnsgDg4cOHDgwIEDtxQu3XAVpHu/qUK0HNTBgQMHDhw4cOC+HC4NzO2BcTPw3u4fHDhw4MCBAwfuS+BOg2e1IJ26fjyQgwMHDhw4cODALYVLN5wWik9DpAP2cpEJDhw4cODAgQP3Ibh0gDtdVJ4CTRenx9eBAwcOHDhw4MAtgbNqCxw4cODAWeDAfXj9AoXB+2IqrTQDAAAAAElFTkSuQmCC">
           </div>
         </div>
       
@@ -690,20 +685,27 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/computer-network-learning-01-tcp-ip-network-model/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>计算机网络学习——01 TCP/IP网络模型</p>
-                <p class='content'>为了使不同计算机厂家生产的计算机能够相互通信，以便在更大的范围内建立计算机网络，国际标准化组织（ISO）在1978年提出了”开放系统互联参考模型”，即著名的OSI/RM模型（Open Syste...</p>
+              <a class='prev' href='/how-to-write-a-good-resume-for-programmers/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>程序员如何写好简历</p>
+                <p class='content'>简历就是一块敲门砖，就算技术很好，但是简历写得不好的话，也是得不到认可的，获取不到面试机会的。
+
+
+
+那么什么样的简历算写得不好呢？
+
+命中下面的多条
+
+简历样式不统一，尽量少在简历中使用表格
+...</p>
               </a>
             
             
-              <a class='next' href='/rabbitmq-common-working-mode/'>
-                <p class='title'>RabbitMQ 常见的工作模式<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>这篇笔记主要用来介绍 RabbitMQ 常见的几种工作模式。
+              <a class='next' href='/mysql-column-study-notes/'>
+                <p class='title'>Mysql 专栏学习笔记<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，持续更新。
 
 
-五种工作模式简单模式最简单的工作队列，其中一个消息生产者，一个消息消费者，一个队列。也称为点对点模式
-
-一个生产者 P 发送消息...</p>
+关于事务起初会疑惑，事务是可以单独开启，也就是通过 begin/start transaction 这类命令，...</p>
               </a>
             
           </div>
@@ -748,7 +750,7 @@
 
   <script>
     window.subData = {
-      title: '程序员如何写好简历',
+      title: 'RabbitMQ 常见的工作模式',
       tools: true
     }
   </script>
@@ -774,7 +776,7 @@
 
 
     <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本信息"><span class="toc-text">基本信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#技术栈"><span class="toc-text">技术栈</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#个人评价"><span class="toc-text">个人评价</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#项目经验"><span class="toc-text">项目经验</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最后"><span class="toc-text">最后</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#五种工作模式"><span class="toc-text">五种工作模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#简单模式"><span class="toc-text">简单模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#工作模式"><span class="toc-text">工作模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#发布订阅模式"><span class="toc-text">发布订阅模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#路由模式"><span class="toc-text">路由模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#主题模式"><span class="toc-text">主题模式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#死信队列"><span class="toc-text">死信队列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
     </div>
   </section>
 
