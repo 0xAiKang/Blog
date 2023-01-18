@@ -181,6 +181,31 @@
     
     
     <entry>
+      <title>算法学习笔记——递归</title>
+      <link href="/algorithm-learning-recursion/"/>
+      <url>/algorithm-learning-recursion/</url>
+      
+        <content type="html"><![CDATA[<p>算法学习笔记——递归</p><a id="more"></a><h2 id="递归"><a href="#递归" class="headerlink" title="递归"></a>递归</h2><p>每个递归函数都要有两部分：</p><ol><li>基线条件：递归的结束条件，从而避免形成无限循环</li><li>递归条件：函数调用自己</li></ol><p>下面结合一个实际的例子来理解：</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fib</span><span class="params">($n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> ($n &lt;= <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="comment">// 基线条件</span></span><br><span class="line">        <span class="keyword">return</span> $n;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 递归条件</span></span><br><span class="line">    <span class="keyword">return</span> fib($n<span class="number">-1</span>) + fib($n - <span class="number">2</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>如何写好一个递归，要多去思考上面的两个条件应该怎么写。</p><h2 id="调用栈"><a href="#调用栈" class="headerlink" title="调用栈"></a>调用栈</h2><p>栈是一种简单的数据结构，在使用递归时，用到了调用栈。</p><p>用于存储多个函数的变量的栈，被称为调用栈。</p><p>每当调用一个函数，计算机会将函数调用所涉及的所有变量的值存储到内存中，如果此时，再次调用了另一个函数，那么计算机也会为这个函数调用分配一块内存。</p><p>计算机使用一个栈来表示这些内存块，其中第二个内存块位于第一个内存块上面。如果函数调用返回，此时，栈顶的内存块就会被弹出。</p><p>下面用一张图来解释调用栈的过程：</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20221030191637.png" alt=""></p><p>使用栈虽然很方便，但是也要付出代价：存储调用栈的详尽信息需要占用大量的内存。因为每个函数调用都需要占用一定的内存，如果栈很高，就意味着计算机存储了大量函数调用的信息。</p><p>在这种情况下，就不建议继续使用递归了，有两种选择：</p><ol><li>使用循环</li><li>使用尾递归</li></ol><p>例如 <a href="https://leetcode.cn/problems/climbing-stairs/" target="_blank" rel="noopener">Leetcode 的第70题</a>，既可以用递归解决，也可以使用循环（动态规划）解决，但是前者在达到一定深度之后，执行时间就会变得很长。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 算法 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 算法 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Go 语言学习笔记——如何理解 channel 的无缓冲带和有缓冲带</title>
       <link href="/go-language-study-notes-how-to-understand-the-channel-without-buffer-and-with-buffer/"/>
       <url>/go-language-study-notes-how-to-understand-the-channel-without-buffer-and-with-buffer/</url>
