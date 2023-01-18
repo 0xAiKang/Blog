@@ -1,8 +1,8 @@
 ---
 title: 计算机网络学习——01 TCP/IP网络模型
-date: 2022-10-11 09:47:33
-tags: ["计算机基础"]
-categories: ["计算机基础"]
+date: 2022-10-19 09:47:33
+tags: ["计算机网络"]
+categories: ["计算机网络"]
 ---
 
 为了使不同计算机厂家生产的计算机能够相互通信，以便在更大的范围内建立计算机网络，国际标准化组织（ISO）在1978年提出了"开放系统互联参考模型"，即著名的OSI/RM模型（Open System Interconnection/Reference Model）。
