@@ -24,6 +24,9 @@ name: 🚀 ChatGPT
   proxies:
     - 🔰国外流量
     - 这边是对应的节点列表
+
+# 重点是这里，加上这个域名
+- DOMAIN-SUFFIX,openai.com,🚀 ChatGPT
 ```
 
 放在任意一个规则下面就好了：
