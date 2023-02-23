@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>Go 语言学习笔记——map - Boo</title>
+  
+    <meta name="keywords" content="Go">
+  
+  
+    <meta name="description" content="作为 Go 语言复合类型之一的字典 map，使用频率也是较高的。">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Boo's Blog</p>
+    
+    
+      <p class="subtitle">Stay foolish, Stay hungry</p>
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/"
+                
+                
+                id="https:www0x2BeAcecom">
+                <i class='fas fa-book fa-fw'></i>博客
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/categories/"
+                
+                
+                id="https:www0x2BeAcecomcategories">
+                <i class='fas fa-rss fa-fw'></i>分类
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/tags/"
+                
+                
+                id="https:www0x2BeAcecomtags">
+                <i class='fas fa-play-circle fa-fw'></i>标签
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/archives/"
+                
+                  rel="external nofollow noopener noreferrer"
+                
+                
+                id="https:www0x2BeAcecomarchives">
+                <i class='fas fa-file-code fa-fw'></i>归档
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/about/"
+                
+                
+                id="https:www0x2BeAcecomabout">
+                <i class='fas fa-handshake fa-fw'></i>关于我
+              </a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/go-language-study-notes-map/">
+      Go 语言学习笔记——map
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Go/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Go</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Oct 27, 2022</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>2.3k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>9 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/go-language-study-notes-map/" class="leancloud_visitors" data-flag-title="Go 语言学习笔记——map">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>作为 Go 语言复合类型之一的字典 map，使用频率也是较高的。</p>
+<a id="more"></a>
+
+<p>很多中文 Go 编程语言类技术书籍都会将它翻译为映射、哈希表或字典，在这篇笔记中约定使用 map。</p>
+<h2 id="map"><a href="#map" class="headerlink" title="map"></a>map</h2><p>map 是 Go 语言提供的一种抽象数据类型，用于实现特定键值的快速查找与更新，它表示一组无序的键值对，map 中的每个 key 都是唯一的，并且有与之对应的一个 value。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20221107232209.png" alt=""></p>
+<p>和切片类似，作为复合类型的 map，它在 Go 中的类型表示也是由 key 类型与 value 类型组成的，就像下面代码：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">map</span>[key_type]value_type</span><br></pre></td></tr></table></figure>
+
+<p>和数组一样，如果两个 map 类型的 key 元素类型相同，value 元素类型也相同，那么我们可以说它们是同一个 map 类型，否则就是不同的 map 类型。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">foo</span><span class="params">(<span class="keyword">map</span>[<span class="keyword">int</span>]<span class="keyword">int</span>)</span></span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> m1 <span class="keyword">map</span>[<span class="keyword">int</span>]<span class="keyword">int</span></span><br><span class="line">	<span class="keyword">var</span> m2 <span class="keyword">map</span>[<span class="keyword">int</span>]<span class="keyword">string</span></span><br><span class="line"></span><br><span class="line">	foo(m1)    <span class="comment">// 正常编译</span></span><br><span class="line">	foo(m2)    <span class="comment">// 编译失败：map[int]string 与函数foo参数的类型map[int]int 不是同一map类型</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是 map 虽然对 value 没有限制，但是对 key 的类型有严格的要求。<br>因为需要保证 key 的唯一性，key 类型就必须支持 <code>==</code> 和 <code>!=</code> 这两种比较运算符。</p>
+<blockquote>
+<p>那么有哪些类型不能作为 map 的 key 类型呢？</p>
+</blockquote>
+<p>答案是<strong>函数类型、map 类型以及切片类型</strong>。</p>
+<p>可以来做一个实验：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">s1 := <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="number">1</span>)</span><br><span class="line">s2 := <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="number">2</span>)</span><br><span class="line">f1 := <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;&#125;</span><br><span class="line">f2 := <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;&#125;</span><br><span class="line">m1 := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">int</span>]<span class="keyword">string</span>)</span><br><span class="line">m2 := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">int</span>]<span class="keyword">string</span>)</span><br><span class="line"><span class="built_in">println</span>(s1 == s2) <span class="comment">// 编译失败：invalid operation: s1 == s2 (slice can only be compared to nil)</span></span><br><span class="line"><span class="built_in">println</span>(f1 == f2) <span class="comment">// 编译失败：invalid operation: f1 == f2 (func can only be compared to nil)</span></span><br><span class="line"><span class="built_in">println</span>(m1 == m2) <span class="comment">// 编译失败：invalid operation: m1 == m2 (map can only be compared to nil)</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到，这三种类型直接进行比较时，会编译失败。</p>
+<h2 id="map-的声明与初始化"><a href="#map-的声明与初始化" class="headerlink" title="map 的声明与初始化"></a>map 的声明与初始化</h2><p>可以这样声明一个 map 变量：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> m <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>   <span class="comment">// 声明一个 map[string]int 类型的变量</span></span><br></pre></td></tr></table></figure>
+
+<p>和切片类型变量一样，如果没有显示赋予 map 变量初始值， map 类型变量的默认值就是 <code>nil</code>。</p>
+<p>不过不同的是，初始值为 <code>nil</code> 的切片，可以借助 append 函数对其进行操作。<br>而 map 因为自身其复杂的实现方式，无法“零值可用”。<br>所以，如果直接对处于零值的 map 进行操作，就会导致运行时异常（panic），从而导致程序进程异常退出：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> m <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span> <span class="comment">// m = nil</span></span><br><span class="line">m[<span class="string">"key"</span>] = <span class="number">1</span>         <span class="comment">// 发生运行时异常：panic: assignment to entry in nil map</span></span><br></pre></td></tr></table></figure>
+
+<p>所以，在使用 map 之前，必须先对其进行初始化，初始化有两种方式，下面一一说明。</p>
+<h3 id="复合字面值初始化"><a href="#复合字面值初始化" class="headerlink" title="复合字面值初始化"></a>复合字面值初始化</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">m := <span class="keyword">map</span>[<span class="keyword">int</span>]<span class="keyword">int</span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>和前面声明 map 很像，不过有两点不同：<code>var</code> 关键字替换成了 <code>:=</code>，其次就是 value 类型后面多了一对花括号。</p>
+<p>虽然此时 map 类型变量 m 中没有任何键值对，但变量 m 也不等同于初值为 nil 的 map 变量。</p>
+<p>再次进行操作，就不会引发运行异常。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">m := <span class="keyword">map</span>[<span class="keyword">int</span>]<span class="keyword">int</span>&#123;&#125;</span><br><span class="line">m[<span class="number">99</span>] = <span class="number">99</span></span><br><span class="line"><span class="built_in">println</span>(<span class="string">"m[99] = "</span>, m[<span class="number">99</span>])  <span class="comment">// m[99] = 99</span></span><br></pre></td></tr></table></figure>
+
+<p>对于稍微复杂一些的复合字面值，可以使用 Go 语言提供的“语法糖”省略部分字面值：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Position <span class="keyword">struct</span> &#123; </span><br><span class="line">    x <span class="keyword">float64</span> </span><br><span class="line">    y <span class="keyword">float64</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 正常编译，但写法比较臃肿</span></span><br><span class="line">m1 := <span class="keyword">map</span>[Position]<span class="keyword">string</span>&#123;</span><br><span class="line">    Position&#123;<span class="number">29.935523</span>, <span class="number">52.568915</span>&#125;: <span class="string">"school"</span>,</span><br><span class="line">    Position&#123;<span class="number">25.352594</span>, <span class="number">113.304361</span>&#125;: <span class="string">"shopping-mall"</span>,</span><br><span class="line">    Position&#123;<span class="number">73.224455</span>, <span class="number">111.804306</span>&#125;: <span class="string">"hospital"</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 同样正常编译，通过使用语法糖直接省略 key 类型</span></span><br><span class="line">m2 := <span class="keyword">map</span>[Position]<span class="keyword">string</span>&#123;</span><br><span class="line">    &#123;<span class="number">29.935523</span>, <span class="number">52.568915</span>&#125;: <span class="string">"school"</span>,</span><br><span class="line">    &#123;<span class="number">25.352594</span>, <span class="number">113.304361</span>&#125;: <span class="string">"shopping-mall"</span>,</span><br><span class="line">    &#123;<span class="number">73.224455</span>, <span class="number">111.804306</span>&#125;: <span class="string">"hospital"</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不过需要注意，对 map 进行插入操作时，不能省略否则会语法错误</span></span><br><span class="line">m2[Position&#123;<span class="number">22.935523</span>, <span class="number">34.568915</span>&#125;] = <span class="string">"store"</span>   <span class="comment">// 正常编译</span></span><br><span class="line">m2[&#123;<span class="number">22.935523</span>, <span class="number">34.568915</span>&#125;] = <span class="string">"store"</span>           <span class="comment">// 语法错误</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="make-函数"><a href="#make-函数" class="headerlink" title="make 函数"></a>make 函数</h3><p>和切片一样，通过 make 的初始化方式，我们可以为 map 类型变量指定键值对的初始容量，但无法进行具体的键值对赋值：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">m1 := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">int</span>]<span class="keyword">string</span>)     <span class="comment">// 未指定初始容量</span></span><br><span class="line">m2 := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">int</span>]<span class="keyword">string</span>, <span class="number">8</span>)  <span class="comment">// 指定初始容量为8</span></span><br></pre></td></tr></table></figure>
+
+<p>不过，map 类型的容量不会受限于它的初始容量值，当其中的键值对数量超过初始容量后，Go 运行时会自动增加 map 类型的容量，保证后续键值对的正常插入。</p>
+<h2 id="map-基本操作"><a href="#map-基本操作" class="headerlink" title="map 基本操作"></a>map 基本操作</h2><p>因为 map 是 Go 语言中十分常用的复合数据类型，所以下面来一一了解下常用的操作有哪些。</p>
+<h3 id="插入操作"><a href="#插入操作" class="headerlink" title="插入操作"></a>插入操作</h3><p>面对一个非 nil 的 map 类型变量，可以插入<strong>符合 map 类型定义</strong>的任意键值对。</p>
+<p>插入新键值对的方式很简单，我们只需要把 value 赋值给 map 中对应的 key 就可以了：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">m := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">int</span>]<span class="keyword">string</span>)</span><br><span class="line">m[<span class="number">1</span>] = <span class="string">"value1"</span></span><br><span class="line">m[<span class="number">2</span>] = <span class="string">"value2"</span></span><br><span class="line">m[<span class="number">3</span>] = <span class="string">"value3"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果对一个已经存在的 key 进行插入操作会覆盖原值</span></span><br><span class="line">m[<span class="number">1</span>] = <span class="string">"new value1"</span></span><br><span class="line"><span class="comment">// 此时 m 为 map[1:new value1 2:value2 3:value3]</span></span><br></pre></td></tr></table></figure>
+
+<p>Go 运行时会负责 map 变量内部的内存管理，因此除非是系统内存耗尽，否则不用担心向 map 中插入新数据的数量和执行结果。</p>
+<h3 id="获取键值对数量"><a href="#获取键值对数量" class="headerlink" title="获取键值对数量"></a>获取键值对数量</h3><p>切片可以通过 len 函数获取其长度，map 也可以通过内置函数 len，获取当前变量已经存储的键值对数量：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">m := <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span> &#123;</span><br><span class="line">  <span class="string">"key1"</span> : <span class="number">1</span>,</span><br><span class="line">  <span class="string">"key2"</span> : <span class="number">2</span>,</span><br><span class="line">&#125;</span><br><span class="line">fmt.Println(<span class="built_in">len</span>(m)) <span class="comment">// 2</span></span><br><span class="line">m[<span class="string">"key3"</span>] = <span class="number">3</span>  </span><br><span class="line">fmt.Println(<span class="built_in">len</span>(m)) <span class="comment">// 3</span></span><br></pre></td></tr></table></figure>
+
+<p>不过，这里要注意的是我们不能对 map 类型变量调用 cap，来获取当前容量，这是 map 类型与切片类型的一个不同点。</p>
+<h3 id="查找和数据读取"><a href="#查找和数据读取" class="headerlink" title="查找和数据读取"></a>查找和数据读取</h3><p>和写入相比，map 类型更多用在查找和数据读取场合。<br>所谓查找，就是判断某个 key 是否存在于某个 map 中。有了前面向 map 插入键值对的基础，可能自然而然地想到，可以用下面代码去查找一个键并获得该键对应的值：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">m := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>)</span><br><span class="line">v := m[<span class="string">"key1"</span>]</span><br></pre></td></tr></table></figure>
+
+<p>乍一看，第二行代码在语法上好像并没有什么不当之处，但其实通过这行语句，无法确定键 key1 是否真实存在于 map 中。<br>这是因为，当尝试去获取一个键对应的值的时候，如果这个键在 map 中并不存在，也会得到一个值，这个值是 value 元素类型的零值。</p>
+<p>以上面这个代码为例，如果键 key1 在 map 中并不存在，那么 v 的值就会被赋予 value 元素类型 int 的零值，也就是 0，所以这种方式是没有办法正确查找的。</p>
+<p>Go 语言的 map 类型支持通过用一种名为 <strong>comma ok</strong> 的惯用法，进行对某个 key 的查询。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">m := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>)</span><br><span class="line">v, ok := m[<span class="string">"key1"</span>]</span><br><span class="line"><span class="keyword">if</span> !ok &#123;</span><br><span class="line">    <span class="comment">// "key1"不在map中</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// "key1"在map中，v将被赋予"key1"键对应的value</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到，这里通过一个布尔类型变量 ok，来判断键“key1”是否存在于 map 中。如果存在，变量 v 就会被正确地赋值为键“key1”对应的 value。</p>
+<p>不过，如果并不关心某个键对应的 value，而只关心某个键是否在于 map 中，可以使用空标识符 <code>_</code> 替代变量 v，忽略可能返回的 value：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">m := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>)</span><br><span class="line">_, ok := m[<span class="string">"key1"</span>]</span><br></pre></td></tr></table></figure>
+
+<p><code>_, ok</code> 这种用法在 Go 语言中也非常常见。</p>
+<h3 id="删除操作"><a href="#删除操作" class="headerlink" title="删除操作"></a>删除操作</h3><p>在 Go 语言中，需要借助内置函数 delete 来从 map 中删除数据。</p>
+<p>使用 delete 函数的情况下，传入的第一个参数是 map 类型变量，第二个参数就是想要删除的键。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">m := <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span> &#123;</span><br><span class="line">  <span class="string">"key1"</span> : <span class="number">1</span>,</span><br><span class="line">  <span class="string">"key2"</span> : <span class="number">2</span>,</span><br><span class="line">&#125;</span><br><span class="line">fmt.Println(m) <span class="comment">// map[key1:1 key2:2]</span></span><br><span class="line"><span class="built_in">delete</span>(m, <span class="string">"key2"</span>) <span class="comment">// 删除"key2"</span></span><br><span class="line">fmt.Println(m) <span class="comment">// map[key1:1]</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="遍历"><a href="#遍历" class="headerlink" title="遍历"></a>遍历</h3><p>和切片一样，使用 <code>for range</code> 语句进行遍历。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">doIteration</span><span class="params">(m <span class="keyword">map</span>[<span class="keyword">int</span>]<span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">    fmt.Printf(<span class="string">"&#123; "</span>)</span><br><span class="line">    <span class="keyword">for</span> k, v := <span class="keyword">range</span> m &#123;</span><br><span class="line">        fmt.Printf(<span class="string">"[%d, %d] "</span>, k, v)</span><br><span class="line">    &#125;</span><br><span class="line">    fmt.Printf(<span class="string">"&#125;\n"</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    m := <span class="keyword">map</span>[<span class="keyword">int</span>]<span class="keyword">int</span>&#123;</span><br><span class="line">        <span class="number">1</span>: <span class="number">11</span>,</span><br><span class="line">        <span class="number">2</span>: <span class="number">12</span>,</span><br><span class="line">        <span class="number">3</span>: <span class="number">13</span>,</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">3</span>; i++ &#123;</span><br><span class="line">        doIteration(m)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>每次迭代都会返回一个键值对，其中键存在于变量 k 中，它对应的值存储在变量 v 中。</p>
+<p>运行上面的示例代码，可能会得到这样的结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123; [3, 13] [1, 11] [2, 12] &#125;</span><br><span class="line">&#123; [1, 11] [2, 12] [3, 13] &#125;</span><br><span class="line">&#123; [3, 13] [1, 11] [2, 12] &#125;</span><br></pre></td></tr></table></figure>
+
+<p>这是因为，<strong>对同一 map 做多次遍历的时候，每次遍历元素的次序都不相同。</strong></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>map 作为复合类型之一，也是引用类型，没有传递开销</li>
+<li>Go 不允许获取 map 中 value 的地址，这个约束是在编译期间就生效的</li>
+<li>对同一个 map 多次遍历时，每次元素次序不尽相同，所以不要依赖 map 的元素遍历顺序</li>
+</ul>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://time.geekbang.org/column/intro/100093501" target="_blank" rel="noopener">Tony Bai · Go 语言第一课</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/go-language-study-notes-map/>https://www.0x2beace.com/go-language-study-notes-map/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2023-02-18T11:28:33+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Feb 18, 2023</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Go/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Go</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/go-language-study-notes-map/&title=Go 语言学习笔记——map - Boo&summary=作为 Go 语言复合类型之一的字典 map，使用频率也是较高的。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/go-language-study-notes-map/&title=Go 语言学习笔记——map - Boo&summary=作为 Go 语言复合类型之一的字典 map，使用频率也是较高的。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/go-language-study-notes-map/&title=Go 语言学习笔记——map - Boo&summary=作为 Go 语言复合类型之一的字典 map，使用频率也是较高的。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADrElEQVR42u3aQVLDQAwEwPz/03CHSnk1khMFem9xmXjVm8Mg+fFlReuBABw4cOAscOCWwD3C9ezvf16/+nz6nF8FFPc3Vi84cODAgQMHDtwyuOMA+OT+FPz0OdWDq+7/eB/gwIEDBw4cOHBL4aYCZQqeQk4HYnDgwIEDBw4cuL8OV21cdp9bDeDpAYADBw4cOHDgwP0XuC5ANwhPNUjBgQMHDhw4cOA+Fa48oC0OhKsD4upBVOHeNskHBw4cOHDgwIEbgpse8G7/HNcLDhw4cODAgQO3BO6ulQbRdBDdDbrHdYEDBw4cOHDgwC2B6w6cXxY8h+HiFyTBgQMHDhw4cOCWwHUD49RAeWpgXD2o0/vBgQMHDhw4cOC2wlULTV/k6wbbNJB3Az84cODAgQMHDtxWuNMgmQbhbsHdQJ0Oti8n+eDAgQMHDhw4cG+G6wbW7sa7Abh7few/B3DgwIEDBw4cuBfDdUG6Afb0++8KwseNT3DgwIEDBw4cuCVw1QZf9YW86gt+3cK7z7usFxw4cODAgQMHbgncVGBMB9rVAJw2RqsBGhw4cODAgQMHbjtcGkDTAD0VrLtAMTg4cODAgQMHDtwyuG5DMwWbCqppw7P8QwEHDhw4cODAgVsGVw2O1UZndePdgJ4ClSf54MCBAwcOHDhwS+GqAfc0mHYD7Om+0oMf6wCDAwcOHDhw4MDdBHdacBVsOqB2G69pIxMcOHDgwIEDB2473NQAuQvXHSynzzuuAxw4cODAgQMHbilc2ghMG5Zd2NPvSxut4MCBAwcOHDhw2+Gmg2O3gdgdTFfraneAwYEDBw4cOHDglsBVG4tTQboaeLv7KP8AwIEDBw4cOHDgPgTutCFZbVymB5J+bzWIx41McODAgQMHDhy4F8FNDX6nGpfpc04Pov0ZHDhw4MCBAwduCdzdQXhqEFyFSddlPeDAgQMHDhw4cEvguoV1G5R3NUjT+o4H0uDAgQMHDhw4cG+G6660EZoG0zQId+HBgQMHDhw4cOC2wU01/NKB8zT47QN1cODAgQMHDhy4ZXDVwJteT4NqNfimAffyOjhw4MCBAwcO3FK46saqjcEUtLqfqUYpOHDgwIEDBw7cf4erBu3T/aSBfbyRCQ4cOHDgwIED92Fw3YFvdRCdgqYDcXDgwIEDBw4cuE+BmwqU1cbhNEj3YJ8+Dxw4cODAgQMHbhlcOsBNNzJ1XwqVBnVw4MCBAwcOHLgtcFZxQI4AHDhw4Cxw4N67vgHg8fpxcVbhfwAAAABJRU5ErkJggg==">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/go-language-study-notes-struct/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Go 语言学习笔记——结构体</p>
+                <p class='content'>Go 语言并不是一门面向对象的编程语言，它没有面向对象所特有的 class，在 Go 语言中，对事物进行抽象使用结构体类型 struct。
+
+
+不过，在学习如何定义一个结构体类型之前，首先要来看...</p>
+              </a>
+            
+            
+              <a class='next' href='/go-language-study-notes-array-and-slice/'>
+                <p class='title'>Go 语言学习笔记——数组和切片<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>Go 语言原生内置了多种复合数据类型，包括数组、切片（slice）、map、结构体，以及像 channel 这类用于并发程序设计的高级复合数据类型。
+
+
+
+什么是复合类型？
+
+复合类型就是由多个...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Go 语言学习笔记——map',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#map"><span class="toc-text">map</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#map-的声明与初始化"><span class="toc-text">map 的声明与初始化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#复合字面值初始化"><span class="toc-text">复合字面值初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#make-函数"><span class="toc-text">make 函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#map-基本操作"><span class="toc-text">map 基本操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#插入操作"><span class="toc-text">插入操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#获取键值对数量"><span class="toc-text">获取键值对数量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查找和数据读取"><span class="toc-text">查找和数据读取</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除操作"><span class="toc-text">删除操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#遍历"><span class="toc-text">遍历</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+      
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <span class="post-count">总字数：369.2k</span>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
+
+        <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+        
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?fbe826b92f6d49a0ebacf4d848bd3add";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+<script>
+  var now = new Date(); 
+  function createtime() {    
+      var grt= new Date("07/04/2020 14:12:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";     
+  } 
+setInterval("createtime()",250);
+</script>
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "Ki6kd5TUWoQyYKSErxehnRpc-MdYXbMMI",
+    appKey: "7pRBOKMw58Yo7EsUjHziIEY1",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>

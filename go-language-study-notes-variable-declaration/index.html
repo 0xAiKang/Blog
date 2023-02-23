@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>Go 语言学习笔记——变量声明 - Boo</title>
+  
+    <meta name="keywords" content="Go">
+  
+  
+    <meta name="description" content="Go 语言崇尚“做一件事只用一种方法”，但变量声明却似乎是一个例外，因为在 Go 语言中，声明一个变量有多种方式。">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Boo's Blog</p>
+    
+    
+      <p class="subtitle">Stay foolish, Stay hungry</p>
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/"
+                
+                
+                id="https:www0x2BeAcecom">
+                <i class='fas fa-book fa-fw'></i>博客
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/categories/"
+                
+                
+                id="https:www0x2BeAcecomcategories">
+                <i class='fas fa-rss fa-fw'></i>分类
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/tags/"
+                
+                
+                id="https:www0x2BeAcecomtags">
+                <i class='fas fa-play-circle fa-fw'></i>标签
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/archives/"
+                
+                  rel="external nofollow noopener noreferrer"
+                
+                
+                id="https:www0x2BeAcecomarchives">
+                <i class='fas fa-file-code fa-fw'></i>归档
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/about/"
+                
+                
+                id="https:www0x2BeAcecomabout">
+                <i class='fas fa-handshake fa-fw'></i>关于我
+              </a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/go-language-study-notes-variable-declaration/">
+      Go 语言学习笔记——变量声明
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Go/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Go</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Oct 24, 2022</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>1.8k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>6 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/go-language-study-notes-variable-declaration/" class="leancloud_visitors" data-flag-title="Go 语言学习笔记——变量声明">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>Go 语言崇尚“做一件事只用一种方法”，但变量声明却似乎是一个例外，因为在 Go 语言中，声明一个变量有多种方式。</p>
+<a id="more"></a>
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在编程语言中，为了方便操作内存特定位置的数据，我们用一个特定的名字与位于特定位置的内存块绑定在一起，这个名字被称为变量。</p>
+<p>但这并不代表我们可以通过变量随意引用或修改内存，<strong>变量所绑定的内存区域是要有一个明确的边界的</strong>。也就是说，通过一个变量，究竟可以操作 4 个字节内存还是 8 个字节内存，编程语言的编译器或解释器需要明确地知道。</p>
+<p>那么，编程语言的编译器或解释器是如何知道一个变量所能引用的内存区域边界呢？</p>
+<p>动态语言的解释器可以在运行时通过对变量赋值的分析，自动确定变量的边界。</p>
+<p>而静态语言就不一样了，编译器没有办法自动确定变量的边界，此时就需要语言的使用者提供，于是就有了“变量声明”。<br>通过变量声明，语言使用者可以显式告知编译器一个变量的边界信息。</p>
+<h2 id="变量声明"><a href="#变量声明" class="headerlink" title="变量声明"></a>变量声明</h2><p>Go 是静态语言，所有变量在使用前必须先进行声明。声明的意义在于告诉编译器该变量可以操作的内存的边界信息，而这种边界通常又是由变量的类型信息提供的。</p>
+<h3 id="通用声明"><a href="#通用声明" class="headerlink" title="通用声明"></a>通用声明</h3><p>在 Go 语言中，有一个通用的变量声明方法是这样的：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a <span class="keyword">int</span> = <span class="number">10</span></span><br></pre></td></tr></table></figure>
+
+<p>这个变量声明分为四个部分：</p>
+<ul>
+<li>var 是修饰变量声明的关键字</li>
+<li>a 为变量名</li>
+<li>int 为该变量的类型</li>
+<li>10 是变量的初值</li>
+</ul>
+<p>在 Go 语言中，无论什么类型的变量，都可以使用这种形式进行变量声明，这就是通用的声明方式。</p>
+<p>另外，除了单独声明每个变量外，Go 语言还提供了变量声明块（block）的语法形式，可以用一个 var 关键字将多个变量声明放在一起：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> (</span><br><span class="line">    a, b, c <span class="keyword">int</span> = <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span></span><br><span class="line">    c, d, e <span class="keyword">rune</span> = <span class="string">'C'</span>, <span class="string">'D'</span>, <span class="string">'E'</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>Go 语言还支持在一行变量声明中同时声明多个变量：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a, s = <span class="number">1</span>, <span class="string">"ok"</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>如果没有显式为变量赋予初值，Go 编译器会为变量赋予这个<strong>类型的零值</strong>：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a <span class="keyword">int</span> <span class="comment">// a的初值为int类型的零值：0</span></span><br></pre></td></tr></table></figure>
+
+<p>那什么是类型的零值？<br>Go 语言的每种原生类型都有它的默认值，这个默认值就是零值。</p>
+<p>下面就是 Go 规范定义的内置原生类型的默认值（即零值）</p>
+<table>
+<thead>
+<tr>
+<th>内置原生类型</th>
+<th>默认值（零值）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>所有整型类型</td>
+<td>0</td>
+</tr>
+<tr>
+<td>浮点类型</td>
+<td>0.0</td>
+</tr>
+<tr>
+<td>布尔类型</td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td>字符串类型</td>
+<td>“”</td>
+</tr>
+<tr>
+<td>指针、接口、切片、channel、map 和函数类型</td>
+<td>nil</td>
+</tr>
+</tbody></table>
+<p>另外，像数组、结构体这样复合类型变量的零值就是它们组成元素都为零值时的结果。</p>
+<p>除了上面这种通用的变量声明形式，Go 语言还提供了两种变量声明的“语法糖”。</p>
+<h3 id="省略类型信息的声明"><a href="#省略类型信息的声明" class="headerlink" title="省略类型信息的声明"></a>省略类型信息的声明</h3><p>这种方式会省略类型信息的声明。</p>
+<p>在通用的变量声明的基础上，Go 编译器允许我们省略变量声明中的类型信息，它的标准范式是<strong>var varName = initExpression</strong>，比如下面就是一个省略了类型信息的变量声明：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> b = <span class="number">13</span></span><br></pre></td></tr></table></figure>
+<p>使用这种方式声明的前提是，<strong>右侧存在变量初值</strong>。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> b</span><br></pre></td></tr></table></figure>
+<p>因为没有初始值的声明，编译会报错——“unexpected newline, expecting type”。</p>
+<p>结合多变量声明，可以使用这种变量声明语法糖声明多个不同类型的变量：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a, b, c = <span class="number">12</span>, <span class="string">'A'</span>, <span class="string">"hello"</span></span><br></pre></td></tr></table></figure>
+
+<p>在这种变量声明语法糖中，我们省去了变量类型信息，但 Go 编译器会为我们自动推导出类型信息。</p>
+<h3 id="短变量声明"><a href="#短变量声明" class="headerlink" title="短变量声明"></a>短变量声明</h3><p>使用短变量声明时，我们甚至可以省去 var 关键字以及类型信息，它的标准范式是<strong>varName := initExpression</strong>。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a := <span class="number">12</span></span><br><span class="line">b := <span class="string">'A'</span></span><br><span class="line">c := <span class="string">"hello"</span></span><br></pre></td></tr></table></figure>
+
+<p>短变量声明中的变量类型也是由 Go 编译器自动推导出来的。</p>
+<hr>
+<p>知道了这么多种声明方式，那么在使用时，有没有什么约束呢？<br>这个时候就需要学习点预备知识：Go 语言的两类变量。</p>
+<h2 id="两类变量"><a href="#两类变量" class="headerlink" title="两类变量"></a>两类变量</h2><p>Go 语言的变量按作用域可以分为两类：</p>
+<ul>
+<li>包级变量：也就是在包级别可见的变量。如果是导出变量（大写字母开头），那么这个包级变量也可以被视为全局变量（可以被其他包访问到）</li>
+<li>局部变量：也就是 Go 函数或方法体内声明的变量，仅在函数或方法体内可见</li>
+</ul>
+<h3 id="包级变量的声明形式"><a href="#包级变量的声明形式" class="headerlink" title="包级变量的声明形式"></a>包级变量的声明形式</h3><p>包级变量只能使用带有 var 关键字的变量声明形式，不能使用短变量声明形式，但在形式细节上可以有一定灵活度。</p>
+<h4 id="声明并同时显式初始化"><a href="#声明并同时显式初始化" class="headerlink" title="声明并同时显式初始化"></a>声明并同时显式初始化</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> varName = initExpression</span><br></pre></td></tr></table></figure>
+<p>就像前面说过那样，Go 编译器会自动根据等号右侧 InitExpression 结果值的类型，来确定左侧声明的变量的类型，这个类型会是结果值对应类型的默认类型。</p>
+<p>如果不接受默认类型，而是要显式地为包级变量指定类型，那么有两种方式：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 第一种：</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">13</span> <span class="comment">// 使用默认类型</span></span><br><span class="line"><span class="keyword">var</span> b <span class="keyword">int32</span> = <span class="number">17</span>  <span class="comment">// 显式指定类型</span></span><br><span class="line"><span class="keyword">var</span> f <span class="keyword">float32</span> = <span class="number">3.14</span> <span class="comment">// 显式指定类型</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 第二种：</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">13</span> <span class="comment">// 使用默认类型</span></span><br><span class="line"><span class="keyword">var</span> b = <span class="keyword">int32</span>(<span class="number">17</span>) <span class="comment">// 显式指定类型</span></span><br><span class="line"><span class="keyword">var</span> f = <span class="keyword">float32</span>(<span class="number">3.14</span>) <span class="comment">// 显式指定类型</span></span><br></pre></td></tr></table></figure>
+<p>两种方式都可以使用，但从声明一致性的角度出发，Go 更推荐我们使用后者，这样能统一接受默认类型和显式指定类型这两种声明形式。</p>
+<h4 id="声明但延迟初始化"><a href="#声明但延迟初始化" class="headerlink" title="声明但延迟初始化"></a>声明但延迟初始化</h4><p>对于声明时并不立即显式初始化的包级变量，我们可以使用下面这种通用变量声明形式：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a <span class="keyword">int32</span>      <span class="comment">// 0</span></span><br><span class="line"><span class="keyword">var</span> f <span class="keyword">float64</span>    <span class="comment">// 0.0</span></span><br></pre></td></tr></table></figure>
+
+<p>虽然这些值没有初始化，但是仍有自己的零值。</p>
+<h3 id="局部变量的声明形式"><a href="#局部变量的声明形式" class="headerlink" title="局部变量的声明形式"></a>局部变量的声明形式</h3><p>短变量声明形式是局部变量最常用的声明形式。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a := <span class="number">17</span></span><br><span class="line">f := <span class="number">3.14</span></span><br><span class="line">s := <span class="string">"hello, gopher!"</span></span><br></pre></td></tr></table></figure>
+
+<p>对于不接受默认类型的变量，依然可以使用短变量声明形式，只是在<code>:=</code>右侧要做一个显式转型，以保持声明的一致性：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a := <span class="keyword">int32</span>(<span class="number">17</span>)</span><br><span class="line">f := <span class="keyword">float32</span>(<span class="number">3.14</span>)</span><br><span class="line">s := []<span class="keyword">byte</span>(<span class="string">"hello, gopher!"</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在 Go 中，声明一个变量有多种方式，具体使用哪一种，需要根据实际情况而定：是包级变量还是局部变量、是否需要延迟初始化、是否接受默认类型、是否是分支控制变量等</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20221101174926.png" alt=""></p>
+<p>通用变量声明和语法糖的区别在于，语法糖声明可以省略变量的类型信息。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://time.geekbang.org/column/intro/100093501" target="_blank" rel="noopener">Tony Bai · Go 语言第一课</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/go-language-study-notes-variable-declaration/>https://www.0x2beace.com/go-language-study-notes-variable-declaration/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2023-02-18T11:28:33+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Feb 18, 2023</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Go/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Go</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/go-language-study-notes-variable-declaration/&title=Go 语言学习笔记——变量声明 - Boo&summary=Go 语言崇尚“做一件事只用一种方法”，但变量声明却似乎是一个例外，因为在 Go 语言中，声明一个变量有多种方式。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/go-language-study-notes-variable-declaration/&title=Go 语言学习笔记——变量声明 - Boo&summary=Go 语言崇尚“做一件事只用一种方法”，但变量声明却似乎是一个例外，因为在 Go 语言中，声明一个变量有多种方式。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/go-language-study-notes-variable-declaration/&title=Go 语言学习笔记——变量声明 - Boo&summary=Go 语言崇尚“做一件事只用一种方法”，但变量声明却似乎是一个例外，因为在 Go 语言中，声明一个变量有多种方式。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADpklEQVR42u3aQXIbMQwEQP3/08kDUioSA6wFOc2bVSK1aPowBezrjxWtFwJw4MCBs8CBWwL3Cte7/afP/3mQw753+0/nVs+/rhccOHDgwIEDB24Z3HUAbBZ6gr7dV73YsXrBgQMHDhw4cOCWwk0VePvgU4VOB2Jw4MCBAwcOHLjfDlctNA2u1UAMDhw4cODAgQMHrlZQdyA9FYSrFw8OHDhw4MCBA/ftcGnDMA2m6QB7KrB/bJIPDhw4cODAgQM3BFddTw2cf+rvuF5w4MCBAwcOHLglcN1VbTBOnXO6yGrQva4XHDhw4MCBAwduCdztD3cHvU+dXx1kdwfq4MCBAwcOHDhw2+DSQe1UQVMA6Xm3HuDAgQMHDhw4cNvhqi8Ipvu6A+S0gRrXBw4cOHDgwIEDtwyuG3SnGospzO0FdQfZ4MCBAwcOHDhwW+DSoNhtaE6d+xpa1/WCAwcOHDhw4MAtg0uDZToIvi0gDdiPXRw4cODAgQMHDtwSuKkAWg2kUwPo6vlteHDgwIEDBw4cuGVwT70YWH3AFLw8WA6DPThw4MCBAwcO3Da4qYJT2Oo56fO0X6AEBw4cOHDgwIFbAtddVfju+VMBOR5UgwMHDhw4cODALYFLg293EF2Fq15E2jg9fg4OHDhw4MCBA7cELm0wpgPhLnD1IsYH3uDAgQMHDhw4cMvgqo3E8iA3DNRVsKfOAwcOHDhw4MCB+xa4asCcBpwadKdAb78HDhw4cODAgQO3BK76gOlA+ulBd9pALQ/IwYEDBw4cOHDglsFNBdvbwe7U4Lt6odUBOThw4MCBAwcO3Ha48R8Ig20XbCqggwMHDhw4cODAbYe7HcxWg23aKJwOwmkD9O3n4MCBAwcOHDhwy+B+avA89SJg9QJuL7ocgMGBAwcOHDhw4D4E1y24ur8KkwbX9B/juA8cOHDgwIEDB24JXDUwpoE3bZBOgXUbm+DAgQMHDhw4cNvhuoPj6WAcF5gG3NPf4MCBAwcOHDhwS+CmX8CrNii7A+VuEAcHDhw4cODAgft2uDTwTjcan4ZJLxAcOHDgwIEDB2473PSLe9VB9vR57QH0bQAGBw4cOHDgwIH7Mri0wdltjN4G26nnBwcOHDhw4MCB+1/g0uCbNk5Pvzs1UAcHDhw4cODAgdsKVy2kGzy7A+jbC5y6UHDgwIEDBw4cuG1w6eC2+r1uAdUAnjZOrxuZ4MCBAwcOHDhwH4KzagscOHDgwFngwH14/QWSx4GIwsAxTQAAAABJRU5ErkJggg==">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/go-language-study-notes-variable-shadowing-problem/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Go 语言学习笔记——变量遮蔽问题</p>
+                <p class='content'>变量遮蔽是 Go 开发人员在日常开发工作中最容易犯的编码错误之一，它低级又不容易查找，常常会让你陷入漫长的调试过程。
+
+
+一个问题1234567891011121314151617package...</p>
+              </a>
+            
+            
+              <a class='next' href='/go-language-study-notes-get-to-know-go-module/'>
+                <p class='title'>Go 语言学习笔记——认识Go Module<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>Go module 构建模式是在 Go 1.11 版本正式引入的，为的是彻底解决 Go 项目复杂版本依赖的问题，在 Go 1.16 版本中，Go module 已经成为了 Go 默认的包依赖管理...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Go 语言学习笔记——变量声明',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#变量声明"><span class="toc-text">变量声明</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#通用声明"><span class="toc-text">通用声明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#省略类型信息的声明"><span class="toc-text">省略类型信息的声明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#短变量声明"><span class="toc-text">短变量声明</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#两类变量"><span class="toc-text">两类变量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#包级变量的声明形式"><span class="toc-text">包级变量的声明形式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#声明并同时显式初始化"><span class="toc-text">声明并同时显式初始化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#声明但延迟初始化"><span class="toc-text">声明但延迟初始化</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#局部变量的声明形式"><span class="toc-text">局部变量的声明形式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+      
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <span class="post-count">总字数：369.2k</span>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
+
+        <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+        
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?fbe826b92f6d49a0ebacf4d848bd3add";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+<script>
+  var now = new Date(); 
+  function createtime() {    
+      var grt= new Date("07/04/2020 14:12:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";     
+  } 
+setInterval("createtime()",250);
+</script>
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "Ki6kd5TUWoQyYKSErxehnRpc-MdYXbMMI",
+    appKey: "7pRBOKMw58Yo7EsUjHziIEY1",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>

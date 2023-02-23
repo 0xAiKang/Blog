@@ -21,6 +21,14 @@
     <meta name="keywords" content="Mysql">
   
   
+    <meta name="description" content="本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
+课程重点：
+
+了解 Mysql 的行锁
+理解两阶段锁协议
+了解死锁及死锁检测
+">
+  
 
   <!-- feed -->
   
@@ -474,6 +482,8 @@
 <li>理解两阶段锁协议</li>
 <li>了解死锁及死锁检测</li>
 </ul>
+<a id="more"></a>
+
 <p>MySQL 的行锁是在引擎层由各个引擎自己实现的。但并不是所有的引擎都支持行锁，比如 MyISAM 引擎就不支持行锁。</p>
 <p>不支持行锁意味着并发控制只能使用表锁，对于这种引擎的表，同一张表上任何时刻只能有一个更新在执行，这就会影响到业务并发度。InnoDB 是支持行锁的，这也是 MyISAM 被 InnoDB 替代的重要原因之一。</p>
 <p>顾名思义，行锁就是针对数据表中行记录的锁。这很好理解，比如事务 A 更新了一行，而 这时候事务 B 也要更新同一行，则必须等事务 A 的操作完成后才能进行更新。</p>
@@ -599,10 +609,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-06-17T15:35:22+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-06-27T16:17:37+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Jun 17, 2022</p>
+    <p>更新于：Jun 27, 2022</p>
   </a>
 </div>
 
@@ -629,7 +639,13 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/row-lock-merits-and-demerits-how-to-reduce-the-impact-of-row-locks-on-performance/&title=07 行锁功过:怎么减少行锁对性能的影响 - Boo&summary="
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/row-lock-merits-and-demerits-how-to-reduce-the-impact-of-row-locks-on-performance/&title=07 行锁功过:怎么减少行锁对性能的影响 - Boo&summary=本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
+课程重点：
+
+了解 Mysql 的行锁
+理解两阶段锁协议
+了解死锁及死锁检测
+"
           
           >
           
@@ -641,7 +657,13 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/row-lock-merits-and-demerits-how-to-reduce-the-impact-of-row-locks-on-performance/&title=07 行锁功过:怎么减少行锁对性能的影响 - Boo&summary="
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/row-lock-merits-and-demerits-how-to-reduce-the-impact-of-row-locks-on-performance/&title=07 行锁功过:怎么减少行锁对性能的影响 - Boo&summary=本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
+课程重点：
+
+了解 Mysql 的行锁
+理解两阶段锁协议
+了解死锁及死锁检测
+"
           
           >
           
@@ -653,7 +675,13 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/row-lock-merits-and-demerits-how-to-reduce-the-impact-of-row-locks-on-performance/&title=07 行锁功过:怎么减少行锁对性能的影响 - Boo&summary="
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/row-lock-merits-and-demerits-how-to-reduce-the-impact-of-row-locks-on-performance/&title=07 行锁功过:怎么减少行锁对性能的影响 - Boo&summary=本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记，仅供学习参考，请勿用于商业用途，如若侵权，请联系并删除。
+课程重点：
+
+了解 Mysql 的行锁
+理解两阶段锁协议
+了解死锁及死锁检测
+"
           
           >
           
@@ -815,7 +843,7 @@
     
       
         <div class='copyright'>
-        <span class="post-count">总字数：241.8k</span>
+        <span class="post-count">总字数：369.2k</span>
         <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
 
         <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>

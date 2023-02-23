@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>Go 语言学习笔记——unsafe.Sizeof - Boo</title>
+  
+    <meta name="keywords" content="Go">
+  
+  
+    <meta name="description" content="在 Go 语言中，len 函数可以用于获取一个变量的长度，unsafe.Sizeof 函数用于获取一个数组变量的总大小。">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Boo's Blog</p>
+    
+    
+      <p class="subtitle">Stay foolish, Stay hungry</p>
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/"
+                
+                
+                id="https:www0x2BeAcecom">
+                <i class='fas fa-book fa-fw'></i>博客
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/categories/"
+                
+                
+                id="https:www0x2BeAcecomcategories">
+                <i class='fas fa-rss fa-fw'></i>分类
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/tags/"
+                
+                
+                id="https:www0x2BeAcecomtags">
+                <i class='fas fa-play-circle fa-fw'></i>标签
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/archives/"
+                
+                  rel="external nofollow noopener noreferrer"
+                
+                
+                id="https:www0x2BeAcecomarchives">
+                <i class='fas fa-file-code fa-fw'></i>归档
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/about/"
+                
+                
+                id="https:www0x2BeAcecomabout">
+                <i class='fas fa-handshake fa-fw'></i>关于我
+              </a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/go-language-study-notes-unsafe-Sizeof/">
+      Go 语言学习笔记——unsafe.Sizeof
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Go/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Go</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Oct 29, 2022</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>1.6k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>6 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/go-language-study-notes-unsafe-Sizeof/" class="leancloud_visitors" data-flag-title="Go 语言学习笔记——unsafe.Sizeof">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>在 Go 语言中，<code>len</code> 函数可以用于获取一个变量的长度，<code>unsafe.Sizeof</code> 函数用于获取一个数组变量的总大小。</p>
+<a id="more"></a>
+
+<p><code>len</code> 函数比较简单好理解，使用过程中基本上不会遇到问题，这篇笔记主要介绍 <code>unsafe.Sizeof</code>。</p>
+<h2 id="一个问题"><a href="#一个问题" class="headerlink" title="一个问题"></a>一个问题</h2><p>先来看看这段示例代码：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"fmt"</span></span><br><span class="line">	<span class="string">"unsafe"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> run <span class="keyword">interface</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Person <span class="keyword">struct</span> &#123;</span><br><span class="line">	Name   <span class="keyword">string</span></span><br><span class="line">	Age    <span class="keyword">int</span></span><br><span class="line">	Gender <span class="keyword">int</span></span><br><span class="line">	<span class="comment">//Height int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Empty <span class="keyword">struct</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">structFunc</span><span class="params">()</span></span> &#123;</span><br><span class="line">	person1 := Person&#123;</span><br><span class="line">		Name:   <span class="string">"yumi"</span>,</span><br><span class="line">		Age:    <span class="number">23</span>,</span><br><span class="line">		Gender: <span class="number">0</span>,</span><br><span class="line">		<span class="comment">//Height: 165,</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 结构体占用内存大小取决于组成结构体的字段大小之和，因为空结构体没有字段，所以总大小是零。</span></span><br><span class="line">	empty := Empty&#123;&#125;</span><br><span class="line">	fmt.Println(<span class="string">"空结构体的总大小是："</span>, unsafe.Sizeof(empty)) <span class="comment">// 0</span></span><br><span class="line"></span><br><span class="line">	fmt.Println(<span class="string">"初始化结构体的总大小是："</span>, unsafe.Sizeof(person1)) <span class="comment">// 32</span></span><br><span class="line"></span><br><span class="line">	person2 := Person&#123;&#125;</span><br><span class="line">	fmt.Println(<span class="string">"零值初始化的结构体的总大小是："</span>, unsafe.Sizeof(person2)) <span class="comment">// 32</span></span><br><span class="line">	fmt.Println(<span class="string">"------------------------"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">interfaceFunc</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> interface1 <span class="keyword">interface</span>&#123;&#125;</span><br><span class="line">	fmt.Println(<span class="string">"空接口的总大小是："</span>, unsafe.Sizeof(interface1)) <span class="comment">// 16</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> interface2 run</span><br><span class="line">	fmt.Println(<span class="string">"接口的总大小是："</span>, unsafe.Sizeof(interface2)) <span class="comment">// 16</span></span><br><span class="line">	fmt.Println(<span class="string">"------------------------"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">pointerFunc</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> ep <span class="keyword">int</span></span><br><span class="line"></span><br><span class="line">	i := <span class="string">"123"</span></span><br><span class="line">	ip := &amp;i</span><br><span class="line"></span><br><span class="line">	s := <span class="string">"hello"</span></span><br><span class="line">	sp := &amp;s</span><br><span class="line"></span><br><span class="line">	fmt.Println(<span class="string">"空指针的总大小是："</span>, unsafe.Sizeof(ep))       <span class="comment">// 8</span></span><br><span class="line">	fmt.Println(<span class="string">"整型指针的总大小是："</span>, unsafe.Sizeof(ip))      <span class="comment">// 8</span></span><br><span class="line">	fmt.Println(<span class="string">"string 指针的总大小是："</span>, unsafe.Sizeof(sp)) <span class="comment">// 8</span></span><br><span class="line">	fmt.Println(<span class="string">"------------------------"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">arrayFunc</span><span class="params">()</span></span> &#123;</span><br><span class="line">	nums := [...]<span class="keyword">int</span>&#123;<span class="number">1</span>: <span class="number">2</span>, <span class="number">3</span>: <span class="number">4</span>&#125;</span><br><span class="line">	fmt.Println(<span class="string">"数组的长度："</span>, <span class="built_in">len</span>(nums)) <span class="comment">// 4</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> _, v := <span class="keyword">range</span> nums &#123;</span><br><span class="line">		<span class="built_in">println</span>(<span class="string">"v = "</span>, v) <span class="comment">// [0, 2, 0, 4]</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	fmt.Println(<span class="string">"数组的总大小是："</span>, unsafe.Sizeof(nums)) <span class="comment">// 32</span></span><br><span class="line">	fmt.Println(<span class="string">"------------------------"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">stringFunc</span><span class="params">()</span></span> &#123;</span><br><span class="line">	str := <span class="string">"这句话共七个字"</span></span><br><span class="line">	fmt.Println(<span class="string">"string 的长度："</span>, <span class="built_in">len</span>(str)) <span class="comment">// 3 * 7 = 21</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> _, v := <span class="keyword">range</span> str &#123;</span><br><span class="line">		fmt.Printf(<span class="string">"v = %c \n"</span>, v)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	fmt.Println(<span class="string">"string 的总大小是："</span>, unsafe.Sizeof(str)) <span class="comment">// 16</span></span><br><span class="line">	fmt.Println(<span class="string">"------------------------"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sliceFunc</span><span class="params">()</span></span> &#123;</span><br><span class="line">	nums := []<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">9</span>, <span class="number">11</span>&#125;</span><br><span class="line">	fmt.Println(<span class="string">"切片的长度："</span>, <span class="built_in">len</span>(nums)) <span class="comment">// 6</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> _, v := <span class="keyword">range</span> nums &#123;</span><br><span class="line">		<span class="built_in">println</span>(<span class="string">"v = "</span>, v) <span class="comment">// [1, 2, 5, 7, 9, 11]</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	fmt.Println(<span class="string">"切片的总大小是："</span>, unsafe.Sizeof(nums)) <span class="comment">// 24</span></span><br><span class="line">	fmt.Println(<span class="string">"------------------------"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">mapFunc</span><span class="params">()</span></span> &#123;</span><br><span class="line">	m := <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>&#123;</span><br><span class="line">		<span class="string">"yumi"</span>: <span class="number">23</span>,</span><br><span class="line">		<span class="string">"amy"</span>:  <span class="number">19</span>,</span><br><span class="line">		<span class="string">"lucy"</span>: <span class="number">22</span>,</span><br><span class="line">		<span class="string">"ben"</span>:  <span class="number">24</span>,</span><br><span class="line">		<span class="string">"may"</span>:  <span class="number">28</span>,</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	fmt.Println(<span class="string">"map 的长度："</span>, <span class="built_in">len</span>(m)) <span class="comment">// 5</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> k, v := <span class="keyword">range</span> m &#123;</span><br><span class="line">		<span class="built_in">println</span>(<span class="string">"k = "</span>, k) <span class="comment">// yumi、amy、lucy、ben、amy</span></span><br><span class="line">		<span class="built_in">println</span>(<span class="string">"v = "</span>, v) <span class="comment">// 23、19、22、24、28</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	fmt.Println(<span class="string">"map 的总大小是："</span>, unsafe.Sizeof(m)) <span class="comment">// 8</span></span><br><span class="line">	fmt.Println(<span class="string">"------------------------"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	arrayFunc()</span><br><span class="line"></span><br><span class="line">	sliceFunc()</span><br><span class="line"></span><br><span class="line">	stringFunc()</span><br><span class="line"></span><br><span class="line">	mapFunc()</span><br><span class="line"></span><br><span class="line">	structFunc()</span><br><span class="line"></span><br><span class="line">	interfaceFunc()</span><br><span class="line"></span><br><span class="line">	pointerFunc()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>执行之后，得到的输出如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">数组的长度： <span class="number">4</span></span><br><span class="line">v =  <span class="number">0</span></span><br><span class="line">v =  <span class="number">2</span></span><br><span class="line">v =  <span class="number">0</span></span><br><span class="line">v =  <span class="number">4</span></span><br><span class="line">数组的总大小是： <span class="number">32</span></span><br><span class="line">------------------------</span><br><span class="line">切片的长度： <span class="number">6</span></span><br><span class="line">v =  <span class="number">1</span></span><br><span class="line">v =  <span class="number">3</span></span><br><span class="line">v =  <span class="number">5</span></span><br><span class="line">v =  <span class="number">7</span></span><br><span class="line">v =  <span class="number">9</span></span><br><span class="line">v =  <span class="number">11</span></span><br><span class="line">切片的总大小是： <span class="number">24</span></span><br><span class="line">------------------------</span><br><span class="line"><span class="keyword">string</span> 的长度： <span class="number">21</span></span><br><span class="line">v = 这 </span><br><span class="line">v = 句 </span><br><span class="line">v = 话 </span><br><span class="line">v = 共 </span><br><span class="line">v = 七 </span><br><span class="line">v = 个 </span><br><span class="line">v = 字 </span><br><span class="line"><span class="keyword">string</span> 的总大小是： <span class="number">16</span></span><br><span class="line">------------------------</span><br><span class="line"><span class="keyword">map</span> 的长度： <span class="number">5</span></span><br><span class="line">k =  may</span><br><span class="line">v =  <span class="number">28</span></span><br><span class="line">k =  yumi</span><br><span class="line">v =  <span class="number">23</span></span><br><span class="line">k =  amy</span><br><span class="line">v =  <span class="number">19</span></span><br><span class="line">k =  lucy</span><br><span class="line">v =  <span class="number">22</span></span><br><span class="line">k =  ben</span><br><span class="line">v =  <span class="number">24</span></span><br><span class="line"><span class="keyword">map</span> 的总大小是： <span class="number">8</span></span><br><span class="line">------------------------</span><br><span class="line">空结构体的总大小是： <span class="number">0</span></span><br><span class="line">初始化结构体的总大小是： <span class="number">32</span></span><br><span class="line">零值初始化的结构体的总大小是： <span class="number">32</span></span><br><span class="line">------------------------</span><br><span class="line">空接口的总大小是： <span class="number">16</span></span><br><span class="line">接口的总大小是： <span class="number">16</span></span><br><span class="line">------------------------</span><br><span class="line">空指针的总大小是： <span class="number">8</span></span><br><span class="line">整型指针的总大小是： <span class="number">8</span></span><br><span class="line"><span class="keyword">string</span> 指针的总大小是： <span class="number">8</span></span><br><span class="line">------------------------</span><br></pre></td></tr></table></figure>
+
+<p>会不会有些意外？</p>
+<p>切片、string、map 的总大小怎么有点奇怪？怎么是 24、16 和 8？</p>
+<h2 id="sizeof"><a href="#sizeof" class="headerlink" title="sizeof"></a>sizeof</h2><p>回答这个问题之前，先来看看 <code>unsafe.sizeof</code> 这个函数的定义：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// $GOROOT/src/unsafe/unsafe.go</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Sizeof takes an expression x of any type and returns the size in bytes</span></span><br><span class="line"><span class="comment">// of a hypothetical variable v as if v was declared via var v = x.</span></span><br><span class="line"><span class="comment">// The size does not include any memory possibly referenced by x.</span></span><br><span class="line"><span class="comment">// For instance, if x is a slice, Sizeof returns the size of the slice</span></span><br><span class="line"><span class="comment">// descriptor, not the size of the memory referenced by the slice.</span></span><br><span class="line"><span class="comment">// The return value of Sizeof is a Go constant.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Sizeof</span><span class="params">(x ArbitraryType)</span> <span class="title">uintptr</span></span></span><br></pre></td></tr></table></figure>
+
+<p>大意就是：Sizeof 接受任何类型的表达式 x，并返回一个假设变量 v 的字节大小，就好像 v 是通过 var v=x 声明的，该大小不包括 x 可能引用的任何内存。<br>例如，如果 x 是一个切片，Sizeof 返回<strong>切片描述符的大小，而不是切片引用的内存大小</strong>。</p>
+<p>什么是描述符呢？<br>以切片为例，就是它本身并不真正存储字符串数据，而仅是由一个<strong>指向底层存储的指针</strong>、<strong>切片长度</strong>和<strong>切片最大容量</strong>组成。</p>
+<p>看到这里会不会清晰一些，有没有想起什么，没错，切片的数据结构刚好是由这三部分组成：</p>
+<ul>
+<li>array：指向底层数组的指针，类型为 uintptr，占用八个字节</li>
+<li>len：切片的长度，类型为 int，占用八个字节</li>
+<li>cap：切片的最大容量，类型为 int，占用八个字节</li>
+</ul>
+<p>所以，在上面的示例代码中，切片变量的总大小就是 <code>8 + 8 + 8 = 24</code> 个字节。</p>
+<p>string 类型也是一样的分析方式，它的描述符是由一个<strong>指向底层存储的指针</strong>和<strong>字符串的长度</strong>组成。</p>
+<p>string 的数据结构：</p>
+<ul>
+<li>Data：指向底层存储的指针，类型为 uintptr，占用八个字节</li>
+<li>Len：字符串的长度，类型为 int，占用八个字节</li>
+</ul>
+<p>string 变量的总大小就是 <code>8 + 8 = 16</code> 个字节。</p>
+<p>结构体作为直接存储自身数据的类型，它和数组又有所不同，这是因为结构体是由若干个字段（field）聚合而成，每个字段都有自己的类型，所以结构体占用内存大小取决于组成结构体的各字段大小之和。</p>
+<p>还是上面的示例代码，Person 结构体是由一个 string 类型、两个 int 类型组成，所以它占用的内存大小是 <code>16 + 8 + 8 = 32</code> 个字节。</p>
+<p>注意，这里的string 就是上面的 string ，所以是 16 个字节。</p>
+<p>因为空结构体中没有字段，所以总大小是零。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>对于整型、数组、结构体这类类型，它们的内存表示就是它们自身的数据内容，所以计算占用内存大小时，就是组成它们数据本身的大小。</p>
+<p>而对于切片、string、map 等类型来说，它们的内存表示则是它们数据内容的“描述符”，所以计算占用内存大小时，需要以描述符的大小为准。</p>
+<p>前者作为函数参数传递时，常被提到有性能开销，而后者则没有，也正是这个原因。</p>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/go-language-study-notes-unsafe-Sizeof/>https://www.0x2beace.com/go-language-study-notes-unsafe-Sizeof/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2023-02-18T11:28:33+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Feb 18, 2023</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Go/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Go</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/go-language-study-notes-unsafe-Sizeof/&title=Go 语言学习笔记——unsafe.Sizeof - Boo&summary=在 Go 语言中，len 函数可以用于获取一个变量的长度，unsafe.Sizeof 函数用于获取一个数组变量的总大小。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/go-language-study-notes-unsafe-Sizeof/&title=Go 语言学习笔记——unsafe.Sizeof - Boo&summary=在 Go 语言中，len 函数可以用于获取一个变量的长度，unsafe.Sizeof 函数用于获取一个数组变量的总大小。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/go-language-study-notes-unsafe-Sizeof/&title=Go 语言学习笔记——unsafe.Sizeof - Boo&summary=在 Go 语言中，len 函数可以用于获取一个变量的长度，unsafe.Sizeof 函数用于获取一个数组变量的总大小。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADp0lEQVR42u3aQY4iQQwEQP7/6d37SAg7bYRBUTdEd1dXeA45No9/VrQeCMCBAwfOAgfuCNwjXH/vf/W8Z9dX73t5oOL14/OCAwcOHDhw4MAdg0tfsAs0ff6r51YLG78POHDgwIEDBw7cUbhp4O0euAqRgm0HdnDgwIEDBw4cuF+Bqx403acKDw4cOHDgwIEDB243AE8HxOn93cYmOHDgwIEDBw7ct8N1B7Tdg3TBpoU6O8kHBw4cOHDgwIFbguuu9Id8Vz7H5wUHDhw4cODAgTsCt7XSYFkNrtOG5to5wYEDBw4cOHDgjsCljcZuQJ5eP/2+2+gs/+cADhw4cODAgQP3YbjuhltBuD0Qbg66Y6BnzwcHDhw4cODAgTsC120Mpo3HrQZj932qIOWBNjhw4MCBAwcO3DG47gbTgfDWfluw8Q8LwYEDBw4cOHDgPgzXhdkCSBuiaSCfFggcOHDgwIEDB+4KXPUHetMDdoNnu8GYDpibDVZw4MCBAwcOHLgrcO9+wWph0sJVC7JVSHDgwIEDBw4cuCtw02CYBtatQfJ2A/ble4IDBw4cOHDgwB2BSwHSAfW7G5hbBQQHDhw4cODAgfsVuHTA221Ydr+vro8FYHDgwIEDBw4cuA/BbTU2p4WYFmgt0IMDBw4cOHDgwB2B24bovkgaZNNAnn4PDhw4cODAgQN3Da57oDR4vvv+dwXmcSMTHDhw4MCBAwfuzXDVDdJg2m00bg+uu41NcODAgQMHDhy4b4FLB7rpwLfb+Hw5KC5+HsOCAwcOHDhw4MAdg6sOaFOwrfvfBVjeDxw4cODAgQMH7hjcVhCdNjanz0/ft/wHAg4cOHDgwIEDdwQufVA6YO4WJG14doN3+Xpw4MCBAwcOHLhjcN2Dp1DVAfc0uKaN1ZcFAgcOHDhw4MCBOwaXBtcUetpQ7D5nOqgGBw4cOHDgwIH7FrhukOzCTgfaW43QblAGBw4cOHDgwIG7ArcdQNODpnDTQTM4cODAgQMHDty3wj3ClQ6su4PwrQKsBXBw4MCBAwcOHLhjcNuBd2uA3YXtBmZw4MCBAwcOHLhfgasG3ungOD1QN0CnhXm6Lzhw4MCBAwcO3I/BbQ+0U/itgjz9DA4cOHDgwIED9yNw3QNvNzyrhZkOvsGBAwcOHDhw4K7DdQNr9/vtg60H3Fd/OODAgQMHDhw4cMfg0gFudeO0AboN0S0IOHDgwIEDBw7cVTirOUBHAA4cOHAWOHCfXf8BZwz6cbpgeVwAAAAASUVORK5CYII=">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/go-language-study-notes-function/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Go 语言学习笔记——函数</p>
+                <p class='content'>在 Go 语言中，函数是唯一一种基于特定输入，实现特定任务并可返回任务执行结果的代码块，占据着重要的位置。
+
+
+函数在 Go 中，定义一个函数最常用的方式就是使用函数声明，以Go 标准库 fmt...</p>
+              </a>
+            
+            
+              <a class='next' href='/go-language-study-notes-panic/'>
+                <p class='title'>Go 语言学习笔记——panic<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>Go 函数的健壮性设计包括很多方面，首先是最基本的“三不要”原则，简单来了解一下。
+
+
+三不要原则不要相信任何外部输入的参数函数的使用者可能是任何人，这些人在使用函数之前可能都没有阅读过任何手册...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Go 语言学习笔记——unsafe.Sizeof',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一个问题"><span class="toc-text">一个问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sizeof"><span class="toc-text">sizeof</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+      
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <span class="post-count">总字数：369.2k</span>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
+
+        <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+        
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?fbe826b92f6d49a0ebacf4d848bd3add";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+<script>
+  var now = new Date(); 
+  function createtime() {    
+      var grt= new Date("07/04/2020 14:12:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";     
+  } 
+setInterval("createtime()",250);
+</script>
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "Ki6kd5TUWoQyYKSErxehnRpc-MdYXbMMI",
+    appKey: "7pRBOKMw58Yo7EsUjHziIEY1",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>

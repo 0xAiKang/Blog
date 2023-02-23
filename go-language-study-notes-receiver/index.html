@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>Go 语言学习笔记——方法接收器的选择 - Boo</title>
+  
+    <meta name="keywords" content="Go">
+  
+  
+    <meta name="description" content="上一篇笔记了解了 Go 语言方法的声明、本质，这篇笔记主要来了解 Go 语言方法的receiver 参数。">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Boo's Blog</p>
+    
+    
+      <p class="subtitle">Stay foolish, Stay hungry</p>
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/"
+                
+                
+                id="https:www0x2BeAcecom">
+                <i class='fas fa-book fa-fw'></i>博客
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/categories/"
+                
+                
+                id="https:www0x2BeAcecomcategories">
+                <i class='fas fa-rss fa-fw'></i>分类
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/tags/"
+                
+                
+                id="https:www0x2BeAcecomtags">
+                <i class='fas fa-play-circle fa-fw'></i>标签
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/archives/"
+                
+                  rel="external nofollow noopener noreferrer"
+                
+                
+                id="https:www0x2BeAcecomarchives">
+                <i class='fas fa-file-code fa-fw'></i>归档
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/about/"
+                
+                
+                id="https:www0x2BeAcecomabout">
+                <i class='fas fa-handshake fa-fw'></i>关于我
+              </a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/go-language-study-notes-receiver/">
+      Go 语言学习笔记——方法接收器的选择
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Go/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Go</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Oct 31, 2022</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>2.9k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>11 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/go-language-study-notes-receiver/" class="leancloud_visitors" data-flag-title="Go 语言学习笔记——方法接收器的选择">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>上一篇笔记了解了 Go 语言方法的声明、本质，这篇笔记主要来了解 Go 语言方法的receiver 参数。</p>
+<a id="more"></a>
+
+<h2 id="receiver-参数类型对-Go-方法的影响"><a href="#receiver-参数类型对-Go-方法的影响" class="headerlink" title="receiver 参数类型对 Go 方法的影响"></a>receiver 参数类型对 Go 方法的影响</h2><p>要想为 receiver 参数选出合理的类型，需要先要了解不同的 receiver 参数类型会对 Go 方法产生怎样的影响。</p>
+<p>因为<strong>方法的本质就是函数</strong>，所以下面从等价转换之后的函数的角度来分析一下对函数有什么影响，间接得出它对 Go 方法的影响呢。</p>
+<p>还是从一段示例代码开始。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line">  </span><br><span class="line"><span class="keyword">type</span> T <span class="keyword">struct</span> &#123;</span><br><span class="line">    a <span class="keyword">int</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t T)</span> <span class="title">M1</span><span class="params">()</span></span> &#123;</span><br><span class="line">    t.a = <span class="number">10</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t *T)</span> <span class="title">M2</span><span class="params">()</span></span> &#123;</span><br><span class="line">    t.a = <span class="number">11</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> t T</span><br><span class="line">    <span class="built_in">println</span>(t.a) <span class="comment">// 0</span></span><br><span class="line">    t.M1()</span><br><span class="line">    <span class="built_in">println</span>(t.a) <span class="comment">// 0</span></span><br><span class="line">    p := &amp;t</span><br><span class="line">    p.M2()</span><br><span class="line">    <span class="built_in">println</span>(t.a) <span class="comment">// 11</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在上面的示例中，为基类型分别定义了两个方法 M1 和 M2，其中receiver 参数类型分别是 <code>T</code> 和 <code>*T</code>，最后两个方法都通过参数 t 对 t的成员进行了修改。</p>
+<p>通过运行示例代码之后，可以看到，方法 M1 对成员的修改并没有成功，还是原值，而方法 M2 对成员的修改成功了。因此可以得出以下结论：</p>
+<ul>
+<li>当 receiver 参数的类型为 <code>T</code>（非指针）时：receiver 参数实际上是<strong>T 类型实例的副本</strong>，因此对参数 t 进行任何修改都<strong>不会影响</strong>到原实例。</li>
+<li>当 receiver 参数的类型为 <code>*T</code>（指针）时：receiver 参数实际上是<strong>T 类型实例的地址</strong>，因此对参数 t 进行任何修改都<strong>会影响</strong>到原实例。</li>
+</ul>
+<p>了解了不同类型的 receiver 参数对 Go 方法的影响后，就可以总结一下，日常编码中选择 receiver 的参数类型的时候，我们可以参考哪些原则。</p>
+<h3 id="原则一"><a href="#原则一" class="headerlink" title="原则一"></a>原则一</h3><p><strong>如果 Go 方法要把对 receiver 参数代表的类型实例的修改，反映到原类型实例上，那么我们应该选择 <code>*T</code> 作为 receiver 参数的类型</strong>。</p>
+<p>这个原则很好理解，依据实际情况选择合适的。</p>
+<p>不过这个时候可能会有一个问题：<br>选择<code>*T</code> 作为 receiver 参数的类型，那么是不是只能通过 <code>*T</code> 类型的实例调用该方法，而不能通过 <code>T</code> 类型的实例调用？</p>
+<p>正好这也是上一篇笔记中，遗留下了一个问题。</p>
+<p>将上面的示例代码改造一下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> T <span class="keyword">struct</span> &#123;</span><br><span class="line">    a <span class="keyword">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t T)</span> <span class="title">M1</span><span class="params">()</span></span> &#123;</span><br><span class="line">    t.a = <span class="number">10</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t *T)</span> <span class="title">M2</span><span class="params">()</span></span> &#123;</span><br><span class="line">   t.a = <span class="number">11</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">   <span class="keyword">var</span> t1 T</span><br><span class="line">   <span class="built_in">println</span>(t1.a) <span class="comment">// 0</span></span><br><span class="line">   t1.M1()</span><br><span class="line">   <span class="built_in">println</span>(t1.a) <span class="comment">// 0</span></span><br><span class="line">   t1.M2()</span><br><span class="line">   <span class="built_in">println</span>(t1.a) <span class="comment">// 11</span></span><br><span class="line"></span><br><span class="line">   <span class="keyword">var</span> t2 = &amp;T&#123;&#125;</span><br><span class="line">   <span class="built_in">println</span>(t2.a) <span class="comment">// 0</span></span><br><span class="line">   t2.M1()</span><br><span class="line">   <span class="built_in">println</span>(t2.a) <span class="comment">// 0</span></span><br><span class="line">   t2.M2()</span><br><span class="line">   <span class="built_in">println</span>(t2.a) <span class="comment">// 11</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行示例代码查看输出结果，会发现类型为 <code>T</code> 的实例 t1，不仅可以调用 receiver 参数类型为 <code>T</code> 的方法 M1，它还可以直接调用 receiver 参数类型为 <code>*T</code> 的方法 M2，并且调用完 M2 方法后，成员的值也被修改了。</p>
+<p>直接说结论：这是因为 Go 编译器，在背后帮我们做了自动转换。</p>
+<p>或者说，<code>t1.M2()</code> 这种用法是 Go 提供的“语法糖”：Go 判断 t1 的类型为 <code>T</code>（非指针），也就是与方法 M2 的 receiver 参数类型 <code>*T</code>（指针） 不一致后，会自动将 <code>t1.M2()</code> 转换为 <code>(&amp;t1).M2()</code>。</p>
+<p>同理，<code>t2.M1()</code> 这种用法也是因为 Go 编译器在背后做了转换。也就是，Go 判断 t2 的类型为 <code>*T</code>（指针），与方法 M1 的 receiver 参数类型 T（非指针）不一致，就会自动将 <code>t2.M1()</code> 转换为<code>(*t2).M1()</code>。</p>
+<p>结论：<strong>无论是 <code>T</code> 类型实例，还是 <code>*T</code> 类型实例，都既可以调用 receiver 为 <code>T</code>类型的方法，也可以调用 receiver 为 <code>*T</code> 类型的方法。</strong></p>
+<p>这里做了两次自动转换，涉及到了指针的运用，如果不理解，可以看下<a href="https://www.0x2beace.com/go-language-study-notes-pointer/">这篇笔记</a>。</p>
+<h3 id="原则二"><a href="#原则二" class="headerlink" title="原则二"></a>原则二</h3><p>第一个原则说的是，当要在方法中对 receiver 参数代表的类型实例进行修改，那要为 receiver 参数选择 <code>*T</code> 类型，但是如果不需要在方法中对类型实例进行修改呢？<br>这个时候是选择 <code>T</code> 类型还是 <code>*T</code> 类型呢？</p>
+<p>通常会为 receiver 参数选择 <code>T</code> 类型，这是因为可以缩窄外部修改类型实例内部状态的“接触面”，也就是尽量少暴露可以修改类型内部状态的方法。</p>
+<p>不过也有一个例外需要你特别注意。考虑到 Go 方法调用时，receiver 参数是以值拷贝的形式传入方法中的。那么，如果 receiver 参数类型的 size 较大，以值拷贝形式传入就会导致较大的性能开销，这时我们选择 *T 作为 receiver 类型可能更好些。</p>
+<p>以上这些可以作为我们选择 receiver 参数类型的第二个原则。</p>
+<p>到这里，可能会觉得，前两个原则似乎并不难理解，这是因为这两条只是基础原则，还有一条比较难的原则在下面。</p>
+<p>不过在讲解这第三条原则之前，需要先要了解一个基本概念：<strong>方法集合（Method Set）</strong>，它是理解第三条原则的前提。</p>
+<h3 id="方法集合"><a href="#方法集合" class="headerlink" title="方法集合"></a>方法集合</h3><p>在了解方法集合是什么之前，我们先通过一个示例，直观了解一下为什么要有方法集合，它主要用来解决什么问题：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Interface <span class="keyword">interface</span> &#123;</span><br><span class="line">    M1()</span><br><span class="line">    M2()</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">type</span> T <span class="keyword">struct</span>&#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t T)</span> <span class="title">M1</span><span class="params">()</span></span>  &#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t *T)</span> <span class="title">M2</span><span class="params">()</span></span> &#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> t T</span><br><span class="line">    <span class="keyword">var</span> pt *T</span><br><span class="line">    <span class="keyword">var</span> i Interface</span><br><span class="line">    i = pt</span><br><span class="line">    i = t </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的示例代码定义了一个接口类型 Interface 以及一个自定义类型 T。Interface 接口类型包含了两个方法 M1 和 M2，它们的基类型都是 T，但它们的 receiver 参数类型不同，一个为  <code>T</code>，另一个为 <code>*T</code>。<br>在 main 函数中，分别将 <code>T</code> 类型实例 t 和 <code>*T</code> 类型实例 pt 赋值给 Interface 类型变量 i。</p>
+<p>运行示例代码，会发现编译失败了：</p>
+<blockquote>
+<p>cannot use t (type T) as type Interface in assignment: T does not implement Interface (M2 method has pointer receiver)</p>
+</blockquote>
+<p>大意是：T 没有实现 Interface 类型方法列表中的 M2，因此类型 T 的实例 t 不能赋值给 Interface 变量</p>
+<p>在解决这个问题之前，先来了解一下什么是方法集合。</p>
+<p>Go 中任何一个类型都有属于自己的方法，或者说方法集合是 Go 类型的一个“属性”。但是不是所有类型都有自己的方法，比如 int 类型就没有，所以，对于没有定义方法的Go 类型，称其拥有空方法集合。</p>
+<p>接口类型类型相对特殊，它只会列出代表接口的方法列表，不会具体定义某个方法，它的方法集合就是它的方法列表中的所有方法，因为下面重点讲解的是非接口类型的方法集合。</p>
+<p>为了方便查看一个非接口类型的方法集合，提供了一个函数 dumpMethodSet，用于输出一个非接口类型的方法集合：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">dumpMethodSet</span><span class="params">(i <span class="keyword">interface</span>&#123;&#125;)</span></span> &#123;</span><br><span class="line">    dynTyp := reflect.TypeOf(i)</span><br><span class="line">    <span class="keyword">if</span> dynTyp == <span class="literal">nil</span> &#123;</span><br><span class="line">        fmt.Printf(<span class="string">"there is no dynamic type\n"</span>)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    n := dynTyp.NumMethod()</span><br><span class="line">    <span class="keyword">if</span> n == <span class="number">0</span> &#123;</span><br><span class="line">        fmt.Printf(<span class="string">"%s's method set is empty!\n"</span>, dynTyp)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    fmt.Printf(<span class="string">"%s's method set:\n"</span>, dynTyp)</span><br><span class="line">    <span class="keyword">for</span> j := <span class="number">0</span>; j &lt; n; j++ &#123;</span><br><span class="line">        fmt.Println(<span class="string">"-"</span>, dynTyp.Method(j).Name)</span><br><span class="line">    &#125;</span><br><span class="line">    fmt.Printf(<span class="string">"\n"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>下面则利用这个函数，试着输出一下 Go 原生类型以及自定义类型的方法集合：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> T <span class="keyword">struct</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(T)</span> <span class="title">M1</span><span class="params">()</span></span> &#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(T)</span> <span class="title">M2</span><span class="params">()</span></span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(*T)</span> <span class="title">M3</span><span class="params">()</span></span> &#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(*T)</span> <span class="title">M4</span><span class="params">()</span></span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">  <span class="keyword">var</span> n <span class="keyword">int</span></span><br><span class="line">  dumpMethodSet(n)</span><br><span class="line">  dumpMethodSet(&amp;n)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> t T</span><br><span class="line">  dumpMethodSet(t)</span><br><span class="line">  dumpMethodSet(&amp;t)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行上面的示例代码，得到如下输出：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span><span class="string">'s method set is empty!</span></span><br><span class="line"><span class="string">*int'</span>s method set is empty!</span><br><span class="line">main.T<span class="string">'s method set:</span></span><br><span class="line"><span class="string">- M1</span></span><br><span class="line"><span class="string">- M2</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">*main.T'</span>s method set:</span><br><span class="line">- M1</span><br><span class="line">- M2</span><br><span class="line">- M3</span><br><span class="line">- M4</span><br></pre></td></tr></table></figure>
+
+<p>从上面的输出中，可以看到<code>int</code>、<code>*int</code> 是 Go 原生类型由于没有定义方法，所以它们的方法集合都是空的。<br>而自定义类型 T 定义了方法 M1 和 M2，因此它的方法集合包含了 M1 和 M2，符合预期，但是 <code>*T</code> 的方法集合除了预期的 M3 和 M4 之外，怎么还包含了类型 T 的 M1 和 M2 方法？</p>
+<p>这是因为，Go 语言规定，<strong><code>*T</code> 类型的方法集合包含所有以 <code>*T</code> 为 receiver 参数类型的方法，以及所有以 <code>T</code> 为 receiver 参数类型的方法。</strong><br>这就是这个示例中为何 <code>*T</code> 类型的方法集合包含四个方法的原因。</p>
+<p>这个时候再来看看前面的那个编译失败的问题，是不是就找到原因了。</p>
+<p>可以使用 <code>dumpMethodSet</code> 函数，输出一下该示例中t 与 pt 各自所属类型的方法集合：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">main.T<span class="string">'s method set:</span></span><br><span class="line"><span class="string">- M1</span></span><br><span class="line"><span class="string">*main.T'</span>s method set:</span><br><span class="line">- M1</span><br><span class="line">- M2</span><br></pre></td></tr></table></figure>
+
+<p>从输出结果中，可以看到 <code>T</code>、<code>*T</code> 各自的方法集合确实是符合上面的结论的。</p>
+<p>到这里，已经知道了所谓的<strong>方法集合决定接口实现</strong>的含义就是：如果某类型 <code>T</code> 的方法集合与某接口类型的方法集合相同，或者类型 <code>T</code> 的方法集合是接口类型 <code>I</code> 方法集合的超集，那么我们就说这个类型 <code>T</code> 实现了接口 <code>I</code>。或者说，方法集合这个概念在 Go 语言中的主要用途，就是用来<strong>判断某个类型是否实现了某个接口</strong>。</p>
+<p>有了方法集合的概念做铺垫，选择 receiver 参数类型的第三个原则也相对好理解了。</p>
+<h3 id="原则三"><a href="#原则三" class="headerlink" title="原则三"></a>原则三</h3><p>该原则的选择依据就是 <strong><code>T</code> 类型是否需要实现某个接口</strong>。</p>
+<p>如果 <strong><code>T</code> 类型需要实现某个接口的全部方法，那就要使用 <code>T</code> 作为 receiver 参数的类型，来满足接口类型方法集合中的所有方法</strong>。</p>
+<p>上面这个总结没有问题，只是有一点绕，想表达的意思是，有一个接口类型I，一个自定义非接口类型T，那么下面这段代码是ok的，即t 可以赋值给i。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Interface <span class="keyword">interface</span> &#123;</span><br><span class="line">    M1()</span><br><span class="line">    M2()</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">type</span> T <span class="keyword">struct</span>&#123;&#125;</span><br><span class="line"><span class="comment">// 使用 T 作为 receiver 参数的类型，来满足接口类型方法集合中的所有方法</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t T)</span> <span class="title">M1</span><span class="params">()</span></span>  &#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t T)</span> <span class="title">M2</span><span class="params">()</span></span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">  <span class="keyword">var</span> i I </span><br><span class="line">  <span class="keyword">var</span> t T</span><br><span class="line">  i = t    <span class="comment">// 编译成功</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但是如果是 *T 实现了I，那么就不能保证 T 也会实现 I，也就是下面这段代码会编译失败。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Interface <span class="keyword">interface</span> &#123;</span><br><span class="line">    M1()</span><br><span class="line">    M2()</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">type</span> T <span class="keyword">struct</span>&#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t T)</span> <span class="title">M1</span><span class="params">()</span></span>  &#123;&#125;</span><br><span class="line"><span class="comment">// 使用 *T 作为 receiver 参数的类型</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t *T)</span> <span class="title">M2</span><span class="params">()</span></span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">  <span class="keyword">var</span> i I </span><br><span class="line">  <span class="keyword">var</span> t T</span><br><span class="line">  i = t     <span class="comment">// 编译失败</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>因此我们在设计一个自定义类型T的方法时，考虑是否T需要实现某个接口。如果需要，方法receiver参数的类型应该是T。如果T不需要，那么用*T或T就都可以了。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>当 receiver 参数的类型为 <code>T</code> 时，对receiver 参数的任何修改都<strong>不会</strong>影响到原实例</li>
+<li>当 receiver 参数的类型为 <code>*T</code> 时，对receiver 参数的任何修改都<strong>会</strong>影响到原实例</li>
+<li>实际进行 Go 方法设计时，首先应该考虑原则三，其次才是原则一和原则二</li>
+<li>方法集合是用来<strong>判断某一类型是否实现了某接口的唯一手段</strong></li>
+</ul>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://time.geekbang.org/column/intro/100093501" target="_blank" rel="noopener">Tony Bai · Go 语言第一课</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/go-language-study-notes-receiver/>https://www.0x2beace.com/go-language-study-notes-receiver/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2023-02-18T11:28:33+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Feb 18, 2023</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Go/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Go</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/go-language-study-notes-receiver/&title=Go 语言学习笔记——方法接收器的选择 - Boo&summary=上一篇笔记了解了 Go 语言方法的声明、本质，这篇笔记主要来了解 Go 语言方法的receiver 参数。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/go-language-study-notes-receiver/&title=Go 语言学习笔记——方法接收器的选择 - Boo&summary=上一篇笔记了解了 Go 语言方法的声明、本质，这篇笔记主要来了解 Go 语言方法的receiver 参数。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/go-language-study-notes-receiver/&title=Go 语言学习笔记——方法接收器的选择 - Boo&summary=上一篇笔记了解了 Go 语言方法的声明、本质，这篇笔记主要来了解 Go 语言方法的receiver 参数。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADsUlEQVR42u3aQZLbMAwEQP//08k9KZc4AGRhvc3bVixRbPkwwfj1xyqtFwJw4MCBs8CBWwL3Kq5/r/9vgzeff/tAb+47vV/7vODAgQMHDhw4cMvgjgPgxUHSg6VgpzDp8x3fDxw4cODAgQMHbilcGnhPDzr9gq4+Xw3al+cFBw4cOHDgwIH7Erj0uqvr0+Cc7gcOHDhw4MCBAwfurOBNA2u1yE6fFxw4cODAgQMH7tvg0kHgpwePU4PLx5t8cODAgQMHDhy4Ibh0pQFz29/l84IDBw4cOHDgwC2Bm1rdojkdhE4H3eN9wIEDBw4cOHDglsB1D5YWvF2I6v7pAPb4fw7gwIEDBw4cOHDL4a4OWA2g1SI7feHp595eBw4cOHDgwIEDtwyuGhBTiOrBqtd3wY6bfHDgwIEDBw4cuIfgusG1Osg8BZrevzwoBQcOHDhw4MCBWwKXBt1usOwW1VOw5WIcHDhw4MCBAwduCVw3AE8NNNMDVweg1eIdHDhw4MCBAwduG1x1wNgFvSsoVwvn8iATHDhw4MCBAwfuYbj0BmnQrQ4qp4vm9HOXARgcOHDgwIEDB+5huOqBqsG4+kPCbgF9+pzgwIEDBw4cOHA/Fa66QTUQdwek3ecYC8DgwIEDBw4cOHAfhrs7oHYHjdOD1/LAExw4cODAgQMHbhncXatbLHeDa/cHjODAgQMHDhw4cNvhToNkt/g9PcApRBpk0/3Kg0xw4MCBAwcOHLgPwd0dPNMDd39gOP3CwYEDBw4cOHDgtsG1C9rmdWnxnBbW47DgwIEDBw4cOHBL4KYfsHqfNAhPPV86uAUHDhw4cODAgdsCV4XqBuM0gHaL6/QFHg8ywYEDBw4cOHDgHobrPmAabNPgW/336hcBHDhw4MCBAwfup8F1A2kXsFowTz3n5QsCBw4cOHDgwIFbBlctfKcGld2i+bSI7hbp4MCBAwcOHDhwW+GeGlx2i+90sFku1sGBAwcOHDhw4JbAdddUUTxVMKcD0/iLAw4cOHDgwIEDtwTuVVzVjdN9qy+sOtC8DNbgwIEDBw4cOHDL4NLA2y2U0wfvAnT3BwcOHDhw4MCB2w43FXjvKpKni+j4iwMOHDhw4MCBA/dL4aqBe+zgxYIaHDhw4MCBAwfu2+Cqg86pwWZaXHcLa3DgwIEDBw4cuK1w3QB5XOwWgbsDzlO425t8cODAgQMHDhy4IbhqgXsXfBpwp4rwy/uDAwcOHDhw4MAtgbOyBQ4cOHDgLHDgHl5/AYF8+I85J4eSAAAAAElFTkSuQmCC">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/different-calculations-xor-rapid-skill/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>异或运算 XOR 快速上手</p>
+                <p class='content'>运算符有多种类型，常见的有：
+
+算术运算符
+关系运算符
+逻辑运算符
+位运算
+…
+
+在位运算中，异或运算虽然不常用，但是也非常重要，某些场景下，使用异或运算非常方便。
+
+
+概念位运算符作用于位，并...</p>
+              </a>
+            
+            
+              <a class='next' href='/go-language-study-notes-function/'>
+                <p class='title'>Go 语言学习笔记——函数<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>在 Go 语言中，函数是唯一一种基于特定输入，实现特定任务并可返回任务执行结果的代码块，占据着重要的位置。
+
+
+函数在 Go 中，定义一个函数最常用的方式就是使用函数声明，以Go 标准库 fmt...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Go 语言学习笔记——方法接收器的选择',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#receiver-参数类型对-Go-方法的影响"><span class="toc-text">receiver 参数类型对 Go 方法的影响</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#原则一"><span class="toc-text">原则一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#原则二"><span class="toc-text">原则二</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法集合"><span class="toc-text">方法集合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#原则三"><span class="toc-text">原则三</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+      
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <span class="post-count">总字数：369.2k</span>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
+
+        <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+        
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?fbe826b92f6d49a0ebacf4d848bd3add";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+<script>
+  var now = new Date(); 
+  function createtime() {    
+      var grt= new Date("07/04/2020 14:12:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";     
+  } 
+setInterval("createtime()",250);
+</script>
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "Ki6kd5TUWoQyYKSErxehnRpc-MdYXbMMI",
+    appKey: "7pRBOKMw58Yo7EsUjHziIEY1",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>

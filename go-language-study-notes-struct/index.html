@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>Go 语言学习笔记——结构体 - Boo</title>
+  
+    <meta name="keywords" content="Go">
+  
+  
+    <meta name="description" content="Go 语言并不是一门面向对象的编程语言，它没有面向对象所特有的 class，在 Go 语言中，对事物进行抽象使用结构体类型 struct。">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Boo's Blog</p>
+    
+    
+      <p class="subtitle">Stay foolish, Stay hungry</p>
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/"
+                
+                
+                id="https:www0x2BeAcecom">
+                <i class='fas fa-book fa-fw'></i>博客
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/categories/"
+                
+                
+                id="https:www0x2BeAcecomcategories">
+                <i class='fas fa-rss fa-fw'></i>分类
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/tags/"
+                
+                
+                id="https:www0x2BeAcecomtags">
+                <i class='fas fa-play-circle fa-fw'></i>标签
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/archives/"
+                
+                  rel="external nofollow noopener noreferrer"
+                
+                
+                id="https:www0x2BeAcecomarchives">
+                <i class='fas fa-file-code fa-fw'></i>归档
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/about/"
+                
+                
+                id="https:www0x2BeAcecomabout">
+                <i class='fas fa-handshake fa-fw'></i>关于我
+              </a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/go-language-study-notes-struct/">
+      Go 语言学习笔记——结构体
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Go/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Go</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Oct 27, 2022</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>2.3k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>8 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/go-language-study-notes-struct/" class="leancloud_visitors" data-flag-title="Go 语言学习笔记——结构体">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>Go 语言并不是一门面向对象的编程语言，它没有面向对象所特有的 class，在 Go 语言中，对事物进行抽象使用结构体类型 struct。</p>
+<a id="more"></a>
+
+<p>不过，在学习如何定义一个结构体类型之前，首先要来看看如何在 Go 中自定义一个新类型。</p>
+<h2 id="自定义新类型"><a href="#自定义新类型" class="headerlink" title="自定义新类型"></a>自定义新类型</h2><p>在 Go 中，自定义一个新类型一般有两种方法，下面一一介绍。</p>
+<h3 id="type"><a href="#type" class="headerlink" title="type"></a>type</h3><p>使用类型声明语法（Type 关键字），这也是最常用的方式：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> T S <span class="comment">// 基于类型 S 定义一个新类型T</span></span><br></pre></td></tr></table></figure>
+<p>Go 语言中，凡通过类型声明语法声明的类型都被称为 defined 类型。</p>
+<p>在这里，S 可以是任何一个已定义的类型，包括 <strong>Go 原生类型</strong>，或者是<strong>其他已定义的自定义类型</strong>。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> T1 <span class="keyword">int</span></span><br><span class="line"><span class="keyword">type</span> T2 T1</span><br></pre></td></tr></table></figure>
+
+<p>在上面的示例代码中，新类型 T1 是基于 Go 原生类型 int 定义的新自定义类型，而新类型 T2 则是基于刚刚定义的类型 T1，定义的新类型。</p>
+<p>这里引入一个概念：<strong>底层类型（Underlying Type）</strong>—— 如果一个新类型是基于某个 Go 原生类型或者其他已定义的自定义类型定义的，那么就可以说 Go 原生类型/其他已定义的自定义类型是新类型的底层类型。</p>
+<p>底层类型在 Go 语言中有重要作用，<strong>它被用来判断两个类型本质上是否相同（Identical）。</strong></p>
+<p>在上面例子中，虽然 T1 和 T2 是不同类型，但因为它们的底层类型都是类型 int，所以它们在本质上是相同的。</p>
+<p>而本质上相同的两个类型，它们的变量可以通过显式转型进行相互赋值，相反，如果本质上是不同的两个类型，它们的变量间连显式转型都不可能，更不要说相互赋值了。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> T1 <span class="keyword">int</span></span><br><span class="line"><span class="keyword">type</span> T2 T1</span><br><span class="line"><span class="keyword">type</span> T3 <span class="keyword">string</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> n1 T1</span><br><span class="line">    <span class="keyword">var</span> n2 T2 = <span class="number">5</span></span><br><span class="line">    n1 = T1(n2)  <span class="comment">// ok</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> s T3 = <span class="string">"hello"</span></span><br><span class="line">    n1 = T1(s) <span class="comment">// 错误：cannot convert s (type T3) to type T1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>除了基于已有类型定义新类型之外，还可以基于<strong>类型字面值</strong>来定义新类型，这种方式多用于自定义一个新的复合类型：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> M <span class="keyword">map</span>[<span class="keyword">int</span>]<span class="keyword">string</span>     <span class="comment">// 定义一个 [int]string 类型的 map</span></span><br><span class="line"><span class="keyword">type</span> S []<span class="keyword">string</span>           <span class="comment">// 定义一个 切片类型的新类型</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 也可以写成这样</span></span><br><span class="line"><span class="keyword">type</span> (</span><br><span class="line">	M <span class="keyword">map</span>[<span class="keyword">int</span>]<span class="keyword">string</span></span><br><span class="line">	S []<span class="keyword">int</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h3 id="type-alias"><a href="#type-alias" class="headerlink" title="type alias"></a>type alias</h3><p>第二种方式是使用类型别名（Type Alias）：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> T = S <span class="comment">// type alias</span></span><br></pre></td></tr></table></figure>
+
+<p>与前面的第一种自定义新类型的方式相比，类型别名在形式上多出了一个等号，其次就是新类型 T 和原类型 S 是完全等价的，完全等价的意思就是，类型别名并没有定义出新类型，类 T 与 S 实际上就是<strong>同一种类型</strong>。</p>
+<p>通过下面这段示例代码来验证：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> T = <span class="keyword">string</span> </span><br><span class="line">  </span><br><span class="line"><span class="keyword">var</span> s <span class="keyword">string</span> = <span class="string">"hello"</span> </span><br><span class="line"><span class="keyword">var</span> t T = s <span class="comment">// ok</span></span><br><span class="line">fmt.Printf(<span class="string">"%T\n"</span>, t) <span class="comment">// string</span></span><br></pre></td></tr></table></figure>
+
+<p>类型 T 是通过类型别名的方式定义的，T 与 string 实际上是一个类型，所以这里，使用 string 类型变量 s 给 T 类型变量 t 赋值的动作，实质上就是<strong>同类型赋值</strong>。最后输出的 string 也是符合预期的。</p>
+<h2 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h2><p>复合类型的定义一般都是通过<strong>类型字面值</strong>的方式来进行的，作为复合类型之一的结构体类型也不例外：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义一个名称为 T 的结构体类型</span></span><br><span class="line"><span class="keyword">type</span> T <span class="keyword">struct</span> &#123;</span><br><span class="line">    Field1 T1</span><br><span class="line">    Field2 T2</span><br><span class="line">    <span class="comment">// ... ...</span></span><br><span class="line">    FieldN Tn</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>类型字面值由若干个字段（field）聚合而成，每个字段有自己的名称与类型，且每个字段的名称是唯一的。</p>
+<p>另外，这个名称为 T 的结构体，因为首字母是大写的关系，它是带有导出标识符的，所以在其他包中也可以被访问到，反之，如果是小写，则只能在当前包中使用。结构体中的字段也遵循这个规则。</p>
+<p>除了上面这种典型的定义方式，还有几种特殊的情况。</p>
+<h3 id="空结构体"><a href="#空结构体" class="headerlink" title="空结构体"></a>空结构体</h3><p>可以定义一个空结构体，也就是没有包含任何字段的结构体类型：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Empty <span class="keyword">struct</span>&#123;&#125; <span class="comment">// Empty是一个不包含任何字段的空结构体类型</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> e Empty</span><br><span class="line"><span class="comment">// 查看变量内存占用大小</span></span><br><span class="line"><span class="built_in">println</span>(unsafe.Sizeof(e)) <span class="comment">// 0</span></span><br></pre></td></tr></table></figure>
+
+<p>因为空结构体类型变量的内存占用为 0，基于空结构体类型内存零开销这样的特性，可以作为“事件”信息进行 Goroutine 之间的通信：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> c = <span class="built_in">make</span>(<span class="keyword">chan</span> Empty) <span class="comment">// 声明一个元素类型为Empty的channel</span></span><br><span class="line">c&lt;-Empty&#123;&#125;               <span class="comment">// 向channel写入一个“事件”</span></span><br></pre></td></tr></table></figure>
+
+<p>这种以空结构体为元素类建立的 channel，是目前能实现的、内存占用最小的 Goroutine 间通信方式。</p>
+<h3 id="类型嵌入"><a href="#类型嵌入" class="headerlink" title="类型嵌入"></a>类型嵌入</h3><p>类型嵌入指的就是在一个类型的定义中嵌入了其他类型，Go 语言支持两种类型嵌入，<strong>接口类型的类型嵌入</strong>和<strong>结构体类型的类型嵌入</strong>。</p>
+<p>这里先只介绍结构体类型的类型嵌入，后面的笔记中会详细介绍它俩。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Person <span class="keyword">struct</span> &#123;</span><br><span class="line">    Name <span class="keyword">string</span></span><br><span class="line">    Phone <span class="keyword">string</span></span><br><span class="line">    Addr <span class="keyword">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Book1 <span class="keyword">struct</span> &#123;</span><br><span class="line">    Title <span class="keyword">string</span></span><br><span class="line">    Author Person</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 还可以使用嵌入字段 省略字段名称</span></span><br><span class="line"><span class="keyword">type</span> Book2 <span class="keyword">struct</span> &#123;</span><br><span class="line">    Title <span class="keyword">string</span></span><br><span class="line">    Person</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>访问 Book 结构体字段 Author 中的 Phone 字段，下面两种方式是等价的：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> book1 Book1</span><br><span class="line"><span class="keyword">var</span> book2 Book2</span><br><span class="line"></span><br><span class="line"><span class="comment">// 正常通过结构体字段一层一层访问</span></span><br><span class="line"><span class="built_in">println</span>(book1.Author.Phone)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 直接访问嵌入字段所属类型中字段</span></span><br><span class="line"><span class="built_in">println</span>(book2.Phone)</span><br></pre></td></tr></table></figure>
+
+<h2 id="结构体的声明与初始化"><a href="#结构体的声明与初始化" class="headerlink" title="结构体的声明与初始化"></a>结构体的声明与初始化</h2><p>和其他所有变量的声明一样，也可以使用标准变量声明语句，或者是短变量声明语句声明一个结构体类型的变量：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Book <span class="keyword">struct</span> &#123;</span><br><span class="line">     <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这三种方式都是等价的</span></span><br><span class="line"><span class="keyword">var</span> book Book</span><br><span class="line"><span class="keyword">var</span> book = Book&#123;&#125;</span><br><span class="line">book := Book&#123;&#125;       <span class="comment">// 推荐使用复合字面值的形式</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="零值初始化"><a href="#零值初始化" class="headerlink" title="零值初始化"></a>零值初始化</h3><p>零值初始化说的是使用结构体的零值作为它的初始值。</p>
+<p>结构体类型的零值变量，通常不具有或者很难具有合理的意义，比如通过下面代码得到的零值 book 变量就是这样：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> book Book    <span class="comment">// book为零值结构体变量</span></span><br></pre></td></tr></table></figure>
+
+<p>因为一本书既没有书名，也没有作者、页数、索引等信息，那么通过 Book 类型对这本书的抽象就失去了实际价值。所以对于像 Book 这样的结构体类型，使用零值初始化并不是正确的选择。</p>
+<p>但是这并不是意味着零值初始化就完全没有意义了，相反，如果一种类型采用零值初始化得到的零值变量，是有意义的，而且是直接可用的。</p>
+<p>可以说，定义零值可用类型是简化代码、改善开发者使用体验的一种重要的手段。</p>
+<p>Go 标准库中的 <code>bytes.Buffer</code> 结构体类型，就是一个典型的例子：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> b bytes.Buffer            </span><br><span class="line">b.Write([]<span class="keyword">byte</span>(<span class="string">"Hello, Go"</span>))</span><br><span class="line">fmt.Println(b.String())        <span class="comment">// 输出：Hello, Go</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到不需要对 <code>bytes.Buffer</code> 类型的变量 b 进行任何显式初始化，就可以直接通过处于零值状态的变量 b，调用它的方法进行写入和读取操作。</p>
+<h3 id="复合字面值"><a href="#复合字面值" class="headerlink" title="复合字面值"></a>复合字面值</h3><p>最简单的对结构体变量进行显式初始化的方式，就是按顺序依次给每个结构体字段进行赋值：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Book <span class="keyword">struct</span> &#123;</span><br><span class="line">    Title <span class="keyword">string</span>              <span class="comment">// 书名</span></span><br><span class="line">    Pages <span class="keyword">int</span>                 <span class="comment">// 书的页数</span></span><br><span class="line">    Indexes <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>    <span class="comment">// 书的索引</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> book = Book&#123;<span class="string">"The Go Programming Language"</span>, <span class="number">700</span>, <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>)&#125;</span><br><span class="line"><span class="built_in">println</span>(<span class="string">"Book Name："</span>, book.Title)       <span class="comment">// Book Name：The Go Programming Language</span></span><br><span class="line"><span class="built_in">println</span>(<span class="string">"Book Pages："</span>, book.Pages)      <span class="comment">// Book Pages：700</span></span><br></pre></td></tr></table></figure>
+
+<p>这种方式虽然是最简单的，但是却不是最优的，因为存在很多问题：</p>
+<ul>
+<li>当结构体类型定义中的字段顺序发生变化，或者字段出现增删操作时，就需要手动调整该结构体类型变量的显式初始化代码</li>
+<li>当一个结构体的字段较多时，这种逐一字段赋值的方式实施起来就会比较困难，增加开发者的心智负担</li>
+<li>一旦结构体中包含非导出字段，那么这种逐一字段赋值的方式就不再被支持了，编译器会报错</li>
+</ul>
+<p>Go 语言推荐我们用 <strong>field:value</strong> 形式的复合字面值，对结构体类型变量进行显式初始化：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> book = Book &#123;</span><br><span class="line">  Title: <span class="string">"The Go Programming Language"</span>,</span><br><span class="line">  Pages: <span class="number">700</span>,</span><br><span class="line">  Indexes: <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>),</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用这种方式，不用担心结构体字段的顺序。未显式出现在字面值中的结构体字段将采用它对应类型的零值。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>Go 语言不是一门面向对象范式的编程语言，它没有 C++ 或 Java 中的那种 class 类型</li>
+<li>Go 语言通过结构体，提供抽象能力</li>
+<li>结构体的定义不支持递归</li>
+<li>结构体的初始化有几种方式：零值初始化、复合字面值初始化，依据实际场景选择使用</li>
+</ul>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://time.geekbang.org/column/intro/100093501" target="_blank" rel="noopener">Tony Bai · Go 语言第一课</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/go-language-study-notes-struct/>https://www.0x2beace.com/go-language-study-notes-struct/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2023-02-18T11:28:33+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Feb 18, 2023</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Go/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Go</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/go-language-study-notes-struct/&title=Go 语言学习笔记——结构体 - Boo&summary=Go 语言并不是一门面向对象的编程语言，它没有面向对象所特有的 class，在 Go 语言中，对事物进行抽象使用结构体类型 struct。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/go-language-study-notes-struct/&title=Go 语言学习笔记——结构体 - Boo&summary=Go 语言并不是一门面向对象的编程语言，它没有面向对象所特有的 class，在 Go 语言中，对事物进行抽象使用结构体类型 struct。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/go-language-study-notes-struct/&title=Go 语言学习笔记——结构体 - Boo&summary=Go 语言并不是一门面向对象的编程语言，它没有面向对象所特有的 class，在 Go 语言中，对事物进行抽象使用结构体类型 struct。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADrUlEQVR42u3aQXLjMAwEQP//08l9UylxAEhGvM1bypJMtn2YYPz6skrrhQAcOHDgLHDglsC9iuu3+3+80cXr/153dV91H2PnBQcOHDhw4MCBWwZ3HAB/2XAV7PS+9IM83X98XnDgwIEDBw4cuKVw6cbSAJkG5+rf1aB9+T7gwIEDBw4cOHAfAnd3UE4D8el94MCBAwcOHDhw/ztctaCuFtHTQRkcOHDgwIEDB+5T4NJgexfI3R/M25t8cODAgQMHDhy4Ibh0TQfQp/8unxccOHDgwIEDB24J3PTqFsFpwD0dSI6dDxw4cODAgQMHbglcupHuD/pOD5ZCp9eVC2pw4MCBAwcOHLglcGnRXC2KHyuMmwH88tzgwIEDBw4cOHBL4KrBNA3ApwPPqSB9W4EODhw4cODAgQO3FK4bRLsQ6fPSgN0elIIDBw4cOHDgwC2BqxbQ1aB8en91kHn39eDAgQMHDhw4cFvh0jcYD5jFYNt97vF5wYEDBw4cOHDglsB1C96pYrv6nO4HkwZ1cODAgQMHDhy4LXCngXdqYFgN1l3Q9Pnl/xzAgQMHDhw4cOAehpsGPA2e1YBdHkQWf7AIDhw4cODAgQO3Da77oKngWh18dq8rB2Bw4MCBAwcOHLg3w6UHPi1uuxvuHjz9gI4LbHDgwIEDBw4cuOVwTx2ge5DqPqrQ4MCBAwcOHDhwW+CqMKdBOS2IU9AUtr1fcODAgQMHDhy4JXB3HSQ9YDc4d0GPv0jgwIEDBw4cOHBL4LoDwDRIp8GzG3THB6TgwIEDBw4cOHBL4NJgWS2mvw5XFbZbmB8HdXDgwIEDBw4cuCVwp8HvbpCpIrn6PsfnAAcOHDhw4MCBWwaXbjANnFOw1dfTQSk4cODAgQMHDtxfhZuCnR5wVoN6tQC/HGSCAwcOHDhw4MC9GW568FgtjKcGjum+jmHBgQMHDhw4cOCWwsU/tAuDcPX69DnV4F4OwODAgQMHDhw4cA/DTQXLqQFnFzoOtOF94MCBAwcOHDhwW+BexdUdEFbBp2DSQS44cODAgQMHDtxWuKli9xRsuhBPi3Nw4MCBAwcOHLhPg5vacBc23cdUoL/84oADBw4cOHDgwH0Y3FRBnEKcflDV128PwODAgQMHDhw4cG+CmyqAu8G2WlzHBTs4cODAgQMHDtxSuLSQvquoTgNxOiAtf3HAgQMHDhw4cOCWwVUL3O7Gq8G1G7jL14EDBw4cOHDgwC2Bs7IFDhw4cOAscODevL4BOjP+NQtp0KwAAAAASUVORK5CYII=">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/go-language-study-notes-panic/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Go 语言学习笔记——panic</p>
+                <p class='content'>Go 函数的健壮性设计包括很多方面，首先是最基本的“三不要”原则，简单来了解一下。
+
+
+三不要原则不要相信任何外部输入的参数函数的使用者可能是任何人，这些人在使用函数之前可能都没有阅读过任何手册...</p>
+              </a>
+            
+            
+              <a class='next' href='/go-language-study-notes-map/'>
+                <p class='title'>Go 语言学习笔记——map<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>作为 Go 语言复合类型之一的字典 map，使用频率也是较高的。
+
+
+很多中文 Go 编程语言类技术书籍都会将它翻译为映射、哈希表或字典，在这篇笔记中约定使用 map。
+mapmap 是 Go ...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Go 语言学习笔记——结构体',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#自定义新类型"><span class="toc-text">自定义新类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#type"><span class="toc-text">type</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#type-alias"><span class="toc-text">type alias</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结构体"><span class="toc-text">结构体</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#空结构体"><span class="toc-text">空结构体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#类型嵌入"><span class="toc-text">类型嵌入</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结构体的声明与初始化"><span class="toc-text">结构体的声明与初始化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#零值初始化"><span class="toc-text">零值初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#复合字面值"><span class="toc-text">复合字面值</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+      
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <span class="post-count">总字数：369.2k</span>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
+
+        <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+        
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?fbe826b92f6d49a0ebacf4d848bd3add";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+<script>
+  var now = new Date(); 
+  function createtime() {    
+      var grt= new Date("07/04/2020 14:12:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";     
+  } 
+setInterval("createtime()",250);
+</script>
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "Ki6kd5TUWoQyYKSErxehnRpc-MdYXbMMI",
+    appKey: "7pRBOKMw58Yo7EsUjHziIEY1",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>

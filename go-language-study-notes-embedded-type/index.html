@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>Go 语言学习笔记——类型嵌入 - Boo</title>
+  
+    <meta name="keywords" content="Go">
+  
+  
+    <meta name="description" content="前两篇笔记主要了解了 Go 方法的声明、本质，以及 receiver 类型选择的三个原则，这篇笔记主要来了解 Go 语言的组合思想——类型嵌入。">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Boo's Blog</p>
+    
+    
+      <p class="subtitle">Stay foolish, Stay hungry</p>
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/"
+                
+                
+                id="https:www0x2BeAcecom">
+                <i class='fas fa-book fa-fw'></i>博客
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/categories/"
+                
+                
+                id="https:www0x2BeAcecomcategories">
+                <i class='fas fa-rss fa-fw'></i>分类
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/tags/"
+                
+                
+                id="https:www0x2BeAcecomtags">
+                <i class='fas fa-play-circle fa-fw'></i>标签
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/archives/"
+                
+                  rel="external nofollow noopener noreferrer"
+                
+                
+                id="https:www0x2BeAcecomarchives">
+                <i class='fas fa-file-code fa-fw'></i>归档
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/about/"
+                
+                
+                id="https:www0x2BeAcecomabout">
+                <i class='fas fa-handshake fa-fw'></i>关于我
+              </a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/go-language-study-notes-embedded-type/">
+      Go 语言学习笔记——类型嵌入
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Go/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Go</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Nov 1, 2022</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>2.9k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>11 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/go-language-study-notes-embedded-type/" class="leancloud_visitors" data-flag-title="Go 语言学习笔记——类型嵌入">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>前两篇笔记主要了解了 Go 方法的声明、本质，以及 receiver 类型选择的三个原则，这篇笔记主要来了解 Go 语言的组合思想——类型嵌入。</p>
+<a id="more"></a>
+
+<h2 id="类型嵌入"><a href="#类型嵌入" class="headerlink" title="类型嵌入"></a>类型嵌入</h2><p>什么是类型嵌入？<br>类型嵌入指的是在一个类型的定义中嵌入了其他类型。Go 语言支持两种类型嵌入，分别是接口类型的类型嵌入和结构体类型的类型嵌入。</p>
+<h3 id="接口类型嵌入"><a href="#接口类型嵌入" class="headerlink" title="接口类型嵌入"></a>接口类型嵌入</h3><p>接口类型声明了由一个方法集合代表的接口，比如下面接口类型 E：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> E <span class="keyword">interface</span> &#123;</span><br><span class="line">  M1()</span><br><span class="line">  M2()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个接口类型 E 的方法集合，包含两个方法，分别是 M1 和 M2，它们组成了 E 这个接口类型所代表的接口。<br>如果某个类型实现了方法 M1 和 M2，就可以说这个类型实现了 E 所代表的接口。</p>
+<p>此时，再定义另外一个接口类型 I，它的方法集合中包含了三个方法M1、M2、和 M3：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> I <span class="keyword">interface</span> &#123;</span><br><span class="line">  M1()</span><br><span class="line">  M2()</span><br><span class="line">  M3()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接口类型 I 的方法集合中定义的 M1、M2 和接口类型 E 的方法集合中的方法完全相同。<br>这种情况下，可以直接使用接口类型 E 替代上面接口类型 I 定义的 M1 和 M2：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> I <span class="keyword">interface</span> &#123;</span><br><span class="line">  E</span><br><span class="line">  M3()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>像这种在一个接口类型（I）定义中，嵌入另外一个接口类型（E）的方式，就是<strong>接口类型的类型嵌入</strong>。</p>
+<p>而且，这个带有类型嵌入的接口类型 I的定义与上面那个包含 M1、M2、M3 的接口类型 I 的定义，是等价的。<br>因此可以得出一个结论：<strong>接口类型嵌入的语义就是新接口类型（I）将嵌入接口类型（E）的方法集合，并入到自己的方法集合中</strong>。</p>
+<p>到这里你可能会问，既然都是等价的，那么直接在接口类型定义中平铺方法列表就好了，为啥要使用类型嵌入方式定义接口类型呢？其实这也是 <strong>Go 组合设计哲学的一种体现</strong>。</p>
+<p>按 Go 语言惯例，Go 中的接口类型中只包含少量方法，并且常常只是一个方法。通过在接口类型中嵌入其他接口类型可以实现接口的组合，这也是 <strong>Go 语言中基于已有接口类型构建新接口类型的惯用法</strong>。</p>
+<h3 id="结构体类型嵌入"><a href="#结构体类型嵌入" class="headerlink" title="结构体类型嵌入"></a>结构体类型嵌入</h3><p>其实在前面的结构体笔记中，有简单用到过结构体类型嵌入，但是没有深入了解，那么接下来了解一下。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> T1 <span class="keyword">int</span></span><br><span class="line"><span class="keyword">type</span> t2 <span class="keyword">struct</span>&#123;</span><br><span class="line">    n <span class="keyword">int</span></span><br><span class="line">    m <span class="keyword">int</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">type</span> I <span class="keyword">interface</span> &#123;</span><br><span class="line">    M1()</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">type</span> S1 <span class="keyword">struct</span> &#123;</span><br><span class="line">    T1</span><br><span class="line">    *t2</span><br><span class="line">    I            </span><br><span class="line">    a <span class="keyword">int</span></span><br><span class="line">    b <span class="keyword">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 需要注意 🚧，如果定义成这样，就不是嵌入字段了，因此不会继承接口的方法集合，也就不能直接调用 S1.M1() 了</span></span><br><span class="line"><span class="comment">/*type S1 struct &#123;</span></span><br><span class="line"><span class="comment">    T1 T1</span></span><br><span class="line"><span class="comment">    t2 *t2</span></span><br><span class="line"><span class="comment">    I I            </span></span><br><span class="line"><span class="comment">    a int</span></span><br><span class="line"><span class="comment">    b string</span></span><br><span class="line"><span class="comment">&#125;*/</span></span><br></pre></td></tr></table></figure>
+<p>上面的示例代码是一个带有<strong>嵌入字段（Embedded Field）的结构体定义</strong>。</p>
+<p>可以看到，结构体 S1 定义中有三个“非常规形式” 的标识符，分别是 T1、<code>*t2</code>、和 I，像这种“非常规形式” 的标识符既代表字段的名字，也代表字段的类型：</p>
+<ul>
+<li>T1：字段名为 T1，类型为自定义类型 T1</li>
+<li><code>*t2</code>：字段名为 t2，类型为自定义结构体类型 t2 的指针类型</li>
+<li>I：字段名为 I，类型为接口类型 I</li>
+</ul>
+<p>这种以某个类型名、类型的指针类型名或接口类型名，直接作为结构体字段的方式就叫做<strong>结构体的类型嵌入</strong>，这些字段也被叫做<strong>嵌入字段（Embedded Field）</strong>。</p>
+<h2 id="“继承”原理"><a href="#“继承”原理" class="headerlink" title="“继承”原理"></a>“继承”原理</h2><p>嵌入字段具体有什么用呢？它跟普通结构体字段又有什么不同？下面结合一段示例代码来具体说明：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> MyInt <span class="keyword">int</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(n *MyInt)</span> <span class="title">Add</span><span class="params">(m <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">    *n = *n + MyInt(m)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">type</span> t <span class="keyword">struct</span> &#123;</span><br><span class="line">    a <span class="keyword">int</span></span><br><span class="line">    b <span class="keyword">int</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">type</span> S <span class="keyword">struct</span> &#123;</span><br><span class="line">    *MyInt</span><br><span class="line">    t</span><br><span class="line">    io.Reader</span><br><span class="line">    s <span class="keyword">string</span></span><br><span class="line">    n <span class="keyword">int</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    m := MyInt(<span class="number">17</span>)</span><br><span class="line">    r := strings.NewReader(<span class="string">"hello, go"</span>)</span><br><span class="line">    s := S&#123;</span><br><span class="line">        MyInt: &amp;m,</span><br><span class="line">        t: t&#123;</span><br><span class="line">            a: <span class="number">1</span>,</span><br><span class="line">            b: <span class="number">2</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">        Reader: r,</span><br><span class="line">        s:      <span class="string">"demo"</span>,</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> sl = <span class="built_in">make</span>([]<span class="keyword">byte</span>, <span class="built_in">len</span>(<span class="string">"hello, go"</span>))</span><br><span class="line">    s.Reader.Read(sl)</span><br><span class="line">    fmt.Println(<span class="keyword">string</span>(sl)) <span class="comment">// hello, go</span></span><br><span class="line">    s.MyInt.Add(<span class="number">5</span>)</span><br><span class="line">    fmt.Println(*(s.MyInt)) <span class="comment">// 22</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这个示例中，结构体类型 S 使用了类型嵌入方式进行定义，嵌入了三个字段Myint、t、以及 Reader。</p>
+<p>第三个嵌入字段的名字为 Reader 而不是 io.Reader 的原因是，Go 语言规定如果结构体使用从其他包导入的类型作为嵌入字段，比如 pkg.T，那么这个嵌入字段的字段名就是 T，代表的类型为 pkg.T。</p>
+<p>运行上面的示例代码，输出如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hello, <span class="keyword">go</span></span><br><span class="line"><span class="number">22</span></span><br></pre></td></tr></table></figure>
+
+<p>这样看起来，使用嵌入字段和普通字段似乎并没有什么差别，输出都是一样的。</p>
+<p>将 main 函数中，部分代码替换成下面这部分：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> sl = <span class="built_in">make</span>([]<span class="keyword">byte</span>, <span class="built_in">len</span>(<span class="string">"hello, go"</span>))</span><br><span class="line">s.Read(sl) </span><br><span class="line">fmt.Println(<span class="keyword">string</span>(sl))</span><br><span class="line">s.Add(<span class="number">5</span>) </span><br><span class="line">fmt.Println(*(s.MyInt))</span><br></pre></td></tr></table></figure>
+
+<p>这里可能会有疑问，类型 S 又没有定义 Read 方法和 Add 方法，这样写不会编译失败吗？</p>
+<p>再次运行示例代码，会发现不但没有编译失败，程序还正常输出了。</p>
+<p>之所以没有编译失败，是因为这两个方法就是来自于结构体类型 S 的两个嵌入字段 Reader 和 MyInt。<br>结构体类型 S“继承”了 Reader 字段的方法 Read 的实现，也“继承”了 <code>*MyInt</code> 的 Add 方法的实现。</p>
+<p>这里的”继承“打了引号，并不是真正意义上的继承，只是使用了这一语义。</p>
+<p>其原理是通过结构体类型 S 的实例 s 调用 Read 方法时，Go 发现结构体类型 S 自身并没有定义 Read 方法，于是 Go 会查看 S 的嵌入字段对应的类型是否定义了 Read 方法。这个时候，Reader 字段就被找了出来，之后 <code>s.Read</code> 的调用就被转换为 <code>s.Reader.Read</code> 调用。</p>
+<p>这种将调用“委派”给该结构体内部嵌入类型的实例去执行，叫做委派模式。</p>
+<p>当外界调用新类型的方法时，Go 编译器会首先查找新类型是否实现了这个方法，如果没有，就会将调用委派给其内部实现了这个方法的嵌入类型的实例去执行</p>
+<p>Add 方法的调用原理同上。</p>
+<p>因此，现在就清楚了嵌入字段的作用，它可以用来<strong>实现方法的“继承”</strong>。</p>
+<h2 id="类型嵌入与方法集合"><a href="#类型嵌入与方法集合" class="headerlink" title="类型嵌入与方法集合"></a>类型嵌入与方法集合</h2><p>在前面讲解接口类型的类型嵌入时，我们提到过接口类型的类型嵌入的本质，就是<strong>嵌入类型的方法集合并入到新接口类型的方法集合中</strong>，并且，<strong>接口类型只能嵌入接口类型</strong>。而<strong>结构体类型对嵌入类型的要求就比较宽泛了</strong>，<strong>可以是任意自定义类型或接口类型</strong>。</p>
+<p>下面就分别来看看，在这两种情况下，结构体类型的方法集合会有怎样的变化。<br>这里借助前面笔记中的 dumpMethodSet 工具函数来输出各个类型的方法集合。</p>
+<h3 id="结构体类型中嵌入接口类型"><a href="#结构体类型中嵌入接口类型" class="headerlink" title="结构体类型中嵌入接口类型"></a>结构体类型中嵌入接口类型</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> I <span class="keyword">interface</span> &#123;</span><br><span class="line">    M1()</span><br><span class="line">    M2()</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">type</span> T <span class="keyword">struct</span> &#123;</span><br><span class="line">    I</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(T)</span> <span class="title">M3</span><span class="params">()</span></span> &#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> t T</span><br><span class="line">    <span class="keyword">var</span> p *T</span><br><span class="line">    dumpMethodSet(t)</span><br><span class="line">    dumpMethodSet(p)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行上面的示例代码，输出如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">main.T&#39;s method set:</span><br><span class="line">- M1</span><br><span class="line">- M2</span><br><span class="line">- M3</span><br><span class="line">*main.T&#39;s method set:</span><br><span class="line">- M1</span><br><span class="line">- M2</span><br><span class="line">- M3</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，原本结构体类型 T 只带有一个方法 M3，但在嵌入接口类型 I 后，结构体类型 T 的方法集合中又并入了接口类型 I 的方法集合。</p>
+<p>所以，结论就是：<strong>结构体类型的方法集合，包含嵌入的接口类型的方法集合</strong>。</p>
+<p>不过这里需要注意：和前面接口类型中嵌入接口类型，不同的是，结构体类型嵌入接口类型不允许方法集合存在交集。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> E1 <span class="keyword">interface</span> &#123;</span><br><span class="line">    M1()</span><br><span class="line">    M2()</span><br><span class="line">    M3()</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">type</span> E2 <span class="keyword">interface</span> &#123;</span><br><span class="line">   M1()</span><br><span class="line">   M2()</span><br><span class="line">   M4()</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">type</span> T <span class="keyword">struct</span> &#123;</span><br><span class="line">   E1</span><br><span class="line">   E2</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">   t := T&#123;&#125;</span><br><span class="line">   t.M1()</span><br><span class="line">   t.M2()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行上面的示例代码，会发现编译失败：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">main.<span class="keyword">go</span>:<span class="number">22</span>:<span class="number">3</span>: ambiguous selector t.M1</span><br><span class="line">main.<span class="keyword">go</span>:<span class="number">23</span>:<span class="number">3</span>: ambiguous selector t.M2</span><br></pre></td></tr></table></figure>
+
+<p>这是因为两个接口类型中都存在 M1 与 M2 方法，在结构体没有实现这两个方法的情况下，编译器无法自己做出选择。</p>
+<p>解决方案也很简单：</p>
+<ol>
+<li>消除接口类型中重复定义的方法</li>
+<li>为结构体增加 M1、M2 方法的实现</li>
+</ol>
+<h3 id="结构体类型中嵌入结构体类型"><a href="#结构体类型中嵌入结构体类型" class="headerlink" title="结构体类型中嵌入结构体类型"></a>结构体类型中嵌入结构体类型</h3><p>前面已经了解了，在结构体类型中嵌入结构体类型，<br>可以作为实现”继承“的手段。</p>
+<p>外部的结构体类型 T 可以“继承”嵌入的结构体类型的所有方法的实现。并且，无论是 <code>T</code> 类型的变量实例还是 <code>*T</code> 类型变量实例，都可以调用所有“继承”的方法。</p>
+<p>但这种情况下，<strong>带有嵌入类型的新类型究竟“继承”了哪些方法</strong>，通过下面的示例来看一下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> T1 <span class="keyword">struct</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(T1)</span> <span class="title">T1M1</span><span class="params">()</span></span>   &#123; <span class="built_in">println</span>(<span class="string">"T1's M1"</span>) &#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(*T1)</span> <span class="title">PT1M2</span><span class="params">()</span></span> &#123; <span class="built_in">println</span>(<span class="string">"PT1's M2"</span>) &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> T2 <span class="keyword">struct</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(T2)</span> <span class="title">T2M1</span><span class="params">()</span></span>   &#123; <span class="built_in">println</span>(<span class="string">"T2's M1"</span>) &#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(*T2)</span> <span class="title">PT2M2</span><span class="params">()</span></span> &#123; <span class="built_in">println</span>(<span class="string">"PT2's M2"</span>) &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> T <span class="keyword">struct</span> &#123;</span><br><span class="line">    T1</span><br><span class="line">    *T2</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    t := T&#123;</span><br><span class="line">        T1: T1&#123;&#125;,</span><br><span class="line">        T2: &amp;T2&#123;&#125;,</span><br><span class="line">    &#125;</span><br><span class="line">    dumpMethodSet(t)</span><br><span class="line">    dumpMethodSet(&amp;t)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的示例代码中，各实例的方法集合是不同的：</p>
+<ul>
+<li><code>T1</code> 的方法集合包含：T1M1</li>
+<li><code>*T1</code> 的方法集合包含：T1M1、PT1M2</li>
+<li><code>T2</code> 的方法集合包含：T2M1</li>
+<li><code>*T2</code> 的方法集合包含：T2M1、PT2M2</li>
+</ul>
+<p>运行示例代码，输出如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">main.T<span class="string">'s method set:</span></span><br><span class="line"><span class="string">- PT2M2</span></span><br><span class="line"><span class="string">- T1M1</span></span><br><span class="line"><span class="string">- T2M1</span></span><br><span class="line"><span class="string">*main.T'</span>s method set:</span><br><span class="line">- PT1M2</span><br><span class="line">- PT2M2</span><br><span class="line">- T1M1</span><br><span class="line">- T2M1</span><br></pre></td></tr></table></figure>
+
+<p>通过输出结果，我们看到了 <code>T</code> 和 <code>*T</code> 类型的方法集合果然有差别的：</p>
+<ul>
+<li>类型 <code>T</code> 的方法集合 = <code>T1</code> 的方法集合 + <code>*T2</code> 的方法集合</li>
+<li>类型 <code>*T</code> 的方法集合 = <code>*T1</code> 的方法集合 + <code>*T2</code> 的方法集合</li>
+</ul>
+<p>这里需要注意的是，<code>*T</code> 类型的方法集合，它包含的可不是 <code>T1</code> 类型的方法集合，而是 <code>*T1</code> 类型的方法集合，而 <code>*T1</code> 方法集合又包含 T1M1、PT1M2，（T2同理），所以<code>*T</code> 类型的方法集合包含了PT1M2、PT2M2、T1M1、T2M2。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>接口类型嵌入就是在一个接口类型中，嵌入另外一个接口类型，允许方法集合并入</li>
+<li>结构体类型嵌入就是以某个类型名、类型的指针类型名或接口类型名，直接作为结构体字段</li>
+<li>接口类型只能嵌入接口类型，结构体类型可以嵌入任意自定义类型或接口类型</li>
+<li>在 Go 语言中可以借助结构体类型嵌入实现“继承”</li>
+<li>结构体类型中嵌入接口类型时，包含嵌入的接口类型的方法集合（但是接口类型的方法集合不能存在交集）</li>
+<li>结构体类型中嵌入结构体类型时，<code>T</code> 和 <code>*T</code> 的方法集合不一样</li>
+<li>无论原类型是接口类型还是非接口类型，类型别名都与原类型拥有完全相同的方法集合</li>
+</ul>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://time.geekbang.org/column/intro/100093501" target="_blank" rel="noopener">Tony Bai · Go 语言第一课</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/go-language-study-notes-embedded-type/>https://www.0x2beace.com/go-language-study-notes-embedded-type/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2023-02-18T11:28:33+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Feb 18, 2023</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Go/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Go</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/go-language-study-notes-embedded-type/&title=Go 语言学习笔记——类型嵌入 - Boo&summary=前两篇笔记主要了解了 Go 方法的声明、本质，以及 receiver 类型选择的三个原则，这篇笔记主要来了解 Go 语言的组合思想——类型嵌入。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/go-language-study-notes-embedded-type/&title=Go 语言学习笔记——类型嵌入 - Boo&summary=前两篇笔记主要了解了 Go 方法的声明、本质，以及 receiver 类型选择的三个原则，这篇笔记主要来了解 Go 语言的组合思想——类型嵌入。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/go-language-study-notes-embedded-type/&title=Go 语言学习笔记——类型嵌入 - Boo&summary=前两篇笔记主要了解了 Go 方法的声明、本质，以及 receiver 类型选择的三个原则，这篇笔记主要来了解 Go 语言的组合思想——类型嵌入。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADmklEQVR42u3aSXLDMAwEQP3/08kLXCYGkA25mjcvkolmDhNA158VrQsBOHDgwFngwC2Bu8L18sYvvnd6v9PXr/ZRvb5aLzhw4MCBAwcO3Da44wB4+P14Y0WYKnC3XnDgwIEDBw4cuK1waUA9DcinBaQBvApXrhccOHDgwIEDB+5H4e5qQE4dHDhw4MCBAwcOHLihxmAI0YUCBw4cOHDgwIH7NbipwlPoanCugq6Z5IMDBw4cOHDgwA3BdR8EfNrruF5w4MCBAwcOHLglcN1VDZTV66sB+O4FDhw4cODAgQO3BS4NiHdBVB8wrO6zXR84cODAgQMHDtxD4LqD6fTBwS5oGrzfwoMDBw4cOHDgwC2BS0HS4JsW8qkDiwfS4MCBAwcOHDhwX4KLA2F4XRpYq43SU8jjPyRw4MCBAwcOHLiHwXUbhWkB1cCbrtsCMDhw4MCBAwcO3E1w0zBpAzN9QDBtlJ7WWZ7kgwMHDhw4cODAfQjuNKB2N3waPO8K4FONTnDgwIEDBw4cuC1wp4HzOCAWG4TdhuPU4Dr+zwEcOHDgwIEDB24ZXDywPWxAxhtvNj6rA25w4MCBAwcOHLitcFMD56kBcnfQPT0oBwcOHDhw4MCBewpcNSCmBVSvnzrQbhAGBw4cOHDgwIHbApcWUIU/LXi6YZn+/st6wIEDBw4cOHDglsBNBeAUIh1UX80V/y44cODAgQMHDtxSuHcbTD9PA3M3mFcP4u39wIEDBw4cOHDglsBVQaqNyu7972qoVoMxOHDgwIEDBw7cVripIFuFqA6W0+DdHWyDAwcOHDhw4MBth+sW/OnGaDvQVg8EHDhw4MCBAwduOdxpAE4bladBtHtwU41RcODAgQMHDhy4rXDTG54KzN1gXG3Ytif54MCBAwcOHDhwX4LrDqTLGylelwKNPfgIDhw4cODAgQP3ELiruKaCbfWBw+46Pkhw4MCBAwcOHLglcN2VDqTTwXXagB0bcIMDBw4cOHDgwC2B6wbGuxuaaSPzttfgwIEDBw4cOHDL4NLAmw6AqwczBV09SHDgwIEDBw4cuKfApYHz9P20gfipg2pP8sGBAwcOHDhw4B4K1x0Ap4F4eiBebmSCAwcOHDhw4MD9CNx0IE0H4lMBGxw4cODAgQMHbjtcdSA9/f5dDyJ2G67gwIEDBw4cOHBb4aYHuGkQ7sJUD75cLzhw4MCBAwcO3BI4q7bAgQMHDpwFDtyX1z813PxTlBPkQAAAAABJRU5ErkJggg==">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/go-language-study-notes-interface/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Go 语言学习笔记——接口</p>
+                <p class='content'>在前面的笔记中，已经很多次用到了接口，但是还没有真正介绍它，是因为它和并发原语（Goroutine、channel、select）一样重要，更考验理解力，所以放在后面一些。
+下面就正式进入接口的...</p>
+              </a>
+            
+            
+              <a class='next' href='/different-calculations-xor-rapid-skill/'>
+                <p class='title'>异或运算 XOR 快速上手<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>运算符有多种类型，常见的有：
+
+算术运算符
+关系运算符
+逻辑运算符
+位运算
+…
+
+在位运算中，异或运算虽然不常用，但是也非常重要，某些场景下，使用异或运算非常方便。
+
+
+概念位运算符作用于位，并...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Go 语言学习笔记——类型嵌入',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#类型嵌入"><span class="toc-text">类型嵌入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#接口类型嵌入"><span class="toc-text">接口类型嵌入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结构体类型嵌入"><span class="toc-text">结构体类型嵌入</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#“继承”原理"><span class="toc-text">“继承”原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#类型嵌入与方法集合"><span class="toc-text">类型嵌入与方法集合</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#结构体类型中嵌入接口类型"><span class="toc-text">结构体类型中嵌入接口类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结构体类型中嵌入结构体类型"><span class="toc-text">结构体类型中嵌入结构体类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+      
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <span class="post-count">总字数：369.2k</span>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
+
+        <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+        
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?fbe826b92f6d49a0ebacf4d848bd3add";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+<script>
+  var now = new Date(); 
+  function createtime() {    
+      var grt= new Date("07/04/2020 14:12:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";     
+  } 
+setInterval("createtime()",250);
+</script>
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "Ki6kd5TUWoQyYKSErxehnRpc-MdYXbMMI",
+    appKey: "7pRBOKMw58Yo7EsUjHziIEY1",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>

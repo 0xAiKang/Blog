@@ -21,7 +21,7 @@
     <meta name="keywords" content="Redis">
   
   
-    <meta name="description" content="Redis 的五种数据类型分别是：字符串、哈希、列表、集合、无序集合。">
+    <meta name="description" content="Redis 的五种数据类型分别是：字符串、哈希、列表、集合、有序集合。">
   
 
   <!-- feed -->
@@ -427,7 +427,7 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>298 words</p>
+      <p>459 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
@@ -469,50 +469,90 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>Redis 的五种数据类型分别是：字符串、哈希、列表、集合、无序集合。</p>
+          <p>Redis 的五种数据类型分别是：字符串、哈希、列表、集合、有序集合。</p>
 <a id="more"></a>
 
-<h2 id="Redis-的五种数据类型"><a href="#Redis-的五种数据类型" class="headerlink" title="Redis 的五种数据类型"></a>Redis 的五种数据类型</h2><h3 id="string"><a href="#string" class="headerlink" title="string"></a>string</h3><p>字符串是Redis 的五种数据类型中，最常见最好理解的。</p>
-<p>它的数据结构最简单，就是一个标准的键值对，一个key 对应一个value：</p>
+<h2 id="string"><a href="#string" class="headerlink" title="string"></a>string</h2><p>String 是Redis 最基本的数据类型，一个 Key 对应一个 Value。</p>
+<p>String 类型是二进制安全的。意思是 Redis 的 String 可以包含任何数据。（数字：整浮型点数，二进制：图片、音频、视频、序列化的对象）</p>
+<p>String 类型是 Redis 最基本的数据类型，一个键最大能存储 512 MB。</p>
 <p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201107122134.png" alt=""></p>
-<p>key 是string 的键，可以是字符串也可以是数字。<br>value 是string key 所对应的值，可以是字符串也可以是数字。</p>
-<h4 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h4><ul>
+<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><ul>
 <li><code>incr</code>：计数</li>
 <li><code>set</code> + <code>get</code>：将对象/Json 序列化之后存储作为Cache</li>
 </ul>
-<h3 id="hash"><a href="#hash" class="headerlink" title="hash"></a>hash</h3><p>哈希的数据结构很像一个迷你的关系数据库。</p>
+<h3 id="快速上手"><a href="#快速上手" class="headerlink" title="快速上手"></a>快速上手</h3><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220905134752.png" alt=""></p>
+<h2 id="hash"><a href="#hash" class="headerlink" title="hash"></a>hash</h2><p>Redis hash 是一个键值对集合。</p>
+<p>Redis hash 是一个 String 类型的 field 和 value 的映射表，hash 特别适合用于存储对象。</p>
 <p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201107123137.png" alt=""></p>
-<h4 id="应用场景-1"><a href="#应用场景-1" class="headerlink" title="应用场景"></a>应用场景</h4><ul>
+<h3 id="应用场景-1"><a href="#应用场景-1" class="headerlink" title="应用场景"></a>应用场景</h3><ul>
 <li><code>hset</code> + <code>hget</code>：Cache</li>
 </ul>
-<h3 id="list"><a href="#list" class="headerlink" title="list"></a>list</h3><p>列表的特点是：</p>
+<h3 id="快速上手-1"><a href="#快速上手-1" class="headerlink" title="快速上手"></a>快速上手</h3><p>在下面的例子中，“rediscomcn” 是 Redis 哈希，它包含详细信息（name，url，rank，visitors）属性。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220905134804.png" alt=""></p>
+<h2 id="list"><a href="#list" class="headerlink" title="list"></a>list</h2><p>用来存储多个有序的字符串，一个列表最多可以存 2 的 32 次方减 1 个元素。</p>
+<p>列表的特点是：</p>
 <ol>
 <li>有序</li>
 <li>允许重复</li>
 </ol>
 <p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201107122342.png" alt=""></p>
-<h4 id="应用场景-2"><a href="#应用场景-2" class="headerlink" title="应用场景"></a>应用场景</h4><ul>
+<h3 id="应用场景-2"><a href="#应用场景-2" class="headerlink" title="应用场景"></a>应用场景</h3><ul>
 <li><code>lpush</code> + <code>lpop</code>：Stack</li>
 <li><code>lpush</code> + <code>rpop</code>：Queue</li>
 <li><code>lpush</code> + <code>ltrim</code>：Capped Collection</li>
 <li><code>lpush</code> + <code>brpop</code>：Message Queue</li>
 </ul>
-<h3 id="set"><a href="#set" class="headerlink" title="set"></a>set</h3><p>集合特点：</p>
+<h3 id="快速上手-2"><a href="#快速上手-2" class="headerlink" title="快速上手"></a>快速上手</h3><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220905134813.png" alt=""></p>
+<h2 id="set"><a href="#set" class="headerlink" title="set"></a>set</h2><p>集合特点：</p>
 <ol>
 <li>无序</li>
 <li>不允许重复</li>
 </ol>
 <p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201107122610.png" alt=""></p>
-<h4 id="应用场景-3"><a href="#应用场景-3" class="headerlink" title="应用场景"></a>应用场景</h4><ul>
+<h3 id="应用场景-3"><a href="#应用场景-3" class="headerlink" title="应用场景"></a>应用场景</h3><ul>
 <li><code>sadd</code>：Tagging</li>
 <li><code>spop/srandmember</code>：Random item</li>
 <li><code>add</code> + <code>sinter</code>：Social Graph</li>
 </ul>
-<h3 id="sorted-set"><a href="#sorted-set" class="headerlink" title="sorted set"></a>sorted set</h3><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201107123412.png" alt=""></p>
-<h4 id="应用场景-4"><a href="#应用场景-4" class="headerlink" title="应用场景"></a>应用场景</h4><ul>
+<h3 id="快速上手-3"><a href="#快速上手-3" class="headerlink" title="快速上手"></a>快速上手</h3><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220905134823.png" alt=""></p>
+<h2 id="sorted-set"><a href="#sorted-set" class="headerlink" title="sorted set"></a>sorted set</h2><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20201107123412.png" alt=""></p>
+<h3 id="应用场景-4"><a href="#应用场景-4" class="headerlink" title="应用场景"></a>应用场景</h3><ul>
 <li><code>zscore</code>：timeStamp、saleCount、followCount</li>
 </ul>
-<h3 id="通用命令"><a href="#通用命令" class="headerlink" title="通用命令"></a>通用命令</h3><p>查看所有key：</p>
+<h3 id="快速上手-4"><a href="#快速上手-4" class="headerlink" title="快速上手"></a>快速上手</h3><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220905134845.png" alt=""></p>
+<h2 id="列表、集合、有序集合的区别"><a href="#列表、集合、有序集合的区别" class="headerlink" title="列表、集合、有序集合的区别"></a>列表、集合、有序集合的区别</h2><table>
+<thead>
+<tr>
+<th>数据结构</th>
+<th>是否允许元素重</th>
+<th>是否有序</th>
+<th>有序实现方式</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>列表</td>
+<td>是</td>
+<td>是</td>
+<td>索引下标</td>
+<td>时间轴，消息队列</td>
+</tr>
+<tr>
+<td>集合</td>
+<td>否</td>
+<td>否</td>
+<td>无</td>
+<td>标签，社交</td>
+</tr>
+<tr>
+<td>有序集合</td>
+<td>否</td>
+<td>是</td>
+<td>分值</td>
+<td>排行榜，点赞数</td>
+</tr>
+</tbody></table>
+<h2 id="通用命令"><a href="#通用命令" class="headerlink" title="通用命令"></a>通用命令</h2><p>查看所有key：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keys *</span><br></pre></td></tr></table></figure>
 
 <p>查看加载配置文件：</p>
@@ -615,10 +655,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-11-07T22:46:04+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2023-02-18T11:28:33+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Nov 7, 2020</p>
+    <p>更新于：Feb 18, 2023</p>
   </a>
 </div>
 
@@ -645,7 +685,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/redis-common-data-types-sorting/&title=Redis 常用数据类型整理 - Boo&summary=Redis 的五种数据类型分别是：字符串、哈希、列表、集合、无序集合。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/redis-common-data-types-sorting/&title=Redis 常用数据类型整理 - Boo&summary=Redis 的五种数据类型分别是：字符串、哈希、列表、集合、有序集合。"
           
           >
           
@@ -657,7 +697,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/redis-common-data-types-sorting/&title=Redis 常用数据类型整理 - Boo&summary=Redis 的五种数据类型分别是：字符串、哈希、列表、集合、无序集合。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/redis-common-data-types-sorting/&title=Redis 常用数据类型整理 - Boo&summary=Redis 的五种数据类型分别是：字符串、哈希、列表、集合、有序集合。"
           
           >
           
@@ -669,7 +709,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/redis-common-data-types-sorting/&title=Redis 常用数据类型整理 - Boo&summary=Redis 的五种数据类型分别是：字符串、哈希、列表、集合、无序集合。"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/redis-common-data-types-sorting/&title=Redis 常用数据类型整理 - Boo&summary=Redis 的五种数据类型分别是：字符串、哈希、列表、集合、有序集合。"
           
           >
           
@@ -793,7 +833,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis-的五种数据类型"><span class="toc-text">Redis 的五种数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#string"><span class="toc-text">string</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#应用场景"><span class="toc-text">应用场景</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hash"><span class="toc-text">hash</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#应用场景-1"><span class="toc-text">应用场景</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#list"><span class="toc-text">list</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#应用场景-2"><span class="toc-text">应用场景</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#set"><span class="toc-text">set</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#应用场景-3"><span class="toc-text">应用场景</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sorted-set"><span class="toc-text">sorted set</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#应用场景-4"><span class="toc-text">应用场景</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#通用命令"><span class="toc-text">通用命令</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#string"><span class="toc-text">string</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#应用场景"><span class="toc-text">应用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#快速上手"><span class="toc-text">快速上手</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hash"><span class="toc-text">hash</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#应用场景-1"><span class="toc-text">应用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#快速上手-1"><span class="toc-text">快速上手</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#list"><span class="toc-text">list</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#应用场景-2"><span class="toc-text">应用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#快速上手-2"><span class="toc-text">快速上手</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#set"><span class="toc-text">set</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#应用场景-3"><span class="toc-text">应用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#快速上手-3"><span class="toc-text">快速上手</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sorted-set"><span class="toc-text">sorted set</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#应用场景-4"><span class="toc-text">应用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#快速上手-4"><span class="toc-text">快速上手</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#列表、集合、有序集合的区别"><span class="toc-text">列表、集合、有序集合的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通用命令"><span class="toc-text">通用命令</span></a></li></ol>
     </div>
   </section>
 
@@ -828,7 +868,7 @@
     
       
         <div class='copyright'>
-        <span class="post-count">总字数：241.8k</span>
+        <span class="post-count">总字数：369.2k</span>
         <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
 
         <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>

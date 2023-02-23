@@ -434,7 +434,7 @@
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>6 min</p>
+      <p>7 min</p>
     </a>
   </div>
 
@@ -567,6 +567,9 @@
 <p>语义化：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Carbon::parse(<span class="string">"2021-08-29 14:57:32"</span>)-&gt;diffForHumans(now());</span><br><span class="line"><span class="comment">// 一分钟前</span></span><br></pre></td></tr></table></figure>
 
+<p>转化为天小时分钟：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CarbonInterval::seconds(<span class="number">384</span>)-&gt;cascade()-&gt;forHumans();</span><br><span class="line"><span class="comment">// 6分钟24秒</span></span><br></pre></td></tr></table></figure>
+
 <h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
 <li><a href="https://www.heibaiketang.com/forum/show/141.html" target="_blank" rel="noopener">Laravel 中日期时间 Carbon 包的的使用详解</a></li>
 <li><a href="https://carbon.nesbot.com/docs/" target="_blank" rel="noopener">Carbon Api Doc</a></li>
@@ -655,10 +658,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-08-29T15:04:39+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2023-02-18T11:28:33+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Aug 29, 2021</p>
+    <p>更新于：Feb 18, 2023</p>
   </a>
 </div>
 
@@ -870,7 +873,7 @@
     
       
         <div class='copyright'>
-        <span class="post-count">总字数：241.8k</span>
+        <span class="post-count">总字数：369.2k</span>
         <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
 
         <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>

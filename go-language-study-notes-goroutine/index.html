@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>Go 语言学习笔记——goroutine - Boo</title>
+  
+    <meta name="keywords" content="Go">
+  
+  
+    <meta name="description" content="并发原语（Goroutine、channel、select）是 Go 的核心，要学好 Go 并发，需要具备一些操作系统的基础知识。">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Boo's Blog</p>
+    
+    
+      <p class="subtitle">Stay foolish, Stay hungry</p>
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/"
+                
+                
+                id="https:www0x2BeAcecom">
+                <i class='fas fa-book fa-fw'></i>博客
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/categories/"
+                
+                
+                id="https:www0x2BeAcecomcategories">
+                <i class='fas fa-rss fa-fw'></i>分类
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/tags/"
+                
+                
+                id="https:www0x2BeAcecomtags">
+                <i class='fas fa-play-circle fa-fw'></i>标签
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/archives/"
+                
+                  rel="external nofollow noopener noreferrer"
+                
+                
+                id="https:www0x2BeAcecomarchives">
+                <i class='fas fa-file-code fa-fw'></i>归档
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/about/"
+                
+                
+                id="https:www0x2BeAcecomabout">
+                <i class='fas fa-handshake fa-fw'></i>关于我
+              </a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/go-language-study-notes-goroutine/">
+      Go 语言学习笔记——goroutine
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Go/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Go</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Nov 5, 2022</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>4.4k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>15 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/go-language-study-notes-goroutine/" class="leancloud_visitors" data-flag-title="Go 语言学习笔记——goroutine">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>并发原语（Goroutine、channel、select）是 Go 的核心，要学好 Go 并发，需要具备一些操作系统的基础知识。</p>
+<a id="more"></a>
+
+<p>所以正式学习 Goroutine 之前，先从什么是并发说起。</p>
+<h2 id="什么是并发"><a href="#什么是并发" class="headerlink" title="什么是并发"></a>什么是并发</h2><p>并发的概念：<strong>两个或者多个事情在同一时间间隔内发生</strong>。</p>
+<p>在单核 CPU 的时代，操作系统的基本调度和执行单元是进程（process），计算机可以“同时”运行多个程序，都是因为操作系统的并发性的存在。<br>这些程序宏观上是同时运行的，而微观上则是交替运行的。</p>
+<p>这个时候，用户层的应用有两种设计方式：单进程和多进程，下面一一介绍。</p>
+<h3 id="单进程"><a href="#单进程" class="headerlink" title="单进程"></a>单进程</h3><p>一个应用对应一个进程，操作系统（CPU）每次只能为一个进程进行服务。</p>
+<p>单进程应用的情况下，用户层应用、操作系统进程以及处理器之间的关系是这样的：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20221117230825.png" alt=""></p>
+<p>可以看到，因为 CPU 只有一个，因此CPU 会轮流地为各个进程进行服务，CPU 的运行速度非常快，所以宏观上这些进程是同时运行的。</p>
+<p>总的来说，单进程应用的设计比较简单，它的内部仅有一条代码执行流，代码从头执行到尾，不存在竞态，无需考虑同步问题。</p>
+<h3 id="多进程"><a href="#多进程" class="headerlink" title="多进程"></a>多进程</h3><p>一个应用对应多个进程，操作系统（CPU）仍然每次只能为一个进程进行服务。</p>
+<p>多进程应用的情况下，用户层应用、操作系统进程以及处理器之间的关系是这样的：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20221117230844.png" alt=""></p>
+<p>可以看到，App1 这个应用内部划分了多个模块，每一个模块内对应一个进程，每一个模块都是一个单独的代码执行流。</p>
+<p>但是受限于单核 CPU，这些进程依旧只能并发运行，也就是轮流被单个CPU 服务。</p>
+<p>这样看起来，多进程应用与单进程应用相比，似乎并没有什么质的提升，那为什么还要将应用设计成多进程？</p>
+<p>这是因为，更多的是从应用的结构角度去考虑的，多进程应用将功能职责进行了划分（模块 1 对应 进程 1、模块2 对应进程 2 ），从结构上来看，要比单进程更为清晰简洁，可读性与可维护性也更好。</p>
+<p>这种<strong>将程序分成多个可独立执行的部分的结构化程序的设计方法，就是并发设计</strong>。采用了并发设计的应用也可以看成是一组独立执行的模块的组合。</p>
+<p>不过，进程并不适合用于承载并发设计的应用的模块执行流。因为进程是操作系统中资源拥有的基本单位，它不仅包含应用的代码和数据，还有系统级的资源，比如文件描述符、内存地址空间等等。进程的“包袱”太重，这导致它的创建、切换与撤销的代价都很大。</p>
+<p>于是线程便诞生了。</p>
+<h3 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h3><p>可以把线程理解为“轻量级进程”。</p>
+<p>引入线程之后，<strong>线程就成了操作系统能够进行运算调度的最小单位</strong>。</p>
+<p><strong>一个进程至少会包含一个线程</strong>，如果一个进程只包含一个线程，那么它里面的所有代码都只会被串行地执行。每个进程的第一个线程都会随着该进程的启动而被创建，它们可以被称为其所属进程的主线程。</p>
+<p>如果一个进程中包含了多个线程，那么其中的代码就可以被并发地执行。除了进程的第一个线程之外，其他的线程都是由进程中已存在的线程创建出来的。</p>
+<p>同时随着多核 CPU 的普及，让真正的并行成为了可能，于是主流的应用设计模型变成了这样：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20221117231323.png" alt=""></p>
+<p>可以看到，基于线程的应用通常采用的是单进程多线程的模型，一个应用对应一个进程，应用通过并发设计将自己划分为多个模块，每个模块由一个线程独立承载执行。多个线程共享这个进程所拥有的资源，此时，作为执行单元被 CPU 处理就由进程变成了线程。</p>
+<p>线程的创建、切换与撤销的代价相对于进程是要小得多。当这个应用的多个线程同时被调度到不同的处理器核上执行时，就说这个应用是并行的。</p>
+<p>讲到这里，可以对并发与并行两个概念做一些区分了。就像 Go 语言之父 Rob Pike 曾说过那样：<strong>并发不是并行，并发关乎结构，并行关乎执行</strong>。</p>
+<h2 id="goroutine-基本概念"><a href="#goroutine-基本概念" class="headerlink" title="goroutine 基本概念"></a>goroutine 基本概念</h2><p>Go 并没有使用操作系统线程作为承载分解后的代码片段（模块）的基本执行单元，而是实现了goroutine 这一<strong>由 Go 运行时（runtime）负责调度的、轻量的用户级线程，为并发程序设计提供原生支持</strong>。</p>
+<p>相比传统操作系统线程来说，goroutine 的优势主要是：</p>
+<ul>
+<li>资源占用小，每个 goroutine 的初始栈大小仅为 2k</li>
+<li>由 Go 运行时而不是操作系统调度，goroutine 上下文切换在用户层完成，开销更小</li>
+<li>在语言层面而不是通过标准库提供，goroutine 由 go 关键字创建，一退出就会被回收或者销毁，开发者无需过多关注</li>
+<li>语言内置 channel 作为 goroutine 间通信原语，为并发设计提供了强大支持</li>
+</ul>
+<p>和传统编程语言不同的是，Go 语言是面向并发而生的，所以，在程序的结构设计阶段，Go 的惯例是优先考虑并发设计。这样做的目的更多是考虑随着外界环境的变化，通过并发设计的 Go 应用可以更好地、更自然地适应规模化。</p>
+<h2 id="goroutine-调度器"><a href="#goroutine-调度器" class="headerlink" title="goroutine 调度器"></a>goroutine 调度器</h2><p>提到“调度”，首先想到的就是操作系统对进程、线程的调度。操作系统调度器会将系统中的多个线程按照一定算法调度到物理 CPU 上去运行。</p>
+<p>传统的编程语言，比如 C、C++ 等的并发实现，多是基于线程模型的，也就是应用程序负责创建线程，操作系统负责调度线程。</p>
+<p>但是这种传统的并发方式，有很多不足，为了解决这些问题，Go 语言中的并发实现，使用了 Goroutine，代替了操作系统的线程，也不再依靠操作系统调度。</p>
+<p>Goroutine 调度的切换不用陷入操作系统的内核层完成，开销很低，因此一个 Go 程序可以创建成千上万个并发的 Goroutine。<br>而将这些 Goroutine 按照一定算法放到 “CPU” 上执行的程序，则被成为 Goroutine 调度器，注意，这里的“CPU” 是打引号的，并不是真正意义上的 CPU。</p>
+<p>一个 Go 程序对于操作系统来说只是一个用户层程序，操作系统眼中只有线程，它甚至不知道有 Goroutine 的存在。所以 Goroutine 的调度全要靠 Go 自己完成。<br>那么，实现 Go 程序内 Goroutine 之间“公平”竞争“CPU”资源的任务，就落到了 Go 运行时（runtime）头上了。要知道在一个 Go 程序中，除了用户层代码，剩下的就是 Go 运行时了。</p>
+<p>于是，Goroutine 的调度问题就演变为，Go 运行时如何将程序内的众多 Goroutine，按照一定算法调度到“CPU”资源上运行的问题了。</p>
+<p>在操作系统层面，线程竞争的“CPU”资源是真实的物理 CPU，而 Go 程序层面，各个 Goroutine 要竞争的“CPU” 资源到底是什么？</p>
+<p>前面说过，Go 程序是用户层程序，它本身就是整体<strong>运行在一个或者多个操作系统线程上的</strong>。所以，Goroutine 要竞争的“CPU” 资源其实就是操作系统线程。<br>因此，Goroutine 调度器的任务也就明确了，<strong>将 Goroutine 按照一定算法放到不同的操作系统线程中去执行</strong>。</p>
+<h3 id="GPM-模型"><a href="#GPM-模型" class="headerlink" title="GPM 模型"></a>GPM 模型</h3><p>Goroutine 调度器目前使用的是 GPM 模型，它由三部分组成：</p>
+<ul>
+<li>G（goroutine）：Goroutine，存储了 Goroutine 的执行栈信息、Goroutine 状态以及 Goroutine 的任务函数等</li>
+<li>P（processor）：逻辑处理器，负责从全局运行对列中获取 G（Goroutine），放到对应的本地运行队列，会绑定唯一的操作系统线程，当 G 可以运行时，会被放入逻辑处理器的执行队列</li>
+<li>M（machine）：物理处理器，真正的执行计算资源</li>
+</ul>
+<p><strong>操作系统会在物理处理器上调度线程来运行，而 Go 语言的运行时会在逻辑处理器上调度 Goroutine 来运行。</strong></p>
+<p>G、P、M 三者的调度过程如下：</p>
+<ol>
+<li>创建一个 Goroutine 并准备运行，这个 Goroutine 就会被放到调度器的全局运行队列中。</li>
+<li>全局运行队列中的 Goroutine 依次出队，被调度器分配给队列的逻辑处理器 P，并放到这个逻辑处理器的本地运行队列中，本地运行队列中的 Goroutine 会一直等待，直到自己被分配的逻辑处理器执行。</li>
+<li>Go语言运行时默认会为每个可用的物理处理器分配一个逻辑处理器，物理处理器调度线程开始执行 Goroutine。</li>
+<li>如果正在运行的 Goroutine 需要执行一个阻塞的系统调用，比如打开一个文件，当这类调用发生时，<strong>线程和 Goroutine 会从逻辑处理器上分离</strong>，该线程会继续阻塞，等待系统调用返回。</li>
+<li>与此同时，这个逻辑处理器就失去了用来运行的线程。所以，调度器会创建一个新的线程，并将其绑定到该逻辑处理器上。</li>
+<li>之后，调度器会从本地运行队列里选择另外一个 Goroutine 来运行，一旦被阻塞的系统调用执行完成并返回，对应的 Goroutine 会放回到本地运行队列，而之前的线程会保存好，以便之后继续使用。</li>
+</ol>
+<p>下面是一个Goroutine 调度原理图，可以从全局进一步看到 G、P、M 三者之间的关系：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/Goroutine%E8%B0%83%E5%BA%A6%E5%8E%9F%E7%90%86%E5%9B%BE2.jpg" alt=""></p>
+<h2 id="goroutine-的基本用法"><a href="#goroutine-的基本用法" class="headerlink" title="goroutine 的基本用法"></a>goroutine 的基本用法</h2><p>Go 语言通过 go 关键字 + 函数/方法的方式“创建”一个 goroutine。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">10</span>; i++ &#123;</span><br><span class="line">		<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">			fmt.Println(i)</span><br><span class="line">		&#125;()</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行上面的示例代码，可能会发现，什么都打印出来，这是怎么回事呢？</p>
+<p>与一个进程总会有一个主线程类似，每一个独立的 Go 程序在运行时也总会有一个<strong>主 goroutine（main goroutine）</strong>。这个main goroutine 会在 Go 程序的运行准备工作完成后被自动地启用，并不需要做任何手动的操作。</p>
+<p>每个 goroutine 一般都会携带一个函数调用，这个被调用的函数常常被称为go 函数。而main goroutine 的go函数就是那个作为程序入口的 main 函数。</p>
+<p>这里一定要注意：<strong>go 函数真正被执行的时间，总会与其所属的 go 语句被执行的时间不同</strong>。</p>
+<p>当程序执行到一条 go 语句时，Go 语言运行时，会先试图从某个空闲的 G 的队列中获取一个 G（也就是 goroutine），它只有在找不到空闲 G 的情况下才会去创建一个新的 G。</p>
+<p>这也是前面的“创建”打引号的原因，因为已存在的 goroutine 总是会被优先复用。</p>
+<p>在拿到一个空闲的 G 之后，Go 语言运行时，会用这个 G 去包装当前的那个 go 函数（或者说该函数中的那些代码），然后再把这个 G 追加到某个存放可运行的 G 的队列中。</p>
+<p>这类队列中的 G 总是按照先入先出的顺序，被 Groutine 调度器安排运行。</p>
+<p>因此，go 函数的执行时间总是会明显滞后于它所属的go 语句的执行时间。这里所说的“明显滞后”是对于计算机的 CPU 时钟和 Go 程序来说的。我们在大多数时候都不会有明显的感觉。</p>
+<p>还有一个与 main goroutine 有关的特性，<strong>一旦main goroutine 退出了，那么也意味着整个应用程序的退出</strong>。</p>
+<p>再次回到上面示例代码没有打印出结果的这个问题，这是因为<br><strong>关键字 go 并非直接执行并发操作，而是“创建”一个 goroutine（并发任务单元）。新创建的 goroutine 被放置在队列中，等待调度器安排合适系统线程去获取执行权。该过程不会阻塞，因此不会等待该任务启动，而是继续执行后边的语句，如果直至 main goroutine 退出时，还有 goroutine 未得到执行，那么它们中的代码也不会被执行了，因为整个程序也要退出了，</strong> 所以没有任何内容打印出来。</p>
+<p>Go 语言并不会保证 goroutine 会以怎样的顺序运行，由于main goroutine 会与手动使用 go 关键字创建的 goroutine 一起接受调度，调度器可能会在 goroutine 中代码执行一部分时暂停，因此，哪个 gorotuine 先执行完，哪个后执行完，往往是不可预知的。除非使用Go 语言提供的方式进行人为干预。</p>
+<p>下面会简单介绍一下。</p>
+<h2 id="goroutine-执行规则"><a href="#goroutine-执行规则" class="headerlink" title="goroutine 执行规则"></a>goroutine 执行规则</h2><p>因为一旦 main goroutine 执行完成，当前 Go 程序就会结束运行，无论其他的 goroutine 是否已经在运行中，那么，有没有什么办法可以让其他的 goroutine 先执行完成之后，再让main goroutine 执行呢？</p>
+<p>有很多办法可以做到，这里先用最简单粗暴的方式感受一下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">10</span>; i++ &#123;</span><br><span class="line">		<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">			fmt.Println(i)</span><br><span class="line">		&#125;()</span><br><span class="line">	&#125;</span><br><span class="line">	time.Sleep(<span class="number">500</span> * time.Millisecond)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行示例代码，输出一下结果：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">10</span></span><br><span class="line"><span class="number">10</span></span><br><span class="line"><span class="number">10</span></span><br><span class="line"><span class="number">10</span></span><br><span class="line"><span class="number">10</span></span><br><span class="line"><span class="number">7</span></span><br><span class="line"><span class="number">10</span></span><br><span class="line"><span class="number">10</span></span><br><span class="line"><span class="number">8</span></span><br><span class="line"><span class="number">7</span></span><br><span class="line"><span class="comment">// 延迟 500 ms 结束程序</span></span><br></pre></td></tr></table></figure>
+
+<p>其原理就是在 for 语句的后面，调用 <code>time.Sleep</code> 函数，让 main goroutine 延迟 500ms 结束。</p>
+<p>这里延迟 500ms，足够其他的 goroutine 被调度器调度了，因此便可以看到打印结果。</p>
+<p>这个办法虽然可行，但是 Sleep 的时间设置多久才合适呢？500ms、200ms、100ms？设置太短了，可能还没有打印就结束了，设置太长了，完全又浪费时间。</p>
+<p>既然不好预估时间，那么能否让其他的 goroutine 在运行完成时通知一下呢？</p>
+<p>这个思路是对的，使用Go 的 channel 就可以实现（后面的笔记会详细介绍 channel），这里有个印象就好。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"log"</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	sign := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">10</span>; i++ &#123;</span><br><span class="line">		<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">(i <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">      <span class="comment">// 将变量 i 依次发送到 channel 类型变量中</span></span><br><span class="line">			sign &lt;- i</span><br><span class="line">		&#125;(i)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> j := <span class="number">0</span>; j &lt; <span class="number">10</span>; j++ &#123;</span><br><span class="line">		<span class="comment">// 依次从channel 类型变量中取出值并打印</span></span><br><span class="line">		fmt.Println(&lt;-sign)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行示例代码，输出一下结果：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0</span></span><br><span class="line"><span class="number">7</span></span><br><span class="line"><span class="number">6</span></span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="number">8</span></span><br><span class="line"><span class="number">4</span></span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">9</span></span><br><span class="line"><span class="number">5</span></span><br></pre></td></tr></table></figure>
+
+<p>从输出结果可以看到，确实也能正常打印出来，而且没有“延迟”，打印完成，程序正好结束。</p>
+<p>但是为什么这里输出的值不是顺序的呢？<br>其实这也是前面提到过的 goroutine 的执行规则所导致的。</p>
+<p>创建 goroutine 是需要时间的，for 语句执行并不会停下来等待一个 goroutine 创建完成之后再开始下一次遍历。</p>
+<p>因为这种异步并发执行的特性，10 个 goroutine 全部被创建完成之后，在队列中的顺序可能有 N 中组合，所以最后通过另一个 for 语句，依次从 channel 取出打印时，i 的值绝大多数情况下不是顺序的。</p>
+<p>可以结合下图进行理解：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/GPM%E6%A8%A1%E5%9E%8B.jpg" alt=""><br>还有比 channel 更好的方式可以实现，比如 <code>sync.WaitGroup</code>，这里先不过多介绍，在后面的笔记中再详细讲解。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>并发：逻辑上具备同时处理多个任务的能力</li>
+<li>并行：物理上在同一时刻执行多个并发任务</li>
+<li>单核 CPU 同一时刻只能执行一个程序，各个程序只能并发地运行</li>
+<li>多核 CPU 同一时刻可以同时执行多个程序，多个程序可以并行地运行</li>
+<li>并行的必要条件是具有多个处理器或多核处理器，否则无论是否是并发的设计，程序执行时都有且仅有一个任务可以被调度到处理器上执行</li>
+<li>goroutine 在逻辑处理器上执行，而逻辑处理器具有独立的系统线程和运行队列</li>
+<li>关键字 go + 函数并不是表示直接并发执行该函数，而是创建一个 goroutine</li>
+<li>一旦main goroutine 退出了，当前 Go 程序就会结束运行</li>
+<li>Go 不会保证 goroutine 的执行顺序，如果希望按照某个预期顺序执行，则需要“人为干预”</li>
+</ul>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://time.geekbang.org/column/intro/100093501" target="_blank" rel="noopener">Tony Bai · Go 语言第一课</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/go-language-study-notes-goroutine/>https://www.0x2beace.com/go-language-study-notes-goroutine/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2023-02-18T11:28:33+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Feb 18, 2023</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Go/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Go</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/go-language-study-notes-goroutine/&title=Go 语言学习笔记——goroutine - Boo&summary=并发原语（Goroutine、channel、select）是 Go 的核心，要学好 Go 并发，需要具备一些操作系统的基础知识。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/go-language-study-notes-goroutine/&title=Go 语言学习笔记——goroutine - Boo&summary=并发原语（Goroutine、channel、select）是 Go 的核心，要学好 Go 并发，需要具备一些操作系统的基础知识。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/go-language-study-notes-goroutine/&title=Go 语言学习笔记——goroutine - Boo&summary=并发原语（Goroutine、channel、select）是 Go 的核心，要学好 Go 并发，需要具备一些操作系统的基础知识。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADr0lEQVR42u3aQW4bQQwEQP3/08k9RiCySUGUXHOTLe9wanxokPv4Y0XrgQAcOHDgLHDgjsA9wvXv328/r7rPs31/HHxaHzhw4MCBAwcO3DG4cgAcfr96sCrI9HO7fnDgwIEDBw4cuKNw3UKrwbJa4DQoV+uMLwYcOHDgwIEDB+5L4LoH7gKmwXpaPzhw4MCBAwcO3G+Fq4J0A3b1eeDAgQMHDhw4cL8NLh0wpw3KbgDu1rs+UAcHDhw4cODAgTsG111VyKuf4/OCAwcOHDhw4MAdgZuublCtNiCnP98KzD/qBwcOHDhw4MCBOwK39QJfOoBOYdOGZNpYBQcOHDhw4MCBuw5XLSwdGHdfJExfNEwv+On3wYEDBw4cOHDgjsClB08Hul3IaaM0vZh2BxgcOHDgwIEDB+7NcOmD04HxNPBuXXy5DnDgwIEDBw4cuCNw1QdNG4jdAXN3n3GDslo3OHDgwIEDBw7cEbi0oZk2JKeD4zRIbzU0wYEDBw4cOHDgrsKlAXgKljZE08F0PEAHBw4cOHDgwIE7Apc2MLcH2HFjcRi02w1WcODAgQMHDhy4I3DbB5oG5jTgdl907P4eHDhw4MCBAwfu0+GmAbX73K2G6XQ/cODAgQMHDhy463DVYDouIAyg3aA+vXhw4MCBAwcOHLhPgXt2oK1AOh0cbzUs2w1ScODAgQMHDhy4Y3DVB00PkAboKUB6DnDgwIEDBw4cuOtwr2oYToN1NXCng/L2wBwcOHDgwIEDB+4o3Hbg7DY+uxfaDbppMAYHDhw4cODAgbsGN21UdoNxeqA0cKcDa3DgwIEDBw4cuE+Hmx4wDbbdhmgamNv/QODAgQMHDhw4cMfg0sFvF3g7qKYNzfSCwYEDBw4cOHDgrsClDchu8J0OstMBd/Xi241McODAgQMHDhy4Y3BrG4QHmQ7Eu/vEA2lw4MCBAwcOHLg3w70qeG4PtLsNymnD8791gQMHDhw4cODAHYGbrjS4dgFe9dz2vuDAgQMHDhw4cEfgxoEwLKwbsKsg04D+9OfgwIEDBw4cOHDH4KYD6u3B73QwPm10lgMwOHDgwIEDBw7cEbjugbsBuBtAu2BVmLjxCQ4cOHDgwIED9yVw0wFvt8G59SJkFx4cOHDgwIEDB+5b4baCbTc4b+/7FBIcOHDgwIEDB+4o3HQwXG1Abq/pecr1gwMHDhw4cODAHYPbKnSrATkdkHfrKO8HDhw4cODAgQN3BM4KG5kWOHDgwFngwL1n/QUz44J5tpFVOAAAAABJRU5ErkJggg==">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/go-language-study-notes-struct-tag/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Go 语言学习笔记——结构体标签</p>
+                <p class='content'>结构体标签就是对结构体字段的额外信息补充。
+
+
+定义结构体标签结构体标签的定义方式是，在字段声明后面可以跟一个可选的字符串文字。
+12345678type T struct &#123;    ...</p>
+              </a>
+            
+            
+              <a class='next' href='/go-language-study-notes-pointer/'>
+                <p class='title'>Go 语言学习笔记——指针<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>区别于 C/C++ 的指针，Go 语言的指针不能进行偏移和运算，因此是安全指针。
+
+
+指针一个变量在内存中，可以分为两部分：编址（变量的地址）和具体的值。
+在概念上，Go 语言的指针和 C 语言...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Go 语言学习笔记——goroutine',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是并发"><span class="toc-text">什么是并发</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#单进程"><span class="toc-text">单进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#多进程"><span class="toc-text">多进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程"><span class="toc-text">线程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#goroutine-基本概念"><span class="toc-text">goroutine 基本概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#goroutine-调度器"><span class="toc-text">goroutine 调度器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#GPM-模型"><span class="toc-text">GPM 模型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#goroutine-的基本用法"><span class="toc-text">goroutine 的基本用法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#goroutine-执行规则"><span class="toc-text">goroutine 执行规则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+      
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <span class="post-count">总字数：369.2k</span>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
+
+        <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+        
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?fbe826b92f6d49a0ebacf4d848bd3add";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+<script>
+  var now = new Date(); 
+  function createtime() {    
+      var grt= new Date("07/04/2020 14:12:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";     
+  } 
+setInterval("createtime()",250);
+</script>
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "Ki6kd5TUWoQyYKSErxehnRpc-MdYXbMMI",
+    appKey: "7pRBOKMw58Yo7EsUjHziIEY1",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>

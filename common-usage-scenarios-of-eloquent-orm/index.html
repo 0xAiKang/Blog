@@ -427,7 +427,7 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>887 words</p>
+      <p>1.1k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
@@ -482,6 +482,7 @@
 <h2 id="场景二"><a href="#场景二" class="headerlink" title="场景二"></a>场景二</h2><p>一对多关联（用户表与文章表）：如何获最新一条记录或统计关联数据的合计。</p>
 <p>以用户与文章之间的一对多关联为例，如果用户列表需要返回用户发布最新文章的标题，那么该如何进行查询？</p>
 <p>这个场景下使用连接查询是不行的，因为涉及到被驱动表的排序和限定查询问题。</p>
+<p>思路：基于子查询结合关联模型进行查询。</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">index</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    $users = User::addSelect([</span><br><span class="line">        <span class="string">'last_post_title'</span> =&gt; Post::select([<span class="string">'title'</span>])</span><br><span class="line">            -&gt;whereColumn(<span class="string">'uid'</span>, <span class="string">'users.uid'</span>)</span><br><span class="line">            -&gt;orderByDesc(<span class="string">'created_at'</span>)</span><br><span class="line">            -&gt;limit(<span class="number">1</span>)</span><br><span class="line">    ])</span><br><span class="line">      -&gt;orderByDesc(<span class="string">'uid'</span>)</span><br><span class="line">      -&gt;get();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>生成 SQL 如下：</p>
@@ -495,10 +496,10 @@
 
 <h2 id="场景三"><a href="#场景三" class="headerlink" title="场景三"></a>场景三</h2><p>聚合统计：统计订单表中不同状态下的订单数量。</p>
 <p>思路一：对订单状态进行分组，然后通过代码逻辑统计不同状态下订单数量。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">index</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    AuctionOrderModel::selectRaw(<span class="string">"count(order_id)"</span>)</span><br><span class="line">          -&gt;groupBy(<span class="string">"auction_order_status"</span>)</span><br><span class="line">          -&gt;get();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">index</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    OrderModel::selectRaw(<span class="string">"count(order_id), user_order_status"</span>)</span><br><span class="line">      -&gt;groupBy(<span class="string">"user_order_status"</span>)</span><br><span class="line">      -&gt;get();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>生成 SQL：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select count(order_id) from &#96;auction_order&#96; where &#96;auction_order&#96;.&#96;is_deleted&#96; &#x3D; &#39;0&#39; group by &#96;auction_order_status</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">count</span>(order_id), user_order_status <span class="keyword">from</span> <span class="string">`order`</span> <span class="keyword">group</span> <span class="keyword">by</span> <span class="string">`user_order_status</span></span><br></pre></td></tr></table></figure>
 
 <p>思路一：将多次聚合统计查询合并为一次查询：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">index</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    OrderModel::selectRaw(<span class="string">'COUNT(CASE WHEN `user_order_status` = 0 then 1 END) AS draft_count'</span>)</span><br><span class="line">            -&gt;selectRaw(<span class="string">'COUNT(CASE WHEN `user_order_status` = 1 then 1 END) AS audit_count'</span>)</span><br><span class="line">            -&gt;selectRaw(<span class="string">'COUNT(CASE WHEN `user_order_status` = 2 then 1 END) AS normal_count'</span>)</span><br><span class="line">            -&gt;first();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -520,11 +521,19 @@
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="string">`user`</span>.* <span class="keyword">from</span> <span class="string">`user`</span> <span class="keyword">inner</span> <span class="keyword">join</span> <span class="string">`user_info`</span> <span class="keyword">on</span> <span class="string">`user_info`</span>.<span class="string">`uid`</span> = <span class="string">`user`</span>.<span class="string">`uid`</span> <span class="keyword">order</span> <span class="keyword">by</span> <span class="string">`user_info`</span>.<span class="string">`broken_number`</span> <span class="keyword">asc</span> <span class="keyword">limit</span> <span class="number">20</span> <span class="keyword">offset</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="场景五"><a href="#场景五" class="headerlink" title="场景五"></a>场景五</h2><p>一对多关联排序（用户表与订单表）：用户列表展示用户对应创建订单的金额，并根据金额大小进行排序。</p>
-<p>思路一：子查询：</p>
+<p>一对多关联的场景不能使用连接查询，因为如果被驱动表中没有关联的数据，驱动表的记录也不会出现在结果列表中，同时涉及到排序和限定查询问题。</p>
+<p>思路：子查询</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">index</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    UserModel::addSelect([</span><br><span class="line">       <span class="string">"cost_amount"</span> =&gt; OrderModel::selectRaw(<span class="string">'sum(total_price)'</span>)</span><br><span class="line">            -&gt;whereColumn(<span class="string">'uid'</span>, <span class="string">'user.uid'</span>)</span><br><span class="line">            -&gt;orderByDesc(<span class="string">"total_price"</span>)</span><br><span class="line">            -&gt;limit(<span class="number">1</span>)</span><br><span class="line">    ])</span><br><span class="line">        -&gt;orderByDesc(<span class="string">"cost_amount"</span>)</span><br><span class="line">        -&gt;paginate(<span class="number">20</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>生成 SQL 如下：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select `user`.*, (select sum(total_price) from `order` where `uid` = `user`.`uid` <span class="keyword">and</span> `order`.`is_deleted` = <span class="string">'0'</span> order by `total_price` desc limit <span class="number">1</span>) <span class="keyword">as</span> `cost_amount` from `user` order by `cost_amount` desc limit <span class="number">20</span> offset</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="string">`user`</span>.*, (<span class="keyword">select</span> <span class="keyword">sum</span>(total_price) <span class="keyword">from</span> <span class="string">`order`</span> <span class="keyword">where</span> <span class="string">`uid`</span> = <span class="string">`user`</span>.<span class="string">`uid`</span> <span class="keyword">and</span> <span class="string">`order`</span>.<span class="string">`is_deleted`</span> = <span class="string">'0'</span> <span class="keyword">order</span> <span class="keyword">by</span> <span class="string">`total_price`</span> <span class="keyword">desc</span> <span class="keyword">limit</span> <span class="number">1</span>) <span class="keyword">as</span> <span class="string">`cost_amount`</span> <span class="keyword">from</span> <span class="string">`user`</span> <span class="keyword">order</span> <span class="keyword">by</span> <span class="string">`cost_amount`</span> <span class="keyword">desc</span> <span class="keyword">limit</span> <span class="number">20</span> <span class="keyword">offset</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="场景六"><a href="#场景六" class="headerlink" title="场景六"></a>场景六</h2><p>基于子查询结合关联模型进行模糊匹配。</p>
+<p>思路：通过一个 EXISTS 子查询实现基于关联模型字段对 User 模型实例的筛选。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">index</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">     $result = OrderModel::whereHas(<span class="string">"user"</span>, <span class="function"><span class="keyword">function</span> <span class="params">($query)</span> </span>&#123;</span><br><span class="line">            $query-&gt;where(<span class="string">'mobile'</span>, <span class="string">'*******'</span>);</span><br><span class="line">        &#125;)</span><br><span class="line">            -&gt;orderByDesc(<span class="string">"order_id"</span>)</span><br><span class="line">            -&gt;paginate(<span class="number">20</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>生成 SQL 如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="string">`order`</span> <span class="keyword">where</span> <span class="keyword">exists</span> (<span class="keyword">select</span> * <span class="keyword">from</span> <span class="string">`user`</span> <span class="keyword">where</span> <span class="string">`order`</span>.<span class="string">`uid`</span> = <span class="string">`user`</span>.<span class="string">`uid`</span> <span class="keyword">and</span> <span class="string">`mobile`</span> = <span class="string">'*******'</span>) <span class="keyword">order</span> <span class="keyword">by</span> <span class="string">`order_id`</span> <span class="keyword">desc</span> <span class="keyword">limit</span> <span class="number">20</span> <span class="keyword">offset</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
           
             <div class='article_footer'>
               
@@ -608,10 +617,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-06-17T15:35:22+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-06-27T16:17:37+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Jun 17, 2022</p>
+    <p>更新于：Jun 27, 2022</p>
   </a>
 </div>
 
@@ -785,7 +794,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#场景一"><span class="toc-text">场景一</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#场景二"><span class="toc-text">场景二</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#场景三"><span class="toc-text">场景三</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#场景四"><span class="toc-text">场景四</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#场景五"><span class="toc-text">场景五</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#场景一"><span class="toc-text">场景一</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#场景二"><span class="toc-text">场景二</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#场景三"><span class="toc-text">场景三</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#场景四"><span class="toc-text">场景四</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#场景五"><span class="toc-text">场景五</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#场景六"><span class="toc-text">场景六</span></a></li></ol>
     </div>
   </section>
 
@@ -820,7 +829,7 @@
     
       
         <div class='copyright'>
-        <span class="post-count">总字数：241.8k</span>
+        <span class="post-count">总字数：369.2k</span>
         <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
 
         <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>

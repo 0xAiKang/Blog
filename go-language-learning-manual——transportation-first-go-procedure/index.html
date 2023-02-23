@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>Go 语言学习笔记——运行第一个 Go 程序 - Boo</title>
+  
+    <meta name="keywords" content="Go">
+  
+  
+    <meta name="description" content="时隔一年之久，再一次来学习 Go。">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Boo's Blog</p>
+    
+    
+      <p class="subtitle">Stay foolish, Stay hungry</p>
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/"
+                
+                
+                id="https:www0x2BeAcecom">
+                <i class='fas fa-book fa-fw'></i>博客
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/categories/"
+                
+                
+                id="https:www0x2BeAcecomcategories">
+                <i class='fas fa-rss fa-fw'></i>分类
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/tags/"
+                
+                
+                id="https:www0x2BeAcecomtags">
+                <i class='fas fa-play-circle fa-fw'></i>标签
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/archives/"
+                
+                  rel="external nofollow noopener noreferrer"
+                
+                
+                id="https:www0x2BeAcecomarchives">
+                <i class='fas fa-file-code fa-fw'></i>归档
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/about/"
+                
+                
+                id="https:www0x2BeAcecomabout">
+                <i class='fas fa-handshake fa-fw'></i>关于我
+              </a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/go-language-learning-manual%E2%80%94%E2%80%94transportation-first-go-procedure/">
+      Go 语言学习笔记——运行第一个 Go 程序
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Go/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Go</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Oct 21, 2022</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>2.1k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>7 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/go-language-learning-manual%E2%80%94%E2%80%94transportation-first-go-procedure/" class="leancloud_visitors" data-flag-title="Go 语言学习笔记——运行第一个 Go 程序">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>时隔一年之久，再一次来学习 Go。</p>
+<a id="more"></a>
+
+<h2 id="设计哲学"><a href="#设计哲学" class="headerlink" title="设计哲学"></a>设计哲学</h2><p>Go 语言的设计哲学：<strong>简单、显式、组合、并发和面向工程</strong>：</p>
+<ul>
+<li>简单是指 Go 语言特性始终保持在少且足够的水平，不走语言特性融合的道路，但又不乏生产力。简单是 Go 生产力的源泉，也是 Go 对开发者的最大吸引力</li>
+<li>显式是指任何代码行为都需开发者明确知晓，不存在因“暗箱操作”而导致可维护性降低和不安全的结果</li>
+<li>组合是构建 Go 程序骨架的主要方式，它可以大幅降低程序元素间的耦合，提供程序的可扩展性和灵活性</li>
+<li>并发是 Go 敏锐地把握了 CPU 向多核方向发展这一趋势的结果，可以让开发人员在多核时代更容易写出充分利用系统资源、支持性能随 CPU 核数增加而自然提升的应用程序</li>
+<li>面向工程是 Go 语言在语言设计上的一个重大创新，它将语言要解决的问题域扩展到那些原本并不是由编程语言去解决的领域，从而覆盖了更多开发者在开发过程遇到的“痛点”，为开发者提供了更好的使用体验</li>
+</ul>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>Go 从 2009 年开源并演化到今天，它的安装方法其实都已经很成熟了。</p>
+<p>写下这篇笔记时，Go 的版本已经到了 1.18.1。</p>
+<p>Windows 和 Mac 可以直接从官网<a href="https://golang.google.cn/dl/" target="_blank" rel="noopener">下载</a> 最新的安装包，在图形界面的引导下，一路“下一步”，即可安装成功。</p>
+<p>Linux 则通过命令行的方式进行安装：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ wget -c https://go.dev/dl/go1.19.2.linux-amd64.tar.gz \</span><br><span class="line">tar -C /usr/<span class="built_in">local</span> -xzf go1.19.2.linux-amd64.tar.gz</span><br></pre></td></tr></table></figure>
+<p>解压成功，即可在 <code>/usr/local</code> 下面看到名为 go 的安装目录。</p>
+<p>添加环境变量：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:/usr/<span class="built_in">local</span>/go/bin &amp;&amp; <span class="built_in">source</span> ~/.profile</span><br></pre></td></tr></table></figure>
+
+<p>查看是否安装成功：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ go version</span><br><span class="line"></span><br><span class="line">go version go1.19.2 darwin/amd64</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置-Go"><a href="#配置-Go" class="headerlink" title="配置 Go"></a>配置 Go</h2><p>其实 Go 在安装后是开箱即用的，无需做任何配置就能使用。</p>
+<p>但是因为众所周知的原因，一般会修改 <code>GOPROXY</code> 环境变量：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ go env -w GOPROXY=https://goproxy.cn,direct</span><br><span class="line"></span><br><span class="line"><span class="comment"># 备用goproxy服务 https://mirrors.aliyun.com/goproxy/</span></span><br></pre></td></tr></table></figure>
+
+<p>顺便看一下其他的一些常用配置项：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>作用</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GOARCH</td>
+<td>用于指示编译器生成代码（针对平台 CPU 架构）</td>
+<td>主要值是 AMD64、Arm 等，默认值是本机的 CPU 架构</td>
+</tr>
+<tr>
+<td>GOOS</td>
+<td>用于指示 Go 编译器生成代码（针对平台的操作系统</td>
+<td>主要值是 Linux、Darwin、Windows 等，默认值是本机的操作系统</td>
+</tr>
+<tr>
+<td>GO111MODULE</td>
+<td>它的值决定了当前使用的构建模式是传统的 GOPATH 模式还是新引入的 Go Module 模式</td>
+<td>在 Go1.16 版本 Go Module 构建模式默认开启，该变量的值是 on</td>
+</tr>
+<tr>
+<td>GOCACHE</td>
+<td>用于指示存储构建结果缓存的路径，这些缓存可能会被后续构建所使用</td>
+<td>在不同的操作系统上，GOCACHE 有不同的默认值，通过 go env GOMODCACHE 查看</td>
+</tr>
+<tr>
+<td>GOMODCACHE</td>
+<td>用于指示存放 Go Module 的路径</td>
+<td>在不同的操作系统上，GOCACHE 有不同的默认值，通过 go env GOMODCACHE 查看</td>
+</tr>
+<tr>
+<td>GOPROXY</td>
+<td>用来配置 Go Module proxy 服务</td>
+<td>默认值是 <code>https://proxy.golang.org.direct</code></td>
+</tr>
+<tr>
+<td>GOPATH</td>
+<td>在传统的 GOPATH 构建模式下，用于指示 Go 包搜索路径的环境变量，在 Go module 机制启用之前是 Go 核心配置项，Go 1.8 版本之前需要手动配置，Go 1.8 版本之后引入了默认的GOPATH（$HOME/go）</td>
+<td></td>
+</tr>
+<tr>
+<td>GOROOT</td>
+<td>指示 GO 安装路径，GO 1.10 版本引入了默认的 GOROOT，开发者无需显式设置，Go 程序会自动根据自己所在的路径推导出 GOROOT 的路径</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="hello-world"><a href="#hello-world" class="headerlink" title="hello world"></a>hello world</h2><p>首先，需要创建一个 <code>main.go</code> 的源文件。</p>
+<p>这里需要注意一下 Go 的命名规则：Go 源文件总是用<strong>全小写字母形式的短小单词命名</strong>，并且 <code>.go</code> 扩展名结尾。</p>
+<p>如果要在源文件的名字中使用多个单词，通常直接是将多个单词连接起来作为源文件名，而不是使用其他分割符。<br>比如下划线，通常会使用 <code>helloworld.go</code> 作为文件名，而不是 <code>hello_world.go</code>。</p>
+<p>这是因为下划线这种分割符，在 Go 源文件命名中有特殊作用。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// main.go</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">  fmt.Println(<span class="string">"hello world"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>写完之后，就可以编译运行第一个 Go 程序了：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ go build main.go   <span class="comment"># 编译</span></span><br><span class="line"></span><br><span class="line">$ ./main             <span class="comment"># 运行</span></span><br><span class="line">hello, world</span><br></pre></td></tr></table></figure>
+
+<p>上面这个简单的 Go 程序，由三个很重要的部分组成：</p>
+<ul>
+<li><code>package main</code>：定义了 Go 中的一个包 package</li>
+<li><code>import fmt</code>：声明导入标准库 fmt 目录下的包</li>
+<li><code>func main(){}</code>：定义入口函数</li>
+</ul>
+<p>下面一一说明。</p>
+<h3 id="package"><a href="#package" class="headerlink" title="package"></a>package</h3><p>包（package）是 Go 语言的基本组成单元，通常使用单个的小写单词命名，一个 Go 程序本质上就是一组包的集合。</p>
+<p>所有 Go 代码都有属于自己的 package（很像 PHP 的命名空间的概念），在这里的“helloworld”示例的所有代码都在一个名为 main 的包中。main 包在 Go 中是一个特殊的包，<strong>整个 Go 程序中仅允许存在一个名为 main 的包</strong>。</p>
+<h3 id="import"><a href="#import" class="headerlink" title="import"></a>import</h3><p><code>import</code> 的作用是导入标准库或者第三方包，在这里的作用是导入标准库 fmt 目录下的包。</p>
+<p>在上面的示例中，有两处都使用了 <code>fmt</code> 这个字面值，但是其含义是不一样的。</p>
+<ul>
+<li><code>import fmt</code> 一行中“fmt”代表的是包的导入路径（Import），它表示的是<strong>标准库下的 fmt 目录</strong></li>
+<li><code>fmt.Println</code> 函数调用一行中的“fmt”代表的则是<strong>包名</strong></li>
+</ul>
+<p>main 函数体中之所以可以调用 fmt 包的 Println 函数，还有最后一个原因，那就是 Println 函数名的首字母是大写的。</p>
+<p>在 Go 语言中，<strong>只有首字母为大写的标识符才是导出的（Exported），才能对包外的代码可见</strong>；如果首字母是小写的，那么就说明这个标识符<strong>仅限于在声明它的包内可见</strong>。</p>
+<h3 id="main"><a href="#main" class="headerlink" title="main"></a>main</h3><p>main 包中的主要代码是一个名为 main 的函数：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">"hello, world"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里的 main 函数会比较特殊：<strong>当运行一个可执行的 Go 程序的时，所有的代码都会从这个入口函数开始运行</strong>。</p>
+<hr>
+<p>Go 要求所有的函数体都要被花括号包裹起来，用来标记函数体。按照惯例，推荐把左花括号与函数声明置于同一行并以空格分隔。<br>Go 语言内置了一套 Go 社区约定俗称的代码风格，并随安装包提供了一个名为 Gofmt 的工具，这个工具可以帮助将代码自动格式化为约定的风格。</p>
+<hr>
+<p>通过观察输出，可以发现，传入的字符串就是执行程序后在终端的标准输出上看到的字符串。</p>
+<p>这种“所见即所得”得益于 Go 源码文件本身采用的是 Unicode 字符集，而且用的是 UTF-8 标准的字符编码方式，这与编译后的程序所运行的环境所使用的字符集和字符编码方式是一致的。</p>
+<hr>
+<p>整个示例程序源码中，都没有使用过分号来标识语句的结束，这是因为，大多数分号都是可选的，常常被省略，不过在源码编译时，Go 编译器会自动插入这些被省略的分号。</p>
+<p>所以加上分号也是完全合法的，只不过 gofmt 在按约定格式化代码时，会自动删除这些分号。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过 <code>hello world</code> 示例程序，了解了 Go 的基本源码结构，以下是重点：</p>
+<ul>
+<li>包是 Go 语言的基本组成单元。一个 Go 程序就是一组包的集合，所有 Go 代码都位于包中</li>
+<li>Go 源码可以导入其他 Go 包，并使用其中的导出语法元素，包括类型、变量、函数、方法等</li>
+<li>整个 Go 程序中仅允许存在一个名为 main 的包只能由一个 main 包; main 函数是整个 Go 应用的入口函数</li>
+</ul>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://time.geekbang.org/column/intro/100093501" target="_blank" rel="noopener">Tony Bai · Go 语言第一课</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/go-language-learning-manual%E2%80%94%E2%80%94transportation-first-go-procedure/>https://www.0x2beace.com/go-language-learning-manual%E2%80%94%E2%80%94transportation-first-go-procedure/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2023-02-18T11:28:33+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Feb 18, 2023</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Go/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Go</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/go-language-learning-manual%E2%80%94%E2%80%94transportation-first-go-procedure/&title=Go 语言学习笔记——运行第一个 Go 程序 - Boo&summary=时隔一年之久，再一次来学习 Go。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/go-language-learning-manual%E2%80%94%E2%80%94transportation-first-go-procedure/&title=Go 语言学习笔记——运行第一个 Go 程序 - Boo&summary=时隔一年之久，再一次来学习 Go。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/go-language-learning-manual%E2%80%94%E2%80%94transportation-first-go-procedure/&title=Go 语言学习笔记——运行第一个 Go 程序 - Boo&summary=时隔一年之久，再一次来学习 Go。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXgAAAF4CAAAAAB79r16AAAFJElEQVR42u3cQW7kMAwEwPn/p3fvCwRWky0n2JRuyXhsqehLh0Q+f6xvWR8E4MFb4MFb4MFbBfjPcD0+4J/rnr7/dN/08/Q5p7/feoEHDx48ePDgwYMH34Q/DgCljZ8e5Klwb4G3vMCDBw8ePHjw4MGDvwF/CnAajL7ayNPBpgW7VdCaF3jw4MGDBw8ePHjwPxC+VZgUcHrf9AUBDx48ePDgwYMHD/5/hG+BvT1odfvFAw8ePHjw4MGDBw/+JvytgJP+nAad9DytIPZtk2TgwYMHDx48ePDgwS+Cym/9eewFHjx48ODBgwcPHnwBfrtajZJpwEnvf9pAmQasRy/w4MGDBw8ePHjw4Avw04DQKlAK0B6U2n6e7gM8ePDgwYMHDx48+Ab8dDBoeuC3A84U6tb9wYMHDx48ePDgwYO/Cd9qbGwbGa3r2kEvHYQCDx48ePDgwYMHD/4m/BawfYBtgDt9Xhrk6o0Q8ODBgwcPHjx48OAD+GkwmQ7+3AZqFew0YMYBFDx48ODBgwcPHjz4C/DbYHO6kVajYhrgWvuMGyTgwYMHDx48ePDgwRfhp0Hlc7jSYPUJ1/b+Y8htIwQ8ePDgwYMHDx48+CL8aUC51aCYNlhaUGmAOt4fePDgwYMHDx48ePAF+LQB8XajZAqcPj+937jxAh48ePDgwYMHDx78Rfh2w2JaiLSBkX5vev208ODBgwcPHjx48ODBN+A/yzWF3DZg0uAyDYrTF+3L74MHDx48ePDgwYMHX4A/PWgKFW+oNACVFqIVyMCDBw8ePHjw4MGD/w74dmDYFqwVWE4bO5/SejwnePDgwYMHDx48ePAF+NOAMW1obBsVKWhr0KpdUPDgwYMHDx48ePDgm/DTA53CvFXI6f62wShuvIAHDx48ePDgwYMHX4BPGxkp5E8ZLLp1vnpyBQ8ePHjw4MGDBw+++Pf47SDPNjCtB4mW19UGusCDBw8ePHjw4MGDL8C34NYbCr/XGlB6OwCCBw8ePHjw4MGDB38Dfgo9DUjT37cGsVr7O3UBDx48ePDgwYMHD74B3woYadBIGxDbRs020KUFeAxQ4MGDBw8ePHjw4MEX/h4/3WA7eJwGr3bwawfCL78PHjx48ODBgwcPHnwRfhpk0uvSRkdrP2kDZwpdmyQDDx48ePDgwYMHDz74fzXTYDM94LYxsn1xpvsfnws8ePDgwYMHDx48+Bfgt42GdABo2niZNnRag0vHLy548ODBgwcPHjx48AX4NEBsgVuFab0wpwGtFbDAgwcPHjx48ODBg2/Cpw2HdOBnG4RuNUTSwm4HoMCDBw8ePHjw4MGDb8BPb9QKRtvCba+bnmdaSPDgwYMHDx48ePDgm/Ap4BRg21jZAqb7TMHBgwcPHjx48ODBg38DfvvgVgOiPVCUBrd2YeOBJvDgwYMHDx48ePDgA/jtSgPWcdAIr2sBbvf5+IKBBw8ePHjw4MGDB1+A3w72bA+8PshwAKoVjNKCgQcPHjx48ODBgwffhJ8GpjSItGC3jZzp99cvFnjw4MGDBw8ePHjwF+BbAWLaONgGnbQx0nre8XPBgwcPHjx48ODBg/+B8OMGweHn08Gm9FxpoY6fAx48ePDgwYMHDx78D4ZPGwqtgaVt4bYNm29rhIAHDx48ePDgwYP/1fDbBsJ0oKgFNh1ImjZq4ueBBw8ePHjw4MGDB1+Enw7ubBsE0yC03Ve6v9rAFHjw4MGDBw8ePHjwBXjr3QUePHgLPHgLPHhrsf4C1j2uMLYkQw8AAAAASUVORK5CYII=">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/elasticsearch-quick-start/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>ElasticSearch 快速上手</p>
+                <p class='content'>Elasticsearch 是目前全文搜索引擎的首选，它可以快速地储存、搜索和分析海量数据，下面简称 ES。
+
+
+ES 底层是开源库 Lucene。但是没法直接用 Lucene，必须自己写代码去...</p>
+              </a>
+            
+            
+              <a class='next' href='/computer-network-learning-01-tcp-ip-network-model/'>
+                <p class='title'>计算机网络学习——01 TCP/IP网络模型<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>为了使不同计算机厂家生产的计算机能够相互通信，以便在更大的范围内建立计算机网络，国际标准化组织（ISO）在1978年提出了”开放系统互联参考模型”，即著名的OSI/RM模型（Open Syste...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Go 语言学习笔记——运行第一个 Go 程序',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#设计哲学"><span class="toc-text">设计哲学</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置-Go"><span class="toc-text">配置 Go</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hello-world"><span class="toc-text">hello world</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#package"><span class="toc-text">package</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#import"><span class="toc-text">import</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#main"><span class="toc-text">main</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+      
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <span class="post-count">总字数：369.2k</span>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
+
+        <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+        
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?fbe826b92f6d49a0ebacf4d848bd3add";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+<script>
+  var now = new Date(); 
+  function createtime() {    
+      var grt= new Date("07/04/2020 14:12:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";     
+  } 
+setInterval("createtime()",250);
+</script>
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "Ki6kd5TUWoQyYKSErxehnRpc-MdYXbMMI",
+    appKey: "7pRBOKMw58Yo7EsUjHziIEY1",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>

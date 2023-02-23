@@ -473,7 +473,7 @@
 <a id="more"></a>
 
 <p>ThinkPHP 6.0 在日志这一块，改动挺大了，直接砍掉了原来的请求信息部分。</p>
-<p><img src="inkdrop://file:OwdyJOIKO" alt="clipboard.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20220619091135.png" alt=""></p>
 <h2 id="日志记录"><a href="#日志记录" class="headerlink" title="日志记录"></a>日志记录</h2><p>ThinkPHP 对系统的日志按照级别来分类记录，按照 <code>PSR-3</code> 日志规范。除非是实时写入的日志，其它日志都是在当前请求结束的时候统一写入的 所以不要在日志写入之后使用exit等中断操作会导致日志写入失败。</p>
 <p>日志的级别从低到高依次为：<code>debug</code>，<code>info</code>，<code>notice</code>，<code>warning</code>，<code>error</code>，<code>critical</code>，<code>alert</code>， <code>emergency</code>，ThinkPHP 额外增加了一个 <code>sql</code> 日志级别仅用于记录SQL日志（并且仅当开启数据库调试模式有效）。</p>
 <h2 id="设置日志记录级别"><a href="#设置日志记录级别" class="headerlink" title="设置日志记录级别"></a>设置日志记录级别</h2><p><code>config/log.php</code></p>
@@ -607,10 +607,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-06-17T16:55:02+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-06-27T16:17:37+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Jun 17, 2022</p>
+    <p>更新于：Jun 27, 2022</p>
   </a>
 </div>
 
@@ -694,6 +694,19 @@
         
         
           <div class="prev-next">
+            
+              <a class='prev' href='/how-to-choose-common-index-and-unique-index/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>09 普通索引和唯一索引，应该怎么选择</p>
+                <p class='content'>本文是基于 极客时间——MySQL 实战 45 讲 整理的学习笔记。
+课程重点：
+
+对于不同业务场景下，应该选择普通索引，还是唯一索引
+理解 change buffer 的机制
+
+
+
+假如现在需...</p>
+              </a>
             
             
               <a class='next' href='/is-the-transaction-isolated-or-not/'>
@@ -813,7 +826,7 @@
     
       
         <div class='copyright'>
-        <span class="post-count">总字数：241.8k</span>
+        <span class="post-count">总字数：369.2k</span>
         <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
 
         <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>

@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>Go 语言学习笔记——channel - Boo</title>
+  
+    <meta name="keywords" content="Go">
+  
+  
+    <meta name="description" content="如果 main goroutine 退出了，那么也意味着整个应用程序的退出。
+此外，还要注意的是，goroutine 执行的函数或方法即便有返回值，Go 也会忽略这些返回值。所以，如果要获取 goroutine 执行后的返回值，需要另行考虑其他方法，比如通过 goroutine 间的通信来实现。">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Boo's Blog</p>
+    
+    
+      <p class="subtitle">Stay foolish, Stay hungry</p>
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/"
+                
+                
+                id="https:www0x2BeAcecom">
+                <i class='fas fa-book fa-fw'></i>博客
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/categories/"
+                
+                
+                id="https:www0x2BeAcecomcategories">
+                <i class='fas fa-rss fa-fw'></i>分类
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/tags/"
+                
+                
+                id="https:www0x2BeAcecomtags">
+                <i class='fas fa-play-circle fa-fw'></i>标签
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/archives/"
+                
+                  rel="external nofollow noopener noreferrer"
+                
+                
+                id="https:www0x2BeAcecomarchives">
+                <i class='fas fa-file-code fa-fw'></i>归档
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/about/"
+                
+                
+                id="https:www0x2BeAcecomabout">
+                <i class='fas fa-handshake fa-fw'></i>关于我
+              </a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/go-language-study-notes-channel/">
+      Go 语言学习笔记——channel
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Go/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Go</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Nov 7, 2022</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>4.7k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>19 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/go-language-study-notes-channel/" class="leancloud_visitors" data-flag-title="Go 语言学习笔记——channel">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>如果 main goroutine 退出了，那么也意味着整个应用程序的退出。</p>
+<p>此外，还要注意的是，goroutine 执行的函数或方法即便有返回值，Go 也会忽略这些返回值。所以，如果要获取 goroutine 执行后的返回值，需要另行考虑其他方法，比如通过 goroutine 间的通信来实现。</p>
+<a id="more"></a>
+
+<h2 id="goroutine-间的通信"><a href="#goroutine-间的通信" class="headerlink" title="goroutine 间的通信"></a>goroutine 间的通信</h2><p>传统的编程语言（C++、Java、Python 等）并非面向并发而生的，所以它们面对并发的逻辑多是基于操作系统的线程。</p>
+<p>线程之间的通信，利用的也是操作系统提供的线程或进程间通信的原语，比如：共享内存、信号（signal）、管道（pipe）、消息队列、套接字（socket）等。</p>
+<p>在这些通信原语中，使用最多、最广泛的（也是最高效的）是结合了线程同步原语（比如：锁以及更为低级的原子操作）的共享内存方式，因此，我们可以说传统语言的并发模型是基于对内存的共享的。</p>
+<p>Go 语言从设计伊始，就将解决上面这个传统并发模型的问题作为 Go 的一个目标，并在新并发模型设计中借鉴了著名计算机科学家Tony Hoare提出的 CSP（Communicationing Sequential Processes，通信顺序进程）并发模型。</p>
+<p>简单看下 CSP 的通信模型示意图：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/CSP%E6%A8%A1%E5%9E%8B.png" alt=""></p>
+<p>在 Go 中，与“Process”对应的是 goroutine。为了实现 CSP 并发模型中的输入和输出原语，Go 还引入了 goroutine（P）之间的通信原语channel。</p>
+<p>goroutine 通过 channel 获取输入数据，再将处理后得到的结果通过 channel 输出。通过 channel 将 goroutine（P）组合连接在一起，让设计和编写大型并发系统变得更加简单和清晰。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/goroutine%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B.png" alt=""></p>
+<p>比如上面提到的获取 goroutine 的退出状态，就可以使用 channel 原语实现：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">spawn</span><span class="params">(f <span class="keyword">func</span>()</span> <span class="title">error</span>) &lt;-<span class="title">chan</span> <span class="title">error</span></span> &#123;</span><br><span class="line">    c := <span class="built_in">make</span>(<span class="keyword">chan</span> error)</span><br><span class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">        c &lt;- f()</span><br><span class="line">    &#125;()</span><br><span class="line">    <span class="keyword">return</span> c</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    c := spawn(<span class="function"><span class="keyword">func</span><span class="params">()</span> <span class="title">error</span></span> &#123;</span><br><span class="line">        time.Sleep(<span class="number">2</span> * time.Second)</span><br><span class="line">        <span class="keyword">return</span> errors.New(<span class="string">"timeout"</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">    fmt.Println(&lt;-c)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行上面的实例代码，输出如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 延迟 2s 打印</span></span><br><span class="line">timeout</span><br></pre></td></tr></table></figure>
+
+<p>该示例在 main.goroutine 与子 goroutine 之间建立一个元素类型为 error 的 channel，子 goroutine 退出时，会将它执行的函数的错误值写入这个 channel，main.goroutine 可以通过读取 channel 的值来获取子 gotouine 的退出状态。</p>
+<h2 id="创建-channel"><a href="#创建-channel" class="headerlink" title="创建 channel"></a>创建 channel</h2><p>channel 也是一等公民。</p>
+<p>可以像使用普通变量那样使用 channel，定义 channel 类型变量，给 channel 变量赋值，将 channel 作为参数传递给函数 / 方法、将 channel 作为返回值从函数 / 方法中返回，甚至将 channel 发送到其他 channel 中。</p>
+<p>和切片、结构体、map 等一样，channel 也是一种复合数据类型。复合数据类型，在声明类型变量时，必须给出具体的元素类型。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ch <span class="keyword">chan</span> <span class="keyword">int</span></span><br></pre></td></tr></table></figure>
+
+<p>上面的示例代码中，声明了一个元素为 int 类型的 channel 类型变量 ch。</p>
+<p>如果 channel 类型变量在声明时没有被赋予初值，那么它的默认值为 nil。</p>
+<p>和其他复合类型不同的是，给 channel 类型变量赋初值的唯一方式就是 make 这个 Go 预定义函数：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ch1 := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>)</span><br><span class="line">ch2 := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>, <span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+
+<p>ch1 表示元素类型为 int 的 channel 类型，是<strong>无缓冲 channel</strong>; ch2 表示元素类型为 int 的 channel 类型，<strong>带缓冲 channel</strong>，且缓冲区长度为 5。</p>
+<p>这两种类型变量关于发送（send）和接收（receive）的特性是不同的，下面基于这两种类型的 channel，看看 channel 类型变量如何进行发送和接收数据元素。</p>
+<h2 id="发送与接收"><a href="#发送与接收" class="headerlink" title="发送与接收"></a>发送与接收</h2><p>Go 提供了&lt;-操作符用于对 channel 类型变量进行发送与接收操作：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ch1 &lt;- <span class="number">13</span>     <span class="comment">// 将整型字面值 13 发送到无缓冲 channel 类型变量 ch1 中</span></span><br><span class="line">n := &lt;- ch1   <span class="comment">// 将无缓冲 channel 类型变量 ch1 中接收的整型值存储到整型变量 n 中</span></span><br><span class="line">ch2 &lt;- <span class="number">17</span>     <span class="comment">// 将整型字面值 17 发送到带缓冲 channel 类型变量 ch2 中</span></span><br><span class="line">m := &lt;- ch2   <span class="comment">// 从带缓冲 channel 类型变量 ch2 中接收一个整型值存储到整型变量 m 中</span></span><br></pre></td></tr></table></figure>
+
+<p>在理解 channel 的发送与接收操作时，你一定要始终牢记：<strong>channel 是用于 Goroutine 间通信的</strong>，所以绝大多数对 channel 的读写都被分别放在了不同的 Goroutine 中。</p>
+<h3 id="无缓冲-channel"><a href="#无缓冲-channel" class="headerlink" title="无缓冲 channel"></a>无缓冲 channel</h3><p>由于无缓冲 channel 的运行时层实现不带有缓冲区，所有 goroutine 对无缓冲 channel 的接收和发送是同步的。</p>
+<p>也就是说，对同一个无缓冲 channel，只有对它进行接收操作的 Goroutine 和对它进行发送操作的 Goroutine 都存在的情况下，通信才能得以进行，可以结合 goroutine 并发模型理解：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/goroutine%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B.png" alt=""></p>
+<p>否则单方面的操作会让对应的 Goroutine 陷入挂起状态，比如下面示例代码：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    ch1 := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>)</span><br><span class="line">    ch1 &lt;- <span class="number">13</span> <span class="comment">// fatal error: all goroutines are asleep - deadlock!</span></span><br><span class="line">    n := &lt;-ch1</span><br><span class="line">    <span class="built_in">println</span>(n)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在上面的示例中，创建了一个无缓冲 channel 类型变量 ch1，对 ch1 的读和写都放在一个 goroutine 中了（因为这里没有手动创建 goroutine，因此只有 main goroutine），因此陷入挂起状态了，这也是上面提到的，为什么要把对 channel 的读写放在不同的 goroutine 中的原因。</p>
+<p>解决办法也很简单，只需要将接口操作或者发送操作放到另外一个 goroutine 中就可以了。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    ch1 := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>)</span><br><span class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">        ch1 &lt;- <span class="number">13</span> <span class="comment">// 将发送操作放入一个新goroutine中执行</span></span><br><span class="line">    &#125;()</span><br><span class="line">    n := &lt;-ch1</span><br><span class="line">    <span class="built_in">println</span>(n)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>由此，可以得出结论：<strong>对无缓冲 channel 类型的发送与接收操作，一定要放在两个不同的 Goroutine 中进行，否则会导致 deadlock（死锁）</strong>。</p>
+<h3 id="缓冲带-channel"><a href="#缓冲带-channel" class="headerlink" title="缓冲带 channel"></a>缓冲带 channel</h3><p>和无缓冲 channel 相反，带缓冲 channel 的运行时层面实现带有缓冲区，因此，<strong>对带缓冲 channel 的发送操作在缓冲区未满、接收操作在缓冲区非空的情况下是异步的</strong>（发送或接收无需阻塞等待）。</p>
+<p>也就是，下面四种情况（仅针对 带缓冲 channel）：</p>
+<ol>
+<li>如果缓冲区已满，进行发送操作，会导致 goroutine 挂起</li>
+<li>如果缓冲区未满，进行发送操作，不会导致 goroutine 阻塞挂起</li>
+<li>如果缓冲区为空，进行接收操作，会导致 goroutine 阻塞挂起</li>
+<li>如果缓冲区有数据，进行接收操作，不会导致 goroutine 阻塞挂起</li>
+</ol>
+<p>可以结合下面的示例代码理解：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	ch2 := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>, <span class="number">1</span>)</span><br><span class="line">	<span class="comment">// 从ch2 的缓冲区接收数据</span></span><br><span class="line">	n := &lt;-ch2   <span class="comment">// 因为此时ch2 的缓冲区中无数据，因此将会导致 goroutine 挂起</span></span><br><span class="line">	fmt.Println(n)</span><br><span class="line"></span><br><span class="line">	ch3 := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>, <span class="number">1</span>)</span><br><span class="line">	ch3 &lt;- <span class="number">17</span> <span class="comment">// 向 ch3 发送一个整型数</span></span><br><span class="line">	ch3 &lt;- <span class="number">18</span> <span class="comment">// 由于此时ch3中缓冲区已满，再向ch3发送数据也将导致 goroutine 挂起</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>也正是因为带缓冲 channel 与无缓冲 channel 在发送与接收行为上的差异，在具体使用上，它们有各自的“用武之地”，这个我们等会再细说，现在我们先继续把 channel 的基本语法讲完。</p>
+<p>使用操作符<code>&lt;-</code>，还可以声明只发送 channel 类型（send-only）和只接收 channel 类型（recv-only），接着看下面这个例子：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ch1 := <span class="built_in">make</span>(<span class="keyword">chan</span>&lt;- <span class="keyword">int</span>, <span class="number">1</span>) <span class="comment">// 只发送channel类型</span></span><br><span class="line">ch2 := <span class="built_in">make</span>(&lt;-<span class="keyword">chan</span> <span class="keyword">int</span>, <span class="number">1</span>) <span class="comment">// 只接收channel类型</span></span><br><span class="line">&lt;-ch1       <span class="comment">// invalid operation: &lt;-ch1 (receive from send-only type chan&lt;- int)</span></span><br><span class="line">ch2 &lt;- <span class="number">13</span>   <span class="comment">// invalid operation: ch2 &lt;- 13 (send to receive-only type &lt;-chan int)</span></span><br></pre></td></tr></table></figure>
+
+<p>可以从上面的示例代码中看到，试图从一个只发送 channel 类型变量中接收数据，或者向一个只接收 channel 类型发送数据，都会导致编译错误。</p>
+<p>通常只发送 channel 类型和只接收 channel 类型，会被用作函数的参数类型或返回值，用于限制对 channel 内的操作，或者是明确可对 channel 进行的操作的类型，比如下面这个例子：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">produce</span><span class="params">(ch <span class="keyword">chan</span>&lt;- <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">10</span>; i++ &#123;</span><br><span class="line">        ch &lt;- i + <span class="number">1</span></span><br><span class="line">        time.Sleep(time.Second)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">close</span>(ch)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">consume</span><span class="params">(ch &lt;-<span class="keyword">chan</span> <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">for</span> n := <span class="keyword">range</span> ch &#123;</span><br><span class="line">        <span class="built_in">println</span>(n)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    ch := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>, <span class="number">5</span>)</span><br><span class="line">    <span class="keyword">var</span> wg sync.WaitGroup</span><br><span class="line">    wg.Add(<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">        produce(ch)</span><br><span class="line">        wg.Done()</span><br><span class="line">    &#125;()</span><br><span class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">        consume(ch)</span><br><span class="line">        wg.Done()</span><br><span class="line">    &#125;()</span><br><span class="line">    wg.Wait()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，分别启动了两个 goroutine，分别代表生产者（produce）和消费者（consume）。</p>
+<p>生产者只能向 channel 中发送数据，使用 <code>chan&lt;- int</code> 作为 produce 函数的参数类型。<br>消费者只能从 channel 中接收数据，使用 <code>int&lt;- chan</code> 作为 consume 函数的参数类型。</p>
+<p>在消费者函数中，使用 <code>for range</code> 从 channel 中接收数据，<code>for range</code> 会阻塞在对 channel 的接收操作，直到 <strong>channel 中有数据可以接收</strong>或者<strong>channel 被关闭循环</strong>，才会继续向下执行。channel 被关闭后，for range 循环也就结束了。</p>
+<h2 id="关闭-channel"><a href="#关闭-channel" class="headerlink" title="关闭 channel"></a>关闭 channel</h2><p>在上面的例子中，produce 函数在发送完数据后，调用 Go 内置的 close 函数关闭了 channel。channel 关闭后，所有等待从这个 channel 接收数据的操作都将返回。</p>
+<p>采用不同接收语法形式的语句，在 channel 被关闭后的返回值的情况：</p>
+<ul>
+<li><code>n := &lt;- ch</code>：当ch被关闭后，n将被赋值为ch元素类型的零值，无法准确判断 channel 是否被关闭</li>
+<li><code>m, ok := &lt;-ch</code>：当ch被关闭后，m将被赋值为ch元素类型的零值, ok值为false，可以准确判断 channel 是否被关闭</li>
+<li><code>for v := range ch</code>：当ch被关闭后，for range循环结束，可以准确判断 channel 是否被关闭</li>
+</ul>
+<p>另外，从上面的示例中还可以看到，channel 是在 produce 函数中被关闭的，这也是 channel 的一个使用惯例，那就是<strong>发送端负责关闭 channel</strong>。</p>
+<p>这里为什么要在发送端关闭 channel 呢？</p>
+<p>这是因为发送端没有像接受端那样的、可以安全判断 channel 是否被关闭了的方法（上面的两种方式）。同时，一旦向一个已经关闭的 channel 执行发送操作，这个操作就会引发 panic：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ch := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>, <span class="number">5</span>)</span><br><span class="line"><span class="built_in">close</span>(ch)</span><br><span class="line">ch &lt;- <span class="number">13</span> <span class="comment">// panic: send on closed channel</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="select"><a href="#select" class="headerlink" title="select"></a>select</h2><p>当涉及同时对多个 channel 进行操作时，可以使用 Go 为 CSP 并发模型提供的另外一个原语 select。</p>
+<p>通过 select，可以同时在多个 channel 上进行发送 / 接收操作：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	ch1 := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>, <span class="number">1</span>)</span><br><span class="line">	ch2 := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>, <span class="number">1</span>)</span><br><span class="line">	ch3 := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">	ch1 &lt;- <span class="number">11</span></span><br><span class="line">	ch2 &lt;- <span class="number">12</span></span><br><span class="line">	ch3 &lt;- <span class="number">13</span></span><br><span class="line">	<span class="keyword">select</span> &#123;</span><br><span class="line">	<span class="comment">// 从 channel ch1 接收数据</span></span><br><span class="line">	<span class="keyword">case</span> x := &lt;-ch1:</span><br><span class="line">		<span class="built_in">println</span>(x)</span><br><span class="line">	<span class="comment">// 从channel ch2接收数据，并根据ok值判断ch2是否已经关闭</span></span><br><span class="line">	<span class="keyword">case</span> y, ok := &lt;-ch2:</span><br><span class="line">		<span class="built_in">println</span>(ok)</span><br><span class="line">		<span class="built_in">println</span>(y)</span><br><span class="line">	<span class="comment">// 从 channel ch3 接收数据</span></span><br><span class="line">	<span class="keyword">case</span> z := &lt;-ch3:</span><br><span class="line">		<span class="built_in">println</span>(z)</span><br><span class="line">	<span class="comment">// 当上面case中的channel 均无法接收数据时，执行该默认分支</span></span><br><span class="line">	<span class="keyword">default</span>:</span><br><span class="line">		<span class="built_in">println</span>(<span class="string">"default"</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里先简单了解一下基本语法，后面再详细讲解。</p>
+<h2 id="无缓冲带-channel-惯用法"><a href="#无缓冲带-channel-惯用法" class="headerlink" title="无缓冲带 channel 惯用法"></a>无缓冲带 channel 惯用法</h2><p>无缓冲 channel 兼具通信和同步特性，在并发程序中应用颇为广泛。现在我们来看看几个无缓冲 channel 的典型应用。</p>
+<h3 id="用作信号传递"><a href="#用作信号传递" class="headerlink" title="用作信号传递"></a>用作信号传递</h3><p>无缓冲 channel 用作信号传递的时候，有两种情况，分别是 1 对 1 通知信号和 1 对 n 通知信号。</p>
+<h4 id="1-对-1-通知信号"><a href="#1-对-1-通知信号" class="headerlink" title="1 对 1 通知信号"></a>1 对 1 通知信号</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> signal <span class="keyword">struct</span>&#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">worker</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="built_in">println</span>(<span class="string">"worker is working..."</span>)</span><br><span class="line">    time.Sleep(<span class="number">1</span> * time.Second)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">spawn</span><span class="params">(f <span class="keyword">func</span>()</span>) &lt;-<span class="title">chan</span> <span class="title">signal</span></span> &#123;</span><br><span class="line">    c := <span class="built_in">make</span>(<span class="keyword">chan</span> signal)</span><br><span class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="built_in">println</span>(<span class="string">"worker start to work..."</span>)</span><br><span class="line">        f()</span><br><span class="line">        c &lt;- signal(<span class="keyword">struct</span>&#123;&#125;&#123;&#125;)</span><br><span class="line">    &#125;()</span><br><span class="line">    <span class="keyword">return</span> c</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="built_in">println</span>(<span class="string">"start a worker..."</span>)</span><br><span class="line">    c := spawn(worker)</span><br><span class="line">    &lt;-c</span><br><span class="line">    fmt.Println(<span class="string">"worker work done!"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行上面的示例代码，输出以下结果：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">start a worker...</span><br><span class="line">worker start to work...</span><br><span class="line">worker is working...</span><br><span class="line">worker work done!</span><br></pre></td></tr></table></figure>
+
+<p>这里之所以会执行 worker 函数（worker 函数是在 新的goroutine内的）。</p>
+<p>spawn 函数返回的 channel 相当于是一个新 goroutine 创建的“通知信号”，利用无缓冲channel 的特性，对无缓冲 channel 的接收和发送操作是同步的，只有同时具备接收和发送能力才会继续往下执行，因此一定是新的 goroutine 先执行完成，然后才是 main goroutine 执行完成。</p>
+<h4 id="1-对-n-通知信号"><a href="#1-对-n-通知信号" class="headerlink" title="1 对 n 通知信号"></a>1 对 n 通知信号</h4><p>有些时候，无缓冲 channel 还被用来实现 1 对 n 的信号通知机制。这样的信号通知机制，常被用于协调多个 Goroutine 一起工作，比如下面的例子：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> signal <span class="keyword">struct</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">worker</span><span class="params">(i <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">	fmt.Printf(<span class="string">"worker %d: is working...\n"</span>, i)</span><br><span class="line">	time.Sleep(<span class="number">1</span> * time.Second)</span><br><span class="line">	fmt.Printf(<span class="string">"worker %d: works done\n"</span>, i)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">spawnGroup</span><span class="params">(f <span class="keyword">func</span>(i <span class="keyword">int</span>)</span>, <span class="title">num</span> <span class="title">int</span>, <span class="title">groupSignal</span> &lt;-<span class="title">chan</span> <span class="title">signal</span>) &lt;-<span class="title">chan</span> <span class="title">signal</span></span> &#123;</span><br><span class="line">	c := <span class="built_in">make</span>(<span class="keyword">chan</span> signal)</span><br><span class="line">	<span class="keyword">var</span> wg sync.WaitGroup</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; num; i++ &#123;</span><br><span class="line">		wg.Add(<span class="number">1</span>)</span><br><span class="line">		<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">(i <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">			&lt;-groupSignal</span><br><span class="line">			fmt.Printf(<span class="string">"worker %d: start to work...\n"</span>, i)</span><br><span class="line">			f(i)</span><br><span class="line">			wg.Done()</span><br><span class="line">		&#125;(i + <span class="number">1</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		wg.Wait()</span><br><span class="line">		c &lt;- signal(<span class="keyword">struct</span>&#123;&#125;&#123;&#125;)</span><br><span class="line">	&#125;()</span><br><span class="line">	<span class="keyword">return</span> c</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	fmt.Println(<span class="string">"start a group of workers..."</span>)</span><br><span class="line">	groupSignal := <span class="built_in">make</span>(<span class="keyword">chan</span> signal)</span><br><span class="line">	time.Sleep(<span class="number">5</span> * time.Second)</span><br><span class="line">	c := spawnGroup(worker, <span class="number">5</span>, groupSignal)</span><br><span class="line">	fmt.Println(<span class="string">"the group of workers start to work..."</span>)</span><br><span class="line">	<span class="built_in">close</span>(groupSignal)</span><br><span class="line">	&lt;-c</span><br><span class="line">	fmt.Println(<span class="string">"the group of workers work done!"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这个例子中，main goroutine 创建了一组 5 个 worker goroutine，这些 Goroutine 启动后会阻塞在名为 groupSignal 的无缓冲 channel 上。</p>
+<p>main goroutine 通过 close(groupSignal)向所有 worker goroutine 广播“开始工作”的信号，收到信号后，所有 worker goroutine 会“同时”开始工作，也就打印出了结果。</p>
+<p>运行上面的示例代码，输出以下结果：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">start a group of workers...</span><br><span class="line">the group of workers start to work...</span><br><span class="line">worker <span class="number">1</span>: start to work...</span><br><span class="line">worker <span class="number">1</span>: is working...</span><br><span class="line">worker <span class="number">2</span>: start to work...</span><br><span class="line">worker <span class="number">2</span>: is working...</span><br><span class="line">worker <span class="number">3</span>: start to work...</span><br><span class="line">worker <span class="number">3</span>: is working...</span><br><span class="line">worker <span class="number">4</span>: start to work...</span><br><span class="line">worker <span class="number">4</span>: is working...</span><br><span class="line">worker <span class="number">5</span>: start to work...</span><br><span class="line">worker <span class="number">5</span>: is working...</span><br><span class="line">worker <span class="number">5</span>: works done</span><br><span class="line">worker <span class="number">2</span>: works done</span><br><span class="line">worker <span class="number">1</span>: works done</span><br><span class="line">worker <span class="number">3</span>: works done</span><br><span class="line">worker <span class="number">4</span>: works done</span><br><span class="line">the group of workers work done!</span><br></pre></td></tr></table></figure>
+
+<h3 id="替代锁机制"><a href="#替代锁机制" class="headerlink" title="替代锁机制"></a>替代锁机制</h3><p>无缓冲 channel 具有同步特性，这让它在某些场合可以替代锁，让我们的程序更加清晰，可读性也更好。我们可以对比下两个方案，直观地感受一下。</p>
+<p>首先看下传统基于“共享内存”+“互斥锁”的 Goroutine 安全的计数器的实现：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> counter <span class="keyword">struct</span> &#123;</span><br><span class="line">    sync.Mutex</span><br><span class="line">    i <span class="keyword">int</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> cter counter</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Increase</span><span class="params">()</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    cter.Lock()</span><br><span class="line">    <span class="keyword">defer</span> cter.Unlock()</span><br><span class="line">    cter.i++</span><br><span class="line">    <span class="keyword">return</span> cter.i</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> wg sync.WaitGroup</span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">10</span>; i++ &#123;</span><br><span class="line">        wg.Add(<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">(i <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">            v := Increase()</span><br><span class="line">            fmt.Printf(<span class="string">"goroutine-%d: current counter value is %d\n"</span>, i, v)</span><br><span class="line">            wg.Done()</span><br><span class="line">        &#125;(i)</span><br><span class="line">    &#125;</span><br><span class="line">    wg.Wait()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这个示例中，使用了一个带有互斥锁保护的全局变量作为计数器，所有要操作计数器的 Goroutine 共享这个全局变量，并在互斥锁的同步下对计数器进行自增操作。</p>
+<p>接下来再看更符合 Go 设计惯例的实现，也就是使用无缓冲 channel 替代锁后的实现：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> counter <span class="keyword">struct</span> &#123;</span><br><span class="line">    c <span class="keyword">chan</span> <span class="keyword">int</span></span><br><span class="line">    i <span class="keyword">int</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewCounter</span><span class="params">()</span> *<span class="title">counter</span></span> &#123;</span><br><span class="line">    cter := &amp;counter&#123;</span><br><span class="line">        c: <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>),</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">for</span> &#123;</span><br><span class="line">            cter.i++</span><br><span class="line">            cter.c &lt;- cter.i</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;()</span><br><span class="line">    <span class="keyword">return</span> cter</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(cter *counter)</span> <span class="title">Increase</span><span class="params">()</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    <span class="keyword">return</span> &lt;-cter.c</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    cter := NewCounter()</span><br><span class="line">    <span class="keyword">var</span> wg sync.WaitGroup</span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">10</span>; i++ &#123;</span><br><span class="line">        wg.Add(<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">(i <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">            v := cter.Increase()</span><br><span class="line">            fmt.Printf(<span class="string">"goroutine-%d: current counter value is %d\n"</span>, i, v)</span><br><span class="line">            wg.Done()</span><br><span class="line">        &#125;(i)</span><br><span class="line">    &#125;</span><br><span class="line">    wg.Wait()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这个示例中，将计数器操作全部交给一个独立的 Goroutine 去处理，并通过无缓冲 channel 的同步阻塞的特性，实现计数器的控制。<br>这样其他 Goroutine 通过 Increase 函数试图增加计数器值的动作，实质上就转化为了一次无缓冲 channel 的接收动作。</p>
+<p>这种并发设计逻辑更符合 Go 语言所倡导的<strong>“不要通过共享内存来通信，而是通过通信来共享内存”</strong>的原则。</p>
+<p>运行上面的示例代码，可以得到和互斥锁方案相同的输出：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">goroutine<span class="number">-9</span>: current counter value is <span class="number">10</span></span><br><span class="line">goroutine<span class="number">-0</span>: current counter value is <span class="number">1</span></span><br><span class="line">goroutine<span class="number">-6</span>: current counter value is <span class="number">7</span></span><br><span class="line">goroutine<span class="number">-2</span>: current counter value is <span class="number">3</span></span><br><span class="line">goroutine<span class="number">-8</span>: current counter value is <span class="number">9</span></span><br><span class="line">goroutine<span class="number">-4</span>: current counter value is <span class="number">5</span></span><br><span class="line">goroutine<span class="number">-5</span>: current counter value is <span class="number">6</span></span><br><span class="line">goroutine<span class="number">-1</span>: current counter value is <span class="number">2</span></span><br><span class="line">goroutine<span class="number">-7</span>: current counter value is <span class="number">8</span></span><br><span class="line">goroutine<span class="number">-3</span>: current counter value is <span class="number">4</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="带缓冲-channel-的惯用法"><a href="#带缓冲-channel-的惯用法" class="headerlink" title="带缓冲 channel 的惯用法"></a>带缓冲 channel 的惯用法</h2><p>带缓冲的 channel 与无缓冲的 channel 最大的不同之处， 就在于它的异步性。</p>
+<p>对一个带缓冲的 channel，在缓冲区未满的情况下，对它进行发送操作的 Goroutine 不会阻塞挂起; 在缓冲区有数据的情况下，对他进行接收操作的 Goroutine 也不会阻塞挂起。</p>
+<ul>
+<li>无论是 1 收 1 发还是多收多发，带缓冲 channel 的收发性能都要好于无缓冲 channel；</li>
+<li>对于带缓冲 channel 而言，发送与接收的 Goroutine 数量越多，收发性能会有所下降；</li>
+<li>对于带缓冲 channel 而言，选择适当容量会在一定程度上提升收发性能。</li>
+</ul>
+<h3 id="用作计数信号量"><a href="#用作计数信号量" class="headerlink" title="用作计数信号量"></a>用作计数信号量</h3><p>Go 并发设计的一个惯用法，就是将带缓冲 channel 用作计数信号量（counting semaphore）。</p>
+<p>带缓冲 channel 中的当前数据个数代表的是，当前同时处于活动状态（处理业务）的 Goroutine 的数量，而带缓冲 channel 的容量（capacity），就代表了允许同时处于活动状态的 Goroutine 的最大数量。</p>
+<p>向带缓冲 channel 的一个发送操作表示获取一个信号量，而从 channel 的一个接收操作则表示释放一个信号量。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> active = <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">struct</span>&#123;&#125;, <span class="number">3</span>)</span><br><span class="line"><span class="keyword">var</span> jobs = <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>, <span class="number">10</span>)</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">8</span>; i++ &#123;</span><br><span class="line">            jobs &lt;- (i + <span class="number">1</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">close</span>(jobs)</span><br><span class="line">    &#125;()</span><br><span class="line">    <span class="keyword">var</span> wg sync.WaitGroup</span><br><span class="line">    <span class="keyword">for</span> j := <span class="keyword">range</span> jobs &#123;</span><br><span class="line">        wg.Add(<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">(j <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">            active &lt;- <span class="keyword">struct</span>&#123;&#125;&#123;&#125;</span><br><span class="line">            log.Printf(<span class="string">"handle job: %d\n"</span>, j)</span><br><span class="line">            time.Sleep(<span class="number">2</span> * time.Second)</span><br><span class="line">            &lt;-active</span><br><span class="line">            wg.Done()</span><br><span class="line">        &#125;(j)</span><br><span class="line">    &#125;</span><br><span class="line">    wg.Wait()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行示例代码，输出如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2022</span>/<span class="number">11</span>/<span class="number">11</span> <span class="number">10</span>:<span class="number">03</span>:<span class="number">07</span> handle job: <span class="number">2</span></span><br><span class="line"><span class="number">2022</span>/<span class="number">11</span>/<span class="number">11</span> <span class="number">10</span>:<span class="number">03</span>:<span class="number">07</span> handle job: <span class="number">8</span></span><br><span class="line"><span class="number">2022</span>/<span class="number">11</span>/<span class="number">11</span> <span class="number">10</span>:<span class="number">03</span>:<span class="number">07</span> handle job: <span class="number">1</span></span><br><span class="line"><span class="number">2022</span>/<span class="number">11</span>/<span class="number">11</span> <span class="number">10</span>:<span class="number">03</span>:<span class="number">09</span> handle job: <span class="number">3</span></span><br><span class="line"><span class="number">2022</span>/<span class="number">11</span>/<span class="number">11</span> <span class="number">10</span>:<span class="number">03</span>:<span class="number">09</span> handle job: <span class="number">4</span></span><br><span class="line"><span class="number">2022</span>/<span class="number">11</span>/<span class="number">11</span> <span class="number">10</span>:<span class="number">03</span>:<span class="number">09</span> handle job: <span class="number">6</span></span><br><span class="line"><span class="number">2022</span>/<span class="number">11</span>/<span class="number">11</span> <span class="number">10</span>:<span class="number">03</span>:<span class="number">11</span> handle job: <span class="number">7</span></span><br><span class="line"><span class="number">2022</span>/<span class="number">11</span>/<span class="number">11</span> <span class="number">10</span>:<span class="number">03</span>:<span class="number">11</span> handle job: <span class="number">5</span></span><br></pre></td></tr></table></figure>
+
+<p>从示例运行结果中的时间戳中，可以看到，虽然创建了很多 Goroutine，但由于计数信号量的存在，同一时间内处理活动状态（正在处理 job）的 Goroutine 的数量最多为 3 个。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>channel 是用于 goroutine 间通信的</li>
+<li>通过预定义函数 make，可以创建两类 channel</li>
+<li>无缓冲 channel 具备<strong>通信与同步特性</strong>，常用于作为信号通知或替代同步锁</li>
+<li>带缓冲 channel 具备<strong>异步性</strong>，更适合用来实现基于内存的消息队列、计数信号量等</li>
+</ul>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://time.geekbang.org/column/intro/100093501" target="_blank" rel="noopener">Tony Bai · Go 语言第一课</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/go-language-study-notes-channel/>https://www.0x2beace.com/go-language-study-notes-channel/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2023-02-18T11:28:33+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Feb 18, 2023</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Go/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Go</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/go-language-study-notes-channel/&title=Go 语言学习笔记——channel - Boo&summary=如果 main goroutine 退出了，那么也意味着整个应用程序的退出。
+此外，还要注意的是，goroutine 执行的函数或方法即便有返回值，Go 也会忽略这些返回值。所以，如果要获取 goroutine 执行后的返回值，需要另行考虑其他方法，比如通过 goroutine 间的通信来实现。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/go-language-study-notes-channel/&title=Go 语言学习笔记——channel - Boo&summary=如果 main goroutine 退出了，那么也意味着整个应用程序的退出。
+此外，还要注意的是，goroutine 执行的函数或方法即便有返回值，Go 也会忽略这些返回值。所以，如果要获取 goroutine 执行后的返回值，需要另行考虑其他方法，比如通过 goroutine 间的通信来实现。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/go-language-study-notes-channel/&title=Go 语言学习笔记——channel - Boo&summary=如果 main goroutine 退出了，那么也意味着整个应用程序的退出。
+此外，还要注意的是，goroutine 执行的函数或方法即便有返回值，Go 也会忽略这些返回值。所以，如果要获取 goroutine 执行后的返回值，需要另行考虑其他方法，比如通过 goroutine 间的通信来实现。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADnUlEQVR42u3awW4CMQwEUP7/p9t7pWoztpc16OUGgm3ycpl6eP1YpfVCAA4cOHAWOHBL4F7F9e+Dw+/9ff/q9dX3T59fPS84cODAgQMHDtw2uOMAeAEwddAUOn2/el5w4MCBAwcOHLitcJcBMPx8N9imAfz0gsvnBQcOHDhw4MCB+zK4aoBNYacGreDAgQMHDhw4cOB6Gz+F6X4OHDhw4MCBAwfu2+HigrZYMHcD9hTkY00+OHDgwIEDBw7cEFy6qgfd8rp8XnDgwIEDBw4cuCVw3dUthruDz3cvcODAgQMHDhy4LXDVgJgOANPBZzew3vbDRHDgwIEDBw4cuCVw1aJ5+sDTRXj1Ai/hwYEDBw4cOHDglsClG3h3MO7+kLE7YL1s8sGBAwcOHDhw4B6Gqw4Yp2GmC+zTwebx88CBAwcOHDhw4JbBdQNkFbb63NP9TX0eHDhw4MCBAwduG9xU4LyC6x7srsL8J1zgwIEDBw4cOHBb4LpBtQqXBuapgWc1CIMDBw4cOHDgwG2Dq25wuiiurqm/V/7PARw4cODAgQMH7iG4qUL6NGh2g20VojtwBQcOHDhw4MCB+xS4qUHi6aD0rv2cXsTx/sCBAwcOHDhw4JbCTQ0ep4rjFHYq2N/W5IMDBw4cOHDgwA3DTQ8aqwfuFshTxfO/+wYHDhw4cODAgVsKdxocp4vodxXf7fOBAwcOHDhw4MAtgetuvDqATAeOaeBOg/zx88CBAwcOHDhw4JbCVQvd6UDaHZhWz3NcSIMDBw4cOHDgwD0MVz3IdGGcBtdukV5+Pjhw4MCBAwcO3IfBVTdafT+9mG4RfnwecODAgQMHDhy4D4OrFr1dkG7x3S20wYEDBw4cOHDgtsO9CyreaDPYTg1cwYEDBw4cOHDgPgXu9MFpQX16UWkBXd1HPGgFBw4cOHDgwIFbCpcOELtF9F0D0XSdng8cOHDgwIEDB24LXHelg8/uIHK6eI4vDhw4cODAgQMHbglcNzBOQ6UHqw5cy6/BgQMHDhw4cOCWwXUHmVXQ6sVMBdu0sAYHDhw4cODAgdsKVx0gdr/XvbB0X2kQBwcOHDhw4MCB+1a404CZDiar4FMXeHsABgcOHDhw4MCBexiuGmjTYNotlKv7AgcOHDhw4MCB2w6XDhSnftAXHyAsrtPCPA7A4MCBAwcOHDhwD8F1C9x0Y++CGQ/i4MCBAwcOHDhwS+CsEBoBOHDgwFngwD27fgGIe/8mtORlmQAAAABJRU5ErkJggg==">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/go-language-study-notes-atomic-operation/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Go 语言学习笔记——原子操作</p>
+                <p class='content'>通过前面的笔记，了解到了 Go 的同步工具——互斥锁的相关知识。
+通过对互斥锁的合理使用，可以使一个 goroutine 在执行临界区中的代码时，不被其他的 goroutine 打扰（保证临界区...</p>
+              </a>
+            
+            
+              <a class='next' href='/go-language-study-notes-struct-tag/'>
+                <p class='title'>Go 语言学习笔记——结构体标签<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>结构体标签就是对结构体字段的额外信息补充。
+
+
+定义结构体标签结构体标签的定义方式是，在字段声明后面可以跟一个可选的字符串文字。
+12345678type T struct &#123;    ...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Go 语言学习笔记——channel',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#goroutine-间的通信"><span class="toc-text">goroutine 间的通信</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建-channel"><span class="toc-text">创建 channel</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#发送与接收"><span class="toc-text">发送与接收</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#无缓冲-channel"><span class="toc-text">无缓冲 channel</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#缓冲带-channel"><span class="toc-text">缓冲带 channel</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关闭-channel"><span class="toc-text">关闭 channel</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#select"><span class="toc-text">select</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#无缓冲带-channel-惯用法"><span class="toc-text">无缓冲带 channel 惯用法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#用作信号传递"><span class="toc-text">用作信号传递</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-对-1-通知信号"><span class="toc-text">1 对 1 通知信号</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-对-n-通知信号"><span class="toc-text">1 对 n 通知信号</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#替代锁机制"><span class="toc-text">替代锁机制</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#带缓冲-channel-的惯用法"><span class="toc-text">带缓冲 channel 的惯用法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#用作计数信号量"><span class="toc-text">用作计数信号量</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+      
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <span class="post-count">总字数：369.2k</span>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
+
+        <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+        
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?fbe826b92f6d49a0ebacf4d848bd3add";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+<script>
+  var now = new Date(); 
+  function createtime() {    
+      var grt= new Date("07/04/2020 14:12:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";     
+  } 
+setInterval("createtime()",250);
+</script>
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "Ki6kd5TUWoQyYKSErxehnRpc-MdYXbMMI",
+    appKey: "7pRBOKMw58Yo7EsUjHziIEY1",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>

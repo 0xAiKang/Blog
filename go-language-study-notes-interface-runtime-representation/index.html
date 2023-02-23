@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>Go 语言学习笔记——接口运行时表示 - Boo</title>
+  
+    <meta name="keywords" content="Go">
+  
+  
+    <meta name="description" content="接口在 Go 中的地位非常高，这是因为接口是 Go 这门静态语言中唯一“动静兼容”的语法特性。">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Boo's Blog</p>
+    
+    
+      <p class="subtitle">Stay foolish, Stay hungry</p>
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/"
+                
+                
+                id="https:www0x2BeAcecom">
+                <i class='fas fa-book fa-fw'></i>博客
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/categories/"
+                
+                
+                id="https:www0x2BeAcecomcategories">
+                <i class='fas fa-rss fa-fw'></i>分类
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/tags/"
+                
+                
+                id="https:www0x2BeAcecomtags">
+                <i class='fas fa-play-circle fa-fw'></i>标签
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/archives/"
+                
+                  rel="external nofollow noopener noreferrer"
+                
+                
+                id="https:www0x2BeAcecomarchives">
+                <i class='fas fa-file-code fa-fw'></i>归档
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/about/"
+                
+                
+                id="https:www0x2BeAcecomabout">
+                <i class='fas fa-handshake fa-fw'></i>关于我
+              </a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/go-language-study-notes-interface-runtime-representation/">
+      Go 语言学习笔记——接口运行时表示
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Go/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Go</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Nov 3, 2022</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>3.4k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>14 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/go-language-study-notes-interface-runtime-representation/" class="leancloud_visitors" data-flag-title="Go 语言学习笔记——接口运行时表示">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>接口在 Go 中的地位非常高，这是因为接口是 Go 这门静态语言中唯一“动静兼容”的语法特性。</p>
+<a id="more"></a>
+
+<h2 id="静态特性与动态特性"><a href="#静态特性与动态特性" class="headerlink" title="静态特性与动态特性"></a>静态特性与动态特性</h2><p>接口的静态特性体现在<strong>接口类型变量具有静态类型</strong>。\</p>
+<p>拥有静态类型意味着<strong>编译器会在编译阶段对所有接口类型变量的赋值操作进行类型检查，编译器会检查右值的类型是否实现了该接口方法集合的所有方法</strong>，如果没有实现，则会编译失败。而不是等到运行时才会检查。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> err error = <span class="number">1</span> <span class="comment">// cannot use 1 (type int) as type error in assignment: int does not implement error (missing Error method)</span></span><br></pre></td></tr></table></figure>
+
+<p>接口的动态体现在接口类型变量在运行时还<strong>存储了右值的真实类型信息，这个右值的真实类型信息被称为接口类型变量的动态类型</strong>。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> err error</span><br><span class="line">err = error.New(<span class="string">"error1"</span>)</span><br><span class="line">fmt.Printf(<span class="string">"%T \n"</span>, err)   <span class="comment">// *errors.errorString</span></span><br></pre></td></tr></table></figure>
+
+<p>从上面的示例代码中可以看到，err 接口类型变量是 <code>errors.New</code> 构造的一个错误值，借助 <code>fmt.Printf</code> 函数输出了接口类型变量的动态类型是 <code>*errors.errorString</code>。</p>
+<h2 id="动静兼容的特性有什么好处"><a href="#动静兼容的特性有什么好处" class="headerlink" title="动静兼容的特性有什么好处"></a>动静兼容的特性有什么好处</h2><p>接口类型变量在程序运行时，可以被赋值为不同的动态类型变量，每次赋值后，接口类型变量中存储的动态类型信息都会发生变化，这让 Go 语言可以像动态语言（Python）那样拥有鸭子类型（Duck Typing）的灵活性。</p>
+<blockquote>
+<p>什么是鸭子类型？</p>
+</blockquote>
+<p>就是指某类型所表现出的特性（比如是否可以作为某接口类型的右值），不是由其基因（比如 C++ 中的父类）决定的，而是由类型所表现出来的行为（比如类型拥有的方法）决定的。</p>
+<p>比如下面的例子：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> QuackableAnimal <span class="keyword">interface</span> &#123;</span><br><span class="line">    Quack()</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">type</span> Duck <span class="keyword">struct</span>&#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(Duck)</span> <span class="title">Quack</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="built_in">println</span>(<span class="string">"duck quack!"</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">type</span> Dog <span class="keyword">struct</span>&#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(Dog)</span> <span class="title">Quack</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="built_in">println</span>(<span class="string">"dog quack!"</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">type</span> Bird <span class="keyword">struct</span>&#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(Bird)</span> <span class="title">Quack</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="built_in">println</span>(<span class="string">"bird quack!"</span>)</span><br><span class="line">&#125;                         </span><br><span class="line">                          </span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">AnimalQuackInForest</span><span class="params">(a QuackableAnimal)</span></span> &#123;</span><br><span class="line">    a.Quack()             </span><br><span class="line">&#125;                         </span><br><span class="line">                          </span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;             </span><br><span class="line">    animals := []QuackableAnimal&#123;<span class="built_in">new</span>(Duck), <span class="built_in">new</span>(Dog), <span class="built_in">new</span>(Bird)&#125;</span><br><span class="line">    <span class="keyword">for</span> _, animal := <span class="keyword">range</span> animals &#123;</span><br><span class="line">        AnimalQuackInForest(animal)</span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这个示例中，使用接口类型 <code>QuackableAnimal</code> 来代表具有“会叫”（<code>Quack()</code>方法）这一特征的动物，而 Duck、Bird 和 Dog 类型各自都具有这样的特征，</p>
+<p>这里的 Duck、Bird、Dod 都是“鸭子类型”，它们之间并没有什么联系，之所以能作为右值赋值给 QuackableAnimal 类型变量，只是因为他们表现出了 QuackableAnimal 所要求的特征罢了，也就是拥有 <code>Quack()</code> 方法，而不需要严格的继承体系。</p>
+<p>与动态语言不同的是，Go 接口还可以保证“动态特性”使用时的安全性。比如，编译器在编译期就可以捕捉到将 int 类型变量传给 QuackableAnimal 接口类型变量这样的明显错误，决不会让这样的错误遗漏到运行时才被发现。</p>
+<h2 id="一个问题"><a href="#一个问题" class="headerlink" title="一个问题"></a>一个问题</h2><p>接下来通过一个问题来更深入认识一下动静特性。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> MyError <span class="keyword">struct</span> &#123;</span><br><span class="line">    error</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> ErrBad = MyError&#123;</span><br><span class="line">    error: errors.New(<span class="string">"bad things happened"</span>),</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">bad</span><span class="params">()</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">returnsError</span><span class="params">()</span> <span class="title">error</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> p *MyError = <span class="literal">nil</span></span><br><span class="line">    <span class="keyword">if</span> bad() &#123;</span><br><span class="line">        p = &amp;ErrBad</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> p</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    err := returnsError()</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        fmt.Printf(<span class="string">"error occur: %+v\n"</span>, err)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    fmt.Println(<span class="string">"ok"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这个示例中，程序的运行逻辑很清晰，调用 returnsError 函数返回指针变量 p，值为 nil，然后比较 err 变量是否等于 nil，最后输出结果。</p>
+<p>运行一下示例代码，看看结果是否和预期一致：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">error occur: &lt;<span class="literal">nil</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，并没有输出预期的 ok，这是怎么回事呢？要搞清楚这个问题，需要进一步了解接口类型变量的内部表示。</p>
+<h3 id="接口类型变量的内部表示"><a href="#接口类型变量的内部表示" class="headerlink" title="接口类型变量的内部表示"></a>接口类型变量的内部表示</h3><p>接口类型“动静兼备”的特性也决定了它的变量的内部表示绝不像一个静态类型变量（如 int、float64）那样简单。</p>
+<p>在Go 的源码中可以找到接口类型变量在运行时的表示：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// $GOROOT/src/runtime/runtime2.go</span></span><br><span class="line"><span class="keyword">type</span> iface <span class="keyword">struct</span> &#123;</span><br><span class="line">    tab  *itab</span><br><span class="line">    data unsafe.Pointer</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">type</span> eface <span class="keyword">struct</span> &#123;</span><br><span class="line">    _type *_type</span><br><span class="line">    data  unsafe.Pointer</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，在运行时层面，接口类型变量有两种内部表示：<code>iface</code> 和 <code>eface</code>，这两种表示分别用于不同的接口类型变量：</p>
+<ul>
+<li>eface 用于表示没有方法的空接口（empty interface）类型变量，也就是 <code>interface{}</code>类型的变量</li>
+<li>iface 用于表示其余拥有方法的接口 interface 类型变量</li>
+</ul>
+<p>它们的共同点是都拥有两个指针字段，并且功能相同，都是指向<strong>当前赋值给该接口类型变量的动态类型变量的值</strong>。</p>
+<p>不同点在于，eface 表示空接口类型，并没有方法列表，<br>因此它的第一个指针字段指向一个 <code>_type</code> 类型结构，这个接口为该接口类型变量的动态类型信息，定义是这样的：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// $GOROOT/src/runtime/type.go</span></span><br><span class="line"><span class="keyword">type</span> _type <span class="keyword">struct</span> &#123;</span><br><span class="line">    size       <span class="keyword">uintptr</span></span><br><span class="line">    ptrdata    <span class="keyword">uintptr</span> <span class="comment">// size of memory prefix holding all pointers</span></span><br><span class="line">    hash       <span class="keyword">uint32</span></span><br><span class="line">    tflag      tflag</span><br><span class="line">    align      <span class="keyword">uint8</span></span><br><span class="line">    fieldAlign <span class="keyword">uint8</span></span><br><span class="line">    kind       <span class="keyword">uint8</span></span><br><span class="line">    <span class="comment">// function for comparing objects of this type</span></span><br><span class="line">    <span class="comment">// (ptr to object A, ptr to object B) -&gt; ==?</span></span><br><span class="line">    equal <span class="function"><span class="keyword">func</span><span class="params">(unsafe.Pointer, unsafe.Pointer)</span> <span class="title">bool</span></span></span><br><span class="line">    <span class="comment">// gcdata stores the GC type data for the garbage collector.</span></span><br><span class="line">    <span class="comment">// If the KindGCProg bit is set in kind, gcdata is a GC program.</span></span><br><span class="line">    <span class="comment">// Otherwise it is a ptrmask bitmap. See mbitmap.go for details.</span></span><br><span class="line">    gcdata    *<span class="keyword">byte</span></span><br><span class="line">    str       nameOff</span><br><span class="line">    ptrToThis typeOff</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>而 iface 除了要存储动态类型信息之外，还有存储接口本身的信息（接口的类型信息、方法列表信息等）以及动态类型所实现的方法的信息，因此 iface 的第一个字段指向一个itab类型结构。itab 结构的定义如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// $GOROOT/src/runtime/runtime2.go</span></span><br><span class="line"><span class="keyword">type</span> itab <span class="keyword">struct</span> &#123;</span><br><span class="line">    inter *interfacetype</span><br><span class="line">    _type *_type</span><br><span class="line">    hash  <span class="keyword">uint32</span> <span class="comment">// copy of _type.hash. Used for type switches.</span></span><br><span class="line">    _     [<span class="number">4</span>]<span class="keyword">byte</span></span><br><span class="line">    fun   [<span class="number">1</span>]<span class="keyword">uintptr</span> <span class="comment">// variable sized. fun[0]==0 means _type does not implement inter.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>核心字段如下：</p>
+<ul>
+<li>inter：存储着这个接口类型自身的信息</li>
+<li>_type：存储着这个接口类型变量的动态类型的信息</li>
+<li>func：动态类型已实现的接口方法的调用地址数组</li>
+</ul>
+<p>其中 interfacetype 结构的定义如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// $GOROOT/src/runtime/type.go</span></span><br><span class="line"><span class="keyword">type</span> interfacetype <span class="keyword">struct</span> &#123;</span><br><span class="line">    typ     _type       <span class="comment">// interfacetype 结构由类型信息</span></span><br><span class="line">    pkgpath name        <span class="comment">// 包路径名</span></span><br><span class="line">    mhdr    []imethod   <span class="comment">// 接口方法集合切片（mhdr）</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>为了更好地理解 eface 与 iface 在内存的表示，下面分别</p>
+<h2 id="空接口类型内存中表示"><a href="#空接口类型内存中表示" class="headerlink" title="空接口类型内存中表示"></a>空接口类型内存中表示</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> T <span class="keyword">struct</span> &#123;</span><br><span class="line">	name <span class="keyword">string</span></span><br><span class="line">	age  <span class="keyword">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> t = T&#123;</span><br><span class="line">		age:  <span class="number">23</span>,</span><br><span class="line">		name: <span class="string">"yumi"</span>,</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> ei <span class="keyword">interface</span>&#123;&#125; = t   <span class="comment">// Go运行时使用eface结构表示ei</span></span><br><span class="line"> </span><br><span class="line">	<span class="built_in">println</span>(<span class="string">"ei = "</span>, ei)      <span class="comment">// ei =  (0x1097d60,0xc00000c030)</span></span><br><span class="line">	fmt.Println(<span class="string">"ei = "</span>, ei)  <span class="comment">// ei =  &#123;yumi 23&#125;</span></span><br><span class="line">	fmt.Printf(<span class="string">"%T \n"</span>, ei)   <span class="comment">// main.T </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>该示例代码中的空接口类型变量 ei 在内存中的表示 如下图所示：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/%E7%A9%BA%E6%8E%A5%E5%8F%A3%E7%B1%BB%E5%9E%8B%E5%9C%A8%E5%86%85%E5%AD%98%E4%B8%AD%E7%9A%84%E8%A1%A8%E7%A4%BA.jpg" alt=""></p>
+<p>可以看到空接口类型的表示较为简单：</p>
+<ul>
+<li>_type 字段指向它的动态类型 T 的类型信息</li>
+<li>data 字段指向一个 T 类型的实例值</li>
+</ul>
+<h3 id="非空接口类型内存中表示"><a href="#非空接口类型内存中表示" class="headerlink" title="非空接口类型内存中表示"></a>非空接口类型内存中表示</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> T <span class="keyword">struct</span> &#123;</span><br><span class="line">	name <span class="keyword">string</span></span><br><span class="line">	age  <span class="keyword">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t T)</span> <span class="title">M1</span><span class="params">()</span></span> &#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t T)</span> <span class="title">M2</span><span class="params">()</span></span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> NonEmptyInterface <span class="keyword">interface</span> &#123;</span><br><span class="line">	M1()</span><br><span class="line">	M2()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> t = T&#123;</span><br><span class="line">		name: <span class="string">"yumi"</span>,</span><br><span class="line">		age:  <span class="number">23</span>,</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> i NonEmptyInterface = t</span><br><span class="line">  </span><br><span class="line">	<span class="built_in">println</span>(<span class="string">"i = "</span>, i)        <span class="comment">// i =  (0x10c2248,0xc0000a4018)</span></span><br><span class="line">	fmt.Println(<span class="string">"i = "</span>, i)    <span class="comment">// i =  &#123;yumi 23&#125;</span></span><br><span class="line">	fmt.Printf(<span class="string">"%T \n"</span>, i)    <span class="comment">// main.T</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>和 eface 比起来，iface 的表示稍微复杂些，下图是 接口类型变量i 在内存中的表示：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/%E9%9D%9E%E7%A9%BA%E6%8E%A5%E5%8F%A3%E7%B1%BB%E5%9E%8B%E5%9C%A8%E5%86%85%E5%AD%98%E4%B8%AD%E7%9A%84%E8%A1%A8%E7%A4%BA.jpg" alt=""></p>
+<p>虽然 eface 和 iface 的第一个字段有所差别，但 tab 和 _type 可以统一看作是动态类型信息。Go 语言中每种类型都会有唯一的 _type 信息，无论是内置原生类型，还是自定义类型都有。Go 运行时会为程序内的全部类型建立只读的共享 _type 信息表，因此<strong>拥有相同动态类型的同类接口类型变量的 _type/tab 信息是相同的</strong>。</p>
+<p>接口类型变量的 data 部分则是指向一个动态分配的内存空间，这个内存空间存储的是赋值给接口类型变量的动态类型变量的值。<br>未显式初始化的接口类型变量的值为 nil，也就是这个变量的 _type/tab 和 data 都为 nil。</p>
+<p>也就是说，判断两个接口类型变量是否相同，<strong>只需要判断 _type/tab 是否相同，以及 data 指针指向的内存空间所存储的数据值是否相同</strong>就可以了。<br>注意 🚧，这里不是 data 指针的值相同。</p>
+<h2 id="比较接口变量"><a href="#比较接口变量" class="headerlink" title="比较接口变量"></a>比较接口变量</h2><h3 id="nil-接口变量"><a href="#nil-接口变量" class="headerlink" title="nil 接口变量"></a>nil 接口变量</h3><p>未赋初值的接口类型变量的值为 nil，这类变量也就是 nil 接口变量，下面来看一下内存中表示输出的例子：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">printNilInterface</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">// nil接口变量</span></span><br><span class="line">	<span class="keyword">var</span> i <span class="keyword">interface</span>&#123;&#125; <span class="comment">// 空接口类型</span></span><br><span class="line">	<span class="keyword">var</span> err error     <span class="comment">// 非空接口类型</span></span><br><span class="line">	<span class="built_in">println</span>(i)</span><br><span class="line">	<span class="built_in">println</span>(err)</span><br><span class="line">	<span class="built_in">println</span>(<span class="string">"i = nil:"</span>, i == <span class="literal">nil</span>)</span><br><span class="line">	<span class="built_in">println</span>(<span class="string">"err = nil:"</span>, err == <span class="literal">nil</span>)</span><br><span class="line">	<span class="built_in">println</span>(<span class="string">"i = err:"</span>, i == err)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行上面的示例代码，输出如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(<span class="number">0x0</span>,<span class="number">0x0</span>)</span><br><span class="line">(<span class="number">0x0</span>,<span class="number">0x0</span>)</span><br><span class="line">i = <span class="literal">nil</span>: <span class="literal">true</span></span><br><span class="line">err = <span class="literal">nil</span>: <span class="literal">true</span></span><br><span class="line">i = err: <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到，无论是空接口类型变量还是非空接口类型变量，一旦变量值为 nil，那么它们内部表示均为<code>(0x0,0x0)</code>，也就是类型信息、数据值信息均为空。因此上面的变量 i 和 err 等值判断为 true。</p>
+<h3 id="空接口类型变量"><a href="#空接口类型变量" class="headerlink" title="空接口类型变量"></a>空接口类型变量</h3><p>下面是空接口类型变量的内部表示输出的例子：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">printEmptyInterface</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> eif1 <span class="keyword">interface</span>&#123;&#125; <span class="comment">// 空接口类型</span></span><br><span class="line">    <span class="keyword">var</span> eif2 <span class="keyword">interface</span>&#123;&#125; <span class="comment">// 空接口类型</span></span><br><span class="line">    <span class="keyword">var</span> n, m <span class="keyword">int</span> = <span class="number">17</span>, <span class="number">18</span></span><br><span class="line"></span><br><span class="line">    eif1 = n</span><br><span class="line">    eif2 = m</span><br><span class="line">    <span class="built_in">println</span>(<span class="string">"eif1:"</span>, eif1)</span><br><span class="line">    <span class="built_in">println</span>(<span class="string">"eif2:"</span>, eif2)</span><br><span class="line">    <span class="built_in">println</span>(<span class="string">"eif1 = eif2:"</span>, eif1 == eif2) <span class="comment">// false</span></span><br><span class="line"></span><br><span class="line">    eif2 = <span class="number">17</span></span><br><span class="line">    <span class="built_in">println</span>(<span class="string">"eif1:"</span>, eif1)</span><br><span class="line">    <span class="built_in">println</span>(<span class="string">"eif2:"</span>, eif2)</span><br><span class="line">    <span class="built_in">println</span>(<span class="string">"eif1 = eif2:"</span>, eif1 == eif2) <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line">    eif2 = <span class="keyword">int64</span>(<span class="number">17</span>)</span><br><span class="line">    <span class="built_in">println</span>(<span class="string">"eif1:"</span>, eif1)</span><br><span class="line">    <span class="built_in">println</span>(<span class="string">"eif2:"</span>, eif2)</span><br><span class="line">    <span class="built_in">println</span>(<span class="string">"eif1 = eif2:"</span>, eif1 == eif2) <span class="comment">// false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行上面的示例代码，输出如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">eif1: (<span class="number">0x10ac580</span>,<span class="number">0xc00007ef48</span>)</span><br><span class="line">eif2: (<span class="number">0x10ac580</span>,<span class="number">0xc00007ef40</span>)</span><br><span class="line">eif1 = eif2: <span class="literal">false</span></span><br><span class="line">eif1: (<span class="number">0x10ac580</span>,<span class="number">0xc00007ef48</span>)</span><br><span class="line">eif2: (<span class="number">0x10ac580</span>,<span class="number">0x10eb3d0</span>)</span><br><span class="line">eif1 = eif2: <span class="literal">true</span></span><br><span class="line">eif1: (<span class="number">0x10ac580</span>,<span class="number">0xc00007ef48</span>)</span><br><span class="line">eif2: (<span class="number">0x10ac640</span>,<span class="number">0x10eb3d8</span>)</span><br><span class="line">eif1 = eif2: <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+<p>示例代码的逻辑很清晰：</p>
+<ul>
+<li>第一次打印：动态类型的类型信息是相同的（都是 int），所以 _type 都是0x10ac580，但是 data 指针指向内存中存储的值不一样，因此 eif1 不等于 eif2</li>
+<li>第二次打印：动态类型的类型信息是相同的，data 指针指向内存中存储的值也相同，因此 eif1 等于 eif2</li>
+<li>第三次打印：动态类型的类型信息不同（一个是 int，一个是 int64），即便 data 指针指向的内存块中存储值是相同的，最终 eif1 也不等于 eif2</li>
+</ul>
+<p>结论：<strong>对于空接口类型变量，只有 _type 和 data 所指数据内容一致的情况下，两个空接口类型变量之间才能划等号</strong>。</p>
+<h3 id="非空接口类型变量"><a href="#非空接口类型变量" class="headerlink" title="非空接口类型变量"></a>非空接口类型变量</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> T <span class="keyword">int</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t T)</span> <span class="title">Error</span><span class="params">()</span> <span class="title">string</span></span> &#123; </span><br><span class="line">    <span class="keyword">return</span> <span class="string">"bad error"</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">printNonEmptyInterface</span><span class="params">()</span></span> &#123; </span><br><span class="line">    <span class="keyword">var</span> err1 error <span class="comment">// 非空接口类型</span></span><br><span class="line">    <span class="keyword">var</span> err2 error <span class="comment">// 非空接口类型</span></span><br><span class="line">    err1 = (*T)(<span class="literal">nil</span>)</span><br><span class="line">    <span class="built_in">println</span>(<span class="string">"err1:"</span>, err1)</span><br><span class="line">    <span class="built_in">println</span>(<span class="string">"err1 = nil:"</span>, err1 == <span class="literal">nil</span>)</span><br><span class="line">    err1 = T(<span class="number">5</span>)</span><br><span class="line">    err2 = T(<span class="number">6</span>)</span><br><span class="line">    <span class="built_in">println</span>(<span class="string">"err1:"</span>, err1)</span><br><span class="line">    <span class="built_in">println</span>(<span class="string">"err2:"</span>, err2)</span><br><span class="line">    <span class="built_in">println</span>(<span class="string">"err1 = err2:"</span>, err1 == err2)</span><br><span class="line">    err2 = fmt.Errorf(<span class="string">"%d\n"</span>, <span class="number">5</span>)</span><br><span class="line">    <span class="built_in">println</span>(<span class="string">"err1:"</span>, err1)</span><br><span class="line">    <span class="built_in">println</span>(<span class="string">"err2:"</span>, err2)</span><br><span class="line">    <span class="built_in">println</span>(<span class="string">"err1 = err2:"</span>, err1 == err2)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行上面的示例代码，输出如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">eif1: (<span class="number">0x10ac580</span>,<span class="number">0xc00007ef48</span>)</span><br><span class="line">eif2: (<span class="number">0x10ac580</span>,<span class="number">0xc00007ef40</span>)</span><br><span class="line">eif1 = eif2: <span class="literal">false</span></span><br><span class="line">eif1: (<span class="number">0x10ac580</span>,<span class="number">0xc00007ef48</span>)</span><br><span class="line">eif2: (<span class="number">0x10ac580</span>,<span class="number">0x10eb3d0</span>)</span><br><span class="line">eif1 = eif2: <span class="literal">true</span></span><br><span class="line">eif1: (<span class="number">0x10ac580</span>,<span class="number">0xc00007ef48</span>)</span><br><span class="line">eif2: (<span class="number">0x10ac640</span>,<span class="number">0x10eb3d8</span>)</span><br><span class="line">eif1 = eif2: <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+<p>看到上面示例中每一轮通过 println 输出的 err1 和 err2 的 tab 和 data 值，要么 data 值不同，要么 tab 与 data 值都不同。</p>
+<p>和空接口类型变量一样，只有 tab 和 data 指的数据内容一致的情况下，两个非空接口类型变量之间才能划等号。</p>
+<p>这里我们要注意 err1 下面的赋值情况：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">err1 &#x3D; (*T)(nil)</span><br></pre></td></tr></table></figure>
+
+<p>针对这种赋值，println 输出的 err1 是（0x10ed120, 0x0），也就是非空接口类型变量的类型信息并不为空，数据指针为空，因此它与 nil（0x0,0x0）之间不能划等号。</p>
+<p>现在我们再回到我们开头的那个问题，你是不是已经豁然开朗了呢？开头的问题中，从 returnsError 返回的 error 接口类型变量 err 的数据指针虽然为空，但它的类型信息（iface.tab）并不为空，而是 *MyError 对应的类型信息，这样 err 与 nil（0x0,0x0）相比自然不相等，这就是我们开头那个问题的答案解析，现在你明白了吗？</p>
+<p>现在再回头看上面那个问题，是不是清晰很多了。<br>因为 returnsError 返回的 error 接口类型变量 err 的数据指针虽然为空，但它的类型信息（iface.data) 并不为空，而是 <code>*MyError</code> 对应的类型信息，因此 err 与 nil 并不相等。</p>
+<h3 id="空接口类型变量与非空接口类型变量的等值比较"><a href="#空接口类型变量与非空接口类型变量的等值比较" class="headerlink" title="空接口类型变量与非空接口类型变量的等值比较"></a>空接口类型变量与非空接口类型变量的等值比较</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">printEmptyInterfaceAndNonEmptyInterface</span><span class="params">()</span></span> &#123;</span><br><span class="line">  <span class="keyword">var</span> eif <span class="keyword">interface</span>&#123;&#125; = T(<span class="number">5</span>)</span><br><span class="line">  <span class="keyword">var</span> err error = T(<span class="number">5</span>)</span><br><span class="line">  <span class="built_in">println</span>(<span class="string">"eif:"</span>, eif)</span><br><span class="line">  <span class="built_in">println</span>(<span class="string">"err:"</span>, err)</span><br><span class="line">  <span class="built_in">println</span>(<span class="string">"eif = err:"</span>, eif == err)</span><br><span class="line">  err = T(<span class="number">6</span>)</span><br><span class="line">  <span class="built_in">println</span>(<span class="string">"eif:"</span>, eif)</span><br><span class="line">  <span class="built_in">println</span>(<span class="string">"err:"</span>, err)</span><br><span class="line">  <span class="built_in">println</span>(<span class="string">"eif = err:"</span>, eif == err)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行上面的示例代码，输出如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">eif: (<span class="number">0x1093500</span>,<span class="number">0x10c0808</span>)</span><br><span class="line">err: (<span class="number">0x10c0d58</span>,<span class="number">0x10c0808</span>)</span><br><span class="line">eif = err: <span class="literal">true</span></span><br><span class="line">eif: (<span class="number">0x1093500</span>,<span class="number">0x10c0808</span>)</span><br><span class="line">err: (<span class="number">0x10c0d58</span>,<span class="number">0x10c0810</span>)</span><br><span class="line">eif = err: <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+<p>可以看到，虽然空接口类型变量（eface(_type, data)）和非空接口类型变量（iface(tab, data)）内部表示的结构不一样，但Go 在进行等值比较时，类型比较用的是 eface._type 和 eface.tab._type，因此在这个例子中，eif 和 err 都是T(5) 时，两者是相等的。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>动态特性让 Go 拥有与动态语言相近的灵活性，而静态特性又在编译阶段保证了这种灵活性的安全</li>
+<li>判断两个接口类型变量是否相同，不仅需要 _type/tab 相同，还需要 data 指针指向的内存空间的值相同</li>
+</ul>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://time.geekbang.org/column/intro/100093501" target="_blank" rel="noopener">Tony Bai · Go 语言第一课</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/go-language-study-notes-interface-runtime-representation/>https://www.0x2beace.com/go-language-study-notes-interface-runtime-representation/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2023-02-18T11:28:33+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Feb 18, 2023</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Go/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Go</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/go-language-study-notes-interface-runtime-representation/&title=Go 语言学习笔记——接口运行时表示 - Boo&summary=接口在 Go 中的地位非常高，这是因为接口是 Go 这门静态语言中唯一“动静兼容”的语法特性。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/go-language-study-notes-interface-runtime-representation/&title=Go 语言学习笔记——接口运行时表示 - Boo&summary=接口在 Go 中的地位非常高，这是因为接口是 Go 这门静态语言中唯一“动静兼容”的语法特性。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/go-language-study-notes-interface-runtime-representation/&title=Go 语言学习笔记——接口运行时表示 - Boo&summary=接口在 Go 中的地位非常高，这是因为接口是 Go 这门静态语言中唯一“动静兼容”的语法特性。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVgAAAFYCAAAAAAzB7ucAAAEcUlEQVR42u3aQXLjMAwEwPz/07sP2HIJGICUN9W8OZElsuUDMIWfP9aR9YMALFgLLFiwFtgrsD/h+ueGD3+v3ufT957+/mkf3ftMPcCCBQsWLFiwYMHehS0XwOH1XdDq5/TFbJ8PLFiwYMGCBQsW7LuwjwXwUsF+LGgu7j893+P1YMGCBQsWLFiwYH8FbBpAVwv+uJAPg3KwYMGCBQsWLFiwvws2DZpPFfKn9gcWLFiwYMGCBQv2O2HTQnu6wa0Biu7zpkE8WLBgwYIFCxYs2Hdhu6u6sf/1c+wBFixYsGDBggUL9grsdHU3ljYA3Qaj+ty0Afn4XLBgwYIFCxYsWLBXYNMCOQ3Aq2BVkHTgY/v8YMGCBQsWLFiwYN+BrW6wWthXr98K2Lefmw6egAULFixYsGDBgr0LmwbZ1e+lL2o74J7u8/F7YMGCBQsWLFiwYK/ApgeZDmCcHvhIA/Zx4wQWLFiwYMGCBQv2Cmwa9KYHS58zbSS6jUa8b7BgwYIFCxYsWLBXYE8PMnQPMA2cU+DpAgsWLFiwYMGCBXsXthzgLkGlAfj29Wkw/ngfsGDBggULFixYsFdgU9B0oCG9b7VR2W4g2j9AsGDBggULFixYsK/ATgcjugMXXbB0EGN7EOXj/8GCBQsWLFiwYMFegS0HuM3rpjDpwEh3f+ngSXtgAyxYsGDBggULFuxR2Gpw3A2ypzDd51QHTKZBeXsSBixYsGDBggULFuwKbLfA725ge/BjXMCHn8sND1iwYMGCBQsWLNgrsOnAxamgOG0Qus9P1+OLAAsWLFiwYMGCBfsVsFOYaUA9hTrdkIAFCxYsWLBgwYJ9B7Yb6E6D8GoAPX3B3ft39/HxnGDBggULFixYsGCvwk4HLdJgOn0h1cYkDbjjFwUWLFiwYMGCBQv2Cmwa9E43lG58K5C+PrABFixYsGDBggUL9ihst6CfBsrdFzt9EWmwXt4/WLBgwYIFCxYs2Fdg0wNXC/JpYF0t9KfXxQE5WLBgwYIFCxYs2KuwaUFeBdwKwk81Aungx2ODABYsWLBgwYIFC/YIbDogMR3YSAv10+Dd84MFCxYsWLBgwYJ9BzYNdFPItGCfBt1bAxtgwYIFCxYsWLBg/y/Y6cBG2iikz0kbkXRABCxYsGDBggULFux3wKYw2wH108HT67pBdvk+YMGCBQsWLFiwYF+FrYJtFfJpw5A2BluNDliwYMGCBQsWLNh3YKcrBdwG3wrK0x8SWLBgwYIFCxYs2Luw00GM6X22A/Ruw7AeyIMFCxYsWLBgwYK9CpsG3elgxBSm2xBM719uSMCCBQsWLFiwYMG+Atst4KcB9nQgYwvm+CQMWLBgwYIFCxYs2K+E7TYAaeOQDmx0G5zuoAhYsGDBggULFizY3wGbBujpi0oD77RRAAsWLFiwYMGCBftdsN1CfjrYMQWdrjQo//iCwYIFCxYsWLBgwV6F7a5pIT6FuLXP8cAGWLBgwYIFCxYs2COw1nLDgQAsWAssWLAW2JPrL/d+kyfvvDpcAAAAAElFTkSuQmCC">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/go-language-study-notes-combination/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Go 语言学习笔记——组合</p>
+                <p class='content'>前面两篇有关接口的笔记介绍了Go 接口的基本知识、接口类型定义的惯例以及接口在运行时的表示。
+
+
+这篇笔记来学习一下，如何使用接口，不过，这里的“如何使用”，指的是学习如何利用接口进行应用设计，...</p>
+              </a>
+            
+            
+              <a class='next' href='/go-language-study-notes-interface/'>
+                <p class='title'>Go 语言学习笔记——接口<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>在前面的笔记中，已经很多次用到了接口，但是还没有真正介绍它，是因为它和并发原语（Goroutine、channel、select）一样重要，更考验理解力，所以放在后面一些。
+下面就正式进入接口的...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Go 语言学习笔记——接口运行时表示',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#静态特性与动态特性"><span class="toc-text">静态特性与动态特性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#动静兼容的特性有什么好处"><span class="toc-text">动静兼容的特性有什么好处</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一个问题"><span class="toc-text">一个问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#接口类型变量的内部表示"><span class="toc-text">接口类型变量的内部表示</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#空接口类型内存中表示"><span class="toc-text">空接口类型内存中表示</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#非空接口类型内存中表示"><span class="toc-text">非空接口类型内存中表示</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#比较接口变量"><span class="toc-text">比较接口变量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#nil-接口变量"><span class="toc-text">nil 接口变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#空接口类型变量"><span class="toc-text">空接口类型变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#非空接口类型变量"><span class="toc-text">非空接口类型变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#空接口类型变量与非空接口类型变量的等值比较"><span class="toc-text">空接口类型变量与非空接口类型变量的等值比较</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+      
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <span class="post-count">总字数：369.2k</span>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
+
+        <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+        
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?fbe826b92f6d49a0ebacf4d848bd3add";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+<script>
+  var now = new Date(); 
+  function createtime() {    
+      var grt= new Date("07/04/2020 14:12:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";     
+  } 
+setInterval("createtime()",250);
+</script>
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "Ki6kd5TUWoQyYKSErxehnRpc-MdYXbMMI",
+    appKey: "7pRBOKMw58Yo7EsUjHziIEY1",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>

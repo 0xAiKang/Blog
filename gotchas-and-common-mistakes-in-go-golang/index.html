@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>Go 语言常见错误和陷阱 - Boo</title>
+  
+    <meta name="keywords" content="Go">
+  
+  
+    <meta name="description" content="Go 是一门简单有趣的编程语言，与其他语言一样，在使用时不免会遇到很多坑，不过它们大多不是 Go 本身的设计缺陷。如果你刚从其他语言转到 Go，那这篇文章里的坑多半会踩到。">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Boo's Blog</p>
+    
+    
+      <p class="subtitle">Stay foolish, Stay hungry</p>
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/"
+                
+                
+                id="https:www0x2BeAcecom">
+                <i class='fas fa-book fa-fw'></i>博客
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/categories/"
+                
+                
+                id="https:www0x2BeAcecomcategories">
+                <i class='fas fa-rss fa-fw'></i>分类
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/tags/"
+                
+                
+                id="https:www0x2BeAcecomtags">
+                <i class='fas fa-play-circle fa-fw'></i>标签
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/archives/"
+                
+                  rel="external nofollow noopener noreferrer"
+                
+                
+                id="https:www0x2BeAcecomarchives">
+                <i class='fas fa-file-code fa-fw'></i>归档
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/about/"
+                
+                
+                id="https:www0x2BeAcecomabout">
+                <i class='fas fa-handshake fa-fw'></i>关于我
+              </a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/gotchas-and-common-mistakes-in-go-golang/">
+      Go 语言常见错误和陷阱
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Go/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Go</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Dec 29, 2022</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>3.4k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>15 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/gotchas-and-common-mistakes-in-go-golang/" class="leancloud_visitors" data-flag-title="Go 语言常见错误和陷阱">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>Go 是一门简单有趣的编程语言，与其他语言一样，在使用时不免会遇到很多坑，不过它们大多不是 Go 本身的设计缺陷。如果你刚从其他语言转到 Go，那这篇文章里的坑多半会踩到。</p>
+<a id="more"></a>
+
+<h2 id="初级"><a href="#初级" class="headerlink" title="初级"></a>初级</h2><h3 id="1-左大括号不能单独放一行"><a href="#1-左大括号不能单独放一行" class="headerlink" title="1.左大括号不能单独放一行"></a>1.左大括号不能单独放一行</h3><p>在其他大多数语言中，<code>{</code> 的位置你自行决定。Go比较特别，遵守分号注入规则（automatic semicolon injection）：编译器会在每行代码尾部特定分隔符后加;来分隔多条语句，比如会在 ) 后加分号：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 错误示例</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>                    </span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">println</span>(<span class="string">"hello world"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 等效于</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span>;    // 无函数体</span>                    </span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">println</span>(<span class="string">"hello world"</span>)</span><br><span class="line">&#125;</span><br><span class="line">    ./main.<span class="keyword">go</span>: missing function body</span><br><span class="line">    ./main.<span class="keyword">go</span>: syntax error: unexpected semicolon or newline before &#123;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 正确示例</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="built_in">println</span>(<span class="string">"hello world"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-未使用的变量"><a href="#2-未使用的变量" class="headerlink" title="2.未使用的变量"></a>2.未使用的变量</h3><p>如果在函数体代码中有未使用的变量，则无法通过编译，不过全局变量声明但不使用是可以的。即使变量声明后为变量赋值，依旧无法通过编译，需在某处使用它：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 错误示例</span></span><br><span class="line"><span class="keyword">var</span> gvar <span class="keyword">int</span>     <span class="comment">// 全局变量，声明不使用也可以</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> one <span class="keyword">int</span>     <span class="comment">// error: one declared and not used</span></span><br><span class="line">    two := <span class="number">2</span>    <span class="comment">// error: two declared and not used</span></span><br><span class="line">    <span class="keyword">var</span> three <span class="keyword">int</span>    <span class="comment">// error: three declared and not used</span></span><br><span class="line">    three = <span class="number">3</span>        </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 正确示例</span></span><br><span class="line"><span class="comment">// 可以直接注释或移除未使用的变量</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> one <span class="keyword">int</span></span><br><span class="line">    _ = one</span><br><span class="line"></span><br><span class="line">    two := <span class="number">2</span></span><br><span class="line">    <span class="built_in">println</span>(two)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> three <span class="keyword">int</span></span><br><span class="line">    one = three</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> four <span class="keyword">int</span></span><br><span class="line">    four = four</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-未使用的-import"><a href="#3-未使用的-import" class="headerlink" title="3.未使用的 import"></a>3.未使用的 import</h3><p>如果你 import一个包，但包中的变量、函数、接口和结构体一个都没有用到的话，将编译失败。可以使用 <code>_</code>下划线符号作为别名来忽略导入的包，从而避免编译错误，这只会执行 package 的 <code>init()</code></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 错误示例</span></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">"fmt"</span>    <span class="comment">// imported and not used: "fmt"</span></span><br><span class="line">    <span class="string">"log"</span>    <span class="comment">// imported and not used: "log"</span></span><br><span class="line">    <span class="string">"time"</span>    <span class="comment">// imported and not used: "time"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 正确示例</span></span><br><span class="line"><span class="comment">// 可以使用 goimports 工具来注释或移除未使用到的包</span></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    _ <span class="string">"fmt"</span></span><br><span class="line">    <span class="string">"log"</span></span><br><span class="line">    <span class="string">"time"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    _ = log.Println</span><br><span class="line">    _ = time.Now</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-简短声明的变量只能在函数内部使用"><a href="#4-简短声明的变量只能在函数内部使用" class="headerlink" title="4.简短声明的变量只能在函数内部使用"></a>4.简短声明的变量只能在函数内部使用</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 错误示例</span></span><br><span class="line">myvar := <span class="number">1</span>    <span class="comment">// syntax error: non-declaration statement outside function body</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 正确示例</span></span><br><span class="line"><span class="keyword">var</span>  myvar = <span class="number">1</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-使用简短声明来重复声明变量"><a href="#5-使用简短声明来重复声明变量" class="headerlink" title="5.使用简短声明来重复声明变量"></a>5.使用简短声明来重复声明变量</h3><p>不能用简短声明方式来单独为一个变量重复声明，:=左侧至少有一个新变量，才允许多变量的重复声明：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 错误示例</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;  </span><br><span class="line">    one := <span class="number">0</span></span><br><span class="line">    one := <span class="number">1</span> <span class="comment">// error: no new variables on left side of :=</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 正确示例</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    one := <span class="number">0</span></span><br><span class="line">    one, two := <span class="number">1</span>, <span class="number">2</span>    <span class="comment">// two 是新变量，允许 one 的重复声明。比如 error 处理经常用同名变量 err</span></span><br><span class="line">    one, two = two, one    <span class="comment">// 交换两个变量值的简写</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-不能使用简短声明来设置字段的值"><a href="#6-不能使用简短声明来设置字段的值" class="headerlink" title="6.不能使用简短声明来设置字段的值"></a>6.不能使用简短声明来设置字段的值</h3><p>struct 的变量字段不能使用 := 来赋值以使用预定义的变量来避免解决：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 错误示例</span></span><br><span class="line"><span class="keyword">type</span> info <span class="keyword">struct</span> &#123;</span><br><span class="line">    result <span class="keyword">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">work</span><span class="params">()</span> <span class="params">(<span class="keyword">int</span>, error)</span></span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">3</span>, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> data info</span><br><span class="line">    data.result, err := work()    <span class="comment">// error: non-name data.result on left side of :=</span></span><br><span class="line">    fmt.Printf(<span class="string">"info: %+v\n"</span>, data)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 正确示例</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> data info</span><br><span class="line">    <span class="keyword">var</span> err error    <span class="comment">// err 需要预声明</span></span><br><span class="line"></span><br><span class="line">    data.result, err = work()</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        fmt.Println(err)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    fmt.Printf(<span class="string">"info: %+v\n"</span>, data)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-不小心覆盖了变量"><a href="#7-不小心覆盖了变量" class="headerlink" title="7.不小心覆盖了变量"></a>7.不小心覆盖了变量</h3><p>对从动态语言转过来的开发者来说，简短声明很好用，这可能会让人误会 := 是一个赋值操作符。如果你在新的代码块中像下边这样误用了 :=，编译不会报错，但是变量不会按你的预期工作：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    x := <span class="number">1</span></span><br><span class="line">    <span class="built_in">println</span>(x)        <span class="comment">// 1</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">println</span>(x)    <span class="comment">// 1</span></span><br><span class="line">        x := <span class="number">2</span></span><br><span class="line">        <span class="built_in">println</span>(x)    <span class="comment">// 2    // 新的 x 变量的作用域只在代码块内部</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">println</span>(x)        <span class="comment">// 1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这是 Go 开发者常犯的错，而且不易被发现。可使用 vet工具来诊断这种变量覆盖，Go 默认不做覆盖检查，添加 -shadow 选项来启用：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> go tool vet -shadow main.go</span></span><br><span class="line">main.go:9: declaration of "x" shadows declaration at main.go:5</span><br></pre></td></tr></table></figure>
+
+<p>注意 vet 不会报告全部被覆盖的变量，可以使用 go-nyet 来做进一步的检测：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> <span class="variable">$GOPATH</span>/bin/go-nyet main.go</span></span><br><span class="line">main.go:10:3:Shadowing variable `x`</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-显式类型的变量无法使用-nil-来初始化"><a href="#8-显式类型的变量无法使用-nil-来初始化" class="headerlink" title="8.显式类型的变量无法使用 nil 来初始化"></a>8.显式类型的变量无法使用 nil 来初始化</h3><p>nil 是 interface、function、pointer、map、slice 和 channel 类型变量的默认初始值。但声明时不指定类型，编译器也无法推断出变量的具体类型。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 错误示例</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> x = <span class="literal">nil</span>    <span class="comment">// error: use of untyped nil</span></span><br><span class="line">    _ = x</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 正确示例</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> x <span class="keyword">interface</span>&#123;&#125; = <span class="literal">nil</span></span><br><span class="line">    _ = x</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="9-直接使用值为-nil-的-slice、map"><a href="#9-直接使用值为-nil-的-slice、map" class="headerlink" title="9.直接使用值为 nil 的 slice、map"></a>9.直接使用值为 nil 的 slice、map</h3><p>允许对值为 nil 的 slice 添加元素，但对值为 nil 的 map添加元素则会造成运行时 panic</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// map 错误示例</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> m <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span></span><br><span class="line">    m[<span class="string">"one"</span>] = <span class="number">1</span>        <span class="comment">// error: panic: assignment to entry in nil map</span></span><br><span class="line">    <span class="comment">// m := make(map[string]int)// map 的正确声明，分配了实际的内存</span></span><br><span class="line">&#125;    </span><br><span class="line"></span><br><span class="line"><span class="comment">// slice 正确示例</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> s []<span class="keyword">int</span></span><br><span class="line">    s = <span class="built_in">append</span>(s, <span class="number">1</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="10-map-容量"><a href="#10-map-容量" class="headerlink" title="10.map 容量"></a>10.map 容量</h3><p>在创建 map 类型的变量时可以指定容量，但不能像 slice 一样使用 cap() 来检测分配空间的大小：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 错误示例</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    m := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>, <span class="number">99</span>)</span><br><span class="line">    <span class="built_in">println</span>(<span class="built_in">cap</span>(m))     <span class="comment">// error: invalid argument m1 (type map[string]int) for cap  </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="11-string-类型的变量值不能为-nil"><a href="#11-string-类型的变量值不能为-nil" class="headerlink" title="11.string 类型的变量值不能为 nil"></a>11.string 类型的变量值不能为 nil</h3><p>对那些喜欢用 nil 初始化字符串的人来说，这就是坑：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 错误示例</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> s <span class="keyword">string</span> = <span class="literal">nil</span>    <span class="comment">// cannot use nil as type string in assignment</span></span><br><span class="line">    <span class="keyword">if</span> s == <span class="literal">nil</span> &#123;    <span class="comment">// invalid operation: s == nil (mismatched types string and nil)</span></span><br><span class="line">        s = <span class="string">"default"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 正确示例</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> s <span class="keyword">string</span>    <span class="comment">// 字符串类型的零值是空串 ""</span></span><br><span class="line">    <span class="keyword">if</span> s == <span class="string">""</span> &#123;</span><br><span class="line">        s = <span class="string">"default"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="12-Array-类型的值作为函数参数"><a href="#12-Array-类型的值作为函数参数" class="headerlink" title="12.Array 类型的值作为函数参数"></a>12.Array 类型的值作为函数参数</h3><p>在 C/C++ 中，数组（名）是指针。将数组作为参数传进函数时，相当于传递了数组内存地址的引用，在函数内部会改变该数组的值。</p>
+<p>在 Go 中，数组是值。作为参数传进函数时，传递的是数组的原始值拷贝，此时在函数内部是无法更新该数组的：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 数组使用值拷贝传参</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    x := [<span class="number">3</span>]<span class="keyword">int</span>&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">func</span><span class="params">(arr [3]<span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">        arr[<span class="number">0</span>] = <span class="number">7</span></span><br><span class="line">        fmt.Println(arr)    <span class="comment">// [7 2 3]</span></span><br><span class="line">    &#125;(x)</span><br><span class="line">    fmt.Println(x)            <span class="comment">// [1 2 3]    // 并不是你以为的 [7 2 3]</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果想修改参数数组：</p>
+<ul>
+<li>直接传递指向这个数组的指针类型：</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 传址会修改原数据</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    x := [<span class="number">3</span>]<span class="keyword">int</span>&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">func</span><span class="params">(arr *[3]<span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">        (*arr)[<span class="number">0</span>] = <span class="number">7</span>    </span><br><span class="line">        fmt.Println(arr)    <span class="comment">// &amp;[7 2 3]</span></span><br><span class="line">    &#125;(&amp;x)</span><br><span class="line">    fmt.Println(x)    <span class="comment">// [7 2 3]</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>直接使用 slice：即使函数内部得到的是 slice 的值拷贝，但依旧会更新 slice 的原始数据（底层 array）</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 会修改 slice 的底层 array，从而修改 slice</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    x := []<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;</span><br><span class="line">    <span class="function"><span class="keyword">func</span><span class="params">(arr []<span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">        arr[<span class="number">0</span>] = <span class="number">7</span></span><br><span class="line">        fmt.Println(x)    <span class="comment">// [7 2 3]</span></span><br><span class="line">    &#125;(x)</span><br><span class="line">    fmt.Println(x)    <span class="comment">// [7 2 3]</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="13-range-遍历-slice-和-array-时混淆了返回值"><a href="#13-range-遍历-slice-和-array-时混淆了返回值" class="headerlink" title="13.range 遍历 slice 和 array 时混淆了返回值"></a>13.range 遍历 slice 和 array 时混淆了返回值</h3><p>与其他编程语言中的 for-in 、foreach 遍历语句不同，Go 中的 range 在遍历时会生成 2 个值，第一个是元素索引，第二个是元素的值：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 错误示例</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    x := []<span class="keyword">string</span>&#123;<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>&#125;</span><br><span class="line">    <span class="keyword">for</span> v := <span class="keyword">range</span> x &#123;</span><br><span class="line">        fmt.Println(v)    <span class="comment">// 1 2 3</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 正确示例</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    x := []<span class="keyword">string</span>&#123;<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>&#125;</span><br><span class="line">    <span class="keyword">for</span> _, v := <span class="keyword">range</span> x &#123;    <span class="comment">// 使用 _ 丢弃索引</span></span><br><span class="line">        fmt.Println(v)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="14-slice-和-array-其实是一维数据"><a href="#14-slice-和-array-其实是一维数据" class="headerlink" title="14.slice 和 array 其实是一维数据"></a>14.slice 和 array 其实是一维数据</h3><p>看起来 Go 支持多维的 array 和 slice，可以创建数组的数组、切片的切片，但其实并不是。</p>
+<p>对依赖动态计算多维数组值的应用来说，就性能和复杂度而言，用 Go 实现的效果并不理想。</p>
+<p>可以使用原始的一维数组、“独立“ 的切片、“共享底层数组”的切片来创建动态的多维数组。</p>
+<p>1.使用原始的一维数组：要做好索引检查、溢出检测、以及当数组满时再添加值时要重新做内存分配。</p>
+<p>2.使用“独立”的切片分两步：</p>
+<ul>
+<li><p>创建外部 slice</p>
+<ul>
+<li><p>对每个内部 slice 进行内存分配</p>
+<p>注意内部的 slice 相互独立，使得任一内部 slice 增缩都不会影响到其他的 slice</p>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用各自独立的 6 个 slice 来创建 [2][3] 的动态多维数组</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    x := <span class="number">2</span></span><br><span class="line">    y := <span class="number">4</span></span><br><span class="line"></span><br><span class="line">    table := <span class="built_in">make</span>([][]<span class="keyword">int</span>, x)</span><br><span class="line">    <span class="keyword">for</span> i  := <span class="keyword">range</span> table &#123;</span><br><span class="line">        table[i] = <span class="built_in">make</span>([]<span class="keyword">int</span>, y)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>1.使用“共享底层数组”的切片</p>
+<ul>
+<li>创建一个存放原始数据的容器 slice</li>
+<li>创建其他的 slice</li>
+<li>切割原始 slice 来初始化其他的 slice</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    h, w := <span class="number">2</span>, <span class="number">4</span></span><br><span class="line">    raw := <span class="built_in">make</span>([]<span class="keyword">int</span>, h*w)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i := <span class="keyword">range</span> raw &#123;</span><br><span class="line">        raw[i] = i</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 初始化原始 slice</span></span><br><span class="line">    fmt.Println(raw, &amp;raw[<span class="number">4</span>])    <span class="comment">// [0 1 2 3 4 5 6 7] 0xc420012120 </span></span><br><span class="line"></span><br><span class="line">    table := <span class="built_in">make</span>([][]<span class="keyword">int</span>, h)</span><br><span class="line">    <span class="keyword">for</span> i := <span class="keyword">range</span> table &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 等间距切割原始 slice，创建动态多维数组 table</span></span><br><span class="line">        <span class="comment">// 0: raw[0*4: 0*4 + 4]</span></span><br><span class="line">        <span class="comment">// 1: raw[1*4: 1*4 + 4]</span></span><br><span class="line">        table[i] = raw[i*w : i*w + w]</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    fmt.Println(table, &amp;table[<span class="number">1</span>][<span class="number">0</span>])    <span class="comment">// [[0 1 2 3] [4 5 6 7]] 0xc420012120</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>更多关于多维数组的参考</p>
+<ul>
+<li><p><a href="https://stackoverflow.com/questions/39561140/how-is-two-dimensional-arrays-memory-representation" target="_blank" rel="noopener">go-how-is-two-dimensional-arrays-memory-representation</a></p>
+</li>
+<li><p><a href="https://stackoverflow.com/questions/39804861/what-is-a-concise-way-to-create-a-2d-slice-in-go" target="_blank" rel="noopener">what-is-a-concise-way-to-create-a-2d-slice-in-go</a></p>
+</li>
+</ul>
+<h3 id="15-访问-map-中不存在的-key"><a href="#15-访问-map-中不存在的-key" class="headerlink" title="15.访问 map 中不存在的 key"></a>15.访问 map 中不存在的 key</h3><p>和其他编程语言类似，如果访问了 map 中不存在的 key 则希望能返回 nil，比如在 PHP 中：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> php -r <span class="string">'$v = ["x"=&gt;1, "y"=&gt;2]; @var_dump($v["z"]);'</span></span></span><br><span class="line">NULL</span><br></pre></td></tr></table></figure>
+
+<p>Go 则会返回元素对应数据类型的零值，比如 nil、’’ 、false 和 0，取值操作总有值返回，故不能通过取出来的值来判断 key 是不是在 map 中。</p>
+<p>通常使用 comma ok 惯用法来判断 key 是否存在：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 错误的 key 检测方式</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    x := <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span>&#123;<span class="string">"one"</span>: <span class="string">"2"</span>, <span class="string">"two"</span>: <span class="string">""</span>, <span class="string">"three"</span>: <span class="string">"3"</span>&#125;</span><br><span class="line">    <span class="keyword">if</span> v := x[<span class="string">"two"</span>]; v == <span class="string">""</span> &#123;</span><br><span class="line">        fmt.Println(<span class="string">"key two is no entry"</span>)    <span class="comment">// 键 two 存不存在都会返回的空字符串</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 正确示例</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    x := <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span>&#123;<span class="string">"one"</span>: <span class="string">"2"</span>, <span class="string">"two"</span>: <span class="string">""</span>, <span class="string">"three"</span>: <span class="string">"3"</span>&#125;</span><br><span class="line">    <span class="keyword">if</span> _, ok := x[<span class="string">"two"</span>]; !ok &#123;</span><br><span class="line">        fmt.Println(<span class="string">"key two is no entry"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="16-string-类型的值是常量，不可更改"><a href="#16-string-类型的值是常量，不可更改" class="headerlink" title="16.string 类型的值是常量，不可更改"></a>16.string 类型的值是常量，不可更改</h3><p>尝试使用索引遍历字符串，来更新字符串中的个别字符，是不允许的。</p>
+<p>string 类型的值是只读的二进制 byte slice，如果真要修改字符串中的字符，将 string 转为 []byte 修改后，再转为 string 即可：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 修改字符串的错误示例</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    x := <span class="string">"text"</span></span><br><span class="line">    x[<span class="number">0</span>] = <span class="string">"T"</span>        <span class="comment">// error: cannot assign to x[0]</span></span><br><span class="line">    fmt.Println(x)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 修改示例</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    x := <span class="string">"text"</span></span><br><span class="line">    xBytes := []<span class="keyword">byte</span>(x)</span><br><span class="line">    xBytes[<span class="number">0</span>] = <span class="string">'T'</span>    <span class="comment">// 注意此时的 T 是 rune 类型</span></span><br><span class="line">    x = <span class="keyword">string</span>(xBytes)</span><br><span class="line">    fmt.Println(x)    <span class="comment">// Text</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意： 上边的示例并不是更新字符串的正确姿势，因为一个 UTF8 编码的字符可能会占多个字节，比如汉字就需要 <code>3~4</code>个字节来存储，此时更新其中的一个字节是错误的。</p>
+<p>更新字串的正确姿势：将 string 转为 rune slice（此时 1 个 rune 可能占多个 byte），直接更新 rune 中的字符</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    x := <span class="string">"text"</span></span><br><span class="line">    xRunes := []<span class="keyword">rune</span>(x)</span><br><span class="line">    xRunes[<span class="number">0</span>] = <span class="string">'我'</span></span><br><span class="line">    x = <span class="keyword">string</span>(xRunes)</span><br><span class="line">    fmt.Println(x)    <span class="comment">// 我ext</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="17-string-与-byte-slice-之间的转换"><a href="#17-string-与-byte-slice-之间的转换" class="headerlink" title="17.string 与 byte slice 之间的转换"></a>17.string 与 byte slice 之间的转换</h3><p>当进行 string 和 byte slice 相互转换时，参与转换的是拷贝的原始值。这种转换的过程，与其他编程语的强制类型转换操作不同，也和新 slice 与旧 slice 共享底层数组不同。</p>
+<p>Go 在 string 与 byte slice 相互转换上优化了两点，避免了额外的内存分配：</p>
+<ul>
+<li>在 map[string] 中查找 key 时，使用了对应的 []byte，避免做 m[string(key)] 的内存分配</li>
+<li>使用 for range 迭代 string 转换为 []byte 的迭代：for i,v := range []byte(str) {…}</li>
+</ul>
+<h3 id="18-string-与索引操作符"><a href="#18-string-与索引操作符" class="headerlink" title="18.string 与索引操作符"></a>18.string 与索引操作符</h3><p>对字符串用索引访问返回的不是字符，而是一个 byte 值。</p>
+<p>这种处理方式和其他语言一样，比如 PHP 中：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> php -r <span class="string">'$name="中文"; var_dump($name);'</span>    <span class="comment"># "中文" 占用 6 个字节</span></span></span><br><span class="line">string(6) "中文"</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> php -r <span class="string">'$name="中文"; var_dump($name[0]);'</span> <span class="comment"># 把第一个字节当做 Unicode 字符读取，显示 U+FFFD</span></span></span><br><span class="line">string(1) "�"    </span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> php -r <span class="string">'$name="中文"; var_dump($name[0].$name[1].$name[2]);'</span></span></span><br><span class="line">string(3) "中"</span><br><span class="line">func main() &#123;</span><br><span class="line">    x := "ascii"</span><br><span class="line">    fmt.Println(x[0])        // 97</span><br><span class="line">    fmt.Printf("%T\n", x[0])// uint8</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果需要使用 <code>for range</code> 迭代访问字符串中的字符（<code>unicode code point / rune</code>），标准库中有 <code>&quot;unicode/utf8&quot;</code> 包来做 <code>UTF8</code> 的相关解码编码。另外 <code>utf8string</code> 也有像 <code>func (s *String) At(i int) rune</code> 等很方便的库函数。</p>
+<h3 id="19-字符串并不都是-UTF8-文本"><a href="#19-字符串并不都是-UTF8-文本" class="headerlink" title="19.字符串并不都是 UTF8 文本"></a>19.字符串并不都是 UTF8 文本</h3><p>string 的值不必是 UTF8 文本，可以包含任意的值。只有字符串是文字字面值时才是 UTF8 文本，字串可以通过转义来包含其他数据。</p>
+<p>判断字符串是否是 UTF8 文本，可使用 “unicode/utf8” 包中的 ValidString() 函数：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    str1 := <span class="string">"ABC"</span></span><br><span class="line">    fmt.Println(utf8.ValidString(str1))    <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line">    str2 := <span class="string">"A\xfeC"</span></span><br><span class="line">    fmt.Println(utf8.ValidString(str2))    <span class="comment">// false</span></span><br><span class="line"></span><br><span class="line">    str3 := <span class="string">"A\\xfeC"</span></span><br><span class="line">    fmt.Println(utf8.ValidString(str3))    <span class="comment">// true    // 把转义字符转义成字面值</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="20-字符串的长度"><a href="#20-字符串的长度" class="headerlink" title="20.字符串的长度"></a>20.字符串的长度</h3><p>在 Python 中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">data &#x3D; u&#39;♥&#39;  </span><br><span class="line">print(len(data)) # 1</span><br></pre></td></tr></table></figure>
+
+<p>然而在 Go 中：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    char := <span class="string">"♥"</span></span><br><span class="line">    fmt.Println(<span class="built_in">len</span>(char))    <span class="comment">// 3</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Go 的内建函数 len() 返回的是字符串的 byte 数量，而不是像 Python 中那样是计算 Unicode 字符数。</p>
+<p>如果要得到字符串的字符数，可使用 “unicode/utf8” 包中的 RuneCountInString(str string) (n int)</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    char := <span class="string">"♥"</span></span><br><span class="line">    fmt.Println(utf8.RuneCountInString(char))    <span class="comment">// 1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意： RuneCountInString 并不总是返回我们看到的字符数，因为有的字符会占用 2 个 rune：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    char := <span class="string">"é"</span></span><br><span class="line">    fmt.Println(<span class="built_in">len</span>(char))    <span class="comment">// 3</span></span><br><span class="line">    fmt.Println(utf8.RuneCountInString(char))    <span class="comment">// 2</span></span><br><span class="line">    fmt.Println(<span class="string">"cafe\u0301"</span>)    <span class="comment">// café    // 法文的 cafe，实际上是两个 rune 的组合</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="中级"><a href="#中级" class="headerlink" title="中级"></a>中级</h2><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://www.topgoer.com/%E8%B5%84%E6%96%99%E4%B8%8B%E8%BD%BD/Golang%E6%96%B0%E6%89%8B%E5%8F%AF%E8%83%BD%E4%BC%9A%E8%B8%A9%E7%9A%8450%E4%B8%AA%E5%9D%91.html?h=%E5%9D%91" target="_blank" rel="noopener">Golang新手可能会踩的58个坑</a></li>
+<li><a href="http://devs.cloudimmunity.com/gotchas-and-common-mistakes-in-go-golang/" target="_blank" rel="noopener">50 Shades of Go: Traps, Gotchas, and Common Mistakes for New Golang Devs</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/gotchas-and-common-mistakes-in-go-golang/>https://www.0x2beace.com/gotchas-and-common-mistakes-in-go-golang/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2023-02-18T11:28:33+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Feb 18, 2023</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Go/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Go</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/gotchas-and-common-mistakes-in-go-golang/&title=Go 语言常见错误和陷阱 - Boo&summary=Go 是一门简单有趣的编程语言，与其他语言一样，在使用时不免会遇到很多坑，不过它们大多不是 Go 本身的设计缺陷。如果你刚从其他语言转到 Go，那这篇文章里的坑多半会踩到。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/gotchas-and-common-mistakes-in-go-golang/&title=Go 语言常见错误和陷阱 - Boo&summary=Go 是一门简单有趣的编程语言，与其他语言一样，在使用时不免会遇到很多坑，不过它们大多不是 Go 本身的设计缺陷。如果你刚从其他语言转到 Go，那这篇文章里的坑多半会踩到。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/gotchas-and-common-mistakes-in-go-golang/&title=Go 语言常见错误和陷阱 - Boo&summary=Go 是一门简单有趣的编程语言，与其他语言一样，在使用时不免会遇到很多坑，不过它们大多不是 Go 本身的设计缺陷。如果你刚从其他语言转到 Go，那这篇文章里的坑多半会踩到。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADqElEQVR42u3awXEjMQwEQOWftC8ClzgDSKJ8zZ9cXi7R/EwB+/ixqvVAAA4cOHAWOHCXwD3KFb/w8PnT/bfOkdYLDhw4cODAgQN3G1z64lOYZ39PQU6fS997+j5w4MCBAwcOHLhb4Z4GwMPfzwJvGnRbiOl5wYEDBw4cOHDg/je4aTA9DdppoxUcOHDgwIEDBw5cFnjbAlLArwvA4MCBAwcOHDhwS3BtwWlQfRaI0/e1+31skg8OHDhw4MCBA7cEl67txua7f9f1ggMHDhw4cODAXQI3XVvwbUCeBty4XnDgwIEDBw4cuEvg2oDYDohPC20bpO05T88NDhw4cODAgQN3K9xWYacX0xaUXkw7SAcHDhw4cODAgbsVLn4wbERuBev0osdBNx1IgwMHDhw4cODAvRkuLbgFnEJtPd8GaHDgwIEDBw4cuNvgpi9sG4/p7zbgbi1w4MCBAwcOHLjb4NIDbwfN6YX9HK7p8+DAgQMHDhw4cLfBtQWljcu04bk18E4DdD3JBwcOHDhw4MCBezNcu0H7IeL0A8Z23626wIEDBw4cOHDgboXb+sCvXaeNz/Y8Y1Bw4MCBAwcOHLjL4NKG4LThuRWs0/ONG6bgwIEDBw4cOHCXwE1B2kHvqwJye4FxIxMcOHDgwIEDB+4SuHbA2w6y28ZiWnA7MP/1PODAgQMHDhw4cJfAPZZW2oBML2g7mJ/ufzzJBwcOHDhw4MCB+xDctCGZDn63Lq69kLpBCg4cOHDgwIEDdwlc/GFdeJDtwXD7f2kwjjvA4MCBAwcOHDhwb4abDo6nB90eNKcNzdPgCw4cOHDgwIEDdztcC5gC1R/2DRuv6X7gwIEDBw4cOHDfDpcGxfRgW43P6bnWAzA4cODAgQMHDtyL4dLC2gO0ANvBth5sgwMHDhw4cODAfRncNOi2gTO9oK16ft0PHDhw4MCBAwfuUrjtQW9a4PRcWwPy44E0OHDgwIEDBw7ch+CmKx1gbzcc23O0ARkcOHDgwIEDB+4WuK0P+tLGZdrg3ArS04sDBw4cOHDgwIG7DW57MHwaNNPnt4NtfIHgwIEDBw4cOHCXwk2DbNqA3Cp4usaTfHDgwIEDBw4cuD8CdxowtxqjbbA93QccOHDgwIEDB+6vwr2r8fjqRutTeHDgwIEDBw4cuEvh0hecgrfw24G8bayCAwcOHDhw4MDdCjcd4KaD4ynodICd1g8OHDhw4MCBA3cbnBU2ShGAAwcOnAUO3GfXP935hUxbxDO6AAAAAElFTkSuQmCC">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/2022-year-end-summary/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>二零二二年终总结</p>
+                <p class='content'>2022 总算是接近尾声了，这一年大家都过得不太好，包括我自己，这一年发生了很多事情，有得有失。
+
+
+今年年初给自己制定了不少目标，年底回头看看，大部分处于即将完成状态：
+
+ 开始学英语
+ 每周...</p>
+              </a>
+            
+            
+              <a class='next' href='/how-to-design-a-tens-of-millions-of-architecture/'>
+                <p class='title'>如何设计一个千万级架构<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>这篇笔记用来记录如何从单机一步步设计出支持百万级、千万级、亿级数据的架构。
+
+
+单机时代最开始的时候，用户量很少，一天就几百上千个请求，此时一台服务器就完全足够。
+Java、Python、PHP...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Go 语言常见错误和陷阱',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#初级"><span class="toc-text">初级</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-左大括号不能单独放一行"><span class="toc-text">1.左大括号不能单独放一行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-未使用的变量"><span class="toc-text">2.未使用的变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-未使用的-import"><span class="toc-text">3.未使用的 import</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-简短声明的变量只能在函数内部使用"><span class="toc-text">4.简短声明的变量只能在函数内部使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-使用简短声明来重复声明变量"><span class="toc-text">5.使用简短声明来重复声明变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-不能使用简短声明来设置字段的值"><span class="toc-text">6.不能使用简短声明来设置字段的值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-不小心覆盖了变量"><span class="toc-text">7.不小心覆盖了变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-显式类型的变量无法使用-nil-来初始化"><span class="toc-text">8.显式类型的变量无法使用 nil 来初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-直接使用值为-nil-的-slice、map"><span class="toc-text">9.直接使用值为 nil 的 slice、map</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-map-容量"><span class="toc-text">10.map 容量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-string-类型的变量值不能为-nil"><span class="toc-text">11.string 类型的变量值不能为 nil</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-Array-类型的值作为函数参数"><span class="toc-text">12.Array 类型的值作为函数参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#13-range-遍历-slice-和-array-时混淆了返回值"><span class="toc-text">13.range 遍历 slice 和 array 时混淆了返回值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#14-slice-和-array-其实是一维数据"><span class="toc-text">14.slice 和 array 其实是一维数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#15-访问-map-中不存在的-key"><span class="toc-text">15.访问 map 中不存在的 key</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#16-string-类型的值是常量，不可更改"><span class="toc-text">16.string 类型的值是常量，不可更改</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#17-string-与-byte-slice-之间的转换"><span class="toc-text">17.string 与 byte slice 之间的转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#18-string-与索引操作符"><span class="toc-text">18.string 与索引操作符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#19-字符串并不都是-UTF8-文本"><span class="toc-text">19.字符串并不都是 UTF8 文本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#20-字符串的长度"><span class="toc-text">20.字符串的长度</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#中级"><span class="toc-text">中级</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+      
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <span class="post-count">总字数：369.2k</span>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
+
+        <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+        
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?fbe826b92f6d49a0ebacf4d848bd3add";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+<script>
+  var now = new Date(); 
+  function createtime() {    
+      var grt= new Date("07/04/2020 14:12:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";     
+  } 
+setInterval("createtime()",250);
+</script>
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "Ki6kd5TUWoQyYKSErxehnRpc-MdYXbMMI",
+    appKey: "7pRBOKMw58Yo7EsUjHziIEY1",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>

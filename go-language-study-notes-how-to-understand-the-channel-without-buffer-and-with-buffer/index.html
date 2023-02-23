@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>Go 语言学习笔记——如何理解 channel 的无缓冲带和有缓冲带 - Boo</title>
+  
+    <meta name="keywords" content="Go">
+  
+  
+    <meta name="description" content="channel 是否有缓冲带，其行为会有一些不同。理解这个差异对决定到底应该使不使用缓冲带很有帮助。">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Boo's Blog</p>
+    
+    
+      <p class="subtitle">Stay foolish, Stay hungry</p>
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/"
+                
+                
+                id="https:www0x2BeAcecom">
+                <i class='fas fa-book fa-fw'></i>博客
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/categories/"
+                
+                
+                id="https:www0x2BeAcecomcategories">
+                <i class='fas fa-rss fa-fw'></i>分类
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/tags/"
+                
+                
+                id="https:www0x2BeAcecomtags">
+                <i class='fas fa-play-circle fa-fw'></i>标签
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/archives/"
+                
+                  rel="external nofollow noopener noreferrer"
+                
+                
+                id="https:www0x2BeAcecomarchives">
+                <i class='fas fa-file-code fa-fw'></i>归档
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/about/"
+                
+                
+                id="https:www0x2BeAcecomabout">
+                <i class='fas fa-handshake fa-fw'></i>关于我
+              </a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Boo's Blog
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/go-language-study-notes-how-to-understand-the-channel-without-buffer-and-with-buffer/">
+      Go 语言学习笔记——如何理解 channel 的无缓冲带和有缓冲带
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Go/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Go</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Nov 11, 2022</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>1.8k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>7 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/go-language-study-notes-how-to-understand-the-channel-without-buffer-and-with-buffer/" class="leancloud_visitors" data-flag-title="Go 语言学习笔记——如何理解 channel 的无缓冲带和有缓冲带">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>channel 是否有缓冲带，其行为会有一些不同。理解这个差异对决定到底应该使不使用缓冲带很有帮助。</p>
+<a id="more"></a>
+
+<h2 id="理解无缓冲带-channel"><a href="#理解无缓冲带-channel" class="headerlink" title="理解无缓冲带 channel"></a>理解无缓冲带 channel</h2><p>使用无缓冲带 channel 进行接收和发送操作时，一定要注意，接收和发送操作不能放在同一个 goroutine 中，否则是没有意义的。</p>
+<p>为什么这么说呢？<br>这是因为无缓冲带 channel 的特点是，<strong>同步阻塞</strong>。</p>
+<p>无缓冲带，可以分为两种情况：</p>
+<ol>
+<li>从无缓冲带 channel 接收数据时，如果同时没有发送者发送数据，那么则会一直阻塞，直到有发送者出现进行发送。</li>
+<li>向无缓冲带 channel 发送数据，如果同时没有接收者进行接收，那么则会一直阻塞，直到有接收者出现进行接收。</li>
+</ol>
+<p>结合下面这个图进行理解，也就是无缓冲带 channel 只有同时具备接收和发送能力才会继续往下执行。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20221129174724.png" alt=""></p>
+<p>结合下面的示例代码来理解：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">// 无缓冲带</span></span><br><span class="line">	ch1 := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>)</span><br><span class="line">	ch2 := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>)</span><br><span class="line"></span><br><span class="line">	ch1 = ch2</span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		fmt.Println(<span class="string">"go"</span>)</span><br><span class="line">		ch2 &lt;- <span class="number">123</span></span><br><span class="line"></span><br><span class="line">		i := &lt;-ch1</span><br><span class="line">		fmt.Println(i)</span><br><span class="line">	&#125;()</span><br><span class="line"></span><br><span class="line">	time.Sleep(<span class="number">10</span> * time.Second)</span><br><span class="line">	fmt.Println(<span class="string">"done"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>也就是无论 time.Sleep 休息多少秒， goroutine 中的 123 都不会打印出来。因为 goroutine  阻塞在 <code>ch2 &lt;- 123</code> 这行代码了。</p>
+<p>那么应该怎么改写， 123 才会打印出来呢？</p>
+<p>只需要将发送数据这一行代码移出 goroutine 即可：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">  fmt.Println(<span class="string">"go"</span>)</span><br><span class="line"></span><br><span class="line">  i := &lt;-ch1</span><br><span class="line">  fmt.Println(i)</span><br><span class="line">&#125;()</span><br><span class="line"></span><br><span class="line">ch2 &lt;- <span class="number">123</span></span><br></pre></td></tr></table></figure>
+
+<p>运行上面的示例代码，输出如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">go</span></span><br><span class="line"><span class="number">123</span></span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<p>符合预期。</p>
+<h2 id="理解有缓冲带-channel"><a href="#理解有缓冲带-channel" class="headerlink" title="理解有缓冲带 channel"></a>理解有缓冲带 channel</h2><p>很多资料或者文章里面会说，有缓冲带 channel 是<strong>异步非阻塞</strong>的，这个异步到底该如何理解呢？</p>
+<p>有缓冲带，可以分为四种情况：</p>
+<ol>
+<li>如果缓冲带已满，那么对它的所有<strong>发送操作都会被阻塞</strong>，直到缓冲带中有元素值被接收</li>
+<li>如果缓冲带已空，那么对它的所有<strong>接收操作都会被阻塞</strong>，直到通道中有新的元素值出现</li>
+<li>如果缓冲带未满，那么对它的所有<strong>发送操作都不会阻塞</strong></li>
+<li>如果缓冲带非空，那么对它的所有<strong>接收操作都不会阻塞</strong></li>
+</ol>
+<p>上面所说异步非阻塞，就是针对第三四种情况的，而第一二种情况，在缓冲带已满、已空时，就和无缓冲带一样了，因此也会是同步阻塞的。</p>
+<p>下面用一段示例代码来加深理解。<br>还是上面的示例代码，只是初始化 channel 时，使用的是有缓冲带的 channel。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	ch1 := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>, <span class="number">1</span>)</span><br><span class="line">	ch2 := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">	ch1 = ch2</span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		fmt.Println(<span class="string">"go"</span>)</span><br><span class="line">		ch2 &lt;- <span class="number">123</span></span><br><span class="line"></span><br><span class="line">		i := &lt;-ch1</span><br><span class="line">		fmt.Println(i)</span><br><span class="line">	&#125;()</span><br><span class="line"></span><br><span class="line">	time.Sleep(<span class="number">1</span> * time.Second)</span><br><span class="line">	fmt.Println(<span class="string">"done"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>执行一下，输出如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">go</span><br><span class="line">123</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<p>为什么现在就打印出 123 来了？<br>正是因为有缓冲带的存在，有缓冲带 channel 不需要同时具有接收和发送能力，才能继续往下执行，数据的发送者将数据放在缓冲带即可，而无需等待数据的接收者出现。</p>
+<p>结合下面这个图进行理解：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20221129174810.png" alt=""></p>
+<p>在这个过程里面，两个操作不是同步的，因此就说有缓冲带 channel 是异步非阻塞。</p>
+<p>这两种类型的缓冲带，各自有各自的特点，有的场景仅适合使用无缓冲带 channel，有的场景则只适合使用有缓冲带 channel，不过，也有两种缓冲带都可以使用的场景。</p>
+<h2 id="一个示例"><a href="#一个示例" class="headerlink" title="一个示例"></a>一个示例</h2><p>下面这个示例就是两种缓冲带都可以使用的场景。</p>
+<p>先来看看示例代码：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">hello</span><span class="params">(w http.ResponseWriter, req *http.Request)</span></span> &#123;</span><br><span class="line">	fmt.Fprintln(w, <span class="string">"hello go"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	http.HandleFunc(<span class="string">"/hello"</span>, hello)</span><br><span class="line"></span><br><span class="line">	keepPrinting()</span><br><span class="line"></span><br><span class="line">	fmt.Println(<span class="string">"App runs on port 9999."</span>)</span><br><span class="line">	log.Fatal(http.ListenAndServe(<span class="string">":9999"</span>, <span class="literal">nil</span>))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">keepPrinting</span><span class="params">()</span></span> &#123;</span><br><span class="line">	i := <span class="number">0</span></span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		i++</span><br><span class="line">		log.Println(<span class="string">"i = "</span>, i)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>为了方便后面 goroutine 的使用，这里启动了一个 HTTP 服务。</p>
+<p>函数 keepPrinting 的作用很简单，在一个不会主动停止的 for 循环中，一直打印变量 i 的值。</p>
+<p>运行这段示例代码，会发现终端一直有输出：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="number">2022</span>/<span class="number">11</span>/<span class="number">25</span> <span class="number">09</span>:<span class="number">59</span>:<span class="number">37</span> i =  <span class="number">243979</span></span><br><span class="line"><span class="number">2022</span>/<span class="number">11</span>/<span class="number">25</span> <span class="number">09</span>:<span class="number">59</span>:<span class="number">37</span> i =  <span class="number">243980</span></span><br><span class="line"><span class="number">2022</span>/<span class="number">11</span>/<span class="number">25</span> <span class="number">09</span>:<span class="number">59</span>:<span class="number">37</span> i =  <span class="number">243981</span></span><br><span class="line"><span class="number">2022</span>/<span class="number">11</span>/<span class="number">25</span> <span class="number">09</span>:<span class="number">59</span>:<span class="number">37</span> i =  <span class="number">243982</span></span><br><span class="line"><span class="number">2022</span>/<span class="number">11</span>/<span class="number">25</span> <span class="number">09</span>:<span class="number">59</span>:<span class="number">37</span> i =  <span class="number">243983</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>这时，访问一下刚刚启动的 Web 服务：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ curl -I http://localhost:9999/hello</span><br><span class="line">HTTP/1.1 502 Bad Gateway</span><br></pre></td></tr></table></figure>
+
+<p>怎么状态码是 502，不是 200？<br>这是因为 main goroutine 一直在 for 循环里面，就没有出来过，所以服务压根就没有启动。</p>
+<p>那么有没有什么办法，既可以保证服务正常启动，同时又可以执行 keepPrinting 函数？</p>
+<p>答案是有的，那就是“创建”一个 goroutine，由这个 goroutine 去执行 keepPrinting 函数。</p>
+<p>因此，上面的示例代码就变成了这样：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	http.HandleFunc(<span class="string">"/hello"</span>, hello)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">go</span> keepPrinting()</span><br><span class="line"></span><br><span class="line">	fmt.Println(<span class="string">"App runs on port 9999."</span>)</span><br><span class="line">	log.Fatal(http.ListenAndServe(<span class="string">":9999"</span>, <span class="literal">nil</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行更新之后的示例代码，会发现终端同样一直有输出：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="number">2022</span>/<span class="number">11</span>/<span class="number">25</span> <span class="number">09</span>:<span class="number">59</span>:<span class="number">37</span> i =  <span class="number">243979</span></span><br><span class="line"><span class="number">2022</span>/<span class="number">11</span>/<span class="number">25</span> <span class="number">09</span>:<span class="number">59</span>:<span class="number">37</span> i =  <span class="number">243980</span></span><br><span class="line"><span class="number">2022</span>/<span class="number">11</span>/<span class="number">25</span> <span class="number">09</span>:<span class="number">59</span>:<span class="number">37</span> i =  <span class="number">243981</span></span><br><span class="line"><span class="number">2022</span>/<span class="number">11</span>/<span class="number">25</span> <span class="number">09</span>:<span class="number">59</span>:<span class="number">37</span> i =  <span class="number">243982</span></span><br><span class="line"><span class="number">2022</span>/<span class="number">11</span>/<span class="number">25</span> <span class="number">09</span>:<span class="number">59</span>:<span class="number">37</span> i =  <span class="number">243983</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>访问一下 Web 服务：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ curl -I http://localhost:9999/hello</span><br><span class="line">HTTP/1.1 200 OK</span><br></pre></td></tr></table></figure>
+
+<p>状态码是 200，说明服务已经启动了。</p>
+<p>现在虽然达到了上面的预期结果，但是终端输出的内容太多了，导致其他重要的内容容易一下子被“冲走了”。</p>
+<p>那么有没有什么办法，可以限制一下输出，只在服务端收到来自客户端的请求时，才会去打印。</p>
+<p>当然是可以的，这里就要借助 channel 了。</p>
+<p>对上面的示例代码进行改造：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> ch <span class="keyword">chan</span> <span class="keyword">string</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">hello</span><span class="params">(w http.ResponseWriter, req *http.Request)</span></span> &#123;</span><br><span class="line">	ch &lt;- req.URL.Path</span><br><span class="line">	fmt.Fprintln(w, <span class="string">"hello go"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">  <span class="comment">// 两种都可以使用</span></span><br><span class="line">	<span class="comment">// ch = make(chan string)</span></span><br><span class="line">  ch = <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">string</span>, <span class="number">1</span>)</span><br><span class="line">	http.HandleFunc(<span class="string">"/hello"</span>, hello)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">go</span> keepPrinting()</span><br><span class="line"></span><br><span class="line">	fmt.Println(<span class="string">"App runs on port 9999."</span>)</span><br><span class="line">	log.Fatal(http.ListenAndServe(<span class="string">":9999"</span>, <span class="literal">nil</span>))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">keepPrinting</span><span class="params">()</span></span> &#123;</span><br><span class="line">	i := <span class="number">0</span></span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		i++</span><br><span class="line">		log.Println(<span class="string">"i = "</span>, i)</span><br><span class="line">		url := &lt;-ch</span><br><span class="line">		log.Println(<span class="string">"URL.Path = "</span>, url)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>再次执行示例代码，启动 Web 服务：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">App runs on port 9999.</span><br><span class="line">2022/11/25 10:55:22 i =  1</span><br></pre></td></tr></table></figure>
+
+<p>终端访问 Web 服务：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ curl -I http://localhost:9999/hello</span><br><span class="line">HTTP/1.1 200 OK</span><br></pre></td></tr></table></figure>
+
+<p>控制台继续输出如下内容：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2022/11/25 10:55:56 URL.Path =  /hello</span><br><span class="line">2022/11/25 10:55:56 i =  2</span><br></pre></td></tr></table></figure>
+
+<p>这里这个示例，无论是使用无缓冲 channel还是有缓冲 channel，其效果都是一样的。</p>
+<ol>
+<li>使用无缓冲 channel 时，对无缓冲 channel 的接收和发送操作是同步的，只有同时具备接收和发送能力才会继续往下执行。</li>
+<li>使用有缓冲 channel 时，因为在缓冲带已空的情况下，对它的所有接收操作都会被阻塞，因此效果上和使用无缓冲 channel 是一样的。</li>
+</ol>
+<p>当没有新的请求进来时，也就是没有对 channel 进行发送操作，goroutine 会一直阻塞在 <code>url := &lt;-ch</code> 对 channel 的接收操作上。</p>
+<p>一旦新的请求进来了，也就是对 channel 进行发送操作了，此时 goroutine 通过接收操作拿到了数据，因此继续往下执行。</p>
+<p>goroutine 再次重新进入 for 循环，阻塞等待，重复上面的逻辑。</p>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/go-language-study-notes-how-to-understand-the-channel-without-buffer-and-with-buffer/>https://www.0x2beace.com/go-language-study-notes-how-to-understand-the-channel-without-buffer-and-with-buffer/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2023-02-18T11:28:33+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Feb 18, 2023</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Go/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Go</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/go-language-study-notes-how-to-understand-the-channel-without-buffer-and-with-buffer/&title=Go 语言学习笔记——如何理解 channel 的无缓冲带和有缓冲带 - Boo&summary=channel 是否有缓冲带，其行为会有一些不同。理解这个差异对决定到底应该使不使用缓冲带很有帮助。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/go-language-study-notes-how-to-understand-the-channel-without-buffer-and-with-buffer/&title=Go 语言学习笔记——如何理解 channel 的无缓冲带和有缓冲带 - Boo&summary=channel 是否有缓冲带，其行为会有一些不同。理解这个差异对决定到底应该使不使用缓冲带很有帮助。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/go-language-study-notes-how-to-understand-the-channel-without-buffer-and-with-buffer/&title=Go 语言学习笔记——如何理解 channel 的无缓冲带和有缓冲带 - Boo&summary=channel 是否有缓冲带，其行为会有一些不同。理解这个差异对决定到底应该使不使用缓冲带很有帮助。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXgAAAF4CAAAAAB79r16AAAFKElEQVR42u3bS3YbMQwEQN3/0s4+eckQjabkJMWdbQ0/xdm0AL++jI+MFwLw4A3w4A3w4I0C/CscPz//uODD87+bZ/v79Fyt+X55Hjx48ODBgwcPHjz4IvxxADiETy+wffHb505/f+wFHjx48ODBgwcPHvwF+OlBTwPIaWA5BZwGsu05a17gwYMHDx48ePDgwX8D+FsBaxpMTudP/w4ePHjw4MGDBw8e/L8Evz1QqzByeoGtCwMPHjx48ODBgwcP/jvBt4JLOv+71kv3tfUCDx48ePDgwYMHD74JnwaT//Xn2As8ePDgwYMHDx48+AJ8a5w2BG0D0jRAtQo6NSfw4MGDBw8ePHjw4AvwT40/aePQ6XytoNIueJzOM25wAg8ePHjw4MGDBw++CN9qPDqFebqAbSCbPp++EKfg4MGDBw8ePHjw4ME34dMDpIWQNACdrjstdGzPMfYDDx48ePDgwYMHD74A3wJaFwguB6Tb+zq+EPDgwYMHDx48ePDgL8KfFjq+lmPayLQt0EyDVupQq0CBBw8ePHjw4MGDB/8H+OkCr3BMA0cKmQal9AWIO8nAgwcPHjx48ODBg7/wjwmnG5geaLrOdh+ti5xeGHjw4MGDBw8ePHjwN+DTCU4htwGnFdTSF2Q7L3jw4MGDBw8ePHjwn4RvFzbaBYvpi7ANWvG64MGDBw8ePHjw4MG/Af40OKWFiSlU+wJu7x88ePDgwYMHDx48+Bvw2+DU+vy7GpLSQsf0BXwMUODBgwcPHjx48ODBL+DfNdKDTgPM9MVIG5PSc4EHDx48ePDgwYMH34BvBaTtc62RFnhurwsePHjw4MGDBw8e/A34OBAMA8y2IagN1jp/HKDAgwcPHjx48ODBgy98H79u2FkCn8I8zZs2NKXnPZ4PPHjw4MGDBw8ePPgCfNr4c/virgWYJdz6fODBgwcPHjx48ODBF+DTwsB0o683jS3MNuA9DfDgwYMHDx48ePDgG/DTwsF2w611T1+U9PfTBq3jFwE8ePDgwYMHDx48+AL8NvCkBYJWISQt5GwLPOnnwYMHDx48ePDgwYNvwKcTpkFrO0+rEDMNfNP9HHeSgQcPHjx48ODBgwcfwN8qGEyDVRrU0vXTgso6aIEHDx48ePDgwYMHX4Bff7F/+YKmB5sWeLYXMn1xwIMHDx48ePDgwYP/BPy2oJAWTKbPt0dc+AAPHjx48ODBgwcP/gJ82gh0unBcMFjOO93f9mLjhibw4MGDBw8ePHjw4AP4KdC7Go+mQWtaeEkDV1qYAQ8ePHjw4MGDBw++CZ9+wb8NFm2YtMEofT4uFIEHDx48ePDgwYMHX4C/VZAYN/osCxfrAsUl+HEnGXjw4MGDBw8ePHjwA/htgWN6cXEAGX5+e87087/9GTx48ODBgwcPHjz4AvzpgttAcgq/LWy0g1y7IAIePHjw4MGDBw8efAN+O9IA0wpwW7htMBsHLPDgwYMHDx48ePDgC/CtoLAtWMSFhSF8u8Hq1AM8ePDgwYMHDx48+Bvw2wal6UamhZB0P8cgywB3fOHgwYMHDx48ePDgwV+A3xYMWlDbwkYKmxZWjs8LHjx48ODBgwcPHvxfAJ9+fltIaV1QO4CBBw8ePHjw4MGDB/8d4FsNSSl4WnBJCzbbQhB48ODBgwcPHjx48Dfgpw1Nt/6eQk2DVdpo9fFOMvDgwYMHDx48ePDgg7FtaEqD0i3AVgPT477BgwcPHjx48ODBgy/AG+8d4MGDN8CDN8CDNxbjB5+hM2WUtCN1AAAAAElFTkSuQmCC">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/algorithm-learning-recursion/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>算法学习笔记——递归</p>
+                <p class='content'>算法学习笔记——递归
+
+
+递归每个递归函数都要有两部分：
+
+基线条件：递归的结束条件，从而避免形成无限循环
+递归条件：函数调用自己
+
+下面结合一个实际的例子来理解：
+12345678910fun...</p>
+              </a>
+            
+            
+              <a class='next' href='/go-language-study-notes/'>
+                <p class='title'>Go 语言零散学习笔记<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>Go 语言学习零散笔记整理。
+
+
+零值初始化同样是声明一个切片，这两种方式有什么区别？
+12345// sl1 这个变量声明了，还没初始化，是 nil 值，和nil比较返回true，底层没有分配...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Go 语言学习笔记——如何理解 channel 的无缓冲带和有缓冲带',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#理解无缓冲带-channel"><span class="toc-text">理解无缓冲带 channel</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#理解有缓冲带-channel"><span class="toc-text">理解有缓冲带 channel</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一个示例"><span class="toc-text">一个示例</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+      
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <span class="post-count">总字数：369.2k</span>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
+
+        <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+        
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?fbe826b92f6d49a0ebacf4d848bd3add";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+<script>
+  var now = new Date(); 
+  function createtime() {    
+      var grt= new Date("07/04/2020 14:12:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";     
+  } 
+setInterval("createtime()",250);
+</script>
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "Ki6kd5TUWoQyYKSErxehnRpc-MdYXbMMI",
+    appKey: "7pRBOKMw58Yo7EsUjHziIEY1",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
