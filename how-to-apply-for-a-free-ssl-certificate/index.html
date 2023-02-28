@@ -427,13 +427,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>331 words</p>
+      <p>794 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>1 min</p>
+      <p>3 min</p>
     </a>
   </div>
 
@@ -495,6 +495,31 @@
 <p>在完成验证之前不要离开当前页面，验证成功之后，点击验证。</p>
 <p>如果配置成功没问题，就可以点击验证，下载证书就完成了。</p>
 <p>注意⚠️：使用此方式获取的证书，有效期只有三个月。</p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>因为 FreeSSL.cn 后面改版了，之前是直接生成对应的 <code>*.key</code> 和 <code>*.pem</code> 文件，现在则变成了 ACME 自动化申请。</p>
+<p>前两步还是一样的，只是到了第三步，不一样。</p>
+<p>现在需要选择一种部署方式，来获取证书：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20230228143014.png" alt=""></p>
+<p>Cerbot 的部署方式其他笔记已经提到了，因此这里介绍 <code>acme.sh</code> 的方式。</p>
+<p>首先需要安装 <code>acme.sh</code>，可以直接使用下面的命令进行安装：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl https://get.acme.sh | sh -s email=my@example.com</span><br></pre></td></tr></table></figure>
+
+<p>如果上面官方下载地址失败 或者 太慢，可以选用国内的备用地址：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl https://gitcode.net/cert/cn-acme.sh/-/raw/master/install.sh?inline=<span class="literal">false</span> | sh -s email=my@example.com</span><br></pre></td></tr></table></figure>
+
+<p>安装完成之后，当前目录下会多出一个 <code>.acme.sh</code> 文件，查看该文件夹：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost]$ ls -al</span><br><span class="line">total 248</span><br><span class="line">drwx------ 8 ec2-user ec2-user    191 Feb 28 14:20 .</span><br><span class="line">drwx------ 7 ec2-user ec2-user    335 Feb 28 12:34 ..</span><br><span class="line">-rw-rw-r-- 1 ec2-user ec2-user    305 Feb 28 14:21 account.conf</span><br><span class="line">-rwxrwxr-x 1 ec2-user ec2-user 221245 Feb 28 12:29 acme.sh</span><br><span class="line">-rw-rw-r-- 1 ec2-user ec2-user     96 Feb 28 12:29 acme.sh.env</span><br><span class="line">drwxrwxr-x 3 ec2-user ec2-user     29 Feb 28 12:34 ca</span><br><span class="line">drwxrwxr-x 2 ec2-user ec2-user   4096 Feb 28 12:29 deploy</span><br><span class="line">drwxrwxr-x 2 ec2-user ec2-user   4096 Feb 28 12:29 dnsapi</span><br><span class="line">-rw-rw-r-- 1 ec2-user ec2-user    460 Feb 28 14:21 http.header</span><br><span class="line">drwxrwxr-x 2 ec2-user ec2-user   4096 Feb 28 12:29 notify</span><br></pre></td></tr></table></figure>
+
+<p>其中 <code>.acme.sh</code> 就是一会需要用到的 shell 脚本。</p>
+<p>获取证书：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">acme.sh --issue -d my@example.com  --dns dns_dp --server https://acme.freessl.cn/v2/DV90/directory/z8s58p0gs74t0839d3mu</span><br></pre></td></tr></table></figure>
+
+<p>将示例命令中的域名替换成自己的域名即可。</p>
+<p>正常执行完成之后，当前文件夹下，会多出一个以域名为名的文件：</p>
+<ul>
+<li>fullchain.cer：证书（域名证书.crt + 根证书(root_bundle).crt）</li>
+<li>my.example.com.key：密钥</li>
+</ul>
+<p>有了这两个文件之后，就可以轻松配置 ssl 了。</p>
 
           
             <div class='article_footer'>
@@ -579,10 +604,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-12-21T11:43:39+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2023-02-28T14:42:31+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Dec 21, 2020</p>
+    <p>更新于：Feb 28, 2023</p>
   </a>
 </div>
 
@@ -755,7 +780,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#准备"><span class="toc-text">准备</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#添加TXT-记录"><span class="toc-text">添加TXT 记录</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#准备"><span class="toc-text">准备</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#添加TXT-记录"><span class="toc-text">添加TXT 记录</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#后记"><span class="toc-text">后记</span></a></li></ol>
     </div>
   </section>
 
@@ -790,7 +815,7 @@
     
       
         <div class='copyright'>
-        <span class="post-count">总字数：369.2k</span>
+        <span class="post-count">总字数：369.6k</span>
         <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
 
         <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
