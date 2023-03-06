@@ -401,6 +401,150 @@
         
           
   <h2 class="title">
+    <a href="/facebook-third-party-login/">
+      Facebook 第三方登录
+    </a>
+  </h2>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/PHP/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>PHP</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Mar 6, 2023</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>482 words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>1 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Facebook 第三方登录记录。</p>
+<!--  -->
+
+<h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>首先<a href="https://developers.facebook.com/" target="_blank" rel="noopener">注册</a>一个 Facebook 开发者账号。</p>
+<p>成功登录之后，需要先<a href="https://developers.facebook.com/apps/create/" target="_blank" rel="noopener">创建</a>一个应用。</p>
+<p>此时需要选择一个类型，因为是对接 Facebook 登录，因此选择『消费者』类型就好了。</p>
+<p>点击下一步继续，填写完基本信息，点击创建应用即可。</p>
+<p>为应用添加产品，选择 Facebook 登录：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20230228153639.png" alt=""><br>添加完产品之后，还需要进行 OAuth 客户端授权设置，主要是设置有效 OAuth 跳转 URI。</p>
+<p>控制面板下，可以看到应用编号和应用密钥，后面会用到。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20230228155231.png" alt=""></p>
+<h2 id="登录流程"><a href="#登录流程" class="headerlink" title="登录流程"></a>登录流程</h2><p><img src="https://img-blog.csdnimg.cn/20200423142735203.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2h1eXV5YW5nNjY4OA==,size_10,color_FFFFFF,t_70" alt="Facebook 登录流程"><br>核心逻辑如下：</p>
+<ol>
+<li>用户点击 Facebook 登录，客户端跳转 Facebook 登录授权</li>
+<li>授权成功之后，携带 code 以及 state，重定向回登录页</li>
+<li>客户端根据 code 以及 state，请求 Facebook  Api，换取临时 accessToken</li>
+<li>客户端将 accessToken 发送给服务端，服务端请求 Facebook Api 获取用户信息</li>
+</ol>
+<h2 id="PHP-服务端接入"><a href="#PHP-服务端接入" class="headerlink" title="PHP 服务端接入"></a>PHP 服务端接入</h2><p>服务端接入，安装 facebook sdk：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer require facebook/graph-sdk</span><br></pre></td></tr></table></figure>
+
+<p>登录 API：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">facebookLogin</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 获取客户端的AccessToken</span></span><br><span class="line">    $accessToken = <span class="string">""</span>;</span><br><span class="line">  </span><br><span class="line">    $fb = <span class="keyword">new</span> Facebook([</span><br><span class="line">        <span class="string">'app_id'</span> =&gt; Env::get(<span class="string">'facebook.APP_ID'</span>),</span><br><span class="line">        <span class="string">'app_secret'</span> =&gt; Env::get(<span class="string">'facebook.APP_SECRET'</span>),</span><br><span class="line">        <span class="string">'default_graph_version'</span> =&gt; <span class="string">'v16.0'</span>,</span><br><span class="line">    ]);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 设置Access Token</span></span><br><span class="line">    $fb-&gt;setDefaultAccessToken($accessToken);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 从Facebook 获取用户对象，字段按需获取</span></span><br><span class="line">    $response = $fb-&gt;get(<span class="string">'/me?fields=name,email'</span>);</span><br><span class="line">    $fbUser = $response-&gt;getDecodedBody();</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * fbUser</span></span><br><span class="line"><span class="comment">    * id：Your Facebook UserID</span></span><br><span class="line"><span class="comment">    * name：Your Facebook Username</span></span><br><span class="line"><span class="comment">    * email：Your Facebook Email</span></span><br><span class="line"><span class="comment">    **/</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是，因为 Facebook 需要科学上网才能访问，如果本身在墙内，通过 SDK 请求是无法请求成功的，会得到以下错误信息：</p>
+<blockquote>
+<p>Connection timeout after 10000 ms</p>
+</blockquote>
+<p>此时有两种解决方案：</p>
+<ol>
+<li>通过境外的服务器进行调试</li>
+<li>本地科学上网的情况下，更改 Facebook SDK 源码，<code>vendor/facebook/graph-sdk/src/Facebook/HttpClients/FacebookCurlHttpClient.php</code> 97 line，增加：<code>CURLOPT_PROXY =&gt; &quot;Your local agent&quot;</code></li>
+</ol>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://developers.facebook.com/docs/facebook-login/overview" target="_blank" rel="noopener">Facebook 登录概览</a></li>
+<li><a href="https://developers.facebook.com/docs/graph-api/get-started" target="_blank" rel="noopener">Graph Api 入门指南</a></li>
+<li><a href="https://developers.facebook.com/docs/facebook-login/web" target="_blank" rel="noopener">利用 JavaScript SDK 部署网页版 Facebook 登录</a></li>
+</ul>
+
+      
+    </div>
+    
+      
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow reveal ">
+  
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h2 class="title">
     <a href="/get-started-quickly-with-the-lightweight-development-environment-valet/">
       轻量级开发环境 Valet 快速上手
     </a>
@@ -1412,119 +1556,6 @@
           </div>
         
       
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
-  
-
-
-  <section class='meta'>
-    
-      
-      
-      <div class="meta" id="header-meta">
-        
-          
-  <h2 class="title">
-    <a href="/basic-use-of-laravel-macro/">
-      Laravel Macro 基本使用
-    </a>
-  </h2>
-
-
-        
-        <div class='new-meta-box'>
-          
-            
-          
-            
-              
-<div class='new-meta-item author'>
-  <a href="https://www.0x2BeAce.com" rel="nofollow">
-    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
-    <p>Boo</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/PHP/Laravel/' rel="nofollow">
-      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>PHP/Laravel</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Nov 14, 2021</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-  <div class="new-meta-item wordcount">
-    <a class='notlink'>
-      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>648 words</p>
-    </a>
-  </div>
-  <div class="new-meta-item readtime">
-    <a class='notlink'>
-      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>2 min</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              
-
-            
-          
-        </div>
-        
-          <hr>
-        
-      </div>
-    
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在实际开发中，如果想扩展一个基础类，通常的做法是先继承该类，然后在此基础上进行扩展。</p>
-<p>而本文要介绍的宏指令，是Laravel 根据PHP 的特性，编写了一套叫做 <code>Macroable</code> 的 <code>Traits</code>，可以在不使用继承的情况下进行扩展。</p>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/basic-use-of-laravel-macro/">
-            阅读全文 <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
-
-          </div>
-        
-      
     
   </section>
   
@@ -1782,7 +1813,7 @@
           <li><a class="flat-box"
             title="/categories/PHP/" href="/categories/PHP/"
             id="categoriesPHP"
-            ><div class='name'>PHP</div><div class='badge'>(79)</div></a></li>
+            ><div class='name'>PHP</div><div class='badge'>(80)</div></a></li>
         
           <li><a class="flat-box child"
             title="/categories/PHP/Laravel/" href="/categories/PHP/Laravel/"
@@ -2033,7 +2064,7 @@
     
       
         <div class='copyright'>
-        <span class="post-count">总字数：369.4k</span>
+        <span class="post-count">总字数：369.8k</span>
         <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
 
         <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
