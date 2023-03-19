@@ -427,7 +427,7 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>280 words</p>
+      <p>296 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
@@ -476,7 +476,7 @@
 <p>不过倒是可以通过更新 Clash 配置文件的方式，走规则代理。</p>
 <h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>打开 Clash 配置文件夹，找到当前正在使用的配置文件，编辑它。</p>
 <p>新增以下规则：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">🚀</span> <span class="string">ChatGPT</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">select</span></span><br><span class="line">  <span class="attr">proxies:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">🔰国外流量</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">这边是对应的节点列表</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">🚀</span> <span class="string">ChatGPT</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">select</span></span><br><span class="line">  <span class="attr">proxies:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">🔰国外流量</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">这边是对应的节点列表</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 重点是这里，加上这个域名</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">DOMAIN-SUFFIX,openai.com,🚀</span> <span class="string">ChatGPT</span></span><br></pre></td></tr></table></figure>
 
 <p>放在任意一个规则下面就好了：</p>
 <p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20230216180435.png" alt=""><br>然后重载配置文件。</p>
@@ -573,10 +573,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2023-02-18T22:23:33+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2023-03-19T14:18:07+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Feb 18, 2023</p>
+    <p>更新于：Mar 19, 2023</p>
   </a>
 </div>
 
@@ -660,6 +660,16 @@
         
         
           <div class="prev-next">
+            
+              <a class='prev' href='/facebook-third-party-login/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Facebook 第三方登录</p>
+                <p class='content'>Facebook 第三方登录记录。
+
+
+准备首先注册一个 Facebook 开发者账号。
+成功登录之后，需要先创建一个应用。
+此时需要选择一个类型，因为是对接 Facebook 登录，因此选择『...</p>
+              </a>
             
             
               <a class='next' href='/2022-year-end-summary/'>

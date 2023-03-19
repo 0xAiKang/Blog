@@ -16,12 +16,10 @@
 
   <!-- 页面元数据 -->
   
-    <title>二零二一年终总结 - Boo</title>
+    <title>Facebook 第三方登录 - Boo</title>
   
-    <meta name="keywords" content="年终总结">
+    <meta name="keywords" content="PHP">
   
-  
-    <meta name="description" content="如果问我今年最大的收获是什么，仔细想了一下，好像只有房子。">
   
 
   <!-- feed -->
@@ -372,8 +370,8 @@
         
           
   <h1 class="title">
-    <a href="/2021-year-end-summary/">
-      二零二一年终总结
+    <a href="/facebook-third-party-login/">
+      Facebook 第三方登录
     </a>
   </h1>
 
@@ -398,9 +396,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/' rel="nofollow">
+    <a href='/categories/PHP/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>年终总结</p>
+      <p>PHP</p>
     </a>
   </div>
 
@@ -411,7 +409,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Dec 31, 2021</p>
+    <p>发布于：Mar 6, 2023</p>
   </a>
 </div>
 
@@ -427,7 +425,7 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>278 words</p>
+      <p>482 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
@@ -446,7 +444,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/2021-year-end-summary/" class="leancloud_visitors" data-flag-title="二零二一年终总结">
+      <span id="/facebook-third-party-login/" class="leancloud_visitors" data-flag-title="Facebook 第三方登录">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -469,14 +467,44 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>如果问我今年最大的收获是什么，仔细想了一下，好像只有房子。</p>
-<a id="more"></a>
+          <p>Facebook 第三方登录记录。</p>
+<!--  -->
 
-<p>今年在自我提升上好像没太多值得说的。</p>
-<p>虽然一年下来也有不少收货，但比较遗憾的是年前立下的Flag 却没能完成几个。<br>上半年过得很充实，一直没有停下，下半年因为工作比较忙，中间停下休息了一段时间，打这开始，下半就不在状态了，一路走走停停。</p>
-<p>不过今年确定了一件人生大事，那就是买房了。<br>以前并不会觉得房子有多重要，反而觉得过早背负房贷会失去自由。<br>可实际拥有了一套属于自己的房子之后，捯觉得房子带给我更多的是安全感。</p>
-<p>年底回家，可能会被家里安排相亲，现在似乎也没有那么反感了。<br>很多以前觉得不会做的事情，现在似乎也都能接受了。</p>
-<p>这篇总结就当给今年画上一个句号，新的一年继续加油。</p>
+<h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>首先<a href="https://developers.facebook.com/" target="_blank" rel="noopener">注册</a>一个 Facebook 开发者账号。</p>
+<p>成功登录之后，需要先<a href="https://developers.facebook.com/apps/create/" target="_blank" rel="noopener">创建</a>一个应用。</p>
+<p>此时需要选择一个类型，因为是对接 Facebook 登录，因此选择『消费者』类型就好了。</p>
+<p>点击下一步继续，填写完基本信息，点击创建应用即可。</p>
+<p>为应用添加产品，选择 Facebook 登录：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20230228153639.png" alt=""><br>添加完产品之后，还需要进行 OAuth 客户端授权设置，主要是设置有效 OAuth 跳转 URI。</p>
+<p>控制面板下，可以看到应用编号和应用密钥，后面会用到。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20230228155231.png" alt=""></p>
+<h2 id="登录流程"><a href="#登录流程" class="headerlink" title="登录流程"></a>登录流程</h2><p><img src="https://img-blog.csdnimg.cn/20200423142735203.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2h1eXV5YW5nNjY4OA==,size_10,color_FFFFFF,t_70" alt="Facebook 登录流程"><br>核心逻辑如下：</p>
+<ol>
+<li>用户点击 Facebook 登录，客户端跳转 Facebook 登录授权</li>
+<li>授权成功之后，携带 code 以及 state，重定向回登录页</li>
+<li>客户端根据 code 以及 state，请求 Facebook  Api，换取临时 accessToken</li>
+<li>客户端将 accessToken 发送给服务端，服务端请求 Facebook Api 获取用户信息</li>
+</ol>
+<h2 id="PHP-服务端接入"><a href="#PHP-服务端接入" class="headerlink" title="PHP 服务端接入"></a>PHP 服务端接入</h2><p>服务端接入，安装 facebook sdk：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer require facebook/graph-sdk</span><br></pre></td></tr></table></figure>
+
+<p>登录 API：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">facebookLogin</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 获取客户端的AccessToken</span></span><br><span class="line">    $accessToken = <span class="string">""</span>;</span><br><span class="line">  </span><br><span class="line">    $fb = <span class="keyword">new</span> Facebook([</span><br><span class="line">        <span class="string">'app_id'</span> =&gt; Env::get(<span class="string">'facebook.APP_ID'</span>),</span><br><span class="line">        <span class="string">'app_secret'</span> =&gt; Env::get(<span class="string">'facebook.APP_SECRET'</span>),</span><br><span class="line">        <span class="string">'default_graph_version'</span> =&gt; <span class="string">'v16.0'</span>,</span><br><span class="line">    ]);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 设置Access Token</span></span><br><span class="line">    $fb-&gt;setDefaultAccessToken($accessToken);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 从Facebook 获取用户对象，字段按需获取</span></span><br><span class="line">    $response = $fb-&gt;get(<span class="string">'/me?fields=name,email'</span>);</span><br><span class="line">    $fbUser = $response-&gt;getDecodedBody();</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * fbUser</span></span><br><span class="line"><span class="comment">    * id：Your Facebook UserID</span></span><br><span class="line"><span class="comment">    * name：Your Facebook Username</span></span><br><span class="line"><span class="comment">    * email：Your Facebook Email</span></span><br><span class="line"><span class="comment">    **/</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是，因为 Facebook 需要科学上网才能访问，如果本身在墙内，通过 SDK 请求是无法请求成功的，会得到以下错误信息：</p>
+<blockquote>
+<p>Connection timeout after 10000 ms</p>
+</blockquote>
+<p>此时有两种解决方案：</p>
+<ol>
+<li>通过境外的服务器进行调试</li>
+<li>本地科学上网的情况下，更改 Facebook SDK 源码，<code>vendor/facebook/graph-sdk/src/Facebook/HttpClients/FacebookCurlHttpClient.php</code> 97 line，增加：<code>CURLOPT_PROXY =&gt; &quot;Your local agent&quot;</code></li>
+</ol>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://developers.facebook.com/docs/facebook-login/overview" target="_blank" rel="noopener">Facebook 登录概览</a></li>
+<li><a href="https://developers.facebook.com/docs/graph-api/get-started" target="_blank" rel="noopener">Graph Api 入门指南</a></li>
+<li><a href="https://developers.facebook.com/docs/facebook-login/web" target="_blank" rel="noopener">利用 JavaScript SDK 部署网页版 Facebook 登录</a></li>
+</ul>
 
           
             <div class='article_footer'>
@@ -513,7 +541,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/2021-year-end-summary/>https://www.0x2beace.com/2021-year-end-summary/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/facebook-third-party-login/>https://www.0x2beace.com/facebook-third-party-login/</a></p>
           
         
       </blockquote>
@@ -561,10 +589,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-08-20T10:12:00+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2023-03-19T14:18:07+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Aug 20, 2022</p>
+    <p>更新于：Mar 19, 2023</p>
   </a>
 </div>
 
@@ -573,7 +601,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>年终总结</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div>
 
 
         
@@ -591,7 +619,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/2021-year-end-summary/&title=二零二一年终总结 - Boo&summary=如果问我今年最大的收获是什么，仔细想了一下，好像只有房子。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/facebook-third-party-login/&title=Facebook 第三方登录 - Boo&summary="
           
           >
           
@@ -603,7 +631,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/2021-year-end-summary/&title=二零二一年终总结 - Boo&summary=如果问我今年最大的收获是什么，仔细想了一下，好像只有房子。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/facebook-third-party-login/&title=Facebook 第三方登录 - Boo&summary="
           
           >
           
@@ -615,7 +643,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/2021-year-end-summary/&title=二零二一年终总结 - Boo&summary=如果问我今年最大的收获是什么，仔细想了一下，好像只有房子。"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/facebook-third-party-login/&title=Facebook 第三方登录 - Boo&summary="
           
           >
           
@@ -629,7 +657,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAAC/UlEQVR42u3ay3LCQAwEQP7/p5N7HuUdSSEW9N6gzJptX6ZGfnxYP64HAjBgwIABA2YNzKO4vm345fur63/7/dT/qO4DBgwYMGDAgNkHcxyAQpgUIg5k4X0vfw8GDBgwYMCAWQtzGYDCz1cgaUBLYeLzgAEDBgwYMGDeFiYFqO6bBj4wYMCAAQMGDJh0sBYPvML9wIABAwYMGDBgugOubkBLD5wOBJ8+iQQDBgwYMGDAPA0mXdXC6Vmfy+cBAwYMGDBgwKyB6a7pg6XBLQ10l/cBAwYMGDBgwKyBqQakatHULbpOAdP/DwYMGDBgwIDZCzMVvKZeCKped/p93OCBAQMGDBgwYG4LcwpSHcilB58CjfcDAwYMGDBgwKyDSYuhKmA3MKaBNH4wYMCAAQMGDJg1MNViKl1Tga9aWB2fDwwYMGDAgAGzBqa68ekN0wJpqoAqg4IBAwYMGDBg1sB0gdIiayrgdYuxuKgCAwYMGDBgwNwWpjoI676AlB546rrjBg8MGDBgwIABc1uYboFULaS6wXG6SAMDBgwYMGDA7IM5LZa6ATANftXBWfvBgQEDBgwYMGDWwaSF1enBq8GrWoBVgygYMGDAgAEDZh9MNQhVg9lpAKy+EJ0uMGDAgAEDBszrwUwN5KbguwPA4yINDBgwYMCAAbMOJi2gugO3biCLC6jTYg0MGDBgwIABsw6mOqjq/n5qVYursQYPDBgwYMCAAfPvMFN/aPr66nVgwIABAwYMmPeBqQ7U0qIqLcq6RdfxgwIDBgwYMGDArIGZKohS4PTA3eB3/BkMGDBgwIABswZmKjB1g1W3gKoG1MuiCgwYMGDAgAFze5i/GrBND/amiy0wYMCAAQMGzOvApIO0avCbAp4KpmDAgAEDBgyY94XpBsP0YOmLSsf7ggEDBgwYMGDeFqY6kOsWTqf7X94HDBgwYMCAAbMWpjo4q+7TLbi6DwQMGDBgwIABsx+mG5y6B5q+/jQwggEDBgwYMGD2wlhgwIABAwYMmGXrE8Hb5B32aIFFAAAAAElFTkSuQmCC">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAAC/ElEQVR42u3aQXLjMAwEQP//05t7NilxACgl2M2bypRFNi9TAF//jB/HCwEYMGDAgAGzBuZVHN/f/+8D4fzT3y831t0PGDBgwIABA2YdTPrhqd+7EF1YMGDAgAEDBsz7wKSB7rd5adCrgqbru5wPBgwYMGDAgPkYmPS97vtpYAQDBgwYMGDAgEkLQacNrlO4qSAIBgwYMGDAgHlfmLhBddOG7moI/lknEgwYMGDAgAHzZzBTF6Cf8jx2ARoMGDBgwIAB81iY6TEdGLvBMV4/GDBgwIABA2YNTNpQm26cdRto3cJX3IkEAwYMGDBgwDwWJv1At4CVvn96MGUoMGDAgAEDBsw6mHRhp4GtepG6up70IMGAAQMGDBgw+2GmG2nVwDXVkDsNkGDAgAEDBgyY/TDpH3ULTFMNuRTs8sDAgAEDBgwYMGtguheEqoEwBZ4qjB0XqsCAAQMGDBgwa2DuDnZV+LsvEIEBAwYMGDBg9sKkF2/uCmzdjXcDKRgwYMCAAQNmH0z7ok0IWy1IdQtV5YYbGDBgwIABA2YNTHfDaQGqOm8q4B1X8MCAAQMGDBgwj4fpAlQLX93naiELDBgwYMCAAbMXZqqA1A100w2+akELDBgwYMCAAbMPJv2jKmR3Q2lwTAcYMGDAgAEDZg9MNUCdwk3NS6HLBTMwYMCAAQMGzBqY0wLS1AWebmBMg198wGDAgAEDBgyYNTBThZ40yFULXtWDaydfMGDAgAEDBszjYOKLNc0C1iloGvTSAzjuRIIBAwYMGDBgHgvTHd1GXLrxakHseP1gwIABAwYMmDUw3aB09wWjuw4GDBgwYMCAAfM+MNVA122ApSBpASouxIEBAwYMGDBg1sJUFz4VCNNG3VSjDQwYMGDAgAHzuTDVgJbCdhtyl++BAQMGDBgwYD4G5mrh1ULTXd8BAwYMGDBgwLwvTLXh1g1sdx1MWrACAwYMGDBgwOyDKQei4obTjaWQ5SAJBgwYMGDAgFkDY/wS8AwwYMCAAQPmqeMLSW6hik9GYIQAAAAASUVORK5CYII=">
           </div>
         </div>
       
@@ -649,23 +677,22 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/PECL-extension-library-installation/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>PECL 扩展库安装</p>
-                <p class='content'>PECL 扩展库安装通常安装 PHP 扩展，有两种方式：
-
-源码编译安装
-通过  pecl 命令一键安装
+              <a class='prev' href='/use-paypal-php-sdk-to-access-paypal-payment/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>使用 PayPal-PHP-SDK 接入 PayPal 支付</p>
+                <p class='content'>最近业务需要，需要接入国外的第三方支付——PayPal。
 
 
-
-源码编译安装源码编译安装的好处是更灵活，如果有进一步的需求，可以根据具体需要和版本...</p>
+因为一些原因，没有使用 PayPal 官方推荐的 Braintree 聚合支付，而是使用原生的 Rest Api。
+官方为 Rest...</p>
               </a>
             
             
-              <a class='next' href='/basic-use-of-laravel-macro/'>
-                <p class='title'>Laravel Macro 基本使用<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>在实际开发中，如果想扩展一个基础类，通常的做法是先继承该类，然后在此基础上进行扩展。
-而本文要介绍的宏指令，是Laravel 根据PHP 的特性，编写了一套叫做 Macroable 的 Trai...</p>
+              <a class='next' href='/chatgpt-access-denied/'>
+                <p class='title'>ChatGPT Access Denied<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>因为 openai 屏蔽了国内访问，无论是ChatGPT 还是ChatGPT 应用，尽管开了全局代理，直接访问还是可能访问不了的，会重定向到下面这个页面：
+
+
+目前并不能通过在 ChatGPT ...</p>
               </a>
             
           </div>
@@ -710,7 +737,7 @@
 
   <script>
     window.subData = {
-      title: '二零二一年终总结',
+      title: 'Facebook 第三方登录',
       tools: true
     }
   </script>
@@ -725,6 +752,20 @@
     
     
 
+
+  <section class="widget toc-wrapper shadow desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#准备"><span class="toc-text">准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#登录流程"><span class="toc-text">登录流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP-服务端接入"><span class="toc-text">PHP 服务端接入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+  </section>
 
 
   
