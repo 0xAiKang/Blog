@@ -7,7 +7,7 @@ categories: ["PHP"]
 
 Facebook 第三方登录记录。
 
-<!--  -->
+<!-- more -->
 
 ## 准备
 
