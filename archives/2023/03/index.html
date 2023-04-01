@@ -363,9 +363,165 @@
         
           
         
+          
+        
       
     
     
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow reveal ">
+  
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h2 class="title">
+    <a href="/use-paypal-php-sdk-to-access-paypal-payment/">
+      使用 PayPal-PHP-SDK 接入 PayPal 支付
+    </a>
+  </h2>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/PHP/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>PHP</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Mar 19, 2023</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>1.4k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>6 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近业务需要，需要接入国外的第三方支付——PayPal。</p>
+<!-- mroe -->
+
+<p>因为一些原因，没有使用 PayPal 官方推荐的 Braintree 聚合支付，而是使用原生的 Rest Api。</p>
+<p>官方为 Rest Api 封装了一个 SDK，虽然已经很久没有更新了，不过好在做了向下兼容，只是版本低一些，好在还能用。</p>
+<p>在正式介绍之前，先来了解一下 PayPal 支付的流程：</p>
+<ol>
+<li>在 <a href="https://developer.paypal.com/home" target="_blank" rel="noopener">PayPal 管理中心</a> 创建一个开发者账号，获取 API 初始凭证信息，包括 Client ID 和 Secret</li>
+<li>使用 Client ID 和 Secret 创建 PayPal 实例，并创建支付请求对象，设置支付金额、货币类型、付款描述、同步回调地址等信息</li>
+<li>调用 PayPal 客户端实例的 <code>execute()</code> 方法，发送支付请求</li>
+<li>根据支付结果，跳转到相应成功或者失败的页面</li>
+<li>设置 Webhooks，如果支付成功，等待 PayPal 异步回调通知支付结果</li>
+</ol>
+<p>这个支付流程，和平常见到的支付宝支付流程，有所区别。</p>
+<p>支付宝的支付流程是，只需要获取支付 url，然后去支付宝网站里面完成支付，最后异步通知。</p>
+<p>PayPal 支付则有所区别，PayPal 返回的 approval_url 只是获取用户授权，最终还是需要回到自己的网站再一次请求 PayPal 进行支付，最后才是异步通知。</p>
+<h2 id="创建支付订单"><a href="#创建支付订单" class="headerlink" title="创建支付订单"></a>创建支付订单</h2><p>通过 Composer 安装SDK：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ composer require paypal/rest-api-sdk-php</span><br></pre></td></tr></table></figure>
+
+<p>创建支付订单：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PaypalStrategy</span> <span class="keyword">implements</span> <span class="title">PaymentStrategy</span></span></span><br><span class="line"><span class="class"></span>&#123;、</span><br><span class="line">    <span class="keyword">private</span> $clientId;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> $clientSecret;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> $environment;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> $currency;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> $apiContext;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> $redirectUrl;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;clientId = Env::get(<span class="string">"paypal.CLIENT_ID"</span>);</span><br><span class="line">        <span class="keyword">$this</span>-&gt;clientSecret = Env::get(<span class="string">"paypal.CLIENT_SECRET"</span>);</span><br><span class="line">        <span class="keyword">$this</span>-&gt;environment = Env::get(<span class="string">"paypal.ENVIRONMENT"</span>);</span><br><span class="line">        <span class="keyword">$this</span>-&gt;currency = <span class="string">"USD"</span>;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;redirectUrl = <span class="string">"http://"</span>.Env::get(<span class="string">"app.app_url"</span>) . <span class="string">"/api/order/paypalExecute"</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">$this</span>-&gt;apiContext = <span class="keyword">new</span> ApiContext(</span><br><span class="line">            <span class="keyword">new</span> OAuthTokenCredential(</span><br><span class="line">                <span class="keyword">$this</span>-&gt;clientId,</span><br><span class="line">                <span class="keyword">$this</span>-&gt;clientSecret</span><br><span class="line">            )</span><br><span class="line">        );</span><br><span class="line">      </span><br><span class="line">       <span class="keyword">if</span> ($env === <span class="string">"production"</span>) &#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;apiContext-&gt;setConfig([</span><br><span class="line">                <span class="string">'mode'</span> =&gt; <span class="string">'live'</span>,         <span class="comment">// 设置为生产环境</span></span><br><span class="line">            ]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 支付</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">pay</span><span class="params">(array $orderInfo, array $paymentParams)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $payer = <span class="keyword">new</span> \PayPal\Api\Payer();</span><br><span class="line">        $payer-&gt;setPaymentMethod(<span class="string">'paypal'</span>);</span><br><span class="line"></span><br><span class="line">        $item = <span class="keyword">new</span> Item();</span><br><span class="line">        $item-&gt;setName(<span class="string">"商品名称"</span>)</span><br><span class="line">            -&gt;setCurrency(<span class="keyword">$this</span>-&gt;currency)</span><br><span class="line">            <span class="comment">// 设置数量</span></span><br><span class="line">            -&gt;setQuantity(<span class="number">1</span>)</span><br><span class="line">            -&gt;setPrice($orderInfo[<span class="string">'paymentamount'</span>]);</span><br><span class="line"></span><br><span class="line">        $itemList = <span class="keyword">new</span> ItemList();</span><br><span class="line">        $itemList-&gt;setItems([$item]);</span><br><span class="line"></span><br><span class="line">        $amount = <span class="keyword">new</span> \PayPal\Api\Amount();</span><br><span class="line">        <span class="comment">// 设置总价</span></span><br><span class="line">        $amount-&gt;setTotal($orderInfo[<span class="string">'paymentamount'</span>])</span><br><span class="line">            -&gt;setCurrency(<span class="keyword">$this</span>-&gt;currency);</span><br><span class="line"></span><br><span class="line">        $transaction = <span class="keyword">new</span> \PayPal\Api\Transaction();</span><br><span class="line">        $transaction-&gt;setAmount($amount)</span><br><span class="line">            -&gt;setItemList($itemList)</span><br><span class="line">            -&gt;setDescription(<span class="string">"商品描述"</span>)</span><br><span class="line">            -&gt;setInvoiceNumber($orderInfo[<span class="string">'orderno'</span>]);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 设置授权成功之后，重定向地址</span></span><br><span class="line">        <span class="comment">// 这个地址很重要，是 PayPal 授权成功之后，同步回调获取付款人 ID</span></span><br><span class="line">        $redirectUrls = <span class="keyword">new</span> RedirectUrls();</span><br><span class="line">        $redirectUrls-&gt;setReturnUrl(<span class="keyword">$this</span>-&gt;redirectUrl . <span class="string">"?success=ture"</span>)</span><br><span class="line">            -&gt;setCancelUrl(<span class="keyword">$this</span>-&gt;redirectUrl . <span class="string">"?success=false"</span>);</span><br><span class="line"></span><br><span class="line">        $payment = <span class="keyword">new</span> Payment();</span><br><span class="line">        $payment-&gt;setIntent(<span class="string">'sale'</span>)</span><br><span class="line">            -&gt;setPayer($payer)</span><br><span class="line">            -&gt;setTransactions(<span class="keyword">array</span>($transaction))</span><br><span class="line">            -&gt;setRedirectUrls($redirectUrls);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 创建交易</span></span><br><span class="line">            $payment-&gt;create(<span class="keyword">$this</span>-&gt;apiContext);</span><br><span class="line">            <span class="keyword">return</span> [</span><br><span class="line">                <span class="comment">// Paypal payment id</span></span><br><span class="line">                <span class="string">"third_order_no"</span> =&gt; $payment-&gt;id,</span><br><span class="line">                <span class="comment">// Paypal 授权地址</span></span><br><span class="line">                <span class="string">"approval_url"</span>   =&gt; $payment-&gt;getApprovalLink(),</span><br><span class="line">            ];</span><br><span class="line">        &#125; <span class="keyword">catch</span> (\PayPal\<span class="keyword">Exception</span>\PayPalConnectionException $exception) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> \<span class="keyword">Exception</span>($exception-&gt;getData());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="支付同步回调"><a href="#支付同步回调" class="headerlink" title="支付同步回调"></a>支付同步回调</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 同步支付回调（用于获取付款人 ID）</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">execute</span><span class="params">($payload)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 是否取消支付标识</span></span><br><span class="line">    $success = $payload[<span class="string">'success'</span>] ?? <span class="keyword">false</span>;</span><br><span class="line">    <span class="comment">// 支付ID</span></span><br><span class="line">    $paymentId = $payload[<span class="string">'paymentId'</span>] ?? <span class="string">""</span>;</span><br><span class="line">    <span class="comment">// 支付人ID</span></span><br><span class="line">    $payerId = $payload[<span class="string">'PayerID'</span>] ?? <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">empty</span>($paymentId) || <span class="keyword">empty</span>($payerId)) &#123;</span><br><span class="line">        <span class="comment">// 支付失败</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">"fail"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">false</span> === $success) &#123;</span><br><span class="line">        <span class="comment">// 取消支付</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> <span class="string">"cancel"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    $payment = Payment::get($paymentId, <span class="keyword">$this</span>-&gt;apiContext);</span><br><span class="line">    $execute = <span class="keyword">new</span> PaymentExecution();</span><br><span class="line">    <span class="comment">// 设置付款人 ID</span></span><br><span class="line">    $execute-&gt;setPayerId($payerId);</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 确认支付（真正发起支付请求的地方）</span></span><br><span class="line">        $payment-&gt;execute($execute, <span class="keyword">$this</span>-&gt;apiContext);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (\<span class="keyword">Exception</span> $e) &#123;</span><br><span class="line">        <span class="comment">// 支付失败</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">"fail"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 支付成功</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"success"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>授权完成之后，PayPal 会重定向至 redirectUrl，并携带 paymentId 和PayerID，拿到这两个参数之后，最后发起支付请求。</p>
+<h2 id="支付异步回调"><a href="#支付异步回调" class="headerlink" title="支付异步回调"></a>支付异步回调</h2><p>PayPal 支付异步回调，主要是两个 Event Type：</p>
+<ul>
+<li><code>PAYMENTS.PAYMENT.CREATED</code>：表示支付创建完成，即支付请求已经被创建并准备好向用户展示。这个 Event Type 触发的条件是：当 PayPal 收到一个支付请求并且准备好向用户展示时，会向 Webhooks 发送一个 <code>PAYMENTS.PAYMENT.CREATED</code> 的事件。</li>
+<li><code>PAYMENT.SALE.COMPLETED</code>：表示销售完成，即支付已经完成并且相关的款项已经被转移。这个 Event Type 触发的条件是：当 PayPal 支付完成并且相关款项已经被转移时，会向 Webhooks 发送一个 <code>PAYMENT.SALE.COMPLETED</code> 的事件。</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 异步支付回调</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">webhook</span><span class="params">($payload)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    $payload = json_decode($payload, <span class="keyword">true</span>);</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">empty</span>($payload)) &#123;</span><br><span class="line">        <span class="comment">// 回调参数解析失败</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// todo 验签</span></span><br><span class="line">  </span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 详细回调参数，参见 https://developer.paypal.com/api/rest/webhooks/#link-samplemessagepayload</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">switch</span> ($payload[<span class="string">'event_type'</span>]) &#123;</span><br><span class="line">            <span class="comment">// 支付订单创建成功</span></span><br><span class="line">            <span class="keyword">case</span> <span class="string">"PAYMENTS.PAYMENT.CREATED"</span>:</span><br><span class="line">            </span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 买家完成支付</span></span><br><span class="line">            <span class="keyword">case</span> <span class="string">"PAYMENT.SALE.COMPLETED"</span>:</span><br><span class="line">                <span class="comment">// 记录买家 ID，后面退款会用到</span></span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// todo 业务逻辑处理</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (\<span class="keyword">Exception</span> $e) &#123;</span><br><span class="line">        <span class="comment">// 订单回调处理异常</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="退款"><a href="#退款" class="headerlink" title="退款"></a>退款</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Paypal 退款</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">refund</span><span class="params">($orderInfo)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">            $amount = <span class="keyword">new</span> Amount();</span><br><span class="line">            $amount-&gt;setCurrency(<span class="keyword">$this</span>-&gt;currency)</span><br><span class="line">                -&gt;setTotal($orderInfo[<span class="string">'payment_amount'</span>]);</span><br><span class="line"></span><br><span class="line">            $refundRequest = <span class="keyword">new</span> RefundRequest();</span><br><span class="line">            $refundRequest-&gt;setAmount($amount);</span><br><span class="line"></span><br><span class="line">            $sale = <span class="keyword">new</span> Sale();</span><br><span class="line">            <span class="comment">// 付款人 ID</span></span><br><span class="line">            $sale-&gt;setId($orderInfo[<span class="string">'payer_id'</span>]);</span><br><span class="line"></span><br><span class="line">            $result = $sale-&gt;refundSale($refundRequest, <span class="keyword">$this</span>-&gt;apiContext);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (\<span class="keyword">Exception</span> $e) &#123;</span><br><span class="line">            <span class="comment">// 退款失败</span></span><br><span class="line">            <span class="keyword">return</span> $e-&gt;getMessage();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 退款完成</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>退款需要用到付款人 ID，可以在支付异步回调时，保存下来。</p>
+<p>退款记录：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20230318100509.png" alt=""></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>上面的示例代码，并不能放到项目中使用，需要调整部分参数。</p>
+<p>使用 PayPal 的沙盒账号，登录到<a href="https://www.sandbox.paypal.com/myaccount/home" target="_blank" rel="noopener">Sandbox</a>，可以看到交易记录及退款记录：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20230316120925.png" alt=""></p>
+<p>如果有其他技术问题，可以<a href="https://www.paypal-support.com/" target="_blank" rel="noopener">提交工单</a>。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://developer.paypal.com/docs/api/payments/v1/" target="_blank" rel="noopener">PayPal Payment Api V1</a></li>
+<li><a href="https://github.com/paypal/PayPal-PHP-SDK/issues/120" target="_blank" rel="noopener">Payment-&gt;execute gives error payer_id Value too long (Max len 20)</a></li>
+<li><a href="https://github.com/paypal/PayPal-PHP-SDK" target="_blank" rel="noopener">PayPal PHP SDK</a></li>
+<li><a href="https://developer.paypal.com/api/rest/" target="_blank" rel="noopener">Rest Api Developer Docs</a></li>
+<li><a href="http://paypal.github.io/PayPal-PHP-SDK/" target="_blank" rel="noopener">PayPal PHP SDK Docs</a></li>
+<li><a href="https://developer.paypal.com/dashboard/webhooksSimulator" target="_blank" rel="noopener">手动发起 Webhooks 通知</a></li>
+</ul>
+
+      
+    </div>
+    
+      
+    
+  </section>
+</article>
+
+          </div>
+        
       
         
           <div class='post-wrapper'>
@@ -462,47 +618,15 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>Facebook 第三方登录记录。</p>
-<!--  -->
-
-<h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>首先<a href="https://developers.facebook.com/" target="_blank" rel="noopener">注册</a>一个 Facebook 开发者账号。</p>
-<p>成功登录之后，需要先<a href="https://developers.facebook.com/apps/create/" target="_blank" rel="noopener">创建</a>一个应用。</p>
-<p>此时需要选择一个类型，因为是对接 Facebook 登录，因此选择『消费者』类型就好了。</p>
-<p>点击下一步继续，填写完基本信息，点击创建应用即可。</p>
-<p>为应用添加产品，选择 Facebook 登录：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20230228153639.png" alt=""><br>添加完产品之后，还需要进行 OAuth 客户端授权设置，主要是设置有效 OAuth 跳转 URI。</p>
-<p>控制面板下，可以看到应用编号和应用密钥，后面会用到。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20230228155231.png" alt=""></p>
-<h2 id="登录流程"><a href="#登录流程" class="headerlink" title="登录流程"></a>登录流程</h2><p><img src="https://img-blog.csdnimg.cn/20200423142735203.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2h1eXV5YW5nNjY4OA==,size_10,color_FFFFFF,t_70" alt="Facebook 登录流程"><br>核心逻辑如下：</p>
-<ol>
-<li>用户点击 Facebook 登录，客户端跳转 Facebook 登录授权</li>
-<li>授权成功之后，携带 code 以及 state，重定向回登录页</li>
-<li>客户端根据 code 以及 state，请求 Facebook  Api，换取临时 accessToken</li>
-<li>客户端将 accessToken 发送给服务端，服务端请求 Facebook Api 获取用户信息</li>
-</ol>
-<h2 id="PHP-服务端接入"><a href="#PHP-服务端接入" class="headerlink" title="PHP 服务端接入"></a>PHP 服务端接入</h2><p>服务端接入，安装 facebook sdk：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer require facebook/graph-sdk</span><br></pre></td></tr></table></figure>
-
-<p>登录 API：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">facebookLogin</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 获取客户端的AccessToken</span></span><br><span class="line">    $accessToken = <span class="string">""</span>;</span><br><span class="line">  </span><br><span class="line">    $fb = <span class="keyword">new</span> Facebook([</span><br><span class="line">        <span class="string">'app_id'</span> =&gt; Env::get(<span class="string">'facebook.APP_ID'</span>),</span><br><span class="line">        <span class="string">'app_secret'</span> =&gt; Env::get(<span class="string">'facebook.APP_SECRET'</span>),</span><br><span class="line">        <span class="string">'default_graph_version'</span> =&gt; <span class="string">'v16.0'</span>,</span><br><span class="line">    ]);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 设置Access Token</span></span><br><span class="line">    $fb-&gt;setDefaultAccessToken($accessToken);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 从Facebook 获取用户对象，字段按需获取</span></span><br><span class="line">    $response = $fb-&gt;get(<span class="string">'/me?fields=name,email'</span>);</span><br><span class="line">    $fbUser = $response-&gt;getDecodedBody();</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * fbUser</span></span><br><span class="line"><span class="comment">    * id：Your Facebook UserID</span></span><br><span class="line"><span class="comment">    * name：Your Facebook Username</span></span><br><span class="line"><span class="comment">    * email：Your Facebook Email</span></span><br><span class="line"><span class="comment">    **/</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>需要注意的是，因为 Facebook 需要科学上网才能访问，如果本身在墙内，通过 SDK 请求是无法请求成功的，会得到以下错误信息：</p>
-<blockquote>
-<p>Connection timeout after 10000 ms</p>
-</blockquote>
-<p>此时有两种解决方案：</p>
-<ol>
-<li>通过境外的服务器进行调试</li>
-<li>本地科学上网的情况下，更改 Facebook SDK 源码，<code>vendor/facebook/graph-sdk/src/Facebook/HttpClients/FacebookCurlHttpClient.php</code> 97 line，增加：<code>CURLOPT_PROXY =&gt; &quot;Your local agent&quot;</code></li>
-</ol>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
-<li><a href="https://developers.facebook.com/docs/facebook-login/overview" target="_blank" rel="noopener">Facebook 登录概览</a></li>
-<li><a href="https://developers.facebook.com/docs/graph-api/get-started" target="_blank" rel="noopener">Graph Api 入门指南</a></li>
-<li><a href="https://developers.facebook.com/docs/facebook-login/web" target="_blank" rel="noopener">利用 JavaScript SDK 部署网页版 Facebook 登录</a></li>
-</ul>
-
       
     </div>
     
+      
+        <div class="button readmore">
+          <a href="/facebook-third-party-login/">
+            阅读全文 <i class="fas fa-chevron-right"></i>
+          </a>
+        </div>
       
     
   </section>
@@ -751,7 +875,7 @@
           <li><a class="flat-box"
             title="/categories/PHP/" href="/categories/PHP/"
             id="categoriesPHP"
-            ><div class='name'>PHP</div><div class='badge'>(80)</div></a></li>
+            ><div class='name'>PHP</div><div class='badge'>(83)</div></a></li>
         
           <li><a class="flat-box child"
             title="/categories/PHP/Laravel/" href="/categories/PHP/Laravel/"
@@ -1002,7 +1126,7 @@
     
       
         <div class='copyright'>
-        <span class="post-count">总字数：369.8k</span>
+        <span class="post-count">总字数：372.9k</span>
         <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
 
         <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
