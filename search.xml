@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>Docker 固定容器 IP</title>
+      <link href="/docker-fixed-container-ip/"/>
+      <url>/docker-fixed-container-ip/</url>
+      
+        <content type="html"><![CDATA[<p>Docker提供了三种网络模式，分别是null、host和bridge。</p><a id="more"></a><p>查看 Docker 网络模式列表：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ docker network ls</span><br><span class="line">NETWORK ID     NAME      DRIVER    SCOPE</span><br><span class="line">7fa40584b191   bridge    bridge    <span class="built_in">local</span></span><br><span class="line">31f5de3d2e94   host      host      <span class="built_in">local</span></span><br><span class="line">bd4a2614a570   none      null      <span class="built_in">local</span></span><br></pre></td></tr></table></figure><ul><li><code>null</code>：是最简单的模式，也就是没有网络，但允许其他的网络插件来自定义网络连接。</li><li><code>host</code>：模式直接使用宿主机网络，相当于去掉了容器的网络隔离（其他隔离依然保留），所有的容器会共享宿主机的IP地址和网卡。这种模式没有中间层，通信效率高，但缺少了隔离，运行太多的容器也容易导致端口冲突。</li><li><code>bridge</code>：桥接模式，它有点类似现实世界里的交换机、路由器，只不过是由软件虚拟出来的，容器和宿主机再通过虚拟网卡接入这个网桥，那么它们之间也就可以正常的收发网络数据包了。不过和host模式相比，bridge模式多了虚拟网桥和网卡，通信效率会低一些。</li></ul><p>Docker 默认使用的模式是 bridge。</p><p>默认是不会分配固定 IP 的，也就是每次重启容器时，容器的 IP 将由启动顺序决定，这就会导致容器提供的服务是不可靠的。</p><p>不用使用默认的 bridge 网络模式，进行固定 IP 分配，否则会提示：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker: Error response from daemon: user specified IP address is supported on user defined networks only.</span><br></pre></td></tr></table></figure><h2 id="创建自定义网络"><a href="#创建自定义网络" class="headerlink" title="创建自定义网络"></a>创建自定义网络</h2><p>因此需要先创建一个自定义网络：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 命令格式：sudo docker network create --subnet=[自定义网络广播地址]/[子网掩码位数] [自定义网络名]</span></span><br><span class="line">$ sudo docker network create --subnet=172.20.0.0/24 bridge0</span><br></pre></td></tr></table></figure><p><code>--subnet</code> ：设置前 24 位为网络位，后 8 位为主机位，该网段可用 IP 地址：<code>172.20.0.1</code> 到 <code>172.20.0.254</code></p><h2 id="固定容器-IP"><a href="#固定容器-IP" class="headerlink" title="固定容器 IP"></a>固定容器 IP</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run -it \</span><br><span class="line">  --name network-test \</span><br><span class="line">  --net bridge0 \</span><br><span class="line">  --ip 172.20.0.2 \</span><br><span class="line">  ubuntu:latest /bin/bash</span><br></pre></td></tr></table></figure><ul><li><code>--net</code>：指定自定义网络</li><li><code>--ip</code>：选定自定义网络下固定 IP 地址</li></ul><p>查看容器 IP：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ docker inspect --format=<span class="string">'&#123;&#123;.Name&#125;&#125; - &#123;&#123;range.NetworkSettings.Networks&#125;&#125;&#123;&#123;.IPAddress&#125;&#125;&#123;&#123;end&#125;&#125;'</span> $(docker ps -aq)</span><br><span class="line"></span><br><span class="line">/network-test - 172.20.0.2</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> Docker </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Docker </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>使用 PHP 接入 Stripe 支付</title>
       <link href="/Using-PHP-to-access-Stripe-payment/"/>
       <url>/Using-PHP-to-access-Stripe-payment/</url>
