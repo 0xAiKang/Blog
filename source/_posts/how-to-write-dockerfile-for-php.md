@@ -297,7 +297,7 @@ $ pecl install xdebug-3.0.3 && docker-php-ext-enable xdebug
 
 手动安装扩展时，可能会缺少必要的构建工具和库，可以使用以下命令安装：
 ```bash
-$ apk add --no-cache build-base
+$ apk add --no-cache autoconf build-base 
 ```
 
 ### 如何查看扩展包信息
