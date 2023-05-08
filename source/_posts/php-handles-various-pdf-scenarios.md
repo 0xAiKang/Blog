@@ -27,15 +27,15 @@ PHP 想要生成 PDF，已经有了许多比较成熟的扩展包：
 $ composer require tecnickcom/tcpdf
 ```
 
-dompdf 和 tcpdf 本质上，都是通过对 HTML 进行渲染，最终生成 PDF。因为 tcpdf 支持的css太低级了，所有的样式都是以内联的方式去写。
+dompdf 和 tcpdf 本质上，都是通过对 HTML 进行渲染，最终生成 PDF。因为 tcpdf 支持的css太低级了，所有的样式都是以内联的方式去写，并且只能使用 table 标签生成 PDF，如果使用 div 标签，很多样式都会丢失。
 
 示例如下：
 ```php
 public function generatePDF() {
-  $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-  $pdf->SetCreator('0xAiKang');
-  $pdf->SetAuthor('0xAiKang');
-  $pdf->SetHeaderData(PDF_HEADER_LOGO, 40, '', '', array(0,64,255), array(0,64,128));
+$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+  $pdf->SetCreator('Oceanus');
+  $pdf->SetAuthor('Oceanus');
+  // $pdf->SetHeaderData(PDF_HEADER_LOGO, 40, '', '', array(0,64,255), array(0,64,128));
   $pdf->setFooterData(array(0,64,0), array(0,64,128));
 
   $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
@@ -48,214 +48,206 @@ public function generatePDF() {
 
   $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 
-  $pdf->SetFont('stsongstdlight', '', 12, '', true);
+  $pdf->SetFont('stsongstdlight', '', 13, '', true);
 
   // Add a page
   // This method has several options, check the source code documentation for more information.
   $pdf->AddPage();
-  // todo 组装订单数据
+  //组装订单数据
+  $order = [];
+  $table = "";
+  $cartInfo = [];
+  $total = 0;
+  foreach ($productInfo as $k => $v){
+      $total = bcadd($total, $v['amount'],2);
+      $table .= '<tr>
+      <td>' . $v['item_number'] . '</td>
+      <td colspan="2">' . $v['item_name'] . '</td>
+      <td>' . $v['weight'] . '</td>
+      <td>' . $v['unit_price'] . '</td>
+      <td>' . $v['quantity'] . '</td>
+      <td>' . $v['amount'] .'</td>
+  </tr>';
+  }
+  //不足6条数据进行补充防止页面不够长，章盖在空白处
+  if(count($cartInfo) < 6){
+      for ($i = count($cartInfo); $i <6; $i++){
+          $table .= '<tr>
+              <td></td>
+              <td colspan="2"></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+          </tr>';
+      }
+  }
 
   $html = <<<EOD
-      <div>
-    <p
-      style="
-        font-size: 2rem;
-        text-align: center;
-        margin-top: 0;
-        margin-bottom: 0;
-        font-weight: 900;
-      "
-    >
-      {$this->companyCN}
-    </p>
-    <p
-      style="
-        font-size: 2rem;
-        text-align: center;
-        margin-top: 8px;
-        margin-bottom: 0;
-        font-weight: 900;
-      "
-    >
-      {$this->companyEN}
-    </p>
-    <p
-      style="
-        font-size: 1.5rem;
-        text-align: center;
-        margin-top: 8px;
-        margin-bottom: 0;
-      "
-    >
-      {$this->companyAddress}
-    </p>
-    <p
-      style="
-        font-size: 1.5rem;
-        text-align: center;
-        margin-top: 8px;
-        margin-bottom: 0;
-      "
-    >
-      {$this->companyAddressEn}
-    </p>
-    <p
-      style="
-        font-size: 1.75rem;
-        text-align: center;
-        margin-top: 8px;
-        margin-bottom: 0;
-        font-weight: 900;
-        border-bottom: 2px solid black;
-        padding-bottom: 1rem;
-      "
-    >
-      发票
-    </p>
-    <div
-      style="
-        display: flex;
-        width: 100%;
-        justify-content: space-around;
-        align-items: flex-start;
-        margin-bottom: 1rem;
-      "
-    >
-      <div style="display: flex">
-        <span>致:</span>
-        <div style="margin-left: 4px">
-          <div style="margin-bottom: 4px">[HK016]何记肉食公司</div>
-          <div style="margin-bottom: 4px">香港石塘咀和合街14-20号</div>
-          <div style="margin-bottom: 4px">翠景关地下D号铺</div>
-          <div style="margin-bottom: 4px">
-            <span>电话：2544948</span>
-            <span>传真：2817293</span>
-          </div>
-        </div>
-      </div>
-      <div>
-        <div style="margin-bottom: 4px">列印日期：2023/05/02</div>
-        <div style="margin-bottom: 4px">月结日期：2023/01/01至2023/01/31</div>
-        <div style="margin-bottom: 4px">付款方式：月结</div>
-      </div>
-    </div>
-    <div style="margin: 0">
-      <div style="display: flex; border-bottom: 1px solid black">
-        <div style="flex: 1">发票日期</div>
-        <div style="flex: 1">发票编号</div>
-        <div style="flex: 1">连锁店名称</div>
-        <div style="flex: 1"></div>
-        <div style="flex: 1; text-align: right">金额</div>
-      </div>
+<div style="font-size: 12px;">
+<table  cellspacing="3" cellpadding="4">
+<tr>
+  <th colspan="3"  align="left" style="font-size: x-large;">{$this->companyCN}</th>
+  <td style="font-size: small">{$this->companyAddress}</td>
+</tr>
 
-      <div style="display: flex">
-        <div style="flex: 1; overflow-wrap: anywhere; word-wrap: break-all">
-          2023/1/17
-        </div>
-        <div style="flex: 1; overflow-wrap: anywhere; word-wrap: break-all">
-          T23011109
-        </div>
-        <div style="flex: 1; overflow-wrap: anywhere; word-wrap: break-all">
+<tr>
+  <td colspan="3"  align="left" style="font-size: x-large;">{$this->companyEN}</td>
+ <td style="font-size: small">{$this->companyAddressEn1}</td>
+</tr>
 
-        </div>
-        <div style="flex: 1; text-align: right">HKD</div>
-        <div
-          style="flex: 1;
-            overflow-wrap: anywhere;
-            word-wrap: break-all;
-            text-align: right;">
-          1,270.00
-        </div>
+<tr>
+  <td colspan="3"></td>
+  <td style="font-size: small" align="left">{$this->companyAddressEn2}</td>
+</tr>
+<tr>
+  <td colspan="3"> </td>
+  <td style="font-size: small">电话Tel：{$this->companyPhone}</td>
+</tr>
+<tr>
+  <td colspan="3"> </td>
+  <td style="font-size: small">传真Fax：{$this->companyFax}</td>    
+</tr>
+<tr>
+  <td colspan="3"> </td>
 
-      </div>
-      <div style="display: flex">
-        <div style="flex: 1; overflow-wrap: anywhere; word-wrap: break-all">
-          2023/1/17
-        </div>
-        <div style="flex: 1; overflow-wrap: anywhere; word-wrap: break-all">
-          T23011109
-        </div>
-        <div style="flex: 1; overflow-wrap: anywhere; word-wrap: break-all">
+   <td style="font-size: small">電子郵件 E-mail：{$this->companyEmail}</td>    
+</tr>
+<tr>
+  <td colspan="4" align="center" style="font-size: x-large;">
+      發票
+      <br>
+      INVOICE
+  </td>
+</tr>
+<tr>
+  <td colspan="8" >
+       <table border="1" cellspacing="0"  cellpadding="6" width="100%" >
+           <tr>
+           <td>
+             <table>
+                  <tr>
+                      <td>客户名稱：</td>
+                      <td>{$to['oceanuid']}</td>
+                  </tr>
+                  <tr>
+                      <td>Cust No</td>
+                  </tr>
+                  <tr>
+                      <td width="80">客户： </td>
+                      <td>{$to['nickname']}</td>
+                  </tr>
+                  <tr>
+                      <td>Name,</td>
+                  </tr>
+                  <tr>
+                      <td>地址： </td>
+                      <td>{$to['address']}</td>
+                  </tr>
+                  <tr>
+                      <td>Address</td>
+                  </tr>
+                  <tr><td></td></tr>
+                  <tr><td></td></tr>
+                  <tr>
+                      <td>聯絡人： </td>
+                      <td>{$to['username']}</td>
+                  </tr>
+                  <tr>
+                      <td>電話： </td>
+                      <td>{$to['mobile']}</td>
+                  </tr>
+                  <tr>
+                      <td>傳真： </td>
+                      <td>{$to['fax']}</td>
+                  </tr>
+             </table>
+           </td>
+           <td>
+              <table>
+                  <tr>
+                      <td width="80">發票編號： </td>
+                      <td>{$oceanOrderNo}</td>
+                  </tr>
+                  <tr>
+                      <td>Invoice No</td>
+                  </tr>
+                  <tr>
+                      <td>發票日期： </td>
+                      <td>{$invoiceDate}</td>
+                  </tr>
+                  <tr>
+                      <td>Date</td>
+                  </tr>
+                  <tr>
+                      <td>參考編號： </td>
+                      <td></td>
+                  </tr>
+                  <tr>
+                      <td>Ref No.</td>
+                  </tr>
+                  <tr> 
+                      <td>銷售員： </td>
+                      <td>{$to['oceanpid']}</td>
+                  </tr>
+                  <tr>
+                      <td>Saleman</td>
+                  </tr>
+                  <tr>
+                      <td>付款方式： </td>
+                      <td>{$to['paymenttype']}</td>
+                  </tr>
+                  <tr>
+                      <td>Payment</td>
+                  </tr>
+                  <tr>
+                      <td>頁數：</td>
+                      <td>1/1</td>
+                  </tr>
+                  <tr>
+                      <td>Pager</td>
+                  </tr>
+              </table>
+           </td>
+          </tr>
+       </table>
+  </td>
+</tr>
+<tr>
+  <td colspan="8" >
+      <table class="pdf-table" cellpadding="5" border="1" align="center" cellspacing="0" width="100%">
+          <thead>
+          <tr>
+              <td>貨品編號</td>
+              <td colspan="2">貨品名稱</td>
+              <td>淨重</td>
+              <td>單價</td>
+              <td>數量</td>
+              <td>金額</td>
+          </tr>
+          </thead>
+          <tbody>
+           {$table}
+           <tr>
+              <td align="center">合計:</td>
+              <td colspan="2" align="left">{$total}</td>
+          </tr>
+          <tr>
+              <td align="center">備註:</td>
+              <td colspan="7" align="left">{$otherInfo['remark']}</td>
+          </tr>
+          </tbody>
+      </table>
+  </td>
+</tr>
+</table>
+</div>
+EOD;
 
-        </div>
-        <div style="flex: 1; text-align: right">HKD</div>
-        <div
-          style="flex: 1;
-            overflow-wrap: anywhere;
-            word-wrap: break-all;
-            text-align: right;">
-          1,270.00
-        </div>
-
-      </div>
-      <div style="display: flex; border-bottom: 2px solid black">
-        <div style="flex: 1; overflow-wrap: anywhere; word-wrap: break-all"></div>
-        <div style="flex: 1; overflow-wrap: anywhere; word-wrap: break-all"></div>
-        <div style="flex: 1"></div>
-        <div
-          style="flex: 1; padding-top: 2; text-align: right; font-weight: bold"
-        >
-          小计
-        </div>
-        <div
-          style="
-            flex: 1;
-            overflow-wrap: anywhere;
-            word-wrap: break-all;
-            text-align: right;
-            border-top: 2px solid black;
-            font-weight: bold;
-          "
-        >
-          4,420.00
-        </div>
-      </div>
-      <div style="display: flex">
-        <div
-          style="
-            flex: 1;
-            overflow-wrap: anywhere;
-            word-wrap: break-all;
-            font-weight: bold;
-          "
-        >
-          本期开票张数：
-        </div>
-        <div
-          style="
-            flex: 1;
-            overflow-wrap: anywhere;
-            word-wrap: break-all;
-            font-weight: bold;
-          "
-        >
-          3
-        </div>
-        <div style="flex: 1"></div>
-        <div
-          style="flex: 1; padding-top: 2; text-align: right; font-weight: bold"
-        >
-          本期应付金额:
-        </div>
-        <div
-          style="
-            flex: 1;
-            overflow-wrap: anywhere;
-            word-wrap: break-all;
-            text-align: right;
-            border-bottom: 2px solid black;
-            font-weight: bold;
-          "
-        >
-          4,420.00
-        </div>
-      </div>
-    </div>
-  </div>
-  EOD;
-
-  // 这里可以作为印章，但必须是网络路径，不能是相对路径
-  $pdf->Image("http://192.168.1.24:6350/logo.png", 30, 180, 75, 75, 'PNG', '', '', true, 150, '', false, false, 1, false, false, false);
+  $logo = cdnurl("/logo.png", true);
+  // 在 PDF 中插入图片，图片必须是网络路径
+  // 后面还有一系列参数，控制图片的位置，以及透明度、边框等等
+  $pdf->Image($logo, 151, 237, 35, 35, 'PNG', '', '', false, 150, '', false, false, 0, false, false, false);
 
   $pdf->writeHTML($html, true, false, true, false, '');
 
@@ -269,12 +261,12 @@ public function generatePDF() {
 
 最终效果如下：
 
-![](https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20230502115658.png)
+![](https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20230508100935.png)
 
 ## PHP PDF 生成图片
-因为需求要求下载 PDF 之前，有一个 PDF 的预览图，因此，需要想办法生成一张 PDF 的预览图。
+因为需求要求下载 PDF 之前，有一个 PDF 的预览图，因此，需要想办法根据已有 PDF 生成一张 对应的预览图。
 
-一开始，我想的是使用 Headless Chrome 抓取网页的方式生成图片，但是遇到了一些莫名其妙的问题，加上开发时间比较紧张，就没有耗费太多时间在上面，而是考虑其他解决方案了。
+一开始，我想的是使用 Headless Chrome 抓取网页的方式生成图片，但是遇到了一些莫名其妙的问题，加上开发时间比较紧张，就没有耗费太多时间在上面，于是考虑其他解决方案了。
 
 最终确定下来的方案就是，通过 PHP 的 imagick 扩展，来生成图片，核心代码如下：
 ```php
@@ -309,11 +301,11 @@ public function pdf2png($fromPath,$targetPath)
     }
 }
 ```
+该方法，接收两个参数，分别是目标 PDF 所在路径，以及需要生成的图片的所在路径，如果生成成功，则返回路径，否则失败返回 false。
+
 使用该方法的提前是安装 imagick 扩展，具体的安装过程就不在这里详细展开了。
 
 另外要正常使用 ImageMagick，还需要安装 Ghostscript 这个命令行工具，否则无法正常使用。
-
-该方法，接收两个参数，分别是目标 PDF 所在路径，以及需要生成的图片的所在路径，如果生成成功，则返回路径，否则失败返回 false。
 
 ## 读取 PDF
 使用 `smalot/pdfparser` 扩展包，可以读取 PDF 文件的指定页内容。
@@ -405,3 +397,4 @@ echo 'PDF 文件拆分完成。';
 
 ## 参考链接
 * [TCPDF Examples](https://tcpdf.org/examples/)
+* [PDF爱好者的在线工具](https://www.ilovepdf.com/zh-cn)
