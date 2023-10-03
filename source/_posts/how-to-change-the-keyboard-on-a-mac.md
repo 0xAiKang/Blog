@@ -2,7 +2,7 @@
 title: Mac 如何给键盘改键
 date: 2022-02-13 17:24:33
 tags: ["Hexo", "Tutorial"]
-categories: Tutorial
+categories: ["Tutorial"]
 ---
 
 在Mac 上，可以使用 [Karabiner-Elements](https://github.com/pqrs-org/Karabiner-Elements) 进行改键，可以同时给笔记本和外接键盘进行改键，非常方便。
