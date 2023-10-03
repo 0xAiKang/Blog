@@ -16,12 +16,12 @@
 
   <!-- 页面元数据 -->
   
-    <title>FFMpeg 快速上手 - Boo</title>
+    <title>sign in with apple - Boo</title>
   
-    <meta name="keywords" content="Tutorial">
+    <meta name="keywords" content="PHP">
   
   
-    <meta name="description" content="FFMpeg 是一个强大的命令行音视频工具，可以承担转码、混流、嵌挂字幕、剪辑等工作。">
+    <meta name="description" content="Sign In With Apple 苹果第三方登录，服务端 PHP 篇。">
   
 
   <!-- feed -->
@@ -372,8 +372,8 @@
         
           
   <h1 class="title">
-    <a href="/ffmpeg-quick-start/">
-      FFMpeg 快速上手
+    <a href="/sign-in-with-apple/">
+      sign in with apple
     </a>
   </h1>
 
@@ -398,9 +398,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Tutorial/' rel="nofollow">
+    <a href='/categories/PHP/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Tutorial</p>
+      <p>PHP</p>
     </a>
   </div>
 
@@ -411,7 +411,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Oct 2, 2023</p>
+    <p>发布于：Oct 3, 2023</p>
   </a>
 </div>
 
@@ -427,13 +427,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>2k words</p>
+      <p>810 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>7 min</p>
+      <p>3 min</p>
     </a>
   </div>
 
@@ -446,7 +446,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/ffmpeg-quick-start/" class="leancloud_visitors" data-flag-title="FFMpeg 快速上手">
+      <span id="/sign-in-with-apple/" class="leancloud_visitors" data-flag-title="sign in with apple">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -469,85 +469,56 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p><a href="https://www.ffmpeg.org" target="_blank" rel="noopener">FFMpeg</a> 是一个强大的命令行音视频工具，可以承担转码、混流、嵌挂字幕、剪辑等工作。</p>
+          <p>Sign In With Apple 苹果第三方登录，服务端 PHP 篇。</p>
 <a id="more"></a>
 
-<p>FFMpeg 最常用的是他的命令行工具，通过一行简单的命令，即可将一个 <code>mp4</code> 格式的视频转换成 <code>avi</code>格式。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ffmpeg -i input.mp4 output.avi</span><br></pre></td></tr></table></figure>
+<p>想要接入 Apple 第三方登录，有两种方式：</p>
+<ol>
+<li>验证 <a href="https://developer.apple.com/documentation/sign_in_with_apple/sign_in_with_apple_rest_api/authenticating_users_with_sign_in_with_apple" target="_blank" rel="noopener">identityToken</a></li>
+<li>验证 <a href="https://developer.apple.com/documentation/sign_in_with_apple/sign_in_with_apple_rest_api/verifying_a_user" target="_blank" rel="noopener">authorizationCode</a></li>
+</ol>
+<p>两种方式都可以获取到用户授权的 Apple 信息，但是第一种方式相对简单一些。</p>
+<h2 id="验证-identityToken"><a href="#验证-identityToken" class="headerlink" title="验证 identityToken"></a>验证 identityToken</h2><p>登录流程图如下：</p>
+<p><img src="https://docs-assets.developer.apple.com/published/190373199a/sign-in-with-apple-2~dark@2x.png" alt=""></p>
+<p>客户端（APP 端）登录成功之后，会拿到以下信息：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Object &#123;</span><br><span class="line">  "authorizationCode": "c6a79a2b031f343459c9d8f54838e933e.0.rryyt.4EIeY2_SW6qw1fphfGIZ-A",</span><br><span class="line">  "email": null,</span><br><span class="line">  "fullName": Object &#123;</span><br><span class="line">    "familyName": null,</span><br><span class="line">    "givenName": null,</span><br><span class="line">    "middleName": null,</span><br><span class="line">    "namePrefix": null,</span><br><span class="line">    "nameSuffix": null,</span><br><span class="line">    "nickname": null,</span><br><span class="line">  &#125;,</span><br><span class="line">  "identityToken": "xxxx.yyyy.zzzz",</span><br><span class="line">  "realUserStatus": 1,</span><br><span class="line">  "state": null,</span><br><span class="line">  "user": "001883.d382005d8c7845a9a5402dd10c398265.0950",</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>这篇笔记介绍一些基本概念，如果还没安装，可以根据<a href="https://www.ffmpeg.org/download.html" target="_blank" rel="noopener">官方文档</a>先完成安装。</p>
-<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>在介绍 FFmpeg 的工作命令之前，我们首先对视频文件内部的一些概念做一个通俗的说明。</p>
-<h3 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h3><p>视频文件本身其实是一个容器，里面包括了视频流和音频流，也可能有字幕流（有的视频将字幕流嵌入到了视频流中（内嵌字幕），这类视频没有字幕流）。</p>
-<p>常见的容器格式有以下几种。一般来说，视频文件的后缀名反映了它的容器格式。</p>
+<p>其中有一个 <code>identityToken</code> 字段，这个字段的值其实就是一个 JWT，可以看到使用 <code>.</code> 进行分隔，分为<code>header</code>、<code>payload</code>、<code>signature</code> 三部分。</p>
+<p>客户端需要把这个 <code>identityToken</code> 传给后端，后端进行验证。</p>
+<p>JWT里的 <code>signature</code>部分是苹果使用私钥对其进行的签名，要验证这个签名，需要先获得苹果的公钥，而公钥可以通过<a href="https://appleid.apple.com/auth/keys" target="_blank" rel="noopener">JWKSet.Keys</a>（JSON Web Key Set）来转换获得。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20231002165733.png" alt=""><br>如果请求成功，响应对象会包含三个 Apple 的公钥 <a href="https://developer.apple.com/documentation/sign_in_with_apple/jwkset/keys" target="_blank" rel="noopener">JWKSet.Keys</a></p>
+<p>该 API 会返回多个密钥，密钥的数量可能随时间而变化，从这组密钥中，选择具有匹配密钥标识符 ( kid) 的密钥来验证 Apple 颁发的任何 JSON Web 令牌 (JWT) 的签名。</p>
+<p>因为需要对JWT的签名进行验证，因此需要使用到 <a href="https://github.com/firebase/php-jwt" target="_blank" rel="noopener">firebase/php-jwt</a> 第三方包。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">loginByApple</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    $identityToken = request()-&gt;post(<span class="string">"identity_token"</span>);</span><br><span class="line">    $params = request()-&gt;all();</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">empty</span>($identityToken)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;failed(<span class="string">"Apple id token require"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 调用苹果接口获取 JWKS</span></span><br><span class="line">        $apiResponse = file_get_contents(<span class="string">'https://appleid.apple.com/auth/keys'</span>);</span><br><span class="line">        $jwkSet = json_decode($apiResponse, <span class="keyword">true</span>);</span><br><span class="line">        <span class="keyword">if</span> (!is_array($jwkSet)) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> AppRuntimeException(<span class="string">"Get JWK failed"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 将 JWKS 转换为公钥</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            $pubKeys = JWk::parseKeySet($jwkSet);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (\<span class="keyword">Exception</span> $e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> AppRuntimeException(<span class="string">"Parse key set failed:"</span> . $e-&gt;getMessage());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 使用公钥对JWT进行检验</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            $headers = <span class="keyword">new</span> \stdClass([<span class="string">'E256'</span>]);</span><br><span class="line">            $payload = JWT::decode($identityToken, $pubKeys, $headers);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (\<span class="keyword">Exception</span> $e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> AppRuntimeException(<span class="string">"Decode JWT failed:"</span> . $e-&gt;getMessage());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// todo 登录逻辑</span></span><br><span class="line">    &#125; <span class="keyword">catch</span>(AppRuntimeException $e) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;failed($e-&gt;getMessage());</span><br><span class="line">    &#125; <span class="keyword">catch</span> (\<span class="keyword">Exception</span> $e) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;failed(<span class="string">"Apple logged in failed"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果验证成功，<code>$payload</code> 的核心字段有以下内容：</p>
 <ul>
-<li>MP4</li>
-<li>MKV</li>
-<li>WebM</li>
-<li>AVI</li>
+<li><code>iss</code>：发行者注册的声明标识了发行身份令牌的主体。由于 Apple 生成令牌，因此值为：<code>https://appleid.apple.com</code></li>
+<li><code>sub</code>：用户的唯一标识符</li>
+<li><code>aud</code>：开发者帐户 Client.id</li>
+<li><code>iat</code>：Apple 发布身份令牌的时间</li>
+<li><code>exp</code>：标识身份令牌过期的时间</li>
+<li><code>email</code>：用户的 Email，可能是用户的真实电子邮件地址或代理地址，取决于授权时，是否隐藏真实电子邮箱。</li>
+<li><code>email_verified</code>：是否验证 Email</li>
+<li><code>is_private_email</code>：是否是代理地址</li>
 </ul>
-<h3 id="编码格式"><a href="#编码格式" class="headerlink" title="编码格式"></a>编码格式</h3><p>视频和音频都需要经过编码，才能保存成文件。不同的编码格式（CODEC），有不同的压缩率，会导致文件大小和清晰度的差异。</p>
-<p>先来了解一下编码和解码的概念：</p>
+<p>拿到用户的 Apple ID 和Email 之后，就可以完成后续的登录逻辑了。</p>
+<h2 id="验证-authorizationCode"><a href="#验证-authorizationCode" class="headerlink" title="验证 authorizationCode"></a>验证 authorizationCode</h2><p>登录流程如下：</p>
+<p><img src="https://docs-assets.developer.apple.com/published/bdfb4885e6/sign-in-with-apple-3~dark@2x.png" alt=""></p>
+<p>第二种方式验证时，所需要的东西多一些：</p>
 <ul>
-<li><strong>编码</strong>：将视频流/音频流用某种格式或规范记录下来并存储，称为<strong>编码</strong>;</li>
-<li><strong>解码</strong>：将编码后的流，根据格式或规范来逆向实现编码的过程，从而将流还原出来，称为<strong>解码</strong></li>
+<li>client_id：Apple 开发者后台的App ID 或 Services ID</li>
+<li>client_secret：由开发者生成的 JWT 令牌，验证 Authorization code 和刷新令牌需要用到该参数。</li>
 </ul>
-<p>FFmpeg 支持基本所有的主流编码格式。</p>
-<p>常见的视频编码格式有：</p>
-<ul>
-<li><code>H.264</code> 是上一代最广为使用的视频编码格式，始于 2003 年，当之无愧的一代霸主。在 FFmpeg 中可由 libx264 编码器支持。</li>
-<li><code>H.265/HEVC</code> 是 H.264 的接任者，于 2013 年正式面世。它在同等视频质量下提供了相比 H.264 而言可达 50% 的体积缩减。 libx265 编码器对该编码格式提供了支持。</li>
-</ul>
-<p>常用的音频编码格式有：</p>
-<ul>
-<li><code>MP3</code> 时至今日仍最流行的有损编码格式。编码器 libmp3lame。</li>
-<li><code>AAC</code> 是 MP3 的接任者，常常作为视频容器 MKV 选用的音频格式，而其作为音频时的容器则通常是是 m4a。编码器有 FFmpeg 原生提供的、针对低码率音频（AAC LC）的 aac 编码器；此外，需要制作高质量 AAC 时（HE-AAC）可以使用 libfdk_aac 编码器。</li>
-<li><code>AC3</code> 杜比数字格式，编码器 ac3 (Dolby Digital) 或者 eac3 (Dolby Digital Plus)。</li>
-<li><code>FLAC</code> 是较常用的无损音频格式；FFmpeg 对其有原生的编码器 flac 支持。</li>
-<li><code>PCM</code> 是 WAV 容器内包含的最常见音频编码格式。FFmpeg 默认使用 pcm_s16le 编码器来处理 PCM 输出。</li>
-</ul>
-<h2 id="视频概念"><a href="#视频概念" class="headerlink" title="视频概念"></a>视频概念</h2><p>对于视频而言，以下参数会对视频质量和文件大小有直接影响：</p>
-<ul>
-<li>视频编解码器（Codec）：视频编解码器决定了对视频信号进行压缩和解压缩的算法。不同的编解码器具有不同的压缩效率和处理能力，对视频质量和文件大小有直接影响。常见的视频编解码器包括H.264（AVC）、H.265（HEVC）、VP9等。</li>
-<li>比特率（Bitrate）：比特率是指视频每秒的数据传输速率，通常以bps（每秒比特数）或Mbps（兆比特每秒）为单位。较高的比特率可以提供更高的视频质量，但会增加文件大小。较低的比特率可能导致视频质量下降和压缩伪影的出现。</li>
-<li>分辨率（Resolution）：分辨率表示视频图像的清晰度和像素数量，通常以宽度×高度的形式表示，如1920×1080（1080p）或3840×2160（4K）。较高的分辨率可以提供更清晰的图像，但也会增加文件大小。</li>
-<li>帧率（Frame Rate）：帧率表示视频每秒播放的帧数，通常以fps（帧每秒）为单位。较高的帧率可以提供更流畅的视频，但会增加文件大小。常见的帧率有24fps、30fps和60fps。</li>
-<li>关键帧间隔（Keyframe Interval）：关键帧间隔指定视频序列中关键帧（I帧）之间的间隔，关键帧是完整编码的帧，其他帧（P帧和B帧）是相对于关键帧进行差异编码。较短的关键帧间隔可以提高视频编辑和随机访问的效率，但会增加文件大小。</li>
-<li>编码参数（Encoding Parameters）：针对特定的视频编码器，可能存在一些特定的参数可以调整，如量化参数、编码预设、编码选项等。这些参数的具体设置可以对视频质量和文件大小产生影响</li>
-</ul>
-<h2 id="音频概念"><a href="#音频概念" class="headerlink" title="音频概念"></a>音频概念</h2><p>对于音频而言，以下参数会对音频质量和文件大小有直接影响：</p>
-<ul>
-<li>比特率（Bitrate）：比特率是指音频每秒的数据传输速率，通常以kbps（千比特每秒）为单位。较高的比特率可以提供更好的音质，但会增加文件大小。较低的比特率可以减小文件大小，但可能导致音质损失。</li>
-<li>采样率（Sample Rate）：采样率是指在一秒钟内对音频信号进行采样的次数，通常以Hz为单位。较高的采样率可以提供更好的音频质量，但会增加文件大小。较低的采样率可能导致高频信号损失和音质下降。</li>
-<li>声道数（Channels）：声道数表示音频中的独立声道数量，常见的有单声道（Mono）和立体声（Stereo）。立体声可以提供更丰富的音频表现，但会增加文件大小。</li>
-<li>编码格式（Codec）：音频编码格式决定了对音频信号进行压缩和解压缩的算法。不同的编码格式对音质和文件大小有不同的影响。一些常见的音频编码格式包括MP3、AAC、Opus等。</li>
-<li>压缩级别（Compression Level）：某些音频编码格式允许设置压缩级别，通常以质量因子或压缩比为单位。较高的压缩级别会导致更高的压缩率和更小的文件大小，但可能会损失音频质量。</li>
-<li>音频格式参数（Format Parameters）：针对特定的音频格式，可能存在一些特定的参数可以调整，如位深度（Bit Depth）、编码器选项等。这些参数的具体设置可能会对音质和文件大小产生影响。</li>
-</ul>
-<h2 id="常见用法"><a href="#常见用法" class="headerlink" title="常见用法"></a>常见用法</h2><h3 id="查看文件信息"><a href="#查看文件信息" class="headerlink" title="查看文件信息"></a>查看文件信息</h3><p>查看视频/音频文件的元信息，比如编码格式和比特率，可以只使用<code>-i</code>参数：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ffmpeg -i input.mp3</span><br></pre></td></tr></table></figure>
-
-<p>上面命令会输出很多冗余信息，加上<code>-hide_banner</code>参数，可以只显示元信息：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ffmpeg -i input.mp3 -hide_banner</span><br></pre></td></tr></table></figure>
-
-<h3 id="改变音频采样率和比特率"><a href="#改变音频采样率和比特率" class="headerlink" title="改变音频采样率和比特率"></a>改变音频采样率和比特率</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ffmpeg -i input.mp3 -ar 44100 -b:a 128k output.mp3</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><code>-ar 44100</code>: 指定音频采样率为 44100 Hz，这是每秒采样的音频样本数量</li>
-<li><code>-b:a 128k</code>: 指定音频比特率为 128 kbps，这是音频的数据传输速率</li>
-<li><code>output.mp3</code>: 指定输出文件名为 output.mp3，这是转码后生成的目标音频文件</li>
-</ul>
-<h3 id="将-WAV-文件转换为-MP3-文件"><a href="#将-WAV-文件转换为-MP3-文件" class="headerlink" title="将 WAV 文件转换为 MP3 文件"></a>将 WAV 文件转换为 MP3 文件</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ffmpeg -i input.wav -codec:a libmp3lame -q:a 4 output.mp3</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><code>-codec:a libmp3lame</code>: 指定音频编解码器为 libmp3lame，这是用于将音频编码为 MP3 格式的编解码器。</li>
-<li><code>-q:a 4</code>: 指定音频质量，取值范围为 0-9，其中 0 为最高质量，9 为最低质量（默认为 4）。</li>
-<li><code>output.mp3</code>: 指定输出文件名为 output.mp3，这是转码后生成的目标音频文件。</li>
-</ul>
-<h3 id="为音频添加封面"><a href="#为音频添加封面" class="headerlink" title="为音频添加封面"></a>为音频添加封面</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ffmpeg -loop 1 -i cover.jpg -i input.mp3  -shortest output.mp3</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><code>-i cover.jpg</code>：表示输入封面图片 cover.jpg，另一个则是音频文件</li>
-<li>-loop 1参数表示图片无限循环</li>
+<blockquote>
+<p>关于如何创建 Client Secret，可以<a href="https://developer.apple.com/documentation/sign_in_with_apple/generate_and_validate_tokens#3262048" target="_blank" rel="noopener">点击查看</a>。</p>
+</blockquote>
+<p>更多其他请求参数，可以<a href="https://developer.apple.com/documentation/sign_in_with_apple/generate_and_validate_tokens#http-body" target="_blank" rel="noopener">查阅更多</a>。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://developer.apple.com/documentation/sign_in_with_apple/sign_in_with_apple_rest_api" target="_blank" rel="noopener">Sign in with Apple REST API</a></li>
+<li><a href="https://developer.apple.com/documentation/sign_in_with_apple/sign_in_with_apple_js" target="_blank" rel="noopener">Sign in with Apple JS</a></li>
+<li><a href="https://developer.apple.com/documentation/sign_in_with_apple/sign_in_with_apple_rest_api/authenticating_users_with_sign_in_with_apple" target="_blank" rel="noopener">Authenticating users with Sign in with Apple</a></li>
+<li><a href="https://developer.apple.com/documentation/sign_in_with_apple/sign_in_with_apple_rest_api/verifying_a_user" target="_blank" rel="noopener">Verifying a user</a></li>
+<li><a href="https://sarunw.com/tags/sign%20in%20with%20apple/" target="_blank" rel="noopener">How to Sign in with Apple</a></li>
 </ul>
 
           
@@ -585,7 +556,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/ffmpeg-quick-start/>https://www.0x2beace.com/ffmpeg-quick-start/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/sign-in-with-apple/>https://www.0x2beace.com/sign-in-with-apple/</a></p>
           
         
       </blockquote>
@@ -633,10 +604,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2023-10-02T16:21:39+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2023-10-03T09:10:52+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Oct 2, 2023</p>
+    <p>更新于：Oct 3, 2023</p>
   </a>
 </div>
 
@@ -645,7 +616,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Tutorial/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Tutorial</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div>
 
 
         
@@ -663,7 +634,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/ffmpeg-quick-start/&title=FFMpeg 快速上手 - Boo&summary=FFMpeg 是一个强大的命令行音视频工具，可以承担转码、混流、嵌挂字幕、剪辑等工作。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/sign-in-with-apple/&title=sign in with apple - Boo&summary=Sign In With Apple 苹果第三方登录，服务端 PHP 篇。"
           
           >
           
@@ -675,7 +646,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/ffmpeg-quick-start/&title=FFMpeg 快速上手 - Boo&summary=FFMpeg 是一个强大的命令行音视频工具，可以承担转码、混流、嵌挂字幕、剪辑等工作。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/sign-in-with-apple/&title=sign in with apple - Boo&summary=Sign In With Apple 苹果第三方登录，服务端 PHP 篇。"
           
           >
           
@@ -687,7 +658,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/ffmpeg-quick-start/&title=FFMpeg 快速上手 - Boo&summary=FFMpeg 是一个强大的命令行音视频工具，可以承担转码、混流、嵌挂字幕、剪辑等工作。"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/sign-in-with-apple/&title=sign in with apple - Boo&summary=Sign In With Apple 苹果第三方登录，服务端 PHP 篇。"
           
           >
           
@@ -701,7 +672,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAADBElEQVR42u3aQXLjMAwEQP//07v31KrMASCvEDdvqVgU2LpMAXz9sf65XgjAgAEDBgyYNTCv4rrc+Mf/3z2Xvm9qv8v9wYABAwYMGDDrYI4D0JuC0kKn39vdFwwYMGDAgAGzF+Y0YFVBTg+QBr6x84ABAwYMGDBgvham20jqBjowYMCAAQMGDJi7YLrBsAoHBgwYMGDAgPn9MPGAKjxA9WLSaZ2PmUSCAQMGDBgwYD4Gk65u4+juv8vnAQMGDBgwYMCsgemubsCr7p8GuePzgAEDBgwYMGDWwEw1kk4HZ919qwO740EgGDBgwIABA2YdzLsglV4ESp9LB29pvWMdPDBgwIABAwbM42HuajxNgZ82rNJ6wYABAwYMGDB7YNIAdVcjKT3IdLADAwYMGDBgwOyDSRs/U42tbqCrNrbii0NgwIABAwYMmMfCVF84HbS6H6A6qLscuIEBAwYMGDBg1sAcD6TCwtMGVjUQVusud/DAgAEDBgwYMP8dphvsugO64wZSWE91gAgGDBgwYMCA2QeTBrypAdrU76qDv8tGFRgwYMCAAQPm8TDdwJW+OA2Kd11oKg/cwIABAwYMGDCPg0kHVtUCq4Guul8cYMGAAQMGDBgw62CmB2PTg7tTyPYHAwMGDBgwYMCsgZm66DPVKOq+v1oPGDBgwIABA2Y/TNoY6gav7gCtOgi8PD8YMGDAgAEDZi1MtYFU3ScNeN1BYbtRBQYMGDBgwIB5LEy1cfSpgVkKHtcFBgwYMGDAgFkLc1cjqjsgS59L9wEDBgwYMGDA7IPpruoBqwed+gBvAx4YMGDAgAED5vEw3UZP2oi6O8C1G2RgwIABAwYMmHUw04HudN/0d9UAeQwLBgwYMGDAgFkLUw1Q1QOmUN0LROVJJBgwYMCAAQPma2Gm35M2xo73AQMGDBgwYMB8Hcxpg6jasOoOBo8DKBgwYMCAAQNmLUx3QDYF24UufyAwYMCAAQMGzDqYu4JT9QJRGhyn6gIDBgwYMGDA7IGxwIABAwYMGDDL1l++yGZ/LMmH2wAAAABJRU5ErkJggg==">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAAC9klEQVR42u3aQY4CMQwEQP7/6d37aqXEbYMwVG5IDHFqOLTsPH6sf9cDARgwYMCAAbMG5hGu4wZ/vnd67na/Ux3d84ABAwYMGDBg9sFcB6BDQemBp/bt/i4YMGDAgAEDZi/MbcA6Ba7bgrug1fqO3wcDBgwYMGDAfC1Mt/BuoAMDBgwYMGDAgOketHvw28HaLRwYMGDAgAED5vNh0gtB1QOlz6WDuZdPIsGAAQMGDBgwL4Oprm7ge/bn+DxgwIABAwYMmDUw3ZU2hqqB7bbR1T4PGDBgwIABA2YNTBqQqgeoBsW0IZXWDwYMGDBgwIDZC5MWWm0kVQ9y+/2xFwQGDBgwYMCA+ViY7kCr2rCagr/dFwwYMGDAgAGzH6YK1C20epCpFwkGDBgwYMCA2QsztVH6OylctWF1DQ4GDBgwYMCAWQuTDrCqgbHb8Joa1IEBAwYMGDBg9sKkjahTQ+o2aFUvKt3uEwdYMGDAgAEDBsw6mGphaTBLQW5/p9qwAgMGDBgwYMB8HsztQO1Vg7b0YlH1xYABAwYMGDBg9sFMFT4VwLoDt/RFgwEDBgwYMGD2wKQFVi/qdAdx3UHfdcMLDBgwYMCAAbMOJm0w3TaQ0sCWBszqvmDAgAEDBgyYvTDV4JR+TvftDtyunwMDBgwYMGDArIFJQdJCpwPhVEMLDBgwYMCAAbMfZvoA1YFYdU3DgQEDBgwYMGD2wlQLjy/ohAOzdMBWHriBAQMGDBgwYNbBHAPQVJBqPpeu4x8CDBgwYMCAAbMGprvSA6SNsDSAXn8GAwYMGDBgwKyB6QaldKA2BdUdGB6TLxgwYMCAAQPm7WHSQDc9aEsHalPPgQEDBgwYMGD2wkw1lqqgKWw3mB4bVWDAgAEDBgyYr4HpBrapuuJGFxgwYMCAAQPm62GmG1hTg8HjPmDAgAEDBgyYtTDVgVt6Iai6/7OCJBgwYMCAAQNmP0wanNJA2IVsB7nbi0NgwIABAwYMmLeFscCAAQMGDBgwy9YvQxNncFYUylQAAAAASUVORK5CYII=">
           </div>
         </div>
       
@@ -721,25 +692,13 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/sign-in-with-apple/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>sign in with apple</p>
-                <p class='content'>Sign In With Apple 苹果第三方登录，服务端 PHP 篇。
-
-
-想要接入 Apple 第三方登录，有两种方式：
-
-验证 identityToken
-验证 authorizatio...</p>
-              </a>
             
-            
-              <a class='next' href='/how-to-debug-with-xdebug-in-docker/'>
-                <p class='title'>如何在 Docker 中使用 Xdebug 进行调试<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>关于如何使用 Xdebug 在本地进行调试，在之前的这篇笔记中，已经详细介绍过了。
-而这篇笔记要介绍的是，如何在 Docker 中使用 Xdebug 进行调试。
+              <a class='next' href='/ffmpeg-quick-start/'>
+                <p class='title'>FFMpeg 快速上手<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>FFMpeg 是一个强大的命令行音视频工具，可以承担转码、混流、嵌挂字幕、剪辑等工作。
 
 
-有两种方式，一种是通过主动开...</p>
+FFMpeg 最常用的是他的命令行工具，通过一行简单的命令，即可将一个 mp4 格式的视频转换成 av...</p>
               </a>
             
           </div>
@@ -784,7 +743,7 @@
 
   <script>
     window.subData = {
-      title: 'FFMpeg 快速上手',
+      title: 'sign in with apple',
       tools: true
     }
   </script>
@@ -810,7 +769,7 @@
 
 
     <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本概念"><span class="toc-text">基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#容器"><span class="toc-text">容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#编码格式"><span class="toc-text">编码格式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#视频概念"><span class="toc-text">视频概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#音频概念"><span class="toc-text">音频概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见用法"><span class="toc-text">常见用法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#查看文件信息"><span class="toc-text">查看文件信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#改变音频采样率和比特率"><span class="toc-text">改变音频采样率和比特率</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#将-WAV-文件转换为-MP3-文件"><span class="toc-text">将 WAV 文件转换为 MP3 文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#为音频添加封面"><span class="toc-text">为音频添加封面</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#验证-identityToken"><span class="toc-text">验证 identityToken</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#验证-authorizationCode"><span class="toc-text">验证 authorizationCode</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
     </div>
   </section>
 
