@@ -16,12 +16,14 @@
 
   <!-- 页面元数据 -->
   
-    <title>使用 PHP 接入 Apple 登录 - Boo</title>
+    <title>谷歌 Gmail 邮箱启用 SMTP/IMAP 服务 - Boo</title>
   
-    <meta name="keywords" content="PHP">
+    <meta name="keywords" content="Tutorial">
   
   
-    <meta name="description" content="Sign In With Apple 苹果第三方登录，服务端 PHP 篇。">
+    <meta name="description" content="Gmail 可以通过其他邮箱进行创建，因此使用 Gmail 发送 E-Mail 的场景还是挺多的，例如有一个可以登录 Gmail 的商业邮箱需要配置 SMTP，那么就可以使用这篇笔记中介绍的方式。
+发送之前，这时需要启用一些邮箱配置，才能正常发送。
+在启用具体的服务之前，先来了解一下什么是 SMTP/IMAP 服务。">
   
 
   <!-- feed -->
@@ -372,8 +374,8 @@
         
           
   <h1 class="title">
-    <a href="/sign-in-with-apple/">
-      使用 PHP 接入 Apple 登录
+    <a href="/enable-smtp-imap-service-in-google-gmail-mailbox/">
+      谷歌 Gmail 邮箱启用 SMTP/IMAP 服务
     </a>
   </h1>
 
@@ -398,9 +400,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/PHP/' rel="nofollow">
+    <a href='/categories/Tutorial/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>PHP</p>
+      <p>Tutorial</p>
     </a>
   </div>
 
@@ -411,7 +413,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Oct 3, 2023</p>
+    <p>发布于：Oct 19, 2023</p>
   </a>
 </div>
 
@@ -427,7 +429,7 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>810 words</p>
+      <p>849 words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
@@ -446,7 +448,7 @@
     <a class='notlink'>
       <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
       
-      <span id="/sign-in-with-apple/" class="leancloud_visitors" data-flag-title="使用 PHP 接入 Apple 登录">
+      <span id="/enable-smtp-imap-service-in-google-gmail-mailbox/" class="leancloud_visitors" data-flag-title="谷歌 Gmail 邮箱启用 SMTP/IMAP 服务">
       <p>
         <span class="leancloud-visitors-count"></span>
       </p>
@@ -469,56 +471,64 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p>Sign In With Apple 苹果第三方登录，服务端 PHP 篇。</p>
+          <p>Gmail 可以通过其他邮箱进行创建，因此使用 Gmail 发送 E-Mail 的场景还是挺多的，例如有一个可以登录 Gmail 的商业邮箱需要配置 SMTP，那么就可以使用这篇笔记中介绍的方式。</p>
+<p>发送之前，这时需要启用一些邮箱配置，才能正常发送。</p>
+<p>在启用具体的服务之前，先来了解一下什么是 SMTP/IMAP 服务。</p>
 <a id="more"></a>
 
-<p>想要接入 Apple 第三方登录，有两种方式：</p>
-<ol>
-<li>验证 <a href="https://developer.apple.com/documentation/sign_in_with_apple/sign_in_with_apple_rest_api/authenticating_users_with_sign_in_with_apple" target="_blank" rel="noopener">identityToken</a></li>
-<li>验证 <a href="https://developer.apple.com/documentation/sign_in_with_apple/sign_in_with_apple_rest_api/verifying_a_user" target="_blank" rel="noopener">authorizationCode</a></li>
-</ol>
-<p>两种方式都可以获取到用户授权的 Apple 信息，但是第一种方式相对简单一些。</p>
-<h2 id="验证-identityToken"><a href="#验证-identityToken" class="headerlink" title="验证 identityToken"></a>验证 identityToken</h2><p>登录流程图如下：</p>
-<p><img src="https://docs-assets.developer.apple.com/published/190373199a/sign-in-with-apple-2~dark@2x.png" alt=""></p>
-<p>客户端（APP 端）登录成功之后，会拿到以下信息：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Object &#123;</span><br><span class="line">  "authorizationCode": "c6a79a2b031f343459c9d8f54838e933e.0.rryyt.4EIeY2_SW6qw1fphfGIZ-A",</span><br><span class="line">  "email": null,</span><br><span class="line">  "fullName": Object &#123;</span><br><span class="line">    "familyName": null,</span><br><span class="line">    "givenName": null,</span><br><span class="line">    "middleName": null,</span><br><span class="line">    "namePrefix": null,</span><br><span class="line">    "nameSuffix": null,</span><br><span class="line">    "nickname": null,</span><br><span class="line">  &#125;,</span><br><span class="line">  "identityToken": "xxxx.yyyy.zzzz",</span><br><span class="line">  "realUserStatus": 1,</span><br><span class="line">  "state": null,</span><br><span class="line">  "user": "001883.d382005d8c7845a9a5402dd10c398265.0950",</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="IMAP-与-SMTP"><a href="#IMAP-与-SMTP" class="headerlink" title="IMAP 与 SMTP"></a>IMAP 与 SMTP</h2><p>IMAP（Internet Message Access Protocol）和 SMTP（Simple Mail Transfer Protocol）是两种用于电子邮件通信的不同协议，它们在电子邮件的处理和传输方面具有不同的功能和角色。</p>
+<h3 id="IMAP"><a href="#IMAP" class="headerlink" title="IMAP"></a>IMAP</h3><p>IMAP 是一种接收邮件协议，用于从邮件服务器上获取电子邮件。IMAP 允许用户从多个设备上访问他们的电子邮件，同时保持邮件服务器上的邮件状态同步。</p>
+<p>特点:</p>
+<ul>
+<li>保持邮件服务器与多个客户端同步</li>
+<li>允许查看邮件的标题、正文和附件</li>
+<li>支持文件夹/标签</li>
+<li>邮件保留在邮件服务器上，直到用户删除它们</li>
+</ul>
+<h3 id="SMTP"><a href="#SMTP" class="headerlink" title="SMTP"></a>SMTP</h3><p>SMTP 是一种发送邮件协议，用于将电子邮件从发件人的电子邮件客户端传递到接收人的邮件服务器。SMTP仅用于发送邮件，不用于接收或存储邮件。它是电子邮件系统的邮寄服务。</p>
+<p>特点:</p>
+<ul>
+<li>用于将邮件传递到接收人的邮件服务器</li>
+<li>不存储邮件，只传递邮件</li>
+<li>需要发件人的 SMTP 服务器和接收人的 SMTP 服务器之间的通信</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20231017181717.png" alt=""></p>
+<h2 id="开启-IMAP"><a href="#开启-IMAP" class="headerlink" title="开启 IMAP"></a>开启 IMAP</h2><p>首先登录 Gmail，打开<a href="https://mail.google.com/" target="_blank" rel="noopener">主面板</a>。</p>
+<p>先点击小齿轮，然后点击查看所有设置。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20231018111519.png" alt=""></p>
+<p>在 Tab 栏找到『转发和 POP/IMAP』，任何邮箱初始 IMAP 都是关闭的，这里点启用 IMAP 最后保存更改就可以了。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20231018112005.png" alt=""></p>
+<h2 id="开启-STMP"><a href="#开启-STMP" class="headerlink" title="开启 STMP"></a>开启 STMP</h2><p>上面我们已经开启了谷歌的 IMAP 服务，谷歌的邮箱机制是 IMAP 一旦开通，SMTP也就自动开通了，设置里没有看到开启 SMTP 服务的地方没有关系。</p>
+<p>到这里还不能直接使用，下一步需要进入<a href="https://myaccount.google.com/" target="_blank" rel="noopener">谷歌账号</a>页面，<a href="https://myaccount.google.com/apppasswords" target="_blank" rel="noopener">获取谷歌应用专用密码</a>。</p>
+<p>获取谷歌应用专用密码之前，需要开启两步验证，否则会出现以下提示：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20231018113733.png" alt=""></p>
+<p>开启两步验证：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20231018113935.png" alt=""></p>
+<p>开启两步验证之后，进入到两步验证的菜单里，点击 App passwords 或者是直接点击<a href="https://myaccount.google.com/apppasswords" target="_blank" rel="noopener">获取谷歌应用专用密码</a>。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20231018114942.png" alt=""></p>
+<p>下一步开始添加应用密码，输入应用名称，然后点击 Create 即可。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20231018115135.png" alt=""></p>
+<p>生成的密码类似这样，会代替邮箱的密码，用于邮件发送：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wwww xxxx yyyy zzzz</span><br></pre></td></tr></table></figure>
 
-<p>其中有一个 <code>identityToken</code> 字段，这个字段的值其实就是一个 JWT，可以看到使用 <code>.</code> 进行分隔，分为<code>header</code>、<code>payload</code>、<code>signature</code> 三部分。</p>
-<p>客户端需要把这个 <code>identityToken</code> 传给后端，后端进行验证。</p>
-<p>JWT里的 <code>signature</code>部分是苹果使用私钥对其进行的签名，要验证这个签名，需要先获得苹果的公钥，而公钥可以通过<a href="https://appleid.apple.com/auth/keys" target="_blank" rel="noopener">JWKSet.Keys</a>（JSON Web Key Set）来转换获得。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20231002165733.png" alt=""><br>如果请求成功，响应对象会包含三个 Apple 的公钥 <a href="https://developer.apple.com/documentation/sign_in_with_apple/jwkset/keys" target="_blank" rel="noopener">JWKSet.Keys</a></p>
-<p>该 API 会返回多个密钥，密钥的数量可能随时间而变化，从这组密钥中，选择具有匹配密钥标识符 ( kid) 的密钥来验证 Apple 颁发的任何 JSON Web 令牌 (JWT) 的签名。</p>
-<p>因为需要对JWT的签名进行验证，因此需要使用到 <a href="https://github.com/firebase/php-jwt" target="_blank" rel="noopener">firebase/php-jwt</a> 第三方包。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">loginByApple</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    $identityToken = request()-&gt;post(<span class="string">"identity_token"</span>);</span><br><span class="line">    $params = request()-&gt;all();</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">empty</span>($identityToken)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;failed(<span class="string">"Apple id token require"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 调用苹果接口获取 JWKS</span></span><br><span class="line">        $apiResponse = file_get_contents(<span class="string">'https://appleid.apple.com/auth/keys'</span>);</span><br><span class="line">        $jwkSet = json_decode($apiResponse, <span class="keyword">true</span>);</span><br><span class="line">        <span class="keyword">if</span> (!is_array($jwkSet)) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> AppRuntimeException(<span class="string">"Get JWK failed"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 将 JWKS 转换为公钥</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            $pubKeys = JWk::parseKeySet($jwkSet);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (\<span class="keyword">Exception</span> $e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> AppRuntimeException(<span class="string">"Parse key set failed:"</span> . $e-&gt;getMessage());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 使用公钥对JWT进行检验</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            $headers = <span class="keyword">new</span> \stdClass([<span class="string">'E256'</span>]);</span><br><span class="line">            $payload = JWT::decode($identityToken, $pubKeys, $headers);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (\<span class="keyword">Exception</span> $e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> AppRuntimeException(<span class="string">"Decode JWT failed:"</span> . $e-&gt;getMessage());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// todo 登录逻辑</span></span><br><span class="line">    &#125; <span class="keyword">catch</span>(AppRuntimeException $e) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;failed($e-&gt;getMessage());</span><br><span class="line">    &#125; <span class="keyword">catch</span> (\<span class="keyword">Exception</span> $e) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;failed(<span class="string">"Apple logged in failed"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>如果验证成功，<code>$payload</code> 的核心字段有以下内容：</p>
-<ul>
-<li><code>iss</code>：发行者注册的声明标识了发行身份令牌的主体。由于 Apple 生成令牌，因此值为：<code>https://appleid.apple.com</code></li>
-<li><code>sub</code>：用户的唯一标识符</li>
-<li><code>aud</code>：开发者帐户 Client.id</li>
-<li><code>iat</code>：Apple 发布身份令牌的时间</li>
-<li><code>exp</code>：标识身份令牌过期的时间</li>
-<li><code>email</code>：用户的 Email，可能是用户的真实电子邮件地址或代理地址，取决于授权时，是否隐藏真实电子邮箱。</li>
-<li><code>email_verified</code>：是否验证 Email</li>
-<li><code>is_private_email</code>：是否是代理地址</li>
+<p>首次生成后，需复制保存好，如果忘记就只能删除重新生成。</p>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="IMAP-配置"><a href="#IMAP-配置" class="headerlink" title="IMAP 配置"></a>IMAP 配置</h3><ul>
+<li>IMAP server address: imap.gmail.com</li>
+<li>IMAP port (SSL): 993</li>
 </ul>
-<p>拿到用户的 Apple ID 和Email 之后，就可以完成后续的登录逻辑了。</p>
-<h2 id="验证-authorizationCode"><a href="#验证-authorizationCode" class="headerlink" title="验证 authorizationCode"></a>验证 authorizationCode</h2><p>登录流程如下：</p>
-<p><img src="https://docs-assets.developer.apple.com/published/bdfb4885e6/sign-in-with-apple-3~dark@2x.png" alt=""></p>
-<p>第二种方式验证时，所需要的东西多一些：</p>
-<ul>
-<li>client_id：Apple 开发者后台的App ID 或 Services ID</li>
-<li>client_secret：由开发者生成的 JWT 令牌，验证 Authorization code 和刷新令牌需要用到该参数。</li>
+<h3 id="SMTP-配置"><a href="#SMTP-配置" class="headerlink" title="SMTP 配置"></a>SMTP 配置</h3><ul>
+<li>SMTP server address: smtp.gmail.com</li>
+<li>SMTP name: Your name</li>
+<li>SMTP username: Your Gmail address</li>
+<li>SMTP password: 生成的应用专用密码，实际使用时，需要去除字符之间的空格</li>
+<li>SMTP port (TLS): 587</li>
+<li>SMTP port (SSL): 465</li>
 </ul>
-<blockquote>
-<p>关于如何创建 Client Secret，可以<a href="https://developer.apple.com/documentation/sign_in_with_apple/generate_and_validate_tokens#3262048" target="_blank" rel="noopener">点击查看</a>。</p>
-</blockquote>
-<p>更多其他请求参数，可以<a href="https://developer.apple.com/documentation/sign_in_with_apple/generate_and_validate_tokens#http-body" target="_blank" rel="noopener">查阅更多</a>。</p>
+<p>实际使用时，按照上面的配置信息进行填写即可。</p>
 <h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
-<li><a href="https://developer.apple.com/documentation/sign_in_with_apple/sign_in_with_apple_rest_api" target="_blank" rel="noopener">Sign in with Apple REST API</a></li>
-<li><a href="https://developer.apple.com/documentation/sign_in_with_apple/sign_in_with_apple_js" target="_blank" rel="noopener">Sign in with Apple JS</a></li>
-<li><a href="https://developer.apple.com/documentation/sign_in_with_apple/sign_in_with_apple_rest_api/authenticating_users_with_sign_in_with_apple" target="_blank" rel="noopener">Authenticating users with Sign in with Apple</a></li>
-<li><a href="https://developer.apple.com/documentation/sign_in_with_apple/sign_in_with_apple_rest_api/verifying_a_user" target="_blank" rel="noopener">Verifying a user</a></li>
-<li><a href="https://sarunw.com/tags/sign%20in%20with%20apple/" target="_blank" rel="noopener">How to Sign in with Apple</a></li>
+<li><a href="https://support.google.com/mail/topic/7280141" target="_blank" rel="noopener">电子邮件客户端 (POP/IMAP)</a></li>
+<li><a href="https://support.google.com/mail/answer/185833" target="_blank" rel="noopener">使用应用专用密码登录</a></li>
+<li><a href="https://support.google.com/mail/answer/7104828" target="_blank" rel="noopener">在使用 POP 的其他电子邮件客户端上查阅 Gmail 邮件</a></li>
 </ul>
 
           
@@ -556,7 +566,7 @@
           
         
           
-            <p>本文永久链接是：<a href=https://www.0x2beace.com/sign-in-with-apple/>https://www.0x2beace.com/sign-in-with-apple/</a></p>
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/enable-smtp-imap-service-in-google-gmail-mailbox/>https://www.0x2beace.com/enable-smtp-imap-service-in-google-gmail-mailbox/</a></p>
           
         
       </blockquote>
@@ -604,10 +614,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2023-10-08T16:12:33+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2023-10-19T09:40:38+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Oct 8, 2023</p>
+    <p>更新于：Oct 19, 2023</p>
   </a>
 </div>
 
@@ -616,7 +626,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Tutorial/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Tutorial</p></a></div>
 
 
         
@@ -634,7 +644,9 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/sign-in-with-apple/&title=使用 PHP 接入 Apple 登录 - Boo&summary=Sign In With Apple 苹果第三方登录，服务端 PHP 篇。"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/enable-smtp-imap-service-in-google-gmail-mailbox/&title=谷歌 Gmail 邮箱启用 SMTP/IMAP 服务 - Boo&summary=Gmail 可以通过其他邮箱进行创建，因此使用 Gmail 发送 E-Mail 的场景还是挺多的，例如有一个可以登录 Gmail 的商业邮箱需要配置 SMTP，那么就可以使用这篇笔记中介绍的方式。
+发送之前，这时需要启用一些邮箱配置，才能正常发送。
+在启用具体的服务之前，先来了解一下什么是 SMTP/IMAP 服务。"
           
           >
           
@@ -646,7 +658,9 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/sign-in-with-apple/&title=使用 PHP 接入 Apple 登录 - Boo&summary=Sign In With Apple 苹果第三方登录，服务端 PHP 篇。"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/enable-smtp-imap-service-in-google-gmail-mailbox/&title=谷歌 Gmail 邮箱启用 SMTP/IMAP 服务 - Boo&summary=Gmail 可以通过其他邮箱进行创建，因此使用 Gmail 发送 E-Mail 的场景还是挺多的，例如有一个可以登录 Gmail 的商业邮箱需要配置 SMTP，那么就可以使用这篇笔记中介绍的方式。
+发送之前，这时需要启用一些邮箱配置，才能正常发送。
+在启用具体的服务之前，先来了解一下什么是 SMTP/IMAP 服务。"
           
           >
           
@@ -658,7 +672,9 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/sign-in-with-apple/&title=使用 PHP 接入 Apple 登录 - Boo&summary=Sign In With Apple 苹果第三方登录，服务端 PHP 篇。"
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/enable-smtp-imap-service-in-google-gmail-mailbox/&title=谷歌 Gmail 邮箱启用 SMTP/IMAP 服务 - Boo&summary=Gmail 可以通过其他邮箱进行创建，因此使用 Gmail 发送 E-Mail 的场景还是挺多的，例如有一个可以登录 Gmail 的商业邮箱需要配置 SMTP，那么就可以使用这篇笔记中介绍的方式。
+发送之前，这时需要启用一些邮箱配置，才能正常发送。
+在启用具体的服务之前，先来了解一下什么是 SMTP/IMAP 服务。"
           
           >
           
@@ -672,7 +688,7 @@
         <div class='hoverbox'>
           <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
           <div class='target'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAAAAACi5bZQAAAC9klEQVR42u3aQY4CMQwEQP7/6d37aqXEbYMwVG5IDHFqOLTsPH6sf9cDARgwYMCAAbMG5hGu4wZ/vnd67na/Ux3d84ABAwYMGDBg9sFcB6BDQemBp/bt/i4YMGDAgAEDZi/MbcA6Ba7bgrug1fqO3wcDBgwYMGDAfC1Mt/BuoAMDBgwYMGDAgOketHvw28HaLRwYMGDAgAED5vNh0gtB1QOlz6WDuZdPIsGAAQMGDBgwL4Oprm7ge/bn+DxgwIABAwYMmDUw3ZU2hqqB7bbR1T4PGDBgwIABA2YNTBqQqgeoBsW0IZXWDwYMGDBgwIDZC5MWWm0kVQ9y+/2xFwQGDBgwYMCA+ViY7kCr2rCagr/dFwwYMGDAgAGzH6YK1C20epCpFwkGDBgwYMCA2QsztVH6OylctWF1DQ4GDBgwYMCAWQuTDrCqgbHb8Joa1IEBAwYMGDBg9sKkjahTQ+o2aFUvKt3uEwdYMGDAgAEDBsw6mGphaTBLQW5/p9qwAgMGDBgwYMB8HsztQO1Vg7b0YlH1xYABAwYMGDBg9sFMFT4VwLoDt/RFgwEDBgwYMGD2wKQFVi/qdAdx3UHfdcMLDBgwYMCAAbMOJm0w3TaQ0sCWBszqvmDAgAEDBgyYvTDV4JR+TvftDtyunwMDBgwYMGDArIFJQdJCpwPhVEMLDBgwYMCAAbMfZvoA1YFYdU3DgQEDBgwYMGD2wlQLjy/ohAOzdMBWHriBAQMGDBgwYNbBHAPQVJBqPpeu4x8CDBgwYMCAAbMGprvSA6SNsDSAXn8GAwYMGDBgwKyB6QaldKA2BdUdGB6TLxgwYMCAAQPm7WHSQDc9aEsHalPPgQEDBgwYMGD2wkw1lqqgKWw3mB4bVWDAgAEDBgyYr4HpBrapuuJGFxgwYMCAAQPm62GmG1hTg8HjPmDAgAEDBgyYtTDVgVt6Iai6/7OCJBgwYMCAAQNmP0wanNJA2IVsB7nbi0NgwIABAwYMmLeFscCAAQMGDBgwy9YvQxNncFYUylQAAAAASUVORK5CYII=">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADl0lEQVR42u3aQXIjQQgEQP//07svcAwUyEKK7Jvs9kyT7UMF6OefFa0fBODAgQNngQN3BO4nXOUXFfd339d97la94MCBAwcOHDhw1+CmEL8dMIXZfv9WveDAgQMHDhw4cFfhHgPgw/5pQN2CTs//uB8cOHDgwIEDB+5L4aYNxino0/vBgQMHDhw4cODAZQPebgPx6RwpFDhw4MCBAwcO3LfBpcF1GkS7Dcl0/5lJPjhw4MCBAwcO3BJcGmQ/9XNcLzhw4MCBAwcO3BG46eoOktMAux2s43rBgQMHDhw4cOCOwKUB8V0Fp8F8Wh84cODAgQMHDtxVuG2o6cA4haleSLcBCg4cOHDgwIEDdx1uC6YasNPAmwbkar3tST44cODAgQMHDtwfw3Ubf93AmA6eu8E5vaj288CBAwcOHDhw4I7CpS+aDpy7AXx7VR3AgQMHDhw4cOCuwKUD6W4Ds7u6FzhtsJb/QcCBAwcOHDhw4I7BbQXMKcir9reDbjUAgwMHDhw4cODAHYNLD14tKIWoBuNqwG0P4sGBAwcOHDhw4I7AbQ2A0wDdbTROg/g4GIMDBw4cOHDgwB2BSwfO1QPFg9/loDutBxw4cODAgQMH7tPh0uA7HRy/OiiX94EDBw4cOHDgwB2BSwufDpC3LiAN4nHjExw4cODAgQMH7gjc1qD4XcE5fX7194+NTHDgwIEDBw4cuDfDdRuM00KmgTdtwI6fBw4cOHDgwIED9yFw3bXV4OwG1O3ntif54MCBAwcOHDhwR+CqAbH78+7fTQfa04ZpOwCDAwcOHDhw4MD9Mdw24DSQpl8cTEHLn8GBAwcOHDhw4I7BTQtKB8PTBmf1vWuDa3DgwIEDBw4cuA+De1Vw7cJvBePuAB0cOHDgwIEDB+46XBXkVV/cSwN0OtDuXhg4cODAgQMHDtynwE2D7BT+CbB7QekCBw4cOHDgwIG7Bjdd0y8mxgWE7xufHxw4cODAgQMH7gjcNBBOG5vdhuY0SI8bsODAgQMHDhw4cMfgpgedNha3BsrdC+kOzMGBAwcOHDhw4K7CbTUQnw4QH/xFq3xecODAgQMHDhy4L4Prgm4PpNNB89sDMDhw4MCBAwcO3DG47f1bA+r0IsGBAwcOHDhw4K7DdQ/2qoKqg+WtAXn53ODAgQMHDhw4cMfgtga41b9LYbuBuvq8cr3gwIEDBw4cOHBH4KxmkEcADhw4cBY4cO9d/wFwiIJ5vw9QgQAAAABJRU5ErkJggg==">
           </div>
         </div>
       
@@ -692,20 +708,16 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/enable-smtp-imap-service-in-google-gmail-mailbox/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>谷歌 Gmail 邮箱启用 SMTP/IMAP 服务</p>
-                <p class='content'>Gmail 可以通过其他邮箱进行创建，因此使用 Gmail 发送 E-Mail 的场景还是挺多的，例如有一个可以登录 Gmail 的商业邮箱需要配置 SMTP，那么就可以使用这篇笔记中介绍的方式...</p>
-              </a>
             
-            
-              <a class='next' href='/sign-in-with-google/'>
-                <p class='title'>使用 PHP 接入 Google 登录<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>Sign In With Google 谷歌第三方登录，服务端 PHP 篇。
+              <a class='next' href='/sign-in-with-apple/'>
+                <p class='title'>使用 PHP 接入 Apple 登录<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>Sign In With Apple 苹果第三方登录，服务端 PHP 篇。
 
 
-准备首先需要准备一个 Google 账号。
-然后进入到 Google Cloud，创建新的项目。
-点击 New ...</p>
+想要接入 Apple 第三方登录，有两种方式：
+
+验证 identityToken
+验证 authorizatio...</p>
               </a>
             
           </div>
@@ -750,7 +762,7 @@
 
   <script>
     window.subData = {
-      title: '使用 PHP 接入 Apple 登录',
+      title: '谷歌 Gmail 邮箱启用 SMTP/IMAP 服务',
       tools: true
     }
   </script>
@@ -776,7 +788,7 @@
 
 
     <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#验证-identityToken"><span class="toc-text">验证 identityToken</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#验证-authorizationCode"><span class="toc-text">验证 authorizationCode</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#IMAP-与-SMTP"><span class="toc-text">IMAP 与 SMTP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#IMAP"><span class="toc-text">IMAP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SMTP"><span class="toc-text">SMTP</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开启-IMAP"><span class="toc-text">开启 IMAP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开启-STMP"><span class="toc-text">开启 STMP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置"><span class="toc-text">配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#IMAP-配置"><span class="toc-text">IMAP 配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SMTP-配置"><span class="toc-text">SMTP 配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
     </div>
   </section>
 
