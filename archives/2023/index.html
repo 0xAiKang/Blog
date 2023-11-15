@@ -482,41 +482,15 @@
         <p>当需要在网站上提供文件访问或下载时，如果直接提供文件所在位置的链接，不仅会暴露文件位置，还会存在安全风险。</p>
 <p>这时，Nginx 的 X-Accel 就是一个非常有用的工具，它可以安全、高效地提供文件访问服务。</p>
 <p>X-Accel 是 Nginx 提供的一种重定向机制，它可以在 Nginx 内部实现文件的访问，而不会直接暴露文件路径。这种机制可以提高安全性，避免了直接访问文件路径的风险，并且可以实现更多的功能，如权限控制和防盗链等。</p>
-<h2 id="Nginx-配置"><a href="#Nginx-配置" class="headerlink" title="Nginx 配置"></a>Nginx 配置</h2><p>Nginx 的配置很简单，有两种方式：</p>
-<ul>
-<li>root</li>
-<li>alias</li>
-</ul>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 当访问 /protected_files/myfile.tar.gz 这个地址时</span></span><br><span class="line"><span class="comment"># 最终会 /var/www/files/myfile.tar.gz 这个文件</span></span><br><span class="line"><span class="attribute">location</span> /protected_files &#123;</span><br><span class="line">  internal;</span><br><span class="line">  <span class="attribute">alias</span> /var/www/files;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 当访问 /protected_files/myfile.tar.gz 这个地址时</span></span><br><span class="line"><span class="comment"># 最终会找到 /var/www/protected_files/myfile.tar.gz 这个文件 </span></span><br><span class="line"><span class="attribute">location</span> /protected_files &#123;</span><br><span class="line">  internal;</span><br><span class="line">  <span class="attribute">root</span> /var/www;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>两种方式的结果是一样的，但需要注意区别。</p>
-<p>还可以代理到另外一台服务器：</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">location</span> /protected_files &#123;</span><br><span class="line">  internal;</span><br><span class="line">  <span class="attribute">proxy_pass</span> http://127.0.0.2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="PHP-代碼"><a href="#PHP-代碼" class="headerlink" title="PHP 代碼"></a>PHP 代碼</h2><p>配置好 Nginx 之后，并不是直接通过访问 <code>/producted_files</code> 来访问的，需要在响应头中增加一些“<a href="https://www.nginx.com/resources/wiki/start/topics/examples/x-accel/#special-headers" target="_blank" rel="noopener">特殊的头</a>”。</p>
-<p>其中，最重要的是 <code>X-Accel-Redirect</code> 这个响应头，下面以 PHP 代码为例：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">download</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  </span><br><span class="line">    $filename = <span class="string">""</span>;</span><br><span class="line">    header(<span class="string">"X-Accel-Redirect:/downloadAlias/$filename"</span>);</span><br><span class="line">    header(<span class="string">"Content-Type: application/octet-stream"</span>);</span><br><span class="line">    header(<span class="string">"Content-Disposition: attachment; filename=$filename"</span>);</span><br><span class="line">    <span class="keyword">exit</span>();</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>在这段代码中，主要是设置了响应头信息，其中：</p>
-<ul>
-<li><code>Content-Type</code> 为 <code>application/octet-stream</code>，表示这是一个二进制流文件，需要下载；</li>
-<li><code>Content-Disposition</code> 表示文件的下载方式，attachment 表示文件需要下载，而不是在浏览器中打开；</li>
-<li><code>X-Accel-Redirect</code> 表示内部重定向地址，即需要下载的文件的地址。</li>
-</ul>
-<h2 id="实际应用"><a href="#实际应用" class="headerlink" title="实际应用"></a>实际应用</h2><p>X-Accel 的应用场景，除了文件下载。</p>
-<p>还可以用于需要文件读取的场景，如果使用原生的 PHP 读取文件的方式 <code>readfile()</code>，会一次读取整个文件。</p>
-<p>当需要读取一些大文件时，这是非常不友好的。</p>
-<p>这是也可以使用到 <code>X-Accel</code>，它会返回状态码为 <a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status/206" target="_blank" rel="noopener">206</a> 的响应，将一个大文件，可以分成 N 次获取。</p>
-<p>使用 <code>X-Accel</code> 方式读取文件：<br><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20231115094927.png" alt=""></p>
-<p>使用 <code>readfile</code> 方式读取文件：<br><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20231115102401.png" alt=""><br>通過 Nginx Access.log 可以清晰地看到，前者是分了多次读取文件的，而后者只有一次就读完了。</p>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
-<li><a href="https://www.nginx.com/resources/wiki/start/topics/examples/x-accel/#less-info" target="_blank" rel="noopener">Nginx X-Accel</a></li>
-<li><a href="https://blog.horejsek.com/nginx-x-accel-explained/" target="_blank" rel="noopener">Nginx X-Accel Explained</a></li>
-</ul>
-
       
     </div>
     
+      
+        <div class="button readmore">
+          <a href="/nginx-accel-redirect/">
+            阅读全文 <i class="fas fa-chevron-right"></i>
+          </a>
+        </div>
       
     
   </section>
@@ -653,118 +627,6 @@
         
           
   <h2 class="title">
-    <a href="/sign-in-with-apple/">
-      使用 PHP 接入 Apple 登录
-    </a>
-  </h2>
-
-
-        
-        <div class='new-meta-box'>
-          
-            
-          
-            
-              
-<div class='new-meta-item author'>
-  <a href="https://www.0x2BeAce.com" rel="nofollow">
-    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
-    <p>Boo</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/PHP/' rel="nofollow">
-      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>PHP</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Oct 3, 2023</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-  <div class="new-meta-item wordcount">
-    <a class='notlink'>
-      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>810 words</p>
-    </a>
-  </div>
-  <div class="new-meta-item readtime">
-    <a class='notlink'>
-      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>3 min</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              
-
-            
-          
-        </div>
-        
-          <hr>
-        
-      </div>
-    
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Sign In With Apple 苹果第三方登录，服务端 PHP 篇。</p>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/sign-in-with-apple/">
-            阅读全文 <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
-  
-
-
-  <section class='meta'>
-    
-      
-      
-      <div class="meta" id="header-meta">
-        
-          
-  <h2 class="title">
     <a href="/sign-in-with-google/">
       使用 PHP 接入 Google 登录
     </a>
@@ -852,6 +714,118 @@
       
         <div class="button readmore">
           <a href="/sign-in-with-google/">
+            阅读全文 <i class="fas fa-chevron-right"></i>
+          </a>
+        </div>
+      
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow reveal ">
+  
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h2 class="title">
+    <a href="/sign-in-with-apple/">
+      使用 PHP 接入 Apple 登录
+    </a>
+  </h2>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/PHP/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>PHP</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Oct 3, 2023</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>810 words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>3 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Sign In With Apple 苹果第三方登录，服务端 PHP 篇。</p>
+      
+    </div>
+    
+      
+        <div class="button readmore">
+          <a href="/sign-in-with-apple/">
             阅读全文 <i class="fas fa-chevron-right"></i>
           </a>
         </div>
