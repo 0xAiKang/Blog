@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>PHP 使用 Headless Chrome 生成 PDF</title>
+      <link href="/php-uses-headless-chrome-to-generate-pdf/"/>
+      <url>/php-uses-headless-chrome-to-generate-pdf/</url>
+      
+        <content type="html"><![CDATA[<p>之前<a href="https://www.0x2beace.com/php-handles-various-pdf-scenarios/">这篇笔记</a>有记录，如何使用 PHP 操作 PDF，其中生成 PDF 部分，是通过 <a href="https://github.com/tecnickcom/TCPDF" target="_blank" rel="noopener">tcpdf</a> 这个扩展包实现的，虽然可以也能生成 PDF，但是有比较多的限制：</p><ol><li>CSS 支持级别不一样</li><li>HTML 支持级别不一样，例如 tcpdf 对于表格的生成，只能使用 table 标签，如果使用 div 标签，样式全部会丢失</li><li>中文乱码问题是否有解决方案</li></ol><p>在这种情况下，如果需要生成一些比较复杂的 PDF，就会变得十分困难。</p><p>今天要介绍的<a href="https://github.com/chrome-php/chrome" target="_blank" rel="noopener">Chrome PHP</a>，则可以完美解决以上问题。</p><a id="more"></a><h2 id="Headless-Chrome"><a href="#Headless-Chrome" class="headerlink" title="Headless Chrome"></a>Headless Chrome</h2><p>Headless Chrome 别名无头浏览器，其实在之前的多篇笔记中，都有提到过。</p><p>上一次生成 PDF 时，是打算使用它，但是因为当时时间比较紧，使用过程中遇到比较多的问题，就临时改用了其他解决方案。</p><p>这一次因为需要生成的 PDF 比较复杂，使用之前的解决方案都无法解决。</p><p>好在这次时间比较充裕，多花了些时间，顺利解决了。</p><p>过程中遇到一些问题，在此整理出来。</p><p>使用 Chrome PHP 之前，需要安装 Chrome or Chromium，安装和使用就不在此过多介绍了，可以参考这篇笔记。</p><p>这篇笔记主要介绍，使用过程中遇到的一些问题。</p><h3 id="安装-sockets-扩展"><a href="#安装-sockets-扩展" class="headerlink" title="安装 sockets 扩展"></a>安装 sockets 扩展</h3><p>最新版本的 Headless，需要安装 sockets 扩展，如果没有该扩展，则不会安装最新版本，默认安装不需要 sockets支持的版本。</p><p>而使用较低版本，则会有一些 Bug 存在。</p><p>解决方案也很简单，就是安装 sockets 扩展，然后升级最新版本即可。</p><h3 id="安装语言包"><a href="#安装语言包" class="headerlink" title="安装语言包"></a>安装语言包</h3><p>在本地开发环境，因为 Mac 系统默认安装了各种字体文件，对中文的支持友好，生成PDF 时，不会出现乱码的情况。</p><p>而在 Linux 环境下，默认是缺少一些中文字体文件的。</p><p>这种情况下，直接使用 Chrome PHP 去处理中文字符，则会出现乱码：</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20240113114530.png" alt=""><br>解决方案：</p><ol><li>使用 <code>fc-list</code> 命令查看系统的字体文件库，是否有中文字体，不过通过不存在，否则也不会乱码</li></ol><ol start="2"><li><p>安装 <code>ttmkfdir</code>，如果已经安装了，跳过下一步</p></li><li><p>如果是 Centos，需要创建字体目录，并给文件夹权限</p></li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir /usr/share/fonts/chinese &amp;&amp; chmod -R 755 /usr/share/fonts/chinese</span><br></pre></td></tr></table></figure><ol start="4"><li><p>将所需字体文件，上传至 <code>/usr/share/fonts/chinese</code> 目录下</p></li><li><p>执行以下命令：</p></li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ttmkfdir -e /usr/share/X11/fonts/encodings/encodings.dir</span><br></pre></td></tr></table></figure><ol start="6"><li>编辑 <code>/etc/fonts/fonts.con</code> 字体配置文件：</li></ol><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- Font directory list --&gt;</span><br><span class="line"></span><br><span class="line">    &lt;dir&gt;&#x2F;usr&#x2F;share&#x2F;fonts&lt;&#x2F;dir&gt;</span><br><span class="line">    &lt;dir&gt;&#x2F;usr&#x2F;share&#x2F;X11&#x2F;fonts&#x2F;Type1&lt;&#x2F;dir&gt;</span><br><span class="line">    &lt;dir&gt;&#x2F;usr&#x2F;share&#x2F;X11&#x2F;fonts&#x2F;TTF&lt;&#x2F;dir&gt;</span><br><span class="line">    &lt;dir&gt;&#x2F;usr&#x2F;local&#x2F;share&#x2F;fonts&lt;&#x2F;dir&gt;</span><br><span class="line"></span><br><span class="line">    # 增加下面这行配置信息，导入中文字体文件</span><br><span class="line">    &lt;dir&gt;&#x2F;usr&#x2F;share&#x2F;fonts&#x2F;chinese&lt;&#x2F;dir&gt;</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure><ol start="7"><li><p>分别执行 <code>fc-cache</code>、<code>fc-cache-64</code> 命令</p></li><li><p>再次执行 <code>fc-list</code> 命令，查看导入的中文字体包是否存在</p></li></ol><p>如果能看到，字体文件存在，基本上就不会出现乱码了。</p><p>测试一下：</p><p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20240113135428.png" alt=""></p><p>Headless Chrome 的用法非常多，不仅仅只是生成图片、生成 PDF，这里只是它的冰山一角，还有很多更高级的用法，更多用法查看<a href="https://github.com/chrome-php/chrome?tab=readme-ov-file#usage" target="_blank" rel="noopener">Github</a>。</p><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul><li><a href="https://segmentfault.com/a/1190000018687409" target="_blank" rel="noopener">centos使用chrome-cli、chromium或wkhtmltoimage截图时出现的中文字符乱码的解决方案</a></li><li><a href="https://github.com/chrome-php/chrome/issues/78" target="_blank" rel="noopener">Save image but cannot show the unicode string</a></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> PHP </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> PHP </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>使用 Reactotron 调试 React Native</title>
       <link href="/debug-react-native-using-reactotron/"/>
       <url>/debug-react-native-using-reactotron/</url>
