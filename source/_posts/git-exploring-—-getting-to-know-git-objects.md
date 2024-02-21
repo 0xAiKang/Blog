@@ -119,8 +119,8 @@ git cat-file -p 93292574c965d7ecd25f933fdadb646dce75cc24
 git cat-file -p 3031cddff73840bd5e7822c9b7f3b538e7e160bb
 tree 93292574c965d7ecd25f933fdadb646dce75cc24
 parent 3c46f2d56ee15502cabeda97d6f44a95289c8804
-author Boo <aikangtongxue@gmail.com> 1651542437 +0800
-committer Boo <aikangtongxue@gmail.com> 1651542437 +0800
+author 小艾 <aikangtongxue@gmail.com> 1651542437 +0800
+committer 小艾 <aikangtongxue@gmail.com> 1651542437 +0800
 
 first commit
 ```
