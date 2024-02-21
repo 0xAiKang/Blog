@@ -55,7 +55,7 @@ categories: ["Hexo"]
 
 |变量|示例|说明|
 |-|-|-|
-|SITE_NAME	|Boo's Blog|	[必填]博客名称|
+|SITE_NAME	|小艾的自留地|	[必填]博客名称|
 |SITE_URL|	https://0x2beace.com|	[必填]首页地址|
 |SMTP_SERVICE|	QQ|	[新版支持]邮件服务提供商，支持 QQ、163、126、Gmail 以及 更多|
 |SMTP_USER|	xxxxxx@qq.com|	[必填]SMTP登录用户|
