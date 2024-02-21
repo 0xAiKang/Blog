@@ -81,7 +81,7 @@
   <div class='a'>
     
     
-      <p class="title">Boo's Blog</p>
+      <p class="title">小艾的自留地</p>
     
     
       <p class="subtitle">Stay foolish, Stay hungry</p>
@@ -182,7 +182,7 @@
           
           
           
-            Boo's Blog
+            小艾的自留地
           
           
         </a>
@@ -427,13 +427,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1.7k words</p>
+      <p>1.8k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>6 min</p>
+      <p>7 min</p>
     </a>
   </div>
 
@@ -476,7 +476,9 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install pm2 -g</span><br></pre></td></tr></table></figure>
 <p>无缝更新</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pm2 update</span><br></pre></td></tr></table></figure>
-<h2 id="启动应用"><a href="#启动应用" class="headerlink" title="启动应用"></a>启动应用</h2><p>PM2 中有两种方式启动应用，一种是<strong>直接调用应用入口文件</strong>，一种是<strong>通过调用配置文件启动应用</strong>。</p>
+<h2 id="启动应用"><a href="#启动应用" class="headerlink" title="启动应用"></a>启动应用</h2><p>PM2 中有好几种方式启动应用，一种是<strong>直接调用应用入口文件</strong>，一种是<strong>通过调用配置文件启动应用</strong>，还可以<strong>在 PM2 上使用 NPM 运行服务</strong>。</p>
+<h3 id="在PM2上使用-NPM-运行服务"><a href="#在PM2上使用-NPM-运行服务" class="headerlink" title="在PM2上使用 NPM 运行服务"></a>在PM2上使用 NPM 运行服务</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pm2 start npm --name <span class="string">"app"</span> -- start</span><br></pre></td></tr></table></figure>
+<p>在 pm2 上使用 npm 运行服务，<code>--</code> 参数后面的 start 是额外需要传递的参数，注意，中间是有一个空格的。</p>
 <h3 id="命令行启动"><a href="#命令行启动" class="headerlink" title="命令行启动"></a>命令行启动</h3><p>在生产环境中，通过命令行启动服务</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pm2 stat app.js</span><br></pre></td></tr></table></figure>
 
@@ -763,10 +765,10 @@
         
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-09-04T21:54:47+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2024-02-21T23:14:37+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Sep 4, 2020</p>
+    <p>更新于：Feb 21, 2024</p>
   </a>
 </div>
 
@@ -940,7 +942,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#启动应用"><span class="toc-text">启动应用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#命令行启动"><span class="toc-text">命令行启动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置文件启动"><span class="toc-text">配置文件启动</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#参数说明"><span class="toc-text">参数说明</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进程监控"><span class="toc-text">进程监控</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#日志管理"><span class="toc-text">日志管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用命令"><span class="toc-text">常用命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用PM2-运行-npm-start"><span class="toc-text">使用PM2 运行 npm start</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#稳定运行"><span class="toc-text">稳定运行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#启动应用"><span class="toc-text">启动应用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#在PM2上使用-NPM-运行服务"><span class="toc-text">在PM2上使用 NPM 运行服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#命令行启动"><span class="toc-text">命令行启动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置文件启动"><span class="toc-text">配置文件启动</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#参数说明"><span class="toc-text">参数说明</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进程监控"><span class="toc-text">进程监控</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#日志管理"><span class="toc-text">日志管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用命令"><span class="toc-text">常用命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用PM2-运行-npm-start"><span class="toc-text">使用PM2 运行 npm start</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#稳定运行"><span class="toc-text">稳定运行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
     </div>
   </section>
 
@@ -975,7 +977,7 @@
     
       
         <div class='copyright'>
-        <span class="post-count">总字数：376.4k</span>
+        <span class="post-count">总字数：390.6k</span>
         <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
 
         <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>

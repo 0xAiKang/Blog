@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>PHP 处理各种 PDF 场景 - Boo</title>
+  
+    <meta name="keywords" content="PHP">
+  
+  
+    <meta name="description" content="最近的一个项目，其中有不少和 PDF 有关的需求，涉及到生成 PDF、根据 PDF 生成图片、读取 PDF、拆分 PDF。">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Boo">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">小艾的自留地</p>
+    
+    
+      <p class="subtitle">Stay foolish, Stay hungry</p>
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/"
+                
+                
+                id="https:www0x2BeAcecom">
+                <i class='fas fa-book fa-fw'></i>博客
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/categories/"
+                
+                
+                id="https:www0x2BeAcecomcategories">
+                <i class='fas fa-rss fa-fw'></i>分类
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/tags/"
+                
+                
+                id="https:www0x2BeAcecomtags">
+                <i class='fas fa-play-circle fa-fw'></i>标签
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/archives/"
+                
+                  rel="external nofollow noopener noreferrer"
+                
+                
+                id="https:www0x2BeAcecomarchives">
+                <i class='fas fa-file-code fa-fw'></i>归档
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://www.0x2BeAce.com/about/"
+                
+                
+                id="https:www0x2BeAcecomabout">
+                <i class='fas fa-handshake fa-fw'></i>关于我
+              </a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            小艾的自留地
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/php-handles-various-pdf-scenarios/">
+      PHP 处理各种 PDF 场景
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/PHP/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>PHP</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：May 2, 2023</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>2.3k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>11 min</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              
+  <div class="new-meta-item browse valine">
+    <a class='notlink'>
+      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="/php-handles-various-pdf-scenarios/" class="leancloud_visitors" data-flag-title="PHP 处理各种 PDF 场景">
+      <p>
+        <span class="leancloud-visitors-count"></span>
+      </p>
+      </span>
+    </a>
+  </div>
+
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>最近的一个项目，其中有不少和 PDF 有关的需求，涉及到生成 PDF、根据 PDF 生成图片、读取 PDF、拆分 PDF。</p>
+<a id="more"></a>
+
+<h2 id="PHP-生成-PDF"><a href="#PHP-生成-PDF" class="headerlink" title="PHP 生成 PDF"></a>PHP 生成 PDF</h2><p>PHP 想要生成 PDF，已经有了许多比较成熟的扩展包：</p>
+<ul>
+<li><a href="https://github.com/dompdf/dompdf" target="_blank" rel="noopener">dompdf</a></li>
+<li><a href="https://github.com/tecnickcom/TCPDF" target="_blank" rel="noopener">tcpdf</a></li>
+<li><a href="https://github.com/PHPOffice/PhpSpreadsheet" target="_blank" rel="noopener">phpoffice/phpspreadsheet</a></li>
+<li><a href="https://github.com/barryvdh/laravel-dompdf" target="_blank" rel="noopener">laravel-dompdf</a></li>
+<li><a href="https://github.com/KnpLabs/snappy" target="_blank" rel="noopener">knp-snappy</a></li>
+<li><a href="https://github.com/barryvdh/laravel-snappy" target="_blank" rel="noopener">laravel-snappy</a></li>
+</ul>
+<p>因为使用框架（ThinkPHP）的限制，和 Laravel 有关的扩展包是用不了了，dompdf、phpspreadsheet、tcpdf 都用过之后，最后选择了 tcpdf。</p>
+<p>没有选择 dompdf 的原因是，对中文支持不友好，默认生成包含中文字符的 PDF 会产生乱码，要解决这个问题，需要额外安装字体，整个过程不是很方便，便放弃了使用这个包。</p>
+<p>安装：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ composer require tecnickcom/tcpdf</span><br></pre></td></tr></table></figure>
+
+<p>dompdf 和 tcpdf 本质上，都是通过对 HTML 进行渲染，最终生成 PDF。因为 tcpdf 支持的css太低级了，所有的样式都是以内联的方式去写，并且只能使用 table 标签生成 PDF，如果使用 div 标签，很多样式都会丢失。</p>
+<p>示例如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">generatePDF</span><span class="params">()</span> </span>&#123;</span><br><span class="line">$pdf = <span class="keyword">new</span> TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, <span class="keyword">true</span>, <span class="string">'UTF-8'</span>, <span class="keyword">false</span>);</span><br><span class="line">  $pdf-&gt;SetCreator(<span class="string">'Oceanus'</span>);</span><br><span class="line">  $pdf-&gt;SetAuthor(<span class="string">'Oceanus'</span>);</span><br><span class="line">  <span class="comment">// $pdf-&gt;SetHeaderData(PDF_HEADER_LOGO, 40, '', '', array(0,64,255), array(0,64,128));</span></span><br><span class="line">  $pdf-&gt;setFooterData(<span class="keyword">array</span>(<span class="number">0</span>,<span class="number">64</span>,<span class="number">0</span>), <span class="keyword">array</span>(<span class="number">0</span>,<span class="number">64</span>,<span class="number">128</span>));</span><br><span class="line"></span><br><span class="line">  $pdf-&gt;setFooterFont(<span class="keyword">Array</span>(PDF_FONT_NAME_DATA, <span class="string">''</span>, PDF_FONT_SIZE_DATA));</span><br><span class="line"></span><br><span class="line">  $pdf-&gt;SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);</span><br><span class="line"></span><br><span class="line">  $pdf-&gt;SetFooterMargin(PDF_MARGIN_FOOTER);</span><br><span class="line"></span><br><span class="line">  $pdf-&gt;SetAutoPageBreak(<span class="keyword">TRUE</span>, PDF_MARGIN_BOTTOM);</span><br><span class="line"></span><br><span class="line">  $pdf-&gt;setImageScale(PDF_IMAGE_SCALE_RATIO);</span><br><span class="line"></span><br><span class="line">  $pdf-&gt;SetFont(<span class="string">'stsongstdlight'</span>, <span class="string">''</span>, <span class="number">13</span>, <span class="string">''</span>, <span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Add a page</span></span><br><span class="line">  <span class="comment">// This method has several options, check the source code documentation for more information.</span></span><br><span class="line">  $pdf-&gt;AddPage();</span><br><span class="line">  <span class="comment">//组装订单数据</span></span><br><span class="line">  $order = [];</span><br><span class="line">  $table = <span class="string">""</span>;</span><br><span class="line">  $cartInfo = [];</span><br><span class="line">  $total = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">foreach</span> ($productInfo <span class="keyword">as</span> $k =&gt; $v)&#123;</span><br><span class="line">      $total = bcadd($total, $v[<span class="string">'amount'</span>],<span class="number">2</span>);</span><br><span class="line">      $table .= <span class="string">'&lt;tr&gt;</span></span><br><span class="line"><span class="string">      &lt;td&gt;'</span> . $v[<span class="string">'item_number'</span>] . <span class="string">'&lt;/td&gt;</span></span><br><span class="line"><span class="string">      &lt;td colspan="2"&gt;'</span> . $v[<span class="string">'item_name'</span>] . <span class="string">'&lt;/td&gt;</span></span><br><span class="line"><span class="string">      &lt;td&gt;'</span> . $v[<span class="string">'weight'</span>] . <span class="string">'&lt;/td&gt;</span></span><br><span class="line"><span class="string">      &lt;td&gt;'</span> . $v[<span class="string">'unit_price'</span>] . <span class="string">'&lt;/td&gt;</span></span><br><span class="line"><span class="string">      &lt;td&gt;'</span> . $v[<span class="string">'quantity'</span>] . <span class="string">'&lt;/td&gt;</span></span><br><span class="line"><span class="string">      &lt;td&gt;'</span> . $v[<span class="string">'amount'</span>] .<span class="string">'&lt;/td&gt;</span></span><br><span class="line"><span class="string">  &lt;/tr&gt;'</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//不足6条数据进行补充防止页面不够长，章盖在空白处</span></span><br><span class="line">  <span class="keyword">if</span>(count($cartInfo) &lt; <span class="number">6</span>)&#123;</span><br><span class="line">      <span class="keyword">for</span> ($i = count($cartInfo); $i &lt;<span class="number">6</span>; $i++)&#123;</span><br><span class="line">          $table .= <span class="string">'&lt;tr&gt;</span></span><br><span class="line"><span class="string">              &lt;td&gt;&lt;/td&gt;</span></span><br><span class="line"><span class="string">              &lt;td colspan="2"&gt;&lt;/td&gt;</span></span><br><span class="line"><span class="string">              &lt;td&gt;&lt;/td&gt;</span></span><br><span class="line"><span class="string">              &lt;td&gt;&lt;/td&gt;</span></span><br><span class="line"><span class="string">              &lt;td&gt;&lt;/td&gt;</span></span><br><span class="line"><span class="string">              &lt;td&gt;&lt;/td&gt;</span></span><br><span class="line"><span class="string">          &lt;/tr&gt;'</span>;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  $html = <span class="string">&lt;&lt;&lt;EOD</span></span><br><span class="line"><span class="string">&lt;div style="font-size: 12px;"&gt;</span></span><br><span class="line"><span class="string">&lt;table  cellspacing="3" cellpadding="4"&gt;</span></span><br><span class="line"><span class="string">&lt;tr&gt;</span></span><br><span class="line"><span class="string">  &lt;th colspan="3"  align="left" style="font-size: x-large;"&gt;<span class="subst">&#123;$this-&gt;companyCN&#125;</span>&lt;/th&gt;</span></span><br><span class="line"><span class="string">  &lt;td style="font-size: small"&gt;<span class="subst">&#123;$this-&gt;companyAddress&#125;</span>&lt;/td&gt;</span></span><br><span class="line"><span class="string">&lt;/tr&gt;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&lt;tr&gt;</span></span><br><span class="line"><span class="string">  &lt;td colspan="3"  align="left" style="font-size: x-large;"&gt;<span class="subst">&#123;$this-&gt;companyEN&#125;</span>&lt;/td&gt;</span></span><br><span class="line"><span class="string"> &lt;td style="font-size: small"&gt;<span class="subst">&#123;$this-&gt;companyAddressEn1&#125;</span>&lt;/td&gt;</span></span><br><span class="line"><span class="string">&lt;/tr&gt;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&lt;tr&gt;</span></span><br><span class="line"><span class="string">  &lt;td colspan="3"&gt;&lt;/td&gt;</span></span><br><span class="line"><span class="string">  &lt;td style="font-size: small" align="left"&gt;<span class="subst">&#123;$this-&gt;companyAddressEn2&#125;</span>&lt;/td&gt;</span></span><br><span class="line"><span class="string">&lt;/tr&gt;</span></span><br><span class="line"><span class="string">&lt;tr&gt;</span></span><br><span class="line"><span class="string">  &lt;td colspan="3"&gt; &lt;/td&gt;</span></span><br><span class="line"><span class="string">  &lt;td style="font-size: small"&gt;电话Tel：<span class="subst">&#123;$this-&gt;companyPhone&#125;</span>&lt;/td&gt;</span></span><br><span class="line"><span class="string">&lt;/tr&gt;</span></span><br><span class="line"><span class="string">&lt;tr&gt;</span></span><br><span class="line"><span class="string">  &lt;td colspan="3"&gt; &lt;/td&gt;</span></span><br><span class="line"><span class="string">  &lt;td style="font-size: small"&gt;传真Fax：<span class="subst">&#123;$this-&gt;companyFax&#125;</span>&lt;/td&gt;    </span></span><br><span class="line"><span class="string">&lt;/tr&gt;</span></span><br><span class="line"><span class="string">&lt;tr&gt;</span></span><br><span class="line"><span class="string">  &lt;td colspan="3"&gt; &lt;/td&gt;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">   &lt;td style="font-size: small"&gt;電子郵件 E-mail：<span class="subst">&#123;$this-&gt;companyEmail&#125;</span>&lt;/td&gt;    </span></span><br><span class="line"><span class="string">&lt;/tr&gt;</span></span><br><span class="line"><span class="string">&lt;tr&gt;</span></span><br><span class="line"><span class="string">  &lt;td colspan="4" align="center" style="font-size: x-large;"&gt;</span></span><br><span class="line"><span class="string">      發票</span></span><br><span class="line"><span class="string">      &lt;br&gt;</span></span><br><span class="line"><span class="string">      INVOICE</span></span><br><span class="line"><span class="string">  &lt;/td&gt;</span></span><br><span class="line"><span class="string">&lt;/tr&gt;</span></span><br><span class="line"><span class="string">&lt;tr&gt;</span></span><br><span class="line"><span class="string">  &lt;td colspan="8" &gt;</span></span><br><span class="line"><span class="string">       &lt;table border="1" cellspacing="0"  cellpadding="6" width="100%" &gt;</span></span><br><span class="line"><span class="string">           &lt;tr&gt;</span></span><br><span class="line"><span class="string">           &lt;td&gt;</span></span><br><span class="line"><span class="string">             &lt;table&gt;</span></span><br><span class="line"><span class="string">                  &lt;tr&gt;</span></span><br><span class="line"><span class="string">                      &lt;td&gt;客户名稱：&lt;/td&gt;</span></span><br><span class="line"><span class="string">                      &lt;td&gt;<span class="subst">&#123;$to['oceanuid']&#125;</span>&lt;/td&gt;</span></span><br><span class="line"><span class="string">                  &lt;/tr&gt;</span></span><br><span class="line"><span class="string">                  &lt;tr&gt;</span></span><br><span class="line"><span class="string">                      &lt;td&gt;Cust No&lt;/td&gt;</span></span><br><span class="line"><span class="string">                  &lt;/tr&gt;</span></span><br><span class="line"><span class="string">                  &lt;tr&gt;</span></span><br><span class="line"><span class="string">                      &lt;td width="80"&gt;客户： &lt;/td&gt;</span></span><br><span class="line"><span class="string">                      &lt;td&gt;<span class="subst">&#123;$to['nickname']&#125;</span>&lt;/td&gt;</span></span><br><span class="line"><span class="string">                  &lt;/tr&gt;</span></span><br><span class="line"><span class="string">                  &lt;tr&gt;</span></span><br><span class="line"><span class="string">                      &lt;td&gt;Name,&lt;/td&gt;</span></span><br><span class="line"><span class="string">                  &lt;/tr&gt;</span></span><br><span class="line"><span class="string">                  &lt;tr&gt;</span></span><br><span class="line"><span class="string">                      &lt;td&gt;地址： &lt;/td&gt;</span></span><br><span class="line"><span class="string">                      &lt;td&gt;<span class="subst">&#123;$to['address']&#125;</span>&lt;/td&gt;</span></span><br><span class="line"><span class="string">                  &lt;/tr&gt;</span></span><br><span class="line"><span class="string">                  &lt;tr&gt;</span></span><br><span class="line"><span class="string">                      &lt;td&gt;Address&lt;/td&gt;</span></span><br><span class="line"><span class="string">                  &lt;/tr&gt;</span></span><br><span class="line"><span class="string">                  &lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;</span></span><br><span class="line"><span class="string">                  &lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;</span></span><br><span class="line"><span class="string">                  &lt;tr&gt;</span></span><br><span class="line"><span class="string">                      &lt;td&gt;聯絡人： &lt;/td&gt;</span></span><br><span class="line"><span class="string">                      &lt;td&gt;<span class="subst">&#123;$to['username']&#125;</span>&lt;/td&gt;</span></span><br><span class="line"><span class="string">                  &lt;/tr&gt;</span></span><br><span class="line"><span class="string">                  &lt;tr&gt;</span></span><br><span class="line"><span class="string">                      &lt;td&gt;電話： &lt;/td&gt;</span></span><br><span class="line"><span class="string">                      &lt;td&gt;<span class="subst">&#123;$to['mobile']&#125;</span>&lt;/td&gt;</span></span><br><span class="line"><span class="string">                  &lt;/tr&gt;</span></span><br><span class="line"><span class="string">                  &lt;tr&gt;</span></span><br><span class="line"><span class="string">                      &lt;td&gt;傳真： &lt;/td&gt;</span></span><br><span class="line"><span class="string">                      &lt;td&gt;<span class="subst">&#123;$to['fax']&#125;</span>&lt;/td&gt;</span></span><br><span class="line"><span class="string">                  &lt;/tr&gt;</span></span><br><span class="line"><span class="string">             &lt;/table&gt;</span></span><br><span class="line"><span class="string">           &lt;/td&gt;</span></span><br><span class="line"><span class="string">           &lt;td&gt;</span></span><br><span class="line"><span class="string">              &lt;table&gt;</span></span><br><span class="line"><span class="string">                  &lt;tr&gt;</span></span><br><span class="line"><span class="string">                      &lt;td width="80"&gt;發票編號： &lt;/td&gt;</span></span><br><span class="line"><span class="string">                      &lt;td&gt;<span class="subst">&#123;$oceanOrderNo&#125;</span>&lt;/td&gt;</span></span><br><span class="line"><span class="string">                  &lt;/tr&gt;</span></span><br><span class="line"><span class="string">                  &lt;tr&gt;</span></span><br><span class="line"><span class="string">                      &lt;td&gt;Invoice No&lt;/td&gt;</span></span><br><span class="line"><span class="string">                  &lt;/tr&gt;</span></span><br><span class="line"><span class="string">                  &lt;tr&gt;</span></span><br><span class="line"><span class="string">                      &lt;td&gt;發票日期： &lt;/td&gt;</span></span><br><span class="line"><span class="string">                      &lt;td&gt;<span class="subst">&#123;$invoiceDate&#125;</span>&lt;/td&gt;</span></span><br><span class="line"><span class="string">                  &lt;/tr&gt;</span></span><br><span class="line"><span class="string">                  &lt;tr&gt;</span></span><br><span class="line"><span class="string">                      &lt;td&gt;Date&lt;/td&gt;</span></span><br><span class="line"><span class="string">                  &lt;/tr&gt;</span></span><br><span class="line"><span class="string">                  &lt;tr&gt;</span></span><br><span class="line"><span class="string">                      &lt;td&gt;參考編號： &lt;/td&gt;</span></span><br><span class="line"><span class="string">                      &lt;td&gt;&lt;/td&gt;</span></span><br><span class="line"><span class="string">                  &lt;/tr&gt;</span></span><br><span class="line"><span class="string">                  &lt;tr&gt;</span></span><br><span class="line"><span class="string">                      &lt;td&gt;Ref No.&lt;/td&gt;</span></span><br><span class="line"><span class="string">                  &lt;/tr&gt;</span></span><br><span class="line"><span class="string">                  &lt;tr&gt; </span></span><br><span class="line"><span class="string">                      &lt;td&gt;銷售員： &lt;/td&gt;</span></span><br><span class="line"><span class="string">                      &lt;td&gt;<span class="subst">&#123;$to['oceanpid']&#125;</span>&lt;/td&gt;</span></span><br><span class="line"><span class="string">                  &lt;/tr&gt;</span></span><br><span class="line"><span class="string">                  &lt;tr&gt;</span></span><br><span class="line"><span class="string">                      &lt;td&gt;Saleman&lt;/td&gt;</span></span><br><span class="line"><span class="string">                  &lt;/tr&gt;</span></span><br><span class="line"><span class="string">                  &lt;tr&gt;</span></span><br><span class="line"><span class="string">                      &lt;td&gt;付款方式： &lt;/td&gt;</span></span><br><span class="line"><span class="string">                      &lt;td&gt;<span class="subst">&#123;$to['paymenttype']&#125;</span>&lt;/td&gt;</span></span><br><span class="line"><span class="string">                  &lt;/tr&gt;</span></span><br><span class="line"><span class="string">                  &lt;tr&gt;</span></span><br><span class="line"><span class="string">                      &lt;td&gt;Payment&lt;/td&gt;</span></span><br><span class="line"><span class="string">                  &lt;/tr&gt;</span></span><br><span class="line"><span class="string">                  &lt;tr&gt;</span></span><br><span class="line"><span class="string">                      &lt;td&gt;頁數：&lt;/td&gt;</span></span><br><span class="line"><span class="string">                      &lt;td&gt;1/1&lt;/td&gt;</span></span><br><span class="line"><span class="string">                  &lt;/tr&gt;</span></span><br><span class="line"><span class="string">                  &lt;tr&gt;</span></span><br><span class="line"><span class="string">                      &lt;td&gt;Pager&lt;/td&gt;</span></span><br><span class="line"><span class="string">                  &lt;/tr&gt;</span></span><br><span class="line"><span class="string">              &lt;/table&gt;</span></span><br><span class="line"><span class="string">           &lt;/td&gt;</span></span><br><span class="line"><span class="string">          &lt;/tr&gt;</span></span><br><span class="line"><span class="string">       &lt;/table&gt;</span></span><br><span class="line"><span class="string">  &lt;/td&gt;</span></span><br><span class="line"><span class="string">&lt;/tr&gt;</span></span><br><span class="line"><span class="string">&lt;tr&gt;</span></span><br><span class="line"><span class="string">  &lt;td colspan="8" &gt;</span></span><br><span class="line"><span class="string">      &lt;table class="pdf-table" cellpadding="5" border="1" align="center" cellspacing="0" width="100%"&gt;</span></span><br><span class="line"><span class="string">          &lt;thead&gt;</span></span><br><span class="line"><span class="string">          &lt;tr&gt;</span></span><br><span class="line"><span class="string">              &lt;td&gt;貨品編號&lt;/td&gt;</span></span><br><span class="line"><span class="string">              &lt;td colspan="2"&gt;貨品名稱&lt;/td&gt;</span></span><br><span class="line"><span class="string">              &lt;td&gt;淨重&lt;/td&gt;</span></span><br><span class="line"><span class="string">              &lt;td&gt;單價&lt;/td&gt;</span></span><br><span class="line"><span class="string">              &lt;td&gt;數量&lt;/td&gt;</span></span><br><span class="line"><span class="string">              &lt;td&gt;金額&lt;/td&gt;</span></span><br><span class="line"><span class="string">          &lt;/tr&gt;</span></span><br><span class="line"><span class="string">          &lt;/thead&gt;</span></span><br><span class="line"><span class="string">          &lt;tbody&gt;</span></span><br><span class="line"><span class="string">           <span class="subst">&#123;$table&#125;</span></span></span><br><span class="line"><span class="string">           &lt;tr&gt;</span></span><br><span class="line"><span class="string">              &lt;td align="center"&gt;合計:&lt;/td&gt;</span></span><br><span class="line"><span class="string">              &lt;td colspan="2" align="left"&gt;<span class="subst">&#123;$total&#125;</span>&lt;/td&gt;</span></span><br><span class="line"><span class="string">          &lt;/tr&gt;</span></span><br><span class="line"><span class="string">          &lt;tr&gt;</span></span><br><span class="line"><span class="string">              &lt;td align="center"&gt;備註:&lt;/td&gt;</span></span><br><span class="line"><span class="string">              &lt;td colspan="7" align="left"&gt;<span class="subst">&#123;$otherInfo['remark']&#125;</span>&lt;/td&gt;</span></span><br><span class="line"><span class="string">          &lt;/tr&gt;</span></span><br><span class="line"><span class="string">          &lt;/tbody&gt;</span></span><br><span class="line"><span class="string">      &lt;/table&gt;</span></span><br><span class="line"><span class="string">  &lt;/td&gt;</span></span><br><span class="line"><span class="string">&lt;/tr&gt;</span></span><br><span class="line"><span class="string">&lt;/table&gt;</span></span><br><span class="line"><span class="string">&lt;/div&gt;</span></span><br><span class="line"><span class="string">EOD;</span></span><br><span class="line"></span><br><span class="line">  $logo = cdnurl(<span class="string">"/logo.png"</span>, <span class="keyword">true</span>);</span><br><span class="line">  <span class="comment">// 在 PDF 中插入图片，图片必须是网络路径</span></span><br><span class="line">  <span class="comment">// 后面还有一系列参数，控制图片的位置，以及透明度、边框等等</span></span><br><span class="line">  $pdf-&gt;Image($logo, <span class="number">151</span>, <span class="number">237</span>, <span class="number">35</span>, <span class="number">35</span>, <span class="string">'PNG'</span>, <span class="string">''</span>, <span class="string">''</span>, <span class="keyword">false</span>, <span class="number">150</span>, <span class="string">''</span>, <span class="keyword">false</span>, <span class="keyword">false</span>, <span class="number">0</span>, <span class="keyword">false</span>, <span class="keyword">false</span>, <span class="keyword">false</span>);</span><br><span class="line"></span><br><span class="line">  $pdf-&gt;writeHTML($html, <span class="keyword">true</span>, <span class="keyword">false</span>, <span class="keyword">true</span>, <span class="keyword">false</span>, <span class="string">''</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// todo 如果文件已经存在了，不必重复生成，直接返回图片地址</span></span><br><span class="line">  $pdfPath = ROOT_PATH . <span class="string">"public/uploads/invoice/&#123;$oceanOrderNo&#125;.pdf"</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 生成 PDF</span></span><br><span class="line">  $pdf-&gt;Output($pdfPath, <span class="string">'F'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最终效果如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/20230508100935.png" alt=""></p>
+<h2 id="PHP-PDF-生成图片"><a href="#PHP-PDF-生成图片" class="headerlink" title="PHP PDF 生成图片"></a>PHP PDF 生成图片</h2><p>因为需求要求下载 PDF 之前，有一个 PDF 的预览图，因此，需要想办法根据已有 PDF 生成一张 对应的预览图。</p>
+<p>一开始，我想的是使用 Headless Chrome 抓取网页的方式生成图片，但是遇到了一些莫名其妙的问题，加上开发时间比较紧张，就没有耗费太多时间在上面，于是考虑其他解决方案了。</p>
+<p>最终确定下来的方案就是，通过 PHP 的 imagick 扩展，来生成图片，核心代码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">pdf2png</span><span class="params">($fromPath,$targetPath)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        $img =  <span class="keyword">new</span> \Imagick();</span><br><span class="line">        $img-&gt;setCompressionQuality(<span class="number">100</span>);</span><br><span class="line">        $img-&gt;setResolution(<span class="number">120</span>, <span class="number">120</span>);</span><br><span class="line">        $img-&gt;readImage($fromPath);</span><br><span class="line"></span><br><span class="line">        $canvas = <span class="keyword">new</span> \Imagick();</span><br><span class="line">        $imgNum = $img-&gt;getNumberImages();</span><br><span class="line">        <span class="keyword">foreach</span> ($img <span class="keyword">as</span> $k =&gt; $sub) &#123;</span><br><span class="line">            $sub-&gt;setImageFormat(<span class="string">'png'</span>);</span><br><span class="line">            $sub-&gt;stripImage();</span><br><span class="line">            $sub-&gt;trimImage(<span class="number">0</span>);</span><br><span class="line">            $width = $sub-&gt;getImageWidth() + <span class="number">10</span>;</span><br><span class="line">            $height = $sub-&gt;getImageHeight() + <span class="number">10</span>;</span><br><span class="line">            <span class="keyword">if</span> ($k + <span class="number">1</span> == $imgNum) $height += <span class="number">10</span>;</span><br><span class="line">            $canvas-&gt;newImage($width, $height, <span class="keyword">new</span> \ImagickPixel(<span class="string">'white'</span>));</span><br><span class="line">            $canvas-&gt;compositeImage($sub, \Imagick::COMPOSITE_DEFAULT, <span class="number">5</span>, <span class="number">5</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        $canvas-&gt;resetIterator();</span><br><span class="line">        $canvas-&gt;appendImages(<span class="keyword">true</span>)-&gt;writeImage($targetPath);</span><br><span class="line">        <span class="keyword">return</span> $targetPath;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (\<span class="keyword">Exception</span> $e) &#123;</span><br><span class="line">        \think\Log::error($e-&gt;getMessage());</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>该方法，接收两个参数，分别是目标 PDF 所在路径，以及需要生成的图片的所在路径，如果生成成功，则返回路径，否则失败返回 false。</p>
+<p>使用该方法的提前是安装 imagick 扩展，具体的安装过程就不在这里详细展开了。</p>
+<p>另外要正常使用 ImageMagick，还需要安装 Ghostscript 这个命令行工具，否则无法正常使用。</p>
+<h2 id="读取-PDF"><a href="#读取-PDF" class="headerlink" title="读取 PDF"></a>读取 PDF</h2><p>使用 <code>smalot/pdfparser</code> 扩展包，可以读取 PDF 文件的指定页内容。</p>
+<p>安装：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ composer require smalot/pdfparser</span><br></pre></td></tr></table></figure>
+
+<p>这个扩展包使用起来，比较简单，示例如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">require_once</span>(<span class="string">'vendor/autoload.php'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">Smalot</span>\<span class="title">PdfParser</span>\<span class="title">Parser</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建解析器对象</span></span><br><span class="line">$parser = <span class="keyword">new</span> Parser();</span><br><span class="line"></span><br><span class="line"><span class="comment">//解析PDF文件</span></span><br><span class="line">$pdf = $parser-&gt;parseFile(<span class="string">'example.pdf'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//获取第二页对象</span></span><br><span class="line">$page2 = $pdf-&gt;getPages()[<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">//获取第二页内容</span></span><br><span class="line">$content = $page2-&gt;getText();</span><br><span class="line"></span><br><span class="line"><span class="comment">//输出第二页内容</span></span><br><span class="line"><span class="keyword">echo</span> $content;</span><br></pre></td></tr></table></figure>
+
+<h2 id="拆分-PDF"><a href="#拆分-PDF" class="headerlink" title="拆分 PDF"></a>拆分 PDF</h2><p>使用 <code>setasign/fpdi</code> 扩展包可以用来处理 PDF 文件。可以结合 <code>setasign/fpdf</code> 来实现将一个多页的 PDF 文档拆分成多个单页的 PDF 文档。</p>
+<p>安装：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ composer require setasign/fpdi</span><br></pre></td></tr></table></figure>
+
+<p>以下是一个完整示例：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">require_once</span>(<span class="string">'vendor/autoload.php'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">setasign</span>\<span class="title">Fpdi</span>\<span class="title">Fpdi</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">splitPdf</span><span class="params">($inputFile, $outputDir)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 初始化 FPDI</span></span><br><span class="line">    $pdf = <span class="keyword">new</span> Fpdi();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取 PDF 文件的页数</span></span><br><span class="line">    $pageCount = $pdf-&gt;setSourceFile($inputFile);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 循环处理每一页</span></span><br><span class="line">    <span class="keyword">for</span> ($pageNo = <span class="number">1</span>; $pageNo &lt;= $pageCount; $pageNo++) &#123;</span><br><span class="line">        <span class="keyword">if</span> ($pageNo !== <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="comment">// 读取文件</span></span><br><span class="line">            $pdf-&gt;setSourceFile($filename);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 导入当前页</span></span><br><span class="line">        $templateId = $pdf-&gt;importPage($pageNo);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 获取当前页的大小</span></span><br><span class="line">        $size = $pdf-&gt;getTemplateSize($templateId);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建新的 PDF 文档</span></span><br><span class="line">        $pdf-&gt;AddPage($size[<span class="string">'width'</span>] &gt; $size[<span class="string">'height'</span>] ? <span class="string">'L'</span> : <span class="string">'P'</span>, <span class="keyword">array</span>($size[<span class="string">'width'</span>], $size[<span class="string">'height'</span>]));</span><br><span class="line">        $pdf-&gt;useTemplate($templateId);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 输出单页 PDF 文件</span></span><br><span class="line">        $outputFile = $outputDir . DIRECTORY_SEPARATOR . <span class="string">'output_'</span> . $pageNo . <span class="string">'.pdf'</span>;</span><br><span class="line">        $pdf-&gt;Output(<span class="string">'F'</span>, $outputFile);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 重置 PDF 文档，以便处理下一页</span></span><br><span class="line">        $pdf = <span class="keyword">new</span> Fpdi();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$inputFile = <span class="string">'path/to/your/multipage.pdf'</span>;</span><br><span class="line">$outputDir = <span class="string">'path/to/output/directory'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 拆分 PDF 文档</span></span><br><span class="line">splitPdf($inputFile, $outputDir);</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> <span class="string">'PDF 文件拆分完成。'</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://tcpdf.org/examples/" target="_blank" rel="noopener">TCPDF Examples</a></li>
+<li><a href="https://www.ilovepdf.com/zh-cn" target="_blank" rel="noopener">PDF爱好者的在线工具</a></li>
+</ul>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.0x2beace.com/php-handles-various-pdf-scenarios/>https://www.0x2beace.com/php-handles-various-pdf-scenarios/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+<div class='new-meta-item author'>
+  <a href="https://www.0x2BeAce.com" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/0xAiKang/CDN/blog/images/avatar.jpg">
+    <p>Boo</p>
+  </a>
+</div>
+
+        
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2024-02-21T23:14:37+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Feb 21, 2024</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PHP/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PHP</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.0x2beace.com/php-handles-various-pdf-scenarios/&title=PHP 处理各种 PDF 场景 - Boo&summary=最近的一个项目，其中有不少和 PDF 有关的需求，涉及到生成 PDF、根据 PDF 生成图片、读取 PDF、拆分 PDF。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.0x2beace.com/php-handles-various-pdf-scenarios/&title=PHP 处理各种 PDF 场景 - Boo&summary=最近的一个项目，其中有不少和 PDF 有关的需求，涉及到生成 PDF、根据 PDF 生成图片、读取 PDF、拆分 PDF。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.0x2beace.com/php-handles-various-pdf-scenarios/&title=PHP 处理各种 PDF 场景 - Boo&summary=最近的一个项目，其中有不少和 PDF 有关的需求，涉及到生成 PDF、根据 PDF 生成图片、读取 PDF、拆分 PDF。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADtElEQVR42u3aQXIiMRAEQP7/ae99NzZQVfcYhZ26GQMj5XAoqnl9WdV6IQAHDhw4Cxy4S+Be5Tp9/d/P+++Gwtef7uP0OsfnAAcOHDhw4MCBuwzuOACGAKcHfRp067zgwIEDBw4cOHC3wm0F2fT/7T7S603PCw4cOHDgwIED91PgTgvDFLAFafcPDhw4cODAgQP32+G2i8cWBhw4cODAgQMH7rfBxQPaYfCcDqDTdc0kHxw4cODAgQMHbgkuXW2gveXv+rzgwIEDBw4cOHCXwE3X9oD63UFPH98KzP/sExw4cODAgQMH7hK4d2/8dHHZArbvd7r/cQMMDhw4cODAgQP3MNz24DYdJE8Dc3pDU9j4mwM4cODAgQMHDtyH4NLisC00U/A0sKZgx18IwIEDBw4cOHDgLoObFodtAG4H1mmgXtsHOHDgwIEDBw7cJXDpQLldT19vXFCe7h8cOHDgwIEDB+4yuDZwPjXAnhal0+e/LTLBgQMHDhw4cOAugdsaKE+L0el1p8XoepEJDhw4cODAgQP3ENw0ELYBdK1YHN6g0/cDBw4cOHDgwIG7FS4dCH8N17QgTYP02qAcHDhw4MCBAwfuErhpsdgG260APb3R8bnBgQMHDhw4cOAugUsh0udtBd8tkDE0OHDgwIEDBw7cJXBbg+M2mLZrWli2BSs4cODAgQMHDtwtcOngeGuwuxXAT4N2+rrjbw7gwIEDBw4cOHAfgksD7+kG2+enEG1BWQ/iwYEDBw4cOHDgLoFLf2A33XAL0QbcrUANDhw4cODAgQN3G1w7+P10gN4qYOPCFRw4cODAgQMH7hK46WB46wa0BWMLWReg4MCBAwcOHDhwl8ClgXUrkLaPTwNuCnr8zQEcOHDgwIEDB+6b4VKY6eA4LTLbYN0G6brIBAcOHDhw4MCB+zBcW0A+FZDTwXUK+m0DaXDgwIEDBw4cuGW49oeA04O1wTcOrOUPC9cH0uDAgQMHDhw4cMtw07U1CE4Ddlt4ph+EugEGBw4cOHDgwIF7GO5VrvYAaRH5VJHZFrTgwIEDBw4cOHC3wU0HzG0hulWgtu8ffzDAgQMHDhw4cOAuhbsl8LZg7UD6eL/gwIEDBw4cOHA/BC49cBuMT/eV3uj0BoEDBw4cOHDgwP00uHSAnRaQWwDjQA0OHDhw4MCBA3cp3DTYpnBPB96tGw4OHDhw4MCBA3crXDuobQe704O1wTgN4G+LTHDgwIEDBw4cuA/BWeHAHAE4cODAWeDAfXb9AapRA+r4ZL9rAAAAAElFTkSuQmCC">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/how-to-run-php-with-docker-on-mac/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>如何在 Mac 上使用 Docker 运行 PHP</p>
+                <p class='content'>在之前的一篇笔记中，介绍了，如何为 PHP 编写 Dockerfile。
+编写好 Dockerfile 之后，就可以构建成镜像了，推送到自己的 Dockerhub，之后想要使用就很方便了。
+这篇...</p>
+              </a>
+            
+            
+              <a class='next' href='/use-the-frp-intranet-to-penetrate/'>
+                <p class='title'>使用 frp 内网穿透<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>如何使用 frp 进行内网穿透？
+
+
+为什么需要内网穿透我们通常在局域网内部署服务器和应用，当需要将本地服务提供到互联网外网连接访问时，由于本地服务器本身并无公网IP，就无法实现，这时候就需要内...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+          </div>
+        </section>
+      
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'PHP 处理各种 PDF 场景',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP-生成-PDF"><span class="toc-text">PHP 生成 PDF</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP-PDF-生成图片"><span class="toc-text">PHP PDF 生成图片</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#读取-PDF"><span class="toc-text">读取 PDF</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#拆分-PDF"><span class="toc-text">拆分 PDF</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+      
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <span class="post-count">总字数：390.6k</span>
+        <p><a href="https://www.0x2BeAce.com">Copyright © 2020-2021 Boo</a></p>
+
+        <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+        
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?fbe826b92f6d49a0ebacf4d848bd3add";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+<script>
+  var now = new Date(); 
+  function createtime() {    
+      var grt= new Date("07/04/2020 14:12:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+      now.setTime(now.getTime()+250); 
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";     
+  } 
+setInterval("createtime()",250);
+</script>
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var meta = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick','mail','link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function(item){
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+  var valine = new Valine();
+  function emoji(path, idx, ext) {
+      return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  valine.init({
+    el: '#valine_container',
+    meta: meta,
+    
+    appId: "Ki6kd5TUWoQyYKSErxehnRpc-MdYXbMMI",
+    appKey: "7pRBOKMw58Yo7EsUjHziIEY1",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'robohash',
+    lang:'zh-cn',
+    visitor: 'true',
+    highlight: 'true',
+    mathJax: 'false',
+    enableQQ: 'true',
+    requiredFields: requiredFields,
+    emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+    emojiMaps: emojiMaps
+  })
+  </script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
